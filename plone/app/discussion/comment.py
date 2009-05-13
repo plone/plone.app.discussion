@@ -24,7 +24,8 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
     meta_type = portal_type = 'Discussion Item'
     
     __parent__ = None
-    __name__ = None
+    
+    comment_id = None # int
 
     title = u""
     
@@ -40,8 +41,8 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
     author_name = None
     author_email = None
     
-    def __init__(self, id=None, conversation=None, **kw):
-        self.__name__ = unicode(id)
+    def __init__(self, id=0, conversation=None, **kw):
+        self.comment_id = id
         self.__parent__ = conversation
         
         for k, v in kw:
@@ -50,8 +51,12 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
     # convenience functions
     
     @property
+    def __name__(self):
+        return unicode(self.comment_id)
+    
+    @property
     def id(self):
-        return str(self.__name__)
+        return str(self.comment_id)
     
     def getId(self):
         """The id of the comment, as a string

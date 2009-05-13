@@ -10,8 +10,12 @@ manipulating the comments directly in reply to a particular comment or at the
 top level of the conversation.
 """
 
-from zope.interface import implements
-from zope.component import adapts
+from persistence import Persistent
+
+from zope.interface import implements, implementer
+from zope.component import adapts, adapter
+
+from zope.annotation.interfaces import IAnnotatable
 
 from BTrees.OIBTree import OIBTree
 from BTrees.IOBTree import IOBTree
@@ -21,8 +25,11 @@ from Acquisition import Explicit
 
 from plone.app.discussion.interfaces import IConversation, IComment, IReplies
 
-class Conversation(Explicit):
+class Conversation(Persistent, Explicit):
     """A conversation is a container for all comments on a content object.
+    
+    It manages internal data structures for comment threading and efficient
+    comment lookup.
     """
     
     implements(IConversation)
@@ -79,17 +86,42 @@ class Conversation(Explicit):
     # Dict API
     
     # TODO: Update internal data structures when items added or removed
-    
-class ConversationReplies(object):
+
+@implementer(IConversation)
+@adapter(IAnnotatable)
+def conversationAdapterFactory(content):
+    """Adapter factory to fetch a conversation from annotations
     """
+    
+    # TODO
+    return None
+
+class ConversationReplies(object):
+    """An IReplies adapter for conversations.
+    
+    This makes it easy to work with top-level comments.
     """
     
     implements(IReplies)
     adapts(Conversation)
+    
+    def __init__(self, context):
+        self.conversation = context
+        self.root = 0
+    
+    # TODO: dict interface - generalise to work with any starting point, so
+    # that the subclassing below works
 
-class CommentReplies(object):
-    """
+class CommentReplies(ConversationReplies):
+    """An IReplies adapter for comments.
+    
+    This makes it easy to work with replies to specific comments.
     """
     
     implements(IReplies)
     adapts(IComment)
+    
+    def __init__(self, context):
+        self.conversation = context.__parent__
+        self.root = context.comment_id
+    

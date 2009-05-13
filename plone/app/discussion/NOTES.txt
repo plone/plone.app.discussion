@@ -4,6 +4,47 @@ plone.app.discussion design notes
 
 This document contains design notes for plone.app.discussion.
 
+Storage and traversal
+---------------------
+
+For each content item, there is a Conversation object stored in annotations.
+This can be traversed to via the ++comments++ namespace, but also fetched
+via an adapter lookup to IConversation.
+
+The conversation stores all comments related to a content object. Each
+comment has an integer id (also representable as a string, to act as an OFS
+id and allow traversal). Hence, traversing to obj/++comments++/123 retrieves
+the comment with id 123.
+
+Comments ids are assigned in order, so a comment with id N was posted before
+a comment with id N + 1. However, it is not guaranteed that ids will be 
+incremental. Ids must be positive integers - 0 or negative numbers are not
+allowed.
+
+Threading information is stored in the conversation: we keep track of the
+set of children and the parent if any comment. Top-level comments have a
+parent id of 0. This information is managed by the conversation class when
+comments are manipulated using a dict-like API.
+
+Note that the __parent__/acquisition parent of an IComment is the
+IConversation, and the __parent__/acquisition parent of an IConversation is
+the content object.
+
+Events
+------
+
+Manipulating the IConversation object should fire the usual IObjectAddedEvent
+and IObjectRemovedEvent events. The UI may further fire IObjectCreatedEvent
+and IObjectModifiedEvent for comments.
+
+Factories
+---------
+
+Comments should always be created via the 'Discussion Item' IFactory utility.
+Conversations should always be obtained via the IConversation adapter (even
+the ++comments++ namespace should use this). This makes it possible to replace
+conversations and comments transparently.
+
 The Comment class
 -----------------
 
@@ -49,53 +90,12 @@ metadata such as creator, effective date etc.
 
 Finally, we'll need event handlers to perform the actual indexing.
 
-The Discussable class
----------------------
-
-To obtain comments for a content item, we adapt the content to IDiscussable.
-This has a 'replies' BTree.
-
-To support __parent__ pointer integrity and stable URLs, we will implement
-IDiscussable as a persistent object stored in an annotation. Comments directly
-in reply to the content item have a __parent__ pointing to this, which in turn
-has a __parent__ pointing at the content item.
-
-The IDiscussable interface also maintains information about the total number
-of comments and the unique set of commenters' usernames. These are indexed in
-the catalog, allowing queries like "recently commented-upon content items",
-"my comments", or "all comments by user X". These values need to be stored and
-maintained by event handlers, not calculated on the fly.
-
-See collective.discussionplus for inspiration.
-
-Traversal and acquisition
---------------------------
-
-A comment may have a URL such as:
-
-    http://localhost:8080/site/content/++comments++/1/2/3
-    
-For this traversal to work, we have:
-
-    - a namespace traversal adapter for ++comments++ that looks up an
-      IDiscussable adapter on the context and returns this
-
-    - an IPublishTraverse adapter for IHasReplies (inherited by IDiscussable
-      and IComment), which looks up values in the 'replies' dictionary and
-      acquisition-wraps them.
-        
-    - the IDiscussable adapter needs to have an id of ++comment++
-
-XXX: unrestrictedTraverse() does not take IPublishTraverse adapters into
-account. This may mean we need to implement __getitem__ on comments instead
-of/in addition to using a custom IPublishTraverse for IHasReplies.
-
 Discussion settings
 -------------------
 
 Discussion can be enabled per-type and per-instance, via values in the FTI
 (allow_discussion) and on the object. These will remain unchanged. The
-IDiscussable object's 'enabled' property should consult these.
+IConversation object's 'enabled' property should consult these.
 
 Global settings should be managed using plone.registry. A control panel
 can be generated from this as well, using the helper class in
