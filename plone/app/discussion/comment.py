@@ -1,26 +1,15 @@
-"""Discussion items and replies
+"""The default comment class and factory.
 """
 
-from zope.interface import implements, alsoProvides
-
-from BTrees.OOBTree import OOBTree
+from zope.interface import implements
+from zope.component.factory import Factory
 
 from Acquisition import Explicit
 from OFS.Traversable import Traversable
 from AccessControl.Role import RoleManager
 from AccessControl.Owned import Owned
 
-from plone.app.discussion.interfaces import IReplies, IComment
-
-def Replies():
-    """Create a new replies object. Acts like a constructor, but actually
-    returns a BTree marked with an interface. We do this because subclassing
-    an OOBTree does not work properly.
-    """
-    
-    replies = OOBTree()
-    alsoProvides(replies, IReplies)
-    return replies
+from plone.app.discussion.interfaces import IComment
 
 class Comment(Explicit, Traversable, RoleManager, Owned):
     """A comment.
@@ -36,11 +25,10 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
     
     __parent__ = None
     __name__ = None
-    ancestor = None
 
     title = u""
-    mime_type = "text/plain"
     
+    mime_type = "text/plain"
     text = u""
     
     creator = None
@@ -52,23 +40,32 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
     author_name = None
     author_email = None
     
-    replies = None
-    
-    def __init__(self, id, ancestor, parent, **kw):
-        self.__name__ = id
-        self.__parent__ = parent
-        self.ancestor = ancestor
+    def __init__(self, id=None, conversation=None, **kw):
+        self.__name__ = unicode(id)
+        self.__parent__ = conversation
         
         for k, v in kw:
             setattr(self, k, v)
-        
-        replies = Replies()
     
     # convenience functions
     
     @property
     def id(self):
-        return self.__name__
+        return str(self.__name__)
     
     def getId(self):
-        return self.__name__
+        """The id of the comment, as a string
+        """
+        return self.id
+    
+    def Title(self):
+        """The title of the comment
+        """
+        return self.title
+    
+    def Creator(self):
+        """The name of the person who wrote the comment
+        """
+        return self.creator
+
+CommentFactory = Factory(Comment)

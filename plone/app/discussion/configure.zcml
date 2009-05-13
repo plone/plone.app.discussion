@@ -1,6 +1,12 @@
-<configure
-    xmlns="http://namespaces.zope.org/zope"
-    i18n_domain="plone.app.discussion">
+<configure xmlns="http://namespaces.zope.org/zope" i18n_domain="plone.app.discussion">
 
+    <include file="permissions.zcml" />
+
+    <utility object=".comment.CommentFactory" name="Discussion Item" />
+
+    <class class=".comment.Comment">
+        <require interface=".comment.Comment" permission="zope2.View" />
+        <require attributes="Title Creator getId" permission="zope2.View" />
+    </class>
 
 </configure>
