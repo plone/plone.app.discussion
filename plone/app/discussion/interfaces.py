@@ -75,7 +75,7 @@ class IConversation(IIterableMapping, IWriteMapping):
         """
         
     def addComment(comment):
-        """Adds a new comment to the list of comments, amd returns the 
+        """Adds a new comment to the list of comments, and returns the 
         comment id that was assigned.
         """
 

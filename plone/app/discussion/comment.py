@@ -26,7 +26,7 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
     __parent__ = None
     
     comment_id = None # int
-    reply_to = None # int
+    in_reply_to = None # int
 
     title = u""
     
@@ -50,11 +50,6 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
         for k, v in kw.items():
             setattr(self, k, v)
 
-    @property
-    def in_reply_to(self):
-        # TODO
-        return self.reply_to
-    
     @property
     def __name__(self):
         return unicode(self.comment_id)
