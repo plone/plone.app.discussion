@@ -10,7 +10,7 @@ manipulating the comments directly in reply to a particular comment or at the
 top level of the conversation.
 """
 
-from persistence import Persistent
+from persistent import Persistent
 
 from zope.interface import implements, implementer
 from zope.component import adapts, adapter
