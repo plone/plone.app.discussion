@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from base import TestCase
 
 from zope.testing import doctestunit
-from zope.component import testing, getMultiAdapter
+from zope.component import testing, getMultiAdapter, getUtility
 from zope.publisher.browser import TestRequest
 from zope.publisher.interfaces.browser import IBrowserView
 from Testing import ZopeTestCase as ztc
@@ -17,7 +17,7 @@ from plone.app.discussion.conversation import Conversation
 from plone.app.discussion.comment import Comment
 from plone.app.discussion.interfaces import ICommentingTool, IConversation
 
-class ConversationTest(TestCase):
+class ToolTest(TestCase):
     def afterSetUp(self):
         # XXX If we make this a layer, it only get run once...
         # First we need to create some content.
@@ -25,7 +25,7 @@ class ConversationTest(TestCase):
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
             
-    def test_add_comment(self):
+    def test_tool_indexing(self):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
@@ -37,16 +37,15 @@ class ConversationTest(TestCase):
         
         conversation.addComment(comment)
         
-        # Check that the conversation methods return the correct data
-        self.assert_(isinstance(comment.comment_id, long))
-        self.assertEquals(len(conversation.getComments()), 1)
-        self.assertEquals(len(conversation.getThreads()), 1)
-        self.assertEquals(conversation.total_comments, 1)
-        self.assert_(conversation.last_comment_date - datetime.now() < timedelta(seconds=1))
+        # Check that the comment got indexed in the tool:
+        tool = getUtility(ICommentingTool)
+        comment = list(tool.search())[0]
+        self.assertEquals(comment['text'], 'Comment text')
+        
     
 def test_suite():
     return unittest.TestSuite([
-        unittest.makeSuite(ConversationTest),
+        unittest.makeSuite(ToolTest),
         ])
 
 if __name__ == '__main__':

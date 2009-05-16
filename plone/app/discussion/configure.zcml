@@ -32,4 +32,18 @@
     
     <adapter factory=".conversation.conversationAdapterFactory" />
 
+    
+    <!-- Event subscribers -->
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
+	     zope.app.container.contained.IObjectAddedEvent"
+        handler=".tool.object_added_handler"
+        />
+
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
+	     zope.app.container.contained.IObjectRemovedEvent"
+        handler=".tool.object_removed_handler"
+        />
+	
 </configure>

@@ -14,6 +14,15 @@ from persistent import Persistent
 
 from zope.interface import implements, implementer
 from zope.component import adapts, adapter
+from zope.annotation.interfaces import IAnnotations
+
+from zope.event import notify
+from zope.app.container.interfaces import IObjectAddedEvent
+from OFS.event import ObjectWillBeAddedEvent
+from OFS.event import ObjectWillBeRemovedEvent
+from zope.app.container.contained import ContainerModifiedEvent
+from zope.app.container.contained import ObjectAddedEvent
+from zope.app.container.contained import ObjectRemovedEvent
 
 from zope.annotation.interfaces import IAnnotatable
 
@@ -21,16 +30,18 @@ from BTrees.OIBTree import OIBTree
 from BTrees.IOBTree import IOBTree
 from BTrees.IIBTree import IIBTree, IISet
 try:
+    # These exist in new versions, but not in the one that comes with Zope 2.10.
     from BTrees.LOBTree import LOBTree
-    from BTrees.LLBTree import LLBTree # TODO: Does this even exist?
+    from BTrees.LLBTree import LLSet
 except ImportError:
     from BTrees.OOBTree import OOBTree as LOBTree
     from BTrees.OOBTree import OOSet as LLSet
 
 
 from Acquisition import Explicit
-
 from plone.app.discussion.interfaces import IConversation, IComment, IReplies
+
+ANNO_KEY = 'plone.app.discussion:conversation'
 
 class Conversation(Persistent, Explicit):
     """A conversation is a container for all comments on a content object.
@@ -88,7 +99,8 @@ class Conversation(Persistent, Explicit):
     def addComment(self, comment):
         id = comment.comment_id
         if id in self._comments:
-            id = max(self._comments.keys()) +1
+            id = max(self._comments.keys()) + 1
+        notify(ObjectWillBeAddedEvent(comment, self, id))
         self._comments[id] = comment
         comment.comment_id = id
         
@@ -103,8 +115,27 @@ class Conversation(Persistent, Explicit):
         if not reply_to in self._children:
             self._children[reply_to] = LLSet()
         self._children[reply_to].insert(id)
+        notify(ObjectAddedEvent(comment, self, id))
+        notify(ContainerModifiedEvent(self))
         
     # Dict API
+    
+    def __getitem__(self, key):
+        return self._comments[key]
+    
+    def __setitem__(self, key, value):
+        # XXX Check that it implements the commenting interface
+        if value.comment_id in self._comments:
+            raise ValueError("Can not replace an existing comment")
+        # Note that we ignore the key completely:
+        self.addComment(comment)
+            
+    def __delitem__(self, key):
+        # TODO unindex everything
+        return self._comments.remove(key)
+    
+    def keys(self):
+        return self._comments.keys()
     
     # TODO: Update internal data structures when items added or removed
 
@@ -113,9 +144,14 @@ class Conversation(Persistent, Explicit):
 def conversationAdapterFactory(content):
     """Adapter factory to fetch a conversation from annotations
     """
-    
-    # TODO
-    return None
+    annotions = IAnnotations(content)
+    if not ANNO_KEY in annotions:
+        conversation = Conversation()
+        conversation._parent_uid = content.UID()
+        annotions[ANNO_KEY] = conversation
+    conversation = annotions[ANNO_KEY]
+    # Probably this needs an acquisition wrapper
+    return conversation
 
 class ConversationReplies(object):
     """An IReplies adapter for conversations.

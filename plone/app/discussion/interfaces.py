@@ -116,3 +116,20 @@ class IComment(Interface):
     # for anonymous comments only, set to None for logged in comments
     author_name = schema.TextLine(title=_(u"Author name"), required=False)
     author_email = schema.TextLine(title=_(u"Author email address"), required=False)
+
+class ICommentingTool(Interface):
+    """A tool that indexes all comments for usage by the management interface.
+    
+    This was the management interface can still work even though we don't
+    index the comments in portal_catalog.
+    """
+    
+    def index(comment):
+        """Indexes a comment"""
+        
+    def unindex(comment):
+        """Removes a comment from the indexes"""
+        
+    def search(username=None, wfstate=None):
+        """Get all comments with a certain username of wfstate"""
+        

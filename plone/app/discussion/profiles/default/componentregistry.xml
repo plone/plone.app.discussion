@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<componentregistry>
+ <utilities>
+  <utility 
+      interface="plone.app.discussion.interfaces.ICommentingTool"
+      factory="plone.app.discussion.tool.CommentingTool"
+      />
+ </utilities>
+</componentregistry>
