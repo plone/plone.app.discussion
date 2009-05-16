@@ -44,11 +44,8 @@ class Conversation(Persistent, Explicit):
         # id -> comment - find comment by id
         self._comments = IOBTree()  
         
-        # # id -> IISet (children) - find all children for a given comment. 0 signifies root.
+        # id -> IISet (children) - find all children for a given comment. 0 signifies root.
         self._children = IOBTree()
-        
-        # id -> id (parent) - find the parent for a given comment. 0 signifies root
-        self._parents  = IIBTree()
     
     def getId(self):
         """
@@ -124,4 +121,3 @@ class CommentReplies(ConversationReplies):
     def __init__(self, context):
         self.conversation = context.__parent__
         self.root = context.comment_id
-    

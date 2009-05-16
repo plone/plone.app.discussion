@@ -47,8 +47,11 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
         
         for k, v in kw:
             setattr(self, k, v)
-    
-    # convenience functions
+
+    @property
+    def in_reply_to(self):
+        # TODO
+        return None
     
     @property
     def __name__(self):
