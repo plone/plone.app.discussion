@@ -37,7 +37,7 @@ class ConversationTest(TestCase):
         conversation.addComment(comment)
         
         # Check that the conversation methods return the correct data
-        self.assertEquals(comment.id, '1')
+        self.assert_(isinstance(comment.comment_id, long))
         self.assertEquals(len(conversation.getComments()), 1)
         self.assertEquals(len(conversation.getThreads()), 1)
         self.assertEquals(conversation.total_comments, 1)

@@ -20,6 +20,13 @@ from zope.annotation.interfaces import IAnnotatable
 from BTrees.OIBTree import OIBTree
 from BTrees.IOBTree import IOBTree
 from BTrees.IIBTree import IIBTree, IISet
+try:
+    from BTrees.LOBTree import LOBTree
+    from BTrees.LLBTree import LLBTree # TODO: Does this even exist?
+except ImportError:
+    from BTrees.OOBTree import OOBTree as LOBTree
+    from BTrees.OOBTree import OOSet as LLSet
+
 
 from Acquisition import Explicit
 
@@ -42,11 +49,11 @@ class Conversation(Persistent, Explicit):
         self._last_comment_date = None
         
         # id -> comment - find comment by id
-        self._comments = IOBTree()  
+        self._comments = LOBTree()  
         
         # id -> IISet (children) - find all children for a given comment. 0 signifies root.
-        self._children = IOBTree()
-    
+        self._children = LOBTree()
+        
     def getId(self):
         """
         """
@@ -64,7 +71,6 @@ class Conversation(Persistent, Explicit):
     
     @property
     def last_comment_date(self):
-        # TODO
         return self._last_comment_date
     
     @property
@@ -76,10 +82,13 @@ class Conversation(Persistent, Explicit):
         return self._comments.values()
     
     def getThreads(self, start=0, size=None, root=None, depth=None):
+        # TODO:
         return self._comments.values()
     
     def addComment(self, comment):
-        id = len(self._comments) + 1
+        id = comment.comment_id
+        if id in self._comments:
+            id = max(self._comments.keys()) +1
         self._comments[id] = comment
         comment.comment_id = id
         
@@ -92,7 +101,7 @@ class Conversation(Persistent, Explicit):
         
         reply_to = comment.in_reply_to
         if not reply_to in self._children:
-            self._children[reply_to] = IISet()
+            self._children[reply_to] = LLSet()
         self._children[reply_to].insert(id)
         
     # Dict API
