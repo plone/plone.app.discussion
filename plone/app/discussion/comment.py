@@ -1,6 +1,6 @@
 """The default comment class and factory.
 """
-
+from datetime import datetime
 from zope.interface import implements
 from zope.component.factory import Factory
 
@@ -26,6 +26,7 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
     __parent__ = None
     
     comment_id = None # int
+    reply_to = None # int
 
     title = u""
     
@@ -44,14 +45,15 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
     def __init__(self, id=0, conversation=None, **kw):
         self.comment_id = id
         self.__parent__ = conversation
+        self.creation_date = self.modification_date = datetime.now()
         
-        for k, v in kw:
+        for k, v in kw.items():
             setattr(self, k, v)
 
     @property
     def in_reply_to(self):
         # TODO
-        return None
+        return self.reply_to
     
     @property
     def __name__(self):

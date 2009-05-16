@@ -60,26 +60,41 @@ class Conversation(Persistent, Explicit):
     @property
     def total_comments(self):
         # TODO
-        return 0
+        return len(self._comments)
     
     @property
     def last_comment_date(self):
         # TODO
-        return None
+        return self._last_comment_date
     
     @property
     def commentators(self):
         # TODO:
         return set()
     
-    def getComments(start=0, size=None):
-        # TODO
-        pass
+    def getComments(self, start=0, size=None):
+        return self._comments.values()
     
-    def getThreads(start=0, size=None, root=None, depth=None):
-        # TODO
-        pass
+    def getThreads(self, start=0, size=None, root=None, depth=None):
+        return self._comments.values()
     
+    def addComment(self, comment):
+        id = len(self._comments) + 1
+        self._comments[id] = comment
+        comment.comment_id = id
+        
+        commentator = comment.creator
+        if not commentator in self._commentators:
+            self._commentators[commentator] = 0
+        self._commentators[commentator] += 1
+        
+        self._last_comment_date = comment.creation_date
+        
+        reply_to = comment.in_reply_to
+        if not reply_to in self._children:
+            self._children[reply_to] = IISet()
+        self._children[reply_to].insert(id)
+        
     # Dict API
     
     # TODO: Update internal data structures when items added or removed

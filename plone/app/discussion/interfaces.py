@@ -73,6 +73,11 @@ class IConversation(IIterableMapping, IWriteMapping):
         in order to give enough context to show the full  lineage of the
         starting comment.
         """
+        
+    def addComment(comment):
+        """Adds a new comment to the list of comments, amd returns the 
+        comment id that was assigned.
+        """
 
 class IReplies(IIterableMapping, IWriteMapping):
     """A set of related comments in reply to a given content object or
