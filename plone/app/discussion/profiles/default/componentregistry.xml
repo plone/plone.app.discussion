@@ -3,7 +3,7 @@
  <utilities>
   <utility 
       interface="plone.app.discussion.interfaces.ICommentingTool"
-      factory="plone.app.discussion.tool.CommentingTool"
+      object="portal_discussion"
       />
  </utilities>
 </componentregistry>

@@ -29,6 +29,9 @@ class ToolTest(TestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        # XXX implement traversal to commenting and change this:
+        conversation = conversation.__of__(self.portal.doc1)
         
         # Add a comment. reply_to=0 means it's not a reply
         comment = Comment(conversation=conversation, reply_to=0)
@@ -39,8 +42,10 @@ class ToolTest(TestCase):
         
         # Check that the comment got indexed in the tool:
         tool = getUtility(ICommentingTool)
-        comment = list(tool.search())[0]
-        self.assertEquals(comment['text'], 'Comment text')
+        comment = list(tool.searchResults())
+        self.assert_(len(comment) == 1, "There is only one comment, but we got"
+                     " %s results in the search" % len(comment))
+        self.assertEquals(comment[0].Title, 'Comment 1')
         
     
 def test_suite():

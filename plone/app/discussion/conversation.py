@@ -115,7 +115,9 @@ class Conversation(Persistent, Explicit):
         if not reply_to in self._children:
             self._children[reply_to] = LLSet()
         self._children[reply_to].insert(id)
-        notify(ObjectAddedEvent(comment, self, id))
+        # Notify that the object is added. The object must here be
+        # acquisition wrapped or the indexing will fail.
+        notify(ObjectAddedEvent(comment.__of__(self), self, id))
         notify(ContainerModifiedEvent(self))
         
     # Dict API
@@ -136,6 +138,9 @@ class Conversation(Persistent, Explicit):
     
     def keys(self):
         return self._comments.keys()
+    
+    def getPhysicalPath(self):
+        return self.aq_parent.getPhysicalPath() + (self.id,)
     
     # TODO: Update internal data structures when items added or removed
 

@@ -29,7 +29,10 @@ class ConversationTest(TestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-        
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        # XXX implement traversal to commenting and change this:
+        conversation = conversation.__of__(self.portal.doc1)
+
         # Add a comment. reply_to=0 means it's not a reply
         comment = Comment(conversation=conversation, reply_to=0)
         comment.title = 'Comment 1'
