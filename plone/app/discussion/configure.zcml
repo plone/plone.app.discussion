@@ -33,6 +33,8 @@
     
     <adapter factory=".conversation.conversationAdapterFactory" />
 
+    <adapter factory=".conversation.ConversationReplies" />
+    <adapter factory=".conversation.CommentReplies" />
     
     <!-- Event subscribers -->
     <subscriber

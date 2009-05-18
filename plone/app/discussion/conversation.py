@@ -20,7 +20,9 @@ from zope.annotation.interfaces import IAnnotations
 
 from zope.event import notify
 
+from Acquisition import aq_base
 from Acquisition import Explicit
+
 from OFS.Traversable import Traversable
 
 from OFS.event import ObjectWillBeAddedEvent
@@ -43,11 +45,10 @@ except ImportError:
     from BTrees.OOBTree import OOBTree as LOBTree
     from BTrees.OOBTree import OOSet as LLSet
 
-from plone.app.discussion.interfaces import IConversation, IComment, IReplies
+from plone.app.discussion.interfaces import IConversation, IReplies
+from plone.app.discussion.comment import Comment
 
-from Acquisition import aq_base
-
-ANNO_KEY = 'plone.app.discussion:conversation'
+ANNOTATION_KEY = 'plone.app.discussion:conversation'
 
 class Conversation(Traversable, Persistent, Explicit):
     """A conversation is a container for all comments on a content object.
@@ -212,11 +213,10 @@ def conversationAdapterFactory(content):
     """Adapter factory to fetch a conversation from annotations
     """
     annotions = IAnnotations(content)
-    if not ANNO_KEY in annotions:
+    if not ANNOTATION_KEY in annotions:
         conversation = Conversation()
-        conversation._parent_uid = content.UID()
-        annotions[ANNO_KEY] = conversation
-    conversation = annotions[ANNO_KEY]
+        annotions[ANNOTATION_KEY] = conversation
+    conversation = annotions[ANNOTATION_KEY]
     return conversation
 
 class ConversationReplies(object):
@@ -298,15 +298,26 @@ class CommentReplies(ConversationReplies):
     """
     
     implements(IReplies)
-    adapts(IComment)
+
+    # depends on implementation details of conversation
+    # most likely, anyone writing a different type of Conversation will also
+    # have a different type of Comment
+
+    adapts(Comment)
+    
     
     def __init__(self, context):
         self.comment = context
-        self.comment_id = context.comment_id
-        self.children = self.conversation._children.get(0, LLSet())
+        self.conversation = self.comment.__parent__
+        
+        if self.conversation is None or not hasattr(self.conversation, '_children'):
+            raise TypeError("This adapter doesn't know what to do with the parent conversation")
+        
+        self.comment_id = self.comment.comment_id
+        self.children = self.conversation._children.get(self.comment_id, LLSet())
     
     def addComment(self, comment):
         comment.in_reply_to = self.comment_id
         return self.conversation.addComment(comment)
     
-    # Dict API is inherited
+    # Dict API is inherited, written in terms of self.conversation and self.children
