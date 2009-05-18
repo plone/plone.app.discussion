@@ -126,7 +126,9 @@ class Conversation(Traversable, Persistent, Explicit):
         notify(ObjectWillBeAddedEvent(comment, self, id))
         self._comments[id] = comment
         
-        # for logged in users only
+        comment.__parent__ = self
+        
+        # Record unique users who've commented (for logged in users only)
         commentator = comment.author_username
         if commentator:
             if not commentator in self._commentators:
@@ -147,6 +149,8 @@ class Conversation(Traversable, Persistent, Explicit):
         notify(ObjectAddedEvent(comment.__of__(self), self, id))
         notify(ContainerModifiedEvent(self))
         
+        return id
+        
     # Dict API
     
     def __len__(self):
@@ -155,12 +159,10 @@ class Conversation(Traversable, Persistent, Explicit):
     def __contains__(self, key):
         return long(key) in self._comments
     
-    # TODO: Should __getitem__, get, __iter__, values(), items() and iter* return aq-wrapped comments?
-    
     def __getitem__(self, key):
         """Get an item by its long key
         """
-        return self._comments[long(key)]
+        return self._comments[long(key)].__of__(self)
     
     def __delitem__(self, key):
         """Delete an item by its long key
@@ -168,7 +170,7 @@ class Conversation(Traversable, Persistent, Explicit):
         
         key = long(key)
         
-        comment = self[key]
+        comment = self[key].__of__(self)
         commentator = comment.author_username
         
         notify(ObjectWillBeRemovedEvent(comment, self, key))
@@ -187,25 +189,30 @@ class Conversation(Traversable, Persistent, Explicit):
         return iter(self._comments)
     
     def get(self, key, default=None):
-        return self._comments.get(long(key), default)
+        comment = self._comments.get(long(key), default)
+        if comment is default:
+            return default
+        return comment.__of__(self)
     
     def keys(self):
         return self._comments.keys()
     
     def items(self):
-        return self._comments.items()
+        return [(i[0], i[1].__of__(self),) for i in self._comments.items()]
     
     def values(self):
-        return self._comments.values()
+        return [v.__of__(self) for v in self._comments.values()]
     
     def iterkeys(self):
         return self._comments.iterkeys()
     
     def itervalues(self):
-        return self._comments.itervalues()
+        for v in self._comments.itervalues():
+            yield v.__of__(self)
     
     def iteritems(self):
-        return self._comments.iteritems()
+        for k, v in self._comments.iteritems():
+            yield (k, v.__of__(self),)
 
 @implementer(IConversation)
 @adapter(IAnnotatable)

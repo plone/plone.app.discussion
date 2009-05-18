@@ -22,9 +22,10 @@
         <require attributes="Title Creator getId" permission="zope2.View" />
     </class>
     
-    <utility factory=".comment.CommentFactory" 
-             provides="plone.app.discussion.interfaces.IComment"
-             name="Discussion Item" />
+    <utility
+        component=".comment.CommentFactory"
+        name="plone.Comment"
+        />
     
     <!-- Conversations -->
     <class class=".conversation.Conversation">

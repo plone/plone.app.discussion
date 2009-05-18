@@ -1,11 +1,10 @@
 import unittest
 
-from zope.component import getUtility
+from zope.component import getUtility, createObject
 
 from Products.PloneTestCase.ptc import PloneTestCase
 from plone.app.discussion.tests.layer import DiscussionLayer
 
-from plone.app.discussion.comment import Comment
 from plone.app.discussion.interfaces import ICommentingTool, IConversation
 
 class ToolTest(PloneTestCase):
@@ -27,8 +26,8 @@ class ToolTest(PloneTestCase):
         # XXX implement traversal to commenting and change this:
         conversation = conversation.__of__(self.portal.doc1)
         
-        # Add a comment. reply_to=0 means it's not a reply
-        comment = Comment(conversation=conversation, reply_to=0)
+        # Add a comment.
+        comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
         comment.text = 'Comment text'
         
@@ -40,6 +39,13 @@ class ToolTest(PloneTestCase):
         self.assert_(len(comment) == 1, "There is only one comment, but we got"
                      " %s results in the search" % len(comment))
         self.assertEquals(comment[0].Title, 'Comment 1')
+    
+    def test_unindexing(self):
+        pass
+    
+    def test_search(self):
+        # search returns only comments
+        pass
     
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

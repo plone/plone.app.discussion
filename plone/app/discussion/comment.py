@@ -42,15 +42,13 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
     author_name = None
     author_email = None
     
-    def __init__(self, conversation=None, **kw):
-        self.comment_id = None # will be set by IConversation.addComment()
-
-        self.__parent__ = conversation
+    # Note: we want to use zope.component.createObject() to instantiate 
+    # comments as far as possible. comment_id and __parent__ are set via
+    # IConversation.addComment().
+    
+    def __init__(self):
         self.creation_date = self.modification_date = datetime.now()
         
-        for k, v in kw.items():
-            setattr(self, k, v)
-
     @property
     def __name__(self):
         return self.comment_id and unicode(self.comment_id) or None
