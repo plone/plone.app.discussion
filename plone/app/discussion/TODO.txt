@@ -7,11 +7,6 @@ plone.app.discussion to-do
 
  [ ] ++comments++ namespace traversal adapter
 
- [ ] Acquisition wrapping - should it happen on:
- 
-    - Conversation retrieval methods (get, __getitem__, values etc)?
-    - IConversation adapter lookup?
-
  [ ] Implement plone.indexer indexers for comments, filling standard metadata
     
     - Note discrepancy between Python datetime and indexing expecting a Zope 2
@@ -19,14 +14,28 @@ plone.app.discussion to-do
 
  [ ] Implement plone.indexer indexers for commented-upon content
  
-    - Unique set of commentators
+    - Unique set of commentators 
     - Number of comments
     - Date/time of most recent comment
     
-    Needs to reindex when comment is added/removed (IContainerModifiedEvent)
+    These have to be reindexed when comment is added/removed 
+    (IContainerModifiedEvent). They also need to be set up in catalog.xml.
  
  [ ] Add tests for conversation dict API
  [ ] Add tests for IReplies adapters
+
+ [ ] Add UI
+ 
+    - comment display should be a viewlet overriding the standard comments
+        viewlet
+        
+    - comment forms should use z3c.form subforms and plone.z3cform's
+        ExtensibleForm support
+ 
+ [ ] Add control panel
+ 
+    - install plone.registry records using registry.xml
+    - create control panel using helper class in plone.app.registry
  
  [ ] Make sure a catalog Clear & Rebuild doesn't lose all comments
 

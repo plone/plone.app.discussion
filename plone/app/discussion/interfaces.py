@@ -15,13 +15,6 @@ class IDiscussionSettings(Interface):
                                    description=_(u"Use this setting to enable or disable comments globally"),
                                    default=True)
     
-    index_comments = schema.Bool(title=_(u"Index comments"),
-                                 description=_(u"Enable this option to ensure that comments are searchable. "
-                                                "Turning this off may improve performance for sites with large "
-                                                "volumes of comments that do not wish to make them searcahble using "
-                                                "the standard search tools."),
-                                 default=True)
-
 class IConversation(IIterableMapping):
     """A conversation about a content object.
     
@@ -49,14 +42,14 @@ class IConversation(IIterableMapping):
     last_comment_date = schema.Date(title=_(u"Date of the most recent comment"), readonly=True)
     commentators = schema.Set(title=_(u"The set of unique commentators (usernames)"), readonly=True)
     
-    def __delitem__(key):
-        """Delete the comment with the given key. The key is a long id.
-        """
-    
     def addComment(comment):
         """Adds a new comment to the list of comments, and returns the 
         comment id that was assigned. The comment_id property on the comment
         will be set accordingly.
+        """
+    
+    def __delitem__(key):
+        """Delete the comment with the given key. The key is a long id.
         """
     
     def getComments(start=0, size=None):
