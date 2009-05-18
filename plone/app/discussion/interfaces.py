@@ -1,5 +1,5 @@
 from zope.interface import Interface
-from zope.interface.common.mapping import IIterableMapping, IWriteMapping
+from zope.interface.common.mapping import IIterableMapping
 from zope import schema
 
 from zope.i18nmessageid import MessageFactory
@@ -22,13 +22,16 @@ class IDiscussionSettings(Interface):
                                                 "the standard search tools."),
                                  default=True)
 
-class IConversation(IIterableMapping, IWriteMapping):
+class IConversation(IIterableMapping):
     """A conversation about a content object.
     
     This is a persistent object in its own right and manages all comments.
     
     The dict interface allows access to all comments. They are stored by
-    integer key, in the order they were added.
+    long integer key, in the order they were added.
+    
+    Note that __setitem__() is not supported - use addComment() instead.
+    However, comments can be deleted using __delitem__().
     
     To get replies at the top level, adapt the conversation to IReplies.
     
@@ -45,6 +48,16 @@ class IConversation(IIterableMapping, IWriteMapping):
     total_comments = schema.Int(title=_(u"Total number of comments on this item"), min=0, readonly=True)
     last_comment_date = schema.Date(title=_(u"Date of the most recent comment"), readonly=True)
     commentators = schema.Set(title=_(u"The set of unique commentators (usernames)"), readonly=True)
+    
+    def __delitem__(key):
+        """Delete the comment with the given key. The key is a long id.
+        """
+    
+    def addComment(comment):
+        """Adds a new comment to the list of comments, and returns the 
+        comment id that was assigned. The comment_id property on the comment
+        will be set accordingly.
+        """
     
     def getComments(start=0, size=None):
         """Return a batch of comment objects for rendering. The 'start'
@@ -73,19 +86,24 @@ class IConversation(IIterableMapping, IWriteMapping):
         in order to give enough context to show the full  lineage of the
         starting comment.
         """
-        
-    def addComment(comment):
-        """Adds a new comment to the list of comments, and returns the 
-        comment id that was assigned.
-        """
 
-class IReplies(IIterableMapping, IWriteMapping):
+class IReplies(IIterableMapping):
     """A set of related comments in reply to a given content object or
     another comment.
     
     Adapt a conversation or another comment to this interface to obtain the
     direct replies.
     """
+    
+    def addComment(comment):
+        """Adds a new comment as a child of this comment, and returns the 
+        comment id that was assigned. The comment_id property on the comment
+        will be set accordingly.
+        """
+    
+    def __delitem__(key):
+        """Delete the comment with the given key. The key is a long id.
+        """
 
 class IComment(Interface):
     """A comment.
@@ -120,16 +138,30 @@ class IComment(Interface):
 class ICommentingTool(Interface):
     """A tool that indexes all comments for usage by the management interface.
     
-    This was the management interface can still work even though we don't
+    This means the management interface can still work even though we don't
     index the comments in portal_catalog.
+    
+    The default implementation of this interface simply defers to
+    portal_catalog, but a custom version of the tool can be used to provide
+    an alternate indexing mechanism.
     """
     
-    def index(comment):
-        """Indexes a comment"""
+    def indexObject(comment):
+        """Indexes a comment
+        """
         
-    def unindex(comment):
-        """Removes a comment from the indexes"""
+    def reindexObject(comment):
+        """Reindex a comment
+        """
         
-    def search(username=None, wfstate=None):
-        """Get all comments with a certain username of wfstate"""
+    def unindexObject(comment):
+        """Removes a comment from the indexes
+        """
         
+    def uniqueValuesFor(name):
+        """Get unique values for FieldIndex name
+        """
+        
+    def searchResults(REQUEST=None, **kw):
+        """Perform a search over all indexed comments.
+        """

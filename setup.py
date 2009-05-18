@@ -26,8 +26,17 @@ setup(name='plone.app.discussion',
       install_requires=[
           'setuptools',
           'collective.autopermission',
+          'collective.testcaselayer',
+          'plone.indexer',
+          'ZODB3',
+          'zope.interface',
+          'zope.component',
+          'zope.annotation',
+          'zope.event',
+          'zope.app.container', # XXX: eventually should change to zope.container
       ],
       entry_points="""
-      # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )

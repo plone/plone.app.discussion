@@ -1,9 +1,14 @@
-import time
+"""The portal_discussion tool, usually accessed via
+getUtility(ICommentingTool). The default implementation delegates to the
+standard portal_catalog for indexing comments.
+
+BBB support for the old portal_discussion is provided in the bbb package.
+"""
+
 from zope import interface
 from zope.component import getUtility
 
 from interfaces import ICommentingTool, IComment
-# The commenting tool, which is a local utility
 
 from Products.CMFCore.utils import UniqueObject, getToolByName
 from OFS.SimpleItem import SimpleItem
@@ -41,12 +46,14 @@ class CommentingTool(UniqueObject, SimpleItem):
         """
         catalog = getToolByName(self, 'portal_catalog')
         object_provides = [IComment.__identifier__]
+        
         if 'object_provides' in kw:
             kw_provides = kw['object_provides']
             if isinstance(str, kw_provides):
                 object_provides.append(kw_provides)
             else:
                 object_provides.extend(kw_provides)
+        
         if REQUEST is not None and 'object_provides' in REQUEST.form:
             rq_provides = REQUEST.form['object_provides']
             del REQUEST.form['object_provides']
@@ -54,6 +61,7 @@ class CommentingTool(UniqueObject, SimpleItem):
                 object_provides.append(rq_provides)
             else:
                 object_provides.extend(rq_provides)
+        
         kw['object_provides'] = object_provides
         return catalog.searchResults(REQUEST, **kw)
 

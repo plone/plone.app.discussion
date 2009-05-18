@@ -1,23 +1,17 @@
 import unittest
-from datetime import datetime, timedelta
-from base import TestCase
 
-from zope.testing import doctestunit
-from zope.component import testing, getMultiAdapter, getUtility
-from zope.publisher.browser import TestRequest
-from zope.publisher.interfaces.browser import IBrowserView
-from Testing import ZopeTestCase as ztc
+from zope.component import getUtility
 
-from Products.Five import zcml
-from Products.Five import fiveconfigure
-from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.layer import PloneSite
+from Products.PloneTestCase.ptc import PloneTestCase
+from plone.app.discussion.tests.layer import DiscussionLayer
 
-from plone.app.discussion.conversation import Conversation
 from plone.app.discussion.comment import Comment
 from plone.app.discussion.interfaces import ICommentingTool, IConversation
 
-class ToolTest(TestCase):
+class ToolTest(PloneTestCase):
+    
+    layer = DiscussionLayer
+    
     def afterSetUp(self):
         # XXX If we make this a layer, it only get run once...
         # First we need to create some content.
@@ -46,12 +40,6 @@ class ToolTest(TestCase):
         self.assert_(len(comment) == 1, "There is only one comment, but we got"
                      " %s results in the search" % len(comment))
         self.assertEquals(comment[0].Title, 'Comment 1')
-        
     
 def test_suite():
-    return unittest.TestSuite([
-        unittest.makeSuite(ToolTest),
-        ])
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')
+    return unittest.defaultTestLoader.loadTestsFromName(__name__)

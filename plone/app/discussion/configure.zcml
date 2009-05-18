@@ -8,12 +8,13 @@
 
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
-      name="default"
-      title="Plone Discussions"
-      directory="profiles/default"
-      description="Setup plone.app.discussions."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+        name="default"
+        title="Plone Discussions"
+        description="Commenting infrastructure for Plone"
+        directory="profiles/default"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        />
     
     <!-- Comments -->
     <class class=".comment.Comment">
@@ -36,14 +37,14 @@
     <!-- Event subscribers -->
     <subscriber
         for="plone.app.discussion.interfaces.IComment
-	     zope.app.container.contained.IObjectAddedEvent"
+             zope.app.container.contained.IObjectAddedEvent"
         handler=".tool.object_added_handler"
         />
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
-	     zope.app.container.contained.IObjectRemovedEvent"
+             zope.app.container.contained.IObjectRemovedEvent"
         handler=".tool.object_removed_handler"
         />
-	
+
 </configure>
