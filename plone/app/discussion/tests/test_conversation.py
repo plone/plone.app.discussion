@@ -62,8 +62,9 @@ class ConversationTest(PloneTestCase):
         # Pretend that we have traversed to the comment by aq wrapping it.
         conversation = conversation.__of__(self.portal.doc1)
 
-        # Add a three comment. Note: in real life, we always create comments via the factory
-        # to allow different factories to be swapped in
+        # Add a three comments. Note: in real life, we always create
+        # comments via the factory to allow different factories to be
+        # swapped in
 
         comment1 = createObject('plone.Comment')
         comment1.title = 'Comment 1'
@@ -81,7 +82,7 @@ class ConversationTest(PloneTestCase):
         new_comment2_id = conversation.addComment(comment2)
         new_comment3_id = conversation.addComment(comment3)
 
-        self.assertEquals(len(conversation.getComments()), 3)
+        self.assertEquals(conversation.total_comments, 3)
 
     def test_commentators(self):
         # add and remove a few comments to make sure the commentators
@@ -95,7 +96,7 @@ class ConversationTest(PloneTestCase):
         pass
 
     def test_get_comments_batched(self):
-        pass
+		pass
 
     def test_get_threads(self):
         pass
