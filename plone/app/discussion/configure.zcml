@@ -1,10 +1,11 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope" 
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup" 
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="plone.app.discussion">
 
     <include file="permissions.zcml" />
     <include package=".browser" />
+    <include package=".viewlets" />
 
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
@@ -15,28 +16,28 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         />
-    
+
     <!-- Comments -->
     <class class=".comment.Comment">
         <require interface=".interfaces.IComment" permission="zope2.View" />
         <require attributes="Title Creator getId" permission="zope2.View" />
     </class>
-    
+
     <utility
         component=".comment.CommentFactory"
         name="plone.Comment"
         />
-    
+
     <!-- Conversations -->
     <class class=".conversation.Conversation">
         <require interface=".interfaces.IConversation" permission="zope2.View" />
     </class>
-    
+
     <adapter factory=".conversation.conversationAdapterFactory" />
 
     <adapter factory=".conversation.ConversationReplies" />
     <adapter factory=".conversation.CommentReplies" />
-    
+
     <!-- Event subscribers -->
     <subscriber
         for="plone.app.discussion.interfaces.IComment
