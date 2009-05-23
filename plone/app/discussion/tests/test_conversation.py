@@ -126,7 +126,7 @@ class ConversationTest(PloneTestCase):
         # Pretend that we have traversed to the comment by aq wrapping it.
         conversation = conversation.__of__(self.portal.doc1)
 
-        # Add a three comments from three different users
+        # Add a four comments from three different users
         # Note: in real life, we always create
         # comments via the factory to allow different factories to be
         # swapped in
@@ -148,21 +148,36 @@ class ConversationTest(PloneTestCase):
         comment3.author_username = "Jack"
         new_comment3_id = conversation.addComment(comment3)
 
+        comment4 = createObject('plone.Comment')
+        comment4.title = 'Comment 3'
+        comment4.text = 'Comment text'
+        comment4.author_username = "Jack"
+        new_comment4_id = conversation.addComment(comment4)
+
         # check if all commentators are in the commentators list
+        self.assertEquals(conversation.total_comments, 4)
+        self.failUnless('Jim' in conversation.commentators)
+        self.failUnless('Joe' in conversation.commentators)
+        self.failUnless('Jack' in conversation.commentators)
+
+        # remove the comment from Jack
+        del conversation[new_comment3_id]
+
+        # check if Jack is still in the commentators list (since
+        # he had added two comments)
+        self.failUnless('Jim' in conversation.commentators)
+        self.failUnless('Joe' in conversation.commentators)
+        self.failUnless('Jack' in conversation.commentators)
         self.assertEquals(conversation.total_comments, 3)
-        self.assertEquals(conversation._commentators['Jim'], True)
-        self.assertEquals(conversation._commentators['Joe'], True)
-        self.assertEquals(conversation._commentators['Jack'], True)
 
-        # remove the comment from Jim
-        conversation.__delitem__(new_comment1_id)
+        # remove the second comment from Jack
+        del conversation[new_comment4_id]
 
-        # check if Jim is properly removed from the list
-        self.assertEquals(conversation._commentators['Joe'], True)
-        self.assertEquals(conversation._commentators['Jack'], True)
-        self.failIf(conversation._commentators.has_key('Jim'))
+        # check if Jack has been removed from the commentators list
+        self.failUnless('Jim' in conversation.commentators)
+        self.failUnless('Joe' in conversation.commentators)
+        self.failIf('Jack' in conversation.commentators)
         self.assertEquals(conversation.total_comments, 2)
-
 
     def test_last_comment_date(self):
         pass
