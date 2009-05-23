@@ -47,7 +47,7 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(conversation.total_comments, 1)
         self.assert_(conversation.last_comment_date - datetime.now() < timedelta(seconds=1))
 
-    def test_delete(self):
+    def test_delete_comment(self):
         pass
 
     def test_dict_operations(self):
@@ -103,6 +103,15 @@ class ConversationTest(PloneTestCase):
 
     def test_get_threads_batched(self):
         pass
+    
+    def test_traversal(self):
+        # make sure we can traverse to conversations and get a URL and path
+        
+        conversation = self.portal.doc1.restrictedTraverse('++conversation++default')        
+        self.assert_(IConversation.providedBy(conversation))
+        
+        self.assertEquals(('', 'plone', 'doc1', '++conversation++default'), conversation.getPhysicalPath())
+        self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault', conversation.absolute_url())
 
 class RepliesTest(PloneTestCase):
 

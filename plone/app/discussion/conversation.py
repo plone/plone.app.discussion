@@ -58,7 +58,9 @@ class Conversation(Traversable, Persistent, Explicit):
     
     implements(IConversation)
     
-    def __init__(self, id="++comment++"):
+    __allow_access_to_unprotected_subobjects__ = True
+    
+    def __init__(self, id="++conversation++default"):
         self.id = id
         
         # username -> count of comments; key is removed when count reaches 0
@@ -71,7 +73,8 @@ class Conversation(Traversable, Persistent, Explicit):
         self._children = LOBTree()
         
     def getId(self):
-        """Get the id of 
+        """Get the id of the conversation. This is used to construct a
+        URL.
         """
         return self.id
     
@@ -216,7 +219,8 @@ class Conversation(Traversable, Persistent, Explicit):
 @implementer(IConversation)
 @adapter(IAnnotatable)
 def conversationAdapterFactory(content):
-    """Adapter factory to fetch a conversation from annotations
+    """Adapter factory to fetch the default conversation from annotations.
+    Will create the conversation if it does not exist.
     """
     annotions = IAnnotations(content)
     if not ANNOTATION_KEY in annotions:

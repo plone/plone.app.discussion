@@ -4,7 +4,7 @@ into an actual comment object.
 """
 
 from zope.interface import Interface, implements
-from zope.component import adapts
+from zope.component import adapts, queryAdapter
 
 from zope.traversing.interfaces import ITraversable, TraversalError
 from zope.publisher.interfaces.browser import IBrowserRequest
@@ -12,8 +12,13 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 from plone.app.discussion.interfaces import IConversation
 
 class ConversationNamespace(object):
-    """Allow traversal into a conversation
+    """Allow traversal into a conversation via a ++conversation++name
+    namespace. The name is the name of an adapter from context to
+    IConversation. The special name 'default' will be taken as the default
+    (unnamed) adapter. This is to work around a bug in OFS.Traversable which
+    does not allow traversal to namespaces with an empty string name.
     """
+    
     implements(ITraversable)
     adapts(Interface, IBrowserRequest)
     
@@ -23,8 +28,11 @@ class ConversationNamespace(object):
         
     def traverse(self, name, ignore):
         
-        conversation = IConversation(self.context, None)
-        if conversation is None:
-            raise TraversalError('++comment++')
+        if name == "default":
+            name = u""
         
-        return conversation.__of__(self.context)
+        conversation = queryAdapter(self.context, IConversation, name=name)
+        if conversation is None:
+            raise TraversalError(name)
+        
+        return conversation

@@ -6,7 +6,6 @@ from Products.PloneTestCase.ptc import PloneTestCase
 from plone.app.discussion.tests.layer import DiscussionLayer
 
 from plone.app.discussion.interfaces import IComment, IConversation
-from plone.app.discussion.comment import Comment
 
 class CommentTest(PloneTestCase):
     
@@ -19,30 +18,44 @@ class CommentTest(PloneTestCase):
         typetool.constructContent('Document', self.portal, 'doc1')
     
     def test_factory(self):
-        # test with createObject()
-        pass
+        comment1 = createObject('plone.Comment')
+        self.assert_(IComment.providedBy(comment1))
         
     def test_id(self):
-        # relationship between id, getId(), __name__
-        pass
+        comment1 = createObject('plone.Comment')
+        comment1.comment_id = 123
+        self.assertEquals('123', comment1.id)
+        self.assertEquals('123', comment1.getId())
+        self.assertEquals(u'123', comment1.__name__)
         
     def test_title(self):
-        pass
+        comment1 = createObject('plone.Comment')
+        comment1.title = "New title"
+        self.assertEquals("New title", comment1.Title())
     
     def test_creator(self):
-        pass
+        comment1 = createObject('plone.Comment')
+        comment1.creator = "Jim"
+        self.assertEquals("Jim", comment1.Creator())
         
     def test_traversal(self):
         # make sure comments are traversable, have an id, absolute_url and physical path
         
-        # XXX - traversal doesn't work without a name?
-        conversation = self.portal.doc1.restrictedTraverse('++comment++1')        
-        self.assert_(IConversation.providedBy(conversation))
+        conversation = IConversation(self.portal.doc1).__of__(self.portal.doc1)
         
-        # TODO: Test adding comments, traversing to them
+        comment1 = createObject('plone.Comment')
+        comment1.title = 'Comment 1'
+        comment1.text = 'Comment text'
+
+        new_comment1_id = conversation.addComment(comment1)
         
-        pass
-    
+        comment = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_comment1_id)
+        self.assert_(IComment.providedBy(comment))
+        self.assertEquals('Comment 1', comment.title)
+        
+        self.assertEquals(('', 'plone', 'doc1', '++conversation++default', str(new_comment1_id)), comment.getPhysicalPath())
+        self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault/' + str(new_comment1_id), comment.absolute_url())
+        
     def test_workflow(self):
         # ensure that we can assign a workflow to the comment type and perform
         # workflow operations
