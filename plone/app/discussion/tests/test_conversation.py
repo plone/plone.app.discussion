@@ -43,7 +43,7 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(aq_base(conversation[new_id].__parent__), aq_base(conversation))
         self.assertEquals(new_id, comment.comment_id)
         self.assertEquals(len(conversation.getComments()), 1)
-        # XXX: not yet implemented 
+        # XXX: not yet implemented
         # self.assertEquals(len(conversation.getThreads()), 1)
         self.assertEquals(conversation.total_comments, 1)
         self.assert_(conversation.last_comment_date - datetime.now() < timedelta(seconds=1))
@@ -76,7 +76,7 @@ class ConversationTest(PloneTestCase):
 
         # make sure there is no comment left in the conversation
         self.assertEquals(len(conversation.getComments()), 0)
-        
+
         # XXX: not yet implemented
         # self.assertEquals(len(conversation.getThreads()), 0)
         self.assertEquals(conversation.total_comments, 0)
@@ -118,7 +118,51 @@ class ConversationTest(PloneTestCase):
     def test_commentators(self):
         # add and remove a few comments to make sure the commentators
         # property returns a true set
-        pass
+
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        # Add a three comments from three different users
+        # Note: in real life, we always create
+        # comments via the factory to allow different factories to be
+        # swapped in
+        comment1 = createObject('plone.Comment')
+        comment1.title = 'Comment 1'
+        comment1.text = 'Comment text'
+        comment1.author_username = "Jim"
+        new_comment1_id = conversation.addComment(comment1)
+
+        comment2 = createObject('plone.Comment')
+        comment2.title = 'Comment 2'
+        comment2.text = 'Comment text'
+        comment2.author_username = "Joe"
+        new_comment2_id = conversation.addComment(comment2)
+
+        comment3 = createObject('plone.Comment')
+        comment3.title = 'Comment 3'
+        comment3.text = 'Comment text'
+        comment3.author_username = "Jack"
+        new_comment3_id = conversation.addComment(comment3)
+
+        # check if all commentators are in the commentators list
+        self.assertEquals(conversation.total_comments, 3)
+        self.assertEquals(conversation._commentators['Jim'], True)
+        self.assertEquals(conversation._commentators['Joe'], True)
+        self.assertEquals(conversation._commentators['Jack'], True)
+
+        # remove the comment from Jim
+        conversation.__delitem__(new_comment1_id)
+
+        # check if Jim is properly removed from the list
+        self.assertEquals(conversation._commentators['Joe'], True)
+        self.assertEquals(conversation._commentators['Jack'], True)
+        self.failIf(conversation._commentators.has_key('Jim'))
+        self.assertEquals(conversation.total_comments, 2)
+
 
     def test_last_comment_date(self):
         pass
