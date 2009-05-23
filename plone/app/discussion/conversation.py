@@ -108,7 +108,7 @@ class Conversation(Traversable, Persistent, Explicit):
         """Get threaded comments
         """
         # TODO - build threads
-        return self._comments.values()
+        raise NotImplemented
 
     def addComment(self, comment):
         """Add a new comment. The parent id should have been set already. The
@@ -254,8 +254,6 @@ class ConversationReplies(object):
 
     def __contains__(self, key):
         return long(key) in self.children
-
-    # TODO: Should __getitem__, get, __iter__, values(), items() and iter* return aq-wrapped comments?
 
     def __getitem__(self, key):
         """Get an item by its long key
