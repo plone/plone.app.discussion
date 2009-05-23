@@ -6,7 +6,7 @@ BBB support for the old portal_discussion is provided in the bbb package.
 """
 
 from zope import interface
-from zope.component import getUtility
+from zope.component import queryUtility
 
 from interfaces import ICommentingTool, IComment
 
@@ -65,10 +65,16 @@ class CommentingTool(UniqueObject, SimpleItem):
         kw['object_provides'] = object_provides
         return catalog.searchResults(REQUEST, **kw)
 
-def object_added_handler(obj, event):
-    tool = getUtility(ICommentingTool)
-    tool.indexObject(obj)
+def index_object(obj, event):
+    """Index the object when added to the conversation
+    """
+    tool = queryUtility(ICommentingTool)
+    if tool is not None:
+        tool.indexObject(obj)
     
-def object_removed_handler(obj, event):
-    tool = getUtility(ICommentingTool)
-    tool.unindexObject(obj)
+def unindex_object(obj, event):
+    """Unindex the object when removed
+    """
+    tool = queryUtility(ICommentingTool)
+    if tool is not None:
+        tool.unindexObject(obj)

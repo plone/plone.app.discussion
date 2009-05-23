@@ -12,6 +12,7 @@ from AccessControl.Owned import Owned
 from plone.app.discussion.interfaces import IComment
 
 from Products.CMFCore.DynamicType import DynamicType
+from Products.CMFCore.utils import getToolByName
 
 class Comment(DynamicType, Traversable, RoleManager, Owned, Explicit):
     """A comment.
@@ -86,3 +87,10 @@ class Comment(DynamicType, Traversable, RoleManager, Owned, Explicit):
         return []
 
 CommentFactory = Factory(Comment)
+
+def notify_workflow(obj, event):
+    """Tell the workflow tool when a comment is added
+    """
+    tool = getToolByName(obj, 'portal_workflow', None)
+    if tool is not None:
+        tool.notifyCreated(obj)

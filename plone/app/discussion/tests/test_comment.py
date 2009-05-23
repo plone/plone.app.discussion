@@ -57,9 +57,22 @@ class CommentTest(PloneTestCase):
         self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault/' + str(new_comment1_id), comment.absolute_url())
         
     def test_workflow(self):
-        # ensure that we can assign a workflow to the comment type and perform
-        # workflow operations
-        pass
+        self.portal.portal_workflow.setChainForPortalTypes(('Discussion Item',), ('simple_publication_workflow,'))
+        
+        conversation = IConversation(self.portal.doc1).__of__(self.portal.doc1)
+        comment1 = createObject('plone.Comment')
+        new_comment1_id = conversation.addComment(comment1)
+        
+        comment = conversation[new_comment1_id]
+        
+        chain = self.portal.portal_workflow.getChainFor(comment)
+        self.assertEquals(('simple_publication_workflow',), chain)
+        
+        # ensure the initial state was entered and recorded
+        self.assertEquals(1, len(comment.workflow_history['simple_publication_workflow']))
+        self.assertEquals(None, comment.workflow_history['simple_publication_workflow'][0]['action'])
+        
+        self.assertEquals('private', self.portal.portal_workflow.getInfoFor(comment, 'review_state'))
     
     def test_fti(self):
         # test that we can look up an FTI for Discussion Item
