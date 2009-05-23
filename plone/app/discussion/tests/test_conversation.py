@@ -64,6 +64,11 @@ class ConversationTest(PloneTestCase):
 
         new_id = conversation.addComment(comment)
 
+        # make sure the comment has been added
+        self.assertEquals(len(conversation.getComments()), 1)
+        self.assertEquals(len(conversation.getThreads()), 1)
+        self.assertEquals(conversation.total_comments, 1)
+
         # delete the comment we just created
         conversation.__delitem__(new_id)
 
