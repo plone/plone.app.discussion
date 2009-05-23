@@ -48,7 +48,29 @@ class ConversationTest(PloneTestCase):
         self.assert_(conversation.last_comment_date - datetime.now() < timedelta(seconds=1))
 
     def test_delete_comment(self):
-        pass
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        # Add a comment. Note: in real life, we always create comments via the factory
+        # to allow different factories to be swapped in
+
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+
+        new_id = conversation.addComment(comment)
+
+        # delete the comment we just created
+        conversation.__delitem__(new_id)
+
+        # make sure there is no comment left in the conversation
+        self.assertEquals(len(conversation.getComments()), 0)
+        self.assertEquals(len(conversation.getThreads()), 0)
+        self.assertEquals(conversation.total_comments, 0)
 
     def test_dict_operations(self):
         # test dict operations and acquisition wrapping
@@ -103,13 +125,13 @@ class ConversationTest(PloneTestCase):
 
     def test_get_threads_batched(self):
         pass
-    
+
     def test_traversal(self):
         # make sure we can traverse to conversations and get a URL and path
-        
-        conversation = self.portal.doc1.restrictedTraverse('++conversation++default')        
+
+        conversation = self.portal.doc1.restrictedTraverse('++conversation++default')
         self.assert_(IConversation.providedBy(conversation))
-        
+
         self.assertEquals(('', 'plone', 'doc1', '++conversation++default'), conversation.getPhysicalPath())
         self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault', conversation.absolute_url())
 
