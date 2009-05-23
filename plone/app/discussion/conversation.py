@@ -108,7 +108,7 @@ class Conversation(Traversable, Persistent, Explicit):
         """Get threaded comments
         """
         # TODO - build threads
-        raise NotImplemented
+        raise []
 
     def addComment(self, comment):
         """Add a new comment. The parent id should have been set already. The
