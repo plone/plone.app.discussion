@@ -180,7 +180,57 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(conversation.total_comments, 2)
 
     def test_last_comment_date(self):
-        pass
+        # add and remove some comments and check if last_comment_date
+        # is properly updated
+
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        # Add a three comments that are at least one day old
+        # Note: in real life, we always create
+        # comments via the factory to allow different factories to be
+        # swapped in
+        comment1 = createObject('plone.Comment')
+        comment1.title = 'Comment 1'
+        comment1.text = 'Comment text'
+        comment1.creation_date = datetime.now() - timedelta(4)
+        new_comment1_id = conversation.addComment(comment1)
+
+        comment2 = createObject('plone.Comment')
+        comment2.title = 'Comment 2'
+        comment2.text = 'Comment text'
+        comment2.creation_date = datetime.now() - timedelta(2)
+        new_comment2_id = conversation.addComment(comment2)
+
+        comment3 = createObject('plone.Comment')
+        comment3.title = 'Comment 3'
+        comment3.text = 'Comment text'
+        comment3.creation_date = datetime.now() - timedelta(1)
+        new_comment3_id = conversation.addComment(comment3)
+
+        # check if the latest comment is exactly one day old
+        self.assert_(conversation.last_comment_date < datetime.now() - timedelta(hours=23, minutes=59, seconds=59))
+        self.assert_(conversation.last_comment_date > datetime.now() - timedelta(days=1, seconds=1))
+
+        # remove the latest comment
+        del conversation[new_comment3_id]
+
+        # check if the latest comment has been updated
+        # the latest comment should be exactly two days old
+        self.assert_(conversation.last_comment_date < datetime.now() - timedelta(days=1, hours=23, minutes=59, seconds=59))
+        self.assert_(conversation.last_comment_date > datetime.now() - timedelta(days=2, seconds=1))
+
+        # remove the latest comment again
+        del conversation[new_comment2_id]
+
+        # check if the latest comment has been updated
+        # the latest comment should be exactly four days old
+        self.assert_(conversation.last_comment_date < datetime.now() - timedelta(days=3, hours=23, minutes=59, seconds=59))
+        self.assert_(conversation.last_comment_date > datetime.now() - timedelta(days=4, seconds=1))
 
     def test_get_comments_flat(self):
         pass
