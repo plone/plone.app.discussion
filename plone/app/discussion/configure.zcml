@@ -5,7 +5,6 @@
 
     <include file="permissions.zcml" />
     <include package=".browser" />
-    <include package=".viewlets" />
 
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile

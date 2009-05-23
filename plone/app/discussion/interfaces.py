@@ -158,3 +158,7 @@ class ICommentingTool(Interface):
     def searchResults(REQUEST=None, **kw):
         """Perform a search over all indexed comments.
         """
+
+class IDiscussionLayer(Interface):
+    """Request marker installed via browserlayer.xml.
+    """

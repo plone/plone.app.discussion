@@ -2,6 +2,20 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="plone.app.discussion">
+    
+    <!-- Traversal adapter -->
+    <adapter factory=".traversal.ConversationNamespace" name="comment" />
 
+    <!-- Comments viewlet -->
+    <browser:viewlet
+        name="plone.comments"
+        for="Products.CMFCore.interfaces.IContentish"
+        layer="..interfaces.IDiscussionLayer"
+        view="plone.app.layout.globals.interfaces.IViewView"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+        template="comments.pt"
+        class=".comments.CommentsViewlet"
+        permission="zope2.View"
+        />
 
 </configure>

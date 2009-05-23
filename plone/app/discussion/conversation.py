@@ -16,7 +16,8 @@ from persistent import Persistent
 
 from zope.interface import implements, implementer
 from zope.component import adapts, adapter
-from zope.annotation.interfaces import IAnnotations
+
+from zope.annotation.interfaces import IAnnotations, IAnnotatable
 
 from zope.event import notify
 
@@ -32,8 +33,6 @@ from zope.app.container.contained import ContainerModifiedEvent
 
 from zope.app.container.contained import ObjectAddedEvent
 from zope.app.container.contained import ObjectRemovedEvent
-
-from zope.annotation.interfaces import IAnnotatable
 
 from BTrees.OIBTree import OIBTree
 
@@ -59,7 +58,7 @@ class Conversation(Traversable, Persistent, Explicit):
     
     implements(IConversation)
     
-    def __init__(self, id="++comments++"):
+    def __init__(self, id="++comment++"):
         self.id = id
         
         # username -> count of comments; key is removed when count reaches 0

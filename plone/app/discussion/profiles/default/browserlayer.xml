@@ -1,0 +1,6 @@
+<layers>
+    <layer
+        name="plone.app.discussion"
+        interface="plone.app.discussion.interfaces.IDiscussionLayer"
+        />
+</layers>

@@ -96,7 +96,7 @@ class ConversationTest(PloneTestCase):
         pass
 
     def test_get_comments_batched(self):
-		pass
+        pass
 
     def test_get_threads(self):
         pass

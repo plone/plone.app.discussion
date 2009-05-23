@@ -34,6 +34,13 @@ class CommentTest(PloneTestCase):
         
     def test_traversal(self):
         # make sure comments are traversable, have an id, absolute_url and physical path
+        
+        # XXX - traversal doesn't work without a name?
+        conversation = self.portal.doc1.restrictedTraverse('++comment++1')        
+        self.assert_(IConversation.providedBy(conversation))
+        
+        # TODO: Test adding comments, traversing to them
+        
         pass
     
     def test_workflow(self):

@@ -1,6 +1,0 @@
-<configure xmlns="http://namespaces.zope.org/zope">
-
-    <include
-        file="viewlets/overrides.zcml" />
-
-</configure>
