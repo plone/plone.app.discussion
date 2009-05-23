@@ -2,10 +2,15 @@
 plone.app.discussion to-do
 ==========================
 
+ [ ] Add event handlers to ensure we don't get stale comments in the catalog
+     when parent objects are removed/moved/cloned:
+    
+    - Create the conversation when an object is created
+    - Dispatch object added/removed/moved/cloned events to conversations
+    - Dispatch conversation added/removed/moved/cloned events to comments
+
  [ ] Thread building in conversation.getThreads()
  [ ] Batching in conversation.getComments()
-
- [ ] ++comments++ namespace traversal adapter
 
  [ ] Implement plone.indexer indexers for comments, filling standard metadata
     
