@@ -11,7 +11,9 @@ from AccessControl.Owned import Owned
 
 from plone.app.discussion.interfaces import IComment
 
-class Comment(Explicit, Traversable, RoleManager, Owned):
+from Products.CMFCore.DynamicType import DynamicType
+
+class Comment(DynamicType, Traversable, RoleManager, Owned, Explicit):
     """A comment.
     
     This object attempts to be as lightweight as possible. We implement a
@@ -71,5 +73,16 @@ class Comment(Explicit, Traversable, RoleManager, Owned):
         """The name of the person who wrote the comment
         """
         return self.creator
+    
+    # CMF's event handlers assume any IDynamicType has these :(
+    
+    def opaqueItems(self):
+        return []
+    
+    def opaqueIds(self):
+        return []
+    
+    def opaqueValues(self):
+        return []
 
 CommentFactory = Factory(Comment)

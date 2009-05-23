@@ -63,7 +63,13 @@ class CommentTest(PloneTestCase):
     
     def test_fti(self):
         # test that we can look up an FTI for Discussion Item
-        pass
+        
+        self.assert_("Discussion Item" in self.portal.portal_types.objectIds())
+        
+        comment1 = createObject('plone.Comment')
+        
+        fti = self.portal.portal_types.getTypeInfo(comment1)
+        self.assertEquals('Discussion Item', fti.getTypeInfo(comment1).getId())
 
 class RepliesTest(PloneTestCase):
     
