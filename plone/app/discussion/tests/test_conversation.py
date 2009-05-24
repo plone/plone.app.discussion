@@ -8,7 +8,9 @@ from Acquisition import aq_base, aq_parent
 from Products.PloneTestCase.ptc import PloneTestCase
 from plone.app.discussion.tests.layer import DiscussionLayer
 
-from plone.app.discussion.interfaces import IConversation, IComment
+from plone.app.discussion.interfaces import IConversation, IComment, IReplies
+
+from plone.app.discussion.conversation import ConversationReplies
 
 class ConversationTest(PloneTestCase):
 
@@ -325,10 +327,31 @@ class RepliesTest(PloneTestCase):
         typetool.constructContent('Document', self.portal, 'doc1')
 
     def test_add_comment(self):
-        #tisto: replies = IReplies(conversaion)
-        #<optilude> then do stuff like replies.addComment()
-        #del replies[foo]
-        pass
+        # Add comments to a ConversationReplies adapter
+
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        replies = IReplies(conversation)
+
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+
+        new_id = replies.addComment(comment)
+
+        # check that replies is a ConversationReplies object
+        self.assert_(isinstance(replies, ConversationReplies))
+
+        # check that replies provides the IReplies interface
+        self.assert_(IReplies.providedBy(replies))
+
+        # TODO: Is this correct? How do I test the ConversationReplies?
+        # replies.items() is empty!
 
     def test_delete_comment(self):
         pass
