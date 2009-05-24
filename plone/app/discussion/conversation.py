@@ -241,7 +241,7 @@ class ConversationReplies(object):
 
     def __init__(self, context):
         self.conversation = context
-        self.children = self.conversation._children.get(0, LLSet())
+        self.comment_id = 0l
 
     def addComment(self, comment):
         comment.in_reply_to = None
@@ -299,7 +299,13 @@ class ConversationReplies(object):
     def iteritems(self):
         for key in self.children:
             yield (key, self.conversation[key],)
-
+    
+    @property
+    def children(self):
+        # we need to look this up every time, because we may not have a
+        # dict yet when the adapter is first created
+        return self.conversation._children.get(self.comment_id, LLSet())
+    
 class CommentReplies(ConversationReplies):
     """An IReplies adapter for comments.
 
@@ -314,7 +320,6 @@ class CommentReplies(ConversationReplies):
 
     adapts(Comment)
 
-
     def __init__(self, context):
         self.comment = context
         self.conversation = self.comment.__parent__
@@ -323,7 +328,6 @@ class CommentReplies(ConversationReplies):
             raise TypeError("This adapter doesn't know what to do with the parent conversation")
 
         self.comment_id = self.comment.comment_id
-        self.children = self.conversation._children.get(self.comment_id, LLSet())
 
     def addComment(self, comment):
         comment.in_reply_to = self.comment_id

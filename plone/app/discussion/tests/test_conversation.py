@@ -74,7 +74,7 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(conversation.total_comments, 1)
 
         # delete the comment we just created
-        conversation.__delitem__(new_id)
+        del conversation[new_id]
 
         # make sure there is no comment left in the conversation
         self.assertEquals(len(conversation.getComments()), 0)
@@ -344,20 +344,24 @@ class RepliesTest(PloneTestCase):
 
         new_id = replies.addComment(comment)
 
-        # check that replies is a ConversationReplies object
-        self.assert_(isinstance(replies, ConversationReplies))
-
         # check that replies provides the IReplies interface
         self.assert_(IReplies.providedBy(replies))
-
-        # TODO: Is this correct? How do I test the ConversationReplies?
-        # replies.items() is empty!
+        
+        # Make sure our comment was added
+        self.failUnless(new_id in replies)
+        
+        # Make sure it is also reflected in the conversation
+        self.failUnless(new_id in conversation)
+        
+        self.assertEquals(conversation[new_id].comment_id, new_id)
 
     def test_delete_comment(self):
         pass
 
     def test_dict_api(self):
-        # ensure all operations use only top-level comments
+        # ensure all operations use only top-level comments. Add some
+        # deeper children and ensure that these are not exposed through the
+        # IReplies dict.
         pass
 
 def test_suite():
