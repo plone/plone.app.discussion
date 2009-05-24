@@ -346,23 +346,85 @@ class RepliesTest(PloneTestCase):
 
         # check that replies provides the IReplies interface
         self.assert_(IReplies.providedBy(replies))
-        
+
         # Make sure our comment was added
         self.failUnless(new_id in replies)
-        
+
         # Make sure it is also reflected in the conversation
         self.failUnless(new_id in conversation)
-        
+
         self.assertEquals(conversation[new_id].comment_id, new_id)
 
     def test_delete_comment(self):
         pass
 
     def test_dict_api(self):
-        # ensure all operations use only top-level comments. Add some
+        # Ensure all operations use only top-level comments. Add some
         # deeper children and ensure that these are not exposed through the
         # IReplies dict.
-        pass
+
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        replies = IReplies(conversation)
+
+        # Create a nested comment structure:
+        #
+        # Conversation
+        # +- Comment 1
+        #    +- Comment 1_1
+        #    |  +- Comment 1_1_1
+        #    +- Comment 1_2
+        # +- Comment 2
+        #    +- Comment 2_1
+
+        # Create all comments
+        comment1 = createObject('plone.Comment')
+        comment1.title = 'Comment 1'
+        comment1.text = 'Comment text'
+
+        comment1_1 = createObject('plone.Comment')
+        comment1_1.title = 'Re: Comment 1'
+        comment1_1.text = 'Comment text'
+
+        comment1_1_1 = createObject('plone.Comment')
+        comment1_1_1.title = 'Re: Re: Comment 1'
+        comment1_1_1.text = 'Comment text'
+
+        comment1_2 = createObject('plone.Comment')
+        comment1_2.title = 'Re: Comment 1 (2)'
+        comment1_2.text = 'Comment text'
+
+        comment2 = createObject('plone.Comment')
+        comment2.title = 'Comment 2'
+        comment2.text = 'Comment text'
+
+        comment2_1 = createObject('plone.Comment')
+        comment2_1.title = 'Re: Comment 2'
+        comment2_1.text = 'Comment text'
+
+        # Create the nested comment structure
+        new_id_1 = replies.addComment(comment1)
+        replies_to_comment1 = IReplies(comment1)
+        new_id_2 = replies.addComment(comment2)
+        replies_to_comment2 = IReplies(comment2)
+
+        new_id_1_1 = replies_to_comment1.addComment(comment1_1)
+        replies_to_comment1_1 = IReplies(comment1_1)
+        new_id_1_1_1 = replies_to_comment1_1.addComment(comment1_1_1)
+
+        new_id_1_2 = replies_to_comment1.addComment(comment1_2)
+
+        new_id_2_1 = replies_to_comment2.addComment(comment2_1)
+
+        # TODO: This isn't correct. Only the two top-level comments
+        # should be there
+        #self.assertEquals(conversation.total_comments, 2)
+        self.assertEquals(conversation.total_comments, 6)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
