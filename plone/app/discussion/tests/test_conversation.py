@@ -81,6 +81,75 @@ class ConversationTest(PloneTestCase):
         # self.assertEquals(len(conversation.getThreads()), 0)
         self.assertEquals(conversation.total_comments, 0)
 
+    def test_delete_recursive(self):
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        replies = IReplies(conversation)
+
+        # Create a nested comment structure:
+        #
+        # Conversation
+        # +- Comment 1
+        #    +- Comment 1_1
+        #    |  +- Comment 1_1_1
+        #    +- Comment 1_2
+        # +- Comment 2
+        #    +- Comment 2_1
+
+        # Create all comments
+        comment1 = createObject('plone.Comment')
+        comment1.title = 'Comment 1'
+        comment1.text = 'Comment text'
+
+        comment1_1 = createObject('plone.Comment')
+        comment1_1.title = 'Re: Comment 1'
+        comment1_1.text = 'Comment text'
+
+        comment1_1_1 = createObject('plone.Comment')
+        comment1_1_1.title = 'Re: Re: Comment 1'
+        comment1_1_1.text = 'Comment text'
+
+        comment1_2 = createObject('plone.Comment')
+        comment1_2.title = 'Re: Comment 1 (2)'
+        comment1_2.text = 'Comment text'
+
+        comment2 = createObject('plone.Comment')
+        comment2.title = 'Comment 2'
+        comment2.text = 'Comment text'
+
+        comment2_1 = createObject('plone.Comment')
+        comment2_1.title = 'Re: Comment 2'
+        comment2_1.text = 'Comment text'
+
+        # Create the nested comment structure
+        new_id_1 = conversation.addComment(comment1)
+        new_id_2 = conversation.addComment(comment2)
+        
+        comment1_1.in_reply_to = new_id_1
+        new_id_1_1 = conversation.addComment(comment1_1)
+        
+        comment1_1_1.in_reply_to = new_id_1_1
+        new_id_1_1_1 = conversation.addComment(comment1_1_1)
+        
+        comment1_2.in_reply_to = new_id_1
+        new_id_1_2 = conversation.addComment(comment1_2)
+        
+        comment2_1.in_reply_to = new_id_2
+        new_id_2_1 = conversation.addComment(comment2_1)
+        
+        del conversation[new_id_1]
+        
+        self.assertEquals(
+            [{'comment': comment2,     'depth': 0, 'id': new_id_2},
+             {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
+            ], list(conversation.getThreads()))
+        
+
     def test_dict_operations(self):
         # test dict operations and acquisition wrapping
 

@@ -196,7 +196,7 @@ class Conversation(Traversable, Persistent, Explicit):
         """
         return self._comments[long(key)].__of__(self)
 
-    def __delitem__(self, key):
+    def __delitem__(self, key, suppress_container_modified=False):
         """Delete an item by its long key
         """
 
@@ -207,16 +207,37 @@ class Conversation(Traversable, Persistent, Explicit):
 
         notify(ObjectWillBeRemovedEvent(comment, self, key))
 
+        # Remove all children
+        for child_id in self._children.get(key, []):
+            # avoid sending ContainerModifiedEvent multiple times
+            self.__delitem__(child_id, suppress_container_modified=True)
+        
+            # XXX: During the events sent from the recursive deletion, the
+            # _children data structure may be in an inconsistent state. We may
+            # need to delay sending the events until it is fixed up.
+        
+        # Remove the comment from _comments
         self._comments.pop(key)
-        notify(ObjectRemovedEvent(comment, self, key))
-
+        
+        # Remove this comment as a child of its parent
+        if not suppress_container_modified:
+            parent = comment.in_reply_to
+            if parent is not None:
+                parent_children = self._children.get(parent, None)
+                if parent_children is not None and key in parent_children:
+                    parent_children.remove(key)
+        
+        # Remove commentators
         if commentator and commentator in self._commentators:
             if self._commentators[commentator] <= 1:
                 del self._commentators[commentator]
             else:
                 self._commentators[commentator] -= 1
-
-        notify(ContainerModifiedEvent(self))
+        
+        notify(ObjectRemovedEvent(comment, self, key))
+        
+        if not suppress_container_modified:
+            notify(ContainerModifiedEvent(self))
 
     def __iter__(self):
         return iter(self._comments)
