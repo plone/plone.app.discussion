@@ -495,7 +495,33 @@ class RepliesTest(PloneTestCase):
         self.assertEquals(conversation[new_id].comment_id, new_id)
 
     def test_delete_comment(self):
-        pass
+        # Create and remove a comment and check if the replies adapter
+        # has been updated accordingly
+
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        replies = IReplies(conversation)
+
+        # Add a comment.
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+
+        new_id = replies.addComment(comment)
+
+        # make sure the comment has been added
+        self.assertEquals(len(replies), 1)
+
+        # delete the comment we just created
+        del replies[new_id]
+
+        # make sure there is no comment left in the conversation
+        self.assertEquals(len(replies), 0)
 
     def test_dict_api(self):
         # Ensure all operations use only top-level comments. Add some
