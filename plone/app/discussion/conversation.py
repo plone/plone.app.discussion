@@ -69,7 +69,7 @@ class Conversation(Traversable, Persistent, Explicit):
         # id -> comment - find comment by id
         self._comments = LOBTree()
 
-        # id -> IISet (children) - find all children for a given comment. 0 signifies root.
+        # id -> LLSet (children) - find all children for a given comment. 0 signifies root.
         self._children = LOBTree()
 
     def getId(self):
@@ -101,14 +101,44 @@ class Conversation(Traversable, Persistent, Explicit):
     def getComments(self, start=0, size=None):
         """Get unthreaded comments
         """
-        # TODO - batching
-        return self._comments.values()
+        count = 0l
+        for comment in self._comments.values(min=start):
+            yield comment
+            
+            count += 1
+            if size and count > size:
+                return
 
-    def getThreads(self, start=0, size=None, root=None, depth=None):
+    def getThreads(self, start=0, size=None, root=0, depth=None):
         """Get threaded comments
         """
-        # TODO - build threads
-        return []
+        
+        def recurse(comment_id, d=0):
+            # Yield the current comment before we look for its children
+            yield {'id': comment_id, 'comment': self._comments[comment_id], 'depth': d}
+            
+            # Recurse if there are children and we are not out of our depth
+            if depth is None or d + 1 < depth:
+                children = self._children.get(comment_id, None)
+                if children is not None:
+                    for child_id in children:
+                        for value in recurse(child_id, d+1):
+                            yield value
+        
+        # Find top level threads
+        comments = self._children.get(root, None)
+        if comments is not None:
+            count = 0l
+            for comment_id in comments.keys(min=start):
+                
+                # Abort if we have found all the threads we want
+                count += 1
+                if size and count > size:
+                    return
+                
+                # Let the closure recurse
+                for value in recurse(comment_id):
+                    yield value
 
     def addComment(self, comment):
         """Add a new comment. The parent id should have been set already. The

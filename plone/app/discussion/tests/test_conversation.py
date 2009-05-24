@@ -10,8 +10,6 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 
 from plone.app.discussion.interfaces import IConversation, IComment, IReplies
 
-from plone.app.discussion.conversation import ConversationReplies
-
 class ConversationTest(PloneTestCase):
 
     layer = DiscussionLayer
@@ -44,7 +42,7 @@ class ConversationTest(PloneTestCase):
         self.assert_(IComment.providedBy(conversation[new_id]))
         self.assertEquals(aq_base(conversation[new_id].__parent__), aq_base(conversation))
         self.assertEquals(new_id, comment.comment_id)
-        self.assertEquals(len(conversation.getComments()), 1)
+        self.assertEquals(len(list(conversation.getComments())), 1)
         # XXX: not yet implemented
         # self.assertEquals(len(conversation.getThreads()), 1)
         self.assertEquals(conversation.total_comments, 1)
@@ -68,7 +66,7 @@ class ConversationTest(PloneTestCase):
         new_id = conversation.addComment(comment)
 
         # make sure the comment has been added
-        self.assertEquals(len(conversation.getComments()), 1)
+        self.assertEquals(len(list(conversation.getComments())), 1)
         # XXX: not yet implemented
         # self.assertEquals(len(conversation.getThreads()), 1)
         self.assertEquals(conversation.total_comments, 1)
@@ -77,7 +75,7 @@ class ConversationTest(PloneTestCase):
         del conversation[new_id]
 
         # make sure there is no comment left in the conversation
-        self.assertEquals(len(conversation.getComments()), 0)
+        self.assertEquals(len(list(conversation.getComments())), 0)
 
         # XXX: not yet implemented
         # self.assertEquals(len(conversation.getThreads()), 0)
@@ -293,16 +291,88 @@ class ConversationTest(PloneTestCase):
         self.assert_(conversation.last_comment_date < datetime.now() - timedelta(days=3, hours=23, minutes=59, seconds=59))
         self.assert_(conversation.last_comment_date > datetime.now() - timedelta(days=4, seconds=1))
 
-    def test_get_comments_flat(self):
+    def test_get_comments_full(self):
         pass
 
     def test_get_comments_batched(self):
         pass
 
     def test_get_threads(self):
-        pass
+        
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        replies = IReplies(conversation)
+
+        # Create a nested comment structure:
+        #
+        # Conversation
+        # +- Comment 1
+        #    +- Comment 1_1
+        #    |  +- Comment 1_1_1
+        #    +- Comment 1_2
+        # +- Comment 2
+        #    +- Comment 2_1
+
+        # Create all comments
+        comment1 = createObject('plone.Comment')
+        comment1.title = 'Comment 1'
+        comment1.text = 'Comment text'
+
+        comment1_1 = createObject('plone.Comment')
+        comment1_1.title = 'Re: Comment 1'
+        comment1_1.text = 'Comment text'
+
+        comment1_1_1 = createObject('plone.Comment')
+        comment1_1_1.title = 'Re: Re: Comment 1'
+        comment1_1_1.text = 'Comment text'
+
+        comment1_2 = createObject('plone.Comment')
+        comment1_2.title = 'Re: Comment 1 (2)'
+        comment1_2.text = 'Comment text'
+
+        comment2 = createObject('plone.Comment')
+        comment2.title = 'Comment 2'
+        comment2.text = 'Comment text'
+
+        comment2_1 = createObject('plone.Comment')
+        comment2_1.title = 'Re: Comment 2'
+        comment2_1.text = 'Comment text'
+
+        # Create the nested comment structure
+        new_id_1 = conversation.addComment(comment1)
+        new_id_2 = conversation.addComment(comment2)
+        
+        comment1_1.in_reply_to = new_id_1
+        new_id_1_1 = conversation.addComment(comment1_1)
+        
+        comment1_1_1.in_reply_to = new_id_1_1
+        new_id_1_1_1 = conversation.addComment(comment1_1_1)
+        
+        comment1_2.in_reply_to = new_id_1
+        new_id_1_2 = conversation.addComment(comment1_2)
+        
+        comment2_1.in_reply_to = new_id_2
+        new_id_2_1 = conversation.addComment(comment2_1)
+        
+        # Get threads
+
+        self.assertEquals(
+            [{'comment': comment1,     'depth': 0, 'id': new_id_1},
+             {'comment': comment1_1,   'depth': 1, 'id': new_id_1_1},
+             {'comment': comment1_1_1, 'depth': 2, 'id': new_id_1_1_1},
+             {'comment': comment1_2,   'depth': 1, 'id': new_id_1_2},
+             {'comment': comment2,     'depth': 0, 'id': new_id_2},
+             {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
+            ], list(conversation.getThreads()))
 
     def test_get_threads_batched(self):
+        # TODO: test start, size, root and depth arguments to getThreads()
+        #   - may want to split this into multiple tests
         pass
 
     def test_traversal(self):

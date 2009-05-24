@@ -53,31 +53,42 @@ class IConversation(IIterableMapping):
         """
     
     def getComments(start=0, size=None):
-        """Return a batch of comment objects for rendering. The 'start'
-        parameter is the id of the comment from which to start the batch.
+        """Return an iterator of comment objects for rendering.
+        
+        The 'start' parameter is the id of the comment from which to start the
+        batch. If no such comment exists, the next higher id will be used.
+        This means that you can use max key from a previous batch + 1 safely.
+        
         The 'size' parameter is the number of comments to return in the
         batch.
         
-        The comments are returned in creation date order, in the exact batche
+        The comments are returned in creation date order, in the exact batch
         size specified.
         """
     
-    def getThreads(start=0, size=None, root=None, depth=None):
-        """Return a batch of comment objects for rendering. The 'start'
-        parameter is the id of the comment from which to start the batch.
-        The 'size' parameter is the number of comments to return in the
-        batch. 'root', if given, is the id of the comment to which reply
-        threads will be found. If not given, all threads are returned.
+    def getThreads(start=0, size=None, root=0, depth=None):
+        """Return a batch of comment objects for rendering.
+        
+        The 'start' parameter is the id of the comment from which to start
+        the batch. If no such comment exists, the next higher id will be used.
+        This means that you can use max key from a previous batch + 1 safely.
+        This should be a root level comment.
+        
+        The 'size' parameter is the number of threads to return in the
+        batch. Full threads are always returned (although you can stop
+        consuming the iterator if you want to abort).
+        
+        'root', if given, is the id of the comment to which reply
+        threads will be found. 'root' itself is not included. If not given,
+        all threads are returned.
+        
         If 'depth' is given, it can be used to limit the depth of threads
         returned. For example, depth=1 will return only direct replies.
         
-        Comments are returned as a recursive list of '(comment, children)', 
-        where 'children' is a similar list of (comment, children), or an empty
-        list of a comment has no direct replies.
-        
-        The returned number of comments may be bigger than the batch size,
-        in order to give enough context to show the full  lineage of the
-        starting comment.
+        Comments are returned as an iterator of dicts with keys 'comment',
+        the comment, 'id', the comment id, and 'depth', which is 0 for
+        top-level comments, 1 for their replies, and so on. The list is
+        returned in depth-first order.
         """
 
 class IReplies(IIterableMapping):
