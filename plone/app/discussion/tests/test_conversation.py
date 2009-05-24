@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from zope.component import createObject
 
-from Acquisition import aq_base
+from Acquisition import aq_base, aq_parent
 
 from Products.PloneTestCase.ptc import PloneTestCase
 from plone.app.discussion.tests.layer import DiscussionLayer
@@ -83,7 +83,66 @@ class ConversationTest(PloneTestCase):
 
     def test_dict_operations(self):
         # test dict operations and acquisition wrapping
-        pass
+
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        # Add a comment. Note: in real life, we always create comments via the factory
+        # to allow different factories to be swapped in
+
+        comment1 = createObject('plone.Comment')
+        comment1.title = 'Comment 1'
+        comment1.text = 'Comment text'
+
+        new_id1 = conversation.addComment(comment1)
+
+        comment2 = createObject('plone.Comment')
+        comment2.title = 'Comment 2'
+        comment2.text = 'Comment text'
+
+        new_id2 = conversation.addComment(comment2)
+
+        # check if get returns a comment object, and None if the key
+        # can not be found
+        self.failUnless(IComment.providedBy(conversation.get(new_id1)))
+        self.failUnless(IComment.providedBy(conversation.get(new_id2)))
+        self.assertEquals(conversation.get(123), None)
+
+        # check if keys return the ids of all comments
+        self.assertEquals(len(conversation.keys()), 2)
+        self.failUnless(new_id1 in conversation.keys())
+        self.failUnless(new_id2 in conversation.keys())
+        self.failIf(123 in conversation.keys())
+
+        # check if items returns (key, comment object) pairs
+        self.assertEquals(len(conversation.items()), 2)
+        self.failUnless((new_id1, comment1) in conversation.items())
+        self.failUnless((new_id2, comment2) in conversation.items())
+
+        # check if values returns the two comment objects
+        self.assertEquals(len(conversation.values()), 2)
+        self.failUnless(comment1 in conversation.values())
+        self.failUnless(comment2 in conversation.values())
+
+        # check if comment ids are in iterkeys
+        self.failUnless(new_id1 in conversation.iterkeys())
+        self.failUnless(new_id2 in conversation.iterkeys())
+        self.failIf(123 in conversation.iterkeys())
+
+        # check if comment objects are in itervalues
+        self.failUnless(comment1 in conversation.itervalues())
+        self.failUnless(comment2 in conversation.itervalues())
+
+        # check if iteritems returns (key, comment object) pairs
+        self.failUnless((new_id1, comment1) in conversation.iteritems())
+        self.failUnless((new_id2, comment2) in conversation.iteritems())
+
+        # TODO test acquisition wrapping
+        #self.failUnless(aq_base(aq_parent(comment1)) is conversation)
 
     def test_total_comments(self):
         # Create a conversation. In this case we doesn't assign it to an
@@ -266,6 +325,9 @@ class RepliesTest(PloneTestCase):
         typetool.constructContent('Document', self.portal, 'doc1')
 
     def test_add_comment(self):
+        #tisto: replies = IReplies(conversaion)
+        #<optilude> then do stuff like replies.addComment()
+        #del replies[foo]
         pass
 
     def test_delete_comment(self):
