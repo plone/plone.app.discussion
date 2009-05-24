@@ -421,10 +421,13 @@ class RepliesTest(PloneTestCase):
 
         new_id_2_1 = replies_to_comment2.addComment(comment2_1)
 
-        # TODO: This isn't correct. Only the two top-level comments
-        # should be there
+        # check that replies only contain the direct comments
+        # and no comments deeper than 1
         self.assertEquals(conversation.total_comments, 6)
         self.assertEquals(len(replies), 2)
+        self.assertEquals(len(replies_to_comment1), 2)
+        self.assertEquals(len(replies_to_comment1_1), 1)
+        self.assertEquals(len(replies_to_comment2), 1)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
