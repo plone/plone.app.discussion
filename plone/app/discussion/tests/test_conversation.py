@@ -423,8 +423,8 @@ class RepliesTest(PloneTestCase):
 
         # TODO: This isn't correct. Only the two top-level comments
         # should be there
-        #self.assertEquals(conversation.total_comments, 2)
         self.assertEquals(conversation.total_comments, 6)
+        self.assertEquals(len(replies), 2)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
