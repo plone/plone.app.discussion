@@ -8,6 +8,11 @@ plone.app.discussion to-do
     - Create the conversation when an object is created
     - Dispatch object added/removed/moved/cloned events to conversations
     - Dispatch conversation added/removed/moved/cloned events to comments
+    
+ [ ] During recursive deletion of child comments, events are fired when the
+     conversation data structures may be in an inconsistent state. We need
+     some tests for this, and possibly some different handling of those
+     events.
 
  [ ] Thread building in conversation.getThreads()
  [ ] Batching in conversation.getComments()
