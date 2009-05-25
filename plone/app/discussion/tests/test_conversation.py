@@ -129,26 +129,26 @@ class ConversationTest(PloneTestCase):
         # Create the nested comment structure
         new_id_1 = conversation.addComment(comment1)
         new_id_2 = conversation.addComment(comment2)
-        
+
         comment1_1.in_reply_to = new_id_1
         new_id_1_1 = conversation.addComment(comment1_1)
-        
+
         comment1_1_1.in_reply_to = new_id_1_1
         new_id_1_1_1 = conversation.addComment(comment1_1_1)
-        
+
         comment1_2.in_reply_to = new_id_1
         new_id_1_2 = conversation.addComment(comment1_2)
-        
+
         comment2_1.in_reply_to = new_id_2
         new_id_2_1 = conversation.addComment(comment2_1)
-        
+
         del conversation[new_id_1]
-        
+
         self.assertEquals(
             [{'comment': comment2,     'depth': 0, 'id': new_id_2},
              {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
             ], list(conversation.getThreads()))
-        
+
 
     def test_dict_operations(self):
         # test dict operations and acquisition wrapping
@@ -367,7 +367,7 @@ class ConversationTest(PloneTestCase):
         pass
 
     def test_get_threads(self):
-        
+
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
@@ -415,19 +415,19 @@ class ConversationTest(PloneTestCase):
         # Create the nested comment structure
         new_id_1 = conversation.addComment(comment1)
         new_id_2 = conversation.addComment(comment2)
-        
+
         comment1_1.in_reply_to = new_id_1
         new_id_1_1 = conversation.addComment(comment1_1)
-        
+
         comment1_1_1.in_reply_to = new_id_1_1
         new_id_1_1_1 = conversation.addComment(comment1_1_1)
-        
+
         comment1_2.in_reply_to = new_id_1
         new_id_1_2 = conversation.addComment(comment1_2)
-        
+
         comment2_1.in_reply_to = new_id_2
         new_id_2_1 = conversation.addComment(comment2_1)
-        
+
         # Get threads
 
         self.assertEquals(
@@ -524,6 +524,9 @@ class RepliesTest(PloneTestCase):
         self.assertEquals(len(replies), 0)
 
     def test_dict_api(self):
+        # This test is for the ConversationReplies as well as the
+        # CommentReplies adapter.
+        #
         # Ensure all operations use only top-level comments. Add some
         # deeper children and ensure that these are not exposed through the
         # IReplies dict.

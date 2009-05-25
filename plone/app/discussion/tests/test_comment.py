@@ -173,9 +173,5 @@ class RepliesTest(PloneTestCase):
         # Make sure the first comment is still in the conversation
         self.assertEquals(conversation.total_comments, 1)
 
-    def test_dict_api(self):
-        # ensure all operations use only top-level comments
-        pass
-
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
