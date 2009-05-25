@@ -2,6 +2,42 @@
                    replies view/replies | nothing;"
            i18n:domain="plone">
 
+    <div class="discussion">
+        <tal:getreplies repeat="reply_dict replies">
+
+            <div class="comment"
+                 tal:define="reply python:reply_dict[1]">
+
+                <h3>
+                    <a name="comments" tal:attributes="name reply/title">
+                    <span tal:replace="reply/title">Comment title</span>
+                    </a>
+                </h3>
+
+                <!--<div class="documentByLine"
+                     tal:define="creator reply/Creator;
+                                 anonymous_creator python:creator in ('Anonymous User', '');
+                                 mi python:not anonymous_creator and view.member_info(creator);
+                                 fullname python: mi and mi['fullname'] or creator;" >
+                        <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
+                        <tal:name content="fullname"
+                                  condition="not:anonymous_creator">Poster Name</tal:name>
+                        <tal:name i18n:translate="label_anonymous_user"
+                                  condition="anonymous_creator">Anonymous User</tal:name>
+                        <tal:at i18n:translate="label_commented_at">at</tal:at>
+                    <span tal:replace="python:view.format_time(reply.ModificationDate())">8/23/2001 12:40:44 PM</span>
+                </div>-->
+
+                <div class="commentBody"
+                     tal:content="structure reply/text">
+                     This is the body text of the comment.
+                </div>
+
+            </div>
+
+        </tal:getreplies>
+    </div>
+
     <div class="reply">
         <fieldset>
 
@@ -70,42 +106,6 @@
 
             </form>
         </fieldset>
-    </div>
-
-    <div class="discussion">
-        <tal:getreplies repeat="reply_dict replies">
-
-            <div class="comment"
-                 tal:define="reply python:reply_dict[1]">
-
-                <h3>
-                    <a name="comments" tal:attributes="name reply/title">
-                    <span tal:replace="reply/title">Comment title</span>
-                    </a>
-                </h3>
-
-                <!--<div class="documentByLine"
-                     tal:define="creator reply/Creator;
-                                 anonymous_creator python:creator in ('Anonymous User', '');
-                                 mi python:not anonymous_creator and view.member_info(creator);
-                                 fullname python: mi and mi['fullname'] or creator;" >
-                        <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
-                        <tal:name content="fullname"
-                                  condition="not:anonymous_creator">Poster Name</tal:name>
-                        <tal:name i18n:translate="label_anonymous_user"
-                                  condition="anonymous_creator">Anonymous User</tal:name>
-                        <tal:at i18n:translate="label_commented_at">at</tal:at>
-                    <span tal:replace="python:view.format_time(reply.ModificationDate())">8/23/2001 12:40:44 PM</span>
-                </div>-->
-
-                <div class="commentBody"
-                     tal:content="structure reply/text">
-                     This is the body text of the comment.
-                </div>
-
-            </div>
-
-        </tal:getreplies>
     </div>
 
 </tal:block>
