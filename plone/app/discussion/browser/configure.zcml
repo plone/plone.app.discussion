@@ -2,7 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="plone.app.discussion">
-    
+
     <!-- Traversal adapter -->
     <adapter factory=".traversal.ConversationNamespace" name="conversation" />
 
@@ -15,6 +15,15 @@
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
         template="comments.pt"
         class=".comments.CommentsViewlet"
+        permission="zope2.View"
+        />
+
+    <!-- add-comment view -->
+    <browser:view
+        name="add-comment"
+        for="plone.app.discussion.interfaces.IConversation"
+        layer="..interfaces.IDiscussionLayer"
+        class=".comments.AddComment"
         permission="zope2.View"
         />
 

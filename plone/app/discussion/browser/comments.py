@@ -1,70 +1,63 @@
-from urllib import quote as url_quote
+from zope.interface import implements
+from zope.component import getMultiAdapter
+from zope.viewlet.interfaces import IViewlet
 
-from Acquisition import aq_inner, aq_parent
-from AccessControl import getSecurityManager
+from Acquisition import aq_inner
+from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
-from Products.CMFDefault.DiscussionTool import DiscussionNotAllowed
 
-from plone.app.layout.viewlets.common import ViewletBase
+from plone.app.discussion.interfaces import IComment
 
+from plone.app.discussion.conversation import conversationAdapterFactory
 
-class CommentsViewlet(ViewletBase):
-    index = ViewPageTemplateFile('comments.pt')
+from plone.app.discussion.comment import CommentFactory
+
+from zope.component import createObject
+
+class CommentsViewlet(BrowserView):
+    """Discussion Viewlet
+    """
+
+    implements(IViewlet)
+
+    template = ViewPageTemplateFile('comments.pt')
+
+    def __init__(self, context, request, view, manager):
+        super(CommentsViewlet, self).__init__(context, request)
+        self.__parent__ = view
+        self.view = view
+        self.manager = manager
+        self.portal_state = getMultiAdapter((context, self.request), name=u"plone_portal_state")
 
     def update(self):
-        super(CommentsViewlet, self).update()
-        self.portal_discussion = getToolByName(self.context, 'portal_discussion', None)
-        self.portal_membership = getToolByName(self.context, 'portal_membership', None)
+        pass
 
-    def can_reply(self):
-        return getSecurityManager().checkPermission('Reply to item', aq_inner(self.context))
+    def replies(self):
+        conversation = conversationAdapterFactory(self.context)
+        return conversation.items()
 
-    def is_discussion_allowed(self):
-        if self.portal_discussion is None:
-            return False
-        else:
-            return self.portal_discussion.isDiscussionAllowedFor(aq_inner(self.context))
+class AddComment(BrowserView):
+    """Add a comment to a conversation
+    """
 
-    def get_replies(self):
-        replies = []
+    def __call__(self):
 
-        context = aq_inner(self.context)
-        container = aq_parent(context)
-        pd = self.portal_discussion
+        if self.request.has_key('form.button.AddComment'):
 
-        def getRs(obj, replies, counter):
-            rs = pd.getDiscussionFor(obj).getReplies()
-            if len(rs) > 0:
-                rs.sort(lambda x, y: cmp(x.modified(), y.modified()))
-                for r in rs:
-                    replies.append({'depth':counter, 'object':r})
-                    getRs(r, replies, counter=counter + 1)
+            subject = self.request.get('subject')
+            text = self.request.get('body_text')
 
-        try:
-            getRs(context, replies, 0)
-        except DiscussionNotAllowed:
-            # We tried to get discussions for an object that has not only
-            # discussions turned off but also no discussion container.
-            return []
-        return replies
+            # The add-comment view is called on the conversation object
+            conversation = self.context
 
-    def is_anonymous(self):
-        return self.portal_state.anonymous()
+            # Create the comment
+            comment = CommentFactory()
+            comment.title = subject
+            comment.text = text
 
-    def login_action(self):
-        return '%s/login_form?came_from=%s' % (self.navigation_root_url, url_quote(self.request.get('URL', '')),)
+            # Add comment to the conversation
+            conversation.addComment(comment)
 
-    def can_manage(self):
-        return getSecurityManager().checkPermission('Manage portal', aq_inner(self.context))
-
-    def member_info(self, creator):
-        if self.portal_membership is None:
-            return None
-        else:
-            return self.portal_membership.getMemberInfo(creator)
-
-    def format_time(self, time):
-        context = aq_inner(self.context)
-        util = getToolByName(context, 'translation_service')
-        return util.ulocalized_time(time, 1, context, domain='plonelocales')
+            # TODO: Redirect to the document object page
+            # conversation.__parent__ is not working?!
+            #self.request.response.redirect(aq_inner(self.context).absolute_url())
