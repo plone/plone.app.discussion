@@ -3,6 +3,7 @@
            i18n:domain="plone">
 
     <div class="discussion">
+
         <tal:getreplies repeat="reply_dict replies">
 
             <div class="comment"
@@ -30,6 +31,12 @@
                      tal:content="structure reply/text">
                      This is the body text of the comment.
                 </div>
+
+                <a href="#" class="reply-to-comment-button" title="reply to this comment"
+                   tal:attributes="onclick string:createReplyToCommentForm(${reply/id});
+                                   id string:reply-to-comment-${reply/id}-button">
+                    <img src="++resource++plone.app.discussion.images/reply.gif" />
+                </a>
 
             </div>
 

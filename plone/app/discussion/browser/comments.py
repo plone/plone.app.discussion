@@ -8,8 +8,7 @@ from Acquisition import aq_inner, aq_parent
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from plone.app.discussion.interfaces import IComment
-
+from plone.app.discussion.interfaces import IComment, IReplies
 from plone.app.discussion.conversation import conversationAdapterFactory
 
 from plone.app.discussion.comment import CommentFactory
@@ -65,6 +64,37 @@ class AddComment(BrowserView):
 
             # Add comment to the conversation
             conversation.addComment(comment)
+
+            # Redirect to the document object page
+            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+
+class ReplyToComment(BrowserView):
+    """Reply to a comment
+    """
+
+    def __call__(self):
+
+        if self.request.has_key('form.button.AddComment'):
+
+            reply_to_comment_id = self.request.get('form.reply_to_comment_id')
+            subject = self.request.get('subject')
+            text = self.request.get('body_text')
+
+            # The add-comment view is called on the conversation object
+            conversation = self.context
+
+            # Fetch the comment we want to reply to
+            comment_to_reply_to = conversation.get(reply_to_comment_id)
+
+            replies = IReplies(comment_to_reply_to)
+
+            # Create the comment
+            comment = CommentFactory()
+            comment.title = subject
+            comment.text = text
+
+            # Add the reply to the comment
+            new_re_id = replies.addComment(comment)
 
             # TODO: Redirect to the document object page
             self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())

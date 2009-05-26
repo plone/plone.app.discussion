@@ -27,4 +27,27 @@
         permission="zope2.View"
         />
 
+    <!-- reply-to-comment view -->
+    <browser:view
+        name="reply-to-comment"
+        for="plone.app.discussion.interfaces.IConversation"
+        layer="..interfaces.IDiscussionLayer"
+        class=".comments.ReplyToComment"
+        permission="zope2.View"
+        />
+
+	<!-- Resource directory for javascripts -->
+	<browser:resourceDirectory
+		name="plone.app.discussion.javascripts"
+		directory="javascripts"
+        layer="..interfaces.IDiscussionLayer"
+        />
+
+    <!-- Resource directory for images -->
+    <browser:resourceDirectory
+        name="plone.app.discussion.images"
+        directory="images"
+        layer="..interfaces.IDiscussionLayer"
+        />
+
 </configure>
