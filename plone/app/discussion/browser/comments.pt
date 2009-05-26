@@ -14,19 +14,17 @@
                     </a>
                 </h3>
 
-                <!--<div class="documentByLine"
+                <div class="documentByLine"
                      tal:define="creator reply/Creator;
-                                 anonymous_creator python:creator in ('Anonymous User', '');
-                                 mi python:not anonymous_creator and view.member_info(creator);
-                                 fullname python: mi and mi['fullname'] or creator;" >
+                                 anonymous_creator python:creator in ('Anonymous User', '');">
                         <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
-                        <tal:name content="fullname"
+                        <tal:name content="creator"
                                   condition="not:anonymous_creator">Poster Name</tal:name>
                         <tal:name i18n:translate="label_anonymous_user"
                                   condition="anonymous_creator">Anonymous User</tal:name>
                         <tal:at i18n:translate="label_commented_at">at</tal:at>
-                    <span tal:replace="python:view.format_time(reply.ModificationDate())">8/23/2001 12:40:44 PM</span>
-                </div>-->
+                    <span tal:replace="python:view.format_time(reply.modification_date)">8/23/2001 12:40:44 PM</span>
+                </div>
 
                 <div class="commentBody"
                      tal:content="structure reply/text">
