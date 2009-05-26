@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.viewlet.interfaces import IViewlet
@@ -35,6 +37,12 @@ class CommentsViewlet(BrowserView):
     def replies(self):
         conversation = conversationAdapterFactory(self.context)
         return conversation.items()
+
+    def format_time(self, time):
+        # TODO: to localized time not working!!!
+        #util = getToolByName(self.context, 'translation_service')
+        #return util.ulocalized_time(time, 1, self.context, domain='plonelocales')
+        return time
 
 class AddComment(BrowserView):
     """Add a comment to a conversation
