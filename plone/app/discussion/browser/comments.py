@@ -2,7 +2,7 @@ from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.viewlet.interfaces import IViewlet
 
-from Acquisition import aq_inner
+from Acquisition import aq_inner, aq_parent
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -59,5 +59,4 @@ class AddComment(BrowserView):
             conversation.addComment(comment)
 
             # TODO: Redirect to the document object page
-            # conversation.__parent__ is not working?!
-            #self.request.response.redirect(aq_inner(self.context).absolute_url())
+            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
