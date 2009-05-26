@@ -96,5 +96,5 @@ class ReplyToComment(BrowserView):
             # Add the reply to the comment
             new_re_id = replies.addComment(comment)
 
-            # TODO: Redirect to the document object page
+            # Redirect to the document object page
             self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
