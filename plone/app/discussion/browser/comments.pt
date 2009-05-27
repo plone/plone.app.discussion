@@ -9,7 +9,8 @@
                  tal:define="reply reply_dict/comment;
                              depth reply_dict/depth|python:0;"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth);
-                                 style string:margin-left: ${depth}em;">
+                                 style string:margin-left: ${depth}em;
+                                 id string:comment-${reply/id}">
 
                 <h3>
                     <a name="comments" tal:attributes="name reply/title">
@@ -36,7 +37,8 @@
 
                 <a href="#" class="reply-to-comment-button" title="reply to this comment"
                    tal:attributes="onclick string:createReplyToCommentForm(${reply/id});
-                                   id string:reply-to-comment-${reply/id}-button">
+                                   id string:reply-to-comment-${reply/id}-button;
+                                   href string:#comment-${reply/id}">
                     <img src="++resource++plone.app.discussion.images/reply.gif" />
                 </a>
 
