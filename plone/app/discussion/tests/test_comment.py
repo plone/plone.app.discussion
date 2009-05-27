@@ -2,6 +2,8 @@ import unittest
 
 from zope.component import createObject
 
+from zope.component import getMultiAdapter
+
 from Products.PloneTestCase.ptc import PloneTestCase
 from plone.app.discussion.tests.layer import DiscussionLayer
 
@@ -83,6 +85,32 @@ class CommentTest(PloneTestCase):
 
         fti = self.portal.portal_types.getTypeInfo(comment1)
         self.assertEquals('Discussion Item', fti.getTypeInfo(comment1).getId())
+
+    def test_view(self):
+        # make sure that the comment view is there and redirects to the right URL
+
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        # Create a comment
+        comment1 = createObject('plone.Comment')
+        comment1.title = 'Comment 1'
+        comment1.text = 'Comment text'
+
+        # Add comment to the conversation
+        new_comment1_id = conversation.addComment(comment1)
+
+        comment = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_comment1_id)
+
+        # make sure the view is there
+        self.failUnless(getMultiAdapter((comment, self.app.REQUEST), name='view'))
+
+        # TODO: is this correct? Redirect ist 301
+        self.assertEquals(200, self.app.REQUEST.response.getStatus())
 
 class RepliesTest(PloneTestCase):
 
