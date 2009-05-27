@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="discussion-examplecontent-various" version="20090525-01"
+              handler="discussion.examplecontent.setuphandlers.importVarious"
+              title="Example content to test and develop plone.app.discussion">
+  plone.app.discussion example content </import-step>
+</import-steps>
