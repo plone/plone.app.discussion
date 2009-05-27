@@ -15,6 +15,16 @@ from plone.app.discussion.comment import CommentFactory
 
 from zope.component import createObject
 
+class View(BrowserView):
+    """Comment View
+    """
+
+    def __call__(self):
+        # Redirect from /path/to/object/++conversation++default/123456789
+        # to /path/to/object#comment-123456789
+        comment_id = aq_parent(self).id
+        self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#comment-' + comment_id)
+
 class CommentsViewlet(BrowserView):
     """Discussion Viewlet
     """

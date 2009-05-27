@@ -18,7 +18,16 @@
         permission="zope2.View"
         />
 
-    <!-- add-comment view -->
+    <!-- Comment view -->
+    <browser:view
+        name="view"
+        for="plone.app.discussion.interfaces.IComment"
+        layer="..interfaces.IDiscussionLayer"
+        class=".comments.View"
+        permission="zope2.View"
+        />
+
+    <!-- Add comment view -->
     <browser:view
         name="add-comment"
         for="plone.app.discussion.interfaces.IConversation"
@@ -27,7 +36,7 @@
         permission="zope2.View"
         />
 
-    <!-- reply-to-comment view -->
+    <!-- Reply to comment view -->
     <browser:view
         name="reply-to-comment"
         for="plone.app.discussion.interfaces.IConversation"
