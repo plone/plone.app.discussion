@@ -50,4 +50,11 @@
         layer="..interfaces.IDiscussionLayer"
         />
 
+    <!-- Resource directory for stylesheets -->
+    <browser:resourceDirectory
+        name="plone.app.discussion.stylesheets"
+        directory="stylesheets"
+        layer="..interfaces.IDiscussionLayer"
+        />
+
 </configure>
