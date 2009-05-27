@@ -3,11 +3,13 @@
            i18n:domain="plone">
 
     <div class="discussion">
-
-        <tal:getreplies repeat="reply_dict replies">
+        <tal:getreplies repeat="reply_dict view/replies">
 
             <div class="comment"
-                 tal:define="reply python:reply_dict[1]">
+                 tal:define="reply reply_dict/comment;
+                             depth reply_dict/depth|python:0;"
+                 tal:attributes="class python:'comment replyTreeLevel'+str(depth);
+                                 style string:margin-left: ${depth}em;">
 
                 <h3>
                     <a name="comments" tal:attributes="name reply/title">

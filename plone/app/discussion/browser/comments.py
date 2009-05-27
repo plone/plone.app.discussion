@@ -34,8 +34,9 @@ class CommentsViewlet(BrowserView):
         pass
 
     def replies(self):
+        # Return all direct replies
         conversation = conversationAdapterFactory(self.context)
-        return conversation.items()
+        return conversation.getThreads()
 
     def format_time(self, time):
         # TODO: to localized time not working!!!
