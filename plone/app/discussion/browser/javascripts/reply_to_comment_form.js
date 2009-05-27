@@ -1,3 +1,12 @@
+ jq(document).ready(function() {
+   /*
+    * Show the reply-to-comment button only when Javascript is enabled.
+    * Otherwise hide it, since the reply functions rely on jQuery.
+    */
+	jq(".reply-to-comment-button").css("display" , "block")
+ });
+
+
 function createReplyToCommentForm(comment_id) {
     /*
      * This function creates a form to reply to a specific comment with
@@ -23,10 +32,10 @@ function createReplyToCommentForm(comment_id) {
     /* Fetch the reply form inside the reply div */
 	reply_form = reply_div.find("form");
 
-    /* add a hidden field with the id of the comment */
+    /* Add a hidden field with the id of the comment */
     reply_form.append("<input type=\"hidden\" value=\"" + comment_id + "\" name=\"form.reply_to_comment_id\"");
 
-    /* Change the form action @@reply-to-comment */
+    /* Change the form action to @@reply-to-comment */
 	old_action = reply_form.attr("action");
 	new_action = old_action.replace("@@add-comment",  "@@reply-to-comment");
 	reply_form.attr("action", new_action);

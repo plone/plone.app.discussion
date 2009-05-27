@@ -1,4 +1,13 @@
+/* plone.app.discussion stylesheet */
+
 .reply-to-comment-button {
 	float: right;
 	margin-top: -2.5em;
+}
+
+.reply-to-comment-button {
+   /* Hide the reply-to-comment button and show it only if Javascript is enabled.
+    * Since the reply functions rely on jQuery.
+    */
+	display: none;
 }
