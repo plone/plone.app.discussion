@@ -5,6 +5,18 @@
                    errors options/state/getErrors|nothing;"
            i18n:domain="plone">
 
+    <div class="reply"
+         tal:condition="isAnon">
+        <form tal:attributes="action view/login_action">
+            <input class="standalone"
+                   style="margin-bottom: 1.25em;"
+                   type="submit"
+                   value="Log in to add comments"
+                   i18n:attributes="value label_login_to_add_comments;"
+                   />
+        </form>
+    </div>
+
     <div class="discussion"
          tal:condition="python:replies or (userHasReplyPermission and isDiscussionAllowed) or (isAnon and not userHasReplyPermission and isDiscussionAllowed)">
         <tal:getreplies repeat="reply_dict replies">
@@ -73,7 +85,21 @@
         </tal:getreplies>
     </div>
 
-    <div class="reply">
+    <div class="reply"
+         tal:condition="isAnon">
+        <form tal:attributes="action view/login_action">
+            <input class="standalone"
+                   style="margin-bottom: 1.25em;"
+                   type="submit"
+                   value="Log in to add comments"
+                   i18n:attributes="value label_login_to_add_comments;"
+                   />
+        </form>
+    </div>
+
+    <div class="reply"
+         tal:condition="not:isAnon">
+
         <fieldset>
 
             <legend i18n:translate="legend_add_comment">Add comment</legend>

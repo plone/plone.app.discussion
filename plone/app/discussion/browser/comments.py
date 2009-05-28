@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from urllib import quote as url_quote
+
 from zope.interface import implements
 
 from zope.component import createObject
@@ -15,6 +17,8 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
+
+from plone.app.layout.viewlets.common import ViewletBase
 
 from plone.app.discussion.interfaces import IComment, IReplies
 from plone.app.discussion.conversation import conversationAdapterFactory
@@ -32,20 +36,13 @@ class View(BrowserView):
         comment_id = aq_parent(self).id
         self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#comment-' + comment_id)
 
-class CommentsViewlet(BrowserView):
+class CommentsViewlet(ViewletBase):
     """Discussion Viewlet
     """
 
     implements(IViewlet)
 
     template = ViewPageTemplateFile('comments.pt')
-
-    def __init__(self, context, request, view, manager):
-        super(CommentsViewlet, self).__init__(context, request)
-        self.__parent__ = view
-        self.view = view
-        self.manager = manager
-        self.portal_state = getMultiAdapter((context, self.request), name=u"plone_portal_state")
 
     def update(self):
         super(CommentsViewlet, self).update()
@@ -69,6 +66,8 @@ class CommentsViewlet(BrowserView):
     def is_anonymous(self):
         return self.portal_state.anonymous()
 
+    def login_action(self):
+        return '%s/login_form?came_from=%s' % (self.navigation_root_url, url_quote(self.request.get('URL', '')),)
 
     def format_time(self, time):
         # TODO: to localized time not working!!!
