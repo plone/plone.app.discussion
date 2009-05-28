@@ -1,19 +1,24 @@
 from datetime import datetime
 
 from zope.interface import implements
+
+from zope.component import createObject
 from zope.component import getMultiAdapter
+
 from zope.viewlet.interfaces import IViewlet
 
 from Acquisition import aq_inner, aq_parent
+
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+from Products.CMFCore.utils import getToolByName
 
 from plone.app.discussion.interfaces import IComment, IReplies
 from plone.app.discussion.conversation import conversationAdapterFactory
 
 from plone.app.discussion.comment import CommentFactory
 
-from zope.component import createObject
 
 class View(BrowserView):
     """Comment View
@@ -73,10 +78,23 @@ class AddComment(BrowserView):
             comment.title = subject
             comment.text = text
 
-            # Add comment to the conversation
-            conversation.addComment(comment)
+            portal_membership = getToolByName(self.context, 'portal_membership')
 
-            # Redirect to the document object page
+            if portal_membership.isAnonymousUser():
+                # TODO: Not implemented yet
+                pass
+            else:
+                member = portal_membership.getAuthenticatedMember()
+                comment.creator = member.getProperty('fullname')
+                comment.author_username = member.getUserName()
+                comment.author_name = member.getProperty('fullname')
+                comment.author_email = member.getProperty('email')
+                comment.creation_date = comment.modification_date = datetime.now()
+
+            # Add comment to the conversation
+            comment_id = conversation.addComment(comment)
+
+            # Redirect to the comment
             self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
 
 class ReplyToComment(BrowserView):

@@ -7,10 +7,22 @@
 
             <div class="comment"
                  tal:define="reply reply_dict/comment;
-                             depth reply_dict/depth|python:0;"
+                             depth reply_dict/depth|python:0;
+                             creator reply/Creator;
+                             author_home_url string:${context/portal_url}/author/${reply/author_username};
+                             anonymous_creator python:creator in ('Anonymous User', '');"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth);
                                  style string:margin-left: ${depth}em;
                                  id string:comment-${reply/id}">
+
+
+                <tal:authorimage tal:condition="not:anonymous_creator">
+                    <a href="" tal:attributes="href author_home_url">
+                        <img src="" alt=""
+                             tal:attributes="src string:${context/portal_url}/portal_memberdata/portraits/${reply/author_username};
+                                             alt reply/creator" />
+                    </a>
+                </tal:authorimage>
 
                 <h3>
                     <a name="comments" tal:attributes="name reply/title">
@@ -18,12 +30,15 @@
                     </a>
                 </h3>
 
-                <div class="documentByLine"
-                     tal:define="creator reply/Creator;
-                                 anonymous_creator python:creator in ('Anonymous User', '');">
+                <div class="documentByLine">
                         <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
-                        <tal:name content="creator"
-                                  condition="not:anonymous_creator">Poster Name</tal:name>
+                        <tal:name condition="not:anonymous_creator">
+                            <a href=""
+                               tal:content="creator"
+                               tal:attributes="href author_home_url">
+                                Poster Name
+                            </a>
+                        </tal:name>
                         <tal:name i18n:translate="label_anonymous_user"
                                   condition="anonymous_creator">Anonymous User</tal:name>
                         <tal:at i18n:translate="label_commented_at">at</tal:at>
