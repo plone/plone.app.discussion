@@ -146,4 +146,4 @@ class ReplyToComment(BrowserView):
             new_re_id = replies.addComment(comment)
 
             # Redirect to comment (inside a content object page)
-            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#comment-' + str(comment_id))
+            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#comment-' + str(reply_to_comment_id))
