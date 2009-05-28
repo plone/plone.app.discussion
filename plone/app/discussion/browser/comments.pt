@@ -19,14 +19,13 @@
                                  style string:margin-left: ${depth}em;
                                  id string:comment-${reply/id}">
 
-
-                <tal:authorimage tal:condition="not:anonymous_creator">
+                <div class="commentImage" tal:condition="not:anonymous_creator">
                     <a href="" tal:attributes="href author_home_url">
                         <img src="" alt=""
                              tal:attributes="src string:${context/portal_url}/portal_memberdata/portraits/${reply/author_username};
                                              alt reply/creator" />
                     </a>
-                </tal:authorimage>
+                </div>
 
                 <h3>
                     <a name="comments" tal:attributes="name reply/title">

@@ -1,5 +1,19 @@
 /* plone.app.discussion stylesheet */
 
+
+/* Comments Viewlet
+   ---------------------------------------------------------------- */
+
+.commentImage {
+}
+
+.commentImage img {
+	width: 50px;
+}
+
+/* Forms
+   ---------------------------------------------------------------- */
+
 .reply-to-comment-button {
 	float: right;
 	margin-top: -2.5em;
