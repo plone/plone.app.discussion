@@ -20,11 +20,16 @@
                                  id string:comment-${reply/id}">
 
                 <div class="commentImage" tal:condition="not:anonymous_creator">
-                    <a href="" tal:attributes="href author_home_url">
+                    <a href="" tal:condition="not:isAnon"
+                               tal:attributes="href author_home_url">
                         <img src="" alt=""
                              tal:attributes="src string:${context/portal_url}/portal_memberdata/portraits/${reply/author_username};
                                              alt reply/creator" />
                     </a>
+                    <img src="" alt=""
+                         tal:condition="isAnon"
+                         tal:attributes="src string:${context/portal_url}/portal_memberdata/portraits/${reply/author_username};
+                                         alt reply/creator" />
                 </div>
 
                 <h3>
@@ -37,10 +42,13 @@
                         <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
                         <tal:name condition="not:anonymous_creator">
                             <a href=""
+                               tal:condition="not:isAnon"
                                tal:content="creator"
                                tal:attributes="href author_home_url">
                                 Poster Name
                             </a>
+                            <span tal:condition="isAnon"
+                                  tal:replace="creator" />
                         </tal:name>
                         <tal:name i18n:translate="label_anonymous_user"
                                   condition="anonymous_creator">Anonymous User</tal:name>
