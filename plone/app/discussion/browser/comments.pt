@@ -1,9 +1,13 @@
-<tal:block define="errors options/state/getErrors|nothing;
-                   replies view/replies | nothing;"
+<tal:block define="userHasReplyPermission view/can_reply;
+                   isDiscussionAllowed view/is_discussion_allowed;
+                   replies view/get_replies;
+                   isAnon view/is_anonymous;
+                   errors options/state/getErrors|nothing;"
            i18n:domain="plone">
 
-    <div class="discussion">
-        <tal:getreplies repeat="reply_dict view/replies">
+    <div class="discussion"
+         tal:condition="python:replies or (userHasReplyPermission and isDiscussionAllowed) or (isAnon and not userHasReplyPermission and isDiscussionAllowed)">
+        <tal:getreplies repeat="reply_dict replies">
 
             <div class="comment"
                  tal:define="reply reply_dict/comment;

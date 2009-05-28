@@ -9,6 +9,8 @@ from zope.viewlet.interfaces import IViewlet
 
 from Acquisition import aq_inner, aq_parent
 
+from AccessControl import getSecurityManager
+
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -46,12 +48,27 @@ class CommentsViewlet(BrowserView):
         self.portal_state = getMultiAdapter((context, self.request), name=u"plone_portal_state")
 
     def update(self):
-        pass
+        super(CommentsViewlet, self).update()
+        self.portal_discussion = getToolByName(self.context, 'portal_discussion', None)
+        self.portal_membership = getToolByName(self.context, 'portal_membership', None)
 
-    def replies(self):
+    def can_reply(self):
+        return getSecurityManager().checkPermission('Reply to item', aq_inner(self.context))
+
+    def is_discussion_allowed(self):
+        if self.portal_discussion is None:
+            return False
+        else:
+            return self.portal_discussion.isDiscussionAllowedFor(aq_inner(self.context))
+
+    def get_replies(self):
         # Return all direct replies
         conversation = conversationAdapterFactory(self.context)
         return conversation.getThreads()
+
+    def is_anonymous(self):
+        return self.portal_state.anonymous()
+
 
     def format_time(self, time):
         # TODO: to localized time not working!!!
