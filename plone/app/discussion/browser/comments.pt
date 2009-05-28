@@ -86,7 +86,7 @@
     </div>
 
     <div class="reply"
-         tal:condition="isAnon">
+         tal:condition="python: isAnon and replies">
         <form tal:attributes="action view/login_action">
             <input class="standalone"
                    style="margin-bottom: 1.25em;"

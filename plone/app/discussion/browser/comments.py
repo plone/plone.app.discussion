@@ -61,7 +61,11 @@ class CommentsViewlet(ViewletBase):
     def get_replies(self):
         # Return all direct replies
         conversation = conversationAdapterFactory(self.context)
-        return conversation.getThreads()
+
+        if conversation.total_comments > 0:
+            return conversation.getThreads()
+        else:
+            return False
 
     def is_anonymous(self):
         return self.portal_state.anonymous()
