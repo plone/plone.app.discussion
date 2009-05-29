@@ -26,6 +26,7 @@
                              depth reply_dict/depth|python:0;
                              creator reply/Creator;
                              author_home_url string:${context/portal_url}/author/${reply/author_username};
+                             portrait python: here.portal_membership.getPersonalPortrait(reply.author_username);
                              anonymous_creator python:creator in ('Anonymous User', '');"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth);
                                  style string:margin-left: ${depth}em;
@@ -34,9 +35,12 @@
                 <div class="commentImage" tal:condition="not:anonymous_creator">
                     <a href="" tal:condition="not:isAnon"
                                tal:attributes="href author_home_url">
-                        <img src="" alt=""
-                             tal:attributes="src string:${context/portal_url}/portal_memberdata/portraits/${reply/author_username};
-                                             alt reply/creator" />
+                         <img src="defaultUser.gif"
+                              alt=""
+                              border="0"
+                              width="75"
+                              tal:attributes="src portrait/absolute_url;
+                                              alt reply/creator" />
                     </a>
                     <img src="" alt=""
                          tal:condition="isAnon"
