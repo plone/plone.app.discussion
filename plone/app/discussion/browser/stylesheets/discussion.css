@@ -4,11 +4,29 @@
 /* Comments Viewlet
    ---------------------------------------------------------------- */
 
+.comment {
+	min-height: 100px;
+	position: relative;
+}
+
 .commentImage {
+	width: 90px;
+	float: left;
 }
 
 .commentImage img {
-	width: 50px;
+}
+
+.comment h3,
+.comment .documentByLine,
+.comment .commentBody {
+	margin-left: 90px;
+}
+
+.reply-to-comment-button {
+	position: absolute;
+	bottom: 1em;
+	right: 1em;
 }
 
 /* Forms
