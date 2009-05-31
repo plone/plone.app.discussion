@@ -13,10 +13,6 @@ def comment_title(object):
     return object.title
 
 @indexer(IComment)
-def comment_text(object):
-    return object.text
-
-@indexer(IComment)
 def comment_searchable_text(object):
     return object.title, object.text
 

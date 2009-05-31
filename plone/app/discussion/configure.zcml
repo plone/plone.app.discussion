@@ -26,7 +26,7 @@
         component=".comment.CommentFactory"
         name="plone.Comment"
         />
-        
+
     <!-- Conversations -->
     <class class=".conversation.Conversation">
         <require interface=".interfaces.IConversation" permission="zope2.View" />
@@ -38,13 +38,13 @@
     <adapter factory=".conversation.CommentReplies" />
 
     <!-- Event subscribers -->
-    
+
     <subscriber
         for="plone.app.discussion.interfaces.IComment
              zope.app.container.contained.IObjectAddedEvent"
         handler=".comment.notify_workflow"
         />
-    
+
     <subscriber
         for="plone.app.discussion.interfaces.IComment
              zope.app.container.contained.IObjectAddedEvent"
@@ -59,7 +59,6 @@
 
     <!-- adapters for indexes -->
     <adapter name="title" factory=".catalog.comment_title" />
-    <adapter name="text" factory=".catalog.comment_text" />
     <adapter name="searchable_text" factory=".catalog.comment_searchable_text" />
 
 </configure>
