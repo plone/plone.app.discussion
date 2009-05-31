@@ -42,9 +42,12 @@
                               tal:attributes="src portrait/absolute_url;
                                               alt reply/creator" />
                     </a>
-                    <img src="" alt=""
+                    <img src="defaultUser.gif"
+                         alt=""
+                         border="0"
+                         width="75"
                          tal:condition="isAnon"
-                         tal:attributes="src string:${context/portal_url}/portal_memberdata/portraits/${reply/author_username};
+                         tal:attributes="src portrait/absolute_url;
                                          alt reply/creator" />
                 </div>
 
