@@ -5,6 +5,8 @@ from zope.component import createObject
 
 from Acquisition import aq_base, aq_parent
 
+from plone.app.vocabularies.types import BAD_TYPES
+
 from Products.PloneTestCase.ptc import PloneTestCase
 from plone.app.discussion.tests.layer import DiscussionLayer
 
@@ -452,6 +454,9 @@ class ConversationTest(PloneTestCase):
 
         self.assertEquals(('', 'plone', 'doc1', '++conversation++default'), conversation.getPhysicalPath())
         self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault', conversation.absolute_url())
+
+    def test_discussion_item_not_in_bad_types(self):
+        self.failIf('Discussion Item' in BAD_TYPES)
 
 class RepliesTest(PloneTestCase):
 
