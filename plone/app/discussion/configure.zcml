@@ -58,7 +58,7 @@
         />
 
     <!-- adapters for indexes -->
-    <adapter name="title" factory=".catalog.comment_title" />
-    <adapter name="searchable_text" factory=".catalog.comment_searchable_text" />
+    <adapter name="Title" factory=".catalog.comment_title" />
+    <adapter name="SearchableText" factory=".catalog.comment_searchable_text" />
 
 </configure>
