@@ -74,8 +74,11 @@ class CommentsViewlet(ViewletBase):
         return '%s/login_form?came_from=%s' % (self.navigation_root_url, url_quote(self.request.get('URL', '')),)
 
     def format_time(self, time):
-        return self.context.restrictedTraverse('@@plone').toLocalizedTime(time, long_format=True)
-
+        # Todo: return localized time
+        return time.strftime("%a, %d %b %Y %H:%M")
+        # XXX: Not working, returns None !!!
+        #return self.context.restrictedTraverse('@@plone').toLocalizedTime(time, long_format=True)
+        
 class AddComment(BrowserView):
     """Add a comment to a conversation
     """
