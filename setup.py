@@ -34,6 +34,7 @@ setup(name='plone.app.discussion',
           'zope.annotation',
           'zope.event',
           'zope.app.container', # XXX: eventually should change to zope.container
+          'plone.indexer',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]

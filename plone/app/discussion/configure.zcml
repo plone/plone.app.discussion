@@ -57,4 +57,9 @@
         handler=".tool.unindex_object"
         />
 
+    <!-- adapters for indexes -->
+    <adapter name="title" factory=".catalog.comment_title" />
+    <adapter name="text" factory=".catalog.comment_text" />
+    <adapter name="searchable_text" factory=".catalog.comment_searchable_text" />
+
 </configure>
