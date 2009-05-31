@@ -13,6 +13,11 @@ def comment_title(object):
     return object.title
 
 @indexer(IComment)
+def comment_description(object):
+	# Todo: this is wrong!!!
+    return object.title
+
+@indexer(IComment)
 def comment_searchable_text(object):
     return object.title, object.text
 
