@@ -58,10 +58,10 @@
         />
 
     <!-- adapters for indexes -->
-    <adapter name="Title" factory=".catalog.comment_title" />
-    <adapter name="Creator" factory=".catalog.comment_creator" />
-    <adapter name="Description" factory=".catalog.comment_description" />
-    <adapter name="SearchableText" factory=".catalog.comment_searchable_text" />
+    <adapter name="Title" factory=".catalog.title" />
+    <adapter name="Creator" factory=".catalog.creator" />
+    <adapter name="Description" factory=".catalog.description" />
+    <adapter name="SearchableText" factory=".catalog.searchable_text" />
     <adapter name="effective" factory=".catalog.effective" />
     <adapter name="created" factory=".catalog.created" />
     <adapter name="modified" factory=".catalog.modified" />

@@ -15,20 +15,20 @@ from plone.app.discussion.interfaces import IComment
 MAX_DESCRIPTION=25
 
 @indexer(IComment)
-def comment_title(object):
+def title(object):
     return object.title
 
 @indexer(IComment)
-def comment_creator(object):
+def creator(object):
     return object.creator
 
 @indexer(IComment)
-def comment_description(object):
+def description(object):
     # Return the first 25 words of the comment text and append '...'
     return '%s...' % join(object.text.split()[:MAX_DESCRIPTION])
 
 @indexer(IComment)
-def comment_searchable_text(object):
+def searchable_text(object):
     return object.title, object.text
 
 @indexer(IComment)
