@@ -118,7 +118,25 @@ class IndexersTest(PloneTestCase):
         self.assert_(isinstance(catalog.comment_searchable_text, DelegatingIndexerFactory))
 
     def test_creator(self):
-        pass
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
+        # Add a comment. Note: in real life, we always create comments via the factory
+        # to allow different factories to be swapped in
+
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+        comment.creator = "Jim"
+
+        new_id = conversation.addComment(comment)
+
+        self.assertEquals(catalog.comment_creator(comment)(), ('Jim'))
+
 
     def test_title(self):
         pass

@@ -19,6 +19,10 @@ def comment_title(object):
     return object.title
 
 @indexer(IComment)
+def comment_creator(object):
+    return object.creator
+
+@indexer(IComment)
 def comment_description(object):
     # Return the first 25 words of the comment text and append '...'
     return '%s...' % join(object.text.split()[:MAX_DESCRIPTION])
