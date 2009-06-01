@@ -6,6 +6,8 @@ Also provide event handlers to actually catalog the comments.
 
 from string import split, join
 
+from DateTime import DateTime
+
 from plone.indexer import indexer
 
 from plone.app.discussion.interfaces import IComment
@@ -25,3 +27,28 @@ def comment_description(object):
 def comment_searchable_text(object):
     return object.title, object.text
 
+@indexer(IComment)
+def effective(object):
+    # the catalog index needs Zope DateTime instead of Python datetime
+    # Todo!!!
+    return DateTime
+
+@indexer(IComment)
+def created(object):
+    # the catalog index needs Zope DateTime instead of Python datetime
+    return DateTime(object.creation_date.year,
+                    object.creation_date.month,
+                    object.creation_date.day,
+                    object.creation_date.hour,
+                    object.creation_date.minute,
+                    object.creation_date.second)
+
+@indexer(IComment)
+def modified(object):
+    # the catalog index needs Zope DateTime instead of Python datetime
+    return DateTime(object.modification_date.year,
+                    object.modification_date.month,
+                    object.modification_date.day,
+                    object.modification_date.hour,
+                    object.modification_date.minute,
+                    object.modification_date.second)

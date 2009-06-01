@@ -61,5 +61,9 @@
     <adapter name="Title" factory=".catalog.comment_title" />
     <adapter name="Description" factory=".catalog.comment_description" />
     <adapter name="SearchableText" factory=".catalog.comment_searchable_text" />
+    <adapter name="effective" factory=".catalog.effective" />
+    <adapter name="created" factory=".catalog.created" />
+    <adapter name="modified" factory=".catalog.modified" />
+
 
 </configure>
