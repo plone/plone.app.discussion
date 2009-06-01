@@ -47,6 +47,8 @@ class IndexersTest(PloneTestCase):
         self.assert_(isinstance(comment_title, DelegatingIndexerFactory))
 
     def test_comment_description(self):
+        # Create a 50 word comment and make sure the description returns
+        # only the first 25 words
 
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
@@ -60,11 +62,11 @@ class IndexersTest(PloneTestCase):
 
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
-        comment.text = 'Comment text'
+        comment.text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
 
         new_id = conversation.addComment(comment)
 
-        self.assertEquals(comment_description(comment)(), 'Comment 1')
+        self.assertEquals(comment_description(comment)(), 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At...')
         self.assert_(isinstance(comment_description, DelegatingIndexerFactory))
 
     def test_dates(self):
