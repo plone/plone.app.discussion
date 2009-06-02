@@ -60,5 +60,5 @@ function removeReplyToCommentForm(comment_id) {
 
 	/* Find the reply-to-comment form and hide and remove it again. */
 	reply_to_comment_form = jq("#comment-" + comment_id).find(".reply")
-	reply_to_comment_form.remove(reply_to_comment_form.hide("slow"))
+	reply_to_comment_form.remove(reply_to_comment_form.slideUp("slow"))
 }
