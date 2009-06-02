@@ -105,7 +105,7 @@
         </form>
     </div>
 
-    <div class="reply"
+    <div id="commenting" class="reply"
          tal:condition="not:isAnon">
 
         <fieldset>

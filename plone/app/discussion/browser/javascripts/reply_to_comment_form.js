@@ -19,8 +19,12 @@ function createReplyToCommentForm(comment_id) {
 	 * the regular comment form and insert it after the reply button of the
 	 * current comment.
 	 */
-    reply_div = jq(".reply").clone();
-	reply_div.insertAfter(button);
+    reply_div = jq("#commenting").clone(true); /* select the clone, not the original */
+	reply_div.insertAfter(button, reply_div.show("slow"));
+
+    /* Remove id="reply" attribute, since we use it to uniquely
+       the main reply form. */
+    reply_div.removeAttr("id")
 
     /* Hide the reply button (only hide, because we may want to show it
      * again if the user hits the cancel button).
@@ -51,10 +55,10 @@ function removeReplyToCommentForm(comment_id) {
      * This function removes the reply-to-comment form of a specific comment.
      */
 
-	/* find the reply-to-comment form and hide it again. */
-	jq("#comment-" + comment_id).find(".reply").hide("slow")
-
-	/* Show the reply-to-comment button again. */
+    /* Show the reply-to-comment button again. */
     jq("#reply-to-comment-" + comment_id + "-button").css("display", "block");
 
+	/* Find the reply-to-comment form and hide and remove it again. */
+	reply_to_comment_form = jq("#comment-" + comment_id).find(".reply")
+	reply_to_comment_form.remove(reply_to_comment_form.hide("slow"))
 }
