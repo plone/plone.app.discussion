@@ -27,14 +27,16 @@ setup(name='plone.app.discussion',
           'setuptools',
           'collective.autopermission',
           'collective.testcaselayer',
+          'plone.app.registry',
           'plone.indexer',
+          'plone.registry',
+          'plone.z3cform',
           'ZODB3',
           'zope.interface',
           'zope.component',
           'zope.annotation',
           'zope.event',
           'zope.app.container', # XXX: eventually should change to zope.container
-          'plone.indexer',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]

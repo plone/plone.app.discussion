@@ -11,80 +11,80 @@ class IDiscussionSettings(Interface):
     configuration registry and obtainable via plone.registry.
     """
 
-    globally_enabled = schema.Bool(title=_(u"Globally enabled"),
-                                   description=_(u"Use this setting to enable or disable comments globally"),
-                                   default=True)
-    
+    #globally_enabled = schema.Bool(title=_(u"Globally enabled"),
+    #                               description=_(u"Use this setting to enable or disable comments globally"),
+    #                               default=True)
+
 class IConversation(IIterableMapping):
     """A conversation about a content object.
-    
+
     This is a persistent object in its own right and manages all comments.
-    
+
     The dict interface allows access to all comments. They are stored by
     long integer key, in the order they were added.
-    
+
     Note that __setitem__() is not supported - use addComment() instead.
     However, comments can be deleted using __delitem__().
-    
+
     To get replies at the top level, adapt the conversation to IReplies.
-    
+
     The conversation can be traversed to via the ++comments++ namespace.
     For example, path/to/object/++comments++/123 retrieves comment 123.
-    
+
     The __parent__ of the conversation (and the acquisition parent during
     traversal) is the content object. The conversation is the __parent__
     (and acquisition parent) for all comments, regardless of threading.
     """
-    
+
     enabled = schema.Bool(title=_(u"Is commenting enabled?"))
-    
+
     total_comments = schema.Int(title=_(u"Total number of comments on this item"), min=0, readonly=True)
     last_comment_date = schema.Date(title=_(u"Date of the most recent comment"), readonly=True)
     commentators = schema.Set(title=_(u"The set of unique commentators (usernames)"), readonly=True)
-    
+
     def addComment(comment):
-        """Adds a new comment to the list of comments, and returns the 
+        """Adds a new comment to the list of comments, and returns the
         comment id that was assigned. The comment_id property on the comment
         will be set accordingly.
         """
-    
+
     def __delitem__(key):
         """Delete the comment with the given key. The key is a long id.
         """
-    
+
     def getComments(start=0, size=None):
         """Return an iterator of comment objects for rendering.
-        
+
         The 'start' parameter is the id of the comment from which to start the
         batch. If no such comment exists, the next higher id will be used.
         This means that you can use max key from a previous batch + 1 safely.
-        
+
         The 'size' parameter is the number of comments to return in the
         batch.
-        
+
         The comments are returned in creation date order, in the exact batch
         size specified.
         """
-    
+
     def getThreads(start=0, size=None, root=0, depth=None):
         """Return a batch of comment objects for rendering.
-        
+
         The 'start' parameter is the id of the comment from which to start
         the batch. If no such comment exists, the next higher id will be used.
         This means that you can use max key from a previous batch + 1 safely.
         This should be a root level comment.
-        
+
         The 'size' parameter is the number of threads to return in the
         batch. Full threads are always returned (although you can stop
         consuming the iterator if you want to abort).
-        
+
         'root', if given, is the id of the comment to which reply
         threads will be found. 'root' itself is not included. If not given,
         all threads are returned.
-        
+
         If 'depth' is given, it can be used to limit the depth of threads
         returned. For example, depth=1 will return only direct replies.
-        
+
         Comments are returned as an iterator of dicts with keys 'comment',
         the comment, 'id', the comment id, and 'depth', which is 0 for
         top-level comments, 1 for their replies, and so on. The list is
@@ -94,78 +94,78 @@ class IConversation(IIterableMapping):
 class IReplies(IIterableMapping):
     """A set of related comments in reply to a given content object or
     another comment.
-    
+
     Adapt a conversation or another comment to this interface to obtain the
     direct replies.
     """
-    
+
     def addComment(comment):
-        """Adds a new comment as a child of this comment, and returns the 
+        """Adds a new comment as a child of this comment, and returns the
         comment id that was assigned. The comment_id property on the comment
         will be set accordingly.
         """
-    
+
     def __delitem__(key):
         """Delete the comment with the given key. The key is a long id.
         """
 
 class IComment(Interface):
     """A comment.
-    
+
     Comments are indexed in the catalog and subject to workflow and security.
     """
 
     portal_type = schema.ASCIILine(title=_(u"Portal type"), default="Discussion Item")
-    
+
     __parent__ = schema.Object(title=_(u"Conversation"), schema=Interface)
     __name__ = schema.TextLine(title=_(u"Name"))
-    
+
     comment_id = schema.Int(title=_(u"A comment id unique to this conversation"))
     in_reply_to = schema.Int(title=_(u"Id of comment this comment is in reply to"), required=False)
-    
+
     title = schema.TextLine(title=_(u"Subject"))
-    
+
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
     text = schema.Text(title=_(u"Comment text"))
-    
+
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     creation_date = schema.Date(title=_(u"Creation date"))
     modification_date = schema.Date(title=_(u"Modification date"))
-    
+
     # for logged in comments - set to None for anonymous
     author_username = schema.TextLine(title=_(u"Author username"), required=False)
-    
+
     # for anonymous comments only, set to None for logged in comments
     author_name = schema.TextLine(title=_(u"Author name"), required=False)
     author_email = schema.TextLine(title=_(u"Author email address"), required=False)
 
 class ICommentingTool(Interface):
     """A tool that indexes all comments for usage by the management interface.
-    
+
     This means the management interface can still work even though we don't
     index the comments in portal_catalog.
-    
+
     The default implementation of this interface simply defers to
     portal_catalog, but a custom version of the tool can be used to provide
     an alternate indexing mechanism.
     """
-    
+
     def indexObject(comment):
         """Indexes a comment
         """
-        
+
     def reindexObject(comment):
         """Reindex a comment
         """
-        
+
     def unindexObject(comment):
         """Removes a comment from the indexes
         """
-        
+
     def uniqueValuesFor(name):
         """Get unique values for FieldIndex name
         """
-        
+
     def searchResults(REQUEST=None, **kw):
         """Perform a search over all indexed comments.
         """

@@ -3,6 +3,8 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="plone.app.discussion">
 
+    <include package="plone.app.registry" />
+
     <!-- Traversal adapter -->
     <adapter factory=".traversal.ConversationNamespace" name="conversation" />
 
@@ -64,6 +66,22 @@
         name="plone.app.discussion.stylesheets"
         directory="stylesheets"
         layer="..interfaces.IDiscussionLayer"
+        />
+
+    <browser:page
+        name="discussion-settings"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".controlpanel.DiscussionSettingsControlPanel"
+        permission="cmf.ManagePortal"
+        />
+
+    <!-- Utility view - use in portal_css or similar as portal/@@xdv-check/enabled" -->
+    <browser:page
+        name="discussion-check"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".controlpanel.Utility"
+        permission="zope.Public"
+        allowed_attributes="globally_enabled"
         />
 
 </configure>
