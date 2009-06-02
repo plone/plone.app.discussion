@@ -75,9 +75,6 @@ class IndexersTest(PloneTestCase):
     def test_in_reply_to(self):
         pass
 
-    def test_path(self):
-        pass
-
     def test_review_state(self):
         pass
 
