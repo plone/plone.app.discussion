@@ -169,6 +169,11 @@
                            name="form.button.AddComment"
                            i18n:attributes="value label_add_comment;" />
 
+                    <input class="standalone cancelreplytocomment"
+                           type="submit"
+                           name="form.button.Cancel"
+                           value="Cancel"
+                           i18n:attributes="value label_cancel;" />
                 </div>
 
                 <input type="hidden" name="form.submitted" value="1" />

@@ -43,3 +43,11 @@
     */
 	display: none;
 }
+
+.cancelreplytocomment {
+	/* Hide the cancel button in the comment form, show it only in the reply form
+	 * in order to close it.
+	 */
+	display: none;
+}
+
