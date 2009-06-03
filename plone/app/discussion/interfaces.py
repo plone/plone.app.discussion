@@ -12,8 +12,12 @@ class IDiscussionSettings(Interface):
     """
 
     globally_enabled = schema.Bool(title=_(u"Globally enabled"),
-                                   description=_(u"Use this setting to enable or disable comments globally"),
+                                   description=_(u"Use this setting to enable or disable comments globally."),
                                    default=True)
+
+    anonymous_comments = schema.Bool(title=_(u"Anonymous Comments"),
+                                     description=_(u"Use this setting to enable or disable posting comments as anonymous visitor."),
+                                     default=False)
 
 class IConversation(IIterableMapping):
     """A conversation about a content object.
