@@ -3,6 +3,7 @@
                    replies view/get_replies;
                    isAnon view/is_anonymous;
                    errors options/state/getErrors|nothing;"
+           tal:condition="isDiscussionAllowed"
            i18n:domain="plone">
 
     <div class="reply"
