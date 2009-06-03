@@ -11,9 +11,9 @@ class IDiscussionSettings(Interface):
     configuration registry and obtainable via plone.registry.
     """
 
-    #globally_enabled = schema.Bool(title=_(u"Globally enabled"),
-    #                               description=_(u"Use this setting to enable or disable comments globally"),
-    #                               default=True)
+    globally_enabled = schema.Bool(title=_(u"Globally enabled"),
+                                   description=_(u"Use this setting to enable or disable comments globally"),
+                                   default=True)
 
 class IConversation(IIterableMapping):
     """A conversation about a content object.
