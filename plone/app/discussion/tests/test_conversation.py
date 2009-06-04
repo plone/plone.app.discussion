@@ -462,6 +462,18 @@ class ConversationTest(PloneTestCase):
     def test_discussion_item_not_in_bad_types(self):
         self.failIf('Discussion Item' in BAD_TYPES)
 
+    def test_allow_discussion(self):
+        # We currently have four layers of testing if discussion is allowed
+        # on a particular content object:
+        #
+        # 1) Check if discussion is allowed globally
+        # 2) Check if discussion is allowed on a particular content type
+        # 3) If the content object is located in a folder, check if the folder
+        #    has discussion allowed
+        # 4) Check if discussion is allowed on this particular content object
+        #
+        pass
+
     def test_allow_discussion_globally(self):
 
         registry = Registry()
@@ -473,16 +485,45 @@ class ConversationTest(PloneTestCase):
         self.failUnless('globally_enabled' in IDiscussionSettings)
         self.assertEquals(registry['plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled'], True)
 
+        # Set the registry value for globally_enabled to False
+
         # Todo: Add a comment. Then set globally_enabled to false and check if
         # comments are disabled.
 
-
     def test_allow_discussion_for_content_type(self):
-        pass
+
+        portal_types = getToolByName(self.portal, 'portal_types')
+
+        # Get the FTI for some content types
+        document_fti = getattr(portal_types, 'Document')
+        news_item_fti = getattr(portal_types, 'News Item')
+        folder_fti = getattr(portal_types, 'Folder')
+
+        # By default, discussion is only allowed for Document and News Item
+        # XXX: allow_discussion always returns False !!!
+        #self.assertEquals(document_fti.getProperty('allow_discussion'), True)
+        #self.assertEquals(news_item_fti.getProperty('allow_discussion'), True)
+
+        self.assertEquals(folder_fti.getProperty('allow_discussion'), False)
+
+        # Disallow discussion for the News Item content types
+        news_item_fti.manage_changeProperties(allow_discussion = False)
+
+        # Allow discussion for the Folder content types
+        folder_fti.manage_changeProperties(allow_discussion = True)
+
+        # Check if discussion for News Item content types is disallowed
+        self.assertEquals(news_item_fti.getProperty('allow_discussion'), False)
+
+        # Check if discussion for Folder content types is allowed
+        self.assertEquals(folder_fti.getProperty('allow_discussion'), True)
 
     def test_allow_discussion_for_folder(self):
-        # Create a folder and two content types and check if they are
-        # commentable.
+        # Create a folder with two content objects. Change allow_discussion
+        # and check if the content objects inside the folder are commentable.
+        pass
+
+    def test_allow_discussion_on_content_object(self):
         pass
 
 class RepliesTest(PloneTestCase):
