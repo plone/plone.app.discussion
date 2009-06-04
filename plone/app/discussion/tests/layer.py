@@ -4,7 +4,7 @@ import collective.testcaselayer.ptc
 ptc.setupPloneSite()
 
 class Layer(collective.testcaselayer.ptc.BasePTCLayer):
-    """Install collective.flowplayer"""
+    """Install plone.app.discussion"""
 
     def afterSetUp(self):
         self.addProfile('plone.app.discussion:default')
