@@ -32,7 +32,7 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     form = DiscussionSettingsEditForm
 
 class Utility(BrowserView):
-    """Utility view to determine if the site is currently styled with xdv
+    """Utility view to determine ...
     """
 
     def globally_enabled(self):

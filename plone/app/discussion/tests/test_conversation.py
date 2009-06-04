@@ -1,16 +1,19 @@
 import unittest
 from datetime import datetime, timedelta
 
+from plone.registry import Registry
+
 from zope.component import createObject
 
-from Acquisition import aq_base, aq_parent
+from Acquisition import aq_base, aq_parent, aq_inner
 
 from plone.app.vocabularies.types import BAD_TYPES
 
+from Products.CMFCore.utils import getToolByName
 from Products.PloneTestCase.ptc import PloneTestCase
 from plone.app.discussion.tests.layer import DiscussionLayer
 
-from plone.app.discussion.interfaces import IConversation, IComment, IReplies
+from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
 
 class ConversationTest(PloneTestCase):
 
@@ -21,6 +24,7 @@ class ConversationTest(PloneTestCase):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
+        self.portal_discussion = getToolByName(self.portal, 'portal_discussion', None)
 
     def test_add_comment(self):
         # Create a conversation. In this case we doesn't assign it to an
@@ -457,6 +461,29 @@ class ConversationTest(PloneTestCase):
 
     def test_discussion_item_not_in_bad_types(self):
         self.failIf('Discussion Item' in BAD_TYPES)
+
+    def test_allow_discussion_globally(self):
+
+        registry = Registry()
+        registry.register_interface(IDiscussionSettings)
+        globally_enabled_record = registry.records['plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled']
+
+        # Check if a record for globally_enabled is in the registry
+        # with the correct default value (True).
+        self.failUnless('globally_enabled' in IDiscussionSettings)
+        self.assertEquals(registry['plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled'], True)
+
+        # Todo: Add a comment. Then set globally_enabled to false and check if
+        # comments are disabled.
+
+
+    def test_allow_discussion_for_content_type(self):
+        pass
+
+    def test_allow_discussion_for_folder(self):
+        # Create a folder and two content types and check if they are
+        # commentable.
+        pass
 
 class RepliesTest(PloneTestCase):
 
