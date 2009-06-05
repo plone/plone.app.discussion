@@ -23,18 +23,20 @@
 	margin-left: 90px;
 }
 
-.reply-to-comment-button {
-	position: absolute;
-	bottom: 1em;
-	right: 1em;
-}
-
-/* Forms
+/* Reply Form
    ---------------------------------------------------------------- */
+
+.reply fieldset {
+	/* Fix bouncing fieldset when reply form is shown. */
+	margin: 0 !important;
+}
 
 .reply-to-comment-button {
 	float: right;
 	margin-top: -2.5em;
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
 }
 
 .reply-to-comment-button {
