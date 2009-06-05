@@ -2,13 +2,20 @@
 plone.app.discussion to-do
 ==========================
 
+ [ ] IE: cancel button in reply-to-comment form does not work
+
+ [ ] Discussion Control Panel: No icon
+
+ [ ] Chrome (Linux): Reply to comment is not working
+     (TypeError: long() argument must be a string or a number)
+
  [ ] Add event handlers to ensure we don't get stale comments in the catalog
      when parent objects are removed/moved/cloned:
-    
+
     - Create the conversation when an object is created
     - Dispatch object added/removed/moved/cloned events to conversations
     - Dispatch conversation added/removed/moved/cloned events to comments
-    
+
  [ ] During recursive deletion of child comments, events are fired when the
      conversation data structures may be in an inconsistent state. We need
      some tests for this, and possibly some different handling of those
@@ -18,39 +25,39 @@ plone.app.discussion to-do
  [ ] Batching in conversation.getComments()
 
  [ ] Implement plone.indexer indexers for comments, filling standard metadata
-    
+
     - Note discrepancy between Python datetime and indexing expecting a Zope 2
         DateTime field
 
  [ ] Implement plone.indexer indexers for commented-upon content
- 
-    - Unique set of commentators 
+
+    - Unique set of commentators
     - Number of comments
     - Date/time of most recent comment
-    
-    These have to be reindexed when comment is added/removed 
+
+    These have to be reindexed when comment is added/removed
     (IContainerModifiedEvent). They also need to be set up in catalog.xml.
- 
+
  [ ] Add tests for conversation dict API
  [ ] Add tests for IReplies adapters
 
  [ ] Add UI
- 
+
     - comment display should be a viewlet overriding the standard comments
         viewlet
-        
+
     - comment forms should use z3c.form subforms and plone.z3cform's
         ExtensibleForm support
- 
- [ ] Add control panel
- 
-    - install plone.registry records using registry.xml
-    - create control panel using helper class in plone.app.registry
- 
+
  [ ] Make sure a catalog Clear & Rebuild doesn't lose all comments
 
  [ ] Add BBB support for the existing portal_discussion interface
-    
+
     - implement in BBB package
     - mix into tool.CommentingTool
     - emit deprecation warnings
+
+ [X] Add control panel
+
+    - install plone.registry records using registry.xml
+    - create control panel using helper class in plone.app.registry
