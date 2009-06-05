@@ -19,8 +19,9 @@ function createReplyToCommentForm(comment_id) {
 	 * the regular comment form and insert it after the reply button of the
 	 * current comment.
 	 */
-    reply_div = jq("#commenting").clone(true); /* select the clone, not the original */
-	reply_div.insertAfter(button, reply_div.show("slow"));
+    reply_div = jq("#commenting").clone(true);
+	reply_div.insertAfter(button).css("display", "none")
+	reply_div.slideDown("slow");
 
     /* Remove id="reply" attribute, since we use it to uniquely
        the main reply form. */
