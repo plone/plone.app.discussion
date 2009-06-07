@@ -9,6 +9,8 @@ plone.app.discussion to-do
  [ ] Chrome (Linux): Reply to comment is not working
      (TypeError: long() argument must be a string or a number)
 
+ [ ] Restrict nesting of comments on a certain level
+
  [ ] Add event handlers to ensure we don't get stale comments in the catalog
      when parent objects are removed/moved/cloned:
 
