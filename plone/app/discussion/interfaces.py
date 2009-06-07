@@ -21,10 +21,13 @@ class IDiscussionSettings(Interface):
                                    description=_(u"Use this setting to enable or disable comments globally."),
                                    default=True)
 
-    anonymous_comments = schema.Bool(title=_(u"Anonymous Comments"),
+    anonymous_comments = schema.Bool(title=_(u"Anonymous comments"),
                                      description=_(u"Use this setting to enable or disable posting comments as anonymous visitor."),
                                      default=False)
 
+    show_commenter_image = schema.Bool(title=_(u"Show commenter image"),
+                                       description=_(u"Use this setting to enable or disable showing the commenter's image next to his/her comments."),
+                                       default=True)
 
 class IConversation(IIterableMapping):
     """A conversation about a content object.

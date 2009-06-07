@@ -38,5 +38,12 @@ class RegistryTest(PloneTestCase):
         self.failUnless('anonymous_comments' in IDiscussionSettings)
         self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments'], False)
 
+    def test_show_commenter_image(self):
+        # Check show_commenter_image record
+        show_commenter_image = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image']
+
+        self.failUnless('show_commenter_image' in IDiscussionSettings)
+        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image'], True)
+
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
