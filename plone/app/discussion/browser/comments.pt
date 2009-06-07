@@ -26,16 +26,16 @@
                  tal:define="reply reply_dict/comment;
                              depth reply_dict/depth|python:0;
                              creator reply/Creator;
-                             author_home_url string:${context/portal_url}/author/${reply/author_username};
-                             portrait python: here.portal_membership.getPersonalPortrait(reply.author_username);
+                             commenter_home_url python:view.get_commenter_home_url(reply.author_username);
+                             portrait python:view.get_commenter_portrait(reply.author_username);
                              anonymous_creator python:creator in ('Anonymous User', '');"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth);
                                  style string:margin-left: ${depth}em;
                                  id string:comment-${reply/id}">
 
                 <div class="commentImage" tal:condition="not:anonymous_creator">
-                    <a href="" tal:condition="not:isAnon"
-                               tal:attributes="href author_home_url">
+                    <a href="" tal:condition="python: commenter_home_url and not isAnon"
+                               tal:attributes="href commenter_home_url">
                          <img src="defaultUser.gif"
                               alt=""
                               border="0"
@@ -47,7 +47,7 @@
                          alt=""
                          border="0"
                          width="75"
-                         tal:condition="isAnon"
+                         tal:condition="python: isAnon or not commenter_home_url"
                          tal:attributes="src portrait/absolute_url;
                                          alt reply/creator" />
                 </div>
@@ -64,7 +64,7 @@
                             <a href=""
                                tal:condition="not:isAnon"
                                tal:content="creator"
-                               tal:attributes="href author_home_url">
+                               tal:attributes="href commenter_home_url">
                                 Poster Name
                             </a>
                             <span tal:condition="isAnon"

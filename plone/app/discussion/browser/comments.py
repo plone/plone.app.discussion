@@ -67,6 +67,19 @@ class CommentsViewlet(ViewletBase):
         else:
             return False
 
+    def get_commenter_home_url(self, username):
+        if username is None:
+            return None
+        else:
+            return "%s/author/%s" % (self.context.portal_url(), username)
+
+    def get_commenter_portrait(self, username):
+
+        if username is None:
+            return None
+        else:
+            return self.portal_membership.getPersonalPortrait(username);
+
     def is_anonymous(self):
         return self.portal_state.anonymous()
 
@@ -78,7 +91,7 @@ class CommentsViewlet(ViewletBase):
         return time.strftime("%a, %d %b %Y %H:%M")
         # XXX: Not working, returns None !!!
         #return self.context.restrictedTraverse('@@plone').toLocalizedTime(time, long_format=True)
-        
+
 class AddComment(BrowserView):
     """Add a comment to a conversation
     """
