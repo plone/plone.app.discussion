@@ -6,4 +6,9 @@
 
     <!-- custom permissions are defined here -->
 
+    <permission
+        id="plone.app.discussion.ReviewComments"
+        title="Review comments"
+        />
+
 </configure>

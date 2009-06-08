@@ -3,6 +3,9 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="plone.app.discussion">
 
+    <include package="collective.autopermission" />
+    <include package="plone.indexer" />
+    
     <include file="permissions.zcml" />
     <include package=".browser" />
 

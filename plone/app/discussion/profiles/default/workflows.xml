@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_workflow">
+ <object name="comment_review_workflow" meta_type="Workflow"/>
+ <bindings>
+  <type type_id="Discussion Item">
+      <bound-workflow workflow_id="one_state_workflow" />
+  </type>
+ </bindings>
+</object>
