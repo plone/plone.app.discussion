@@ -1,5 +1,6 @@
 <tal:block define="userHasReplyPermission view/can_reply;
                    isDiscussionAllowed view/is_discussion_allowed;
+                   isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
                    replies view/get_replies;
                    isAnon view/is_anonymous;
                    errors options/state/getErrors|nothing;"
@@ -7,7 +8,7 @@
            i18n:domain="plone">
 
     <div class="reply"
-         tal:condition="isAnon">
+         tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
         <form tal:attributes="action view/login_action">
             <input class="standalone"
                    style="margin-bottom: 1.25em;"
@@ -95,7 +96,7 @@
     </div>
 
     <div class="reply"
-         tal:condition="python: isAnon and replies">
+         tal:condition="python: isAnon and not isAnonymousDiscussionAllowed and replies">
         <form tal:attributes="action view/login_action">
             <input class="standalone"
                    style="margin-bottom: 1.25em;"
@@ -183,4 +184,120 @@
         </fieldset>
     </div>
 
+    <div id="commenting" class="reply"
+         tal:condition="python:isAnon and isAnonymousDiscussionAllowed">
+
+        <fieldset>
+
+            <legend i18n:translate="legend_add_comment">Add comment</legend>
+            <p i18n:translate="description_add_comment">
+                You can add a comment by filling out the form below. Plain text
+                formatting.
+            </p>
+
+            <form name="reply"
+                  action=""
+                  method="get"
+                  tal:attributes="action string:${context/absolute_url}/++conversation++default/@@add-comment">
+
+                <div class="field"
+                     tal:define="error errors/subject|nothing;"
+                     tal:attributes="class python: error and 'field error' or 'field'">
+
+                    <label for="author_username" i18n:translate="label_author_username">Author username</label>
+
+                    <span class="fieldRequired" title="Required"
+                          i18n:attributes="title title_required;"
+                          i18n:translate="label_required">(Required)</span>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input name="author_username"
+                           id="author_username"
+                           value=""
+                           size="40"
+                           tal:attributes="value request/subject|request/title_override|nothing;" />
+
+                </div>
+
+                <div class="field"
+                     tal:define="error errors/subject|nothing;"
+                     tal:attributes="class python: error and 'field error' or 'field'">
+
+                    <label for="author_email" i18n:translate="label_author_email">Author email</label>
+
+                    <span class="fieldRequired" title="Required"
+                          i18n:attributes="title title_required;"
+                          i18n:translate="label_required">(Required)</span>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input name="author_email"
+                           id="author_email"
+                           value=""
+                           size="40"
+                           tal:attributes="value request/subject|request/title_override|nothing;" />
+
+                </div>
+
+                <div class="field"
+                     tal:define="error errors/subject|nothing;"
+                     tal:attributes="class python: error and 'field error' or 'field'">
+
+                    <label for="subject" i18n:translate="label_subject">Subject</label>
+
+                    <span class="fieldRequired" title="Required"
+                          i18n:attributes="title title_required;"
+                          i18n:translate="label_required">(Required)</span>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <input name="subject"
+                           id="subject"
+                           value=""
+                           size="40"
+                           tal:attributes="value request/subject|request/title_override|nothing;" />
+
+                </div>
+
+                <div class="field"
+                     tal:define="error errors/body_text|nothing;"
+                     tal:attributes="class python: error and 'field error' or 'field'">
+
+                    <label for="body_text" i18n:translate="label_comment">Comment</label>
+
+                    <span class="fieldRequired" title="Required"
+                          i18n:attributes="title title_required;"
+                          i18n:translate="label_required">(Required)</span>
+
+                    <div tal:content="error">Validation error output</div>
+
+                    <textarea name="body_text"
+                              id="body_text"
+                              cols="40"
+                              rows="8"
+                              tal:content="request/body_text|request/text_override | nothing"></textarea>
+
+                </div>
+
+                <div class="formControls">
+
+                    <input class="context"
+                           type="submit"
+                           value="Add Comment"
+                           name="form.button.AddComment"
+                           i18n:attributes="value label_add_comment;" />
+
+                    <input class="standalone cancelreplytocomment"
+                           type="submit"
+                           name="form.button.Cancel"
+                           value="Cancel"
+                           i18n:attributes="value label_cancel;" />
+                </div>
+
+                <input type="hidden" name="form.submitted" value="1" />
+
+            </form>
+        </fieldset>
+    </div>
 </tal:block>

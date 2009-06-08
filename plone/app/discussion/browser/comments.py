@@ -4,8 +4,7 @@ from urllib import quote as url_quote
 
 from zope.interface import implements
 
-from zope.component import createObject
-from zope.component import getMultiAdapter
+from zope.component import createObject, getMultiAdapter, queryUtility
 
 from zope.viewlet.interfaces import IViewlet
 
@@ -18,9 +17,11 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
+from plone.registry.interfaces import IRegistry
+
 from plone.app.layout.viewlets.common import ViewletBase
 
-from plone.app.discussion.interfaces import IComment, IReplies
+from plone.app.discussion.interfaces import IComment, IReplies, IDiscussionSettings
 from plone.app.discussion.conversation import conversationAdapterFactory
 
 from plone.app.discussion.comment import CommentFactory
@@ -80,6 +81,12 @@ class CommentsViewlet(ViewletBase):
         else:
             return self.portal_membership.getPersonalPortrait(username);
 
+    def anonymous_discussion_allowed(self):
+        # Check if anonymous comments are allowed in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.for_interface(IDiscussionSettings)
+        return settings.anonymous_comments
+
     def is_anonymous(self):
         return self.portal_state.anonymous()
 
@@ -102,6 +109,8 @@ class AddComment(BrowserView):
 
             subject = self.request.get('subject')
             text = self.request.get('body_text')
+            author_username = self.request.get('author_username')
+            author_email = self.request.get('author_email')
 
             # The add-comment view is called on the conversation object
             conversation = self.context
@@ -114,8 +123,10 @@ class AddComment(BrowserView):
             portal_membership = getToolByName(self.context, 'portal_membership')
 
             if portal_membership.isAnonymousUser():
-                # TODO: Not implemented yet
-                pass
+                comment.creator = author_username
+                comment.author_name = author_username
+                comment.author_email = author_email
+                comment.creation_date = comment.modification_date = datetime.now()
             else:
                 member = portal_membership.getAuthenticatedMember()
                 comment.creator = member.getProperty('fullname')
