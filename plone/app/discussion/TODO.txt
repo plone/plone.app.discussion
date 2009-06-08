@@ -11,6 +11,10 @@ plone.app.discussion to-do
 
  [ ] Restrict nesting of comments on a certain level
 
+ [ ] Add i18n translations for author_username and author_email
+
+ [ ] Fix temporary commenter's image css
+ 
  [ ] Add event handlers to ensure we don't get stale comments in the catalog
      when parent objects are removed/moved/cloned:
 
