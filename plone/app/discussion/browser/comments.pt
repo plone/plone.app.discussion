@@ -3,10 +3,11 @@
                    isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
                    replies view/get_replies;
                    isAnon view/is_anonymous;
+                   showCommenterImage view/show_commenter_image;
                    errors options/state/getErrors|nothing;"
            tal:condition="isDiscussionAllowed"
            i18n:domain="plone">
-
+    <h1 tal:content="showCommenterImage" />
     <div class="reply"
          tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
         <form tal:attributes="action view/login_action">
@@ -34,7 +35,7 @@
                                  style string:margin-left: ${depth}em;
                                  id string:comment-${reply/id}">
 
-                <div class="commentImage">
+                <div class="commentImage" tal:condition="showCommenterImage">
                     <a href="" tal:condition="not:isAnon"
                                tal:attributes="href author_home_url">
                          <img src="defaultUser.gif"

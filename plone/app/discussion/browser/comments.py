@@ -87,6 +87,12 @@ class CommentsViewlet(ViewletBase):
         settings = registry.for_interface(IDiscussionSettings)
         return settings.anonymous_comments
 
+    def show_commenter_image(self):
+        # Check if showing commenter image is enabled in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.for_interface(IDiscussionSettings)
+        return settings.show_commenter_image
+
     def is_anonymous(self):
         return self.portal_state.anonymous()
 

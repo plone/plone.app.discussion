@@ -12,15 +12,18 @@
 .commentImage {
 	width: 90px;
 	float: left;
+	/* Todo: This is only a temporary solution !!! */
+	background: #EEF3F5;
 }
 
 .commentImage img {
+	   margin-right: 1em;
 }
 
 .comment h3,
 .comment .documentByLine,
 .comment .commentBody {
-	margin-left: 90px;
+
 }
 
 /* Reply Form
