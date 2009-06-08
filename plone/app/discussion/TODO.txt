@@ -4,8 +4,6 @@ plone.app.discussion to-do
 
  [ ] IE: cancel button in reply-to-comment form does not work
 
- [ ] Discussion Control Panel: No icon
-
  [ ] Chrome (Linux): Reply to comment is not working
      (TypeError: long() argument must be a string or a number)
 
@@ -14,7 +12,7 @@ plone.app.discussion to-do
  [ ] Add i18n translations for author_username and author_email
 
  [ ] Fix temporary commenter's image css
- 
+
  [ ] Add event handlers to ensure we don't get stale comments in the catalog
      when parent objects are removed/moved/cloned:
 
@@ -67,3 +65,5 @@ plone.app.discussion to-do
 
     - install plone.registry records using registry.xml
     - create control panel using helper class in plone.app.registry
+
+ [X] Discussion Control Panel: Add icon
