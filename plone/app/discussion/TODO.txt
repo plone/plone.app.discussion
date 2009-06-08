@@ -13,6 +13,8 @@ plone.app.discussion to-do
 
  [ ] Fix temporary commenter's image css
 
+ [ ] Make comments viewlet format_time return localized time
+
  [ ] Add event handlers to ensure we don't get stale comments in the catalog
      when parent objects are removed/moved/cloned:
 
