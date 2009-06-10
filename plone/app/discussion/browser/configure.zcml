@@ -8,6 +8,15 @@
     <!-- Traversal adapter -->
     <adapter factory=".traversal.ConversationNamespace" name="conversation" />
 
+    <!-- Moderation view -->
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="moderate-comments"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.View"
+        permission="cmf.ManagePortal"
+        />
+
     <!-- Comments viewlet -->
     <browser:viewlet
         name="plone.comments"
