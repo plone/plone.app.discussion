@@ -1,11 +1,23 @@
 import unittest
 
+from zope.interface import alsoProvides
+
 from Products.PloneTestCase.ptc import PloneTestCase
+
 from plone.app.discussion.tests.layer import DiscussionLayer
 
 class WorkflowTest(PloneTestCase):
 
     layer = DiscussionLayer
+
+    def afterSetUp(self):
+        self.portal.portal_types['Document'].allow_discussion = True
+        self.portal_discussion = self.portal.portal_discussion
+
+        self.folder.invokeFactory('Document', 'doc1')
+
+        self.setRoles(('Reviewer',))
+        #alsoProvides(self.portal.REQUEST, DiscussionLayer)
 
     def test_permission(self):
         self.setRoles(('Reviewer',))
