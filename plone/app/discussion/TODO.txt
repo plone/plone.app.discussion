@@ -15,6 +15,10 @@ plone.app.discussion to-do
 
  [ ] Make comments viewlet format_time return localized time
 
+ [ ] Add i18n translations
+
+ [ ] Add id fall back for Creator if no Username (Title) has been added
+
  [ ] Add event handlers to ensure we don't get stale comments in the catalog
      when parent objects are removed/moved/cloned:
 
