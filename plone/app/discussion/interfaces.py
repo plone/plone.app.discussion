@@ -80,10 +80,6 @@ class IConversation(IIterableMapping):
         size specified.
         """
 
-    def enabled():
-        """Return True if discussion is enabled on this conversation.
-        """
-
     def getThreads(start=0, size=None, root=0, depth=None):
         """Return a batch of comment objects for rendering.
 
