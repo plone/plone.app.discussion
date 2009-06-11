@@ -15,7 +15,7 @@ class View(BrowserView):
         return self.template()
 
     def cook(self, text):
-        return ""
+        return text
 
     def format_time(self, time):
         context = aq_inner(self.context)
