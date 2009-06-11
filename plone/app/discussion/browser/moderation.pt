@@ -91,7 +91,7 @@
                                   class="background-form"
                                   method="post"
                                   style="display: inline"
-                                  tal:attributes="action string:${item/getURL}/@@review-publish-comment">
+                                  tal:attributes="action string:${item/getURL}/@@moderate-publish-comment">
                                 <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
                                 <input type="hidden" name="action" tal:attributes="value view/transition" />
                                 <input class="context comment-publish-button"
@@ -104,7 +104,7 @@
                                   method="post"
                                   class="background-form"
                                   style="display: inline"
-                                  tal:attributes="action string:${item/getURL}/@@review-delete-comment">
+                                  tal:attributes="action string:${item/getURL}/@@moderate-delete-comment">
                                 <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
                                 <input class="destructive comment-delete-button"
                                        type="submit"
