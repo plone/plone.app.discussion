@@ -1,13 +1,13 @@
 import unittest
 from datetime import datetime, timedelta
 
-from plone.registry import Registry
-
-from zope.component import createObject
+from zope.component import createObject, queryUtility
 
 from Acquisition import aq_base, aq_parent, aq_inner
 
 from plone.app.vocabularies.types import BAD_TYPES
+
+from plone.registry.interfaces import IRegistry
 
 from Products.CMFCore.utils import getToolByName
 from Products.PloneTestCase.ptc import PloneTestCase
@@ -155,6 +155,82 @@ class ConversationTest(PloneTestCase):
              {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
             ], list(conversation.getThreads()))
 
+    def test_disable_commenting_globally(self):
+
+        # Create a conversation.
+        conversation = IConversation(self.portal.doc1)
+
+        # We have to allow discussion on Document content type, since
+        # otherwise allow_discussion will always return False
+        portal_types = getToolByName(self.portal, 'portal_types')
+        document_fti = getattr(portal_types, 'Document')
+        document_fti.manage_changeProperties(allow_discussion = True)
+
+        # Check if conversation is enabled now
+        self.assertEquals(conversation.enabled, True)
+
+        # Disable commenting in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.for_interface(IDiscussionSettings)
+        settings.globally_enabled = False
+
+        # Check if commenting is disabled on the conversation
+        self.assertEquals(conversation.enabled, False)
+
+        # Enable discussion again
+        settings.globally_enabled = True
+        self.assertEquals(conversation.enabled, True)
+
+
+    def test_disable_commenting_for_content_type(self):
+
+        # Create a conversation.
+        conversation = IConversation(self.portal.doc1)
+
+        # The Document content type is disabled by default
+        self.assertEquals(conversation.enabled, False)
+
+        # Allow discussion on Document content type
+        portal_types = getToolByName(self.portal, 'portal_types')
+        document_fti = getattr(portal_types, 'Document')
+        document_fti.manage_changeProperties(allow_discussion = True)
+
+        # Check if conversation is enabled now
+        self.assertEquals(conversation.enabled, True)
+
+        # Disallow discussion on Document content type
+        portal_types = getToolByName(self.portal, 'portal_types')
+        document_fti = getattr(portal_types, 'Document')
+        document_fti.manage_changeProperties(allow_discussion = False)
+
+        # Check if conversation is enabled now
+        self.assertEquals(conversation.enabled, False)
+
+    def test_is_discussion_allowed_for_folder(self):
+        # Create a folder with two content objects. Change allow_discussion
+        # and check if the content objects inside the folder are commentable.
+        pass
+
+    def test_is_discussion_allowed_on_content_object(self):
+        # Allow discussion on a single content object
+
+        registry = queryUtility(IRegistry)
+        settings = registry.for_interface(IDiscussionSettings)
+
+        # Create a conversation.
+        conversation = IConversation(self.portal.doc1)
+
+        # Discussion is disallowed by default
+        self.assertEquals(conversation.enabled, False)
+
+        # Allow discussion on content object
+        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
+
+        # Check if discussion is now allowed on the content object
+        self.assertEquals(conversation.enabled, True)
+
+        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, False)
+        self.assertEquals(conversation.enabled, False)
 
     def test_dict_operations(self):
         # test dict operations and acquisition wrapping
@@ -458,6 +534,16 @@ class ConversationTest(PloneTestCase):
 
         self.assertEquals(('', 'plone', 'doc1', '++conversation++default'), conversation.getPhysicalPath())
         self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault', conversation.absolute_url())
+
+    def test_parent(self):
+        # Check that conversation has a content object as parent
+
+        # Create a conversation.
+        conversation = IConversation(self.portal.doc1)
+
+        # Check the parent
+        self.failUnless(conversation.__parent__)
+        self.assertEquals(conversation.__parent__.getId(), 'doc1')
 
     def test_discussion_item_not_in_bad_types(self):
         self.failIf('Discussion Item' in BAD_TYPES)

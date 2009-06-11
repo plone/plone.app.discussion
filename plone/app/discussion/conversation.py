@@ -14,20 +14,26 @@ import time
 
 from persistent import Persistent
 
+from plone.registry.interfaces import IRegistry
+
+from zope.app.component.hooks import getSite
+
 from zope.interface import implements, implementer
-from zope.component import adapts, adapter
+from zope.component import adapts, adapter, queryUtility
 
 from zope.annotation.interfaces import IAnnotations, IAnnotatable
 
 from zope.event import notify
 
-from Acquisition import aq_base
+from Acquisition import aq_base, aq_inner
 from Acquisition import Explicit
 
 from OFS.Traversable import Traversable
 
 from OFS.event import ObjectWillBeAddedEvent
 from OFS.event import ObjectWillBeRemovedEvent
+
+from Products.CMFCore.utils import getToolByName
 
 from zope.app.container.contained import ContainerModifiedEvent
 
@@ -44,7 +50,7 @@ except ImportError:
     from BTrees.OOBTree import OOBTree as LOBTree
     from BTrees.OOBTree import OOSet as LLSet
 
-from plone.app.discussion.interfaces import IConversation, IReplies
+from plone.app.discussion.interfaces import IConversation, IReplies, IDiscussionSettings
 from plone.app.discussion.comment import Comment
 
 ANNOTATION_KEY = 'plone.app.discussion:conversation'
@@ -80,7 +86,29 @@ class Conversation(Traversable, Persistent, Explicit):
 
     @property
     def enabled(self):
-        # TODO - check __parent__'s settings + global settings
+        # Returns True if discussion is allowed
+
+        # Fetch discussion registry
+        registry = queryUtility(IRegistry)
+        settings = registry.for_interface(IDiscussionSettings)
+
+        # Check if discussion is allowed globally
+        if not settings.globally_enabled:
+            return False
+
+        # Check if discussion is allowed on the content type
+        site = getSite()
+        portal_types = getToolByName(site, 'portal_types')
+        portal_type = self.__parent__.portal_type
+        document_fti = getattr(portal_types, 'Document')
+        if not document_fti.getProperty('allow_discussion'):
+            # If discussion is not allowed on the content type,
+            # check if 'allow discussion' is overridden on the content object.
+            #if hasattr( aq_base(self.__parent__), 'allow_discussion' ):
+            portal_discussion = getToolByName(site, 'portal_discussion')
+            if not portal_discussion.isDiscussionAllowedFor(aq_inner(self.__parent__)):
+                return False
+
         return True
 
     @property
@@ -104,7 +132,7 @@ class Conversation(Traversable, Persistent, Explicit):
         count = 0l
         for comment in self._comments.values(min=start):
             yield comment
-            
+
             count += 1
             if size and count > size:
                 return
@@ -112,11 +140,11 @@ class Conversation(Traversable, Persistent, Explicit):
     def getThreads(self, start=0, size=None, root=0, depth=None):
         """Get threaded comments
         """
-        
+
         def recurse(comment_id, d=0):
             # Yield the current comment before we look for its children
             yield {'id': comment_id, 'comment': self._comments[comment_id], 'depth': d}
-            
+
             # Recurse if there are children and we are not out of our depth
             if depth is None or d + 1 < depth:
                 children = self._children.get(comment_id, None)
@@ -124,18 +152,18 @@ class Conversation(Traversable, Persistent, Explicit):
                     for child_id in children:
                         for value in recurse(child_id, d+1):
                             yield value
-        
+
         # Find top level threads
         comments = self._children.get(root, None)
         if comments is not None:
             count = 0l
             for comment_id in comments.keys(min=start):
-                
+
                 # Abort if we have found all the threads we want
                 count += 1
                 if size and count > size:
                     return
-                
+
                 # Let the closure recurse
                 for value in recurse(comment_id):
                     yield value
@@ -211,14 +239,14 @@ class Conversation(Traversable, Persistent, Explicit):
         for child_id in self._children.get(key, []):
             # avoid sending ContainerModifiedEvent multiple times
             self.__delitem__(child_id, suppress_container_modified=True)
-        
+
             # XXX: During the events sent from the recursive deletion, the
             # _children data structure may be in an inconsistent state. We may
             # need to delay sending the events until it is fixed up.
-        
+
         # Remove the comment from _comments
         self._comments.pop(key)
-        
+
         # Remove this comment as a child of its parent
         if not suppress_container_modified:
             parent = comment.in_reply_to
@@ -226,16 +254,16 @@ class Conversation(Traversable, Persistent, Explicit):
                 parent_children = self._children.get(parent, None)
                 if parent_children is not None and key in parent_children:
                     parent_children.remove(key)
-        
+
         # Remove commentators
         if commentator and commentator in self._commentators:
             if self._commentators[commentator] <= 1:
                 del self._commentators[commentator]
             else:
                 self._commentators[commentator] -= 1
-        
+
         notify(ObjectRemovedEvent(comment, self, key))
-        
+
         if not suppress_container_modified:
             notify(ContainerModifiedEvent(self))
 
@@ -279,6 +307,7 @@ def conversationAdapterFactory(content):
         conversation = Conversation()
         annotions[ANNOTATION_KEY] = conversation
     conversation = annotions[ANNOTATION_KEY]
+    conversation.__parent__ = aq_base(content)
     return conversation
 
 class ConversationReplies(object):
@@ -350,13 +379,13 @@ class ConversationReplies(object):
     def iteritems(self):
         for key in self.children:
             yield (key, self.conversation[key],)
-    
+
     @property
     def children(self):
         # we need to look this up every time, because we may not have a
         # dict yet when the adapter is first created
         return self.conversation._children.get(self.comment_id, LLSet())
-    
+
 class CommentReplies(ConversationReplies):
     """An IReplies adapter for comments.
 
