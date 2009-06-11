@@ -53,6 +53,9 @@ class CommentsViewlet(ViewletBase):
     def can_reply(self):
         return getSecurityManager().checkPermission('Reply to item', aq_inner(self.context))
 
+    def can_manage(self):
+        return getSecurityManager().checkPermission('Manage portal', aq_inner(self.context))
+
     def is_discussion_allowed(self):
         conversation = conversationAdapterFactory(self.context)
         return conversation.enabled

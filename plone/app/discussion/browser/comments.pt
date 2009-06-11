@@ -83,6 +83,35 @@
                      This is the body text of the comment.
                 </div>
 
+                <form name="delete"
+                      action=""
+                      method="post"
+                      style="display: inline;"
+                      tal:condition="view/can_manage"
+                      tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">
+                    <input class="destructive"
+                           type="submit"
+                           value="Remove"
+                           i18n:attributes="value label_remove;"
+                           />
+                </form>
+
+                <!-- Workflow actions (e.g. 'publish') -->
+                <!--
+                <form name=""
+                      action=""
+                      method="get"
+                      style="display: inline;"
+                      tal:repeat="action reply_dict/actions"
+                      tal:attributes="action string:${reply/absolute_url}/content_status_modify;
+                                      name action/id">
+                    <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
+                    <input class="context"
+                           type="submit"
+                           tal:attributes="value action/title"
+                           />
+                </form>-->
+
                 <a href="#" class="reply-to-comment-button" title="reply to this comment"
                    tal:condition="python:userHasReplyPermission and isDiscussionAllowed"
                    tal:attributes="onclick string:createReplyToCommentForm(${reply/id});
