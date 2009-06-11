@@ -54,10 +54,8 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission('Reply to item', aq_inner(self.context))
 
     def is_discussion_allowed(self):
-        if self.portal_discussion is None:
-            return False
-        else:
-            return self.portal_discussion.isDiscussionAllowedFor(aq_inner(self.context))
+        conversation = conversationAdapterFactory(self.context)
+        return conversation.enabled
 
     def get_replies(self):
         # Return all direct replies
@@ -177,3 +175,37 @@ class ReplyToComment(BrowserView):
 
             # Redirect to comment (inside a content object page)
             self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#comment-' + str(reply_to_comment_id))
+
+class DeleteComment(BrowserView):
+    """Delete a comment from a conversation
+    """
+
+    def __call__(self):
+
+        comment = aq_inner(self.context)
+
+        # Sanity check
+        comment_id = self.request.form['comment_id']
+        if comment_id != comment.getId():
+            raise ValueError
+
+        conversation = self.context.__parent__
+
+        del conversation[comment_id]
+
+class PublishComment(BrowserView):
+    """Publish a comment
+    """
+
+    def __call__(self):
+
+        comment = aq_inner(self.context)
+
+        # Sanity check
+        comment_id = self.request.form['comment_id']
+        if comment_id != comment.getId():
+            raise ValueError
+
+        action = self.request.form['action']
+        portal_workflow = getToolByName(comment, 'portal_workflow')
+        portal_workflow.doActionFor(comment, action)
