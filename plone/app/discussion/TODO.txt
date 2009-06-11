@@ -19,6 +19,9 @@ plone.app.discussion to-do
 
  [ ] Add id fall back for Creator if no Username (Title) has been added
 
+ [ ] Plone reports "unsuccessfully attempted to uncatalog an object" while
+     trying to delete a comment.
+
  [ ] Add event handlers to ensure we don't get stale comments in the catalog
      when parent objects are removed/moved/cloned:
 
