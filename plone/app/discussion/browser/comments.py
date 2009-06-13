@@ -79,7 +79,6 @@ class CommentsViewlet(ViewletBase):
                     # list all possible workflow actions
                     actions = [a for a in wf.listActionInfos(object=comment_obj)
                                    if a['category'] == 'workflow' and a['allowed']]
-                    print actions
                     r = r.copy()
                     r['actions'] = actions
                     yield r
