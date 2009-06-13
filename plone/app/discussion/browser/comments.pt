@@ -98,12 +98,11 @@
                 </form>
 
                 <!-- Workflow actions (e.g. 'publish') -->
-                <!--
                 <form name=""
                       action=""
                       method="get"
                       style="display: inline;"
-                      tal:repeat="action python:view.get_workflow_actions(reply)"
+                      tal:repeat="action reply_dict/actions"
                       tal:attributes="action string:${reply/absolute_url}/content_status_modify;
                                       name action/id">
                     <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
@@ -111,7 +110,7 @@
                            type="submit"
                            tal:attributes="value action/title"
                            />
-                </form>-->
+                </form>
 
                 <a href="#" class="reply-to-comment-button" title="reply to this comment"
                    tal:condition="python:userHasReplyPermission and isDiscussionAllowed"

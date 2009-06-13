@@ -76,12 +76,17 @@ class CommentsViewlet(ViewletBase):
 
                 for r in conversation.getThreads():
                     comment_obj = r['comment']
-                    actions = wf.listActionInfos(object=comment_obj)
-                return conversation.getThreads()
+                    # list all possible workflow actions
+                    actions = [a for a in wf.listActionInfos(object=comment_obj)
+                                   if a['category'] == 'workflow' and a['allowed']]
+                    print actions
+                    r = r.copy()
+                    r['actions'] = actions
+                    yield r
             else:
-                return conversation.getThreads()
+                yield conversation.getThreads()
         else:
-            return []
+            yield []
 
     def get_commenter_home_url(self, username):
         if username is None:
