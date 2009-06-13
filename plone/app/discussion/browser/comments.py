@@ -8,7 +8,7 @@ from zope.component import createObject, getMultiAdapter, queryUtility
 
 from zope.viewlet.interfaces import IViewlet
 
-from Acquisition import aq_inner, aq_parent
+from Acquisition import aq_inner, aq_parent, aq_base
 
 from AccessControl import getSecurityManager
 
@@ -21,7 +21,7 @@ from plone.registry.interfaces import IRegistry
 
 from plone.app.layout.viewlets.common import ViewletBase
 
-from plone.app.discussion.interfaces import IComment, IReplies, IDiscussionSettings
+from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
 from plone.app.discussion.conversation import conversationAdapterFactory
 
 from plone.app.discussion.comment import CommentFactory
@@ -60,14 +60,28 @@ class CommentsViewlet(ViewletBase):
         conversation = conversationAdapterFactory(self.context)
         return conversation.enabled
 
-    def get_replies(self):
-        # Return all direct replies
-        conversation = conversationAdapterFactory(self.context)
+    def get_replies(self, workflow_actions=False):
 
+		# Acquisition wrap the conversation
+        context = aq_inner(self.context)
+        conversation = IConversation(context)
+        conversation = IConversation(context).__of__(context)
+
+        # Return all direct replies
         if conversation.total_comments > 0:
-            return conversation.getThreads()
+            if workflow_actions:
+                # Return dict with workflow actions
+                #context = aq_inner(self.context)
+                wf = getToolByName(context, 'portal_workflow')
+
+                for r in conversation.getThreads():
+                    comment_obj = r['comment']
+                    actions = wf.listActionInfos(object=comment_obj)
+                return conversation.getThreads()
+            else:
+                return conversation.getThreads()
         else:
-            return False
+            return []
 
     def get_commenter_home_url(self, username):
         if username is None:

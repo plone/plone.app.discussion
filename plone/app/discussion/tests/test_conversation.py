@@ -541,8 +541,14 @@ class ConversationTest(PloneTestCase):
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
 
+        # Pretend that we have traversed to the comment by aq wrapping it.
+        conversation = conversation.__of__(self.portal.doc1)
+
         # Check the parent
         self.failUnless(conversation.__parent__)
+        self.failUnless(aq_parent(conversation))
+        # Todo: This one is failing!
+        #self.failUnless(conversation.REQUEST)
         self.assertEquals(conversation.__parent__.getId(), 'doc1')
 
     def test_discussion_item_not_in_bad_types(self):

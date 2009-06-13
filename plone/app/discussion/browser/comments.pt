@@ -1,8 +1,9 @@
 <tal:block define="userHasReplyPermission view/can_reply;
                    isDiscussionAllowed view/is_discussion_allowed;
                    isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
-                   replies view/get_replies;
                    isAnon view/is_anonymous;
+                   canManage view/can_manage;
+                   replies python:view.get_replies(canManage);
                    showCommenterImage view/show_commenter_image;
                    errors options/state/getErrors|nothing;"
            tal:condition="isDiscussionAllowed"
@@ -102,7 +103,7 @@
                       action=""
                       method="get"
                       style="display: inline;"
-                      tal:repeat="action reply_dict/actions"
+                      tal:repeat="action python:view.get_workflow_actions(reply)"
                       tal:attributes="action string:${reply/absolute_url}/content_status_modify;
                                       name action/id">
                     <input type="hidden" name="workflow_action" tal:attributes="value action/id" />

@@ -143,7 +143,7 @@ class Conversation(Traversable, Persistent, Explicit):
 
         def recurse(comment_id, d=0):
             # Yield the current comment before we look for its children
-            yield {'id': comment_id, 'comment': self._comments[comment_id], 'depth': d}
+            yield {'id': comment_id, 'comment': self[comment_id], 'depth': d}
 
             # Recurse if there are children and we are not out of our depth
             if depth is None or d + 1 < depth:

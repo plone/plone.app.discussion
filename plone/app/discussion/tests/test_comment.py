@@ -56,7 +56,7 @@ class CommentTest(PloneTestCase):
         self.assertEquals('Comment 1', comment.title)
 
         self.assertEquals(('', 'plone', 'doc1', '++conversation++default', str(new_comment1_id)), comment.getPhysicalPath())
-        self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault/' + str(new_comment1_id), comment.absolute_url())
+        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' + str(new_comment1_id), comment.absolute_url())
 
     def test_workflow(self):
         self.portal.portal_workflow.setChainForPortalTypes(('Discussion Item',), ('simple_publication_workflow,'))
