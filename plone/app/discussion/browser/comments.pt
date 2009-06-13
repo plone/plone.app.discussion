@@ -102,7 +102,7 @@
                       action=""
                       method="get"
                       style="display: inline;"
-                      tal:repeat="action reply_dict/actions"
+                      tal:repeat="action reply_dict/actions|nothing"
                       tal:attributes="action string:${reply/absolute_url}/content_status_modify;
                                       name action/id">
                     <input type="hidden" name="workflow_action" tal:attributes="value action/id" />

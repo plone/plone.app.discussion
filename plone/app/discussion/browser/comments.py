@@ -62,30 +62,34 @@ class CommentsViewlet(ViewletBase):
 
     def get_replies(self, workflow_actions=False):
 
-		# Acquisition wrap the conversation
+        # Acquisition wrap the conversation
         context = aq_inner(self.context)
         conversation = IConversation(context)
         conversation = IConversation(context).__of__(context)
 
+        def replies_with_workflow_actions():
+            # Return dict with workflow actions
+            #context = aq_inner(self.context)
+            wf = getToolByName(context, 'portal_workflow')
+
+            for r in conversation.getThreads():
+                comment_obj = r['comment']
+                # list all possible workflow actions
+                actions = [a for a in wf.listActionInfos(object=comment_obj)
+                               if a['category'] == 'workflow' and a['allowed']]
+                r = r.copy()
+                r['actions'] = actions
+                yield r
+
         # Return all direct replies
         if conversation.total_comments > 0:
             if workflow_actions:
-                # Return dict with workflow actions
-                #context = aq_inner(self.context)
-                wf = getToolByName(context, 'portal_workflow')
-
-                for r in conversation.getThreads():
-                    comment_obj = r['comment']
-                    # list all possible workflow actions
-                    actions = [a for a in wf.listActionInfos(object=comment_obj)
-                                   if a['category'] == 'workflow' and a['allowed']]
-                    r = r.copy()
-                    r['actions'] = actions
-                    yield r
+                return replies_with_workflow_actions()
             else:
-                yield conversation.getThreads()
+                return conversation.getThreads()
         else:
-            yield []
+            return None
+
 
     def get_commenter_home_url(self, username):
         if username is None:
