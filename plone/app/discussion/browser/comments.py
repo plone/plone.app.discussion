@@ -158,7 +158,11 @@ class AddComment(BrowserView):
                 comment.creation_date = comment.modification_date = datetime.now()
             else:
                 member = portal_membership.getAuthenticatedMember()
-                comment.creator = member.getProperty('fullname')
+                fullname = member.getProperty('fullname')
+                if fullname == '' or None:
+                    comment.creator = member.id
+                else:
+                    comment.creator = fullname
                 comment.author_username = member.getUserName()
                 comment.author_name = member.getProperty('fullname')
                 comment.author_email = member.getProperty('email')

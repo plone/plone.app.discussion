@@ -17,7 +17,7 @@ plone.app.discussion to-do
 
  [ ] Add i18n translations
 
- [ ] Add id fall back for Creator if no Username (Title) has been added
+ [X] Add id fall back for Creator if no Username (Title) has been added
 
  [ ] Plone reports "unsuccessfully attempted to uncatalog an object" while
      trying to delete a comment.
