@@ -185,8 +185,11 @@ class ReplyToComment(BrowserView):
         if self.request.has_key('form.button.AddComment'):
 
             reply_to_comment_id = self.request.get('form.reply_to_comment_id')
+
             subject = self.request.get('subject')
             text = self.request.get('body_text')
+            author_username = self.request.get('author_username')
+            author_email = self.request.get('author_email')
 
             # The add-comment view is called on the conversation object
             conversation = self.context
@@ -200,6 +203,25 @@ class ReplyToComment(BrowserView):
             comment = CommentFactory()
             comment.title = subject
             comment.text = text
+
+            portal_membership = getToolByName(self.context, 'portal_membership')
+
+            if portal_membership.isAnonymousUser():
+                comment.creator = author_username
+                comment.author_name = author_username
+                comment.author_email = author_email
+                comment.creation_date = comment.modification_date = datetime.now()
+            else:
+                member = portal_membership.getAuthenticatedMember()
+                fullname = member.getProperty('fullname')
+                if fullname == '' or None:
+                    comment.creator = member.id
+                else:
+                    comment.creator = fullname
+                comment.author_username = member.getUserName()
+                comment.author_name = member.getProperty('fullname')
+                comment.author_email = member.getProperty('email')
+                comment.creation_date = comment.modification_date = datetime.now()
 
             # Add the reply to the comment
             new_re_id = replies.addComment(comment)
