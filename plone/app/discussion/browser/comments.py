@@ -220,7 +220,7 @@ class DeleteComment(BrowserView):
 
         del conversation[comment_id]
 
-        self.context.plone_utils.addPortalMessage('Conversation %s deleted' % comment_id)
+        self.context.plone_utils.addPortalMessage('Comment %s deleted' % comment_id)
         return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
 
 class PublishComment(BrowserView):
@@ -236,5 +236,5 @@ class PublishComment(BrowserView):
         portal_workflow = getToolByName(comment, 'portal_workflow')
         portal_workflow.doActionFor(comment, workflow_action)
 
-        self.context.plone_utils.addPortalMessage('Conversation %s workflow action %s' % (comment_id, workflow_action))
+        self.context.plone_utils.addPortalMessage('Workflow action for commment %s changed (%s)' % (comment_id, workflow_action))
         return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
