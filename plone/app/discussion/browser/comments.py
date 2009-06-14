@@ -100,9 +100,11 @@ class CommentsViewlet(ViewletBase):
     def get_commenter_portrait(self, username):
 
         if username is None:
-            return None
+            # return the default user image if no username is given
+            return 'defaultUser.gif'
         else:
-            return self.portal_membership.getPersonalPortrait(username);
+            portal_membership = getToolByName(self.context, 'portal_membership', None)
+            return portal_membership.getPersonalPortrait(username).absolute_url();
 
     def anonymous_discussion_allowed(self):
         # Check if anonymous comments are allowed in the registry
