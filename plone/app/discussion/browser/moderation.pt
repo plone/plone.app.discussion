@@ -87,6 +87,7 @@
 
                         <td tal:content="structure python:view.cook(item.Description)" />
                         <td style="width: 11em">
+                        <!--
                             <form action=""
                                   class="background-form"
                                   method="post"
@@ -112,6 +113,7 @@
                                        i18n:attributes="value label_delete;"
                                        />
                             </form>
+                        -->
                         </td>
                     </tr>
                 </tal:block>
