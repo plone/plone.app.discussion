@@ -208,15 +208,14 @@ class DeleteComment(BrowserView):
     def __call__(self):
 
         comment = aq_inner(self.context)
-
-        # Sanity check
-        comment_id = self.request.form['comment_id']
-        if comment_id != comment.getId():
-            raise ValueError
+        comment_id = self.context.id
 
         conversation = self.context.__parent__
 
         del conversation[comment_id]
+
+        self.context.plone_utils.addPortalMessage('Conversation %s deleted' % comment_id)
+        return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
 
 class PublishComment(BrowserView):
     """Publish a comment
@@ -225,12 +224,11 @@ class PublishComment(BrowserView):
     def __call__(self):
 
         comment = aq_inner(self.context)
+        comment_id = self.context.id
 
-        # Sanity check
-        comment_id = self.request.form['comment_id']
-        if comment_id != comment.getId():
-            raise ValueError
-
-        action = self.request.form['action']
+        workflow_action = self.request.form['workflow_action']
         portal_workflow = getToolByName(comment, 'portal_workflow')
-        portal_workflow.doActionFor(comment, action)
+        portal_workflow.doActionFor(comment, workflow_action)
+
+        self.context.plone_utils.addPortalMessage('Conversation %s workflow action %s' % (comment_id, workflow_action))
+        return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
