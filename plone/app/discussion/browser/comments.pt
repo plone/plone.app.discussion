@@ -117,7 +117,7 @@
                 -->
 
                 <a href="#" class="reply-to-comment-button" title="reply to this comment"
-                   tal:condition="python:userHasReplyPermission and isDiscussionAllowed"
+                   tal:condition="python:userHasReplyPermission and isDiscussionAllowed or isAnonymousDiscussionAllowed"
                    tal:attributes="onclick string:createReplyToCommentForm(${reply/id});
                                    id string:reply-to-comment-${reply/id}-button;
                                    href string:#comment-${reply/id}">
