@@ -22,6 +22,11 @@ plone.app.discussion to-do
  [ ] Plone reports "unsuccessfully attempted to uncatalog an object" while
      trying to delete a comment.
 
+ [ ] Fix that when opening a reply form before the page has been fully loaded,
+     the reply layer is closed again.
+
+ [ ] Form validation is not working in the reply-to-comment form
+
  [ ] Add event handlers to ensure we don't get stale comments in the catalog
      when parent objects are removed/moved/cloned:
 
