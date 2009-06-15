@@ -59,11 +59,10 @@ class CommentsViewletTest(PloneTestCase):
 
         # Call get_commenter_portrait method of the viewlet
         self.viewlet.update()
-        portrait = self.viewlet.get_commenter_portrait('jim')
+        portrait_url = self.viewlet.get_commenter_portrait('jim')
 
-        # Check if the correct member image is returned
-        self.assert_(isinstance(portrait, Image))
-        self.assertEquals(portrait.absolute_url(), 'http://nohost/plone/portal_memberdata/portraits/jim')
+        # Check if the correct member image URL is returned
+        self.assertEquals(portrait_url, 'http://nohost/plone/portal_memberdata/portraits/jim')
 
     def test_get_commenter_portrait_without_userimage(self):
 
@@ -82,11 +81,10 @@ class CommentsViewletTest(PloneTestCase):
 
         # Call get_commenter_portrait method of the viewlet
         self.viewlet.update()
-        portrait = self.viewlet.get_commenter_portrait('jim')
+        portrait_url = self.viewlet.get_commenter_portrait('jim')
 
-        # Check if the correct default member image is returned
-        self.assert_(isinstance(portrait, FSImage))
-        self.assertEquals(portrait.absolute_url(), 'http://nohost/plone/defaultUser.gif')
+        # Check if the correct default member image URL is returned
+        self.assertEquals(portrait_url, 'http://nohost/plone/defaultUser.gif')
 
     def test_get_commenter_home(self):
         pass
