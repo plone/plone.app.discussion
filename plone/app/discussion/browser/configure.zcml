@@ -23,7 +23,7 @@
         name="moderate-delete-comment"
         layer="..interfaces.IDiscussionLayer"
         class=".comments.DeleteComment"
-        permission="cmf.ManagePortal"
+        permission="plone.app.discussion.ReviewComments"
         />
 
     <!-- Publish comment view -->
@@ -32,7 +32,7 @@
         name="moderate-publish-comment"
         layer="..interfaces.IDiscussionLayer"
         class=".comments.PublishComment"
-        permission="cmf.ManagePortal"
+        permission="plone.app.discussion.ReviewComments"
         />
 
     <!-- Comments viewlet -->
