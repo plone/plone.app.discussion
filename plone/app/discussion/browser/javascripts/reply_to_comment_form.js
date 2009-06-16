@@ -21,7 +21,6 @@ function createReplyToCommentForm(comment_id) {
 	 */
     reply_div = jq("#commenting").clone(true);
 	reply_div.insertAfter(button).css("display", "none")
-	reply_div.slideDown("slow");
 
     /* Remove id="reply" attribute, since we use it to uniquely
        the main reply form. */
@@ -46,6 +45,13 @@ function createReplyToCommentForm(comment_id) {
     /* Add a remove-reply-to-comment Javascript function to remove the form */
 	cancel_reply_button = reply_div.find(".cancelreplytocomment");
 	cancel_reply_button.attr("onclick", "removeReplyToCommentForm(" + comment_id  +");")
+
+    /* Remove already typed in text from the reply form. */
+	reply_form.find(".field").find("input").attr("value", "")
+	reply_form.find(".field").find("textarea").attr("value", "")
+
+    /* Show the reply layer with a slide down effect */
+    reply_div.slideDown("slow");
 
     /* Show the cancel button in the reply-to-comment form */
 	cancel_reply_button.css("display", "inline")
