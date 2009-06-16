@@ -126,6 +126,9 @@ class Conversation(Traversable, Persistent, Explicit):
     def commentators(self):
         return self._commentators.keys()
 
+    def objectIds(self):
+        return self._comments.keys()
+
     def getComments(self, start=0, size=None):
         """Get unthreaded comments
         """
