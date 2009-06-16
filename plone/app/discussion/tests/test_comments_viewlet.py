@@ -37,7 +37,9 @@ class CommentsViewletTest(PloneTestCase):
         self.viewlet = CommentsViewlet(context, request, None, None)
 
     def test_format_time(self):
-        pass
+        python_time = datetime(2009, 02, 01, 23, 32, 03, 57)
+        localized_time = self.viewlet.format_time(python_time)
+        self.assertEquals(localized_time, "Feb 01, 2009 11:32 PM")
 
     def test_get_commenter_portrait(self):
 

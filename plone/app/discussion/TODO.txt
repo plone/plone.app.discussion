@@ -19,7 +19,7 @@ BASIC COMMENTING FUNCTIONALITY
 
  [ ] Fix temporary commenter's image css
 
- [ ] Make comments viewlet format_time return localized time
+ [X] Make comments viewlet format_time return localized time
 
  [ ] Add i18n translations
 

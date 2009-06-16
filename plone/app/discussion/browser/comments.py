@@ -1,4 +1,5 @@
 from datetime import datetime
+from DateTime import DateTime
 
 from urllib import quote as url_quote
 
@@ -125,10 +126,11 @@ class CommentsViewlet(ViewletBase):
         return '%s/login_form?came_from=%s' % (self.navigation_root_url, url_quote(self.request.get('URL', '')),)
 
     def format_time(self, time):
-        # Todo: return localized time
-        return time.strftime("%a, %d %b %Y %H:%M")
-        # XXX: Not working, returns None !!!
-        #return self.context.restrictedTraverse('@@plone').toLocalizedTime(time, long_format=True)
+        # We have to transform Python datetime into Zope DateTime
+        # before we can call toLocalizedTime
+        util = getToolByName(self.context, 'translation_service')
+        zope_time = DateTime(time.year, time.month, time.day, time.hour, time.minute, time.second)
+        return util.toLocalizedTime(zope_time, long_format=True)
 
 class AddComment(BrowserView):
     """Add a comment to a conversation
