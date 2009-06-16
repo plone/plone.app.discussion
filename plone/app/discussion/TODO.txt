@@ -2,6 +2,14 @@
 plone.app.discussion to-do
 ==========================
 
+BASIC COMMENTING FUNCTIONALITY
+------------------------------
+
+ [ ] Add jQuery auto-resize to comment text field
+     http://www.aclevercookie.com/demos/autogrow_textarea.html
+
+ [ ] Replace the reply-to-comment button with a Plone-like reply-button
+
  [ ] IE: cancel button in reply-to-comment form does not work
 
  [ ] Chrome (Linux): Reply to comment is not working
@@ -9,15 +17,13 @@ plone.app.discussion to-do
 
  [ ] Restrict nesting of comments on a certain level
 
- [ ] Add i18n translations for author_username and author_email
-
  [ ] Fix temporary commenter's image css
 
  [ ] Make comments viewlet format_time return localized time
 
  [ ] Add i18n translations
 
- [X] Add id fall back for Creator if no Username (Title) has been added
+ [ ] Add i18n translations for author_username and author_email
 
  [ ] Plone reports "unsuccessfully attempted to uncatalog an object" while
      trying to delete a comment.
@@ -39,9 +45,6 @@ plone.app.discussion to-do
      some tests for this, and possibly some different handling of those
      events.
 
- [ ] Thread building in conversation.getThreads()
- [ ] Batching in conversation.getComments()
-
  [ ] Implement plone.indexer indexers for comments, filling standard metadata
 
     - Note discrepancy between Python datetime and indexing expecting a Zope 2
@@ -56,18 +59,19 @@ plone.app.discussion to-do
     These have to be reindexed when comment is added/removed
     (IContainerModifiedEvent). They also need to be set up in catalog.xml.
 
- [ ] Add tests for conversation dict API
- [ ] Add tests for IReplies adapters
-
  [ ] Add UI
-
-    - comment display should be a viewlet overriding the standard comments
-        viewlet
 
     - comment forms should use z3c.form subforms and plone.z3cform's
         ExtensibleForm support
 
  [ ] Make sure a catalog Clear & Rebuild doesn't lose all comments
+
+
+LATER ITERATIONS:
+-----------------
+
+ [ ] Thread building in conversation.getThreads()
+ [ ] Batching in conversation.getComments()
 
  [ ] Add BBB support for the existing portal_discussion interface
 
@@ -75,9 +79,19 @@ plone.app.discussion to-do
     - mix into tool.CommentingTool
     - emit deprecation warnings
 
+
+DONE:
+-----
+
+ [X] Add tests for conversation dict API
+
+ [X] Add tests for IReplies adapters
+
  [X] Add control panel
 
     - install plone.registry records using registry.xml
     - create control panel using helper class in plone.app.registry
 
  [X] Discussion Control Panel: Add icon
+
+ [X] Add id fall back for Creator if no Username (Title) has been added
