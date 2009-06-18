@@ -25,7 +25,7 @@ from zope.annotation.interfaces import IAnnotations, IAnnotatable
 
 from zope.event import notify
 
-from Acquisition import aq_base, aq_inner
+from Acquisition import aq_base, aq_inner, aq_parent
 from Acquisition import Explicit
 
 from OFS.Traversable import Traversable
@@ -34,6 +34,9 @@ from OFS.event import ObjectWillBeAddedEvent
 from OFS.event import ObjectWillBeRemovedEvent
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces import IFolderish
+
+from Products.CMFPlone.interfaces import IPloneSiteRoot, INonStructuralFolder
 
 from zope.app.container.contained import ContainerModifiedEvent
 
@@ -84,9 +87,12 @@ class Conversation(Traversable, Persistent, Explicit):
         """
         return self.id
 
-    @property
     def enabled(self):
-        # Returns True if discussion is allowed
+        # Returns True if discussion is enabled on the conversation
+
+        site = getSite()
+        portal_discussion = getToolByName(site, 'portal_discussion')
+        portal_types = getToolByName(site, 'portal_types')
 
         # Fetch discussion registry
         registry = queryUtility(IRegistry)
@@ -96,16 +102,38 @@ class Conversation(Traversable, Persistent, Explicit):
         if not settings.globally_enabled:
             return False
 
+        # Always return False if object is a folder
+        if IFolderish.providedBy(aq_inner(self.__parent__)) and not INonStructuralFolder.providedBy(aq_inner(self.__parent__)):
+            return False
+
+        # Check folders by traversing through the object tree
+        allowed = False
+        def traverse(obj):
+            # Run from context to the Plone Site Root
+            if not IPloneSiteRoot.providedBy(obj):
+                # Look for Plone folders
+                if IFolderish.providedBy(obj) and not INonStructuralFolder.providedBy(obj):
+                    if portal_discussion.isDiscussionAllowedFor(obj):
+                        #print "FOLDER %s: discussion allowed => override" % obj.id
+                        allowed = True
+                traverse(aq_parent(obj))
+
+        obj = aq_parent(self)
+        #print ""
+        #print "### START TRAVERSE ###"
+        # Start traversing
+        #traverse(obj)
+        #print allowed
+        #print "### END TRAVERSE ###"
+
+
         # Check if discussion is allowed on the content type
-        site = getSite()
-        portal_types = getToolByName(site, 'portal_types')
         portal_type = self.__parent__.portal_type
         document_fti = getattr(portal_types, 'Document')
         if not document_fti.getProperty('allow_discussion'):
             # If discussion is not allowed on the content type,
             # check if 'allow discussion' is overridden on the content object.
             #if hasattr( aq_base(self.__parent__), 'allow_discussion' ):
-            portal_discussion = getToolByName(site, 'portal_discussion')
             if not portal_discussion.isDiscussionAllowedFor(aq_inner(self.__parent__)):
                 return False
 
