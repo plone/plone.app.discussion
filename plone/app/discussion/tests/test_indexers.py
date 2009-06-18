@@ -31,9 +31,6 @@ class IndexersTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
-
         # Add a comment. Note: in real life, we always create comments via the factory
         # to allow different factories to be swapped in
 

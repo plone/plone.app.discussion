@@ -58,7 +58,8 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission('Manage portal', aq_inner(self.context))
 
     def is_discussion_allowed(self):
-        conversation = conversationAdapterFactory(self.context)
+        context = aq_inner(self.context)
+        conversation = conversationAdapterFactory(context)
         return conversation.enabled
 
     def get_replies(self, workflow_actions=False):
@@ -66,7 +67,6 @@ class CommentsViewlet(ViewletBase):
         # Acquisition wrap the conversation
         context = aq_inner(self.context)
         conversation = IConversation(context)
-        conversation = IConversation(context).__of__(context)
 
         def replies_with_workflow_actions():
             # Return dict with workflow actions

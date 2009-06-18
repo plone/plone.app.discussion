@@ -51,7 +51,6 @@ class CommentsViewletTest(PloneTestCase):
 
         # Add a conversation with a comment
         conversation = IConversation(self.portal.doc1)
-        conversation = conversation.__of__(self.portal.doc1)
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
         comment.text = 'Comment text'
@@ -73,7 +72,6 @@ class CommentsViewletTest(PloneTestCase):
 
         # Add a conversation with a comment
         conversation = IConversation(self.portal.doc1)
-        conversation = conversation.__of__(self.portal.doc1)
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
         comment.text = 'Comment text'

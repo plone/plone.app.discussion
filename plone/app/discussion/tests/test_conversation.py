@@ -24,15 +24,13 @@ class ConversationTest(PloneTestCase):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
+        self.typetool = typetool
         self.portal_discussion = getToolByName(self.portal, 'portal_discussion', None)
 
     def test_add_comment(self):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         # Add a comment. Note: in real life, we always create comments via the factory
         # to allow different factories to be swapped in
@@ -58,9 +56,6 @@ class ConversationTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         # Add a comment. Note: in real life, we always create comments via the factory
         # to allow different factories to be swapped in
@@ -91,9 +86,6 @@ class ConversationTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         replies = IReplies(conversation)
 
@@ -162,7 +154,6 @@ class ConversationTest(PloneTestCase):
 
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
-        conversation = conversation.__of__(self.portal.doc1)
 
         # By default, discussion is disabled for all content types
         portal_types = getToolByName(self.portal, 'portal_types')
@@ -214,7 +205,7 @@ class ConversationTest(PloneTestCase):
         document_fti.manage_changeProperties(allow_discussion = True)
 
         # Check if conversation is enabled now
-        self.assertEquals(conversation.enabled, True)
+        self.assertEquals(conversation.enabled(), True)
 
         # Disable commenting in the registry
         registry = queryUtility(IRegistry)
@@ -222,11 +213,11 @@ class ConversationTest(PloneTestCase):
         settings.globally_enabled = False
 
         # Check if commenting is disabled on the conversation
-        self.assertEquals(conversation.enabled, False)
+        self.assertEquals(conversation.enabled(), False)
 
         # Enable discussion again
         settings.globally_enabled = True
-        self.assertEquals(conversation.enabled, True)
+        self.assertEquals(conversation.enabled(), True)
 
 
     def test_disable_commenting_for_content_type(self):
@@ -235,7 +226,7 @@ class ConversationTest(PloneTestCase):
         conversation = IConversation(self.portal.doc1)
 
         # The Document content type is disabled by default
-        self.assertEquals(conversation.enabled, False)
+        self.assertEquals(conversation.enabled(), False)
 
         # Allow discussion on Document content type
         portal_types = getToolByName(self.portal, 'portal_types')
@@ -243,7 +234,7 @@ class ConversationTest(PloneTestCase):
         document_fti.manage_changeProperties(allow_discussion = True)
 
         # Check if conversation is enabled now
-        self.assertEquals(conversation.enabled, True)
+        self.assertEquals(conversation.enabled(), True)
 
         # Disallow discussion on Document content type
         portal_types = getToolByName(self.portal, 'portal_types')
@@ -251,12 +242,39 @@ class ConversationTest(PloneTestCase):
         document_fti.manage_changeProperties(allow_discussion = False)
 
         # Check if conversation is enabled now
-        self.assertEquals(conversation.enabled, False)
+        self.assertEquals(conversation.enabled(), False)
+
+    def test_allow_discussion_on_folder(self):
+        # enabled should always return False for a folder,
+        # since the allow_discussion flag is user for another purpose
+        pass
 
     def test_is_discussion_allowed_for_folder(self):
-        # Create a folder with two content objects. Change allow_discussion
-        # and check if the content objects inside the folder are commentable.
-        pass
+        # When a content item provides IFolderish from CMF and
+        # does not provide INonStructuralFolder from Plone,
+        # allow_discussion acts as an on/off flag for all items
+        # in that folder, overriding settings for any parent folders,
+        # and the for the FTI, but is overridden by child items and
+        # folders further down.
+
+        # Create a folder
+        self.typetool.constructContent('Folder', self.portal, 'f1')
+        f1 = self.portal.f1
+
+        # Create a document inside the folder with a conversation
+        self.typetool.constructContent('Document', f1, 'doc1')
+        doc1 = self.portal.f1.doc1
+        conversation = IConversation(self.portal.doc1)
+
+        # Allow commenting for the folder
+        self.portal_discussion.overrideDiscussionFor(f1, True)
+
+        # Check if the content objects allows discussion
+        #self.assertEquals(conversation.enabled(), True)
+
+        # Turn commenting for the folder off
+
+        # Check if content objects do not allow discussion anymore
 
     def test_is_discussion_allowed_on_content_object(self):
         # Allow discussion on a single content object
@@ -268,16 +286,16 @@ class ConversationTest(PloneTestCase):
         conversation = IConversation(self.portal.doc1)
 
         # Discussion is disallowed by default
-        self.assertEquals(conversation.enabled, False)
+        self.assertEquals(conversation.enabled(), False)
 
         # Allow discussion on content object
         self.portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
 
         # Check if discussion is now allowed on the content object
-        self.assertEquals(conversation.enabled, True)
+        self.assertEquals(conversation.enabled(), True)
 
         self.portal_discussion.overrideDiscussionFor(self.portal.doc1, False)
-        self.assertEquals(conversation.enabled, False)
+        self.assertEquals(conversation.enabled(), False)
 
     def test_dict_operations(self):
         # test dict operations and acquisition wrapping
@@ -285,9 +303,6 @@ class ConversationTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         # Add a comment. Note: in real life, we always create comments via the factory
         # to allow different factories to be swapped in
@@ -347,9 +362,6 @@ class ConversationTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
-
         # Add a three comments. Note: in real life, we always create
         # comments via the factory to allow different factories to be
         # swapped in
@@ -379,9 +391,6 @@ class ConversationTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         # Add a four comments from three different users
         # Note: in real life, we always create
@@ -444,9 +453,6 @@ class ConversationTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
-
         # Add a three comments that are at least one day old
         # Note: in real life, we always create
         # comments via the factory to allow different factories to be
@@ -500,9 +506,6 @@ class ConversationTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         replies = IReplies(conversation)
 
@@ -588,15 +591,12 @@ class ConversationTest(PloneTestCase):
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
 
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
-
         # Check the parent
         self.failUnless(conversation.__parent__)
         self.failUnless(aq_parent(conversation))
-        # Todo: This one is failing!
-        #self.failUnless(conversation.REQUEST)
+
         self.assertEquals(conversation.__parent__.getId(), 'doc1')
+
 
     def test_discussion_item_not_in_bad_types(self):
         self.failIf('Discussion Item' in BAD_TYPES)
@@ -620,9 +620,6 @@ class RepliesTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         replies = IReplies(conversation)
 
@@ -650,9 +647,6 @@ class RepliesTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         replies = IReplies(conversation)
 
@@ -683,9 +677,6 @@ class RepliesTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         replies = IReplies(conversation)
 

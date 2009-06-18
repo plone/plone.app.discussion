@@ -43,7 +43,7 @@ class CommentTest(PloneTestCase):
     def test_traversal(self):
         # make sure comments are traversable, have an id, absolute_url and physical path
 
-        conversation = IConversation(self.portal.doc1).__of__(self.portal.doc1)
+        conversation = IConversation(self.portal.doc1)
 
         comment1 = createObject('plone.Comment')
         comment1.title = 'Comment 1'
@@ -61,7 +61,7 @@ class CommentTest(PloneTestCase):
     def test_workflow(self):
         self.portal.portal_workflow.setChainForPortalTypes(('Discussion Item',), ('simple_publication_workflow,'))
 
-        conversation = IConversation(self.portal.doc1).__of__(self.portal.doc1)
+        conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
         new_comment1_id = conversation.addComment(comment1)
 
@@ -92,9 +92,6 @@ class CommentTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         # Create a comment
         comment1 = createObject('plone.Comment')
@@ -130,9 +127,6 @@ class RepliesTest(PloneTestCase):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
-
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
 
         # Add a comment to the conversation
         replies = IReplies(conversation)
@@ -171,9 +165,6 @@ class RepliesTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        # Pretend that we have traversed to the comment by aq wrapping it.
-        conversation = conversation.__of__(self.portal.doc1)
-
         # Add a comment to the conversation
         replies = IReplies(conversation)
 
@@ -205,7 +196,7 @@ class RepliesTest(PloneTestCase):
         # Create a nested structure of comment replies and check the traversal
 
         # make sure comments are traversable, have an id, absolute_url and physical path
-        conversation = IConversation(self.portal.doc1).__of__(self.portal.doc1)
+        conversation = IConversation(self.portal.doc1)
 
         comment1 = createObject('plone.Comment')
         comment1.title = 'Comment 1'
