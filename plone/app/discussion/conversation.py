@@ -308,10 +308,11 @@ def conversationAdapterFactory(content):
     annotions = IAnnotations(content)
     if not ANNOTATION_KEY in annotions:
         conversation = Conversation()
+        conversation.__parent__ = aq_base(content)
         annotions[ANNOTATION_KEY] = conversation
-    conversation = annotions[ANNOTATION_KEY]
-    conversation.__parent__ = aq_base(content)
-    return conversation
+    else:
+        conversation = annotions[ANNOTATION_KEY]
+    return conversation.__of__(content)
 
 class ConversationReplies(object):
     """An IReplies adapter for conversations.
