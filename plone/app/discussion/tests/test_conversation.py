@@ -245,9 +245,25 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(conversation.enabled(), False)
 
     def test_allow_discussion_on_folder(self):
-        # enabled should always return False for a folder,
-        # since the allow_discussion flag is user for another purpose
-        pass
+        # The enabled method should always return False for the folder
+        # itself.
+
+        # Create a folder
+        self.typetool.constructContent('Folder', self.portal, 'f1')
+        f1 = self.portal.f1
+        # Usually we don't create a conversation on a folder
+        conversation = IConversation(self.portal.f1)
+
+        # Allow discussion for the folder
+        self.portal_discussion.overrideDiscussionFor(f1, True)
+
+        # Allow discussion on Folder content type
+        portal_types = getToolByName(self.portal, 'portal_types')
+        document_fti = getattr(portal_types, 'Folder')
+        document_fti.manage_changeProperties(allow_discussion = True)
+
+        # Always return False
+        self.failIf(conversation.enabled())
 
     def test_is_discussion_allowed_for_folder(self):
         # When a content item provides IFolderish from CMF and
