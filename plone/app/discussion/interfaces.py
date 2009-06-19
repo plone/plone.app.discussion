@@ -50,11 +50,13 @@ class IConversation(IIterableMapping):
     (and acquisition parent) for all comments, regardless of threading.
     """
 
-    enabled = schema.Bool(title=_(u"Is commenting enabled?"))
-
     total_comments = schema.Int(title=_(u"Total number of comments on this item"), min=0, readonly=True)
     last_comment_date = schema.Date(title=_(u"Date of the most recent comment"), readonly=True)
     commentators = schema.Set(title=_(u"The set of unique commentators (usernames)"), readonly=True)
+
+    def enabled():
+         """Return True if commenting enabled and False if not.
+         """
 
     def addComment(comment):
         """Adds a new comment to the list of comments, and returns the
