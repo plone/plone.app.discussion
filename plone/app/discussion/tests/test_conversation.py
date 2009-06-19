@@ -152,6 +152,10 @@ class ConversationTest(PloneTestCase):
         # allow discussion attribute. Maybe we should remove this at
         # some point.
 
+        # 1) allow_discussion attribute: Every content object in Plone
+        # has a allow_discussion attribute. By default it is set to None.
+
+
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
 
@@ -167,8 +171,11 @@ class ConversationTest(PloneTestCase):
         # By default, allow_discussion on newly created content objects is
         # set to False
         portal_discussion = getToolByName(self.portal, 'portal_discussion')
-        self.failIf(portal_discussion.isDiscussionAllowedFor(self.portal.doc1))
-        self.failIf(self.portal.doc1.getTypeInfo().allowDiscussion())
+        self.assertEquals(portal_discussion.isDiscussionAllowedFor(self.portal.doc1), False)
+        self.assertEquals(self.portal.doc1.getTypeInfo().allowDiscussion(), False)
+
+        # The allow discussion flag is None by default
+        self.failIf(getattr(self.portal.doc1, 'allow_discussion', None))
 
         # But isDiscussionAllowedFor, also checks if discussion is allowed on the
         # content type. So we allow discussion on the Document content type and
@@ -182,16 +189,19 @@ class ConversationTest(PloneTestCase):
         self.portal_discussion.overrideDiscussionFor(self.portal.doc1, False)
         # Check if the Document discussion is disabled
         self.assertEquals(portal_discussion.isDiscussionAllowedFor(self.portal.doc1), False)
+        # Check that the local allow_discussion flag is now explicitly set to False
+        self.assertEquals(getattr(self.portal.doc1, 'allow_discussion', None), False)
 
         # Disallow discussion on the Document content type again
         document_fti.manage_changeProperties(allow_discussion = False)
-        self.failIf(portal_discussion.isDiscussionAllowedFor(self.portal.doc1))
-        self.failIf(self.portal.doc1.getTypeInfo().allowDiscussion())
+        self.assertEquals(portal_discussion.isDiscussionAllowedFor(self.portal.doc1), False)
+        self.assertEquals(self.portal.doc1.getTypeInfo().allowDiscussion(), False)
 
         # Now we override allow_discussion again (True) for the Document
         # content object
         self.portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
-        self.failUnless(portal_discussion.isDiscussionAllowedFor(self.portal.doc1))
+        self.assertEquals(portal_discussion.isDiscussionAllowedFor(self.portal.doc1), True)
+        self.assertEquals(getattr(self.portal.doc1, 'allow_discussion', None), True)
 
     def test_disable_commenting_globally(self):
 
@@ -277,20 +287,24 @@ class ConversationTest(PloneTestCase):
         self.typetool.constructContent('Folder', self.portal, 'f1')
         f1 = self.portal.f1
 
-        # Create a document inside the folder with a conversation
+        # Create a document inside the folder
         self.typetool.constructContent('Document', f1, 'doc1')
         doc1 = self.portal.f1.doc1
-        conversation = IConversation(self.portal.doc1)
+        doc1_conversation = IConversation(doc1)
+
+        self.assertEquals(doc1_conversation.enabled(), False)
 
         # Allow commenting for the folder
         self.portal_discussion.overrideDiscussionFor(f1, True)
 
         # Check if the content objects allows discussion
-        #self.assertEquals(conversation.enabled(), True)
+        self.assertEquals(doc1_conversation.enabled(), True)
 
         # Turn commenting for the folder off
+        self.portal_discussion.overrideDiscussionFor(f1, False)
 
         # Check if content objects do not allow discussion anymore
+        self.assertEquals(doc1_conversation.enabled(), False)
 
     def test_is_discussion_allowed_on_content_object(self):
         # Allow discussion on a single content object

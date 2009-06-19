@@ -106,26 +106,42 @@ class Conversation(Traversable, Persistent, Explicit):
         if IFolderish.providedBy(aq_inner(self.__parent__)) and not INonStructuralFolder.providedBy(aq_inner(self.__parent__)):
             return False
 
-        # Check folders by traversing through the object tree
-        allowed = False
-        def traverse(obj):
-            # Run from context to the Plone Site Root
+        # Traverse the object tree.
+        def traverse_parent_folder(obj):
+            # Run through the object tree from context,
+            # to the Plone Site Root and look for the first folder object
+            # that has allow_discussion set to True or False.
             if not IPloneSiteRoot.providedBy(obj):
-                # Look for Plone folders
-                if IFolderish.providedBy(obj) and not INonStructuralFolder.providedBy(obj):
-                    if portal_discussion.isDiscussionAllowedFor(obj):
-                        #print "FOLDER %s: discussion allowed => override" % obj.id
-                        allowed = True
-                traverse(aq_parent(obj))
+                if IFolderish.providedBy(obj) and \
+                    not INonStructuralFolder.providedBy(obj):
+                    # If the current object is a Plone folder,
+                    # check if the discussion_allowed flag is set.
+                    allow_discussion_flag = getattr(obj, 'allow_discussion', None)
+                    if allow_discussion_flag == True:
+                        return True
+                    elif allow_discussion_flag == False:
+                        return False
+                    else:
+                        # If allow_discussion flag is not set, go on traversing.
+                        pass
+                else:
+                    # If the current object is not a Plone folder,
+                    # go on with traversal.
+                    foo = traverse_parent_folder(aq_parent(obj))
+                    if foo:
+                        return True
 
         obj = aq_parent(self)
-        #print ""
-        #print "### START TRAVERSE ###"
-        # Start traversing
-        #traverse(obj)
-        #print allowed
-        #print "### END TRAVERSE ###"
 
+        # Check if traversal returned a folder with discussion_allowed set
+        # to True or False.
+        folder_allow_discussion = traverse_parent_folder(obj)
+        if folder_allow_discussion == True:
+            if not getattr(self, 'allow_discussion', None):
+                return True
+        elif folder_allow_discussion == False:
+            if getattr(aq_inner(self.__parent__), 'allow_discussion', None):
+                return True
 
         # Check if discussion is allowed on the content type
         portal_type = self.__parent__.portal_type
@@ -133,8 +149,7 @@ class Conversation(Traversable, Persistent, Explicit):
         if not document_fti.getProperty('allow_discussion'):
             # If discussion is not allowed on the content type,
             # check if 'allow discussion' is overridden on the content object.
-            #if hasattr( aq_base(self.__parent__), 'allow_discussion' ):
-            if not portal_discussion.isDiscussionAllowedFor(aq_inner(self.__parent__)):
+            if not getattr(aq_inner(self.__parent__), 'allow_discussion', None):
                 return False
 
         return True
