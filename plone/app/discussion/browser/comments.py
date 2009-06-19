@@ -22,10 +22,9 @@ from plone.registry.interfaces import IRegistry
 
 from plone.app.layout.viewlets.common import ViewletBase
 
-from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
-from plone.app.discussion.conversation import conversationAdapterFactory
-
 from plone.app.discussion.comment import CommentFactory
+from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
+
 
 
 class View(BrowserView):
@@ -59,12 +58,10 @@ class CommentsViewlet(ViewletBase):
 
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
-        conversation = conversationAdapterFactory(context)
+        conversation = IConversation(context)
         return conversation.enabled
 
     def get_replies(self, workflow_actions=False):
-
-        # Acquisition wrap the conversation
         context = aq_inner(self.context)
         conversation = IConversation(context)
 
