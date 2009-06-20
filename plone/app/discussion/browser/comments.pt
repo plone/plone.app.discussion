@@ -86,7 +86,7 @@
                 </div>
 
                 <button style="display: inline;"
-                        class="context reply-to-comment-button"
+                        class="context reply-to-comment-button allowMultiSubmit"
                         tal:condition="python:userHasReplyPermission and isDiscussionAllowed or isAnonymousDiscussionAllowed"
                         i18n:translate="label_reply;">
                     Reply
