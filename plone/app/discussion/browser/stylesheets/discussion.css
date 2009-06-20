@@ -35,14 +35,6 @@
 }
 
 .reply-to-comment-button {
-	float: right;
-	margin-top: -2.5em;
-    position: absolute;
-    bottom: 1em;
-    right: 1em;
-}
-
-.reply-to-comment-button {
    /* Hide the reply-to-comment button and show it only if Javascript is enabled.
     * Since the reply functions rely on jQuery.
     */
