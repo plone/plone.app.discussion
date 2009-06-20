@@ -34,7 +34,7 @@
                              anonymous_creator python:creator in ('Anonymous User', '');"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth);
                                  style string:margin-left: ${depth}em;
-                                 id string:comment-${reply/id}">
+                                 id string:${reply/id}">
 
                 <div class="commentImage" tal:condition="showCommenterImage">
 
@@ -85,6 +85,13 @@
                      This is the body text of the comment.
                 </div>
 
+                <button style="display: inline;"
+                        class="context reply-to-comment-button"
+                        tal:condition="python:userHasReplyPermission and isDiscussionAllowed or isAnonymousDiscussionAllowed"
+                        i18n:translate="label_reply;">
+                    Reply
+                </button>
+
                 <form name="delete"
                       action=""
                       method="post"
@@ -112,14 +119,6 @@
                            tal:attributes="value action/title"
                            />
                 </form>
-
-                <a href="#" class="reply-to-comment-button" title="reply to this comment"
-                   tal:condition="python:userHasReplyPermission and isDiscussionAllowed or isAnonymousDiscussionAllowed"
-                   tal:attributes="onclick string:createReplyToCommentForm(${reply/id});
-                                   id string:reply-to-comment-${reply/id}-button;
-                                   href string:#comment-${reply/id}">
-                    <img src="++resource++plone.app.discussion.images/reply.gif" />
-                </a>
 
             </div>
 
