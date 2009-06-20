@@ -37,7 +37,7 @@ jq(document).ready(function() {
 	    var reply_form = reply_div.find("form");
 
 	    /* Add a hidden field with the id of the comment */
-	    reply_form.append("<input type=\"hidden\" value=\"" + comment_id + "\" name=\"form.reply_to_comment_id\"");
+        reply_form.append("<input type=\"hidden\" value=\"" + comment_id + "\" name=\"form.reply_to_comment_id\" />");
 
 	    /* Change the form action to @@reply-to-comment */
 	    var old_action = reply_form.attr("action");
