@@ -18,6 +18,10 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
+from Products.CMFPlone import PloneMessageFactory as _
+
+from Products.statusmessages.interfaces import IStatusMessage
+
 from plone.registry.interfaces import IRegistry
 
 from plone.app.layout.viewlets.common import ViewletBase
@@ -142,6 +146,32 @@ class AddComment(BrowserView):
             author_username = self.request.get('author_username')
             author_email = self.request.get('author_email')
 
+            # Check the form input
+            if author_username == '':
+                IStatusMessage(self.request).addStatusMessage(\
+                    _("Username field is empty."),
+                    type="info")
+                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return None
+            if author_email == '':
+                IStatusMessage(self.request).addStatusMessage(\
+                    _("Email field is empty."),
+                    type="info")
+                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return None
+            if subject == '':
+                IStatusMessage(self.request).addStatusMessage(\
+                    _("Subject field is empty."),
+                    type="info")
+                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return None
+            if text == '':
+                IStatusMessage(self.request).addStatusMessage(\
+                    _("Comment field is empty."),
+                    type="info")
+                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return None
+
             # The add-comment view is called on the conversation object
             conversation = self.context
 
@@ -189,6 +219,32 @@ class ReplyToComment(BrowserView):
             text = self.request.get('body_text')
             author_username = self.request.get('author_username')
             author_email = self.request.get('author_email')
+
+            # Check the form input
+            if author_username == '':
+                IStatusMessage(self.request).addStatusMessage(\
+                    _("Username field is empty."),
+                    type="info")
+                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return None
+            if author_email == '':
+                IStatusMessage(self.request).addStatusMessage(\
+                    _("Email field is empty."),
+                    type="info")
+                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return None
+            if subject == '':
+                IStatusMessage(self.request).addStatusMessage(\
+                    _("Subject field is empty."),
+                    type="info")
+                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return None
+            if text == '':
+                IStatusMessage(self.request).addStatusMessage(\
+                    _("Comment field is empty."),
+                    type="info")
+                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return None
 
             # The add-comment view is called on the conversation object
             conversation = self.context
