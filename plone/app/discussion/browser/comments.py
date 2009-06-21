@@ -39,7 +39,8 @@ class View(BrowserView):
         # Redirect from /path/to/object/++conversation++default/123456789
         # to /path/to/object#comment-123456789
         comment_id = aq_parent(self).id
-        self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#comment-' + comment_id)
+        #self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#comment-' + comment_id)
+        self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#' + comment_id)
 
 class CommentsViewlet(ViewletBase):
     """Discussion Viewlet
@@ -128,7 +129,7 @@ class CommentsViewlet(ViewletBase):
 
     def format_time(self, time):
         # We have to transform Python datetime into Zope DateTime
-        # before we can call toLocalizedTime
+        # before we can call toLocalizedTime.
         util = getToolByName(self.context, 'translation_service')
         zope_time = DateTime(time.year, time.month, time.day, time.hour, time.minute, time.second)
         return util.toLocalizedTime(zope_time, long_format=True)
