@@ -151,26 +151,22 @@ class AddComment(BrowserView):
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Username field is empty."),
                     type="info")
-                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
-                return None
+                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
             if author_email == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Email field is empty."),
                     type="info")
-                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
-                return None
+                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
             if subject == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Subject field is empty."),
                     type="info")
-                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
-                return None
+                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
             if text == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Comment field is empty."),
                     type="info")
-                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
-                return None
+                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
 
             # The add-comment view is called on the conversation object
             conversation = self.context
@@ -225,26 +221,22 @@ class ReplyToComment(BrowserView):
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Username field is empty."),
                     type="info")
-                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
-                return None
+                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
             if author_email == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Email field is empty."),
                     type="info")
-                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
-                return None
+                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
             if subject == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Subject field is empty."),
                     type="info")
-                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
-                return None
+                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
             if text == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Comment field is empty."),
                     type="info")
-                self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
-                return None
+                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
 
             # The add-comment view is called on the conversation object
             conversation = self.context
@@ -297,7 +289,10 @@ class DeleteComment(BrowserView):
 
         del conversation[comment_id]
 
-        self.context.plone_utils.addPortalMessage('Comment %s deleted' % comment_id)
+        # Todo: i18n
+        IStatusMessage(self.request).addStatusMessage(
+            _('Comment %s deleted' % comment_id),
+            type="info")
         return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
 
 class PublishComment(BrowserView):
@@ -313,5 +308,8 @@ class PublishComment(BrowserView):
         portal_workflow = getToolByName(comment, 'portal_workflow')
         portal_workflow.doActionFor(comment, workflow_action)
 
-        self.context.plone_utils.addPortalMessage('Workflow action for commment %s changed (%s)' % (comment_id, workflow_action))
+        # Todo: i18n
+        IStatusMessage(self.request).addStatusMessage(
+            _('Workflow action for commment %s changed (%s)' % (comment_id, workflow_action)),
+            type="info")
         return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
