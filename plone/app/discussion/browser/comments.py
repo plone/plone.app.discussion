@@ -274,7 +274,10 @@ class ReplyToComment(BrowserView):
             new_re_id = replies.addComment(comment)
 
             # Redirect to comment (inside a content object page)
-            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#comment-' + str(reply_to_comment_id))
+            #self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#comment-' + str(reply_to_comment_id))
+            # Todo: Temporarily remove the "#comment-" to fix a bug
+            # in CMFPlone/skins/plone_ecmascript/form_tabbing.js
+            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(reply_to_comment_id))
 
 class DeleteComment(BrowserView):
     """Delete a comment from a conversation
