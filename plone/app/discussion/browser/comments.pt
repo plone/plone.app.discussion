@@ -37,7 +37,7 @@
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth);
                                  style string:margin-left: ${depth}em;
                                  id string:${reply/id}"
-                 tal:condition="python:canManage or published and isAnon">
+                 tal:condition="python:canManage or published">
 
                 <div class="commentImage" tal:condition="showCommenterImage">
 
