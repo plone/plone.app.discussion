@@ -199,7 +199,8 @@ class AddComment(BrowserView):
             comment_id = conversation.addComment(comment)
 
             # Redirect to comment (inside a content object page)
-            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#comment-' + str(comment_id))
+            #self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#comment-' + str(comment_id))
+            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(comment_id))
 
 class ReplyToComment(BrowserView):
     """Reply to a comment
