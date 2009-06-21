@@ -5,7 +5,8 @@
                    canManage view/can_manage;
                    replies python:view.get_replies(canManage);
                    showCommenterImage view/show_commenter_image;
-                   errors options/state/getErrors|nothing;"
+                   errors options/state/getErrors|nothing;
+                   wtool context/@@plone_tools/workflow"
            tal:condition="isDiscussionAllowed"
            i18n:domain="plone">
 
@@ -31,10 +32,12 @@
                              creator reply/Creator;
                              author_home_url python:view.get_commenter_home_url(username=reply.author_username);
                              portrait_url python:view.get_commenter_portrait(reply.author_username);
-                             anonymous_creator python:creator in ('Anonymous User', '');"
+                             anonymous_creator python:creator in ('Anonymous User', '');
+                             published python:wtool.getInfoFor(reply, 'review_state') == 'published';"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth);
                                  style string:margin-left: ${depth}em;
-                                 id string:${reply/id}">
+                                 id string:${reply/id}"
+                 tal:condition="python:canManage or published and isAnon">
 
                 <div class="commentImage" tal:condition="showCommenterImage">
 
