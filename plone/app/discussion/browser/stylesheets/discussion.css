@@ -49,3 +49,16 @@
 	display: none;
 }
 
+/* Moderation View
+   ---------------------------------------------------------------- */
+
+.filter {
+	margin-left: 0 !important;
+}
+.filter li {
+	display: inline;
+}
+
+.filter li a:link {
+	border-bottom: 0px solid transparent;
+}
