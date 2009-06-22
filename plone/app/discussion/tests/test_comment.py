@@ -4,7 +4,10 @@ from zope.component import createObject
 
 from zope.component import getMultiAdapter
 
+from Products.CMFCore.utils import getToolByName
+
 from Products.PloneTestCase.ptc import PloneTestCase
+
 from plone.app.discussion.tests.layer import DiscussionLayer
 
 from plone.app.discussion.interfaces import IComment, IConversation, IReplies
@@ -112,6 +115,48 @@ class CommentTest(PloneTestCase):
 
         # TODO: is this correct? Redirect ist 301
         self.assertEquals(200, self.app.REQUEST.response.getStatus())
+
+class CatalogTest(PloneTestCase):
+
+    layer = DiscussionLayer
+
+    def afterSetUp(self):
+        # First we need to create some content.
+        self.loginAsPortalOwner()
+        typetool = self.portal.portal_types
+        typetool.constructContent('Document', self.portal, 'doc1')
+
+        self.catalog = getToolByName(self.portal, 'portal_catalog')
+
+        conversation = IConversation(self.portal.doc1)
+
+        comment1 = createObject('plone.Comment')
+        comment1.title = 'Comment 1'
+        comment1.text = 'Comment text'
+        comment1.creator = 'Jim'
+
+        new_comment1_id = conversation.addComment(comment1)
+        self.comment_id = new_comment1_id
+
+        self.comment = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_comment1_id)
+
+        brains = self.catalog.searchResults(
+                     path = {'query' : '/'.join(self.comment.getPhysicalPath()) })
+        self.comment_brain = brains[0]
+
+    def test_title(self):
+        self.assertEquals(self.comment_brain.Title, 'Comment 1')
+
+    def test_type(self):
+        self.assertEquals(self.comment_brain.portal_type, 'Discussion Item')
+        self.assertEquals(self.comment_brain.meta_type, 'Discussion Item')
+        self.assertEquals(self.comment_brain.Type, 'Discussion Item')
+
+    def test_review_state(self):
+         self.assertEquals(self.comment_brain.review_state, 'published')
+
+    def test_creator(self):
+        self.assertEquals(self.comment_brain.Creator, 'Jim')
 
 class RepliesTest(PloneTestCase):
 
