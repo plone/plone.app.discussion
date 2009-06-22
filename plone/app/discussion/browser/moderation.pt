@@ -59,12 +59,60 @@
             the first batch.
         </p>
 
+        <ul class="filter">
+            <li class="all">
+                <a class="current" href="#">All</a>
+                |
+            </li>
+            <li class="moderated">
+                <a href="#">
+                    Pending (
+                    <span class="pending-count">0</span>
+                    )
+                </a>
+                |
+            </li>
+            <li class="approved">
+                <a href="#">Approved</a>
+                |
+            </li>
+            <li class="spam">
+                <a href="#">
+                    Spam (
+                    <span class="spam-count">0</span>
+                    )
+                </a>
+            </li>
+        </ul>
+
+        <select name="bulkaction">
+            <option selected="selected" value="-1">Bulk Actions</option>
+            <option value="unapprove">Unapprove</option>
+            <option value="approve">Approve</option>
+            <option value="markspam">Mark as Spam</option>
+            <option value="delete">Delete</option>
+        </select>
+        <input id="dobulkaction" type="submit" class="standalone" value="Apply" name="bulkdoaction"/>
+
         <table id="review-comments" class="listing nosort" style="width: 100%" tal:condition="items">
             <thead>
                 <tr>
-                    <th i18n:translate="heading_author">Author</th>
+                  <th colspan="7" class="nosort"
+                      i18n:translate="label_select_all">
+                    Select:
+                    <a tal:attributes="href string:#"
+                       id="foldercontents-selectall"
+                       i18n:name="label_link_all"
+                       i18n:translate="label_all">
+                      All
+                    </a>
+                  </th>
+                </tr>
+                <tr>
+                    <th class="nosort"> </th>
+                    <th i18n:translate="heading_author">Commenter</th>
                     <th i18n:translate="heading_date">Date</th>
-                    <th i18n:translate="heading_context">Context</th>
+                    <th i18n:translate="heading_context">In Response To</th>
                     <th i18n:translate="heading_subject">Subject</th>
                     <th i18n:translate="heading_comment">Comment</th>
                     <th i18n:translate="heading_action">Action</th>
@@ -72,13 +120,27 @@
             </thead>
             <tbody>
                 <tal:block repeat="item items">
-                    <tr style="vertical-align: top" class="commentrow">
-
+                    <tr style="vertical-align: top" class="commentrow"
+                        tal:define="odd repeat/item/odd"
+                        tal:attributes="class python: odd and 'odd' or 'even'">
+                        <td class="notDraggable">
+                            <input type="checkbox"
+                                   class="noborder"
+                                   name="paths:list" id="#"
+                                   value="#"
+                                   tal:attributes="value   item/getPath;
+                                                   id      string:cb_${item/id};
+                                                   checked item/checked|nothing;
+                                                   alt     string:Select ${item/title_or_id};
+                                                   title   string:Select ${item/title_or_id}" />
+                            <input type="hidden" name="selected_obj_paths:list" value="#"
+                                   tal:attributes="value item/getURL" />
+                        </td>
                         <td tal:content="item/Creator" />
-                        <td tal:content="python:view.format_time(item.ModificationDate)" />
+                        <td tal:content="python:toLocalizedTime(item.ModificationDate, long_format=1)" />
                         <td>
-                            <!--<a tal:attributes="href item/getURL"
-                               tal:content="item/comment_subject" />-->
+                            <a tal:attributes="href item/getURL"
+                               tal:content="item/@@plone_context_state/parent|nothing" />
                         </td>
                         <td>
                             <a tal:attributes="href item/getURL"
@@ -87,7 +149,6 @@
 
                         <td tal:content="structure python:view.cook(item.Description)" />
                         <td style="width: 11em">
-                        <!--
                             <form action=""
                                   class="background-form"
                                   method="post"
@@ -113,7 +174,6 @@
                                        i18n:attributes="value label_delete;"
                                        />
                             </form>
-                        -->
                         </td>
                     </tr>
                 </tal:block>
