@@ -24,7 +24,7 @@ class Comment(DynamicType, Traversable, RoleManager, Owned, Implicit):
 
     implements(IComment)
 
-    meta_type = portal_type = 'Discussion Item'
+    meta_type = portal_type = Type = 'Discussion Item'
 
     __parent__ = None
 
