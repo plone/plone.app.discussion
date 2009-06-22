@@ -17,11 +17,6 @@ class View(BrowserView):
     def cook(self, text):
         return text
 
-    def format_time(self, time):
-        context = aq_inner(self.context)
-        util = getToolByName(context, 'translation_service')
-        return util.ulocalized_time(time, 1, context, domain='plonelocales')
-
     def comments_pending_review(self):
 
         self.state = self.request.get('review_state', 'pending')
