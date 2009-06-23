@@ -61,38 +61,35 @@
 
         <ul class="filter">
             <li class="all">
-                <a class="current" href="#">All</a>
+                <a class="current" href="#" i18n:translate="title_filter_all">All</a>
                 |
             </li>
             <li class="moderated">
-                <a href="#">
-                    Pending (
-                    <span class="pending-count">0</span>
-                    )
-                </a>
+                <a href="#" i18n:translate="title_filter_pending">Pending</a>
                 |
             </li>
             <li class="approved">
-                <a href="#">Approved</a>
+                <a href="#" i18n:translate="title_filter_approved">Approved</a>
                 |
             </li>
             <li class="spam">
-                <a href="#">
-                    Spam (
-                    <span class="spam-count">0</span>
-                    )
-                </a>
+                <a href="#" i18n:translate="title_filter_spam">Spam</a>
             </li>
         </ul>
 
         <select name="bulkaction">
-            <option selected="selected" value="-1">Bulk Actions</option>
-            <option value="unapprove">Unapprove</option>
-            <option value="approve">Approve</option>
-            <option value="markspam">Mark as Spam</option>
-            <option value="delete">Delete</option>
+            <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
+            <option value="unapprove" i18n:translate="bulkactions_unapprove">Unapprove</option>
+            <option value="approve" i18n:translate="bulkactions_approve">Approve</option>
+            <option value="markasspam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>
+            <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
         </select>
-        <input id="dobulkaction" type="submit" class="standalone" value="Apply" name="bulkdoaction"/>
+        <input id="dobulkaction"
+               type="submit"
+               class="standalone"
+               value="Apply"
+               name="bulkdoaction"
+               i18n:attributes="value label_apply;" />
 
         <table id="review-comments" class="listing nosort" style="width: 100%" tal:condition="items">
             <thead>

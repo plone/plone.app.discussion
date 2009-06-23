@@ -84,7 +84,8 @@
                 </div>
 
                 <div class="commentBody"
-                     tal:content="structure reply/text">
+                     tal:content="structure reply/text"
+                     i18n:translate="comment_body_text">
                      This is the body text of the comment.
                 </div>
 
