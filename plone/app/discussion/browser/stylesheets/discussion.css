@@ -6,15 +6,13 @@
 
 .comment {
 	min-height: 100px;
-	position: relative;
 	overflow: auto;
 }
 
 .commentImage {
 	width: 90px;
 	float: left;
-	/* Todo: This is only a temporary solution !!! */
-	background: #EEF3F5;
+	background: #EEF3F5; /* Todo: Only a temporary solution !!! */
 }
 
 .commentImage img {
