@@ -449,7 +449,7 @@ class CommentReplies(ConversationReplies):
 
     def __init__(self, context):
         self.comment = context
-        self.conversation = self.comment.__parent__
+        self.conversation = aq_parent(self.comment)
 
         if self.conversation is None or not hasattr(self.conversation, '_children'):
             raise TypeError("This adapter doesn't know what to do with the parent conversation")
