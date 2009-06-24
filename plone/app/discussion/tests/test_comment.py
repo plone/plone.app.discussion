@@ -183,8 +183,8 @@ class RepliesTest(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
         comment.text = 'Comment text'
-
         new_id = replies.addComment(comment)
+        comment = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_id)
 
         # Add a reply to the CommentReplies adapter of the first comment
         re_comment = createObject('plone.Comment')
@@ -220,8 +220,8 @@ class RepliesTest(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
         comment.text = 'Comment text'
-
         new_id = replies.addComment(comment)
+        comment = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_id)
 
         # Add a reply to the CommentReplies adapter of the first comment
         re_comment = createObject('plone.Comment')

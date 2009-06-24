@@ -747,11 +747,14 @@ class RepliesTest(PloneTestCase):
 
         # Create the nested comment structure
         new_id_1 = replies.addComment(comment1)
+        comment1 = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_id_1)
         replies_to_comment1 = IReplies(comment1)
         new_id_2 = replies.addComment(comment2)
+        comment2 = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_id_2)
         replies_to_comment2 = IReplies(comment2)
 
         new_id_1_1 = replies_to_comment1.addComment(comment1_1)
+        comment1_1 = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_id_1_1)
         replies_to_comment1_1 = IReplies(comment1_1)
         new_id_1_1_1 = replies_to_comment1_1.addComment(comment1_1_1)
 
