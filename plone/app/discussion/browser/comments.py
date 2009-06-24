@@ -291,10 +291,10 @@ class DeleteComment(BrowserView):
 
     def __call__(self):
 
-        comment = aq_inner(self.context)
+        context = aq_inner(self.context)
         comment_id = self.context.id
 
-        conversation = self.context.__parent__
+        conversation = aq_parent(context)
 
         del conversation[comment_id]
 
@@ -302,7 +302,7 @@ class DeleteComment(BrowserView):
         IStatusMessage(self.request).addStatusMessage(
             _('Comment %s deleted' % comment_id),
             type="info")
-        return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
+        return context.REQUEST.RESPONSE.redirect(context.REQUEST.HTTP_REFERER)
 
 class PublishComment(BrowserView):
     """Publish a comment
