@@ -78,7 +78,7 @@ class Comment(DynamicType, Traversable, RoleManager, Owned, Implicit):
     def Type(self):
         """The Discussion Item content type
         """
-        return "Discussion Item"
+        return self.portal_type
 
     # CMF's event handlers assume any IDynamicType has these :(
 
