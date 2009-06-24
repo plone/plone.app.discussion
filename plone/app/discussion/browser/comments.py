@@ -142,6 +142,8 @@ class AddComment(BrowserView):
 
         if self.request.has_key('form.button.AddComment'):
 
+            context = aq_inner(self.context)
+
             subject = self.request.get('subject')
             text = self.request.get('body_text')
             author_username = self.request.get('author_username')
@@ -152,32 +154,32 @@ class AddComment(BrowserView):
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Username field is empty."),
                     type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
             if author_email == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Email field is empty."),
                     type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
             if subject == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Subject field is empty."),
                     type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
             if text == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Comment field is empty."),
                     type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
 
             # The add-comment view is called on the conversation object
-            conversation = self.context
+            conversation = context
 
             # Create the comment
             comment = CommentFactory()
             comment.title = subject
             comment.text = text
 
-            portal_membership = getToolByName(self.context, 'portal_membership')
+            portal_membership = getToolByName(context, 'portal_membership')
 
             if portal_membership.isAnonymousUser():
                 comment.creator = author_username
@@ -200,14 +202,16 @@ class AddComment(BrowserView):
             comment_id = conversation.addComment(comment)
 
             # Redirect to comment (inside a content object page)
-            #self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#comment-' + str(comment_id))
-            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(comment_id))
+            #self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url() + '#comment-' + str(comment_id))
+            self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url() + '#' + str(comment_id))
 
 class ReplyToComment(BrowserView):
     """Reply to a comment
     """
 
     def __call__(self):
+
+        context = aq_inner(self.context)
 
         if self.request.has_key('form.button.AddComment'):
 
@@ -223,25 +227,25 @@ class ReplyToComment(BrowserView):
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Username field is empty."),
                     type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
             if author_email == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Email field is empty."),
                     type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
             if subject == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Subject field is empty."),
                     type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
             if text == '':
                 IStatusMessage(self.request).addStatusMessage(\
                     _("Comment field is empty."),
                     type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url())
+                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
 
             # The add-comment view is called on the conversation object
-            conversation = self.context
+            conversation = context
 
             # Fetch the comment we want to reply to
             comment_to_reply_to = conversation.get(reply_to_comment_id)
@@ -253,7 +257,7 @@ class ReplyToComment(BrowserView):
             comment.title = subject
             comment.text = text
 
-            portal_membership = getToolByName(self.context, 'portal_membership')
+            portal_membership = getToolByName(context, 'portal_membership')
 
             if portal_membership.isAnonymousUser():
                 comment.creator = author_username
@@ -276,10 +280,10 @@ class ReplyToComment(BrowserView):
             new_re_id = replies.addComment(comment)
 
             # Redirect to comment (inside a content object page)
-            #self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#comment-' + str(reply_to_comment_id))
+            #self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url() + '#comment-' + str(reply_to_comment_id))
             # Todo: Temporarily remove the "#comment-" to fix a bug
             # in CMFPlone/skins/plone_ecmascript/form_tabbing.js
-            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(reply_to_comment_id))
+            self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url() + '#' + str(reply_to_comment_id))
 
 class DeleteComment(BrowserView):
     """Delete a comment from a conversation
