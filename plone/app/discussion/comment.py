@@ -24,7 +24,7 @@ class Comment(DynamicType, Traversable, RoleManager, Owned, Implicit):
 
     implements(IComment)
 
-    meta_type = portal_type = Type = 'Discussion Item'
+    meta_type = portal_type = 'Discussion Item'
 
     __parent__ = None
 
@@ -74,6 +74,11 @@ class Comment(DynamicType, Traversable, RoleManager, Owned, Implicit):
         """The name of the person who wrote the comment
         """
         return self.creator
+
+    def Type(self):
+        """The Discussion Item content type
+        """
+        return "Discussion Item"
 
     # CMF's event handlers assume any IDynamicType has these :(
 

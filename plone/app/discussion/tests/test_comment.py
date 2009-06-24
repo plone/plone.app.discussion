@@ -45,7 +45,7 @@ class CommentTest(PloneTestCase):
 
     def test_type(self):
         comment1 = createObject('plone.Comment')
-        self.assertEquals(comment1.Type, 'Discussion Item')
+        self.assertEquals(comment1.Type(), 'Discussion Item')
 
     def test_traversal(self):
         # make sure comments are traversable, have an id, absolute_url and physical path
