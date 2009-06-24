@@ -8,31 +8,6 @@ BASIC COMMENTING FUNCTIONALITY
  [ ] Add jQuery auto-resize to comment text field
      http://www.aclevercookie.com/demos/autogrow_textarea.html
 
- [ ] Replace the reply-to-comment button with a Plone-like reply-button
-
- [ ] IE: cancel button in reply-to-comment form does not work
-
- [ ] Chrome (Linux): Reply to comment is not working
-     (TypeError: long() argument must be a string or a number)
-
- [ ] Restrict nesting of comments on a certain level
-
- [ ] Fix temporary commenter's image css
-
- [X] Make comments viewlet format_time return localized time
-
- [ ] Add i18n translations
-
- [ ] Add i18n translations for author_username and author_email
-
- [ ] Plone reports "unsuccessfully attempted to uncatalog an object" while
-     trying to delete a comment.
-
- [ ] Fix that when opening a reply form before the page has been fully loaded,
-     the reply layer is closed again.
-
- [ ] Form validation is not working in the reply-to-comment form
-
  [ ] Add event handlers to ensure we don't get stale comments in the catalog
      when parent objects are removed/moved/cloned:
 
@@ -95,3 +70,28 @@ DONE:
  [X] Discussion Control Panel: Add icon
 
  [X] Add id fall back for Creator if no Username (Title) has been added
+
+ [X] Replace the reply-to-comment button with a Plone-like reply-button
+
+ [X] IE: cancel button in reply-to-comment form does not work
+
+ [X] Chrome (Linux): Reply to comment is not working
+     (TypeError: long() argument must be a string or a number)
+
+ [X] Restrict nesting of comments on a certain level
+
+ [X] Fix temporary commenter's image css
+
+ [X] Make comments viewlet format_time return localized time
+
+ [X] Add i18n translations
+
+ [X] Add i18n translations for author_username and author_email
+
+ [X] Plone reports "unsuccessfully attempted to uncatalog an object" while
+     trying to delete a comment.
+
+ [X] Fix that when opening a reply form before the page has been fully loaded,
+     the reply layer is closed again.
+
+ [X] Form validation is not working in the reply-to-comment form
