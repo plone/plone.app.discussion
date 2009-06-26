@@ -145,7 +145,8 @@
                                   class="background-form"
                                   method="post"
                                   style="display: inline"
-                                  tal:attributes="action string:${item/getURL}/@@moderate-publish-comment">
+                                  tal:attributes="action string:${item/getURL}/@@moderate-publish-comment"
+                                  tal:condition="python:item.review_state == 'pending'">
                                 <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
                                 <input type="hidden" name="workflow_action" tal:attributes="value view/transition" />
                                 <input class="context comment-publish-button"
