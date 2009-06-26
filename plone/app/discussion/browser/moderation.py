@@ -108,7 +108,6 @@ class PublishComment(BrowserView):
 
         catalog = getToolByName(comment, 'portal_catalog')
         catalog.reindexObject(comment)
-        comment.reindexObjectSecurity()
 
         return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
 
