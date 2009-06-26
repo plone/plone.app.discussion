@@ -70,23 +70,26 @@
             -->
         </ul>
 
-        <form method="post" action="#" tal:attributes="action context/absolute_url">
-            <select name="bulkaction">
+        <form method="post"
+              action="#"
+              class="kssattr-serveraction-foldercontents_update_table"
+              tal:attributes="action string:${context/absolute_url}/@@bulk-actions">
+            <select name="form.select.BulkAction">
                 <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
-                <option value="unapprove" i18n:translate="bulkactions_unapprove">Unapprove</option>
-                <option value="approve" i18n:translate="bulkactions_approve">Approve</option>
-                <option value="markasspam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>
+                <!--<option value="retract" i18n:translate="bulkactions_retract">Retract</option>-->
+                <option value="publish" i18n:translate="bulkactions_publish">Publish</option>
+                <!--<option value="mark_as_spam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>-->
                 <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
             </select>
             <input id="dobulkaction"
                    type="submit"
-                   class="standalone"
+                   class="standalone allowMultiSubmit"
                    value="Apply"
                    name="form.button.BulkAction"
                    i18n:attributes="value label_apply;" />
-        </form>
 
-        <table id="review-comments" class="listing nosort" style="width: 100%" tal:condition="items">
+
+        <table id="review-comments" class="listing" style="width: 100%" tal:condition="items">
             <thead>
                 <tr>
                   <th colspan="7" class="nosort"
@@ -123,8 +126,8 @@
                                    tal:attributes="value   item/getPath;
                                                    id      string:cb_${item/id};
                                                    checked item/checked|nothing;
-                                                   alt     string:Select ${item/title_or_id};
-                                                   title   string:Select ${item/title_or_id}" />
+                                                   alt     string:Select ${item/Title};
+                                                   title   string:Select ${item/Title}" />
                             <input type="hidden" name="selected_obj_paths:list" value="#"
                                    tal:attributes="value item/getURL" />
                         </td>
@@ -172,7 +175,7 @@
                 </tal:block>
             </tbody>
         </table>
-
+        </form>
     </tal:main-macro>
 </metal:main>
 

@@ -121,5 +121,43 @@ class BulkActionsView(BrowserView):
 
         if self.request.has_key('form.button.BulkAction'):
 
-            bulkaction = self.request.get('form.bulkaction')
-            return bulkaction
+            bulkaction = self.request.get('form.select.BulkAction')
+
+            paths = self.request.get('paths')
+
+            if bulkaction == '-1':
+                return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
+            elif bulkaction == 'retract':
+                self.retract(paths)
+            elif bulkaction == 'publish':
+                self.publish(paths)
+            elif bulkaction == 'mark_as_spam':
+                self.mark_as_spam(paths)
+            elif bulkaction == 'delete':
+                self.delete(paths)
+            else:
+                raise KeyError
+
+        return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
+
+    def retract(self, paths):
+        raise NotImplementedError
+
+    def publish(self, paths):
+        context = aq_inner(self.context)
+        for path in paths:
+            comment = context.restrictedTraverse(path)
+            portal_workflow = getToolByName(comment, 'portal_workflow')
+            portal_workflow.doActionFor(comment, 'publish')
+            catalog = getToolByName(comment, 'portal_catalog')
+            catalog.reindexObject(comment)
+
+    def mark_as_spam(self, paths):
+        raise NotImplementedError
+
+    def delete(self, paths):
+        context = aq_inner(self.context)
+        for path in paths:
+            comment = context.restrictedTraverse(path)
+            conversation = aq_parent(comment)
+            del conversation[comment.id]
