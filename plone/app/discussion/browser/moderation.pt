@@ -35,61 +35,56 @@
 
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main"
-        tal:define="items view/comments_pending_review">
+        tal:define="items view/comments">
 
         <h1 class="documentFirstHeading" i18n:translate="title_review">
             Review comments
         </h1>
 
-        <p id="no-comments-message" i18n:translate="message_nothing_to_review"
-            tal:attributes="style python:len(items) > 0 and 'display: none' or None">
-            No comments to review. To look for more comments,
-            <a i18n:name="refresh-link" i18n:translate="message_click_to_refresh"
-                tal:attributes="href context/@@plone_context_state/current_page_url">
-                click here to refresh.
-            </a>
-        </p>
-
-        <p id="comments-help" tal:condition="items" class="discreet" i18n:translate="description_review">
-            Comments for review are listed below. For each one, click
-            <em>Delete</em> to remove the comment or <em>Publish</em> to
-            publish it. Note that at most <span i18n:name="limit" tal:content="view/limit" />
-            comments will be shown at a time. If there are further comments,
-            you will be able to see them once you have published or deleted
-            the first batch.
-        </p>
-
         <ul class="filter">
             <li class="all">
-                <a class="current" href="#" i18n:translate="title_filter_all">All</a>
-                |
+                <form method="post"
+                      action="#"
+                      tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
+                    <input type="submit" value="All" class="context" />
+                </form>
             </li>
-            <li class="moderated">
-                <a href="#" i18n:translate="title_filter_pending">Pending</a>
-                |
+            <li class="pending">
+                <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
+                    <input type="hidden" name="form.button.FilterPending" value="1" />
+                    <input type="submit" value="Pending" class="context" />
+                </form>
             </li>
             <li class="approved">
-                <a href="#" i18n:translate="title_filter_approved">Approved</a>
-                |
+                <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
+                    <input type="hidden" name="form.button.FilterPublished" value="1" />
+                    <input type="submit" value="Published" class="context" />
+                </form>
             </li>
+            <!--
             <li class="spam">
-                <a href="#" i18n:translate="title_filter_spam">Spam</a>
+                <a href="#"
+                   tal:attributes="href string:${context/absolute_url}/@@comments-spam"
+                   i18n:translate="title_filter_spam">Spam</a>
             </li>
+            -->
         </ul>
 
-        <select name="bulkaction">
-            <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
-            <option value="unapprove" i18n:translate="bulkactions_unapprove">Unapprove</option>
-            <option value="approve" i18n:translate="bulkactions_approve">Approve</option>
-            <option value="markasspam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>
-            <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
-        </select>
-        <input id="dobulkaction"
-               type="submit"
-               class="standalone"
-               value="Apply"
-               name="bulkdoaction"
-               i18n:attributes="value label_apply;" />
+        <form method="post" action="#" tal:attributes="action context/absolute_url">
+            <select name="bulkaction">
+                <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
+                <option value="unapprove" i18n:translate="bulkactions_unapprove">Unapprove</option>
+                <option value="approve" i18n:translate="bulkactions_approve">Approve</option>
+                <option value="markasspam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>
+                <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
+            </select>
+            <input id="dobulkaction"
+                   type="submit"
+                   class="standalone"
+                   value="Apply"
+                   name="form.button.BulkAction"
+                   i18n:attributes="value label_apply;" />
+        </form>
 
         <table id="review-comments" class="listing nosort" style="width: 100%" tal:condition="items">
             <thead>
@@ -152,7 +147,7 @@
                                   style="display: inline"
                                   tal:attributes="action string:${item/getURL}/@@moderate-publish-comment">
                                 <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
-                                <input type="hidden" name="action" tal:attributes="value view/transition" />
+                                <input type="hidden" name="workflow_action" tal:attributes="value view/transition" />
                                 <input class="context comment-publish-button"
                                        type="submit"
                                        value="Publish"

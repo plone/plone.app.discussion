@@ -20,8 +20,6 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone import PloneMessageFactory as _
 
-from Products.statusmessages.interfaces import IStatusMessage
-
 from plone.registry.interfaces import IRegistry
 
 from plone.app.layout.viewlets.common import ViewletBase
@@ -284,41 +282,3 @@ class ReplyToComment(BrowserView):
             # Todo: Temporarily remove the "#comment-" to fix a bug
             # in CMFPlone/skins/plone_ecmascript/form_tabbing.js
             self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url() + '#' + str(reply_to_comment_id))
-
-class DeleteComment(BrowserView):
-    """Delete a comment from a conversation
-    """
-
-    def __call__(self):
-
-        context = aq_inner(self.context)
-        comment_id = self.context.id
-
-        conversation = aq_parent(context)
-
-        del conversation[comment_id]
-
-        # Todo: i18n
-        IStatusMessage(self.request).addStatusMessage(
-            _('Comment %s deleted' % comment_id),
-            type="info")
-        return context.REQUEST.RESPONSE.redirect(context.REQUEST.HTTP_REFERER)
-
-class PublishComment(BrowserView):
-    """Publish a comment
-    """
-
-    def __call__(self):
-
-        comment = aq_inner(self.context)
-        comment_id = self.context.id
-
-        workflow_action = self.request.form['workflow_action']
-        portal_workflow = getToolByName(comment, 'portal_workflow')
-        portal_workflow.doActionFor(comment, workflow_action)
-
-        # Todo: i18n
-        IStatusMessage(self.request).addStatusMessage(
-            _('Workflow action for commment %s changed (%s)' % (comment_id, workflow_action)),
-            type="info")
-        return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)

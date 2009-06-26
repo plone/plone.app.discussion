@@ -17,12 +17,21 @@
         permission="cmf.ManagePortal"
         />
 
+    <!-- Moderation bulk actions view -->
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="bulk-actions"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.BulkActionsView"
+        permission="cmf.ManagePortal"
+        />
+
     <!-- Delete comment view -->
     <browser:view
         for="plone.app.discussion.interfaces.IComment"
         name="moderate-delete-comment"
         layer="..interfaces.IDiscussionLayer"
-        class=".comments.DeleteComment"
+        class=".moderation.DeleteComment"
         permission="plone.app.discussion.ReviewComments"
         />
 
@@ -31,7 +40,7 @@
         for="plone.app.discussion.interfaces.IComment"
         name="moderate-publish-comment"
         layer="..interfaces.IDiscussionLayer"
-        class=".comments.PublishComment"
+        class=".moderation.PublishComment"
         permission="plone.app.discussion.ReviewComments"
         />
 

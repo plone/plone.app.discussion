@@ -50,8 +50,8 @@
 /* Moderation View
    ---------------------------------------------------------------- */
 
-.filter {
-	margin-left: 0 !important;
+ul.filter {
+	margin: 0.5em 0 0.5em 0em;
 }
 .filter li {
 	display: inline;
@@ -59,4 +59,12 @@
 
 .filter li a:link {
 	border-bottom: 0px solid transparent;
+}
+
+.filter form {
+	display: inline;
+}
+
+#dobulkaction {
+	margin: 0.2em 0;
 }
