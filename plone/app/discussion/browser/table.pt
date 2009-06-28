@@ -162,15 +162,15 @@
                   &#9660;
                 </a>
               </td>
-              <td style="width: 11em">
+              <td style="width: 11.5em">
                 <form action=""
-                      class="background-form"
+                      class="background-form moderate-publish-comment"
                       method="post"
                       style="display: inline"
                       tal:attributes="action string:${item/url}/@@moderate-publish-comment"
-                      tal:condition="python:True or item.wf_state == 'pending'">
+                      tal:condition="python:item['wf_state'] == 'pending'">
                   <input type="hidden" name="comment_id" tal:attributes="value item/id" />
-                  <input type="hidden" name="workflow_action" tal:attributes="value string:publish
+                  <input type="hidden" name="workflow_action" tal:attributes="value string:publish;
                                                                               todo string:view/transition" />
                   <input class="context comment-publish-button"
                          type="submit"
@@ -180,7 +180,7 @@
                 </form>
                 <form action=""
                       method="post"
-                      class="background-form"
+                      class="background-form moderate-delete-comment"
                       style="display: inline"
                       tal:attributes="action string:${item/url}/@@moderate-delete-comment">
                   <input type="hidden" name="comment_id" tal:attributes="value item/id" />

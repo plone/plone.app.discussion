@@ -35,13 +35,13 @@ class View(BrowserView):
 
     template = ViewPageTemplateFile('moderation.pt')
 
-    def contents_table(self):
-        table = ReviewCommentsTable(aq_inner(self.context), self.request)
-        return table.render()
-
     def __call__(self):
 
         context = aq_inner(self.context)
+
+        self.state = self.request.get('review_state', 'pending')
+        self.transition = self.request.get('publish_transition', 'pending')
+        self.limit = self.request.get('limit', 100)
 
         if self.request.has_key('form.button.FilterPending'):
             self.comments = self.comments_pending()
@@ -51,11 +51,9 @@ class View(BrowserView):
             self.comments = self.comments_all()
         return self.template()
 
-    def cook(self, text):
-        return text
-
-    def comments_workflow_enabled(self):
-        return True
+    def comments_table(self):
+        table = ReviewCommentsTable(aq_inner(self.context), self.request, self.comments, self.transition)
+        return table.render()
 
     def comments_all(self, start=0, size=None):
 
@@ -106,6 +104,12 @@ class View(BrowserView):
     def comments_spam(self, start=0, size=None):
         return None
 
+    def cook(self, text):
+        return text
+
+    def comments_workflow_enabled(self):
+        return True
+
 class ReviewTable(Table):
     render = VPTF("table.pt")
     batching = VPTF("batching.pt")
@@ -114,10 +118,12 @@ class ReviewCommentsTable(object):
     """The reviewcomments table renders the table and its actions.
     """
 
-    def __init__(self, context, request, contentFilter={}):
+    def __init__(self, context, request, content, transition, contentFilter={}, ):
         self.context = context
         self.request = request
         self.contentFilter = contentFilter
+        self.content = content
+        self.transition = transition
 
         url = context.absolute_url()
         view_url = url + '/@@moderate-comments'
@@ -132,17 +138,19 @@ class ReviewCommentsTable(object):
         """
         context = aq_inner(self.context)
 
-        self.state = self.request.get('review_state', 'pending')
-        self.transition = self.request.get('publish_transition', 'pending')
-        self.limit = self.request.get('limit', 100)
+        #self.state = self.request.get('review_state', 'pending')
+        #self.transition = self.request.get('publish_transition', 'pending')
+        #self.limit = self.request.get('limit', 100)
 
-        catalog = getToolByName(context, 'portal_catalog')
+        #catalog = getToolByName(context, 'portal_catalog')
 
-        brains = catalog(
-                portal_type='Discussion Item',
-                sort_on='created',
-                sort_limit=self.limit,
-            )
+        #brains = catalog(
+        #        portal_type='Discussion Item',
+        #        sort_on='created',
+        #        sort_limit=self.limit,
+        #    )
+
+        brains = self.content
 
         plone_utils = getToolByName(context, 'plone_utils')
         plone_view = getMultiAdapter((context, self.request), name=u'plone')
@@ -206,6 +214,7 @@ class ReviewCommentsTable(object):
                 icon = icon.html_tag(),
                 type_class = type_class,
                 wf_state = review_state,
+                transition = self.transition,
                 state_title = portal_workflow.getTitleForStateOnType(review_state,
                                                            obj_type),
                 state_class = state_class,
@@ -238,10 +247,12 @@ class ReviewCommentsTable(object):
 
     @property
     def buttons(self):
+
         buttons = []
         context = aq_inner(self.context)
         portal_actions = getToolByName(context, 'portal_actions')
-        button_actions = portal_actions.listActionInfos(object=context, categories=('folder_buttons', ))
+        #button_actions = portal_actions.listActionInfos(object=context, categories=('folder_buttons', ))
+        button_actions = portal_actions.listActionInfos(object=context)
 
         # Do not show buttons if there is no data, unless there is data to be
         # pasted

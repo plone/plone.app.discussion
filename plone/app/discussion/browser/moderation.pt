@@ -34,51 +34,50 @@
 </metal:scripts>
 
 <metal:main fill-slot="main">
-    <tal:main-macro metal:define-macro="main"
-        tal:define="items view/comments">
+  <tal:main-macro metal:define-macro="main">
 
-        <h1 class="documentFirstHeading" i18n:translate="title_review">
-            Review comments
-        </h1>
+    <h1 class="documentFirstHeading" i18n:translate="title_review">
+      Review comments
+    </h1>
 
-        <ul class="filter">
-            <li class="all">
-                <form method="post"
-                      action="#"
-                      tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="submit" value="All" class="context" />
-                </form>
-            </li>
-            <li class="pending">
-                <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="hidden" name="form.button.FilterPending" value="1" />
-                    <input type="submit" value="Pending" class="context" />
-                </form>
-            </li>
-            <li class="approved">
-                <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="hidden" name="form.button.FilterPublished" value="1" />
-                    <input type="submit" value="Published" class="context" />
-                </form>
-            </li>
-            <!--
-            <li class="spam">
-                <a href="#"
-                   tal:attributes="href string:${context/absolute_url}/@@comments-spam"
-                   i18n:translate="title_filter_spam">Spam</a>
-            </li>
-            -->
-        </ul>
+    <ul class="filter">
+      <li class="all">
+        <form method="post"
+              action="#"
+              tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
+          <input type="submit" value="All" class="context" />
+        </form>
+      </li>
+      <li class="pending">
+        <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
+          <input type="hidden" name="form.button.FilterPending" value="1" />
+          <input type="submit" value="Pending" class="context" />
+        </form>
+      </li>
+      <li class="approved">
+        <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
+          <input type="hidden" name="form.button.FilterPublished" value="1" />
+          <input type="submit" value="Published" class="context" />
+        </form>
+      </li>
+      <!--
+      <li class="spam">
+        <a href="#"
+           tal:attributes="href string:${context/absolute_url}/@@comments-spam"
+           i18n:translate="title_filter_spam">Spam</a>
+      </li>
+      -->
+    </ul>
 
-      <form name="folderContentsForm"
-            method="post"
-            action="folder_object"
-            tal:attributes="action context/absolute_url"
-            class="kssattr-serveraction-foldercontents_update_table">
-        <!-- TODO: change class and replace KSS methods -->
-        <div tal:replace="structure view/contents_table"></div>
-        <input tal:replace="structure context/@@authenticator/authenticator" />
-      </form>
+    <form name="folderContentsForm"
+          method="post"
+          action="folder_object"
+          tal:attributes="action context/absolute_url"
+          class="kssattr-serveraction-foldercontents_update_table">
+      <!-- TODO: change class and replace KSS methods -->
+      <div tal:replace="structure view/comments_table"></div>
+      <input tal:replace="structure context/@@authenticator/authenticator" />
+    </form>
 
         <form method="post"
               action="#"
@@ -98,9 +97,12 @@
                    name="form.button.BulkAction"
                    i18n:attributes="value label_apply;" />
 
-<!--
-        <table id="review-comments" class="listing" style="width: 100%" tal:condition="items">
+
+        <table id="review-comments" class="listing" style="width: 100%"
+               tal:define="items view/comments"
+               tal:condition="items">
             <thead>
+            <!--
                 <tr tal:condition="not:view/table/selectcurrentbatch">
                   <th colspan="7" class="nosort"><span i18n:translate="label_select" tal:omit-tag="">Select:</span> <a i18n:translate="label_all" tal:attributes="href view/table/selectscreen_url" id="foldercontents-selectall" class="update-selection">All</a></th>
                 </tr>
@@ -126,6 +128,7 @@
                        id="foldercontents-clearselection" class="update-selection">Clear selection</a>
                   </th>
                 </tr>
+                -->
                 <tr>
                     <th class="nosort"> </th>
                     <th i18n:translate="heading_author">Commenter</th>
@@ -197,6 +200,7 @@
                     </tr>
                 </tal:block>
             </tbody>
+            <!--
             <tfooter tal:condition="not:view/table/within_batch_size">
               <tr tal:condition="not:view/table/show_all">
                 <th colspan="7" class="nosort">
@@ -213,9 +217,9 @@
                 </th>
               </tr>
             </tfooter>
+            -->
 
         </table>
--->
         </form>
     </tal:main-macro>
 </metal:main>
