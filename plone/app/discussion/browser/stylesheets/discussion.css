@@ -68,11 +68,3 @@ ul.filter {
 #dobulkaction {
 	margin: 0.2em 0;
 }
-
-.moderate-publish-comment {
-	float: left;
-}
-
-.moderate-delete-comment {
-	float: right;
-}

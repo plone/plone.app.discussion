@@ -8,24 +8,6 @@
     <!-- Traversal adapter -->
     <adapter factory=".traversal.ConversationNamespace" name="conversation" />
 
-
-
-    <!--
-    <browser:page
-        for="*"
-        class=".moderation.ReviewCommentsView"
-        name="view"
-        template="foldercontents.pt"
-        permission="cmf.ListFolderContents" />
-    -->
-    <browser:page
-         for="*"
-         class=".moderation.ReviewCommentsKSSView"
-         attribute="update_table"
-         name="reviewcomments_update_table"
-         permission="cmf.ManagePortal" />
-
-
     <!-- Moderation view -->
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
