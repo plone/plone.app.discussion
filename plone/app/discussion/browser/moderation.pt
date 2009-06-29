@@ -68,7 +68,7 @@
 
         <form method="post"
               action="#"
-              class="kssattr-serveraction-foldercontents_update_table"
+              class="bulkactions"
               tal:attributes="action string:${context/absolute_url}/@@bulk-actions">
             <select name="form.select.BulkAction">
                 <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
@@ -77,6 +77,7 @@
                 <!--<option value="mark_as_spam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>-->
                 <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
             </select>
+            <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
             <input id="dobulkaction"
                    type="submit"
                    class="standalone allowMultiSubmit"

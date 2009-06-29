@@ -6,7 +6,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 
 class View(BrowserView):
-    """
+    """Moderation View
     """
 
     template = ViewPageTemplateFile('moderation.pt')
@@ -119,14 +119,15 @@ class BulkActionsView(BrowserView):
 
         context = aq_inner(self.context)
 
-        if self.request.has_key('form.button.BulkAction'):
+        if self.request.has_key('form.select.BulkAction'):
 
             bulkaction = self.request.get('form.select.BulkAction')
 
             paths = self.request.get('paths')
 
             if bulkaction == '-1':
-                return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
+                # no bulk action was selected
+                pass
             elif bulkaction == 'retract':
                 self.retract(paths)
             elif bulkaction == 'publish':
@@ -137,8 +138,6 @@ class BulkActionsView(BrowserView):
                 self.delete(paths)
             else:
                 raise KeyError
-
-        return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
 
     def retract(self, paths):
         raise NotImplementedError
