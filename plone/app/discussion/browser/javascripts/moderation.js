@@ -7,12 +7,14 @@ jq(document).ready(function() {
 	      if(jq(this).val()==0){
 	        jq(this).parents("table")
 	               .find("input:checkbox")
-	               .attr("checked","checked")
+	               .attr("checked","checked");
+		    jq(this).val("1");
 	      }
 	      else{
 	        jq(this).parents("table")
 	               .find("input:checkbox")
-	               .attr("checked","")
+	               .attr("checked","");
+            jq(this).val("0");
 	      }
     });
 
