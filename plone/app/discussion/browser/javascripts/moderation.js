@@ -56,6 +56,7 @@ jq(document).ready(function() {
 		var valArray = jq('input:checkbox:checked');
         var currentFilter = jq(this).find("[name='form.button.Filter']").attr("value");
 		var currentAction = jq(this).find("[name='form.select.BulkAction']").val();
+		var selectField = jq(this).find("[name='form.select.BulkAction']");
         if (valArray.length) {
             jq.post(target, params, function(data) {
                 valArray.each(function () {
@@ -86,6 +87,8 @@ jq(document).ready(function() {
 			// Todo: nicer and translated message
             alert("You haven't selected anything for this bulk action.");
         }
+		// reset the bulkaction select
+		selectField.find("option[value='-1']").attr( 'selected', 'selected' );
     });
 
 });
