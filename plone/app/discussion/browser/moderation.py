@@ -95,8 +95,6 @@ class DeleteComment(BrowserView):
 
         del conversation[comment_id]
 
-        return context.REQUEST.RESPONSE.redirect(context.REQUEST.HTTP_REFERER)
-
 class PublishComment(BrowserView):
     """Publish a comment
     """
@@ -112,8 +110,6 @@ class PublishComment(BrowserView):
 
         catalog = getToolByName(comment, 'portal_catalog')
         catalog.reindexObject(comment)
-
-        return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
 
 class BulkActionsView(BrowserView):
     """Bulk actions (unapprove, approve, delete, mark as spam).
