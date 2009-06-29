@@ -3,6 +3,11 @@
  <javascript
      id="++resource++plone.app.discussion.javascripts/reply_to_comment_form.js"
      cacheable="False" compression="safe" cookable="False"
-     enabled="True" expression=""  inline="False"
+     enabled="True" expression="" inline="False"
 	 />
+ <javascript
+     id="++resource++plone.app.discussion.javascripts/moderation.js"
+     cacheable="False" compression="safe" cookable="False"
+     enabled="True" expression="" inline="False"
+     />
 </object>

@@ -19,15 +19,8 @@
         $.post(target, params, function(data) {
             $(row).fadeOut("normal", function() {
                 $(this).remove();
-                if($('#review-comments tbody tr').length == 0) {
-                    $('#comments-help').fadeOut();
-                    $('#review-comments').fadeOut("normal", function() {
-                        $('#no-comments-message').fadeIn();
-                    });
-                }
             });
         });
-
     });
 });})(jQuery);
 </script>
@@ -92,19 +85,7 @@
         <table id="review-comments" class="listing" style="width: 100%" tal:condition="items">
             <thead>
                 <tr>
-                  <th colspan="7" class="nosort"
-                      i18n:translate="label_select_all">
-                    Select:
-                    <a tal:attributes="href string:#"
-                       id="foldercontents-selectall"
-                       i18n:name="label_link_all"
-                       i18n:translate="label_all">
-                      All
-                    </a>
-                  </th>
-                </tr>
-                <tr>
-                    <th class="nosort"> </th>
+                    <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
                     <th i18n:translate="heading_author">Commenter</th>
                     <th i18n:translate="heading_date">Date</th>
                     <th i18n:translate="heading_context">In Response To</th>
@@ -143,7 +124,7 @@
                         </td>
 
                         <td tal:content="structure python:view.cook(item.Description)" />
-                        <td style="width: 11em">
+                        <td style="width: 11em;">
                             <form action=""
                                   class="background-form"
                                   method="post"
