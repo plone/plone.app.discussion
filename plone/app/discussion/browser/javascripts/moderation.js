@@ -75,9 +75,12 @@ jq(document).ready(function() {
                         var row = jq(this).parent().parent();
 						var form = row.find("form.workflow_action");
                         var publishButton = row.find(".comment-publish-button");
+						var selectField = row.find("input:checkbox");
 		                jq(publishButton).fadeOut("normal", function(){
 		                    jq(form).remove();
 		                });
+						// reset the select fields
+						selectField.attr("checked","");
 					}
                 });
             });
