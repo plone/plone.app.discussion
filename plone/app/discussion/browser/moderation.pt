@@ -15,6 +15,7 @@
         <h1 class="documentFirstHeading" i18n:translate="title_review">
             Moderate comments
         </h1>
+
         <ul class="filter">
             <li class="all">
                 <form method="post"
@@ -46,11 +47,15 @@
             </li>
             -->
         </ul>
-
         <form method="post"
               action="#"
               class="bulkactions"
               tal:attributes="action string:${context/absolute_url}/@@bulk-actions">
+
+            <table id="review-comments" class="listing" style="width: 100%" tal:condition="items">
+                <thead>
+                    <tr>
+                        <th class="nosort bulkactions" colspan="7">
             <select name="form.select.BulkAction">
                 <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
                 <!--<option value="retract" i18n:translate="bulkactions_retract">Retract</option>-->
@@ -67,10 +72,8 @@
                    value="Apply"
                    name="form.button.BulkAction"
                    i18n:attributes="value label_apply;" />
-
-
-            <table id="review-comments" class="listing" style="width: 100%" tal:condition="items">
-                <thead>
+                        </th>
+                    </tr>
                     <tr>
                         <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
                         <th i18n:translate="heading_author">Commenter</th>

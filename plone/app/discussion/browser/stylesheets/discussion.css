@@ -51,11 +51,12 @@
    ---------------------------------------------------------------- */
 
 ul.filter {
-	margin: 0.5em 0 0.5em 0em;
+	margin: 1em 0 0 1em;
 }
 
 .filter li {
 	display: inline;
+	margin: 0 0.2em;
 }
 
 .filter li a:link {
@@ -68,10 +69,14 @@ ul.filter {
 
 .filter .selected {
     background-color: #DEE7EC;
+    border-bottom: 1px solid #DEE7EC;
+}
+.bulkactions {
+	text-align: left;
 }
 
 #dobulkaction {
-	margin: 0.2em 0;
+	margin: 0.45em 0;
 }
 
 form.workflow_action {
@@ -80,4 +85,12 @@ form.workflow_action {
 
 form.delete {
 	float: right;
+}
+
+#review-comments {
+	margin: 0;
+}
+
+#review-comments select {
+	margin: 0.1em 0;
 }
