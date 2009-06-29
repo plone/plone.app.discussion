@@ -17,6 +17,23 @@ jq(document).ready(function() {
     });
 
     /*****************************************************************
+     * Comment actions (delete, publish)
+     *****************************************************************/
+    jq('form.background-form').submit(function(e) {
+        e.preventDefault();
+        var target = jq(this).attr('action');
+        var params = jq(this).serialize();
+        var cell = jq(this).parent().get(0);
+        var row = jq(cell).parent().get(0);
+        jq.post(target, params, function(data) {
+            jq(row).fadeOut("normal", function() {
+                jq(this).remove();
+            });
+        });
+    });
+
+
+    /*****************************************************************
      * Bulk actions
      *****************************************************************/
     jq('form.bulkactions').submit(function(e) {
