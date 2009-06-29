@@ -147,7 +147,9 @@ class BulkActionsView(BrowserView):
         for path in self.paths:
             comment = context.restrictedTraverse(path)
             portal_workflow = getToolByName(comment, 'portal_workflow')
-            portal_workflow.doActionFor(comment, 'publish')
+            current_state = portal_workflow.getInfoFor(comment, 'review_state')
+            if current_state != 'published':
+                portal_workflow.doActionFor(comment, 'publish')
             catalog = getToolByName(comment, 'portal_catalog')
             catalog.reindexObject(comment)
 
