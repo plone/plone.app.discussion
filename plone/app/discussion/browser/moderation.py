@@ -15,10 +15,14 @@ class View(BrowserView):
 
         context = aq_inner(self.context)
 
-        if self.request.has_key('form.button.FilterPending'):
-            self.comments = self.comments_pending()
-        elif self.request.has_key('form.button.FilterPublished'):
-            self.comments = self.comments_published()
+        if self.request.has_key('form.button.Filter'):
+            self.filter = self.request.get('form.button.Filter')
+            if self.filter == 'pending':
+                self.comments = self.comments_pending()
+            elif self.filter == "published":
+                self.comments = self.comments_published()
+            else:
+                raise ValueError('Value %s for filter is not know.' % self.filter)
         else:
             self.comments = self.comments_all()
         return self.template()

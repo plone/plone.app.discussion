@@ -53,6 +53,7 @@
 ul.filter {
 	margin: 0.5em 0 0.5em 0em;
 }
+
 .filter li {
 	display: inline;
 }
@@ -65,6 +66,18 @@ ul.filter {
 	display: inline;
 }
 
+.filter .selected {
+    background-color: #DEE7EC;
+}
+
 #dobulkaction {
 	margin: 0.2em 0;
+}
+
+form.workflow_action {
+    float: left;
+}
+
+form.delete {
+	float: right;
 }

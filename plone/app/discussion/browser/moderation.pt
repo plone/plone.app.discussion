@@ -28,30 +28,33 @@
 
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main"
-        tal:define="items view/comments">
+        tal:define="items view/comments;
+                    filter view/filter|nothing;">
 
         <h1 class="documentFirstHeading" i18n:translate="title_review">
             Review comments
         </h1>
-
         <ul class="filter">
             <li class="all">
                 <form method="post"
                       action="#"
                       tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="submit" value="All" class="context" />
+                    <input type="submit" value="All" class="context"
+                           tal:attributes="class python: not filter and 'context selected' or 'context'" />
                 </form>
             </li>
             <li class="pending">
                 <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="hidden" name="form.button.FilterPending" value="1" />
-                    <input type="submit" value="Pending" class="context" />
+                    <input type="hidden" name="form.button.Filter" value="pending" />
+                    <input type="submit" value="Pending" class="context"
+                           tal:attributes="class python:filter == 'pending' and 'context selected' or 'context'"/>
                 </form>
             </li>
             <li class="approved">
                 <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="hidden" name="form.button.FilterPublished" value="1" />
-                    <input type="submit" value="Published" class="context" />
+                    <input type="hidden" name="form.button.Filter" value="published" />
+                    <input type="submit" value="Published" class="context"
+                           tal:attributes="class python:filter == 'published' and 'context selected' or 'context'"/>
                 </form>
             </li>
             <!--
@@ -126,13 +129,13 @@
                         <td tal:content="structure python:view.cook(item.Description)" />
                         <td style="width: 11em;">
                             <form action=""
-                                  class="background-form"
+                                  class="background-form workflow_action"
                                   method="post"
-                                  style="display: inline"
                                   tal:attributes="action string:${item/getURL}/@@moderate-publish-comment"
                                   tal:condition="python:item.review_state == 'pending'">
                                 <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
                                 <input type="hidden" name="workflow_action" tal:attributes="value view/transition" />
+                                <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
                                 <input class="context comment-publish-button"
                                        type="submit"
                                        value="Publish"
@@ -141,10 +144,10 @@
                             </form>
                             <form action=""
                                   method="post"
-                                  class="background-form"
-                                  style="display: inline"
+                                  class="background-form delete"
                                   tal:attributes="action string:${item/getURL}/@@moderate-delete-comment">
                                 <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
+                                <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
                                 <input class="destructive comment-delete-button"
                                        type="submit"
                                        value="Delete"
