@@ -32,7 +32,7 @@ class View(BrowserView):
     def comments_all(self, start=0, size=None):
 
         self.state = self.request.get('review_state', 'pending')
-        self.transition = self.request.get('publish_transition', 'pending')
+        self.transition = self.request.get('publish_transition', 'publish')
         self.limit = self.request.get('limit', 100)
 
         context = aq_inner(self.context)
