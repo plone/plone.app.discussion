@@ -123,40 +123,40 @@ class BulkActionsView(BrowserView):
 
             bulkaction = self.request.get('form.select.BulkAction')
 
-            paths = self.request.get('paths')
+            self.paths = self.request.get('paths')
 
             if bulkaction == '-1':
                 # no bulk action was selected
                 pass
             elif bulkaction == 'retract':
-                self.retract(paths)
+                self.retract()
             elif bulkaction == 'publish':
-                self.publish(paths)
+                self.publish()
             elif bulkaction == 'mark_as_spam':
-                self.mark_as_spam(paths)
+                self.mark_as_spam()
             elif bulkaction == 'delete':
-                self.delete(paths)
+                self.delete()
             else:
                 raise KeyError
 
-    def retract(self, paths):
+    def retract(self):
         raise NotImplementedError
 
-    def publish(self, paths):
+    def publish(self):
         context = aq_inner(self.context)
-        for path in paths:
+        for path in self.paths:
             comment = context.restrictedTraverse(path)
             portal_workflow = getToolByName(comment, 'portal_workflow')
             portal_workflow.doActionFor(comment, 'publish')
             catalog = getToolByName(comment, 'portal_catalog')
             catalog.reindexObject(comment)
 
-    def mark_as_spam(self, paths):
+    def mark_as_spam(self):
         raise NotImplementedError
 
-    def delete(self, paths):
+    def delete(self):
         context = aq_inner(self.context)
-        for path in paths:
+        for path in self.paths:
             comment = context.restrictedTraverse(path)
             conversation = aq_parent(comment)
             del conversation[comment.id]
