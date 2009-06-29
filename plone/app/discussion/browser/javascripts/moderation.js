@@ -22,17 +22,22 @@ jq(document).ready(function() {
      *****************************************************************/
     jq('form.background-form').submit(function(e) {
         e.preventDefault();
+        var form = jq(this);
         var target = jq(this).attr('action');
         var params = jq(this).serialize();
         var cell = jq(this).parent().get(0);
         var row = jq(cell).parent().get(0);
         var currentFilter = jq(this).find("[name='form.button.Filter']").attr("value");
         var currentAction = jq(this).attr("class");
+        var publishButton = jq(this).find(".comment-publish-button");
         jq.post(target, params, function(data) {
 			if (currentAction == 'background-form workflow_action' && currentFilter == '') {
-                alert("NotImplementedError: AJAX switch workflow state")
-			}
-			else {
+				// remove the publish button
+                jq(publishButton).fadeOut("normal", function(){
+                    jq(form).remove();
+                });
+			} else {
+				// remove the entire row
 				jq(row).fadeOut("normal", function(){
 					jq(this).remove();
 				});
@@ -58,15 +63,20 @@ jq(document).ready(function() {
 					// pending (because then publish also removes the comment),
 					// remove all selected comments.
                     if (currentAction == 'delete' || currentFilter == 'pending') {
-                        row = jq(this).parent().parent();
+                        var row = jq(this).parent().parent();
                         row.fadeOut("normal", function() {
                            row.remove();
                         });
                     }
-					// if bulkaction is publish and there is no current filter,
-					// change the workflow action
-					if (currentAction == 'publish') {
-                        alert("NotImplementedError: AJAX switch workflow state")
+					// bulkaction is publish and there is no current filter
+					if (currentAction == 'publish' && currentFilter == '') {
+						// remove the publish button
+                        var row = jq(this).parent().parent();
+						var form = row.find("form.workflow_action");
+                        var publishButton = row.find(".comment-publish-button");
+		                jq(publishButton).fadeOut("normal", function(){
+		                    jq(form).remove();
+		                });
 					}
                 });
             });
