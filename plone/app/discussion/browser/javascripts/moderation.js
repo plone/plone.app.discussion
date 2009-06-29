@@ -1,7 +1,7 @@
 jq(document).ready(function() {
 
     /*****************************************************************
-     * Check all checkboxes.
+     * Check or uncheck all checkboxes.
      *****************************************************************/
 	jq("input[name='check_all']").click(function(){
 	      if(jq(this).val()==0){
