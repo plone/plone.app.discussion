@@ -13,7 +13,7 @@
                     filter view/filter|nothing;">
 
         <h1 class="documentFirstHeading" i18n:translate="title_review">
-            Review comments
+            Moderate comments
         </h1>
         <ul class="filter">
             <li class="all">
@@ -69,80 +69,80 @@
                    i18n:attributes="value label_apply;" />
 
 
-        <table id="review-comments" class="listing" style="width: 100%" tal:condition="items">
-            <thead>
-                <tr>
-                    <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
-                    <th i18n:translate="heading_author">Commenter</th>
-                    <th i18n:translate="heading_date">Date</th>
-                    <th i18n:translate="heading_context">In Response To</th>
-                    <th i18n:translate="heading_subject">Subject</th>
-                    <th i18n:translate="heading_comment">Comment</th>
-                    <th i18n:translate="heading_action">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tal:block repeat="item items">
-                    <tr style="vertical-align: top" class="commentrow"
-                        tal:define="odd repeat/item/odd"
-                        tal:attributes="class python: odd and 'odd' or 'even'">
-                        <td class="notDraggable">
-                            <input type="checkbox"
-                                   class="noborder"
-                                   name="paths:list" id="#"
-                                   value="#"
-                                   tal:attributes="value   item/getPath;
-                                                   id      string:cb_${item/id};
-                                                   checked item/checked|nothing;
-                                                   alt     string:Select ${item/Title};
-                                                   title   string:Select ${item/Title}" />
-                            <input type="hidden" name="selected_obj_paths:list" value="#"
-                                   tal:attributes="value item/getURL" />
-                        </td>
-                        <td tal:content="item/Creator" />
-                        <td tal:content="python:toLocalizedTime(item.ModificationDate, long_format=1)" />
-                        <td>
-                            <a tal:attributes="href item/getURL"
-                               tal:content="item/@@plone_context_state/parent|nothing" />
-                        </td>
-                        <td>
-                            <a tal:attributes="href item/getURL"
-                               tal:content="item/Title" />
-                        </td>
-
-                        <td tal:content="structure python:view.cook(item.Description)" />
-                        <td style="width: 11em;">
-                            <form action=""
-                                  class="background-form workflow_action"
-                                  method="post"
-                                  tal:attributes="action string:${item/getURL}/@@moderate-publish-comment"
-                                  tal:condition="python:item.review_state == 'pending'">
-                                <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
-                                <input type="hidden" name="workflow_action" tal:attributes="value view/transition" />
-                                <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
-                                <input class="context comment-publish-button"
-                                       type="submit"
-                                       value="Publish"
-                                       i18n:attributes="value label_publish"
-                                       />
-                            </form>
-                            <form action=""
-                                  method="post"
-                                  class="background-form delete"
-                                  tal:attributes="action string:${item/getURL}/@@moderate-delete-comment">
-                                <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
-                                <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
-                                <input class="destructive comment-delete-button"
-                                       type="submit"
-                                       value="Delete"
-                                       i18n:attributes="value label_delete;"
-                                       />
-                            </form>
-                        </td>
+            <table id="review-comments" class="listing" style="width: 100%" tal:condition="items">
+                <thead>
+                    <tr>
+                        <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
+                        <th i18n:translate="heading_author">Commenter</th>
+                        <th i18n:translate="heading_date">Date</th>
+                        <th i18n:translate="heading_context">In Response To</th>
+                        <th i18n:translate="heading_subject">Subject</th>
+                        <th i18n:translate="heading_comment">Comment</th>
+                        <th i18n:translate="heading_action">Action</th>
                     </tr>
-                </tal:block>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tal:block repeat="item items">
+                        <tr style="vertical-align: top" class="commentrow"
+                            tal:define="odd repeat/item/odd"
+                            tal:attributes="class python: odd and 'odd' or 'even'">
+                            <td class="notDraggable">
+                                <input type="checkbox"
+                                       class="noborder"
+                                       name="paths:list" id="#"
+                                       value="#"
+                                       tal:attributes="value   item/getPath;
+                                                       id      string:cb_${item/id};
+                                                       checked item/checked|nothing;
+                                                       alt     string:Select ${item/Title};
+                                                       title   string:Select ${item/Title}" />
+                                <input type="hidden" name="selected_obj_paths:list" value="#"
+                                       tal:attributes="value item/getURL" />
+                            </td>
+                            <td tal:content="item/Creator" />
+                            <td tal:content="python:toLocalizedTime(item.ModificationDate, long_format=1)" />
+                            <td>
+                                <a tal:attributes="href item/getURL"
+                                   tal:content="item/@@plone_context_state/parent|nothing" />
+                            </td>
+                            <td>
+                                <a tal:attributes="href item/getURL"
+                                   tal:content="item/Title" />
+                            </td>
+
+                            <td tal:content="structure python:view.cook(item.Description)" />
+                            <td style="width: 11em;">
+                                <form action=""
+                                      class="background-form workflow_action"
+                                      method="post"
+                                      tal:attributes="action string:${item/getURL}/@@moderate-publish-comment"
+                                      tal:condition="python:item.review_state == 'pending'">
+                                    <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
+                                    <input type="hidden" name="workflow_action" tal:attributes="value view/transition" />
+                                    <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
+                                    <input class="context comment-publish-button"
+                                           type="submit"
+                                           value="Publish"
+                                           i18n:attributes="value label_publish"
+                                           />
+                                </form>
+                                <form action=""
+                                      method="post"
+                                      class="background-form delete"
+                                      tal:attributes="action string:${item/getURL}/@@moderate-delete-comment">
+                                    <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
+                                    <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
+                                    <input class="destructive comment-delete-button"
+                                           type="submit"
+                                           value="Delete"
+                                           i18n:attributes="value label_delete;"
+                                           />
+                                </form>
+                            </td>
+                        </tr>
+                    </tal:block>
+                </tbody>
+            </table>
         </form>
     </tal:main-macro>
 </metal:main>

@@ -124,20 +124,20 @@ class BulkActionsView(BrowserView):
             bulkaction = self.request.get('form.select.BulkAction')
 
             self.paths = self.request.get('paths')
-
-            if bulkaction == '-1':
-                # no bulk action was selected
-                pass
-            elif bulkaction == 'retract':
-                self.retract()
-            elif bulkaction == 'publish':
-                self.publish()
-            elif bulkaction == 'mark_as_spam':
-                self.mark_as_spam()
-            elif bulkaction == 'delete':
-                self.delete()
-            else:
-                raise KeyError
+            if self.paths:
+                if bulkaction == '-1':
+                    # no bulk action was selected
+                    pass
+                elif bulkaction == 'retract':
+                    self.retract()
+                elif bulkaction == 'publish':
+                    self.publish()
+                elif bulkaction == 'mark_as_spam':
+                    self.mark_as_spam()
+                elif bulkaction == 'delete':
+                    self.delete()
+                else:
+                    raise KeyError
 
     def retract(self):
         raise NotImplementedError
