@@ -51,39 +51,51 @@
    ---------------------------------------------------------------- */
 
 ul.filter {
-	margin: 1em 0 0 1em;
+	margin-top: 2em;
+}
+
+fieldset {
+	padding: 2em 0;
 }
 
 .filter li {
-	display: inline;
-	margin: 0 0.2em;
 }
 
 .filter li a:link {
-	border-bottom: 0px solid transparent;
 }
 
 .filter form {
 	display: inline;
 }
 
-.filter .selected {
-    background-color: #DEE7EC;
-    border-bottom: 1px solid #DEE7EC;
+.filter input.selected {
+	background: #DEE7EC;
+}
+
+.filter .firstFormTab input {
+    border-left: 1px solid #8CACBB;
+}
+
+.filter .lastFormTab {
+    border-right: 1px solid #8CACBB;
+}
+
+.filter input {
+	background: White;
+    border-bottom: 1px solid #8CACBB;
+    border-left: 1px dotted #8CACBB;
+    border-top: 1px solid #8CACBB;
+    margin: 0;
+    padding: 0.125em 0.75em;
+    text-decoration: none;
 }
 
 #bulkactions {
 	text-align: left;
-	background: #DEE7EC;
-    border: 1px solid #8CACBB;
-}
-
-#bulkactions select {
-    margin: 0.1em 0;
 }
 
 #dobulkaction {
-	margin: 0.45em 0;
+	margin: 0.3em 0;
 }
 
 .comment-publish-button {

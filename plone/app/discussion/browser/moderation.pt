@@ -20,27 +20,27 @@
             Moderate comments
         </h1>
 
-        <ul class="filter">
-            <li class="all">
+        <ul class="filter formTabs">
+            <li class="all formTab firstFormTab">
                 <form method="post"
                       action="#"
                       tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="submit" value="All" class="context"
-                           tal:attributes="class python: not filter and 'context selected' or 'context'" />
+                    <input type="submit" value="All" class=""
+                           tal:attributes="class python: not filter and 'selected' or ''" />
                 </form>
             </li>
-            <li class="pending">
+            <li class="pending formTab">
                 <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
                     <input type="hidden" name="form.button.Filter" value="pending" />
-                    <input type="submit" value="Pending" class="context"
-                           tal:attributes="class python:filter == 'pending' and 'context selected' or 'context'"/>
+                    <input type="submit" value="Pending" class=""
+                           tal:attributes="class python:filter == 'pending' and 'selected' or ''"/>
                 </form>
             </li>
-            <li class="approved">
+            <li class="approved formTab lastFormTab">
                 <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
                     <input type="hidden" name="form.button.Filter" value="published" />
-                    <input type="submit" value="Published" class="context"
-                           tal:attributes="class python:filter == 'published' and 'context selected' or 'context'"/>
+                    <input type="submit" value="Published" class=""
+                           tal:attributes="class python:filter == 'published' and 'selected' or ''"/>
                 </form>
             </li>
             <!--
@@ -51,99 +51,123 @@
             </li>
             -->
         </ul>
+        <!--
+        <ul class="formTabs">
+            <li class="formTab firstFormTab">
+                <a id="" class="selected" href="#">
+                    <span>All</span>
+                </a>
+            </li>
+            <li class="formTab">
+                <a id="filter-pending" class="" href="#filter-pending">
+                    <span>Pending</span>
+                </a>
+            </li>
+            <li class="formTab lastFormTab">
+                <a id="filter-published" class="" href="#filter-published">
+                    <span>Published</span>
+                </a>
+            </li>
+        </ul>
+        -->
+
         <form method="post"
               action="#"
               tal:attributes="action string:${context/absolute_url}/@@bulk-actions"
               tal:condition="items"
               tal:define="batch python:Batch(items, b_size, int(b_start), orphan=1);">
 
-            <div id="bulkactions">
-                <select name="form.select.BulkAction">
-                    <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
-                    <!--<option value="retract" i18n:translate="bulkactions_retract">Retract</option>-->
-                    <option value="publish"
-                            i18n:translate="bulkactions_publish"
-                            tal:condition="python: filter != 'published'">Publish</option>
-                    <!--<option value="mark_as_spam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>-->
-                    <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
-                </select>
-                <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
-                <input id="dobulkaction"
-                       type="submit"
-                       class="standalone allowMultiSubmit"
-                       value="Apply"
-                       name="form.button.BulkAction"
-                       i18n:attributes="value label_apply;" />
-            </div>
+            <fieldset id="fieldset-moderate-comments" class="formPanel">
 
-            <div metal:use-macro="here/batch_macros/macros/navigation" />
+                <div metal:use-macro="here/batch_macros/macros/navigation" />
 
-            <table id="review-comments" class="listing" style="width: 100%">
-                <thead>
-                    <tr>
-                        <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
-                        <th i18n:translate="heading_author">Commenter</th>
-                        <th i18n:translate="heading_date">Date</th>
-                        <th i18n:translate="heading_context">In Response To</th>
-                        <th i18n:translate="heading_subject">Subject</th>
-                        <th i18n:translate="heading_comment">Comment</th>
-                        <th class="nosort" i18n:translate="heading_action">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tal:block repeat="item batch">
-                        <tr style="vertical-align: top" class="commentrow"
-                            tal:define="odd repeat/item/odd"
-                            tal:attributes="class python: odd and 'odd' or 'even'">
-                            <td class="notDraggable">
-                                <input type="checkbox"
-                                       class="noborder"
-                                       name="paths:list" id="#"
-                                       value="#"
-                                       tal:attributes="value   item/getPath;
-                                                       id      string:cb_${item/id};
-                                                       checked item/checked|nothing;
-                                                       alt     string:Select ${item/Title};
-                                                       title   string:Select ${item/Title}" />
-                                <input type="hidden" name="selected_obj_paths:list" value="#"
-                                       tal:attributes="value item/getURL" />
-                            </td>
-                            <td tal:content="item/Creator" />
-                            <td tal:content="python:toLocalizedTime(item.ModificationDate, long_format=1)" />
-                            <td>
-                                <a tal:attributes="href item/getURL"
-                                   tal:content="item/@@plone_context_state/parent|nothing" />
-                            </td>
-                            <td>
-                                <a tal:attributes="href item/getURL"
-                                   tal:content="item/Title" />
-                            </td>
-
-                            <td tal:content="structure python:view.cook(item.Description)" />
-                            <td style="width: 11em;">
-                                <input id=""
-                                       class="context comment-publish-button"
+                <table id="review-comments" class="listing" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th id="bulkactions" class="nosort" colspan="7">
+                                <select name="form.select.BulkAction">
+                                    <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
+                                    <!--<option value="retract" i18n:translate="bulkactions_retract">Retract</option>-->
+                                    <option value="publish"
+                                            i18n:translate="bulkactions_publish"
+                                            tal:condition="python: filter != 'published'">Publish</option>
+                                    <!--<option value="mark_as_spam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>-->
+                                    <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
+                                </select>
+                                <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
+                                <input id="dobulkaction"
                                        type="submit"
-                                       value="Publish"
-                                       name="form.button.Publish"
-                                       i18n:attributes="value label_publish"
-                                       tal:attributes="id item/id"
-                                       tal:condition="python:item.review_state == 'pending'"
-                                       />
-                                <input id=""
-                                       class="destructive comment-delete-button"
-                                       type="submit"
-                                       value="Delete"
-                                       name="form.button.Delete"
-                                       i18n:attributes="value label_delete;"
-                                       tal:attributes="id item/id"
-                                       />
-                            </td>
+                                       class="standalone allowMultiSubmit"
+                                       value="Apply"
+                                       name="form.button.BulkAction"
+                                       i18n:attributes="value label_apply;" />
+                            </th>
                         </tr>
-                    </tal:block>
-                </tbody>
-            </table>
-            <div metal:use-macro="here/batch_macros/macros/navigation" />
+                        <tr>
+                            <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
+                            <th i18n:translate="heading_author">Commenter</th>
+                            <th i18n:translate="heading_date">Date</th>
+                            <th i18n:translate="heading_context">In Response To</th>
+                            <th i18n:translate="heading_subject">Subject</th>
+                            <th i18n:translate="heading_comment">Comment</th>
+                            <th class="nosort" i18n:translate="heading_action">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tal:block repeat="item batch">
+                            <tr style="vertical-align: top" class="commentrow"
+                                tal:define="odd repeat/item/odd"
+                                tal:attributes="class python: odd and 'odd' or 'even'">
+                                <td class="notDraggable">
+                                    <input type="checkbox"
+                                           class="noborder"
+                                           name="paths:list" id="#"
+                                           value="#"
+                                           tal:attributes="value   item/getPath;
+                                                           id      string:cb_${item/id};
+                                                           checked item/checked|nothing;
+                                                           alt     string:Select ${item/Title};
+                                                           title   string:Select ${item/Title}" />
+                                    <input type="hidden" name="selected_obj_paths:list" value="#"
+                                           tal:attributes="value item/getURL" />
+                                </td>
+                                <td tal:content="item/Creator" />
+                                <td tal:content="python:toLocalizedTime(item.ModificationDate, long_format=1)" />
+                                <td>
+                                    <a tal:attributes="href item/getURL"
+                                       tal:content="item/@@plone_context_state/parent|nothing" />
+                                </td>
+                                <td>
+                                    <a tal:attributes="href item/getURL"
+                                       tal:content="item/Title" />
+                                </td>
+
+                                <td tal:content="structure python:view.cook(item.Description)" />
+                                <td style="width: 11em;">
+                                    <input id=""
+                                           class="context comment-publish-button"
+                                           type="submit"
+                                           value="Publish"
+                                           name="form.button.Publish"
+                                           i18n:attributes="value label_publish"
+                                           tal:attributes="id item/id"
+                                           tal:condition="python:item.review_state == 'pending'"
+                                           />
+                                    <input id=""
+                                           class="destructive comment-delete-button"
+                                           type="submit"
+                                           value="Delete"
+                                           name="form.button.Delete"
+                                           i18n:attributes="value label_delete;"
+                                           tal:attributes="id item/id"
+                                           />
+                                </td>
+                            </tr>
+                        </tal:block>
+                    </tbody>
+                </table>
+                <div metal:use-macro="here/batch_macros/macros/navigation" />
+            </fieldset>
         </form>
     </tal:main-macro>
 </metal:main>
