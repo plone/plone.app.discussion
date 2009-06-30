@@ -71,8 +71,15 @@ ul.filter {
     background-color: #DEE7EC;
     border-bottom: 1px solid #DEE7EC;
 }
-.bulkactions {
+
+#bulkactions {
 	text-align: left;
+	background: #DEE7EC;
+    border: 1px solid #8CACBB;
+}
+
+#bulkactions select {
+    margin: 0.1em 0;
 }
 
 #dobulkaction {
@@ -89,8 +96,4 @@ ul.filter {
 
 #review-comments {
 	margin: 0;
-}
-
-#review-comments select {
-	margin: 0.1em 0;
 }

@@ -10,7 +10,11 @@
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main"
         tal:define="items view/comments;
-                    filter view/filter|nothing;">
+                    filter view/filter|nothing;
+                    Batch python:modules['Products.CMFPlone'].Batch;
+                    b_size python:30;
+                    b_start python:0;
+                    b_start request/b_start | b_start;">
 
         <h1 class="documentFirstHeading" i18n:translate="title_review">
             Moderate comments
@@ -49,31 +53,33 @@
         </ul>
         <form method="post"
               action="#"
-              class="bulkactions"
-              tal:attributes="action string:${context/absolute_url}/@@bulk-actions">
+              tal:attributes="action string:${context/absolute_url}/@@bulk-actions"
+              tal:condition="items"
+              tal:define="batch python:Batch(items, b_size, int(b_start), orphan=1);">
 
-            <table id="review-comments" class="listing" style="width: 100%" tal:condition="items">
+            <div id="bulkactions">
+                <select name="form.select.BulkAction">
+                    <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
+                    <!--<option value="retract" i18n:translate="bulkactions_retract">Retract</option>-->
+                    <option value="publish"
+                            i18n:translate="bulkactions_publish"
+                            tal:condition="python: filter != 'published'">Publish</option>
+                    <!--<option value="mark_as_spam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>-->
+                    <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
+                </select>
+                <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
+                <input id="dobulkaction"
+                       type="submit"
+                       class="standalone allowMultiSubmit"
+                       value="Apply"
+                       name="form.button.BulkAction"
+                       i18n:attributes="value label_apply;" />
+            </div>
+
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
+
+            <table id="review-comments" class="listing" style="width: 100%">
                 <thead>
-                    <tr>
-                        <th class="nosort bulkactions" colspan="7">
-            <select name="form.select.BulkAction">
-                <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
-                <!--<option value="retract" i18n:translate="bulkactions_retract">Retract</option>-->
-                <option value="publish"
-                        i18n:translate="bulkactions_publish"
-                        tal:condition="python: filter != 'published'">Publish</option>
-                <!--<option value="mark_as_spam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>-->
-                <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
-            </select>
-            <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
-            <input id="dobulkaction"
-                   type="submit"
-                   class="standalone allowMultiSubmit"
-                   value="Apply"
-                   name="form.button.BulkAction"
-                   i18n:attributes="value label_apply;" />
-                        </th>
-                    </tr>
                     <tr>
                         <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
                         <th i18n:translate="heading_author">Commenter</th>
@@ -85,7 +91,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tal:block repeat="item items">
+                    <tal:block repeat="item batch">
                         <tr style="vertical-align: top" class="commentrow"
                             tal:define="odd repeat/item/odd"
                             tal:attributes="class python: odd and 'odd' or 'even'">
@@ -137,6 +143,7 @@
                     </tal:block>
                 </tbody>
             </table>
+            <div metal:use-macro="here/batch_macros/macros/navigation" />
         </form>
     </tal:main-macro>
 </metal:main>

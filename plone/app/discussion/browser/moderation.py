@@ -10,6 +10,7 @@ class View(BrowserView):
     """
 
     template = ViewPageTemplateFile('moderation.pt')
+    template.id = '@@moderate-comments'
 
     def __call__(self):
 
