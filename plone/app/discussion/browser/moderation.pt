@@ -115,32 +115,23 @@
 
                             <td tal:content="structure python:view.cook(item.Description)" />
                             <td style="width: 11em;">
-                                <form action=""
-                                      class="background-form workflow_action"
-                                      method="post"
-                                      tal:attributes="action string:${item/getURL}/@@moderate-publish-comment"
-                                      tal:condition="python:item.review_state == 'pending'">
-                                    <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
-                                    <input type="hidden" name="workflow_action" tal:attributes="value view/transition" />
-                                    <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
-                                    <input class="context comment-publish-button"
-                                           type="submit"
-                                           value="Publish"
-                                           i18n:attributes="value label_publish"
-                                           />
-                                </form>
-                                <form action=""
-                                      method="post"
-                                      class="background-form delete"
-                                      tal:attributes="action string:${item/getURL}/@@moderate-delete-comment">
-                                    <input type="hidden" name="comment_id" tal:attributes="value item/getId" />
-                                    <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
-                                    <input class="destructive comment-delete-button"
-                                           type="submit"
-                                           value="Delete"
-                                           i18n:attributes="value label_delete;"
-                                           />
-                                </form>
+                                <input id=""
+                                       class="context comment-publish-button"
+                                       type="submit"
+                                       value="Publish"
+                                       name="form.button.Publish"
+                                       i18n:attributes="value label_publish"
+                                       tal:attributes="id item/id"
+                                       tal:condition="python:item.review_state == 'pending'"
+                                       />
+                                <input id=""
+                                       class="destructive comment-delete-button"
+                                       type="submit"
+                                       value="Delete"
+                                       name="form.button.Delete"
+                                       i18n:attributes="value label_delete;"
+                                       tal:attributes="id item/id"
+                                       />
                             </td>
                         </tr>
                     </tal:block>

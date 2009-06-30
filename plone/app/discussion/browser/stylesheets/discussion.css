@@ -79,12 +79,12 @@ ul.filter {
 	margin: 0.45em 0;
 }
 
-form.workflow_action {
+.comment-publish-button {
     float: left;
 }
 
-form.delete {
-	float: right;
+.comment-delete-button {
+    float: right;
 }
 
 #review-comments {
