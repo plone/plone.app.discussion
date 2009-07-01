@@ -14,6 +14,23 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 
 from plone.app.discussion.interfaces import IComment, IConversation, IReplies
 
+class CatalogSetupTest(PloneTestCase):
+
+    layer = DiscussionLayer
+
+    def test_catalog_installed(self):
+        self.failUnless('total_comments' in self.portal.portal_catalog.indexes())
+        self.failUnless('commentators' in self.portal.portal_catalog.indexes())
+        self.failUnless('total_comments' in self.portal.portal_catalog.schema())
+
+    def test_collection_criteria_installed(self):
+        try:
+            self.portal.portal_atct.getIndex('commentators')
+            self.portal.portal_atct.getIndex('total_comments')
+            self.portal.portal_atct.getMetadata('total_comments')
+        except AttributeError:
+            self.fail()
+
 class ConversationCatalogTest(PloneTestCase):
 
     layer = DiscussionLayer
