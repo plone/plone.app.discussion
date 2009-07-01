@@ -68,7 +68,8 @@ fieldset {
 	display: inline;
 }
 
-.filter input.selected {
+.filter input.selected,
+.filter input:hover {
 	background: #DEE7EC;
 }
 
@@ -76,7 +77,7 @@ fieldset {
     border-left: 1px solid #8CACBB;
 }
 
-.filter .lastFormTab {
+.filter .lastFormTab input {
     border-right: 1px solid #8CACBB;
 }
 

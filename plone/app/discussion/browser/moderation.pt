@@ -51,25 +51,6 @@
             </li>
             -->
         </ul>
-        <!--
-        <ul class="formTabs">
-            <li class="formTab firstFormTab">
-                <a id="" class="selected" href="#">
-                    <span>All</span>
-                </a>
-            </li>
-            <li class="formTab">
-                <a id="filter-pending" class="" href="#filter-pending">
-                    <span>Pending</span>
-                </a>
-            </li>
-            <li class="formTab lastFormTab">
-                <a id="filter-published" class="" href="#filter-published">
-                    <span>Published</span>
-                </a>
-            </li>
-        </ul>
-        -->
 
         <form method="post"
               action="#"
