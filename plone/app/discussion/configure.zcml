@@ -59,7 +59,12 @@
         handler=".tool.unindex_object"
         />
 
-    <!-- adapters for indexes -->
+    <!-- conversation indexes -->
+    <adapter name="total_comments" factory=".catalog.total_comments" />
+    <adapter name="last_comment_date" factory=".catalog.last_comment_date" />
+    <adapter name="commentators" factory=".catalog.commentators" />
+
+    <!-- comment indexes -->
     <adapter name="Title" factory=".catalog.title" />
     <adapter name="Creator" factory=".catalog.creator" />
     <adapter name="Description" factory=".catalog.description" />
@@ -67,6 +72,5 @@
     <adapter name="effective" factory=".catalog.effective" />
     <adapter name="created" factory=".catalog.created" />
     <adapter name="modified" factory=".catalog.modified" />
-
 
 </configure>

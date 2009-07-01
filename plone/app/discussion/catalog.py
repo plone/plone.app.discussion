@@ -8,11 +8,37 @@ from string import split, join
 
 from DateTime import DateTime
 
+from Products.CMFCore.interfaces import IContentish
+
+from Products.ZCatalog.interfaces import IZCatalog
+
 from plone.indexer import indexer
 
-from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IConversation, IComment
+
 
 MAX_DESCRIPTION=25
+
+# Conversation Indexers
+
+from plone.indexer.interfaces import IIndexer
+
+@indexer(IContentish, IZCatalog)
+def total_comments(object):
+    conversation = IConversation(object)
+    return conversation.total_comments
+
+@indexer(IContentish, IZCatalog)
+def last_comment_date(object):
+    conversation = IConversation(object)
+    return conversation.last_comment_date
+
+@indexer(IContentish, IZCatalog)
+def commentators(object):
+    conversation = IConversation(object)
+    return conversation.commentators
+
+# Comment Indexers
 
 @indexer(IComment)
 def title(object):
