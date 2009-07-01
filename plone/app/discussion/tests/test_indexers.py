@@ -36,7 +36,7 @@ class IndexersTest(PloneTestCase):
 
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
-        comment.text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+        comment.text = 'Lorem ipsum dolor sit amet.'
         comment.creator = "Jim"
         comment.creation_date = datetime(2006, 9, 17, 14, 18, 12)
         comment.modification_date = datetime(2008, 3, 12, 7, 32, 52)
@@ -45,16 +45,25 @@ class IndexersTest(PloneTestCase):
 
         self.comment_id = new_id
         self.comment = comment
+        self.conversation = conversation
 
     def test_title(self):
         self.assertEquals(catalog.title(self.comment)(), 'Comment 1')
         self.assert_(isinstance(catalog.title, DelegatingIndexerFactory))
 
     def test_description(self):
+        self.assertEquals(catalog.description(self.comment)(), 'Lorem ipsum dolor sit amet.')
+        self.assert_(isinstance(catalog.description, DelegatingIndexerFactory))
+
+    def test_description_long(self):
         # Create a 50 word comment and make sure the description returns
         # only the first 25 words
-        self.assertEquals(catalog.description(self.comment)(), 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At...')
-        self.assert_(isinstance(catalog.description, DelegatingIndexerFactory))
+        comment_long = createObject('plone.Comment')
+        comment_long.title = 'Long Comment'
+        comment_long.text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+
+        new_id = self.conversation.addComment(comment_long)
+        self.assertEquals(catalog.description(comment_long)(), 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At [...]')
 
     def test_dates(self):
         # Test if created, modified, effective etc. are set correctly
@@ -63,7 +72,7 @@ class IndexersTest(PloneTestCase):
 
     def test_searchable_text(self):
         # Test if searchable text is a concatenation of title and comment text
-        self.assertEquals(catalog.searchable_text(self.comment)(), ('Comment 1', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'))
+        self.assertEquals(catalog.searchable_text(self.comment)(), ('Comment 1', 'Lorem ipsum dolor sit amet.'))
         self.assert_(isinstance(catalog.searchable_text, DelegatingIndexerFactory))
 
     def test_creator(self):
