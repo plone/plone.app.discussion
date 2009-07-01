@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<atcttool xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+    <topic_indexes i18n:domain="plone.app.discussion">
+
+        <index name="commentators" friendlyName="Commentators"
+            description="Users who have commented on the item"
+            enabled="True" i18n:attributes="description; friendlyName">
+
+            <criteria>ATCurrentAuthorCriterion</criteria>
+            <criteria>ATSimpleStringCriterion</criteria>
+            <criteria>ATListCriterion</criteria>
+
+        </index>
+
+        <index
+            name="total_comments"
+            enabled="False"
+            friendlyName="Total number of comments"
+            description="Total number of comments on this item."
+            i18n:attributes="description; friendlyName">
+
+            <criteria>ATSimpleIntCriterion</criteria>
+
+        </index>
+
+    </topic_indexes>
+    <topic_metadata i18n:domain="plone.app.discussion">
+
+        <metadata
+            name="total_comments"
+            enabled="True"
+            friendlyName="Total number of comments"
+            description="Total number of comments on this item."
+            />
+
+    </topic_metadata>
+</atcttool>
