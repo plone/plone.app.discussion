@@ -167,8 +167,7 @@ class Conversation(Traversable, Persistent, Explicit):
 
     @property
     def commentators(self):
-        if len(self._commentators.keys()) != 0:
-            return self._commentators.keys()
+        return self._commentators.keys()
 
     def objectIds(self):
         return self._comments.keys()
