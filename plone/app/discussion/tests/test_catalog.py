@@ -85,9 +85,6 @@ class ConversationCatalogTest(PloneTestCase):
         conversation_brain = brains[0]
         self.assertEquals(conversation_brain.total_comments, 2)
 
-        comment2 = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_comment2_id)
-        comment2.reindexObject()
-
     def test_last_comment_date(self):
         self.failUnless(self.conversation_brain.has_key('last_comment_date'))
         self.assertEquals(self.conversation_brain.last_comment_date, datetime(2006, 9, 17, 14, 18, 12))
