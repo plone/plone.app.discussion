@@ -167,7 +167,7 @@ class Conversation(Traversable, Persistent, Explicit):
 
     @property
     def commentators(self):
-        return self._commentators.keys()
+        return self._commentators
 
     def objectIds(self):
         return self._comments.keys()
@@ -254,6 +254,10 @@ class Conversation(Traversable, Persistent, Explicit):
         # acquisition wrapped or the indexing will fail.
         notify(ObjectAddedEvent(comment.__of__(self), self, id))
         notify(ContainerModifiedEvent(self))
+
+        # XXX: This shouldn't be necessary.
+        content_obj = aq_parent(self)
+        content_obj.reindexObject()
 
         return id
 

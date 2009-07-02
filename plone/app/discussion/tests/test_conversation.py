@@ -422,6 +422,8 @@ class ConversationTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
+        self.assertEquals(conversation.total_comments, 0)
+
         # Add a four comments from three different users
         # Note: in real life, we always create
         # comments via the factory to allow different factories to be

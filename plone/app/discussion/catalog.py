@@ -36,7 +36,7 @@ def last_comment_date(object):
 @indexer(IContentish, IZCatalog)
 def commentators(object):
     conversation = IConversation(object)
-    return conversation.commentators
+    return tuple(set(conversation.commentators.keys()))
 
 # Comment Indexers
 
