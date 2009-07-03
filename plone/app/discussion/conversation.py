@@ -317,6 +317,10 @@ class Conversation(Traversable, Persistent, Explicit):
         if not suppress_container_modified:
             notify(ContainerModifiedEvent(self))
 
+        # XXX: This shouldn't be necessary.
+        content_obj = aq_parent(self)
+        content_obj.reindexObject()
+
     def __iter__(self):
         return iter(self._comments)
 
