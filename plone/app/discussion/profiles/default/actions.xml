@@ -6,7 +6,7 @@
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:$portal_url/@@moderate-comments</property>
    <property name="icon_expr"></property>
-   <property name="available_expr"></property>
+   <property name="available_expr">python: portal.portal_workflow.getChainForPortalType('Discussion Item') == ('comment_review_workflow',)</property>
    <property name="permissions">
     <element value="Review comments"/>
    </property>
