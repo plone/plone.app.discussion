@@ -31,9 +31,6 @@ class View(BrowserView):
     def cook(self, text):
         return text
 
-    def comments_workflow_enabled(self):
-        return True
-
     def comments_all(self, start=0, size=None):
 
         self.state = self.request.get('review_state', 'pending')
