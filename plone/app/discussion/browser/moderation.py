@@ -46,6 +46,7 @@ class View(BrowserView):
         return catalog(
                 portal_type='Discussion Item',
                 sort_on='created',
+                sort_order='reverse',
                 sort_limit=self.limit,
             )
 
@@ -61,6 +62,7 @@ class View(BrowserView):
                 portal_type='Discussion Item',
                 review_state=self.state,
                 sort_on='created',
+                sort_order='reverse',
                 sort_limit=self.limit,
             )
 
@@ -77,6 +79,7 @@ class View(BrowserView):
                 portal_type='Discussion Item',
                 review_state='published',
                 sort_on='created',
+                sort_order='reverse',
                 sort_limit=self.limit,
             )
 

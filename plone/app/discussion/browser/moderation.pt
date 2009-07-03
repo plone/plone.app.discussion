@@ -86,11 +86,11 @@
                         </tr>
                         <tr>
                             <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
-                            <th i18n:translate="heading_author">Commenter</th>
-                            <th i18n:translate="heading_date">Date</th>
-                            <th i18n:translate="heading_context">In Response To</th>
-                            <th i18n:translate="heading_subject">Subject</th>
-                            <th i18n:translate="heading_comment">Comment</th>
+                            <th class="nosort" i18n:translate="heading_author">Commenter</th>
+                            <th class="nosort" i18n:translate="heading_date">Date</th>
+                            <th class="nosort" i18n:translate="heading_context">In Response To</th>
+                            <th class="nosort" i18n:translate="heading_subject">Subject</th>
+                            <th class="nosort" i18n:translate="heading_comment">Comment</th>
                             <th class="nosort" i18n:translate="heading_action">Action</th>
                         </tr>
                     </thead>
