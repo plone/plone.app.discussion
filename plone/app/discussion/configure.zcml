@@ -63,6 +63,7 @@
     <adapter name="total_comments" factory=".catalog.total_comments" />
     <adapter name="last_comment_date" factory=".catalog.last_comment_date" />
     <adapter name="commentators" factory=".catalog.commentators" />
+    <adapter name="in_response_to" factory=".catalog.in_response_to" />
 
     <!-- comment indexes -->
     <adapter name="Title" factory=".catalog.title" />

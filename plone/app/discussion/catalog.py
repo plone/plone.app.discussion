@@ -61,6 +61,10 @@ def searchable_text(object):
     return object.title, object.text
 
 @indexer(IComment)
+def in_response_to(object):
+    return object.__parent__.__parent__.title_or_id()
+
+@indexer(IComment)
 def effective(object):
     # the catalog index needs Zope DateTime instead of Python datetime
     # Todo!!!

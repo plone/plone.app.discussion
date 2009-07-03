@@ -22,6 +22,7 @@ class CatalogSetupTest(PloneTestCase):
         self.failUnless('total_comments' in self.portal.portal_catalog.indexes())
         self.failUnless('commentators' in self.portal.portal_catalog.indexes())
         self.failUnless('total_comments' in self.portal.portal_catalog.schema())
+        self.failUnless('in_response_to' in self.portal.portal_catalog.schema())
 
     def test_collection_criteria_installed(self):
         try:
@@ -211,6 +212,11 @@ class CommentCatalogTest(PloneTestCase):
 
     def test_creator(self):
         self.assertEquals(self.comment_brain.Creator, 'Jim')
+
+    def test_in_response_to(self):
+        # make sure in_response_to returns the title or id of the content
+        # object the comment was added to
+        self.assertEquals(self.comment_brain.in_response_to, 'doc1')
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

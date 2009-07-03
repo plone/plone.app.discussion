@@ -116,7 +116,7 @@
                                 <td tal:content="python:toLocalizedTime(item.ModificationDate, long_format=1)" />
                                 <td>
                                     <a tal:attributes="href item/getURL"
-                                       tal:content="item/@@plone_context_state/parent|nothing" />
+                                       tal:content="item/in_response_to" />
                                 </td>
                                 <td>
                                     <a tal:attributes="href item/getURL"

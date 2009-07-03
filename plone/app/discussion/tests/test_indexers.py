@@ -144,14 +144,12 @@ class CommentIndexersTest(PloneTestCase):
     def test_creator(self):
         self.assertEquals(catalog.creator(self.comment)(), ('Jim'))
 
-    def test_in_reply_to(self):
-        pass
-
-    def test_review_state(self):
-        pass
-
-    def test_object_provides(self):
-        pass
+    def test_in_response_to(self):
+        # make sure in_response_to returns the title or id of the content
+        # object the comment was added to
+        self.assertEquals(catalog.in_response_to(self.comment)(), 'doc1')
+        self.portal.doc1.title = 'Document 1'
+        self.assertEquals(catalog.in_response_to(self.comment)(), 'Document 1')
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
