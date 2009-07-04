@@ -101,7 +101,8 @@
                       style="display: inline;"
                       tal:condition="view/can_manage"
                       tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">
-                    <input class="destructive"
+                    <input name="form.button.DeleteComment"
+                           class="destructive"
                            type="submit"
                            value="Remove"
                            i18n:attributes="value label_remove;"

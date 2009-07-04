@@ -77,4 +77,26 @@ jq(document).ready(function() {
 
     });
 
+    /*****************************************************************
+     * Remove comment.
+     *****************************************************************/
+    jq("input[name='form.button.DeleteComment']").click(function(e){
+		e.preventDefault();
+		var form = jq(this).parent();
+        var target = jq(form).attr("action");
+		var comment = jq(form).parent()
+        jq.ajax({
+            type: "GET",
+            url: target,
+            success: function(msg){
+                // fade out row
+                jq(comment).fadeOut("normal", function(){
+                    jq(this).remove();
+                });
+            },
+            error: function(msg){
+                alert("Error sending AJAX request:" + target);
+            },
+        });
+    });
  });
