@@ -4,7 +4,7 @@ from datetime import datetime
 from zope.interface import implements
 from zope.component.factory import Factory
 
-from Acquisition import Implicit
+from Acquisition import aq_parent, Implicit
 from OFS.Traversable import Traversable
 from AccessControl.Role import RoleManager
 from AccessControl.Owned import Owned
@@ -99,3 +99,9 @@ def notify_workflow(obj, event):
     tool = getToolByName(obj, 'portal_workflow', None)
     if tool is not None:
         tool.notifyCreated(obj)
+
+def notify_content_object(obj, event):
+    """Tell the content object when a comment is added
+    """
+    content_obj = aq_parent(aq_parent(obj))
+    content_obj.reindexObject(idxs=('total_comments', 'last_comment_date', 'commentators',))

@@ -50,6 +50,18 @@
     <subscriber
         for="plone.app.discussion.interfaces.IComment
              zope.app.container.contained.IObjectAddedEvent"
+        handler=".comment.notify_content_object"
+        />
+
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
+             zope.app.container.contained.IObjectRemovedEvent"
+        handler=".comment.notify_content_object"
+        />
+
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
+             zope.app.container.contained.IObjectAddedEvent"
         handler=".tool.index_object"
         />
 
@@ -59,13 +71,13 @@
         handler=".tool.unindex_object"
         />
 
-    <!-- conversation indexes -->
+    <!-- Conversation indexes -->
     <adapter name="total_comments" factory=".catalog.total_comments" />
     <adapter name="last_comment_date" factory=".catalog.last_comment_date" />
     <adapter name="commentators" factory=".catalog.commentators" />
     <adapter name="in_response_to" factory=".catalog.in_response_to" />
 
-    <!-- comment indexes -->
+    <!-- Comment indexes -->
     <adapter name="Title" factory=".catalog.title" />
     <adapter name="Creator" factory=".catalog.creator" />
     <adapter name="Description" factory=".catalog.description" />
