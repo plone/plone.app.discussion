@@ -115,10 +115,11 @@
                       method="get"
                       style="display: inline;"
                       tal:repeat="action reply_dict/actions|nothing"
-                      tal:attributes="action string:${reply/absolute_url}/content_status_modify;
+                      tal:attributes="action string:${reply/absolute_url}/@@moderate-publish-comment;
                                       name action/id">
                     <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
-                    <input class="context"
+                    <input name="form.button.PublishComment"
+                           class="context"
                            type="submit"
                            tal:attributes="value action/title"
                            />

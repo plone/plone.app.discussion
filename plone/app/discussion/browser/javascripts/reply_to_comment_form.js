@@ -99,4 +99,28 @@ jq(document).ready(function() {
             },
         });
     });
+
+    /*****************************************************************
+     * Publish comment.
+     *****************************************************************/
+    jq("input[name='form.button.PublishComment']").click(function(e){
+        e.preventDefault();
+		var button = jq(this);
+        var form = jq(this).parent();
+        var target = jq(form).attr("action");
+        var comment = jq(form).parent()
+        jq.ajax({
+            type: "GET",
+            url: target,
+            success: function(msg){
+                // fade out row
+                jq(button).fadeOut("normal", function(){
+                    jq(form).remove();
+                });
+            },
+            error: function(msg){
+                alert("Error sending AJAX request:" + target);
+            },
+        });
+    });
  });
