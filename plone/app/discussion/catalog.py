@@ -12,16 +12,14 @@ from Products.CMFCore.interfaces import IContentish
 
 from Products.ZCatalog.interfaces import IZCatalog
 
-from plone.indexer import indexer
-
 from plone.app.discussion.interfaces import IConversation, IComment
 
+from plone.indexer import indexer
+from plone.indexer.interfaces import IIndexer
 
 MAX_DESCRIPTION=25
 
 # Conversation Indexers
-
-from plone.indexer.interfaces import IIndexer
 
 @indexer(IContentish, IZCatalog)
 def total_comments(object):
@@ -89,3 +87,17 @@ def modified(object):
                     object.modification_date.hour,
                     object.modification_date.minute,
                     object.modification_date.second)
+
+# Override the conversation indexers for comments
+
+@indexer(IComment)
+def comments_total_comments(object):
+    return None
+
+@indexer(IComment)
+def comments_last_comment_date(object):
+    return None
+
+@indexer(IComment)
+def comments_commentators(object):
+    return None

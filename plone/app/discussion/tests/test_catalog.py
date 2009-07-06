@@ -64,6 +64,7 @@ class ConversationCatalogTest(PloneTestCase):
                      path = {'query' : '/'.join(self.portal.doc1.getPhysicalPath()) },
                      portal_type = "Document"
                      )
+        self.brains = brains
         self.conversation = conversation
         self.conversation_brain = brains[0]
         self.comment1 = comment1
@@ -170,6 +171,16 @@ class ConversationCatalogTest(PloneTestCase):
                      )
         conversation_brain = brains[0]
         self.assertEquals(conversation_brain.commentators, ())
+
+    def test_conversation_indexes_not_in_comments(self):
+        brains = self.catalog.searchResults(
+                     path = {'query' : '/'.join(self.portal.doc1.getPhysicalPath()) },
+                     portal_type = "Discussion Item"
+                     )
+        comment1_brain = brains[0]
+        self.assertEquals(comment1_brain.commentators, None)
+        self.assertEquals(comment1_brain.last_comment_date, None)
+        self.assertEquals(comment1_brain.total_comments, None)
 
 class CommentCatalogTest(PloneTestCase):
 

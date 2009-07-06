@@ -85,5 +85,8 @@
     <adapter name="effective" factory=".catalog.effective" />
     <adapter name="created" factory=".catalog.created" />
     <adapter name="modified" factory=".catalog.modified" />
+    <adapter name="total_comments" factory=".catalog.comments_total_comments" />
+    <adapter name="last_comment_date" factory=".catalog.comments_last_comment_date" />
+    <adapter name="commentators" factory=".catalog.comments_commentators" />
 
 </configure>
