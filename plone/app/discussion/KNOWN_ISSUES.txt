@@ -1,0 +1,5 @@
+============
+KNOWN ISSUES
+============
+
+- Clear and rebuild the catalog looses all the comments.
