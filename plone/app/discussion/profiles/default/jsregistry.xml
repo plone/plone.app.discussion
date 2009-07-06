@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts">
  <javascript
-     id="++resource++plone.app.discussion.javascripts/reply_to_comment_form.js"
+     id="++resource++plone.app.discussion.javascripts/comments.js"
      cacheable="False" compression="safe" cookable="False"
      enabled="True" expression="" inline="False"
 	 />
