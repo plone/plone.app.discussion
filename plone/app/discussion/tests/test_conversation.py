@@ -230,6 +230,33 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(conversation.enabled(), True)
 
 
+    def test_allow_discussion_for_news_items(self):
+
+        self.typetool.constructContent('News Item', self.portal, 'newsitem')
+        newsitem = self.portal.newsitem
+        conversation = IConversation(newsitem)
+
+        # We have to allow discussion on Document content type, since
+        # otherwise allow_discussion will always return False
+        portal_types = getToolByName(self.portal, 'portal_types')
+        document_fti = getattr(portal_types, 'News Item')
+        document_fti.manage_changeProperties(allow_discussion = True)
+
+        # Check if conversation is enabled now
+        self.assertEquals(conversation.enabled(), True)
+
+        # Disable commenting in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.for_interface(IDiscussionSettings)
+        settings.globally_enabled = False
+
+        # Check if commenting is disabled on the conversation
+        self.assertEquals(conversation.enabled(), False)
+
+        # Enable discussion again
+        settings.globally_enabled = True
+        self.assertEquals(conversation.enabled(), True)
+
     def test_disable_commenting_for_content_type(self):
 
         # Create a conversation.

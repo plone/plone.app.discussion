@@ -145,7 +145,7 @@ class Conversation(Traversable, Persistent, Explicit):
 
         # Check if discussion is allowed on the content type
         portal_type = self.__parent__.portal_type
-        document_fti = getattr(portal_types, 'Document')
+        document_fti = getattr(portal_types, obj.portal_type)
         if not document_fti.getProperty('allow_discussion'):
             # If discussion is not allowed on the content type,
             # check if 'allow discussion' is overridden on the content object.
