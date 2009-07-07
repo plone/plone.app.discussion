@@ -2,37 +2,19 @@
 plone.app.discussion to-do
 ==========================
 
-BASIC COMMENTING FUNCTIONALITY
-------------------------------
+ [ ] Ajaxify adding and deleting comments in the comments viewlet.
 
  [ ] Add jQuery auto-resize to comment text field
      http://www.aclevercookie.com/demos/autogrow_textarea.html
 
- [ ] Add event handlers to ensure we don't get stale comments in the catalog
-     when parent objects are removed/moved/cloned:
-
-    - Create the conversation when an object is created
-    - Dispatch object added/removed/moved/cloned events to conversations
-    - Dispatch conversation added/removed/moved/cloned events to comments
+ [ ] Rebuild the zebra table after batch deleting/publishing
 
  [ ] During recursive deletion of child comments, events are fired when the
      conversation data structures may be in an inconsistent state. We need
      some tests for this, and possibly some different handling of those
      events.
 
- [ ] Implement plone.indexer indexers for comments, filling standard metadata
-
-    - Note discrepancy between Python datetime and indexing expecting a Zope 2
-        DateTime field
-
- [ ] Implement plone.indexer indexers for commented-upon content
-
-    - Unique set of commentators
-    - Number of comments
-    - Date/time of most recent comment
-
-    These have to be reindexed when comment is added/removed
-    (IContainerModifiedEvent). They also need to be set up in catalog.xml.
+ [ ] Replace the comment_review_workflow
 
  [ ] Add UI
 
@@ -41,11 +23,8 @@ BASIC COMMENTING FUNCTIONALITY
 
  [ ] Make sure a catalog Clear & Rebuild doesn't lose all comments
 
-
-LATER ITERATIONS:
------------------
-
  [ ] Thread building in conversation.getThreads()
+
  [ ] Batching in conversation.getComments()
 
  [ ] Add BBB support for the existing portal_discussion interface
@@ -57,6 +36,30 @@ LATER ITERATIONS:
 
 DONE:
 -----
+
+ [X] Implement plone.indexer indexers for comments, filling standard metadata
+
+    - Note discrepancy between Python datetime and indexing expecting a Zope 2
+        DateTime field
+
+ [X] Implement plone.indexer indexers for commented-upon content
+
+    - Unique set of commentators
+    - Number of comments
+    - Date/time of most recent comment
+
+    These have to be reindexed when comment is added/removed
+    (IContainerModifiedEvent). They also need to be set up in catalog.xml.
+
+ [X] Add jQuery auto-resize to comment text field
+     http://www.aclevercookie.com/demos/autogrow_textarea.html
+
+ [X] Add event handlers to ensure we don't get stale comments in the catalog
+     when parent objects are removed/moved/cloned:
+
+    - Create the conversation when an object is created
+    - Dispatch object added/removed/moved/cloned events to conversations
+    - Dispatch conversation added/removed/moved/cloned events to comments
 
  [X] Add tests for conversation dict API
 
