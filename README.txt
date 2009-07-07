@@ -40,11 +40,6 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
 
     ...
 
-    zcml =
-        ...
-        plone.app.discussion
-
-    ...
 
 Known Issues
 ============
