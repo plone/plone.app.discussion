@@ -5,6 +5,10 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
+from Products.CMFPlone import PloneMessageFactory as _
+
+from Products.statusmessages.interfaces import IStatusMessage
+
 class View(BrowserView):
     """Moderation View
     """
@@ -96,6 +100,12 @@ class DeleteComment(BrowserView):
 
         del conversation[comment_id]
 
+        IStatusMessage(self.context.REQUEST).addStatusMessage(
+            _("Comment deleted."),
+            type="info")
+
+        return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
+
 class PublishComment(BrowserView):
     """Publish a comment
     """
@@ -112,6 +122,12 @@ class PublishComment(BrowserView):
 
         catalog = getToolByName(comment, 'portal_catalog')
         catalog.reindexObject(comment)
+
+        IStatusMessage(self.context.REQUEST).addStatusMessage(
+            _("Comment published."),
+            type="info")
+
+        return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)
 
 class BulkActionsView(BrowserView):
     """Bulk actions (unapprove, approve, delete, mark as spam).

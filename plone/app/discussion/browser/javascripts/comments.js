@@ -80,11 +80,14 @@ jq(document).ready(function() {
     /*****************************************************************
      * Remove comment.
      *****************************************************************/
+    /*
     jq("input[name='form.button.DeleteComment']").click(function(e){
 		e.preventDefault();
 		var form = jq(this).parent();
         var target = jq(form).attr("action");
-		var comment = jq(form).parent()
+		var comment = jq(form).parent();
+		var reply_comments = jq(comment).find("~ .comment:not(.replyTreeLevel0 ~ div)");
+		reply_comments.css("background", "red");
         jq.ajax({
             type: "GET",
             url: target,
@@ -99,10 +102,12 @@ jq(document).ready(function() {
             },
         });
     });
+    */
 
     /*****************************************************************
      * Publish comment.
      *****************************************************************/
+    /*
     jq("input[name='form.button.PublishComment']").click(function(e){
         e.preventDefault();
 		var button = jq(this);
@@ -123,4 +128,5 @@ jq(document).ready(function() {
             },
         });
     });
+    */
  });
