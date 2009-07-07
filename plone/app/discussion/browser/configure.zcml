@@ -8,6 +8,15 @@
     <!-- Traversal adapter -->
     <adapter factory=".traversal.ConversationNamespace" name="conversation" />
 
+    <!-- Migration view -->
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="comment-migration"
+        layer="..interfaces.IDiscussionLayer"
+        class=".migration.View"
+        permission="cmf.ManagePortal"
+        />
+
     <!-- Moderation view -->
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
