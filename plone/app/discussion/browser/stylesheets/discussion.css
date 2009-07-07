@@ -100,3 +100,7 @@ ul.filter {
 #review-comments {
 	margin: 0;
 }
+
+#fieldset-moderate-comments {
+	padding: 2em 1em;
+}
