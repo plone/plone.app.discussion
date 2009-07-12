@@ -37,10 +37,9 @@ class MigrationTest(PloneTestCase):
 
     def test_migrate_comment(self):
 
-        # Create one comment
+        # Create a comment
         talkback = self.discussion.getDiscussionFor(self.doc)
         self.doc.talkback.createReply('My Title', 'My Text', Creator='Jim')
-        #reply = talkback.objectValues()[0]
         reply = talkback.getReplies()[0]
         reply.setReplyTo(self.doc)
         reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6)
@@ -56,7 +55,6 @@ class MigrationTest(PloneTestCase):
 
         # Make sure a conversation has been created
         self.failUnless('plone.app.discussion:conversation' in IAnnotations(self.doc))
-
         conversation = IConversation(self.doc)
 
         # Check migration
@@ -72,9 +70,6 @@ class MigrationTest(PloneTestCase):
         self.assertEquals(
             [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},]
             , list(conversation.getThreads()))
-
-    def test_migrate_allow_discussion(self):
-        pass
 
     def test_migrate_nested_comments(self):
         # Create some nested comments and migrate them
