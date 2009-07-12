@@ -35,12 +35,16 @@ class MigrationTest(PloneTestCase):
     def test_migrate_comment(self):
 
         # Create one comment
-        self.discussion.getDiscussionFor(self.doc)
+        talkback = self.discussion.getDiscussionFor(self.doc)
         self.doc.talkback.createReply('My Title', 'My Text', Creator='Jim')
-        reply = self.doc.talkback.objectValues()[0]
-        self.assertEqual(reply.Title(), 'My Title')
-        self.assertEqual(reply.EditableBody(), 'My Text')
+        #reply = talkback.objectValues()[0]
+        reply = talkback.getReplies()[0]
+        reply.setReplyTo(self.doc)
+        self.assertEquals(reply.Title(), 'My Title')
+        self.assertEquals(reply.EditableBody(), 'My Text')
         self.failUnless('Jim' in reply.listCreators())
+        self.assertEquals(talkback.replyCount(self.doc), 1)
+        self.assertEquals(reply.inReplyTo(), self.doc)
 
         # Call migration script
         self.view()
@@ -53,10 +57,17 @@ class MigrationTest(PloneTestCase):
         # Check migration
         self.assertEquals(conversation.total_comments, 1)
         self.failUnless(conversation.getComments().next())
-        self.assert_(IComment.providedBy(conversation.getComments().next()))
-        self.assertEquals(conversation.values()[0].Title(), 'My Title')
-        self.assertEquals(conversation.values()[0].text, 'My Text')
-        self.assertEquals(conversation.values()[0].Creator(), 'Jim')
+        comment1 = conversation.values()[0]
+        self.assert_(IComment.providedBy(comment1))
+        self.assertEquals(comment1.Title(), 'My Title')
+        self.assertEquals(comment1.text, 'My Text')
+        self.assertEquals(comment1.Creator(), 'Jim')
+        self.assertEquals(
+            [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},]
+            , list(conversation.getThreads()))
+
+    def test_migrate_allow_discussion(self):
+        pass
 
     def test_migrate_nested_comments(self):
         # Create some nested comments and migrate them
@@ -89,13 +100,14 @@ class MigrationTest(PloneTestCase):
         # Check migration
         conversation = IConversation(self.doc)
         self.assertEquals(conversation.total_comments, 2)
-        self.assert_(IComment.providedBy(conversation.getComments().next()))
 
-        # XXX: This is not very elegant
-        self.failUnless('First comment' in conversation.values()[0].Title() or
-                        'Re: First comment' in conversation.values()[0].Title())
-        self.failUnless('This is my first comment.' in conversation.values()[0].text or
-                        'This is my first reply.' in conversation.values()[1].text)
+        comment1 = conversation.values()[0]
+        comment2 = conversation.values()[1]
+
+        self.assertEquals(
+            [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},
+             {'comment': comment2,     'depth': 0, 'id': long(comment2.id)},
+            ], list(conversation.getThreads()))
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
