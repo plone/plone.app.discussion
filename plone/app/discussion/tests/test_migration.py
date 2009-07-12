@@ -1,3 +1,6 @@
+from datetime import datetime
+from DateTime import DateTime
+
 import unittest
 
 from zope.annotation.interfaces import IAnnotations
@@ -40,6 +43,8 @@ class MigrationTest(PloneTestCase):
         #reply = talkback.objectValues()[0]
         reply = talkback.getReplies()[0]
         reply.setReplyTo(self.doc)
+        reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6)
+        reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7)
         self.assertEquals(reply.Title(), 'My Title')
         self.assertEquals(reply.EditableBody(), 'My Text')
         self.failUnless('Jim' in reply.listCreators())
@@ -62,6 +67,8 @@ class MigrationTest(PloneTestCase):
         self.assertEquals(comment1.Title(), 'My Title')
         self.assertEquals(comment1.text, 'My Text')
         self.assertEquals(comment1.Creator(), 'Jim')
+        self.assertEquals(comment1.creation_date, datetime(2003, 3, 11, 9, 28, 6))
+        self.assertEquals(comment1.modification_date, datetime(2009, 7, 12, 19, 38, 7))
         self.assertEquals(
             [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},]
             , list(conversation.getThreads()))

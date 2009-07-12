@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Acquisition import aq_inner, aq_parent
 
 from Products.Five.browser import BrowserView
@@ -49,9 +51,11 @@ class View(BrowserView):
                 comment.title = reply.Title()
                 comment.text = reply.text
                 comment.creator = reply.Creator()
-                #comment.author_name = author_username
-                #comment.author_email = ""
-                #comment.creation_date
+
+                #comment.creation_date = datetime.fromtimestamp(reply.creation_date)
+
+                comment.creation_date = datetime.fromtimestamp(reply.creation_date)
+                comment.modification_date = datetime.fromtimestamp(reply.modification_date)
 
                 comment.reply_to = in_reply_to
 
