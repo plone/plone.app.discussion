@@ -35,7 +35,7 @@ class View(BrowserView):
         dtool = context.portal_discussion
         brains = catalog.searchResults(
                     object_provides='Products.CMFCore.interfaces._content.IContentish')
-        log("Found %s content object to migrate." % len(brains))
+        log("Found %s content objects to migrate." % len(brains))
 
         for brain in brains:
             if brain.portal_type != 'Discussion Item':
@@ -56,6 +56,7 @@ class View(BrowserView):
                     comment = createObject('plone.Comment')
                     comment.title = old_comment.Title()
                     comment.text = old_comment.text
+                    comment.Creator = old_comment.Creator
                     conversation.addComment(comment)
 
         log("Comment migration finished.")
