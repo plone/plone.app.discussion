@@ -96,7 +96,7 @@ class Conversation(Traversable, Persistent, Explicit):
 
         # Fetch discussion registry
         registry = queryUtility(IRegistry)
-        settings = registry.for_interface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings)
 
         # Check if discussion is allowed globally
         if not settings.globally_enabled:

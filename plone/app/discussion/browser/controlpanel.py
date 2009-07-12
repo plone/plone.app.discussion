@@ -45,7 +45,7 @@ class Utility(BrowserView):
 
         settings = None
         try:
-            settings = registry.for_interface(IDiscussionSettings)
+            settings = registry.forInterface(IDiscussionSettings)
         except KeyError:
             return False
 

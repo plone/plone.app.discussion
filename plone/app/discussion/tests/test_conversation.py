@@ -219,7 +219,7 @@ class ConversationTest(PloneTestCase):
 
         # Disable commenting in the registry
         registry = queryUtility(IRegistry)
-        settings = registry.for_interface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = False
 
         # Check if commenting is disabled on the conversation
@@ -247,7 +247,7 @@ class ConversationTest(PloneTestCase):
 
         # Disable commenting in the registry
         registry = queryUtility(IRegistry)
-        settings = registry.for_interface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = False
 
         # Check if commenting is disabled on the conversation
@@ -337,7 +337,7 @@ class ConversationTest(PloneTestCase):
         # Allow discussion on a single content object
 
         registry = queryUtility(IRegistry)
-        settings = registry.for_interface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings)
 
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
