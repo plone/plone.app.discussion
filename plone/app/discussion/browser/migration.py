@@ -84,8 +84,11 @@ class View(BrowserView):
                     talkback.deleteReply(reply.id)
                     obj = aq_parent(talkback)
                     obj.talkback = None
-                    log("remove %s" % reply.id)
+                    log("%sremove %s" % (indent, reply.id))
                     self.total_comments_deleted += 1
+
+            # Return True when all comments on a certain level have been migrated.
+            return True
 
         log("Comment migration started.")
 

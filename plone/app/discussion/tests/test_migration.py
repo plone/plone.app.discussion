@@ -81,6 +81,8 @@ class MigrationTest(PloneTestCase):
         #       + Re: Re: First comment
         #         + Re: Re: Re: First comment
         #    +- Re: First comment (2)
+        #    +- Re: First comment (3)
+        #    +- Re: First comment (4)
         # +- Second comment
 
         talkback = self.discussion.getDiscussionFor(self.doc)
@@ -116,13 +118,25 @@ class MigrationTest(PloneTestCase):
         # Re: First comment (2)
         comment1_2_id = talkback_comment1.createReply(title='Re: First comment (2)',
                                                       text='This is my first reply (2).')
-        comment1_2 = talkback_comment1.getReplies()[0]
+        comment1_2 = talkback_comment1.getReplies()[1]
         talkback_comment1_2 = self.discussion.getDiscussionFor(comment1_2)
+
+        # Re: First comment (3)
+        comment1_3_id = talkback_comment1.createReply(title='Re: First comment (3)',
+                                                      text='This is my first reply (3).')
+        comment1_3 = talkback_comment1.getReplies()[2]
+        talkback_comment1_3 = self.discussion.getDiscussionFor(comment1_3)
+
+        # Re: First comment (4)
+        comment1_4_id = talkback_comment1.createReply(title='Re: First comment (4)',
+                                                      text='This is my first reply (4).')
+        comment1_4 = talkback_comment1.getReplies()[3]
+        talkback_comment1_4 = self.discussion.getDiscussionFor(comment1_4)
 
         # Second comment
         comment2_id = talkback.createReply(title='Second comment',
                                            text='This is my second comment.')
-        comment2 = talkback.getReplies()[0]
+        comment2 = talkback.getReplies()[1]
         talkback_comment2 = self.discussion.getDiscussionFor(comment2)
 
         # Call migration script
@@ -130,15 +144,16 @@ class MigrationTest(PloneTestCase):
 
         # Check migration
         conversation = IConversation(self.doc)
-        self.assertEquals(conversation.total_comments, 6)
-
+        self.assertEquals(conversation.total_comments, 8)
 
         comment1 = conversation.values()[0]
         comment1_1 = conversation.values()[1]
         comment1_1_1 = conversation.values()[2]
         comment1_1_1_1 = conversation.values()[3]
         comment1_2 = conversation.values()[4]
-        comment2 = conversation.values()[5]
+        comment1_3 = conversation.values()[5]
+        comment1_4 = conversation.values()[6]
+        comment2 = conversation.values()[7]
 
         self.assertEquals(
             [{'comment': comment1,       'depth': 0, 'id': long(comment1.id)},
@@ -146,8 +161,14 @@ class MigrationTest(PloneTestCase):
              {'comment': comment1_1_1,   'depth': 2, 'id': long(comment1_1_1.id)},
              {'comment': comment1_1_1_1, 'depth': 3, 'id': long(comment1_1_1_1.id)},
              {'comment': comment1_2,     'depth': 1, 'id': long(comment1_2.id)},
+             {'comment': comment1_3,     'depth': 1, 'id': long(comment1_3.id)},
+             {'comment': comment1_4,     'depth': 1, 'id': long(comment1_4.id)},
              {'comment': comment2,       'depth': 0, 'id': long(comment2.id)},
             ], list(conversation.getThreads()))
+
+        talkback = self.discussion.getDiscussionFor(self.doc)
+        self.assertEquals(len(talkback.getReplies()), 0)
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
