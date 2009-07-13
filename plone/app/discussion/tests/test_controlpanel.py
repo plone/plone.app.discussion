@@ -16,7 +16,7 @@ class RegistryTest(PloneTestCase):
     def afterSetUp(self):
         # Set up the registry
         self.registry = Registry()
-        self.registry.register_interface(IDiscussionSettings)
+        self.registry.registerInterface(IDiscussionSettings)
 
     def test_discussion_in_controlpanel(self):
         # Check if discussion is in the control panel
