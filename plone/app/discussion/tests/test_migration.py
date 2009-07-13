@@ -70,6 +70,7 @@ class MigrationTest(PloneTestCase):
         self.assertEquals(
             [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},]
             , list(conversation.getThreads()))
+        self.failIf(self.doc.talkback)
 
     def test_migrate_nested_comments(self):
         # Create some nested comments and migrate them
