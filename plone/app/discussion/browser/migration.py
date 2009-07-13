@@ -17,7 +17,7 @@ from zope.component import createObject
 
 from plone.app.discussion.comment import CommentFactory
 
-from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IConversation, IReplies
 
 
 class View(BrowserView):
@@ -65,7 +65,15 @@ class View(BrowserView):
 
                 comment.reply_to = in_reply_to
 
-                new_in_reply_to = conversation.addComment(comment)
+                if in_reply_to == 0:
+                    # Direct reply to a content object
+                    new_in_reply_to = conversation.addComment(comment)
+                else:
+                    # Reply to another comment
+                    comment_to_reply_to = conversation.get(in_reply_to)
+                    replies = IReplies(comment_to_reply_to)
+                    new_in_reply_to = replies.addComment(comment)
+
                 self.total_comments_migrated += 1
 
                 # migrate all talkbacks of the reply

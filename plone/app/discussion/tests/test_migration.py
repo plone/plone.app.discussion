@@ -78,16 +78,20 @@ class MigrationTest(PloneTestCase):
         # self.doc
         # +- First comment
         #    +- Re: First comment
+        #       + Re: Re: First comment
+        #         + Re: Re: Re: First comment
+        #    +- Re: First comment (2)
+        # +- Second comment
 
         talkback = self.discussion.getDiscussionFor(self.doc)
 
-        # Create comment
+        # First comment
         comment1_id = talkback.createReply(title='First comment',
                                            text='This is my first comment.')
         comment1 = talkback.getReplies()[0]
         talkback_comment1 = self.discussion.getDiscussionFor(comment1)
 
-        # Create reply to comment
+        # Re: First comment
         comment1_1_id = talkback_comment1.createReply(title='Re: First comment',
                                                       text='This is my first reply.')
         comment1_1 = talkback_comment1.getReplies()[0]
@@ -97,19 +101,52 @@ class MigrationTest(PloneTestCase):
         self.assertEquals(len(talkback_comment1.getReplies()), 1)
         self.assertEquals(len(talkback_comment1_1.getReplies()), 0)
 
+        #Re: Re: First comment
+        comment1_1_1_id = talkback_comment1_1.createReply(title='Re: Re: First comment',
+                                                      text='This is my first re-reply.')
+        comment1_1_1 = talkback_comment1_1.getReplies()[0]
+        talkback_comment1_1_1 = self.discussion.getDiscussionFor(comment1_1_1)
+
+        # Re: Re: Re: First comment
+        comment1_1_1_1_id = talkback_comment1_1_1.createReply(title='Re: Re: Re: First comment',
+                                                              text='This is my first re-re-reply.')
+        comment1_1_1_1 = talkback_comment1_1_1.getReplies()[0]
+        talkback_comment1_1_1_1 = self.discussion.getDiscussionFor(comment1_1_1_1)
+
+        # Re: First comment (2)
+        comment1_2_id = talkback_comment1.createReply(title='Re: First comment (2)',
+                                                      text='This is my first reply (2).')
+        comment1_2 = talkback_comment1.getReplies()[0]
+        talkback_comment1_2 = self.discussion.getDiscussionFor(comment1_2)
+
+        # Second comment
+        comment2_id = talkback.createReply(title='Second comment',
+                                           text='This is my second comment.')
+        comment2 = talkback.getReplies()[0]
+        talkback_comment2 = self.discussion.getDiscussionFor(comment2)
+
         # Call migration script
         self.view()
 
         # Check migration
         conversation = IConversation(self.doc)
-        self.assertEquals(conversation.total_comments, 2)
+        self.assertEquals(conversation.total_comments, 6)
+
 
         comment1 = conversation.values()[0]
-        comment2 = conversation.values()[1]
+        comment1_1 = conversation.values()[1]
+        comment1_1_1 = conversation.values()[2]
+        comment1_1_1_1 = conversation.values()[3]
+        comment1_2 = conversation.values()[4]
+        comment2 = conversation.values()[5]
 
         self.assertEquals(
-            [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},
-             {'comment': comment2,     'depth': 0, 'id': long(comment2.id)},
+            [{'comment': comment1,       'depth': 0, 'id': long(comment1.id)},
+             {'comment': comment1_1,     'depth': 1, 'id': long(comment1_1.id)},
+             {'comment': comment1_1_1,   'depth': 2, 'id': long(comment1_1_1.id)},
+             {'comment': comment1_1_1_1, 'depth': 3, 'id': long(comment1_1_1_1.id)},
+             {'comment': comment1_2,     'depth': 1, 'id': long(comment1_2.id)},
+             {'comment': comment2,       'depth': 0, 'id': long(comment2.id)},
             ], list(conversation.getThreads()))
 
 def test_suite():
