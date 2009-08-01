@@ -133,8 +133,8 @@ class IComment(Interface):
 
     portal_type = schema.ASCIILine(title=_(u"Portal type"), default="Discussion Item")
 
-    __parent__ = schema.Object(title=_(u"Conversation"), schema=Interface)
-    __name__ = schema.TextLine(title=_(u"Name"))
+    #__parent__ = schema.Object(title=_(u"Conversation"), schema=Interface)
+    #__name__ = schema.TextLine(title=_(u"Name"))
 
     comment_id = schema.Int(title=_(u"A comment id unique to this conversation"))
     in_reply_to = schema.Int(title=_(u"Id of comment this comment is in reply to"), required=False)

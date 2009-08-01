@@ -1,5 +1,3 @@
-### OLD ###
-
 from datetime import datetime
 from DateTime import DateTime
 
@@ -30,31 +28,6 @@ from plone.app.layout.viewlets.common import ViewletBase
 from plone.app.discussion.comment import CommentFactory
 from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
 
-### NEW ###
-
-from plone.app.layout.viewlets.common import ViewletBase
-
-from zope.interface import Interface, implements
-
-from zope.viewlet.interfaces import IViewlet
-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from plone.z3cform import layout
-
-from zope import interface, schema
-from z3c.form import form, field, button, interfaces
-from plone.z3cform.layout import wrap_form
-
-from plone.z3cform import z2
-
-from plone.app.discussion.interfaces import IComment
-
-from zope.annotation import IAttributeAnnotatable
-
-from plone.z3cform.fieldsets import extensible
-
-from Products.Five.browser import BrowserView
 
 
 class View(BrowserView):
@@ -68,102 +41,18 @@ class View(BrowserView):
         #self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#comment-' + comment_id)
         self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#' + comment_id)
 
-
-class Comment(object):
-    implements(IComment, IAttributeAnnotatable)
-    portal_type = u""
-    #__parent__ = u""
-    #__name__ = u""
-    comment_id = u""
-    in_reply_to = u""
-    title = u""
-    mime_type = u""
-    text = u""
-    creator = u""
-    creation_date = u""
-    modification_date = u""
-    author_username = u""
-    author_name = u""
-    author_email = u""
-
-class CommentForm(extensible.ExtensibleForm, form.Form):
-    fields = field.Fields(IComment)
-    ignoreContext = True # don't use context to get widget data
-    label = u"Add a comment"
-
-    # NOT WORKING !!!
-    name = "foooooo"
-    method = "get"
-    action = "foo"
-
-    # hide certain fields
-    #fields['__parent__'].mode = interfaces.HIDDEN_MODE
-    #fields['__name__'].mode = interfaces.HIDDEN_MODE
-    fields['portal_type'].mode = interfaces.HIDDEN_MODE
-    fields['comment_id'].mode = interfaces.HIDDEN_MODE
-    fields['in_reply_to'].mode = interfaces.HIDDEN_MODE
-    fields['mime_type'].mode = interfaces.HIDDEN_MODE
-    fields['creator'].mode = interfaces.HIDDEN_MODE
-    fields['creation_date'].mode = interfaces.HIDDEN_MODE
-    fields['modification_date'].mode = interfaces.HIDDEN_MODE
-    fields['author_username'].mode = interfaces.HIDDEN_MODE
-    fields['author_name'].mode = interfaces.HIDDEN_MODE
-    fields['author_email'].mode = interfaces.HIDDEN_MODE
-
-    @button.buttonAndHandler(u'Post comment')
-    def handleApply(self, action):
-        data, errors = self.extractData()
-        print data['title'] # ... or do stuff
-
-
-    #@property
-    #def fields(self):
-    #    TODO !!!
-    #    return fields
-
-class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
+class CommentsViewlet(ViewletBase):
+    """Discussion Viewlet
+    """
 
     implements(IViewlet)
 
-    form = CommentForm
-    label = 'Add Comment'
-    name = 'foo'
-    formname = 'bar'
-    index = ViewPageTemplateFile('comments.pt')
+    template = ViewPageTemplateFile('comments.pt')
 
-    #def index(self):
-    #    return ViewPageTemplateFile('comments.pt').__of__(self)(self)
-
-    def __init__(self, context, request, view, manager):
-        super(ViewletFormWrapper, self).__init__(context, request, view, manager)
-        if self.form is not None:
-            self.form_instance = self.form(self.context.aq_inner, self.request)
-            self.form_instance.__name__ = self.__name__
-
+    def update(self):
+        super(CommentsViewlet, self).update()
         self.portal_discussion = getToolByName(self.context, 'portal_discussion', None)
         self.portal_membership = getToolByName(self.context, 'portal_membership', None)
-
-    #def contents(self):
-    #    """This is the method that'll call your form.  You don't
-    #    usually override this.
-    #    """
-    #    # A call to 'switch_on' is required before we can render
-    #    # z3c.forms within Zope 2.
-    #    z2.switch_on(self, request_layer=self.request_layer)
-    #    return self.render_form()
-
-    def render_form(self):
-        #z2.switch_on(self, request_layer=self.request_layer)
-        # XXX: NOT WORKING !!!
-        self.form_instance.formname = "foo"
-        self.form_instance.name = "foooooo"
-        self.form_instance.method = "get"
-        self.form_instance.action = "foo"
-        self.form.update(self.form_instance)
-        return self.form.render(self.form_instance)
-        #return self.form_instance()
-
-    # view methods
 
     def can_reply(self):
         return getSecurityManager().checkPermission('Reply to item', aq_inner(self.context))
@@ -243,9 +132,6 @@ class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
         util = getToolByName(self.context, 'translation_service')
         zope_time = DateTime(time.year, time.month, time.day, time.hour, time.minute, time.second)
         return util.toLocalizedTime(zope_time, long_format=True)
-
-CommentsViewlet = wrap_form(CommentForm, __wrapper_class=ViewletFormWrapper)
-
 
 class AddComment(BrowserView):
     """Add a comment to a conversation

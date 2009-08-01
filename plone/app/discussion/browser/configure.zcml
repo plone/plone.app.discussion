@@ -58,9 +58,8 @@
         name="plone.comments"
         for="Products.CMFCore.interfaces.IContentish"
         layer="..interfaces.IDiscussionLayer"
-        view="plone.app.layout.globals.interfaces.IViewView"
+        view="plone.app.layout.globals.interfaces.IViewView"        
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
-        template="comments.pt"
         class=".comments.CommentsViewlet"
         permission="zope2.View"
         />

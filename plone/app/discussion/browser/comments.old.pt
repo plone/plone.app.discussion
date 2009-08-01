@@ -153,8 +153,6 @@
                 formatting.
             </p>
 
-            <div tal:replace="structure view/contents" />
-
             <form name="reply"
                   action=""
                   method="get"
