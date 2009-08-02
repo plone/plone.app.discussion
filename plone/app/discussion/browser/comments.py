@@ -56,6 +56,7 @@ from plone.z3cform.fieldsets import extensible
 
 from Products.Five.browser import BrowserView
 
+from zope.schema.fieldproperty import FieldProperty
 
 class View(BrowserView):
     """Comment View
@@ -72,8 +73,8 @@ class View(BrowserView):
 class Comment(object):
     implements(IComment, IAttributeAnnotatable)
     portal_type = u""
-    #__parent__ = u""
-    #__name__ = u""
+    __parent__ = None
+    __name__ = None
     comment_id = u""
     in_reply_to = u""
     title = u""
@@ -87,39 +88,20 @@ class Comment(object):
     author_email = u""
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
-    fields = field.Fields(IComment)
+
     ignoreContext = True # don't use context to get widget data
     label = u"Add a comment"
-
-    # NOT WORKING !!!
-    name = "foooooo"
-    method = "get"
-    action = "foo"
-
-    # hide certain fields
-    #fields['__parent__'].mode = interfaces.HIDDEN_MODE
-    #fields['__name__'].mode = interfaces.HIDDEN_MODE
-    fields['portal_type'].mode = interfaces.HIDDEN_MODE
-    fields['comment_id'].mode = interfaces.HIDDEN_MODE
-    fields['in_reply_to'].mode = interfaces.HIDDEN_MODE
-    fields['mime_type'].mode = interfaces.HIDDEN_MODE
-    fields['creator'].mode = interfaces.HIDDEN_MODE
-    fields['creation_date'].mode = interfaces.HIDDEN_MODE
-    fields['modification_date'].mode = interfaces.HIDDEN_MODE
-    fields['author_username'].mode = interfaces.HIDDEN_MODE
-    fields['author_name'].mode = interfaces.HIDDEN_MODE
-    fields['author_email'].mode = interfaces.HIDDEN_MODE
 
     @button.buttonAndHandler(u'Post comment')
     def handleApply(self, action):
         data, errors = self.extractData()
         print data['title'] # ... or do stuff
 
-
-    #@property
-    #def fields(self):
-    #    TODO !!!
-    #    return fields
+    @property
+    def fields(self):
+        title = FieldProperty(IComment['title'])
+        text = FieldProperty(IComment['text'])
+        return field.Fields(title, text)
 
 class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
 
@@ -127,8 +109,7 @@ class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
 
     form = CommentForm
     label = 'Add Comment'
-    name = 'foo'
-    formname = 'bar'
+
     index = ViewPageTemplateFile('comments.pt')
 
     #def index(self):
@@ -154,11 +135,6 @@ class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
 
     def render_form(self):
         #z2.switch_on(self, request_layer=self.request_layer)
-        # XXX: NOT WORKING !!!
-        self.form_instance.formname = "foo"
-        self.form_instance.name = "foooooo"
-        self.form_instance.method = "get"
-        self.form_instance.action = "foo"
         self.form.update(self.form_instance)
         return self.form.render(self.form_instance)
         #return self.form_instance()
