@@ -1,6 +1,10 @@
 jq(document).ready(function() {
 
+    /* Hide the reply and the cancel button for the regular add comment
+     * form.
+     */
     jq(".reply").find("input[name='form.buttons.reply']").css("display", "none");
+	jq(".reply").find("input[name='form.buttons.cancel']").css("display", "none");
 
     /*****************************************************************
      * Show the reply button only when Javascript is enabled.
@@ -49,10 +53,12 @@ jq(document).ready(function() {
 	    var cancel_reply_button = reply_div.find(".cancelreplytocomment");
 	    cancel_reply_button.attr("id", comment_id);
 
-        /* Hide the comment button and show the reply button
-         * in the reply-to-comment forms */
+        /* Hide the comment button  */
         reply_form.find("input[name='form.buttons.comment']").css("display", "none");
+
+		/* Show the reply and cancel buttons. */
         reply_form.find("input[name='form.buttons.reply']").css("display", "inline");
+		reply_form.find("input[name='form.buttons.cancel']").css("display", "inline");
 
 	    /* Show the reply layer with a slide down effect */
 	    reply_div.slideDown("slow");
@@ -66,8 +72,8 @@ jq(document).ready(function() {
     /*****************************************************************
      * Remove reply to comment form.
      *****************************************************************/
-    jq(".cancelreplytocomment").bind("click", function(e){
-
+    jq("#form-buttons-cancel").bind("click", function(e){
+        e.preventDefault();
         reply_to_comment_button = jq(this).parents().filter(".comment").find(".reply-to-comment-button");
 
         /* Find the reply-to-comment form and hide and remove it again. */
