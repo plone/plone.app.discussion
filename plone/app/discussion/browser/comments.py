@@ -27,7 +27,7 @@ from plone.registry.interfaces import IRegistry
 
 from plone.app.layout.viewlets.common import ViewletBase
 
-from plone.app.discussion.comment import CommentFactory
+from plone.app.discussion.comment import Comment, CommentFactory
 from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
 
 ### NEW ###
@@ -58,33 +58,15 @@ from Products.Five.browser import BrowserView
 from zope.schema.fieldproperty import FieldProperty
 
 class View(BrowserView):
-    """Comment View
+    """Comment View.
+
+    Redirect from /path/to/object/++conversation++default/123456789
+    to /path/to/object#comment-123456789.
     """
 
     def __call__(self):
-        # Redirect from /path/to/object/++conversation++default/123456789
-        # to /path/to/object#comment-123456789
         comment_id = aq_parent(self).id
-        #self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#comment-' + comment_id)
         self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#' + comment_id)
-
-
-class Comment(object):
-    implements(IComment, IAttributeAnnotatable)
-    portal_type = u""
-    __parent__ = None
-    __name__ = None
-    comment_id = u""
-    in_reply_to = u""
-    title = u""
-    mime_type = u""
-    text = u""
-    creator = u""
-    creation_date = u""
-    modification_date = u""
-    author_username = u""
-    author_name = u""
-    author_email = u""
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
@@ -107,9 +89,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     @button.buttonAndHandler(u'Post comment')
     def handleApply(self, action):
         data, errors = self.extractData()
-        if errors:
-            self.status = form.EditForm.formErrorsMessage
-            return
 
         if data.has_key('title'):
             subject = data['title']
@@ -151,8 +130,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         comment_id = conversation.addComment(comment)
 
         # Redirect to comment (inside a content object page)
-        #self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url() + '#comment-' + str(comment_id))
-        #self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url() + '#' + str(comment_id))
+        self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(comment_id))
 
 class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
 
