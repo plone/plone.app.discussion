@@ -139,6 +139,13 @@ class IComment(Interface):
     comment_id = schema.Int(title=_(u"A comment id unique to this conversation"))
     in_reply_to = schema.Int(title=_(u"Id of comment this comment is in reply to"), required=False)
 
+    # for logged in comments - set to None for anonymous
+    author_username = schema.TextLine(title=_(u"Author username"), required=False)
+
+    # for anonymous comments only, set to None for logged in comments
+    author_name = schema.TextLine(title=_(u"Author name"), required=False)
+    author_email = schema.TextLine(title=_(u"Author email address"), required=False)
+
     title = schema.TextLine(title=_(u"Subject"))
 
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
@@ -147,13 +154,6 @@ class IComment(Interface):
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     creation_date = schema.Date(title=_(u"Creation date"))
     modification_date = schema.Date(title=_(u"Modification date"))
-
-    # for logged in comments - set to None for anonymous
-    author_username = schema.TextLine(title=_(u"Author username"), required=False)
-
-    # for anonymous comments only, set to None for logged in comments
-    author_name = schema.TextLine(title=_(u"Author name"), required=False)
-    author_email = schema.TextLine(title=_(u"Author email address"), required=False)
 
 class ICommentingTool(Interface):
     """A tool that indexes all comments for usage by the management interface.
