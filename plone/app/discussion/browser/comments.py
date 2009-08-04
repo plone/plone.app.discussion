@@ -37,7 +37,6 @@ from plone.app.discussion.interfaces import IConversation, IComment, IReplies, I
 from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
 
-
 class View(BrowserView):
     """Comment View.
 
@@ -56,30 +55,59 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     ignoreContext = True # don't use context to get widget data
     label = _(u"Add a comment")
 
-    fields = field.Fields(IComment).omit('portal_type',
-                                         '__parent__',
-                                         '__name__',
-                                         'comment_id',
-                                         'mime_type',
-                                         'creator',
-                                         'creation_date',
-                                         'modification_date',
-                                         'author_username',
-                                         'author_name',
-                                         'author_email',)
+    @property
+    def fields(self):
+        portal_membership = getToolByName(self.context, 'portal_membership')
+        if portal_membership.isAnonymousUser():
+            return field.Fields(IComment).omit('portal_type',
+                                               '__parent__',
+                                               '__name__',
+                                               'comment_id',
+                                               'mime_type',
+                                               'creator',
+                                               'creation_date',
+                                               'modification_date',
+                                               'author_username',)
+        else:
+            return field.Fields(IComment).omit('portal_type',
+                                               '__parent__',
+                                               '__name__',
+                                               'comment_id',
+                                               'mime_type',
+                                               'creator',
+                                               'creation_date',
+                                               'modification_date',
+                                               'author_username',
+                                               'author_name',
+                                               'author_email',)
 
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
 
     @button.buttonAndHandler(_(u"Comment"))
-    def handleApply(self, action):
+    def handleComment(self, action):
         data, errors = self.extractData()
 
         if data.has_key('title') and data.has_key('text'):
 
             title = data['title']
             text = data['text']
+
+            if data.has_key('author_name'):
+                author_name = data['author_name']
+            else:
+                author_name = u""
+
+            if data.has_key('author_username'):
+                author_name = data['author_username']
+            else:
+                author_username = u""
+
+            if data.has_key('author_email'):
+                author_email = data['author_email']
+            else:
+                author_email = u""
 
             # The add-comment view is called on the conversation object
             conversation = IConversation(self.__parent__)
@@ -92,8 +120,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             portal_membership = getToolByName(self.context, 'portal_membership')
 
             if portal_membership.isAnonymousUser():
-                comment.creator = author_username
-                comment.author_name = author_username
+                comment.creator = author_name
+                comment.author_name = author_name
                 comment.author_email = author_email
                 comment.creation_date = comment.modification_date = datetime.now()
             else:
@@ -127,10 +155,20 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             text = data['text']
             reply_to_comment_id = data['in_reply_to']
 
+            if data.has_key('author_name'):
+                author_name = data['author_name']
+            else:
+                author_name = u""
+
             if data.has_key('author_username'):
-                author_username = data['author_username']
+                author_name = data['author_username']
+            else:
+                author_username = u""
+
             if data.has_key('author_email'):
                 author_email = data['author_email']
+            else:
+                author_email = u""
 
             # The add-comment view is called on the conversation object
             conversation = IConversation(self.__parent__)
@@ -148,8 +186,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             portal_membership = getToolByName(self.context, 'portal_membership')
 
             if portal_membership.isAnonymousUser():
-                comment.creator = author_username
-                comment.author_name = author_username
+                comment.creator = author_name
+                comment.author_name = author_name
                 comment.author_email = author_email
                 comment.creation_date = comment.modification_date = datetime.now()
             else:
