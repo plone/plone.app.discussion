@@ -66,12 +66,14 @@ class View(BrowserView):
 
     def __call__(self):
         comment_id = aq_parent(self).id
-        self.request.response.redirect(aq_parent(aq_parent(aq_parent(self))).absolute_url() + '#' + comment_id)
+        self.request.response.redirect(
+            aq_parent(aq_parent(aq_parent(self))).absolute_url() +
+            '#' + str(comment_id))
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True # don't use context to get widget data
-    label = u"Add a comment"
+    label = _(u"Add a comment")
 
     fields = field.Fields(IComment).omit('portal_type',
                                          '__parent__',
@@ -89,7 +91,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         super(CommentForm, self).updateWidgets()
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
 
-    @button.buttonAndHandler(u'Comment')
+    @button.buttonAndHandler(_(u"Comment"))
     def handleApply(self, action):
         data, errors = self.extractData()
 
@@ -129,9 +131,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment_id = conversation.addComment(comment)
 
             # Redirect to comment (inside a content object page)
-            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(comment_id))
+            self.request.response.redirect(
+                aq_parent(aq_inner(self.context)).absolute_url() +
+                '#' + str(comment_id))
 
-    @button.buttonAndHandler(u'Reply')
+    @button.buttonAndHandler(_(u"Reply"))
     def handleReply(self, action):
 
         data, errors = self.extractData()
@@ -189,6 +193,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # Redirect to comment (inside a content object page)
             self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(reply_to_comment_id))
 
+    @button.buttonAndHandler(_(u"Cancel"))
+    def handleCancel(self, action):
+        # This method should never be called, it's only there to show
+        # a cancel button that is handled by a jQuery method.
+        pass
 
 class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
 
