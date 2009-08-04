@@ -1,19 +1,23 @@
-### OLD ###
+from Acquisition import aq_inner, aq_parent, aq_base
+
+from AccessControl import getSecurityManager
 
 from datetime import datetime
 from DateTime import DateTime
 
 from urllib import quote as url_quote
 
-from zope.interface import implements
+from zope import interface, schema
+
+from zope.annotation import IAttributeAnnotatable
 
 from zope.component import createObject, getMultiAdapter, queryUtility
 
+from zope.interface import Interface, implements
+
 from zope.viewlet.interfaces import IViewlet
 
-from Acquisition import aq_inner, aq_parent, aq_base
-
-from AccessControl import getSecurityManager
+from z3c.form import form, field, button, interfaces
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -30,32 +34,9 @@ from plone.app.layout.viewlets.common import ViewletBase
 from plone.app.discussion.comment import Comment, CommentFactory
 from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
 
-### NEW ###
-
-from plone.app.layout.viewlets.common import ViewletBase
-
-from zope.interface import Interface, implements
-
-from zope.viewlet.interfaces import IViewlet
-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from plone.z3cform import layout
-
-from zope import interface, schema
-from z3c.form import form, field, button, interfaces
-
-from plone.z3cform import z2
-
-from plone.app.discussion.interfaces import IComment
-
-from zope.annotation import IAttributeAnnotatable
-
+from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
 
-from Products.Five.browser import BrowserView
-
-from zope.schema.fieldproperty import FieldProperty
 
 class View(BrowserView):
     """Comment View.
@@ -185,10 +166,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
             # Add the reply to the comment
             new_re_id = replies.addComment(comment)
-
-            #IStatusMessage(self.request).addStatusMessage(\
-            #    _("Comment field is empty."),
-            #    type="info")
 
             # Redirect to comment (inside a content object page)
             self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(reply_to_comment_id))
