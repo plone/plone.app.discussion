@@ -44,7 +44,6 @@ from plone.z3cform import layout
 
 from zope import interface, schema
 from z3c.form import form, field, button, interfaces
-from plone.z3cform.layout import wrap_form
 
 from plone.z3cform import z2
 
@@ -92,28 +91,33 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     ignoreContext = True # don't use context to get widget data
     label = u"Add a comment"
 
+    fields = field.Fields(IComment).omit('portal_type',
+                                         '__parent__',
+                                         '__name__',
+                                         'comment_id',
+                                         'in_reply_to',
+                                         'mime_type',
+                                         'creator',
+                                         'creation_date',
+                                         'modification_date',
+                                         'author_username',
+                                         'author_name',
+                                         'author_email',)
+
     @button.buttonAndHandler(u'Post comment')
     def handleApply(self, action):
         data, errors = self.extractData()
-        print data['title'] # ... or do stuff
-
-    @property
-    def fields(self):
-        title = FieldProperty(IComment['title'])
-        text = FieldProperty(IComment['text'])
-        return field.Fields(title, text)
+        if data.has_key('title'):
+            print data['title'] # ... or do stuff
 
 class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
 
     implements(IViewlet)
 
     form = CommentForm
-    label = 'Add Comment'
 
-    index = ViewPageTemplateFile('comments.pt')
-
-    #def index(self):
-    #    return ViewPageTemplateFile('comments.pt').__of__(self)(self)
+    def index(self):
+        return ViewPageTemplateFile('comments.pt').__of__(self)(self)
 
     def __init__(self, context, request, view, manager):
         super(ViewletFormWrapper, self).__init__(context, request, view, manager)
@@ -124,20 +128,10 @@ class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
         self.portal_discussion = getToolByName(self.context, 'portal_discussion', None)
         self.portal_membership = getToolByName(self.context, 'portal_membership', None)
 
-    #def contents(self):
-    #    """This is the method that'll call your form.  You don't
-    #    usually override this.
-    #    """
-    #    # A call to 'switch_on' is required before we can render
-    #    # z3c.forms within Zope 2.
-    #    z2.switch_on(self, request_layer=self.request_layer)
-    #    return self.render_form()
-
     def render_form(self):
-        #z2.switch_on(self, request_layer=self.request_layer)
+        z2.switch_on(self, request_layer=self.request_layer)
         self.form.update(self.form_instance)
         return self.form.render(self.form_instance)
-        #return self.form_instance()
 
     # view methods
 
@@ -220,8 +214,7 @@ class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
         zope_time = DateTime(time.year, time.month, time.day, time.hour, time.minute, time.second)
         return util.toLocalizedTime(zope_time, long_format=True)
 
-CommentsViewlet = wrap_form(CommentForm, __wrapper_class=ViewletFormWrapper)
-
+CommentsViewlet = layout.wrap_form(CommentForm, __wrapper_class=ViewletFormWrapper)
 
 class AddComment(BrowserView):
     """Add a comment to a conversation
