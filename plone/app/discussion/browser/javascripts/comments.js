@@ -1,5 +1,7 @@
 jq(document).ready(function() {
 
+    jq(".reply").find("input[name='form.buttons.reply']").css("display", "none");
+
     /*****************************************************************
      * Show the reply button only when Javascript is enabled.
      * Otherwise hide it, since the reply functions relies on jQuery.
@@ -47,8 +49,10 @@ jq(document).ready(function() {
 	    var cancel_reply_button = reply_div.find(".cancelreplytocomment");
 	    cancel_reply_button.attr("id", comment_id);
 
-        /* Hide the comment button */
-        reply_form.find("input[name='form.buttons.comment'").css("background", "red");
+        /* Hide the comment button and show the reply button
+         * in the reply-to-comment forms */
+        reply_form.find("input[name='form.buttons.comment']").css("display", "none");
+        reply_form.find("input[name='form.buttons.reply']").css("display", "inline");
 
 	    /* Show the reply layer with a slide down effect */
 	    reply_div.slideDown("slow");
