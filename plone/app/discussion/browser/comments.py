@@ -102,7 +102,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             conversation = IConversation(self.__parent__)
 
             # Create the comment
-            comment = CommentFactory()
+            comment = createObject('plone.Comment')
             comment.title = title
             comment.text = text
 
@@ -156,7 +156,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             replies = IReplies(comment_to_reply_to)
 
             # Create the comment
-            comment = CommentFactory()
+            comment = createObject('plone.Comment')
             comment.title = title
             comment.text = text
 
