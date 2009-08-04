@@ -199,7 +199,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # a cancel button that is handled by a jQuery method.
         pass
 
-class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
+class CommentsViewlet(ViewletBase, layout.FormWrapper):
 
     form = CommentForm
 
@@ -207,7 +207,7 @@ class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
         return ViewPageTemplateFile('comments.pt').__of__(self)(self)
 
     def __init__(self, context, request, view, manager):
-        super(ViewletFormWrapper, self).__init__(context, request, view, manager)
+        super(CommentsViewlet, self).__init__(context, request, view, manager)
         if self.form is not None:
             self.form_instance = self.form(self.context.aq_inner, self.request)
             self.form_instance.__name__ = self.__name__
@@ -300,5 +300,3 @@ class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
         util = getToolByName(self.context, 'translation_service')
         zope_time = DateTime(time.year, time.month, time.day, time.hour, time.minute, time.second)
         return util.toLocalizedTime(zope_time, long_format=True)
-
-CommentsViewlet = layout.wrap_form(CommentForm, __wrapper_class=ViewletFormWrapper)
