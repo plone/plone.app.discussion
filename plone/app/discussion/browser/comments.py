@@ -201,8 +201,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
 class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
 
-    implements(IViewlet)
-
     form = CommentForm
 
     def index(self):
