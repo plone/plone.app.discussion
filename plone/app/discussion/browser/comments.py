@@ -85,6 +85,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                          'author_name',
                                          'author_email',)
 
+    def updateWidgets(self):
+        super(CommentForm, self).updateWidgets()
+        self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
+
     @button.buttonAndHandler(u'Comment')
     def handleApply(self, action):
         data, errors = self.extractData()
