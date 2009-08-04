@@ -36,21 +36,19 @@ jq(document).ready(function() {
 	    /* Fetch the reply form inside the reply div */
 	    var reply_form = reply_div.find("form");
 
-	    /* Add a hidden field with the id of the comment */
-        reply_form.append("<input type=\"hidden\" value=\"" + comment_id + "\" name=\"form.reply_to_comment_id\" />");
+        /* Remove already typed in text from the reply form. */
+        reply_form.find(".field").find("input").attr("value", "")
+        reply_form.find(".field").find("textarea").attr("value", "")
 
-	    /* Change the form action to @@reply-to-comment */
-	    var old_action = reply_form.attr("action");
-	    var new_action = old_action.replace("@@add-comment",  "@@reply-to-comment");
-	    reply_form.attr("action", new_action);
+        /* Populate the hidden 'in_reply_to' field with the correct comment id */
+		reply_form.find("input[name='form.widgets.in_reply_to']").val(comment_id);
 
 	    /* Add a remove-reply-to-comment Javascript function to remove the form */
 	    var cancel_reply_button = reply_div.find(".cancelreplytocomment");
 	    cancel_reply_button.attr("id", comment_id);
 
-	    /* Remove already typed in text from the reply form. */
-	    reply_form.find(".field").find("input").attr("value", "")
-	    reply_form.find(".field").find("textarea").attr("value", "")
+        /* Hide the comment button */
+        reply_form.find("input[name='form.buttons.comment'").css("background", "red");
 
 	    /* Show the reply layer with a slide down effect */
 	    reply_div.slideDown("slow");

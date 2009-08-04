@@ -77,7 +77,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                          '__parent__',
                                          '__name__',
                                          'comment_id',
-                                         'in_reply_to',
                                          'mime_type',
                                          'creator',
                                          'creation_date',
@@ -86,51 +85,106 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                          'author_name',
                                          'author_email',)
 
-    @button.buttonAndHandler(u'Post comment')
+    @button.buttonAndHandler(u'Comment')
     def handleApply(self, action):
         data, errors = self.extractData()
 
-        if data.has_key('title'):
-            subject = data['title']
-        if data.has_key('text'):
+        if data.has_key('title') and data.has_key('text'):
+
+            title = data['title']
             text = data['text']
-        if data.has_key('author_username'):
-            author_username = data['author_username']
-        if data.has_key('author_email'):
-            author_email = data['author_email']
 
-        # The add-comment view is called on the conversation object
-        conversation = IConversation(self.__parent__)
+            # The add-comment view is called on the conversation object
+            conversation = IConversation(self.__parent__)
 
-        # Create the comment
-        comment = CommentFactory()
-        comment.title = subject
-        comment.text = text
+            # Create the comment
+            comment = CommentFactory()
+            comment.title = title
+            comment.text = text
 
-        portal_membership = getToolByName(self.context, 'portal_membership')
+            portal_membership = getToolByName(self.context, 'portal_membership')
 
-        if portal_membership.isAnonymousUser():
-            comment.creator = author_username
-            comment.author_name = author_username
-            comment.author_email = author_email
-            comment.creation_date = comment.modification_date = datetime.now()
-        else:
-            member = portal_membership.getAuthenticatedMember()
-            fullname = member.getProperty('fullname')
-            if fullname == '' or None:
-                comment.creator = member.id
+            if portal_membership.isAnonymousUser():
+                comment.creator = author_username
+                comment.author_name = author_username
+                comment.author_email = author_email
+                comment.creation_date = comment.modification_date = datetime.now()
             else:
-                comment.creator = fullname
-            comment.author_username = member.getUserName()
-            comment.author_name = member.getProperty('fullname')
-            comment.author_email = member.getProperty('email')
-            comment.creation_date = comment.modification_date = datetime.now()
+                member = portal_membership.getAuthenticatedMember()
+                fullname = member.getProperty('fullname')
+                if fullname == '' or None:
+                    comment.creator = member.id
+                else:
+                    comment.creator = fullname
+                comment.author_username = member.getUserName()
+                comment.author_name = member.getProperty('fullname')
+                comment.author_email = member.getProperty('email')
+                comment.creation_date = comment.modification_date = datetime.now()
 
-        # Add comment to the conversation
-        comment_id = conversation.addComment(comment)
+            # Add comment to the conversation
+            comment_id = conversation.addComment(comment)
 
-        # Redirect to comment (inside a content object page)
-        self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(comment_id))
+            # Redirect to comment (inside a content object page)
+            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(comment_id))
+
+    @button.buttonAndHandler(u'Reply')
+    def handleReply(self, action):
+
+        data, errors = self.extractData()
+
+        if data.has_key('title') and data.has_key('text') and data.has_key('in_reply_to'):
+
+            title = data['title']
+            text = data['text']
+            reply_to_comment_id = data['in_reply_to']
+
+            if data.has_key('author_username'):
+                author_username = data['author_username']
+            if data.has_key('author_email'):
+                author_email = data['author_email']
+
+            # The add-comment view is called on the conversation object
+            conversation = IConversation(self.__parent__)
+
+            # Fetch the comment we want to reply to
+            comment_to_reply_to = conversation.get(reply_to_comment_id)
+
+            replies = IReplies(comment_to_reply_to)
+
+            # Create the comment
+            comment = CommentFactory()
+            comment.title = title
+            comment.text = text
+
+            portal_membership = getToolByName(self.context, 'portal_membership')
+
+            if portal_membership.isAnonymousUser():
+                comment.creator = author_username
+                comment.author_name = author_username
+                comment.author_email = author_email
+                comment.creation_date = comment.modification_date = datetime.now()
+            else:
+                member = portal_membership.getAuthenticatedMember()
+                fullname = member.getProperty('fullname')
+                if fullname == '' or None:
+                    comment.creator = member.id
+                else:
+                    comment.creator = fullname
+                comment.author_username = member.getUserName()
+                comment.author_name = member.getProperty('fullname')
+                comment.author_email = member.getProperty('email')
+                comment.creation_date = comment.modification_date = datetime.now()
+
+            # Add the reply to the comment
+            new_re_id = replies.addComment(comment)
+
+            #IStatusMessage(self.request).addStatusMessage(\
+            #    _("Comment field is empty."),
+            #    type="info")
+
+            # Redirect to comment (inside a content object page)
+            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(reply_to_comment_id))
+
 
 class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
 
@@ -237,83 +291,3 @@ class ViewletFormWrapper(ViewletBase, layout.FormWrapper):
         return util.toLocalizedTime(zope_time, long_format=True)
 
 CommentsViewlet = layout.wrap_form(CommentForm, __wrapper_class=ViewletFormWrapper)
-
-class ReplyToComment(BrowserView):
-    """Reply to a comment
-    """
-
-    def __call__(self):
-
-        context = aq_inner(self.context)
-
-        if self.request.has_key('form.button.AddComment'):
-
-            reply_to_comment_id = self.request.get('form.reply_to_comment_id')
-
-            subject = self.request.get('subject')
-            text = self.request.get('body_text')
-            author_username = self.request.get('author_username')
-            author_email = self.request.get('author_email')
-
-            # Check the form input
-            if author_username == '':
-                IStatusMessage(self.request).addStatusMessage(\
-                    _("Username field is empty."),
-                    type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
-            if author_email == '':
-                IStatusMessage(self.request).addStatusMessage(\
-                    _("Email field is empty."),
-                    type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
-            if subject == '':
-                IStatusMessage(self.request).addStatusMessage(\
-                    _("Subject field is empty."),
-                    type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
-            if text == '':
-                IStatusMessage(self.request).addStatusMessage(\
-                    _("Comment field is empty."),
-                    type="info")
-                return self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url())
-
-            # The add-comment view is called on the conversation object
-            conversation = context
-
-            # Fetch the comment we want to reply to
-            comment_to_reply_to = conversation.get(reply_to_comment_id)
-
-            replies = IReplies(comment_to_reply_to)
-
-            # Create the comment
-            comment = CommentFactory()
-            comment.title = subject
-            comment.text = text
-
-            portal_membership = getToolByName(context, 'portal_membership')
-
-            if portal_membership.isAnonymousUser():
-                comment.creator = author_username
-                comment.author_name = author_username
-                comment.author_email = author_email
-                comment.creation_date = comment.modification_date = datetime.now()
-            else:
-                member = portal_membership.getAuthenticatedMember()
-                fullname = member.getProperty('fullname')
-                if fullname == '' or None:
-                    comment.creator = member.id
-                else:
-                    comment.creator = fullname
-                comment.author_username = member.getUserName()
-                comment.author_name = member.getProperty('fullname')
-                comment.author_email = member.getProperty('email')
-                comment.creation_date = comment.modification_date = datetime.now()
-
-            # Add the reply to the comment
-            new_re_id = replies.addComment(comment)
-
-            # Redirect to comment (inside a content object page)
-            #self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url() + '#comment-' + str(reply_to_comment_id))
-            # Todo: Temporarily remove the "#comment-" to fix a bug
-            # in CMFPlone/skins/plone_ecmascript/form_tabbing.js
-            self.request.response.redirect(aq_parent(aq_inner(context)).absolute_url() + '#' + str(reply_to_comment_id))
