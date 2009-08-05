@@ -54,36 +54,24 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True # don't use context to get widget data
     label = _(u"Add a comment")
-
-    @property
-    def fields(self):
-        portal_membership = getToolByName(self.context, 'portal_membership')
-        if portal_membership.isAnonymousUser():
-            return field.Fields(IComment).omit('portal_type',
-                                               '__parent__',
-                                               '__name__',
-                                               'comment_id',
-                                               'mime_type',
-                                               'creator',
-                                               'creation_date',
-                                               'modification_date',
-                                               'author_username',)
-        else:
-            return field.Fields(IComment).omit('portal_type',
-                                               '__parent__',
-                                               '__name__',
-                                               'comment_id',
-                                               'mime_type',
-                                               'creator',
-                                               'creation_date',
-                                               'modification_date',
-                                               'author_username',
-                                               'author_name',
-                                               'author_email',)
+    fields = field.Fields(IComment).omit('portal_type',
+                                         '__parent__',
+                                         '__name__',
+                                         'comment_id',
+                                         'mime_type',
+                                         'creator',
+                                         'creation_date',
+                                         'modification_date',
+                                         'author_username')
 
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
+        portal_membership = getToolByName(self.context, 'portal_membership')
+        if not portal_membership.isAnonymousUser():
+            # XXX: This is ugly. The fields should be omitted, not hidden.
+            self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
+            self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
     @button.buttonAndHandler(_(u"Comment"))
     def handleComment(self, action):
