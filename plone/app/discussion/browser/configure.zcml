@@ -64,6 +64,14 @@
         permission="zope2.View"
         />
 
+    <!-- Comment form extender -->
+    <adapter
+        factory=".captcha.Captcha" />
+
+    <adapter
+        factory=".captcha.CaptchaExtender"
+        provides="plone.z3cform.fieldsets.interfaces.IFormExtender" />
+
     <!-- Comment view -->
     <browser:view
         name="view"
