@@ -17,6 +17,7 @@ from plone.z3cform.fieldsets import extensible
 from plone.z3cform.fieldsets.interfaces import IFormExtender
 
 from plone.app.discussion.comment import Comment
+from plone.app.discussion.browser.comments import CommentForm
 
 class ICaptcha(Interface):
     captcha = schema.TextLine(title=u"Type the word 'human' in all capital letters.",
@@ -32,7 +33,7 @@ provideAdapter(Captcha)
 provideAdapter(AttributeAnnotations)
 
 class CaptchaExtender(extensible.FormExtender):
-    adapts(Interface, IDefaultBrowserLayer, Interface) # context, request, form
+    adapts(Interface, IDefaultBrowserLayer, CommentForm) # context, request, form
 
     def __init__(self, context, request, form):
         self.context = context
