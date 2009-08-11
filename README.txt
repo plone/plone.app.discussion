@@ -46,4 +46,11 @@ Known Issues
 
 - Clear and rebuild the catalog looses all the comments.
 
+Credits
+=======
 
+- Timo Stollenwerk
+- Martin Aspeli
+- Jon Stahl
+- David Glick
+- Lennart Regebro
