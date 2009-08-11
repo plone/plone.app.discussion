@@ -71,6 +71,10 @@
         handler=".tool.unindex_object"
         />
 
+    <!-- Captcha Vocabulary -->
+    <utility component=".vocabularies.captcha_vocabulary"
+           name="plone.app.discussion.vocabularies.CaptchaVocabulary" />
+
     <!-- Conversation indexes -->
     <adapter name="total_comments" factory=".catalog.total_comments" />
     <adapter name="last_comment_date" factory=".catalog.last_comment_date" />

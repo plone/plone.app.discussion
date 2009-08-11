@@ -25,6 +25,14 @@ class IDiscussionSettings(Interface):
                                      description=_(u"Use this setting to enable or disable posting comments as anonymous visitor."),
                                      default=False)
 
+    captcha = schema.Choice(title=_(u"Captcha"),
+                            description=_(u"""Use this setting to enable or disable captcha validation for comments.
+                                              If no captcha options are available, install captcha solutions like
+                                              plone.formwidget.captcha or plone.formwidget.recaptcha."""),
+                            required=True,
+                            default='disabled',
+                            vocabulary='plone.app.discussion.vocabularies.CaptchaVocabulary',)
+
     show_commenter_image = schema.Bool(title=_(u"Show commenter image"),
                                        description=_(u"Use this setting to enable or disable showing the commenter's image next to his/her comments."),
                                        default=True)

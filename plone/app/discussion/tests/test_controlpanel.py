@@ -1,5 +1,7 @@
 import unittest
 
+from zope.component import getMultiAdapter
+
 from plone.registry import Registry
 
 from Products.CMFCore.utils import getToolByName
@@ -30,6 +32,13 @@ class RegistryTest(PloneTestCase):
 
         self.failUnless('globally_enabled' in IDiscussionSettings)
         self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled'], True)
+
+    def test_captcha(self):
+        # Check globally_enabled record
+        globally_enabled_record = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.captcha']
+
+        self.failUnless('captcha' in IDiscussionSettings)
+        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.captcha'], 'disabled')
 
     def test_anonymous_comments(self):
         # Check anonymous_comments record
