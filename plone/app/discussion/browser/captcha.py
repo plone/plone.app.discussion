@@ -5,7 +5,6 @@ from z3c.form.field import Fields
 from zope import interface, schema
 
 from zope.annotation import factory
-from zope.annotation.attribute import AttributeAnnotations
 
 from zope.component import adapts, provideAdapter, queryUtility
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
@@ -21,6 +20,17 @@ from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.comment import Comment
 from plone.app.discussion.interfaces import IDiscussionSettings
 
+try:
+    from plone.formwidget.captcha import CaptchaFieldWidget
+except ImportError:
+    pass
+
+try:
+    from plone.formwidget.recaptcha import ReCaptchaFieldWidget
+except ImportError:
+    pass
+
+
 class ICaptcha(Interface):
     captcha = schema.TextLine(title=u"Captcha",
                               required=True)
@@ -32,7 +42,6 @@ class Captcha(Persistent):
 
 Captcha = factory(Captcha)
 provideAdapter(Captcha)
-provideAdapter(AttributeAnnotations)
 
 class CaptchaExtender(extensible.FormExtender):
     adapts(Interface, IDefaultBrowserLayer, CommentForm) # context, request, form
