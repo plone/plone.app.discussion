@@ -18,7 +18,7 @@ from plone.z3cform.fieldsets.interfaces import IFormExtender
 
 from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.comment import Comment
-from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.interfaces import IDiscussionSettings, ICaptcha
 
 try:
     from plone.formwidget.captcha import CaptchaFieldWidget
@@ -30,21 +30,18 @@ try:
 except ImportError:
     pass
 
-
-class ICaptcha(Interface):
-    captcha = schema.TextLine(title=u"Captcha",
-                              required=True)
-
 class Captcha(Persistent):
     interface.implements(ICaptcha)
     adapts(Comment)
     captcha = u""
 
 Captcha = factory(Captcha)
-provideAdapter(Captcha)
 
 class CaptchaExtender(extensible.FormExtender):
     adapts(Interface, IDefaultBrowserLayer, CommentForm) # context, request, form
+
+    fields = Fields(ICaptcha)
+    fields['captcha'].widgetFactory = CaptchaFieldWidget
 
     def __init__(self, context, request, form):
         self.context = context
@@ -63,3 +60,8 @@ class CaptchaExtender(extensible.FormExtender):
                 self.form.fields['captcha'].widgetFactory = CaptchaFieldWidget
             elif self.captcha == 'recaptcha':
                 self.form.fields['captcha'].widgetFactory = ReCaptchaFieldWidget
+
+from z3c.form import validator
+from plone.formwidget.captcha.validator import CaptchaValidator
+# Register Captcha validator for the captcha field in the ICaptchaForm
+validator.WidgetValidatorDiscriminators(CaptchaValidator, field=ICaptcha['captcha'])

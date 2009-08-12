@@ -66,11 +66,17 @@
 
     <!-- Comment form extender -->
     <adapter
-        factory=".captcha.Captcha" />
+        factory=".captcha.Captcha"
+        provides="plone.app.discussion.interfaces.ICaptcha" />
 
     <adapter
         factory=".captcha.CaptchaExtender"
         provides="plone.z3cform.fieldsets.interfaces.IFormExtender" />
+
+    <!-- Captcha validator -->
+    <adapter
+        factory=".captcha.CaptchaValidator"
+        />
 
     <!-- Comment view -->
     <browser:view

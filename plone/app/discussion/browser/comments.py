@@ -77,6 +77,17 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     def handleComment(self, action):
         data, errors = self.extractData()
 
+        if data.has_key('captcha'):
+            from plone.formwidget.captcha.validator import CaptchaValidator
+            from plone.app.discussion.interfaces import ICaptcha
+            # Verify the user input against the captcha
+            captcha = CaptchaValidator(self.context, self.request, None, ICaptcha['captcha'], None)
+            if data.has_key('subject') and captcha.validate(data['captcha']):
+                # if captcha validation passes, print the subject
+                print data['subject']
+        else:
+            return
+
         if data.has_key('title') and data.has_key('text'):
 
             title = data['title']

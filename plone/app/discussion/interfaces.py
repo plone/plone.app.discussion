@@ -163,6 +163,10 @@ class IComment(Interface):
     creation_date = schema.Date(title=_(u"Creation date"))
     modification_date = schema.Date(title=_(u"Modification date"))
 
+class ICaptcha(Interface):
+    captcha = schema.TextLine(title=u"Captcha",
+                              required=True)
+
 class ICommentingTool(Interface):
     """A tool that indexes all comments for usage by the management interface.
 
