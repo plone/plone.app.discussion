@@ -19,7 +19,12 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
 
     schema = IDiscussionSettings
     label = _(u"Discussion settings")
-    description = _(u"Please enter the options specified")
+    description = _(u"""Some discussion related settings are not located
+                        in the Discussion Control Panel.
+
+                        To enable comment moderation, go to the Types Control Panel,
+                        choose "Comment", and set the workflow to "Comment Review Workflow".
+                        """)
 
     def updateFields(self):
         super(DiscussionSettingsEditForm, self).updateFields()
