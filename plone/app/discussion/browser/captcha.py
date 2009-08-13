@@ -27,21 +27,14 @@ try:
     from plone.formwidget.captcha.validator import CaptchaValidator
     HAS_CAPTCHA = True
 except ImportError:
-    # Fall back to SimpleFieldValidator, when Captcha is not installed,
-    # since otherwise the registration of the Captcha validator adapter
-    # would fail.
-    from z3c.form.validator import SimpleFieldValidator as CaptchaValidator
+    pass
 
 HAS_RECAPTCHA = False
 try:
     from plone.formwidget.recaptcha import ReCaptchaFieldWidget
     HAS_RECAPTCHA = True
 except ImportError:
-    # Fall back to SimpleFieldValidator, when ReCaptcha is not installed,
-    # since otherwise the registration of the ReCaptcha validator adapter
-    # would fail.
-    from z3c.form.validator import SimpleFieldValidator as CaptchaValidator
-
+    pass
 
 class Captcha(Persistent):
     interface.implements(ICaptcha)
@@ -51,6 +44,7 @@ class Captcha(Persistent):
 Captcha = factory(Captcha)
 
 if HAS_CAPTCHA or HAS_RECAPTCHA:
+
     # Extend the comment form with captcha, only if a captcha solution is installed.
     class CaptchaExtender(extensible.FormExtender):
         adapts(Interface, IDefaultBrowserLayer, CommentForm) # context, request, form
@@ -78,9 +72,6 @@ if HAS_CAPTCHA or HAS_RECAPTCHA:
                     # If ReCaptcha is installed and ReCaptcha is enabled,
                     # use the ReCaptchaFieldWidget
                     self.form.fields['captcha'].widgetFactory = ReCaptchaFieldWidget
-                else:
-                    #
-                    pass
 
     # Register Captcha validator for the captcha field in the ICaptchaForm
     validator.WidgetValidatorDiscriminators(CaptchaValidator, field=ICaptcha['captcha'])
