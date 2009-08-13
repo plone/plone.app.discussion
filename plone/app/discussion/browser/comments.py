@@ -32,7 +32,9 @@ from plone.registry.interfaces import IRegistry
 from plone.app.layout.viewlets.common import ViewletBase
 
 from plone.app.discussion.comment import Comment, CommentFactory
-from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
+from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings, ICaptcha
+
+from plone.formwidget.captcha.validator import CaptchaValidator
 
 from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
@@ -77,16 +79,17 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     def handleComment(self, action):
         data, errors = self.extractData()
 
-        if data.has_key('captcha'):
-            from plone.formwidget.captcha.validator import CaptchaValidator
-            from plone.app.discussion.interfaces import ICaptcha
-            # Verify the user input against the captcha
-            captcha = CaptchaValidator(self.context, self.request, None, ICaptcha['captcha'], None)
-            if data.has_key('subject') and captcha.validate(data['captcha']):
-                # if captcha validation passes, print the subject
-                print data['subject']
-        else:
-            return
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        if settings.captcha != 'disabled':
+            # Check captcha only if it is not disabled
+            if data.has_key('captcha'):
+                # Check captcha only if there is a value, otherwise
+                # the default "required" validator is sufficient.
+                captcha = CaptchaValidator(self.context, self.request, None, ICaptcha['captcha'], None)
+                captcha.validate(data['captcha'])
+            else:
+                return
 
         if data.has_key('title') and data.has_key('text'):
 
