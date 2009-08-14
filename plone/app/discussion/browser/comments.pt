@@ -9,7 +9,7 @@
                    wtool context/@@plone_tools/workflow"
            tal:condition="isDiscussionAllowed"
            i18n:domain="plone">
-
+<h1 tal:content="isAnonymousDiscussionAllowed" />
     <div class="reply"
          tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
         <form tal:attributes="action view/login_action">
@@ -142,7 +142,7 @@
         </form>
     </div>
 
-    <div id="commenting" class="reply">
+    <div id="commenting" class="reply" tal:condition="python: isAnon and isAnonymousDiscussionAllowed or not isAnon">
 
         <fieldset>
 
