@@ -21,10 +21,11 @@ from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.comment import Comment
 from plone.app.discussion.interfaces import IDiscussionSettings, ICaptcha
 
+from plone.app.discussion.browser.validator import CaptchaValidator
+
 HAS_CAPTCHA = False
 try:
     from plone.formwidget.captcha import CaptchaFieldWidget
-    from plone.formwidget.captcha.validator import CaptchaValidator
     HAS_CAPTCHA = True
 except ImportError:
     pass
@@ -44,8 +45,7 @@ class Captcha(Persistent):
 Captcha = factory(Captcha)
 
 if HAS_CAPTCHA or HAS_RECAPTCHA:
-
-    # Extend the comment form with captcha, only if a captcha solution is installed.
+    # Extend the comment form with captcha, if a captcha solution is installed.
     class CaptchaExtender(extensible.FormExtender):
         adapts(Interface, IDefaultBrowserLayer, CommentForm) # context, request, form
 
@@ -73,7 +73,7 @@ if HAS_CAPTCHA or HAS_RECAPTCHA:
                     # use the ReCaptchaFieldWidget
                     self.form.fields['captcha'].widgetFactory = ReCaptchaFieldWidget
 
-    # Register Captcha validator for the captcha field in the ICaptchaForm
+    # Register Captcha validator for the Captcha field in the ICaptcha Form
     validator.WidgetValidatorDiscriminators(CaptchaValidator, field=ICaptcha['captcha'])
 
 else:

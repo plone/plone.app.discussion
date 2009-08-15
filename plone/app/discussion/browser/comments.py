@@ -34,7 +34,7 @@ from plone.app.layout.viewlets.common import ViewletBase
 from plone.app.discussion.comment import Comment, CommentFactory
 from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings, ICaptcha
 
-from plone.formwidget.captcha.validator import CaptchaValidator
+from plone.app.discussion.browser.validator import CaptchaValidator
 
 from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
