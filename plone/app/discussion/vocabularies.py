@@ -3,22 +3,19 @@ from zope import component
 import zope.schema.interfaces
 import zope.schema.vocabulary
 
-# XXX: REPLACE THIS!!!
 HAS_CAPTCHA=False
-HAS_RECAPTCHA=False
-
 try:
-     from plone.formwidget.captcha.widget import CaptchaFieldWidget
+     import plone.formwidget.captcha
      HAS_CAPTCHA = True
 except ImportError:
     pass
 
+HAS_RECAPTCHA=False
 try:
-     from plone.formwidget.captcha.widget import ReCaptchaFieldWidget
+     import plone.formwidget.recaptcha
      HAS_RECAPTCHA = True
 except ImportError:
     pass
-# XXX: REPLACE THIS!!!
 
 def captcha_vocabulary(context):
     """Vocabulary with all available captcha implementations.
