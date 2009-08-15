@@ -22,8 +22,13 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
     description = _(u"""Some discussion related settings are not located
                         in the Discussion Control Panel.
 
-                        To enable comment moderation, go to the Types Control Panel,
-                        choose "Comment", and set the workflow to "Comment Review Workflow".
+                        To enable moderation for content types, go to the
+                        Types Control Panel, and enable moderation for a
+                        specific content type.
+
+                        To enable comment moderation, go to the Types
+                        Control Panel, choose "Comment", and set the
+                        workflow to "Comment Review Workflow".
                         """)
 
     def updateFields(self):
