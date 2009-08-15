@@ -1,5 +1,7 @@
 from persistent import Persistent
 
+from Products.CMFCore.utils import getToolByName
+
 from z3c.form import validator
 from z3c.form.field import Fields
 
@@ -59,9 +61,11 @@ if HAS_CAPTCHA or HAS_RECAPTCHA:
             registry = queryUtility(IRegistry)
             settings = registry.forInterface(IDiscussionSettings)
             self.captcha = settings.captcha
+            portal_membership = getToolByName(self.context, 'portal_membership')
+            self.isAnon = portal_membership.isAnonymousUser()
 
         def update(self):
-            if self.captcha != 'disabled':
+            if self.captcha != 'disabled' and self.isAnon:
                 # Add captcha field if captcha is enabled in the registry
                 self.add(ICaptcha, prefix="")
                 if HAS_CAPTCHA and self.captcha == 'captcha':
