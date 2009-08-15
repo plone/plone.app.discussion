@@ -165,7 +165,7 @@ class IComment(Interface):
 
 class ICaptcha(Interface):
     captcha = schema.TextLine(title=u"Captcha",
-                              required=True)
+                              required=False)
 
 class ICommentingTool(Interface):
     """A tool that indexes all comments for usage by the management interface.
