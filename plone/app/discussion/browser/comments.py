@@ -150,8 +150,21 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     @button.buttonAndHandler(_(u"Reply"))
     def handleReply(self, action):
-
         data, errors = self.extractData()
+
+        # Captcha check (only when captcha is enabled and user is anonymous)
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        portal_membership = getToolByName(self.context, 'portal_membership')
+        if settings.captcha != 'disabled' and portal_membership.isAnonymousUser():
+            # Check captcha only if it is not disabled
+            if data.has_key('captcha'):
+                # Check captcha only if there is a value, otherwise
+                # the default "required" validator is sufficient.
+                captcha = CaptchaValidator(self.context, self.request, None, ICaptcha['captcha'], None)
+                captcha.validate(data['captcha'])
+            else:
+                return
 
         if data.has_key('title') and data.has_key('text') and data.has_key('in_reply_to'):
 
