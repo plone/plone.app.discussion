@@ -5,9 +5,17 @@ THINGS THAT NEED TO BE DOCUMENTED
 - Discussion Control Panel: Some discussion related settings are not located
   in the discussion control panel.
 
-- Monkey Patch: BAD_TYPES list is monkey patched to remove the 
+- Monkey Patch: BAD_TYPES list is monkey patched to remove the
   "Discussion Item" content type. This is needed to show comments in search
   results.
 
 - "As an administrator, I can configure commenting workflow": Controls are
   located in the Types Control Panel.
+
+- Allow comments per content type / single content object / folder.
+
+- Enable moderation workflow.
+
+- How to extend the comment form with a custom field.
+
+- How to set the maximum indent
