@@ -16,11 +16,6 @@ plone.app.discussion to-do
 
  [ ] Replace the comment_review_workflow
 
- [ ] Add UI
-
-    - comment forms should use z3c.form subforms and plone.z3cform's
-        ExtensibleForm support
-
  [ ] Make sure a catalog Clear & Rebuild doesn't lose all comments
 
  [ ] Thread building in conversation.getThreads()
@@ -36,6 +31,11 @@ plone.app.discussion to-do
 
 DONE:
 -----
+
+ [X] Add UI
+
+    - comment forms should use z3c.form subforms and plone.z3cform's
+        ExtensibleForm support
 
  [X] Implement plone.indexer indexers for comments, filling standard metadata
 
