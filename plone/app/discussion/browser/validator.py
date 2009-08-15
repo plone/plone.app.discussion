@@ -16,9 +16,7 @@ from zope.schema import ValidationError
 
 from plone.registry.interfaces import IRegistry
 
-from plone.app.discussion.interfaces import IDiscussionSettings
-
-from plone.formwidget.captcha import CaptchaMessageFactory as _
+from plone.app.discussion.interfaces import IDiscussionSettings, MessageFactory as _
 
 class WrongCaptchaCode(ValidationError):
     __doc__ = _("""The code you entered was wrong, please enter the new one.""")
