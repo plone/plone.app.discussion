@@ -148,16 +148,16 @@ class IComment(Interface):
     in_reply_to = schema.Int(title=_(u"Id of comment this comment is in reply to"), required=False)
 
     # for logged in comments - set to None for anonymous
-    author_username = schema.TextLine(title=_(u"Author username"), required=False)
+    author_username = schema.TextLine(title=_(u"Name"), required=False)
 
     # for anonymous comments only, set to None for logged in comments
-    author_name = schema.TextLine(title=_(u"Author name"), required=False)
-    author_email = schema.TextLine(title=_(u"Author email address"), required=False)
+    author_name = schema.TextLine(title=_(u"Name"), required=False)
+    author_email = schema.TextLine(title=_(u"Email"), required=False)
 
     title = schema.TextLine(title=_(u"Subject"))
 
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
-    text = schema.Text(title=_(u"Comment text"))
+    text = schema.Text(title=_(u"Comment"))
 
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     creation_date = schema.Date(title=_(u"Creation date"))
