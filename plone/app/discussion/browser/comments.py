@@ -17,7 +17,8 @@ from zope.interface import Interface, implements
 
 from zope.viewlet.interfaces import IViewlet
 
-from z3c.form import form, field, button, interfaces
+from z3c.form import form, field, button, interfaces, widget
+from z3c.form.browser.textarea import TextAreaWidget
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -52,6 +53,13 @@ class View(BrowserView):
             aq_parent(aq_parent(aq_parent(self))).absolute_url() +
             '#' + str(comment_id))
 
+class AutoResizeTextArea(TextAreaWidget):
+    klass = u'autoresize'
+
+def AutoResizeTextAreaFieldWidget(field, request):
+    """IFieldWidget factory for AutoResizeTextAreaWidget."""
+    return widget.FieldWidget(field, AutoResizeTextArea(request))
+
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True # don't use context to get widget data
@@ -65,6 +73,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                          'creation_date',
                                          'modification_date',
                                          'author_username')
+    fields['text'].widgetFactory = AutoResizeTextAreaFieldWidget
 
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()

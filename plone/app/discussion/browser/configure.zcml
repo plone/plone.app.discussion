@@ -101,6 +101,7 @@
         layer="..interfaces.IDiscussionLayer"
         />
 
+    <!-- Control panel -->
     <browser:page
         name="discussion-settings"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
