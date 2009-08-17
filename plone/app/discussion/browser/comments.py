@@ -54,11 +54,43 @@ class View(BrowserView):
             '#' + str(comment_id))
 
 class AutoResizeTextArea(TextAreaWidget):
+    """Textarea with autoresize CSS class.
+    """
     klass = u'autoresize'
 
 def AutoResizeTextAreaFieldWidget(field, request):
-    """IFieldWidget factory for AutoResizeTextAreaWidget."""
+    """IFieldWidget factory for AutoResizeTextAreaWidget.
+    """
     return widget.FieldWidget(field, AutoResizeTextArea(request))
+
+class CommentButtonAction(button.ButtonAction):
+    """Comment button with Plone CSS style.
+    """
+
+def commentButtonActionFactory(request, field):
+    """Comment button action factory.
+    """
+    button = CommentButtonAction(request, field)
+    button.klass += " context"
+    return button
+
+class ReplyButtonAction(button.ButtonAction):
+    """Reply button with Plone CSS style.
+    """
+
+def replyButtonActionFactory(request, field):
+    button = ReplyButtonAction(request, field)
+    button.klass += " context"
+    return button
+
+class CancelButtonAction(button.ButtonAction):
+    """Cancel button with Plone CSS style.
+    """
+
+def cancelButtonActionFactory(request, field):
+    button = ReplyButtonAction(request, field)
+    button.klass += " standalone"
+    return button
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
@@ -83,6 +115,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # XXX: This is ugly. The fields should be omitted, not hidden.
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
+        self.buttons['comment'].actionFactory = commentButtonActionFactory
+        self.buttons['reply'].actionFactory = replyButtonActionFactory
+        self.buttons['cancel'].actionFactory = cancelButtonActionFactory
 
     @button.buttonAndHandler(_(u"Comment"))
     def handleComment(self, action):
