@@ -21,7 +21,7 @@
     <!-- Comments -->
     <class class=".comment.Comment">
         <require interface=".interfaces.IComment" permission="zope2.View" />
-        <require attributes="Title Creator getId" permission="zope2.View" />
+        <require attributes="Title Creator getId getText" permission="zope2.View" />
     </class>
 
     <utility

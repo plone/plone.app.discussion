@@ -64,6 +64,10 @@ class Comment(DynamicType, Traversable, RoleManager, Owned, Implicit):
         """The id of the comment, as a string
         """
         return self.id
+    
+    def getText(self):
+        '''the text'''
+        return self.text
 
     def Title(self):
         """The title of the comment
