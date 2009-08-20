@@ -279,8 +279,7 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
 
     form = CommentForm
 
-    def index(self):
-        return ViewPageTemplateFile('comments.pt').__of__(self)(self)
+    index = ViewPageTemplateFile('comments.pt')
 
     def __init__(self, context, request, view, manager):
         super(CommentsViewlet, self).__init__(context, request, view, manager)
