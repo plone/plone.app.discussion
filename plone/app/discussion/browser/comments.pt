@@ -36,7 +36,7 @@
                              published python:wtool.getInfoFor(reply, 'review_state') == 'published';"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth);
                                  style string:margin-left: ${depth}em;
-                                 id string:${reply/id}"
+                                 id string:${reply/getId}"
                  tal:condition="python:canManage or published">
 
                 <div class="commentImage" tal:condition="showCommenterImage">
@@ -48,7 +48,7 @@
                               border="0"
                               width="75"
                               tal:attributes="src portrait_url;
-                                              alt reply/creator" />
+                                              alt reply/Creator" />
                     </a>
                     <img src="defaultUser.gif"
                          alt=""
@@ -56,12 +56,12 @@
                          width="75"
                          tal:condition="isAnon"
                          tal:attributes="src portrait_url;
-                                         alt reply/creator" />
+                                         alt reply/Creator" />
                 </div>
 
                 <h3>
                     <a name="comments" tal:attributes="name reply/title">
-                    <span tal:replace="reply/title">Comment title</span>
+                    <span tal:replace="reply/Title">Comment title</span>
                     </a>
                 </h3>
 
@@ -70,12 +70,12 @@
                         <tal:name>
                             <a href=""
                                tal:condition="not:isAnon"
-                               tal:content="creator"
+                               tal:content="reply/Creator"
                                tal:attributes="href author_home_url">
                                 Poster Name
                             </a>
                             <span tal:condition="isAnon"
-                                  tal:replace="creator" />
+                                  tal:replace="reply/Creator" />
                         </tal:name>
                         <tal:name i18n:translate="label_anonymous_user"
                                   condition="anonymous_creator">Anonymous User</tal:name>
@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="commentBody"
-                     tal:content="structure reply/text">
+                     tal:content="structure reply/getText">
                      This is the body text of the comment.
                 </div>
 
