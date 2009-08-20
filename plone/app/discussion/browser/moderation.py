@@ -14,7 +14,11 @@ class View(BrowserView):
     """
 
     template = ViewPageTemplateFile('moderation.pt')
-    template.id = '@@moderate-comments'
+    try:
+        template.id = '@@moderate-comments'
+    except AttributeError:
+        # id is not writeable in Zope 2.12
+        pass
 
     def __call__(self):
 
