@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="commentBody"
-                     tal:content="structure reply/getText">
+                     tal:content="reply/getText">
                      This is the body text of the comment.
                 </div>
 
