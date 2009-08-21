@@ -52,7 +52,6 @@ class View(BrowserView):
                 portal_type='Discussion Item',
                 sort_on='created',
                 sort_order='reverse',
-                sort_limit=self.limit,
             )
 
     def comments_pending(self, start=0, size=None):
@@ -68,7 +67,6 @@ class View(BrowserView):
                 review_state=self.state,
                 sort_on='created',
                 sort_order='reverse',
-                sort_limit=self.limit,
             )
 
     def comments_published(self, start=0, size=None):
@@ -85,7 +83,6 @@ class View(BrowserView):
                 review_state='published',
                 sort_on='created',
                 sort_order='reverse',
-                sort_limit=self.limit,
             )
 
     def comments_spam(self, start=0, size=None):
