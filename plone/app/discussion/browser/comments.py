@@ -92,6 +92,7 @@ def cancelButtonActionFactory(request, field):
     button.klass += " standalone"
     return button
 
+
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True # don't use context to get widget data
@@ -129,7 +130,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         portal_membership = getToolByName(self.context, 'portal_membership')
         if settings.captcha != 'disabled' and portal_membership.isAnonymousUser():
             # Check captcha only if it is not disabled
-            if data.has_key('captcha'):
+            if 'captcha' in data:
                 # Check captcha only if there is a value, otherwise
                 # the default "required" validator is sufficient.
                 captcha = CaptchaValidator(self.context, self.request, None, ICaptcha['captcha'], None)
@@ -137,22 +138,22 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             else:
                 return
 
-        if data.has_key('title') and data.has_key('text'):
+        if 'title' in data and 'text' in data:
 
             title = data['title']
             text = data['text']
 
-            if data.has_key('author_name'):
+            if 'author_name' in data:
                 author_name = data['author_name']
             else:
                 author_name = u""
 
-            if data.has_key('author_username'):
+            if 'author_username' in data:
                 author_name = data['author_username']
             else:
                 author_username = u""
 
-            if data.has_key('author_email'):
+            if 'author_email' in data:
                 author_email = data['author_email']
             else:
                 author_email = u""
@@ -202,7 +203,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         portal_membership = getToolByName(self.context, 'portal_membership')
         if settings.captcha != 'disabled' and portal_membership.isAnonymousUser():
             # Check captcha only if it is not disabled
-            if data.has_key('captcha'):
+            if 'captcha' in data:
                 # Check captcha only if there is a value, otherwise
                 # the default "required" validator is sufficient.
                 captcha = CaptchaValidator(self.context, self.request, None, ICaptcha['captcha'], None)
@@ -210,23 +211,23 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             else:
                 return
 
-        if data.has_key('title') and data.has_key('text') and data.has_key('in_reply_to'):
+        if 'title' in data and 'text' in data and 'in_reply_to' in data:
 
             title = data['title']
             text = data['text']
             reply_to_comment_id = data['in_reply_to']
 
-            if data.has_key('author_name'):
+            if 'author_name' in data:
                 author_name = data['author_name']
             else:
                 author_name = u""
 
-            if data.has_key('author_username'):
+            if 'author_username' in data:
                 author_name = data['author_username']
             else:
                 author_username = u""
 
-            if data.has_key('author_email'):
+            if 'author_email' in data:
                 author_email = data['author_email']
             else:
                 author_email = u""
