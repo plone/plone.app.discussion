@@ -23,7 +23,7 @@
         name="moderate-comments"
         layer="..interfaces.IDiscussionLayer"
         class=".moderation.View"
-        permission="cmf.ManagePortal"
+        permission="plone.app.discussion.ReviewComments"
         />
 
     <!-- Moderation bulk actions view -->
@@ -32,7 +32,7 @@
         name="bulk-actions"
         layer="..interfaces.IDiscussionLayer"
         class=".moderation.BulkActionsView"
-        permission="cmf.ManagePortal"
+        permission="plone.app.discussion.ReviewComments"
         />
 
     <!-- Delete comment view -->
