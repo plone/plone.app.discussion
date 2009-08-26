@@ -72,8 +72,8 @@ jq(document).ready(function() {
         reply_form.find("input[name='form.buttons.comment']").css("display", "none");
 
         /* Show the reply and cancel buttons. */
-        reply_form.find("input[name='form.buttons.reply']").css("display", "inline");
-        reply_form.find("input[name='form.buttons.cancel']").css("display", "inline");
+        reply_form.find("input[name='form.buttons.reply']").removeClass("hide");
+        reply_form.find("input[name='form.buttons.cancel']").removeClass("hide");
 
         /* Show the reply layer with a slide down effect */
         reply_div.slideDown("slow");

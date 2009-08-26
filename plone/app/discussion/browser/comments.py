@@ -80,7 +80,7 @@ class ReplyButtonAction(button.ButtonAction):
 
 def replyButtonActionFactory(request, field):
     button = ReplyButtonAction(request, field)
-    button.klass += " context"
+    button.klass += " context hide"
     return button
 
 class CancelButtonAction(button.ButtonAction):
@@ -89,7 +89,7 @@ class CancelButtonAction(button.ButtonAction):
 
 def cancelButtonActionFactory(request, field):
     button = ReplyButtonAction(request, field)
-    button.klass += " standalone"
+    button.klass += " standalone hide"
     return button
 
 
