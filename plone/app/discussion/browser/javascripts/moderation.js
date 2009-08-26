@@ -41,7 +41,7 @@ jq(document).ready(function() {
             },
 			error: function(msg){
                 alert("Error sending AJAX request:" + target);
-            },
+            }
         });
     });
 
@@ -74,7 +74,7 @@ jq(document).ready(function() {
             },
             error: function(msg){
                 alert("Error sending AJAX request:" + target);
-            },
+            }
         });
     });
 
