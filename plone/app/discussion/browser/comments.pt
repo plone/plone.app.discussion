@@ -23,6 +23,7 @@
     </div>
 
     <div class="discussion"
+         tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage' or 'discussion';"
          tal:condition="python:replies or (userHasReplyPermission and isDiscussionAllowed) or (isAnon and not userHasReplyPermission and isDiscussionAllowed)">
         <tal:getreplies repeat="reply_dict replies">
 
@@ -86,41 +87,44 @@
                      This is the body text of the comment.
                 </div>
 
-                <button class="context reply-to-comment-button hide allowMultiSubmit"
-                        tal:condition="python:userHasReplyPermission and isDiscussionAllowed or isAnonymousDiscussionAllowed"
-                        i18n:translate="label_reply;">
-                    Reply
-                </button>
+                <div class="commentActions">
+                    <button class="context reply-to-comment-button hide allowMultiSubmit"
+                            tal:condition="python:userHasReplyPermission and isDiscussionAllowed or isAnonymousDiscussionAllowed"
+                            i18n:translate="label_reply;">
+                        Reply
+                    </button>
 
-                <form name="delete"
-                      action=""
-                      method="post"
-                      style="display: inline;"
-                      tal:condition="view/can_manage"
-                      tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">
-                    <input name="form.button.DeleteComment"
-                           class="destructive"
-                           type="submit"
-                           value="Remove"
-                           i18n:attributes="value label_remove;"
-                           />
-                </form>
+                    <form name="delete"
+                          action=""
+                          method="post"
+                          style="display: inline;"
+                          tal:condition="view/can_manage"
+                          tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">
+                        <input name="form.button.DeleteComment"
+                               class="destructive"
+                               type="submit"
+                               value="Remove"
+                               i18n:attributes="value label_remove;"
+                               />
+                    </form>
 
-                <!-- Workflow actions (e.g. 'publish') -->
-                <form name=""
-                      action=""
-                      method="get"
-                      style="display: inline;"
-                      tal:repeat="action reply_dict/actions|nothing"
-                      tal:attributes="action string:${reply/absolute_url}/@@moderate-publish-comment;
-                                      name action/id">
-                    <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
-                    <input name="form.button.PublishComment"
-                           class="context"
-                           type="submit"
-                           tal:attributes="value action/title"
-                           />
-                </form>
+                    <!-- Workflow actions (e.g. 'publish') -->
+                    <form name=""
+                          action=""
+                          method="get"
+                          style="display: inline;"
+                          tal:repeat="action reply_dict/actions|nothing"
+                          tal:attributes="action string:${reply/absolute_url}/@@moderate-publish-comment;
+                                          name action/id">
+                        <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
+                        <input name="form.button.PublishComment"
+                               class="context"
+                               type="submit"
+                               tal:attributes="value action/title"
+                               />
+                    </form>
+
+                </div>
 
             </div>
 

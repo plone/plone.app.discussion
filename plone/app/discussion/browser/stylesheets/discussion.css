@@ -4,6 +4,7 @@
     display: none;
 }
 
+
 /* Comments Viewlet
    ---------------------------------------------------------------- */
 
@@ -15,18 +16,28 @@
 .commentImage {
 	width: 90px;
 	float: left;
-	background: #EEF3F5; /* Todo: Only a temporary solution !!! */
+	margin-right: -90px;
 }
 
 .commentImage img {
 	   margin-right: 1em;
 }
 
-.comment h3,
-.comment .documentByLine,
-.comment .commentBody {
-
+.commentBody {
+	margin: 1em 0;
 }
+
+.showCommenterImage h3,
+.showCommenterImage .documentByLine,
+.showCommenterImage .commentBody,
+.showCommenterImage .commentActions,
+.showCommenterImage .reply {
+	/* The showCommenterImage CSS class is only set if showing the
+	 * commenters image is enabled.
+	 */
+    margin-left: 90px;
+}
+
 
 /* Reply Form
    ---------------------------------------------------------------- */
@@ -37,8 +48,8 @@
 }
 
 .reply-to-comment-button {
-   /* Hide the reply-to-comment button and show it only if Javascript is enabled.
-    * Since the reply functions rely on jQuery.
+   /* Hide the reply-to-comment button and show it only if Javascript
+    * is enabled. Since the reply functions rely on jQuery.
     */
 	display: none;
 }
@@ -49,6 +60,7 @@
 	 */
 	display: none;
 }
+
 
 /* Moderation View
    ---------------------------------------------------------------- */
