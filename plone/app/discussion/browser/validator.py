@@ -60,6 +60,6 @@ class CaptchaValidator(validator.SimpleFieldValidator):
             # Fetch recatpcha view
             captcha = getMultiAdapter((aq_inner(self.context), self.request), name='recaptcha')
             if not captcha.verify():
-                raise WrongCaptchaCode
+                raise WrongReCaptchaCode
             else:
                 return True
