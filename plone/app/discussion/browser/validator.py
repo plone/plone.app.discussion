@@ -16,14 +16,25 @@ from zope.schema import ValidationError
 
 from plone.registry.interfaces import IRegistry
 
-from plone.app.discussion.interfaces import IDiscussionSettings,  IDiscussionLayer, MessageFactory as _
+from plone.app.discussion.interfaces import IDiscussionSettings, IDiscussionLayer
+
+try:
+    from plone.formwidget.captcha import CaptchaMessageFactory as _
+    class WrongCaptchaCode(ValidationError):
+        __doc__ = _("""The code you entered was wrong, please enter the new one.""")
+except:
+    pass
+
+try:
+    from plone.formwidget.recaptcha import ReCaptchaMessageFactory as _
+    class WrongReCaptchaCode(ValidationError):
+        __doc__ = _("""The code you entered was wrong, please enter the new one.""")
+except:
+    pass
 
 from zope.interface import implements, Interface
 from zope.schema.interfaces import IField
 from zope.component import adapts
-
-class WrongCaptchaCode(ValidationError):
-    __doc__ = _("""The code you entered was wrong, please enter the new one.""")
 
 class CaptchaValidator(validator.SimpleFieldValidator):
     implements(IValidator)
