@@ -40,6 +40,7 @@ from plone.app.discussion.browser.validator import CaptchaValidator
 from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
 
+
 class View(BrowserView):
     """Comment View.
 
@@ -53,6 +54,7 @@ class View(BrowserView):
             aq_parent(aq_parent(aq_parent(self))).absolute_url() +
             '#' + str(comment_id))
 
+
 class AutoResizeTextArea(TextAreaWidget):
     """Textarea with autoresize CSS class.
     """
@@ -62,6 +64,7 @@ def AutoResizeTextAreaFieldWidget(field, request):
     """IFieldWidget factory for AutoResizeTextAreaWidget.
     """
     return widget.FieldWidget(field, AutoResizeTextArea(request))
+
 
 class CommentButtonAction(button.ButtonAction):
     """Comment button with Plone CSS style.
@@ -74,21 +77,15 @@ def commentButtonActionFactory(request, field):
     button.klass += " context"
     return button
 
-class ReplyButtonAction(button.ButtonAction):
-    """Reply button with Plone CSS style.
-    """
-
-def replyButtonActionFactory(request, field):
-    button = ReplyButtonAction(request, field)
-    button.klass += " context hide"
-    return button
 
 class CancelButtonAction(button.ButtonAction):
     """Cancel button with Plone CSS style.
     """
 
 def cancelButtonActionFactory(request, field):
-    button = ReplyButtonAction(request, field)
+    """Cancel button action factory.
+    """
+    button = CancelButtonAction(request, field)
     button.klass += " standalone hide"
     return button
 
@@ -113,16 +110,19 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
         portal_membership = getToolByName(self.context, 'portal_membership')
         if not portal_membership.isAnonymousUser():
-            # XXX: This is ugly. The fields should be omitted, not hidden.
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
         self.buttons['comment'].actionFactory = commentButtonActionFactory
-        self.buttons['reply'].actionFactory = replyButtonActionFactory
         self.buttons['cancel'].actionFactory = cancelButtonActionFactory
 
     @button.buttonAndHandler(_(u"Comment"))
     def handleComment(self, action):
         data, errors = self.extractData()
+        title = u""
+        text = u""
+        author_name = u""
+        author_username = u""
+        author_email = u""
 
         # Captcha check (only when captcha is enabled and user is anonymous)
         registry = queryUtility(IRegistry)
@@ -145,21 +145,18 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
             if 'author_name' in data:
                 author_name = data['author_name']
-            else:
-                author_name = u""
-
             if 'author_username' in data:
-                author_name = data['author_username']
-            else:
-                author_username = u""
-
+                author_username = data['author_username']
             if 'author_email' in data:
                 author_email = data['author_email']
-            else:
-                author_email = u""
 
             # The add-comment view is called on the conversation object
             conversation = IConversation(self.__parent__)
+
+            if data['in_reply_to']:
+                # Fetch the comment we want to reply to
+                conversation_to_reply_to = conversation.get(data['in_reply_to'])
+                replies = IReplies(conversation_to_reply_to)
 
             # Create the comment
             comment = createObject('plone.Comment')
@@ -185,90 +182,17 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 comment.author_email = member.getProperty('email')
                 comment.creation_date = comment.modification_date = datetime.now()
 
-            # Add comment to the conversation
-            comment_id = conversation.addComment(comment)
+            if data['in_reply_to']:
+                # Add the reply to the comment
+                comment_id = replies.addComment(comment)
+            else:
+                # Add comment to the conversation
+                comment_id = conversation.addComment(comment)
 
             # Redirect to comment (inside a content object page)
             self.request.response.redirect(
                 aq_parent(aq_inner(self.context)).absolute_url() +
                 '#' + str(comment_id))
-
-    @button.buttonAndHandler(_(u"Reply"))
-    def handleReply(self, action):
-        data, errors = self.extractData()
-
-        # Captcha check (only when captcha is enabled and user is anonymous)
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
-        portal_membership = getToolByName(self.context, 'portal_membership')
-        if settings.captcha != 'disabled' and portal_membership.isAnonymousUser():
-            # Check captcha only if it is not disabled
-            if 'captcha' in data:
-                # Check captcha only if there is a value, otherwise
-                # the default "required" validator is sufficient.
-                captcha = CaptchaValidator(self.context, self.request, None, ICaptcha['captcha'], None)
-                captcha.validate(data['captcha'])
-            else:
-                return
-
-        if 'title' in data and 'text' in data and 'in_reply_to' in data:
-
-            title = data['title']
-            text = data['text']
-            reply_to_comment_id = data['in_reply_to']
-
-            if 'author_name' in data:
-                author_name = data['author_name']
-            else:
-                author_name = u""
-
-            if 'author_username' in data:
-                author_name = data['author_username']
-            else:
-                author_username = u""
-
-            if 'author_email' in data:
-                author_email = data['author_email']
-            else:
-                author_email = u""
-
-            # The add-comment view is called on the conversation object
-            conversation = IConversation(self.__parent__)
-
-            # Fetch the comment we want to reply to
-            comment_to_reply_to = conversation.get(reply_to_comment_id)
-
-            replies = IReplies(comment_to_reply_to)
-
-            # Create the comment
-            comment = createObject('plone.Comment')
-            comment.title = title
-            comment.text = text
-
-            portal_membership = getToolByName(self.context, 'portal_membership')
-
-            if portal_membership.isAnonymousUser():
-                comment.creator = author_name
-                comment.author_name = author_name
-                comment.author_email = author_email
-                comment.creation_date = comment.modification_date = datetime.now()
-            else:
-                member = portal_membership.getAuthenticatedMember()
-                fullname = member.getProperty('fullname')
-                if fullname == '' or None:
-                    comment.creator = member.id
-                else:
-                    comment.creator = fullname
-                comment.author_username = member.getUserName()
-                comment.author_name = member.getProperty('fullname')
-                comment.author_email = member.getProperty('email')
-                comment.creation_date = comment.modification_date = datetime.now()
-
-            # Add the reply to the comment
-            new_re_id = replies.addComment(comment)
-
-            # Redirect to comment (inside a content object page)
-            self.request.response.redirect(aq_parent(aq_inner(self.context)).absolute_url() + '#' + str(reply_to_comment_id))
 
     @button.buttonAndHandler(_(u"Cancel"))
     def handleCancel(self, action):

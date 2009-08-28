@@ -76,11 +76,7 @@ jq(document).ready(function() {
         var cancel_reply_button = reply_div.find(".cancelreplytocomment");
         cancel_reply_button.attr("id", comment_id);
 
-        /* Hide the comment button  */
-        reply_form.find("input[name='form.buttons.comment']").css("display", "none");
-
-        /* Show the reply and cancel buttons. */
-        reply_form.find("input[name='form.buttons.reply']").css("display", "inline");
+        /* Show the cancel buttons. */
         reply_form.find("input[name='form.buttons.cancel']").css("display", "inline");
 
         /* Show the reply layer with a slide down effect */
