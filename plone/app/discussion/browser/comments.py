@@ -307,7 +307,7 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
         conversation = IConversation(context)
-        return conversation.enabled
+        return conversation.enabled()
 
     def get_replies(self, workflow_actions=False):
         context = aq_inner(self.context)
