@@ -40,28 +40,3 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
 
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     form = DiscussionSettingsEditForm
-
-class Utility(BrowserView):
-    """Utility view to determine ...
-    """
-
-    def globally_enabled(self):
-        """Determine if the utility is enabled and we are in an enabled domain
-        """
-
-        registry = queryUtility(IRegistry)
-        if registry is None:
-            return False
-
-        settings = None
-        try:
-            settings = registry.forInterface(IDiscussionSettings)
-        except KeyError:
-            return False
-
-        if not settings.globally_enabled:
-            return False
-        else:
-            return True
-
-        return False

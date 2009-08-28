@@ -109,13 +109,4 @@
         permission="cmf.ManagePortal"
         />
 
-    <!-- Utility view - use in portal_css or similar as portal/@@xdv-check/enabled" -->
-    <browser:page
-        name="discussion-check"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class=".controlpanel.Utility"
-        permission="zope.Public"
-        allowed_attributes="globally_enabled"
-        />
-
 </configure>
