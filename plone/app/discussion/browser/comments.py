@@ -115,9 +115,15 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         self.buttons['comment'].actionFactory = commentButtonActionFactory
         self.buttons['cancel'].actionFactory = cancelButtonActionFactory
 
+        # XXX: Since we are not using the author_email field in the
+        # current state, we hide it by default. But we keep the field for
+        # integrators or later use.
+        self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
+
     @button.buttonAndHandler(_(u"Comment"))
     def handleComment(self, action):
         data, errors = self.extractData()
+
         title = u""
         text = u""
         author_name = u""
