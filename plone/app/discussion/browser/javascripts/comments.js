@@ -43,10 +43,18 @@ jq(document).ready(function() {
         var reply_button = comment_div.find(".reply-to-comment-button");
 
         /* Clone the reply div at the end of the page template that contains
-         * the regular comment form and insert it after the reply button of the
-         * current comment.
+         * the regular comment form.
          */
         var reply_div = jq("#commenting").clone(true);
+
+        /* Remove the ReCaptcha JS code before appending the form. If not
+         * removed, this causes problems
+         */
+		reply_div.find("#formfield-form-widgets-captcha").find("script").remove();
+
+        /* Insert the cloned comment form right after the reply button of the
+         * current comment.
+         */
         reply_div.appendTo(comment_div).css("display", "none");
 
         /* Remove id="reply" attribute, since we use it to uniquely
