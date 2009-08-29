@@ -70,7 +70,12 @@ ul.filter {
 }
 
 .filter form {
-	display: inline;
+	display:inline-block;
+	width: 75px;
+}
+
+.filter input {
+	width: 80px;
 }
 
 .filter input.selected,
