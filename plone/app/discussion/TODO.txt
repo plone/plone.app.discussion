@@ -2,31 +2,31 @@
 plone.app.discussion to-do
 ==========================
 
- [ ] Ajaxify adding and deleting comments in the comments viewlet.
-
- [ ] Add jQuery auto-resize to comment text field
-     http://www.aclevercookie.com/demos/autogrow_textarea.html
-
- [ ] Rebuild the zebra table after batch deleting/publishing
-
- [ ] During recursive deletion of child comments, events are fired when the
-     conversation data structures may be in an inconsistent state. We need
-     some tests for this, and possibly some different handling of those
-     events.
-
- [ ] Replace the comment_review_workflow
-
  [ ] Make sure a catalog Clear & Rebuild doesn't lose all comments
-
- [ ] Thread building in conversation.getThreads()
-
- [ ] Batching in conversation.getComments()
 
  [ ] Add BBB support for the existing portal_discussion interface
 
     - implement in BBB package
     - mix into tool.CommentingTool
     - emit deprecation warnings
+
+MINOR/FUTURE RELEASES:
+----------------------
+
+ [ ] During recursive deletion of child comments, events are fired when the
+     conversation data structures may be in an inconsistent state. We need
+     some tests for this, and possibly some different handling of those
+     events.
+
+ [ ] Ajaxify adding and deleting comments in the comments viewlet.
+
+ [ ] Rebuild the zebra table after batch deleting/publishing
+
+ [ ] Replace the comment_review_workflow
+
+ [ ] Thread building in conversation.getThreads()
+
+ [ ] Batching in conversation.getComments()
 
 
 DONE:
