@@ -3,3 +3,5 @@ KNOWN ISSUES
 ============
 
 - Clear and rebuild the catalog looses all the comments.
+
+- Comment objects are not indexed with Plone 4 (Plone 3.3 works fine).
