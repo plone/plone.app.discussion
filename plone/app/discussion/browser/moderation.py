@@ -21,6 +21,8 @@ class View(BrowserView):
         pass
 
     def __call__(self):
+        # Hide the editable-object border
+        self.request.set('disable_border', True)
 
         context = aq_inner(self.context)
 
