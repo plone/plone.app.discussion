@@ -4,6 +4,7 @@
                    isAnon view/is_anonymous;
                    canManage view/can_manage;
                    replies python:view.get_replies(canManage);
+                   has_replies python:view.has_replies(canManage);
                    showCommenterImage view/show_commenter_image;
                    errors options/state/getErrors|nothing;
                    wtool context/@@plone_tools/workflow"
@@ -132,7 +133,7 @@
     </div>
 
     <div class="reply"
-         tal:condition="python: isAnon and not isAnonymousDiscussionAllowed and replies">
+         tal:condition="python: isAnon and not isAnonymousDiscussionAllowed and has_replies">
         <form tal:attributes="action view/login_action">
             <input class="standalone"
                    style="margin-bottom: 1.25em;"

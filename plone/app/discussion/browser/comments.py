@@ -239,15 +239,35 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
         conversation = IConversation(context)
         return conversation.enabled()
 
+    def has_replies(self, workflow_actions=False):
+        """Returns true if there are replies.
+        """
+        try:
+            self.get_replies(workflow_actions).next()
+            return True
+        except StopIteration:
+            return None
+
+
     def get_replies(self, workflow_actions=False):
+        """Returns all replies to a content object.
+
+        If workflow_actions is false, only published
+        comments are returned.
+
+        If workflow actions is true, comments are
+        returned with workflow actions.
+        """
         context = aq_inner(self.context)
         conversation = IConversation(context)
 
-        def replies_with_workflow_actions():
-            # Return dict with workflow actions
-            #context = aq_inner(self.context)
-            wf = getToolByName(context, 'portal_workflow')
+        wf = getToolByName(context, 'portal_workflow')
 
+        # workflow_actions is only true when user
+        # has 'Manage portal' permission
+
+        def replies_with_workflow_actions():
+            # Generator that returns replies dict with workflow actions
             for r in conversation.getThreads():
                 comment_obj = r['comment']
                 # list all possible workflow actions
@@ -257,12 +277,22 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
                 r['actions'] = actions
                 yield r
 
+        def published_replies():
+            # Generator that returns replies dict with workflow status.
+            for r in conversation.getThreads():
+                comment_obj = r['comment']
+                workflow_status = wf.getInfoFor(comment_obj, 'review_state')
+                if workflow_status == 'published':
+                    r = r.copy()
+                    r['workflow_status'] = workflow_status
+                    yield r
+
         # Return all direct replies
         if conversation.total_comments > 0:
             if workflow_actions:
                 return replies_with_workflow_actions()
             else:
-                return conversation.getThreads()
+                return published_replies()
         else:
             return None
 
