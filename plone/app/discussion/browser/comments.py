@@ -243,11 +243,11 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
         """Returns true if there are replies.
         """
         try:
-            self.get_replies(workflow_actions).next()
-            return True
+            if self.get_replies(workflow_actions):
+                self.get_replies(workflow_actions).next()
+                return True
         except StopIteration:
             return None
-
 
     def get_replies(self, workflow_actions=False):
         """Returns all replies to a content object.
@@ -293,9 +293,6 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
                 return replies_with_workflow_actions()
             else:
                 return published_replies()
-        else:
-            return None
-
 
     def get_commenter_home_url(self, username):
         if username is None:
