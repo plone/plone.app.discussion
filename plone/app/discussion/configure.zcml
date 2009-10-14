@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:monkey="http://namespaces.plone.org/monkey"
     i18n_domain="plone.app.discussion">
 
     <include package="plone.indexer" />
@@ -18,7 +19,20 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         />
 
+    <!-- Monkey Patches -->
+
+    <include package="collective.monkeypatcher" />
+
+    <monkey:patch
+        description="This allows Catalog Tool to find comments
+                     during clear-and-rebuild catalog"
+        class="Products.CMFPlone.CatalogTool.CatalogTool"
+        original="clearFindAndRebuild"
+        replacement=".patches.patchedClearFindAndRebuild"
+        />
+
     <!-- Comments -->
+
     <class class=".comment.Comment">
         <require interface=".interfaces.IComment" permission="zope2.View" />
         <require attributes="Title Creator getId getText" permission="zope2.View" />
@@ -30,6 +44,7 @@
         />
 
     <!-- Conversations -->
+
     <class class=".conversation.Conversation">
         <require interface=".interfaces.IConversation" permission="zope2.View" />
     </class>

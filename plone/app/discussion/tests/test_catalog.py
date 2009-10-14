@@ -230,11 +230,14 @@ class CommentCatalogTest(PloneTestCase):
         self.assertEquals(self.comment_brain.in_response_to, 'doc1')
 
     def test_clear_and_rebuild_catalog(self):
-        # ToDo: This test fails if clear and rebuild is run
-        #self.catalog.clearFindAndRebuild()
+		# Clear and rebuild catalog
+        self.catalog.clearFindAndRebuild()
+
+        # Check if comment is still there
         brains = self.catalog.searchResults(portal_type = 'Discussion Item')
         self.failUnless(brains)
-        #comment_brain = brains[0]
+        comment_brain = brains[0]
+        self.assertEquals(comment_brain.Title, 'Comment 1')
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
