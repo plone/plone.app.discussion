@@ -30,7 +30,6 @@ def patchedClearFindAndRebuild(self):
                         conversation = conversation.__of__(obj)
                         for comment in conversation.getComments():
                             try:
-                                comment = conversation.getComments().next()
                                 comment = comment.__of__(conversation)
                                 if catalog:
                                     catalog.indexObject(comment)

@@ -196,6 +196,8 @@ class CommentCatalogTest(PloneTestCase):
 
         conversation = IConversation(self.portal.doc1)
 
+        self.conversation = conversation
+
         comment1 = createObject('plone.Comment')
         comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
@@ -238,6 +240,62 @@ class CommentCatalogTest(PloneTestCase):
         self.failUnless(brains)
         comment_brain = brains[0]
         self.assertEquals(comment_brain.Title, 'Comment 1')
+
+    def test_clear_and_rebuild_catalog_for_nested_comments(self):
+
+        # Create a nested comment structure:
+        #
+        # Conversation
+        # +- Comment 1
+        #    +- Comment 1_1
+        #    |  +- Comment 1_1_1
+        #    +- Comment 1_2
+        # +- Comment 2
+        #    +- Comment 2_1
+
+        comment1_1 = createObject('plone.Comment')
+        comment1_1.title = 'Re: Comment 1'
+        comment1_1.text = 'Comment text'
+
+        comment1_1_1 = createObject('plone.Comment')
+        comment1_1_1.title = 'Re: Re: Comment 1'
+        comment1_1_1.text = 'Comment text'
+
+        comment1_2 = createObject('plone.Comment')
+        comment1_2.title = 'Re: Comment 1 (2)'
+        comment1_2.text = 'Comment text'
+
+        comment2 = createObject('plone.Comment')
+        comment2.title = 'Comment 2'
+        comment2.text = 'Comment text'
+
+        comment2_1 = createObject('plone.Comment')
+        comment2_1.title = 'Re: Comment 2'
+        comment2_1.text = 'Comment text'
+
+        # Create the nested comment structure
+        new_id_1 = self.conversation.addComment(self.comment)
+        new_id_2 = self.conversation.addComment(comment2)
+
+        comment1_1.in_reply_to = self.comment_id
+        new_id_1_1 = self.conversation.addComment(comment1_1)
+
+        comment1_1_1.in_reply_to = new_id_1_1
+        new_id_1_1_1 = self.conversation.addComment(comment1_1_1)
+
+        comment1_2.in_reply_to = new_id_1
+        new_id_1_2 = self.conversation.addComment(comment1_2)
+
+        comment2_1.in_reply_to = new_id_2
+        new_id_2_1 = self.conversation.addComment(comment2_1)
+
+        # Clear and rebuild catalog
+        self.catalog.clearFindAndRebuild()
+
+        # Check if comments are still there
+        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        self.failUnless(brains)
+        self.assertEquals(len(brains), 6)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
