@@ -2,8 +2,6 @@
 plone.app.discussion to-do
 ==========================
 
- [ ] Make sure a catalog Clear & Rebuild doesn't lose all comments
-
  [ ] Add BBB support for the existing portal_discussion interface
 
     - implement in BBB package
@@ -31,6 +29,8 @@ MINOR/FUTURE RELEASES:
 
 DONE:
 -----
+
+ [X] Make sure a catalog Clear & Rebuild doesn't lose all comments
 
  [X] Add UI
 
