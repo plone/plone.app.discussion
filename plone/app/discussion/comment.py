@@ -12,11 +12,11 @@ from AccessControl.Owned import Owned
 from plone.app.discussion.interfaces import IComment
 
 from Products.CMFCore.DynamicType import DynamicType
-from Products.CMFCore.CMFCatalogAware import CMFCatalogAware
+from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
 from Products.CMFCore.utils import getToolByName
 
-class Comment(CMFCatalogAware, WorkflowAware, DynamicType,
+class Comment(CatalogAware, WorkflowAware, DynamicType,
               Traversable, RoleManager, Owned, Implicit):
     """A comment.
 
