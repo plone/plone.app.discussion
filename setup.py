@@ -26,6 +26,7 @@ setup(name='plone.app.discussion',
       install_requires=[
           'setuptools',
           'collective.autopermission',
+          'collective.monkeypatcher',
           'plone.app.registry',
           'plone.indexer',
           'plone.registry',
