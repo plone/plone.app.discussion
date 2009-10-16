@@ -26,7 +26,6 @@ setup(name='plone.app.discussion',
       install_requires=[
           'setuptools',
           'collective.autopermission',
-          'collective.testcaselayer',
           'plone.app.registry',
           'plone.indexer',
           'plone.registry',
@@ -38,7 +37,9 @@ setup(name='plone.app.discussion',
           'zope.component',
           'zope.annotation',
           'zope.event',
-          'zope.app.container', # XXX: eventually should change to zope.container
+          'zope.container',
+          'zope.lifecycleevent',
+          'zope.site',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]

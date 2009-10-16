@@ -4,7 +4,7 @@ indexes with values based on the IComment interface.
 Also provide event handlers to actually catalog the comments.
 """
 
-from string import split, join
+from string import join
 
 from DateTime import DateTime
 
@@ -15,7 +15,6 @@ from Products.ZCatalog.interfaces import IZCatalog
 from plone.app.discussion.interfaces import IConversation, IComment
 
 from plone.indexer import indexer
-from plone.indexer.interfaces import IIndexer
 
 MAX_DESCRIPTION=25
 

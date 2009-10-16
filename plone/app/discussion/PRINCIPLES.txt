@@ -55,7 +55,7 @@ plone.app.discussion.
     Ids can be based on the creation date.
     
   Discussion items send events
-    The usual zope.lifecycleevent and zope.app.container events should be
+    The usual zope.lifecycleevent and zope.container events should be
     fired when discussion items are added, removed, or modified.
 
 Outstanding questions

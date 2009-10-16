@@ -1,12 +1,25 @@
+from Testing import ZopeTestCase as ztc
+
 from Products.PloneTestCase import ptc
-import collective.testcaselayer.ptc
+from Products.PloneTestCase import layer
+from Products.Five import zcml
+from Products.Five import fiveconfigure
 
-ptc.setupPloneSite()
+ptc.setupPloneSite(
+    extension_profiles=('plone.app.discussion:default', )
+)
 
-class Layer(collective.testcaselayer.ptc.BasePTCLayer):
-    """Install plone.app.discussion"""
+class DiscussionLayer(layer.PloneSite):
+    """Configure plone.app.discussion"""
 
-    def afterSetUp(self):
-        self.addProfile('plone.app.discussion:default')
+    @classmethod
+    def setUp(cls):
+        fiveconfigure.debug_mode = True
+        import plone.app.discussion
+        zcml.load_config("configure.zcml", plone.app.discussion)
+        fiveconfigure.debug_mode = False
+        ztc.installPackage("plone.app.discussion", quiet=1)
 
-DiscussionLayer = Layer([collective.testcaselayer.ptc.ptc_layer])
+    @classmethod
+    def tearDown(cls):
+        pass

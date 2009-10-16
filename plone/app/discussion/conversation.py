@@ -16,7 +16,7 @@ from persistent import Persistent
 
 from plone.registry.interfaces import IRegistry
 
-from zope.app.component.hooks import getSite
+from zope.site.hooks import getSite
 
 from zope.interface import implements, implementer
 from zope.component import adapts, adapter, queryUtility
@@ -38,10 +38,10 @@ from Products.CMFCore.interfaces import IFolderish
 
 from Products.CMFPlone.interfaces import IPloneSiteRoot, INonStructuralFolder
 
-from zope.app.container.contained import ContainerModifiedEvent
+from zope.container.contained import ContainerModifiedEvent
 
-from zope.app.container.contained import ObjectAddedEvent
-from zope.app.container.contained import ObjectRemovedEvent
+from zope.lifecycleevent import ObjectAddedEvent
+from zope.lifecycleevent import ObjectRemovedEvent
 
 from BTrees.OIBTree import OIBTree
 

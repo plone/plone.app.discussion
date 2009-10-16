@@ -12,9 +12,12 @@ from AccessControl.Owned import Owned
 from plone.app.discussion.interfaces import IComment
 
 from Products.CMFCore.DynamicType import DynamicType
+from Products.CMFCore.CMFCatalogAware import CMFCatalogAware
+from Products.CMFCore.CMFCatalogAware import WorkflowAware
 from Products.CMFCore.utils import getToolByName
 
-class Comment(DynamicType, Traversable, RoleManager, Owned, Implicit):
+class Comment(CMFCatalogAware, WorkflowAware, DynamicType,
+              Traversable, RoleManager, Owned, Implicit):
     """A comment.
 
     This object attempts to be as lightweight as possible. We implement a
@@ -83,17 +86,6 @@ class Comment(DynamicType, Traversable, RoleManager, Owned, Implicit):
         """The Discussion Item content type
         """
         return self.portal_type
-
-    # CMF's event handlers assume any IDynamicType has these :(
-
-    def opaqueItems(self):
-        return []
-
-    def opaqueIds(self):
-        return []
-
-    def opaqueValues(self):
-        return []
 
 CommentFactory = Factory(Comment)
 
