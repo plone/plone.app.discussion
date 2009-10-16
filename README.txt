@@ -1,7 +1,7 @@
 Introduction
 ============
 
-plone.app.discussion aims to be the new commenting system for Plone 4. It is developed as part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin Aspeli (mentor).
+plone.app.discussion aims to be the new commenting system for Plone 4.1. It was developed as part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin Aspeli (mentor).
 
 For details on the progress of this project, visit our `Pivotal Tracker`_.
 
@@ -41,11 +41,6 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     ...
 
 
-Known Issues
-============
-
-- Clear and rebuild the catalog looses all the comments.
-
 Credits
 =======
 
@@ -54,3 +49,5 @@ Credits
 - Jon Stahl
 - David Glick
 - Lennart Regebro
+- Carsten Senger
+- Hanno Schlichting

@@ -40,8 +40,14 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot, INonStructuralFolder
 
 from zope.container.contained import ContainerModifiedEvent
 
-from zope.lifecycleevent import ObjectAddedEvent
-from zope.lifecycleevent import ObjectRemovedEvent
+try:
+    # Plone 4
+    from zope.lifecycleevent import ObjectAddedEvent
+    from zope.lifecycleevent import ObjectRemovedEvent
+except:
+    # Plone 3.x
+    from zope.app.container.contained import ObjectAddedEvent
+    from zope.app.container.contained import ObjectRemovedEvent
 
 from BTrees.OIBTree import OIBTree
 
@@ -90,9 +96,8 @@ class Conversation(Traversable, Persistent, Explicit):
     def enabled(self):
         # Returns True if discussion is enabled on the conversation
 
-        site = getSite()
-        portal_discussion = getToolByName(site, 'portal_discussion')
-        portal_types = getToolByName(site, 'portal_types')
+        portal_discussion = getToolByName(self, 'portal_discussion')
+        portal_types = getToolByName(self, 'portal_types')
 
         # Fetch discussion registry
         registry = queryUtility(IRegistry)

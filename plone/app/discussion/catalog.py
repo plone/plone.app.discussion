@@ -59,6 +59,8 @@ def searchable_text(object):
 
 @indexer(IComment)
 def in_response_to(object):
+    # Always returns the content object the comment is added to.
+    # Do not confuse this with the in_reply_to attribute of a comment!
     return object.__parent__.__parent__.title_or_id()
 
 @indexer(IComment)

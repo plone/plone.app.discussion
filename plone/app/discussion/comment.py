@@ -12,8 +12,19 @@ from AccessControl.Owned import Owned
 from plone.app.discussion.interfaces import IComment
 
 from Products.CMFCore.DynamicType import DynamicType
-from Products.CMFCore.CMFCatalogAware import CatalogAware
-from Products.CMFCore.CMFCatalogAware import WorkflowAware
+
+try:
+    # Plone 4:
+    # Mixin CatalogAware and WorkflowAware into the Comment class
+    # is necessary for comments to be indexed in Plone4.
+    from Products.CMFCore.CMFCatalogAware import CatalogAware
+    from Products.CMFCore.CMFCatalogAware import WorkflowAware
+except:
+    # Plone 3:
+    # Dummy imports to make Comment class happy
+    from OFS.Traversable import Traversable as CatalogAware
+    from OFS.Traversable import Traversable as WorkflowAware
+
 from Products.CMFCore.utils import getToolByName
 
 class Comment(CatalogAware, WorkflowAware, DynamicType,
@@ -67,7 +78,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType,
         """The id of the comment, as a string
         """
         return self.id
-    
+
     def getText(self):
         '''the text'''
         return self.text
@@ -86,6 +97,17 @@ class Comment(CatalogAware, WorkflowAware, DynamicType,
         """The Discussion Item content type
         """
         return self.portal_type
+
+    # CMF's event handlers assume any IDynamicType has these :(
+
+    def opaqueItems(self):
+        return []
+
+    def opaqueIds(self):
+        return []
+
+    def opaqueValues(self):
+        return []
 
 CommentFactory = Factory(Comment)
 

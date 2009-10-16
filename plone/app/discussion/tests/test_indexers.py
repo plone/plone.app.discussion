@@ -110,7 +110,7 @@ class CommentIndexersTest(PloneTestCase):
         new_id = conversation.addComment(comment)
 
         self.comment_id = new_id
-        self.comment = comment
+        self.comment = comment.__of__(conversation)
         self.conversation = conversation
 
     def test_title(self):
