@@ -122,6 +122,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     @button.buttonAndHandler(_(u"Comment"))
     def handleComment(self, action):
+
+        context = aq_inner(self.context)
+
+        wf = getToolByName(context, 'portal_workflow')
+
         data, errors = self.extractData()
 
         title = u""
@@ -195,10 +200,20 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 # Add comment to the conversation
                 comment_id = conversation.addComment(comment)
 
-            # Redirect to comment (inside a content object page)
-            self.request.response.redirect(
-                aq_parent(aq_inner(self.context)).absolute_url() +
-                '#' + str(comment_id))
+            # Show info message when comment moderation is enabled
+            if wf.getChainForPortalType('Discussion Item') == \
+                ('comment_review_workflow',):
+
+                IStatusMessage(self.context.REQUEST).addStatusMessage(
+                    _("Your comment awaits moderator approval."),
+                    type="info")
+                self.request.response.redirect(
+                    aq_parent(aq_inner(self.context)).absolute_url())
+            else:
+                # Redirect to comment (inside a content object page)
+                self.request.response.redirect(
+                    aq_parent(aq_inner(self.context)).absolute_url() +
+                    '#' + str(comment_id))
 
     @button.buttonAndHandler(_(u"Cancel"))
     def handleCancel(self, action):
