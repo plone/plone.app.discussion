@@ -36,7 +36,7 @@
         />
 
     <!-- Delete comment view -->
-    <browser:view
+    <browser:page
         for="plone.app.discussion.interfaces.IComment"
         name="moderate-delete-comment"
         layer="..interfaces.IDiscussionLayer"
@@ -45,7 +45,7 @@
         />
 
     <!-- Publish comment view -->
-    <browser:view
+    <browser:page
         for="plone.app.discussion.interfaces.IComment"
         name="moderate-publish-comment"
         layer="..interfaces.IDiscussionLayer"

@@ -4,6 +4,8 @@ from zope.component import createObject
 
 from zope.interface import alsoProvides
 
+from AccessControl import Unauthorized
+
 from Products.PloneTestCase.ptc import PloneTestCase
 
 from plone.app.discussion.tests.layer import DiscussionLayer
@@ -67,20 +69,47 @@ class TestCommentOperations(PloneTestCase):
         alsoProvides(self.portal.REQUEST, IDiscussionLayer)
 
     def test_delete(self):
-        pass
-        #self.portal.REQUEST.form['comment_id'] = self.comment_id
-        #view = self.comment.restrictedTraverse('@@moderate-delete-comment')
-        #view()
-        #self.failIf(self.comment_id in self.conversation.objectIds())
+        self.portal.REQUEST.form['comment_id'] = self.comment_id
+        view = self.comment.restrictedTraverse('@@moderate-delete-comment')
+        view()
+        self.failIf(self.comment_id in self.conversation.objectIds())
+
+    def test_delete_as_anonymous(self):
+        # Make sure that anonymous users can not delete comments
+        self.logout()
+        self.portal.REQUEST.form['comment_id'] = self.comment_id
+        self.assertRaises(Unauthorized,
+                          self.comment.restrictedTraverse,
+                          '@@moderate-delete-comment')
+        self.failUnless(self.comment_id in self.conversation.objectIds())
+
+    def test_delete_as_user(self):
+        # Make sure that members can not delete comments
+        self.logout()
+        self.setRoles(('Member',))
+        self.portal.REQUEST.form['comment_id'] = self.comment_id
+        self.assertRaises(Unauthorized,
+                          self.comment.restrictedTraverse,
+                          '@@moderate-delete-comment')
+        self.failUnless(self.comment_id in self.conversation.objectIds())
 
     def test_publish(self):
-        pass
-        #self.portal.REQUEST.form['comment_id'] = self.comment_id
-        #self.portal.REQUEST.form['action'] = 'publish'
-        #self.assertEquals('pending', self.portal.portal_workflow.getInfoFor(self.comment, 'review_state'))
-        #view = self.reply.restrictedTraverse('@@review-publish-comment')
-        #view()
-        #self.assertEquals('published', self.portal.portal_workflow.getInfoFor(self.comment, 'review_state'))
+        self.portal.REQUEST.form['comment_id'] = self.comment_id
+        self.portal.REQUEST.form['action'] = 'publish'
+        self.assertEquals('pending', self.portal.portal_workflow.getInfoFor(self.comment, 'review_state'))
+        view = self.comment.restrictedTraverse('@@moderate-publish-comment')
+        view()
+        self.assertEquals('published', self.portal.portal_workflow.getInfoFor(self.comment, 'review_state'))
+
+    def test_publish_as_anonymous(self):
+        self.logout()
+        self.portal.REQUEST.form['comment_id'] = self.comment_id
+        self.portal.REQUEST.form['action'] = 'publish'
+        self.assertEquals('pending', self.portal.portal_workflow.getInfoFor(self.comment, 'review_state'))
+        self.assertRaises(Unauthorized,
+                          self.comment.restrictedTraverse,
+                          '@@moderate-publish-comment')
+        self.assertEquals('pending', self.portal.portal_workflow.getInfoFor(self.comment, 'review_state'))
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
