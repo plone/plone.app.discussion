@@ -5,13 +5,17 @@ from zope.interface import implements
 from zope.component.factory import Factory
 
 from Acquisition import aq_parent, Implicit
-from OFS.Traversable import Traversable
 from AccessControl.Role import RoleManager
 from AccessControl.Owned import Owned
 
-from plone.app.discussion.interfaces import IComment
+from Globals import Persistent
 
 from Products.CMFCore.DynamicType import DynamicType
+from Products.CMFCore.utils import getToolByName
+
+from OFS.Traversable import Traversable
+
+from plone.app.discussion.interfaces import IComment
 
 try:
     # Plone 4:
@@ -25,10 +29,9 @@ except:
     from OFS.Traversable import Traversable as CatalogAware
     from OFS.Traversable import Traversable as WorkflowAware
 
-from Products.CMFCore.utils import getToolByName
 
-class Comment(CatalogAware, WorkflowAware, DynamicType,
-              Traversable, RoleManager, Owned, Implicit):
+class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
+              RoleManager, Owned, Implicit, Persistent):
     """A comment.
 
     This object attempts to be as lightweight as possible. We implement a
