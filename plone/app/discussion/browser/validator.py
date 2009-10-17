@@ -16,7 +16,11 @@ from zope.schema import ValidationError
 
 from plone.registry.interfaces import IRegistry
 
-from plone.app.discussion.interfaces import IDiscussionSettings, IDiscussionLayer
+from plone.app.discussion.interfaces import IDiscussionSettings, IDiscussionLayer, MessageFactory as _
+
+from zope.interface import implements, Interface
+from zope.schema.interfaces import IField
+from zope.component import adapts
 
 try:
     from plone.formwidget.captcha import CaptchaMessageFactory as _
