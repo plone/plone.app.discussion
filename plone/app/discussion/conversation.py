@@ -111,36 +111,23 @@ class Conversation(Traversable, Persistent, Explicit):
         if IFolderish.providedBy(aq_inner(self.__parent__)) and not INonStructuralFolder.providedBy(aq_inner(self.__parent__)):
             return False
 
-        # Traverse the object tree.
-        def traverse_parent_folder(obj):
-            # Run through the object tree from context,
-            # to the Plone Site Root and look for the first folder object
-            # that has allow_discussion set to True or False.
-            if not IPloneSiteRoot.providedBy(obj):
-                if IFolderish.providedBy(obj) and \
-                    not INonStructuralFolder.providedBy(obj):
-                    # If the current object is a Plone folder,
-                    # check if the discussion_allowed flag is set.
-                    allow_discussion_flag = getattr(obj, 'allow_discussion', None)
-                    if allow_discussion_flag == True:
-                        return True
-                    elif allow_discussion_flag == False:
-                        return False
-                    else:
-                        # If allow_discussion flag is not set, go on traversing.
-                        pass
-                else:
-                    # If the current object is not a Plone folder,
-                    # go on with traversal.
-                    foo = traverse_parent_folder(aq_parent(obj))
-                    if foo:
-                        return True
+        def traverse_parents(obj):
+            # Run through the aq_chain of obj and check if discussion is
+            # enabled in a parent folder.
+            for obj in self.aq_chain:
+                if not IPloneSiteRoot.providedBy(obj):
+                    if IFolderish.providedBy(obj) and \
+                        not INonStructuralFolder.providedBy(obj):
+                        allow_discussion_flag = getattr(obj,'allow_discussion',None)
+                        if allow_discussion_flag is not None:
+                            return allow_discussion_flag
+            return None
 
         obj = aq_parent(self)
 
         # Check if traversal returned a folder with discussion_allowed set
         # to True or False.
-        folder_allow_discussion = traverse_parent_folder(obj)
+        folder_allow_discussion = traverse_parents(obj)
         if folder_allow_discussion == True:
             if not getattr(self, 'allow_discussion', None):
                 return True
