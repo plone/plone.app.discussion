@@ -22,18 +22,28 @@ MAX_DESCRIPTION=25
 
 @indexer(IContentish, IZCatalog)
 def total_comments(object):
-    conversation = IConversation(object)
-    return conversation.total_comments
+    # Total number of comments on a conversation
+    # Indexers won't work on old discussion items
+    if object.meta_type != 'Discussion Item':
+
+        conversation = IConversation(object)
+        return conversation.total_comments
 
 @indexer(IContentish, IZCatalog)
 def last_comment_date(object):
-    conversation = IConversation(object)
-    return conversation.last_comment_date
+    # Date of the latest comment on a conversation
+    # Indexers won't work on old discussion items
+    if object.meta_type != 'Discussion Item':
+        conversation = IConversation(object)
+        return conversation.last_comment_date
 
 @indexer(IContentish, IZCatalog)
 def commentators(object):
-    conversation = IConversation(object)
-    return tuple(conversation.commentators.keys())
+    # List of commentators on a conversation
+    # Indexers won't work on old discussion items
+    if object.meta_type != 'Discussion Item':
+        conversation = IConversation(object)
+        return tuple(conversation.commentators.keys())
 
 # Comment Indexers
 
