@@ -118,8 +118,7 @@ class PublishComment(BrowserView):
         comment = aq_inner(self.context)
         comment_id = self.context.id
 
-        #workflow_action = self.request.form['workflow_action']
-        workflow_action = 'publish'
+        workflow_action = self.request.form['workflow_action']
         portal_workflow = getToolByName(comment, 'portal_workflow')
         portal_workflow.doActionFor(comment, workflow_action)
 

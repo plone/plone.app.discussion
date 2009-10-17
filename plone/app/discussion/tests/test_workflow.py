@@ -95,7 +95,7 @@ class TestCommentOperations(PloneTestCase):
 
     def test_publish(self):
         self.portal.REQUEST.form['comment_id'] = self.comment_id
-        self.portal.REQUEST.form['action'] = 'publish'
+        self.portal.REQUEST.form['workflow_action'] = 'publish'
         self.assertEquals('pending', self.portal.portal_workflow.getInfoFor(self.comment, 'review_state'))
         view = self.comment.restrictedTraverse('@@moderate-publish-comment')
         view()
@@ -104,7 +104,7 @@ class TestCommentOperations(PloneTestCase):
     def test_publish_as_anonymous(self):
         self.logout()
         self.portal.REQUEST.form['comment_id'] = self.comment_id
-        self.portal.REQUEST.form['action'] = 'publish'
+        self.portal.REQUEST.form['workflow_action'] = 'publish'
         self.assertEquals('pending', self.portal.portal_workflow.getInfoFor(self.comment, 'review_state'))
         self.assertRaises(Unauthorized,
                           self.comment.restrictedTraverse,
