@@ -1,5 +1,0 @@
-============
-KNOWN ISSUES
-============
-
-- Comment objects are not indexed with Plone 4 (Plone 3.3 works fine).
