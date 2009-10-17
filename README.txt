@@ -1,13 +1,15 @@
 Introduction
 ============
 
-plone.app.discussion aims to be the new commenting system for Plone 4.1. It was developed as part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin Aspeli (mentor).
+plone.app.discussion aims to be the new commenting system for Plone.
+It was developed as part of the Google Summer of Code 2009 by Timo
+Stollenwerk (student) and Martin Aspeli (mentor).
 
 For details on the progress of this project, visit our `Pivotal Tracker`_.
 
 .. _`Pivotal Tracker`: http://www.pivotaltracker.com/projects/15135
 
-Feel free to send bug reports to timo@zmag.de.
+Feel free to send bug reports and feature requests to timo@zmag.de.
 
 Disclaimer
 ==========
@@ -46,8 +48,13 @@ Credits
 
 - Timo Stollenwerk
 - Martin Aspeli
-- Jon Stahl
-- David Glick
-- Lennart Regebro
-- Carsten Senger
-- Hanno Schlichting
+
+Many thanks to:
+
+- Jon Stahl (for acting as "the customer" during GSoC)
+- David Glick (for technical expertise and advice during GSoC)
+- Lennart Regebro (for writing the portal_discussion tool and initial unit tests)
+- Carsten Senger (for fixing the comment z3c.form form and pizza)
+- Hanno Schlichting (for making p.a.d work with Zope 2.12)
+- Alan Hoey (for providing fixes)
+- Maik Röder (for providing and setting up a buildbot)

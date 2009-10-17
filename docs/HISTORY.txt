@@ -4,8 +4,9 @@ Changelog
 1.0a2 (2009-XX-XX)
 ------------------
 
+* Plone 4 / Zope 2.12 support
 * Comment migration script added
-* plone.z3cform comment forms
+* pluggable plone.z3cform comment forms
 * Captcha and ReCaptcha support
 
 
