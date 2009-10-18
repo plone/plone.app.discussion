@@ -2,8 +2,8 @@ Introduction
 ============
 
 plone.app.discussion aims to be the new commenting system for Plone.
-It was developed as part of the Google Summer of Code 2009 by Timo
-Stollenwerk (student) and Martin Aspeli (mentor).
+It was initially developed as part of the Google Summer of Code 2009
+by Timo Stollenwerk (student) and Martin Aspeli (mentor).
 
 For details on the progress of this project, visit our `Pivotal Tracker`_.
 
@@ -41,6 +41,18 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
         plone.app.discussion
 
     ...
+
+
+Add-on Products
+===============
+
+- `collective.autoresizetextarea`_ (for auto-resizing the comment textarea while typing)
+- `plone.formwidget.captcha`_ (for Captcha spam protection)
+- `plone.formwidget.recaptcha`_ (for ReCaptcha spam protection)
+
+.. _`collective.autoresizetextarea`: http://pypi.python.org/pypi/collective.autoresizetextarea
+.. _`plone.formwidget.captcha`: http://pypi.python.org/pypi/plone.formwidget.captcha
+.. _`plone.formwidget.recaptcha`: http://pypi.python.org/pypi/plone.formwidget.recaptcha
 
 
 Credits
