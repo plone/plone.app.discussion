@@ -41,8 +41,21 @@ class View(BrowserView):
     def cook(self, text):
         return text
 
-    def comments_all(self, start=0, size=None):
+    def moderation_enabled(self):
+        """Returns true if comment moderation workflow is
+           enabled on 'Discussion Item' content type.
+        """
+        context = aq_inner(self.context)
+        wf_tool = getToolByName(context, 'portal_workflow')
+        if wf_tool.getChainForPortalType('Discussion Item') \
+            == ('comment_review_workflow',):
+            return True
+        else:
+            return False
 
+    def comments_all(self, start=0, size=None):
+        """Returns all comments.
+        """
         self.state = self.request.get('review_state', 'pending')
         self.transition = self.request.get('publish_transition', 'publish')
         self.limit = self.request.get('limit', 100)
@@ -57,6 +70,8 @@ class View(BrowserView):
             )
 
     def comments_pending(self, start=0, size=None):
+        """Returns all comments with 'pending' review state.
+        """
         self.state = self.request.get('review_state', 'pending')
         self.transition = self.request.get('publish_transition', 'publish')
         self.limit = self.request.get('limit', 100)
@@ -72,7 +87,8 @@ class View(BrowserView):
             )
 
     def comments_published(self, start=0, size=None):
-
+        """Returns all comments with 'published' review state.
+        """
         self.state = self.request.get('review_state', 'pending')
         self.transition = self.request.get('publish_transition', 'pending')
         self.limit = self.request.get('limit', 100)
@@ -88,7 +104,12 @@ class View(BrowserView):
             )
 
     def comments_spam(self, start=0, size=None):
+        """Returns all comments that are marked as spam.
+
+           Not implemented yet.
+        """
         return None
+
 
 class DeleteComment(BrowserView):
     """Delete a comment from a conversation

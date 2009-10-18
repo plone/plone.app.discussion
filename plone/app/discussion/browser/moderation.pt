@@ -14,7 +14,8 @@
                     Batch python:modules['Products.CMFPlone'].Batch;
                     b_size python:30;
                     b_start python:0;
-                    b_start request/b_start | b_start;">
+                    b_start request/b_start | b_start;
+                    moderation_enabled view/moderation_enabled;">
 
         <h1 class="documentFirstHeading" i18n:translate="title_review">
             Moderate comments
@@ -79,7 +80,7 @@
                                     <!--<option value="retract" i18n:translate="bulkactions_retract">Retract</option>-->
                                     <option value="publish"
                                             i18n:translate="bulkactions_publish"
-                                            tal:condition="python: filter != 'published'">Publish</option>
+                                            tal:condition="python: filter != 'published' and moderation_enabled">Publish</option>
                                     <!--<option value="mark_as_spam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>-->
                                     <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
                                 </select>
