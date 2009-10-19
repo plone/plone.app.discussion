@@ -14,7 +14,8 @@ Feel free to send bug reports and feature requests to timo@zmag.de.
 Disclaimer
 ==========
 
-This is an alpha release! Alpha releases should only be used for testing and development.
+This is an alpha release! Alpha releases should only be used for testing and
+development.
 
 Requirements
 ============
@@ -30,7 +31,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     ...
     extends =
         ...
-        http://good-py.appspot.com/release/plone.app.discussion/1.0a1
+        http://good-py.appspot.com/release/plone.app.discussion/1.0a2
 
     ...
 
@@ -46,13 +47,17 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
 Add-on Products
 ===============
 
-- `collective.autoresizetextarea`_ (for auto-resizing the comment textarea while typing)
-- `plone.formwidget.captcha`_ (for Captcha spam protection)
-- `plone.formwidget.recaptcha`_ (for ReCaptcha spam protection)
+- `collective.autoresizetextarea
+  <http://pypi.python.org/pypi/collective.autoresizetextarea/>`_
+  (for auto-resizing the comment textarea while typing)
 
-.. _`collective.autoresizetextarea`: http://pypi.python.org/pypi/collective.autoresizetextarea
-.. _`plone.formwidget.captcha`: http://pypi.python.org/pypi/plone.formwidget.captcha
-.. _`plone.formwidget.recaptcha`: http://pypi.python.org/pypi/plone.formwidget.recaptcha
+- `plone.formwidget.captcha
+  <http://pypi.python.org/pypi/plone.formwidget.captcha/>`_
+  (for Captcha spam protection)
+
+- `plone.formwidget.recaptcha
+  <http://pypi.python.org/pypi/plone.formwidget.recaptcha/>`_
+  (for ReCaptcha spam protection)
 
 
 Credits
