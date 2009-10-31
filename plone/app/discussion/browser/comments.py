@@ -200,9 +200,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 # Add comment to the conversation
                 comment_id = conversation.addComment(comment)
 
+            can_manage = getSecurityManager().checkPermission('Manage portal', aq_inner(self.context))
+
             # Show info message when comment moderation is enabled
             if wf.getChainForPortalType('Discussion Item') == \
-                ('comment_review_workflow',):
+                ('comment_review_workflow',) and not can_manage:
 
                 IStatusMessage(self.context.REQUEST).addStatusMessage(
                     _("Your comment awaits moderator approval."),
