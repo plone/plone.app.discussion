@@ -212,7 +212,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             else:
                 # Redirect to comment (inside a content object page)
                 self.request.response.redirect(
-                    aq_parent(aq_inner(self.context)).absolute_url() +
+                    aq_parent(aq_inner(self.context)).absolute_url() + \
                     '#' + str(comment_id))
 
     @button.buttonAndHandler(_(u"Cancel"))
