@@ -122,11 +122,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     @button.buttonAndHandler(_(u"Comment"))
     def handleComment(self, action):
-
         context = aq_inner(self.context)
-
         wf = getToolByName(context, 'portal_workflow')
-
         data, errors = self.extractData()
 
         title = u""
@@ -135,14 +132,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         author_username = u""
         author_email = u""
 
-        # Captcha check (only when captcha is enabled and user is anonymous)
+        # Captcha check for anonymous users (if Captcha is enabled)
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         portal_membership = getToolByName(self.context, 'portal_membership')
         if settings.captcha != 'disabled' and portal_membership.isAnonymousUser():
-            # Check captcha only if it is not disabled
             if 'captcha' in data:
-                # Check captcha only if there is a value, otherwise
+                # Check Captcha only if there is a value, otherwise
                 # the default "required" validator is sufficient.
                 captcha = CaptchaValidator(self.context, self.request, None, ICaptcha['captcha'], None)
                 captcha.validate(data['captcha'])
@@ -150,7 +146,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 return
 
         if 'title' in data and 'text' in data:
-
             title = data['title']
             text = data['text']
 
@@ -193,29 +188,29 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 comment.author_email = member.getProperty('email')
                 comment.creation_date = comment.modification_date = datetime.now()
 
+            # Check if the added comment is a reply to an existing comment
+            # or just a regular reply to the content object.
             if data['in_reply_to']:
-                # Add the reply to the comment
+                # Add a reply to an existing comment
                 comment_id = replies.addComment(comment)
             else:
-                # Add comment to the conversation
+                # Add a comment to the conversation
                 comment_id = conversation.addComment(comment)
 
-            can_manage = getSecurityManager().checkPermission('Manage portal', aq_inner(self.context))
-
-            # Show info message when comment moderation is enabled
+            # If a user post a comment and moderation is enabled, a message is shown
+            # to the user that his/her comment awaits moderation. If the user has manage
+            # right, he/she is redirected directly to the comment.
+            can_manage = getSecurityManager().checkPermission('Manage portal', context)
             if wf.getChainForPortalType('Discussion Item') == \
                 ('comment_review_workflow',) and not can_manage:
-
+                # Show info message when comment moderation is enabled
                 IStatusMessage(self.context.REQUEST).addStatusMessage(
                     _("Your comment awaits moderator approval."),
                     type="info")
-                self.request.response.redirect(
-                    aq_parent(aq_inner(self.context)).absolute_url())
+                self.request.response.redirect(context.absolute_url())
             else:
                 # Redirect to comment (inside a content object page)
-                self.request.response.redirect(
-                    aq_parent(aq_inner(self.context)).absolute_url() + \
-                    '#' + str(comment_id))
+                self.request.response.redirect(context.absolute_url() + '#' + str(comment_id))
 
     @button.buttonAndHandler(_(u"Cancel"))
     def handleCancel(self, action):
