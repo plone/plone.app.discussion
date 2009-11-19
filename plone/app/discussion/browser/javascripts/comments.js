@@ -88,7 +88,7 @@ jq(document).ready(function() {
 
     /*****************************************************************
      * Show the reply button only when Javascript is enabled.
-     * Otherwise hide it, since the reply functions relies on jQuery.
+     * Otherwise hide it, since the reply functions rely on jQuery.
      *****************************************************************/
     jq(".reply-to-comment-button").css("display" , "inline");
 
