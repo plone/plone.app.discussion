@@ -17,13 +17,13 @@ class IDiscussionSettings(Interface):
     # - Types control panel: Allow comments on content types
     # - Search control panel: Show comments in search results
 
-    globally_enabled = schema.Bool(title=_(u"Globally enabled"),
-                                   description=_(u"Use this setting to enable or disable comments globally."),
-                                   default=True)
+    globally_enabled = schema.Bool(title=_(u"Globally enable comments"),
+                                   default=True,
+                                   required=False)
 
-    anonymous_comments = schema.Bool(title=_(u"Anonymous comments"),
-                                     description=_(u"Use this setting to enable or disable posting comments as anonymous visitor."),
-                                     default=False)
+    anonymous_comments = schema.Bool(title=_(u"Enable anonymous comments"),
+                                     default=False,
+                                     required=False)
 
     captcha = schema.Choice(title=_(u"Captcha"),
                             description=_(u"""Use this setting to enable or disable captcha validation for comments.
@@ -34,8 +34,8 @@ class IDiscussionSettings(Interface):
                             vocabulary='plone.app.discussion.vocabularies.CaptchaVocabulary',)
 
     show_commenter_image = schema.Bool(title=_(u"Show commenter image"),
-                                       description=_(u"Use this setting to enable or disable showing the commenter's image next to his/her comments."),
-                                       default=True)
+                                       default=True,
+                                       required=False)
 
 class IConversation(IIterableMapping):
     """A conversation about a content object.

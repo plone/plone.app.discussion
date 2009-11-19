@@ -7,13 +7,8 @@ from plone.app.registry.browser import controlpanel
 
 from plone.app.discussion.interfaces import IDiscussionSettings, _
 
-try:
-    # only in z3c.form 2.0
-    from z3c.form.browser.textlines import TextLinesFieldWidget
-    from z3c.form.browser.widget import SingleCheckBoxWidget
-except ImportError:
-    from plone.z3cform.textlines import TextLinesFieldWidget
-    from plone.z3cform.widget import SingleCheckBoxWidget
+from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
+
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
 
@@ -33,10 +28,16 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
 
     def updateFields(self):
         super(DiscussionSettingsEditForm, self).updateFields()
-        #self.fields['globally_enabled'].widgetFactory = SingleCheckBoxWidget
+        self.fields['globally_enabled'].widgetFactory = SingleCheckBoxFieldWidget
+        self.fields['anonymous_comments'].widgetFactory = SingleCheckBoxFieldWidget
+        self.fields['show_commenter_image'].widgetFactory = SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
         super(DiscussionSettingsEditForm, self).updateWidgets()
+        self.widgets['globally_enabled'].label = u""
+        self.widgets['anonymous_comments'].label = u""
+        self.widgets['show_commenter_image'].label = u""
+
 
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     form = DiscussionSettingsEditForm
