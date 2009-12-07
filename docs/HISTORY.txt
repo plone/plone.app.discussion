@@ -1,13 +1,22 @@
 Changelog
 =========
 
+1.0b1 (2009-12-07)
+------------------
+
+* Fix redirect after a adding a comment
+* Replace yes/no widgets with check boxes in the discussion control panel
+* Make comments viewlet show up in Plone 4
+* Apply Plone 4 styles to comment form
+
+
 1.0a2 (2009-10-18)
 ------------------
 
 * Plone 4 / Zope 2.12 support
 * Comment migration script added
 * Pluggable plone.z3cform comment forms
-* Captcha and ReCaptcha support
+* Captcha and ReCaptcha support added
 
 
 1.0a1 (2009-06-07)
