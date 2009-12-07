@@ -9,7 +9,8 @@
 
 <metal:main fill-slot="main">
     <tal:main-macro metal:define-macro="main"
-        tal:define="items view/comments;
+        tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime;
+                    items view/comments;
                     filter view/filter|nothing;
                     Batch python:modules['Products.CMFPlone'].Batch;
                     b_size python:30;
