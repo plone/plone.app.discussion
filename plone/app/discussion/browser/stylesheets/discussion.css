@@ -26,8 +26,13 @@
 	margin-right: -90px;
 }
 
+.commentImage a:link {
+	/* Override the default bottom border of links in Plone 4. */
+	border: 0px;	
+}
+
 .commentImage img {
-	   margin-right: 1em;
+	margin-right: 1em;
 }
 
 .commentBody {
@@ -130,4 +135,31 @@ ul.filter {
 
 #fieldset-moderate-comments {
 	padding: 2em 1em;
+}
+
+
+/* Plone 4 Styles
+   ---------------------------------------------------------------- */
+
+/* These styles are only applied for Plone 4, since Plone 3.x does 
+    not have a .row class for portal-column-content. */
+
+.row #commenting {
+	font-size: 80%;
+}
+
+.row textarea {
+    font: 100% Monaco, "Courier New", Courier, monospace;
+    width: 100%;
+}
+.row fieldset {
+    border: 0.1em solid #329fd7;
+    border-style: solid none none none;
+}
+.row legend {
+    padding: 0.5em 0.5em 0.5em 0;
+    font-size: 85%;
+}
+.row label {
+    font-weight:bold;
 }
