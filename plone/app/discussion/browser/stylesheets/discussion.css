@@ -8,6 +8,13 @@
 /* Comments Viewlet
    ---------------------------------------------------------------- */
 
+#commenting {
+	/* Clear "float: left" from "manage portlets" div above the
+	   comment viewlet. This will get fixed in the next Plone 4 
+	   release. */
+	clear: both;
+}
+
 .comment {
 	min-height: 100px;
 	overflow: auto;
