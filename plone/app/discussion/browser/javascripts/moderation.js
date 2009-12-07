@@ -59,6 +59,7 @@ jq(document).ready(function() {
         jq.ajax({
             type: "GET",
             url: target,
+			data: "workflow_action=publish",
             success: function(msg){
 				if (currentFilter == 'pending') {
                     // fade out row
