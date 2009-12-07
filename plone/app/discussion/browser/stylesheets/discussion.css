@@ -7,7 +7,7 @@
 
 /* Comments Viewlet
    ---------------------------------------------------------------- */
-
+.discussion,
 #commenting {
 	/* Clear "float: left" from "manage portlets" div above the
 	   comment viewlet. This will get fixed in the next Plone 4 
