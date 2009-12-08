@@ -11,6 +11,7 @@
         appId="plone.app.discussion"
         category="Products"
         condition_expr=""
+		icon_expr="string:${portal_url}/discussionitem_icon.gif"
         url_expr="string:${portal_url}/@@discussion-settings"
         visible="True"
         i18n:attributes="title">
