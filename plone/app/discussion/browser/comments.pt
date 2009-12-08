@@ -104,8 +104,8 @@
                         <input name="form.button.DeleteComment"
                                class="destructive"
                                type="submit"
-                               value="Remove"
-                               i18n:attributes="value label_remove;"
+                               value="Delete"
+                               i18n:attributes="value label_delete;"
                                />
                     </form>
 
