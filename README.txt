@@ -53,6 +53,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
 
     ...
 
+
 Add-on Products
 ===============
 
@@ -83,4 +84,5 @@ Many thanks to:
 - Carsten Senger (for fixing the comment z3c.form form and pizza)
 - Hanno Schlichting (for making p.a.d work with Zope 2.12)
 - Alan Hoey (for providing fixes)
-- Maik Röder (for providing and setting up a buildbot)
+- Maik Roeder (for providing and setting up a buildbot)
+
