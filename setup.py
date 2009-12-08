@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0a2'
+version = '1.0b1'
 
 setup(name='plone.app.discussion',
       version=version,
@@ -28,10 +28,10 @@ setup(name='plone.app.discussion',
           'collective.autopermission',
           'collective.monkeypatcher',
           'plone.app.registry',
-          'plone.app.z3cform',
+          'plone.app.z3cform==0.4.6',
           'plone.indexer',
           'plone.registry',
-          'plone.z3cform',
+          'plone.z3cform==0.5.5',
           'ZODB3',
           'zope.interface',
           'zope.component',
