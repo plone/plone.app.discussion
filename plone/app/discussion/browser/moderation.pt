@@ -73,8 +73,8 @@
                     <tbody>
                         <tal:block repeat="item batch">
                             <tr style="vertical-align: top" class="commentrow"
-                                tal:define="odd repeat/item/odd"
-                                tal:attributes="class python: odd and 'odd' or 'even'">
+                                tal:define="even repeat/item/even"
+                                tal:attributes="class python: even and 'odd' or 'even'">
                                 <td class="notDraggable">
                                     <input type="checkbox"
                                            class="noborder"
