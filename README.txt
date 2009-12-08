@@ -11,19 +11,15 @@ For details on the progress of this project, visit our `Pivotal Tracker`_.
 
 Feel free to send bug reports and feature requests to timo@zmag.de.
 
-Disclaimer
-==========
-
-This is an alpha release! Alpha releases should only be used for testing and
-development.
 
 Requirements
 ============
 
 Plone 3.3 or later.
 
-Buildout Installation
-=====================
+
+Plone 3.x Buildout Installation
+===============================
 
 To install plone.app.discussion, add the following code to your buildout.cfg::
 
@@ -43,6 +39,19 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
 
     ...
 
+
+Plone 4.x Buildout Installation
+===============================
+
+To install plone.app.discussion, add the following code to your buildout.cfg::
+
+    [instance]
+    ...
+    eggs =
+        ...
+        plone.app.discussion
+
+    ...
 
 Add-on Products
 ===============
