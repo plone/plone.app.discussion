@@ -1,13 +1,14 @@
 Changelog
 =========
 
-1.0b1 (2009-12-07)
+1.0b1 (2009-12-08)
 ------------------
 
 * Fix redirect after a adding a comment
 * Replace yes/no widgets with check boxes in the discussion control panel
 * Make comments viewlet show up in Plone 4
 * Apply Plone 4 styles to comment form
+* Simplify moderation view by removing the filters
 
 
 1.0a2 (2009-10-18)
