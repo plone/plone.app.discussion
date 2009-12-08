@@ -77,26 +77,6 @@ class ModerationViewTest(PloneTestCase):
                                             ('simple_publication_workflow,'))
         self.assertEquals(self.view.moderation_enabled(), False)
 
-    def test_comments_all(self):
-        self.failUnless(self.view.comments_all())
-        self.assertEquals(len(self.view.comments_all()), 3)
-
-    def test_comments_pending(self):
-        self.wf_tool.getInfoFor(self.comment1, 'review_state')
-        self.failUnless(self.view.comments_pending())
-        self.assertEquals(len(self.view.comments_pending()), 3)
-        self.portal.portal_workflow.doActionFor(self.comment1,
-                                                action='publish')
-        #self.comment1.reindexObject()
-        #self.assertEquals(len(self.view.comments_pending()), 2)
-
-    def test_comments_published(self):
-        self.assertEquals(len(self.view.comments_published()), 0)
-        self.wf_tool.doActionFor(self.comment1, action='publish')
-        #self.assertEquals(len(self.view.comments_published()), 1)
-
-    def test_comments_spam(self):
-        self.view.comments_spam()
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

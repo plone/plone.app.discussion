@@ -55,23 +55,15 @@ jq(document).ready(function() {
         var form = jq(row).parents("form");
         var path = jq(row).find("input:checkbox").attr("value");
         var target = path + "/@@moderate-publish-comment";
-        var currentFilter = jq(form).find("[name='form.button.Filter']").attr("value");
         jq.ajax({
             type: "GET",
             url: target,
 			data: "workflow_action=publish",
             success: function(msg){
-				if (currentFilter == 'pending') {
-                    // fade out row
-                    jq(row).fadeOut("normal", function(){
-                        jq(this).remove();
-                    });
-				} else {
-					// fade out button
-					jq(button).fadeOut("normal", function(){
-						jq(this).remove();
-					});
-				}
+                // fade out row
+                jq(row).fadeOut("normal", function(){
+                    jq(this).remove();
+                });
             },
             error: function(msg){
                 alert("Error sending AJAX request:" + target);
@@ -89,34 +81,15 @@ jq(document).ready(function() {
         var target = jq(form).attr('action');
         var params = jq(form).serialize();
         var valArray = jq('input:checkbox:checked');
-        var currentFilter = jq(form).find("[name='form.button.Filter']").attr("value");
-        var currentAction = jq(form).find("[name='form.select.BulkAction']").val();
         var selectField = jq(form).find("[name='form.select.BulkAction']");
         if (valArray.length) {
             jq.post(target, params, function(data) {
                 valArray.each(function () {
-                    // if bulkaction is delete, or the current filter is
-                    // pending (because then publish also removes the comment),
-                    // remove all selected comments.
-                    if (currentAction == 'delete' || currentFilter == 'pending') {
-                        var row = jq(this).parent().parent();
-                        row.fadeOut("normal", function() {
-                           row.remove();
-                        });
-                    }
-                    // bulkaction is publish and there is no current filter
-                    if (currentAction == 'publish' && currentFilter == '') {
-                        // remove the publish button
-                        var row = jq(this).parent().parent();
-                        var form = row.find("form.workflow_action");
-                        var publishButton = row.find(".comment-publish-button");
-                        var selectField = row.find("input:checkbox");
-                        jq(publishButton).fadeOut("normal", function(){
-                            jq(form).remove();
-                        });
-                        // reset the select fields
-                        selectField.attr("checked","");
-                    }
+					/* Remove all selected lines. */
+                    var row = jq(this).parent().parent();
+                    row.fadeOut("normal", function() {
+                       row.remove();
+                    });
                 });
             });
         } else {

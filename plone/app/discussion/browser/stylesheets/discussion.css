@@ -144,6 +144,10 @@ ul.filter {
 /* These styles are only applied for Plone 4, since Plone 3.x does 
     not have a .row class for portal-column-content. */
 
+.row #dobulkaction {
+	margin: 0;
+}
+
 .row #commenting {
 	font-size: 80%;
 }

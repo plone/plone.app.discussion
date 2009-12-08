@@ -26,16 +26,12 @@ class View(BrowserView):
 
         context = aq_inner(self.context)
 
-        if self.request.has_key('form.button.Filter'):
-            self.filter = self.request.get('form.button.Filter')
-            if self.filter == 'pending':
-                self.comments = self.comments_pending()
-            elif self.filter == "published":
-                self.comments = self.comments_published()
-            else:
-                raise ValueError('Value %s for filter is not know.' % self.filter)
-        else:
-            self.comments = self.comments_all()
+        catalog = getToolByName(context, 'portal_catalog')
+
+        self.comments = catalog(portal_type='Discussion Item',
+                                review_state='pending',
+                                sort_on='created',
+                                sort_order='reverse')
         return self.template()
 
     def cook(self, text):
@@ -52,63 +48,6 @@ class View(BrowserView):
             return True
         else:
             return False
-
-    def comments_all(self, start=0, size=None):
-        """Returns all comments.
-        """
-        self.state = self.request.get('review_state', 'pending')
-        self.transition = self.request.get('publish_transition', 'publish')
-        self.limit = self.request.get('limit', 100)
-
-        context = aq_inner(self.context)
-        catalog = getToolByName(context, 'portal_catalog')
-
-        return catalog(
-                portal_type='Discussion Item',
-                sort_on='created',
-                sort_order='reverse',
-            )
-
-    def comments_pending(self, start=0, size=None):
-        """Returns all comments with 'pending' review state.
-        """
-        self.state = self.request.get('review_state', 'pending')
-        self.transition = self.request.get('publish_transition', 'publish')
-        self.limit = self.request.get('limit', 100)
-
-        context = aq_inner(self.context)
-        catalog = getToolByName(context, 'portal_catalog')
-
-        return catalog(
-                portal_type='Discussion Item',
-                review_state=self.state,
-                sort_on='created',
-                sort_order='reverse',
-            )
-
-    def comments_published(self, start=0, size=None):
-        """Returns all comments with 'published' review state.
-        """
-        self.state = self.request.get('review_state', 'pending')
-        self.transition = self.request.get('publish_transition', 'pending')
-        self.limit = self.request.get('limit', 100)
-
-        context = aq_inner(self.context)
-        catalog = getToolByName(context, 'portal_catalog')
-
-        return catalog(
-                portal_type='Discussion Item',
-                review_state='published',
-                sort_on='created',
-                sort_order='reverse',
-            )
-
-    def comments_spam(self, start=0, size=None):
-        """Returns all comments that are marked as spam.
-
-           Not implemented yet.
-        """
-        return None
 
 
 class DeleteComment(BrowserView):

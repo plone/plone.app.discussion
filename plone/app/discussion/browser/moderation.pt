@@ -21,39 +21,7 @@
         <h1 class="documentFirstHeading" i18n:translate="title_review">
             Moderate comments
         </h1>
-
-        <ul class="filter formTabs">
-            <li class="all formTab firstFormTab">
-                <form method="post"
-                      action="#"
-                      tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="submit" value="All" class=""
-                           tal:attributes="class python: not filter and 'selected' or ''" />
-                </form>
-            </li>
-            <li class="pending formTab">
-                <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="hidden" name="form.button.Filter" value="pending" />
-                    <input type="submit" value="Pending" class=""
-                           tal:attributes="class python:filter == 'pending' and 'selected' or ''"/>
-                </form>
-            </li>
-            <li class="approved formTab lastFormTab">
-                <form method="post" action="#" tal:attributes="action string:${context/absolute_url}/@@moderate-comments">
-                    <input type="hidden" name="form.button.Filter" value="published" />
-                    <input type="submit" value="Published" class=""
-                           tal:attributes="class python:filter == 'published' and 'selected' or ''"/>
-                </form>
-            </li>
-            <!--
-            <li class="spam">
-                <a href="#"
-                   tal:attributes="href string:${context/absolute_url}/@@comments-spam"
-                   i18n:translate="title_filter_spam">Spam</a>
-            </li>
-            -->
-        </ul>
-
+		
         <form tal:condition="not:items">
             <fieldset id="fieldset-moderate-comments" class="formPanel">
                 <p id="no-comments-message" i18n:translate="message_nothing_to_moderate">
@@ -78,11 +46,9 @@
                             <th id="bulkactions" class="nosort" colspan="7">
                                 <select name="form.select.BulkAction">
                                     <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
-                                    <!--<option value="retract" i18n:translate="bulkactions_retract">Retract</option>-->
                                     <option value="publish"
                                             i18n:translate="bulkactions_publish"
                                             tal:condition="python: filter != 'published' and moderation_enabled">Publish</option>
-                                    <!--<option value="mark_as_spam" i18n:translate="bulkactions_markasspam">Mark as Spam</option>-->
                                     <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
                                 </select>
                                 <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
