@@ -100,7 +100,7 @@
                                 </td>
 
                                 <td tal:content="structure python:view.cook(item.Description)" />
-                                <td style="width: 11em;">
+                                <td class="actions">
                                     <input id=""
                                            class="context comment-publish-button"
                                            type="submit"
