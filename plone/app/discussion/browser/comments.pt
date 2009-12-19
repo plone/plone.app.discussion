@@ -59,11 +59,7 @@
                                          alt reply/Creator" />
                 </div>
 
-                <h3>
-                    <a name="comments" tal:attributes="name reply/Title">
-                    <span tal:replace="reply/Title">Comment title</span>
-                    </a>
-                </h3>
+                <h3 tal:content="reply/Title">Comment title</h3>
 
                 <div class="documentByLine">
                         <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
