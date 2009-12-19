@@ -34,11 +34,11 @@
                              author_home_url python:view.get_commenter_home_url(username=reply.author_username);
                      		 has_author_link python:author_home_url and not isAnon;
                              portrait_url python:view.get_commenter_portrait(reply.author_username);
-                             published python:wtool.getInfoFor(reply, 'review_state') == 'published';"
-                 tal:attributes="class python:'comment replyTreeLevel'+str(depth);
+                             review_state python:wtool.getInfoFor(reply, 'review_state');"
+                 tal:attributes="class python:'comment replyTreeLevel'+str(depth)+' state-'+str(review_state);
                                  style string:margin-left: ${depth}em;
                                  id string:${reply/getId}"
-                 tal:condition="python:canManage or published">
+                 tal:condition="python:canManage or review_state == 'published'">
 
                 <div class="commentImage" tal:condition="showCommenterImage">
                     <a href="" tal:condition="has_author_link"
