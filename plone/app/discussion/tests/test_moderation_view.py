@@ -1,4 +1,6 @@
 import unittest
+
+from DateTime import DateTime
 from datetime import datetime, timedelta
 
 from plone.registry import Registry
@@ -30,6 +32,7 @@ class ModerationViewTest(PloneTestCase):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
+        
         self.portal_discussion = getToolByName(self.portal,
                                                'portal_discussion',
                                                None)
@@ -77,6 +80,28 @@ class ModerationViewTest(PloneTestCase):
                                             ('simple_publication_workflow,'))
         self.assertEquals(self.view.moderation_enabled(), False)
 
+    def test_old_comments_not_shown_in_moderation_view(self):
+        # Create an old comment and make sure it is not shown
+        # in the moderation view.
+        
+        # Create old comment
+        discussion = getToolByName(self.portal, 'portal_discussion', None)
+        discussion.overrideDiscussionFor(self.portal.doc1, 1)        
+        talkback = discussion.getDiscussionFor(self.portal.doc1)
+        self.portal.doc1.talkback.createReply('My Title', 'My Text', Creator='Jim')
+        reply = talkback.getReplies()[0]
+        reply.setReplyTo(self.portal.doc1)
+        reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6)
+        reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7)
+        self.assertEquals(reply.Title(), 'My Title')
+        self.assertEquals(reply.EditableBody(), 'My Text')
+        self.failUnless('Jim' in reply.listCreators())
+        self.assertEquals(talkback.replyCount(self.portal.doc1), 1)
+        self.assertEquals(reply.inReplyTo(), self.portal.doc1)
+        
+        # Make sure only the two new comments are shown
+        self.view()
+        self.assertEquals(len(self.view.comments), 3)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

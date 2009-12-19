@@ -9,6 +9,8 @@ from Products.CMFPlone import PloneMessageFactory as _
 
 from Products.statusmessages.interfaces import IStatusMessage
 
+from plone.app.discussion.interfaces import IComment
+
 class View(BrowserView):
     """Moderation View
     """
@@ -28,7 +30,7 @@ class View(BrowserView):
 
         catalog = getToolByName(context, 'portal_catalog')
 
-        self.comments = catalog(portal_type='Discussion Item',
+        self.comments = catalog(object_provides=IComment.__identifier__,
                                 review_state='pending',
                                 sort_on='created',
                                 sort_order='reverse')
