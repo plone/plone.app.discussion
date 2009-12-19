@@ -32,6 +32,7 @@
                  tal:define="reply reply_dict/comment;
                              depth reply_dict/depth|python:0;
                              author_home_url python:view.get_commenter_home_url(username=reply.author_username);
+                     		 has_author_link python:author_home_url and not isAnon;
                              portrait_url python:view.get_commenter_portrait(reply.author_username);
                              published python:wtool.getInfoFor(reply, 'review_state') == 'published';"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth);
@@ -40,8 +41,7 @@
                  tal:condition="python:canManage or published">
 
                 <div class="commentImage" tal:condition="showCommenterImage">
-
-                    <a href="" tal:condition="not:isAnon"
+                    <a href="" tal:condition="has_author_link"
                                tal:attributes="href author_home_url">
                          <img src="defaultUser.gif"
                               alt=""
@@ -54,7 +54,7 @@
                          alt=""
                          border="0"
                          width="75"
-                         tal:condition="isAnon"
+                         tal:condition="not: has_author_link"
                          tal:attributes="src portrait_url;
                                          alt reply/Creator" />
                 </div>
@@ -69,12 +69,12 @@
                         <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
                         <tal:name>
                             <a href=""
-                               tal:condition="not:isAnon"
+                               tal:condition="has_author_link"
                                tal:content="reply/Creator"
                                tal:attributes="href author_home_url">
                                 Poster Name
                             </a>
-                            <span tal:condition="isAnon"
+                            <span tal:condition="not: has_author_link"
                                   tal:replace="reply/Creator" />
                         </tal:name>
                         <tal:name i18n:translate="label_anonymous_user"
