@@ -13,11 +13,15 @@ from Products.statusmessages.interfaces import IStatusMessage
 
 from Products.CMFCore.interfaces import IContentish
 
+from Products.CMFCore.interfaces._content import IDiscussionResponse
+
+import transaction
+
 from zope.component import createObject
 
 from plone.app.discussion.comment import CommentFactory
 
-from plone.app.discussion.interfaces import IConversation, IReplies
+from plone.app.discussion.interfaces import IConversation, IReplies, IComment
 
 
 class View(BrowserView):
@@ -31,10 +35,11 @@ class View(BrowserView):
         self.total_comments_migrated = 0
         self.total_comments_deleted = 0
 
+        transaction.begin()
+        
         catalog = getToolByName(context, 'portal_catalog')
         dtool = context.portal_discussion
-        comment_brains = catalog.searchResults(Type='Discussion Item')
-
+        
         def log(msg):
             context.plone_log(msg)
             out.append(msg)
@@ -90,15 +95,22 @@ class View(BrowserView):
             # Return True when all comments on a certain level have been migrated.
             return True
 
-        log("Comment migration started.")
-
         # Find content
         brains = catalog.searchResults(
                     object_provides='Products.CMFCore.interfaces._content.IContentish')
-        total_comment_brains = len(comment_brains)
         log("Found %s content objects." % len(brains))
-        log("Found %s Discussion Item objects." % total_comment_brains)
 
+        count_discussion_items = len(catalog.searchResults(Type='Discussion Item'))
+        count_comments_pad = len(catalog.searchResults(object_provides=IComment.__identifier__))
+        count_comments_old = len(catalog.searchResults(object_provides=IDiscussionResponse.__identifier__))
+        
+        log("Found %s Discussion Item objects." % count_discussion_items)
+        log("Found %s old discussion items." % count_comments_old)
+        log("Found %s plone.app.discussion comments." % count_comments_pad)
+
+        log("\n")
+        log("Start comment migration.")
+        
         # This loop is necessary to get all contentish objects, but not
         # the Discussion Items. This wouldn't be necessary if the
         # zcatalog would support NOT expressions.
@@ -115,8 +127,8 @@ class View(BrowserView):
                 replies = talkback.getReplies()
                 if replies:
                     conversation = IConversation(obj)
-                    log("Create conversation for: '%s'" % obj.Title())
-                log("%s: Found talkback" % obj.absolute_url(relative=1))
+                log("\n")
+                log("Migrate '%s' (%s)" % (obj.Title(), obj.absolute_url(relative=1)))
                 migrate_replies(context, 0, replies)
                 obj = aq_parent(talkback)
                 obj.talkback = None
@@ -125,7 +137,20 @@ class View(BrowserView):
             log("Something went wrong during migration. The number of migrated comments (%s)\
                  differs from the number of deleted comments (%s)."
                  % (self.total_comments_migrated, self.total_comments_deleted))
+            transaction.abort()
+            log("Abort transaction")
+        
+        log("\n")
         log("Comment migration finished.")
+        log("\n")
+        
         log("%s of %s comments migrated."
-            % (self.total_comments_migrated, total_comment_brains))
+            % (self.total_comments_migrated, count_discussion_items))
+        
+        if self.request.has_key("dry_run"):
+            transaction.abort()
+            log("Dry run")
+            log("Abort transaction")
+        
+        transaction.commit()        
         return '\n'.join(out)
