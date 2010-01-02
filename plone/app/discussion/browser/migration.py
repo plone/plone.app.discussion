@@ -145,7 +145,11 @@ class View(BrowserView):
         log("\n")
         
         log("%s of %s comments migrated."
-            % (self.total_comments_migrated, count_discussion_items))
+            % (self.total_comments_migrated, count_comments_old))
+        
+        if self.total_comments_migrated != count_comments_old:
+            log("%s comments could not be migrated." % (count_comments_old - self.total_comments_migrated))
+            log("Please make sure your portal catalog is up-to-date.")
         
         if self.request.has_key("dry_run"):
             transaction.abort()
