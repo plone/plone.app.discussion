@@ -34,8 +34,15 @@ class View(BrowserView):
         out = []
         self.total_comments_migrated = 0
         self.total_comments_deleted = 0
-
-        transaction.begin()
+        
+        dry_run = self.request.has_key("dry_run")
+        
+        # This is for testing only.
+        # Do not use transactions during a test.
+        test = self.request.has_key("test") 
+        
+        if not test:
+            transaction.begin()
         
         catalog = getToolByName(context, 'portal_catalog')
         dtool = context.portal_discussion
@@ -137,7 +144,8 @@ class View(BrowserView):
             log("Something went wrong during migration. The number of migrated comments (%s)\
                  differs from the number of deleted comments (%s)."
                  % (self.total_comments_migrated, self.total_comments_deleted))
-            transaction.abort()
+            if not test:
+                transaction.abort()
             log("Abort transaction")
         
         log("\n")
@@ -151,10 +159,10 @@ class View(BrowserView):
             log("%s comments could not be migrated." % (count_comments_old - self.total_comments_migrated))
             log("Please make sure your portal catalog is up-to-date.")
         
-        if self.request.has_key("dry_run"):
+        if dry_run and not test:
             transaction.abort()
             log("Dry run")
             log("Abort transaction")
-        
-        transaction.commit()        
+        if not test:
+            transaction.commit()        
         return '\n'.join(out)

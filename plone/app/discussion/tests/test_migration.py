@@ -29,6 +29,7 @@ class MigrationTest(PloneTestCase):
         self.workflow.doActionFor(self.portal.doc, 'publish')
 
         request = self.app.REQUEST
+        request.set("test", True)
         context = getattr(self.portal, 'doc')
         self.view = View(context, request)
         self.workflow.setChainForPortalTypes(('Discussion Item',), 'comment_review_workflow')
