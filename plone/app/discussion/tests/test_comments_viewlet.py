@@ -61,7 +61,7 @@ class TestCommentsViewlet(PloneTestCase):
         # Test if discussion has been enabled
         self.failUnless(self.viewlet.is_discussion_allowed())
     
-    def test_has_replies(self, workflow_actions=False):
+    def test_has_replies(self):
         self.failIf(self.viewlet.has_replies())
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
@@ -70,7 +70,7 @@ class TestCommentsViewlet(PloneTestCase):
         conversation.addComment(comment)
         self.failUnless(self.viewlet.has_replies())
     
-    def test_get_replies(self, workflow_actions=False):
+    def test_get_replies(self):
         self.failIf(self.viewlet.get_replies())
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
@@ -80,6 +80,26 @@ class TestCommentsViewlet(PloneTestCase):
         conversation.addComment(comment)
         self.assertEquals(sum(1 for w in self.viewlet.get_replies()), 2)
 
+    def test_get_replies_with_workflow_actions(self):
+        self.failIf(self.viewlet.get_replies(workflow_actions=True))
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+        conversation = IConversation(self.portal.doc1)
+        c1 = conversation.addComment(comment)
+        self.assertEquals(sum(1 for w in self.viewlet.get_replies(workflow_actions=True)), 1)
+        # Enable moderation workflow
+        self.portal.portal_workflow.setChainForPortalTypes(('Discussion Item',),
+                                                           ('simple_publication_workflow,'))
+        # Check if workflow actions are available
+        reply = self.viewlet.get_replies(workflow_actions=True).next()
+        self.failUnless(reply.has_key('actions'))
+        self.assertEquals(reply['actions'][0]['id'],
+                          'publish')
+        self.assertEquals(reply['actions'][0]['url'],
+                          'http://nohost/plone/doc1/++conversation++default/%s' % int(c1) +
+                          '/content_status_modify?workflow_action=publish') 
+                
     def test_get_commenter_home_url(self):
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
@@ -89,7 +109,10 @@ class TestCommentsViewlet(PloneTestCase):
         m = portal_membership.getAuthenticatedMember()
         self.assertEquals(self.viewlet.get_commenter_home_url(m.getUserName()),
                           'http://nohost/plone/author/portal_owner')
-    
+
+    def test_get_commenter_home_url_is_none(self):
+        self.failIf(self.viewlet.get_commenter_home_url())
+            
     def test_get_commenter_portrait(self):
 
         # Add a user with a member image
@@ -112,8 +135,13 @@ class TestCommentsViewlet(PloneTestCase):
         portrait_url = self.viewlet.get_commenter_portrait('jim')
 
         # Check if the correct member image URL is returned
-        self.assertEquals(portrait_url, 'http://nohost/plone/portal_memberdata/portraits/jim')
+        self.assertEquals(portrait_url, 
+                          'http://nohost/plone/portal_memberdata/portraits/jim')
 
+    def test_get_commenter_portrait_is_none(self):
+        self.assertEquals(self.viewlet.get_commenter_portrait(), 
+                          'defaultUser.gif')
+        
     def test_get_commenter_portrait_without_userimage(self):
 
         # Create a user without a user image

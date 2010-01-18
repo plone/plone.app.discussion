@@ -293,13 +293,13 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
             else:
                 return published_replies()
 
-    def get_commenter_home_url(self, username):
+    def get_commenter_home_url(self, username=None):
         if username is None:
             return None
         else:
             return "%s/author/%s" % (self.context.portal_url(), username)
 
-    def get_commenter_portrait(self, username):
+    def get_commenter_portrait(self, username=None):
 
         if username is None:
             # return the default user image if no username is given
