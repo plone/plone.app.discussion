@@ -39,26 +39,56 @@ class TestCommentsViewlet(PloneTestCase):
         self.viewlet = CommentsViewlet(context, request, None, None)
             
     def test_can_reply(self):
+        # Portal owner can reply
         self.failUnless(self.viewlet.can_reply())
+        self.logout()
+        # Anonymous users can not reply
+        self.failIf(self.viewlet.can_reply())
 
     def test_can_manage(self):
+        # Portal owner has manage rights
         self.failUnless(self.viewlet.can_manage())
+        self.logout()
+        # Anonymous has no manage rights
+        self.failIf(self.viewlet.can_manage())
     
     def test_is_discussion_allowed(self):
-        #self.failUnless(self.viewlet.is_discussion_allowed())
-        pass
+        # By default, discussion is disabled
+        self.failIf(self.viewlet.is_discussion_allowed())
+        # Enable discussion
+        portal_discussion = getToolByName(self.portal, 'portal_discussion')
+        portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
+        # Test if discussion has been enabled
+        self.failUnless(self.viewlet.is_discussion_allowed())
     
     def test_has_replies(self, workflow_actions=False):
-        #self.failUnless(self.viewlet.has_replies())
-        pass
+        self.failIf(self.viewlet.has_replies())
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+        conversation = IConversation(self.portal.doc1)
+        conversation.addComment(comment)
+        self.failUnless(self.viewlet.has_replies())
     
     def test_get_replies(self, workflow_actions=False):
-        #self.failUnless(self.viewlet.get_replies())
-        pass
-    
+        self.failIf(self.viewlet.get_replies())
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+        conversation = IConversation(self.portal.doc1)
+        conversation.addComment(comment)
+        conversation.addComment(comment)
+        self.assertEquals(sum(1 for w in self.viewlet.get_replies()), 2)
+
     def test_get_commenter_home_url(self):
-        #self.failUnless(self.viewlet.get_commenter_home_url())
-        pass
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+        conversation = IConversation(self.portal.doc1)
+        portal_membership = getToolByName(self.portal, 'portal_membership')
+        m = portal_membership.getAuthenticatedMember()
+        self.assertEquals(self.viewlet.get_commenter_home_url(m.getUserName()),
+                          'http://nohost/plone/author/portal_owner')
     
     def test_get_commenter_portrait(self):
 
@@ -117,13 +147,21 @@ class TestCommentsViewlet(PloneTestCase):
     
     def test_show_commenter_image(self):
         self.failUnless(self.viewlet.show_commenter_image())
-
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        registry['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image'] = False        
+        self.failIf(self.viewlet.show_commenter_image())
+        
     def test_is_anonymous(self):
-        pass
+        self.failIf(self.viewlet.is_anonymous())
+        self.logout()
+        self.failUnless(self.viewlet.is_anonymous())
 
     def test_login_action(self):
-        pass
-        
+        self.viewlet.update()
+        self.assertEquals(self.viewlet.login_action(),
+                          'http://nohost/plone/login_form?came_from=http%3A//nohost') 
+   
     def test_format_time(self):
         python_time = datetime(2009, 02, 01, 23, 32, 03, 57)
         localized_time = self.viewlet.format_time(python_time)

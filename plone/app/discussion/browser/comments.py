@@ -321,7 +321,7 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
         return settings.show_commenter_image
 
     def is_anonymous(self):
-        return self.portal_state.anonymous()
+        return self.portal_membership.isAnonymousUser()
 
     def login_action(self):
         return '%s/login_form?came_from=%s' % (self.navigation_root_url, url_quote(self.request.get('URL', '')),)
