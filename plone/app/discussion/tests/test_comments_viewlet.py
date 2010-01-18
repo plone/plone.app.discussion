@@ -78,7 +78,12 @@ class TestCommentsViewlet(PloneTestCase):
         conversation = IConversation(self.portal.doc1)
         conversation.addComment(comment)
         conversation.addComment(comment)
-        self.assertEquals(sum(1 for w in self.viewlet.get_replies()), 2)
+        replies = self.viewlet.get_replies()
+        self.assertEquals(sum(1 for w in replies), 2)
+        replies = self.viewlet.get_replies()
+        replies.next()
+        replies.next()
+        self.assertRaises(StopIteration, replies.next)
 
     def test_get_replies_with_workflow_actions(self):
         self.failIf(self.viewlet.get_replies(workflow_actions=True))
