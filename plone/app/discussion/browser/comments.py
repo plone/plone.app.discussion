@@ -41,17 +41,6 @@ from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
 
 
-class AutoResizeTextArea(TextAreaWidget):
-    """Textarea with autoresize CSS class.
-    """
-    klass = u'autoresize'
-
-def AutoResizeTextAreaFieldWidget(field, request):
-    """IFieldWidget factory for AutoResizeTextAreaWidget.
-    """
-    return widget.FieldWidget(field, AutoResizeTextArea(request))
-
-
 class CommentButtonAction(button.ButtonAction):
     """Comment button with Plone CSS style.
     """
@@ -89,12 +78,12 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                          'creation_date',
                                          'modification_date',
                                          'author_username')
-    fields['text'].widgetFactory = AutoResizeTextAreaFieldWidget
 
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
         portal_membership = getToolByName(self.context, 'portal_membership')
+        self.widgets['text'].addClass("autoresize")
         if not portal_membership.isAnonymousUser():
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
@@ -241,12 +230,9 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
     def has_replies(self, workflow_actions=False):
         """Returns true if there are replies.
         """
-        try:
-            if self.get_replies(workflow_actions):
-                self.get_replies(workflow_actions).next()
-                return True
-        except StopIteration:
-            return None
+        if self.get_replies(workflow_actions):
+            self.get_replies(workflow_actions).next()
+            return True
 
     def get_replies(self, workflow_actions=False):
         """Returns all replies to a content object.
