@@ -83,7 +83,7 @@
         name="view"
         for="plone.app.discussion.interfaces.IComment"
         layer="..interfaces.IDiscussionLayer"
-        class=".comments.View"
+        class=".comment.View"
         permission="zope2.View"
         />
 

@@ -41,20 +41,6 @@ from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
 
 
-class View(BrowserView):
-    """Comment View.
-
-    Redirect from /path/to/object/++conversation++default/123456789
-    to /path/to/object#comment-123456789.
-    """
-
-    def __call__(self):
-        comment_id = aq_parent(self).id
-        self.request.response.redirect(
-            aq_parent(aq_parent(aq_parent(self))).absolute_url() +
-            '#' + str(comment_id))
-
-
 class AutoResizeTextArea(TextAreaWidget):
     """Textarea with autoresize CSS class.
     """
@@ -217,6 +203,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # This method should never be called, it's only there to show
         # a cancel button that is handled by a jQuery method.
         pass
+
 
 class CommentsViewlet(ViewletBase, layout.FormWrapper):
 
