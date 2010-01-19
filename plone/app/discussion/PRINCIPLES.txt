@@ -57,21 +57,3 @@ plone.app.discussion.
   Discussion items send events
     The usual zope.lifecycleevent and zope.container events should be
     fired when discussion items are added, removed, or modified.
-
-Outstanding questions
----------------------
-
-  * Should comments use the 'talkback' URL structure currently used in CMF,
-    or a ++comments++ namespace?
-
-  * Should discussion items be stored in one container, maintaining parent
-    pointers as references or attributes, or in a nested structure?
-
-    - it may be possible to use the navtree algorithm to turn a search of
-      comments into a nested structure
-
-  * How can we ensure that discussion items are not removed from the catalog
-    when the user initiates a "clear and rebuild"?
-
-  * Can we find a way to avoid having to explicitly migrate all existing
-    comments?
