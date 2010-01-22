@@ -1,12 +1,14 @@
 Changelog
 =========
 
-1.0b2 (2010-01-03)
+1.0b2 (2010-01-22)
 ------------------
 
 * Bugfix for #2010181: The name of a commenter who commented while not logged in should not appear as a link.
 * Bugfix for #2010078: Comments that await moderation are visually distinguished from published comments.
 * Bugfix for #2010085: Use object_provides instead of portal_type to query the catalog for comment.
+* Bugfix for #2010071: p.a.d. works with plone.z3cform 0.5.7 and plone.app.z3cform 0.4.9 now.
+* Bugfix for #1513398: Show "anonymous" when name field is empty in comment form.
 * Migration view: Dry run option added, abort transaction when something goes wrong during migration, be more verbose about errors.
 
 
