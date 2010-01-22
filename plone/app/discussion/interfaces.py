@@ -198,6 +198,10 @@ class ICommentingTool(Interface):
         """Perform a search over all indexed comments.
         """
 
-class IDiscussionLayer(Interface):
+#class IDiscussionLayer(Interface):
+# XXX: This is only temporarily. IDefaultPloneLayer can be removed again as soon
+# as Plone 4.0b1 with plone.theme 2.0b1 is out. [davisagli]
+from plone.theme.interfaces import IDefaultPloneLayer
+class IDiscussionLayer(IDefaultPloneLayer):
     """Request marker installed via browserlayer.xml.
     """

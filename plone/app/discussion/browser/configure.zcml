@@ -55,7 +55,7 @@
 
     <!-- Comments viewlet -->
     <browser:viewlet
-        name="plone.app.discussion.comments"
+        name="plone.comments"
         for="Products.CMFCore.interfaces.IContentish"
         layer="..interfaces.IDiscussionLayer"
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
