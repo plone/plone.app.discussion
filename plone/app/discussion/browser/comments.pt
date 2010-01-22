@@ -74,7 +74,7 @@
                                   tal:replace="reply/Creator" />
                         </tal:name>
                         <tal:name i18n:translate="label_anonymous_user"
-                                  condition="python:reply.Creator() in ('Anonymous User', '')">Anonymous User</tal:name>
+                                  condition="python:reply.Creator() in ('Anonymous User', '', None)">Anonymous User</tal:name>
                         <tal:at i18n:translate="label_commented_at">at</tal:at>
                     <span tal:replace="python:view.format_time(reply.modification_date)">8/23/2001 12:40:44 PM</span>
                 </div>
