@@ -10,7 +10,7 @@
     <include file="permissions.zcml" />
     <include package=".browser" />
 
-    <i18n:registerTranslations directory="locales" />
+    <!--<i18n:registerTranslations directory="locales" />-->
   
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
