@@ -16,13 +16,85 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.FSImage import FSImage
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.tests import dummy
+from Products.Five.testbrowser import Browser
 from Products.PloneTestCase.ptc import PloneTestCase
+from Products.PloneTestCase.ptc import FunctionalTestCase
+
 
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
 from plone.app.discussion.tests.layer import DiscussionLayer
 
 
+class TestCommentForm(PloneTestCase):
+
+    layer = DiscussionLayer
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        typetool = self.portal.portal_types
+        typetool.constructContent('Document', self.portal, 'doc1')
+        self.portal_discussion = getToolByName(self.portal, 'portal_discussion', None)
+        self.membership_tool = getToolByName(self.folder, 'portal_membership')
+        self.memberdata = self.portal.portal_memberdata
+        request = self.app.REQUEST
+        context = getattr(self.portal, 'doc1')
+        self.viewlet = CommentsViewlet(context, request, None, None)
+
+        from z3c.form.testing import TestRequest
+        request = TestRequest(form={
+                                    'form.widgets.title': u'bar',
+                                    'form.widgets.text': u'foo',}
+        )
+        #from plone.app.discussion.browser.comments import CommentForm
+        #cf = CommentForm(self.portal, request)
+        # Zope publisher uses Python list to mark <select> values
+        #self.portal.REQUEST["form.widgets.title"] = u"foo"
+        #self.portal.REQUEST["form.widgets.title"] = u"Search"
+        #view = self.portal.doc1.restrictedTraverse("@@view")
+        # Call update() for form
+        #view.process_form()
+        #self.viewlet.form.handleComment()
+        #print self.viewlet.form.render()
+        
+        # Always check form errors after update()
+        #errors = view.errors
+        #self.assertEqual(len(errors), 0, "Got errors:" + str(errors))
+
+
+class TestCommentsViewletIntegration(FunctionalTestCase):
+
+    layer = DiscussionLayer
+
+    def testCommentsViewlet(self):
+        browser = Browser()
+        portal_url = self.portal.absolute_url()
+        browser.handleErrors = False
+
+        from Products.PloneTestCase.setup import portal_owner, default_password
+
+        browser.open(portal_url + '/login_form')
+        browser.getControl(name='__ac_name').value = portal_owner
+        browser.getControl(name='__ac_password').value = default_password
+        browser.getControl(name='submit').click()
+
+        browser.open(portal_url)
+        browser.getLink(id='document').click()
+        browser.getControl(name='title').value = "Doc1"
+        browser.getControl(name='allowDiscussion:boolean').value = True
+        browser.getControl(name='form.button.save').click()        
+
+        doc1 = self.portal['doc1']
+        doc1_url = doc1.absolute_url()        
+        browser.open(doc1_url)
+        # Do not show the old comment viewlet
+        self.failIf('discussion_reply_form' in browser.contents)
+        # Show the new comment viewlet
+        self.failUnless('formfield-form-widgets-in_reply_to' in browser.contents)
+        self.failUnless('formfield-form-widgets-title' in browser.contents)
+        self.failUnless('formfield-form-widgets-text' in browser.contents)
+
+    
 class TestCommentsViewlet(PloneTestCase):
 
     layer = DiscussionLayer
@@ -37,7 +109,7 @@ class TestCommentsViewlet(PloneTestCase):
         request = self.app.REQUEST
         context = getattr(self.portal, 'doc1')
         self.viewlet = CommentsViewlet(context, request, None, None)
-            
+
     def test_can_reply(self):
         # Portal owner can reply
         self.failUnless(self.viewlet.can_reply())
@@ -69,7 +141,7 @@ class TestCommentsViewlet(PloneTestCase):
         conversation = IConversation(self.portal.doc1)
         conversation.addComment(comment)
         self.failUnless(self.viewlet.has_replies())
-    
+
     def test_get_replies(self):
         self.failIf(self.viewlet.get_replies())
         comment = createObject('plone.Comment')
