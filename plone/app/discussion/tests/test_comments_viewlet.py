@@ -134,13 +134,13 @@ class TestCommentsViewlet(PloneTestCase):
         self.failUnless(self.viewlet.is_discussion_allowed())
     
     def test_has_replies(self):
-        self.failIf(self.viewlet.has_replies())
+        self.assertEquals(self.viewlet.has_replies(), False)
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         conversation.addComment(comment)
-        self.failUnless(self.viewlet.has_replies())
+        self.assertEquals(self.viewlet.has_replies(), True)
 
     def test_get_replies(self):
         self.failIf(self.viewlet.get_replies())

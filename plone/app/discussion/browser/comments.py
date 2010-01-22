@@ -218,8 +218,12 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
         """Returns true if there are replies.
         """
         if self.get_replies(workflow_actions):
-            self.get_replies(workflow_actions).next()
-            return True
+            try:
+                self.get_replies(workflow_actions).next()
+                return True
+            except StopIteration:
+                pass
+        return False
 
     def get_replies(self, workflow_actions=False):
         """Returns all replies to a content object.
