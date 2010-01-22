@@ -42,6 +42,7 @@ class ModerationViewTest(PloneTestCase):
         request = self.app.REQUEST
         context = getattr(self.portal, 'doc1')
         self.view = View(context, request)
+        self.view.__of__(context)
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',), 'comment_review_workflow')
         self.wf_tool = self.portal.portal_workflow

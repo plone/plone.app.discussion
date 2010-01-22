@@ -2,6 +2,7 @@ from Acquisition import aq_inner, aq_parent
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
@@ -10,6 +11,23 @@ from Products.CMFPlone import PloneMessageFactory as _
 from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.app.discussion.interfaces import IComment
+
+# Begin ugly hack. It works around a ContentProviderLookupError: plone.htmlhead error caused by Zope 2 permissions.
+# This error occured on Plone 3.3.x only!
+#
+# Source: http://athenageek.wordpress.com/2008/01/08/contentproviderlookuperror-plonehtmlhead/
+# Bug report: https://bugs.launchpad.net/zope2/+bug/176566
+#
+
+def _getContext(self):
+    self = self.aq_parent
+    while getattr(self, '_is_wrapperish', None):
+        self = self.aq_parent
+    return self    
+            
+ZopeTwoPageTemplateFile._getContext = _getContext
+# End ugly hack.
+
 
 class View(BrowserView):
     """Moderation View
