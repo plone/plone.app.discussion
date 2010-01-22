@@ -18,8 +18,8 @@ class IDiscussionSettings(Interface):
     # - Search control panel: Show comments in search results
 
     globally_enabled = schema.Bool(title=_(u"Globally enable comments"),
-                                   description=_(u"""If selected, user can post
-                                                     comments."""),
+                                   description=_(u"""If selected, users are able to
+                                                     post comments on the site."""),
                                    required=False,
                                    default=True)
 
