@@ -552,7 +552,7 @@ class ConversationTest(PloneTestCase):
         # check if the latest comment has been updated
         # the latest comment should be exactly four days old
         self.assert_(conversation.last_comment_date < datetime.now() - timedelta(days=3, hours=23, minutes=59, seconds=59))
-        self.assert_(conversation.last_comment_date > datetime.now() - timedelta(days=4, seconds=1))
+        self.assert_(conversation.last_comment_date > datetime.now() - timedelta(days=4, seconds=2))
 
     def test_get_comments_full(self):
         pass
