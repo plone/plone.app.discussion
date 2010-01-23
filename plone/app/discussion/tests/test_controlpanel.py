@@ -16,9 +16,16 @@ class RegistryTest(PloneTestCase):
     layer = DiscussionLayer
 
     def afterSetUp(self):
+        self.loginAsPortalOwner()
         # Set up the registry
         self.registry = Registry()
         self.registry.registerInterface(IDiscussionSettings)
+
+    def test_discussion_controlpanel_view(self):
+        view = getMultiAdapter((self.portal, self.portal.REQUEST), 
+                               name="discussion-settings")
+        view = view.__of__(self.portal)
+        self.failUnless(view())
 
     def test_discussion_in_controlpanel(self):
         # Check if discussion is in the control panel
