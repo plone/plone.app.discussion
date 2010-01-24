@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-01-24 12:55+0000\n"
+"POT-Creation-Date: 2010-01-24 13:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,6 @@ msgstr ""
 msgid "Captcha"
 msgstr ""
 
-#: ./browser/comments.py:85
 #: ./interfaces.py:178
 #: ./profiles/default/types/Discussion_Item.xml
 msgid "Comment"
@@ -217,6 +216,11 @@ msgstr ""
 
 #: ./browser/comments.py:170
 msgid "Your comment awaits moderator approval."
+msgstr ""
+
+#. Default: "Comment"
+#: ./browser/comments.py:85
+msgid "add_comment_button"
 msgstr ""
 
 #. Default: "Delete"

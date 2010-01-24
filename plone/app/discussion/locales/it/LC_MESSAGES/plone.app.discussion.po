@@ -2,18 +2,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-01-24 12:55+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"POT-Creation-Date: 2010-01-24 13:53+0000\n"
+"PO-Revision-Date: 2010-01-24 14:59+0000\n"
 "Last-Translator: Luca Fabbri <luca.fabbri@redturtle.net>\n"
 "Language-Team: RedTurtle Technology <sviluppoplone@redturtle.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
+"Language-Code: it\n"
+"Language-Name: Italian\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: DOMAIN\n"
+"Domain: plone.app.discussion\n"
 
 #: ./interfaces.py:165
 msgid "A comment id unique to this conversation"
@@ -43,7 +43,6 @@ msgstr "Annulla"
 msgid "Captcha"
 msgstr ""
 
-#: ./browser/comments.py:85
 #: ./interfaces.py:178
 #: ./profiles/default/types/Discussion_Item.xml
 msgid "Comment"
@@ -217,6 +216,11 @@ msgstr ""
 msgid "Your comment awaits moderator approval."
 msgstr "Il tuo commento è in attesa di approvazione"
 
+#. Default: "Comment"
+#: ./browser/comments.py:85
+msgid "add_comment_button"
+msgstr "Commenta"
+
 #. Default: "Delete"
 #: ./browser/moderation.pt:52
 msgid "bulkactions_delete"
@@ -319,3 +323,4 @@ msgstr "Azioni in blocco"
 #: ./browser/moderation.pt:21
 msgid "title_review"
 msgstr "Moderazione dei commenti"
+
