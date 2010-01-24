@@ -59,7 +59,7 @@
                                          alt reply/Creator" />
                 </div>
 
-                <h3 tal:content="reply/Title">Comment title</h3>
+                <h3 tal:content="reply/Title" />
 
                 <div class="documentByLine">
                         <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
@@ -80,9 +80,7 @@
                 </div>
 
                 <div class="commentBody"
-                     tal:content="reply/getText">
-                     This is the body text of the comment.
-                </div>
+                     tal:content="reply/getText" />
 
                 <div class="commentActions">
                     <button class="context reply-to-comment-button hide allowMultiSubmit"
