@@ -17,36 +17,41 @@ class IDiscussionSettings(Interface):
     # - Types control panel: Allow comments on content types
     # - Search control panel: Show comments in search results
 
-    globally_enabled = schema.Bool(title=_(u"Globally enable comments"),
-                                   description=_(u"""If selected, users are able to
-                                                     post comments on the site."""),
+    globally_enabled = schema.Bool(title=_(u"label_globally_enabled",
+                                           default=u"Globally enable comments"),
+                                   description=_(u"help_globally_enabled",
+                                                 default=u"If selected, users are able to "
+                                                          "post comments on the site."),
                                    required=False,
                                    default=True)
 
     anonymous_comments = schema.Bool(title=_(u"Enable anonymous comments"),
-                                     description=_(u"""If selected, anonymous users are
-                                                       able to post comments without
-                                                       logging in. It is highly 
-                                                       recommended to use a captcha 
-                                                       solution to prevent spam if
-                                                       this setting is enabled."""),
+                                     description=_(u"help_anonymous_comments",
+                                                   default=u"If selected, anonymous users are "
+                                                            "able to post comments without "
+                                                            "logging in. It is highly " 
+                                                            "recommended to use a captcha "
+                                                            "solution to prevent spam if "
+                                                            "this setting is enabled."),
                                      required=False,
                                      default=False)
 
     captcha = schema.Choice(title=_(u"Captcha"),
-                            description=_(u"""Use this setting to enable or disable 
-                                              captcha validation for comments. If no
-                                              captcha options are currently available,
-                                              install plone.formwidget.captcha or 
-                                              plone.formwidget.recaptcha."""),
+                            description=_(u"help_captcha",
+                                          default=u"Use this setting to enable or disable " 
+                                                   "captcha validation for comments. If no "
+                                                   "captcha options are currently available, "
+                                                   "install plone.formwidget.captcha or " 
+                                                   "plone.formwidget.recaptcha."),
                             required=True,
                             default='disabled',
                             vocabulary='plone.app.discussion.vocabularies.CaptchaVocabulary',)
 
     show_commenter_image = schema.Bool(title=_(u"Show commenter image"),
-                                       description=_(u"""If selected, an image of the
-                                                         user is shown next to the
-                                                         comment."""),
+                                       description=_(u"help_show_commenter_image",
+                                                     default=u"If selected, an image of the "
+                                                              "user is shown next to the "
+                                                              "comment."),
                                        required=False,
                                        default=True)
 
