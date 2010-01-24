@@ -87,7 +87,7 @@
                 <div class="commentActions">
                     <button class="context reply-to-comment-button hide allowMultiSubmit"
                             tal:condition="python:userHasReplyPermission and isDiscussionAllowed or isAnonymousDiscussionAllowed"
-                            i18n:translate="label_reply;">
+                            i18n:translate="label_reply">
                         Reply
                     </button>
 
@@ -118,6 +118,7 @@
                                class="context"
                                type="submit"
                                tal:attributes="value action/title"
+                               i18n:attributes="value"
                                />
                     </form>
 

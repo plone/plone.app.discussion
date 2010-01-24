@@ -25,7 +25,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.CMFPlone import PloneMessageFactory as _
+from plone.app.discussion.interfaces import _
 from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.registry.interfaces import IRegistry
@@ -82,7 +82,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # integrators or later use.
         self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
-    @button.buttonAndHandler(_(u"Comment"))
+    @button.buttonAndHandler(_(u"add_comment_button",default=u"Comment"), name='comment')
     def handleComment(self, action):
         context = aq_inner(self.context)
         wf = getToolByName(context, 'portal_workflow')

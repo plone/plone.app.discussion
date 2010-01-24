@@ -3,6 +3,8 @@ from zope import component
 import zope.schema.interfaces
 import zope.schema.vocabulary
 
+from plone.app.discussion.interfaces import _ 
+
 HAS_CAPTCHA=False
 try:
      import plone.formwidget.captcha
@@ -25,7 +27,7 @@ def captcha_vocabulary(context):
         zope.schema.vocabulary.SimpleTerm(
             value='disabled',
             token='disabled',
-            title='Disabled'))
+            title=_(u'Disabled')))
 
     if HAS_CAPTCHA:
         terms.append(
