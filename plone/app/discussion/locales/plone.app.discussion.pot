@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-01-24 11:15+0000\n"
+"POT-Creation-Date: 2010-01-24 12:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,10 @@ msgstr ""
 
 #: ./browser/comments.py:59
 msgid "Add a comment"
+msgstr ""
+
+#: ./browser/controlpanel.py:36
+msgid "Anonymous Comments"
 msgstr ""
 
 #: ./interfaces.py:180
@@ -67,6 +71,10 @@ msgstr ""
 msgid "Commentators"
 msgstr ""
 
+#: ./browser/controlpanel.py:37
+msgid "Commenter Image"
+msgstr ""
+
 #: ./profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr ""
@@ -83,6 +91,10 @@ msgstr ""
 msgid "Date of the most recent comment"
 msgstr ""
 
+#: ./vocabularies.py:30
+msgid "Disabled"
+msgstr ""
+
 #: ./profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr ""
@@ -93,6 +105,10 @@ msgstr ""
 
 #: ./interfaces.py:173
 msgid "Email"
+msgstr ""
+
+#: ./browser/controlpanel.py:35
+msgid "Enable Comments"
 msgstr ""
 
 #: ./interfaces.py:28
@@ -153,20 +169,6 @@ msgstr ""
 
 #: ./interfaces.py:50
 msgid "Show commenter image"
-msgstr ""
-
-#: ./browser/controlpanel.py:17
-msgid "Some discussion related settings are not located
-                        in the Discussion Control Panel.
-
-                        To enable comments for a specific content type, 
-                        go to the Types Control Panel of this type and
-                        choose 'enable moderation'.
-
-                        To enable the moderation workflow for comments, 
-                        go to the Types Control Panel, choose "Comment"
-                        and set workflow to "Comment Review Workflow".
-                        "
 msgstr ""
 
 #: ./interfaces.py:175
@@ -265,6 +267,11 @@ msgstr ""
 #. Default: "Use this setting to enable or disable captcha validation for comments. If no captcha options are currently available, install plone.formwidget.captcha or plone.formwidget.recaptcha."
 #: ./interfaces.py:40
 msgid "help_captcha"
+msgstr ""
+
+#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'enable moderation'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
+#: ./browser/controlpanel.py:17
+msgid "help_discussion_settings_editform"
 msgstr ""
 
 #. Default: "If selected, users are able to post comments on the site."

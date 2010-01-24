@@ -14,17 +14,15 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
 
     schema = IDiscussionSettings
     label = _(u"Discussion settings")
-    description = _(u"""Some discussion related settings are not located
-                        in the Discussion Control Panel.
-
-                        To enable comments for a specific content type, 
-                        go to the Types Control Panel of this type and
-                        choose 'enable moderation'.
-
-                        To enable the moderation workflow for comments, 
-                        go to the Types Control Panel, choose "Comment"
-                        and set workflow to "Comment Review Workflow".
-                        """)
+    description = _(u"help_discussion_settings_editform",
+                    default=u"Some discussion related settings are not located "
+                             "in the Discussion Control Panel.\n"
+                             "To enable comments for a specific content type, " 
+                             "go to the Types Control Panel of this type and "
+                             "choose 'enable moderation'.\n"
+                             "To enable the moderation workflow for comments, "
+                             "go to the Types Control Panel, choose \"Comment\" "
+                             "and set workflow to \"Comment Review Workflow\".")
 
     def updateFields(self):
         super(DiscussionSettingsEditForm, self).updateFields()
@@ -34,9 +32,9 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
 
     def updateWidgets(self):
         super(DiscussionSettingsEditForm, self).updateWidgets()
-        self.widgets['globally_enabled'].label = u"Enable Comments"
-        self.widgets['anonymous_comments'].label = u"Anonymous Comments"
-        self.widgets['show_commenter_image'].label = u"Commenter Image"
+        self.widgets['globally_enabled'].label = _(u"Enable Comments")
+        self.widgets['anonymous_comments'].label = _(u"Anonymous Comments")
+        self.widgets['show_commenter_image'].label = _(u"Commenter Image")
 
 
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):

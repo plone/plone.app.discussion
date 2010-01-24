@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-01-24 11:15+0000\n"
+"POT-Creation-Date: 2010-01-24 12:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Luca Fabbri <luca.fabbri@redturtle.net>\n"
 "Language-Team: RedTurtle Technology <sviluppoplone@redturtle.net>\n"
@@ -17,23 +17,27 @@ msgstr ""
 
 #: ./interfaces.py:165
 msgid "A comment id unique to this conversation"
-msgstr ""
+msgstr "Un id del commento unico per questa conversazione"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple workflow for comments"
-msgstr ""
+msgstr "Un semplice workflow per i commenti"
 
 #: ./browser/comments.py:59
 msgid "Add a comment"
-msgstr ""
+msgstr "Aggiungi un commento"
+
+#: ./browser/controlpanel.py:36
+msgid "Anonymous Comments"
+msgstr "Commenti da anonimi"
 
 #: ./interfaces.py:180
 msgid "Author name (for display)"
-msgstr ""
+msgstr "Nome autore (da visualizzare)"
 
 #: ./browser/comments.py:177
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: ./interfaces.py:39
 msgid "Captcha"
@@ -43,67 +47,75 @@ msgstr ""
 #: ./interfaces.py:178
 #: ./profiles/default/types/Discussion_Item.xml
 msgid "Comment"
-msgstr ""
+msgstr "Commento"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
-msgstr ""
+msgstr "Workflow Revisione Commento"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment about the last transition"
-msgstr ""
+msgstr "Commento relativo all'ultima transizione"
 
 #: ./browser/moderation.py:87
 msgid "Comment deleted."
-msgstr ""
+msgstr "Commento eliminato."
 
 #: ./browser/moderation.py:109
 msgid "Comment published."
-msgstr ""
-
-#: ./browser/controlpanel.py:17
-msgid "CommentComment Review Workflow"
-msgstr ""
+msgstr "Commento pubblicato."
 
 #: ./profiles/default/portal_atct.xml
 msgid "Commentators"
-msgstr ""
+msgstr "Commentatori"
+
+#: ./browser/controlpanel.py:37
+msgid "Commenter Image"
+msgstr "Immagine commentatore"
 
 #: ./profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
-msgstr ""
+msgstr "Commenti aggiunti ad un contenuto"
 
 #: ./interfaces.py:162
 msgid "Conversation"
-msgstr ""
+msgstr "Conversazione"
 
 #: ./interfaces.py:181
 msgid "Creation date"
-msgstr ""
+msgstr "Data di creazione"
 
 #: ./interfaces.py:80
 msgid "Date of the most recent comment"
-msgstr ""
+msgstr "Data del commento più recente"
+
+#: ./vocabularies.py:30
+msgid "Disabled"
+msgstr "Disabilitato"
 
 #: ./profiles/default/controlpanel.xml
 msgid "Discussion"
-msgstr ""
+msgstr "Discussioni"
 
 #: ./browser/controlpanel.py:16
 msgid "Discussion settings"
-msgstr ""
+msgstr "Impostazioni delle discussioni"
 
 #: ./interfaces.py:173
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
+
+#: ./browser/controlpanel.py:35
+msgid "Enable Comments"
+msgstr "Abilita commenti"
 
 #: ./interfaces.py:28
 msgid "Enable anonymous comments"
-msgstr ""
+msgstr "Abilita commenti da parte di anonimi"
 
 #: ./interfaces.py:166
 msgid "Id of comment this comment is in reply to"
-msgstr ""
+msgstr "Id del commento a cui si risponde"
 
 #: ./interfaces.py:177
 msgid "MIME type"
@@ -115,19 +127,19 @@ msgstr "Moderazione commenti"
 
 #: ./interfaces.py:182
 msgid "Modification date"
-msgstr ""
+msgstr "Data di modifica"
 
 #: ./interfaces.py:163
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
-msgstr ""
+msgstr "Attesa di approvazione"
 
 #: ./interfaces.py:160
 msgid "Portal type"
-msgstr ""
+msgstr "Tipo di contenuto"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Previous transition"
@@ -139,31 +151,31 @@ msgstr ""
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Publish"
-msgstr ""
+msgstr "Pubblica"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
-msgstr ""
+msgstr "Pubblicato"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Publishing the comment makes it visible to other users."
-msgstr ""
+msgstr "Pubblica il commento per renderlo visibile agli utenti."
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer publishes content"
-msgstr ""
+msgstr "Revisiona commenti pubblicati"
 
 #: ./interfaces.py:50
 msgid "Show commenter image"
-msgstr ""
+msgstr "Mostra immagine del commentatore"
 
 #: ./interfaces.py:175
 msgid "Subject"
-msgstr ""
+msgstr "Oggetto"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
-msgstr ""
+msgstr "Inviato, in attesa di revisione"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
@@ -171,27 +183,27 @@ msgstr ""
 
 #: ./browser/validator.py:28
 msgid "The code you entered was wrong, please enter the new one."
-msgstr ""
+msgstr "Il codice immesso è errato, prego forniscine uno nuovo"
 
 #: ./interfaces.py:81
 msgid "The set of unique commentators (usernames)"
-msgstr ""
+msgstr "L'insieme unico dei commentatore (username)"
 
 #: ./profiles/default/portal_atct.xml
 msgid "Total number of comments"
-msgstr ""
+msgstr "Numero totale di commenti"
 
 #: ./interfaces.py:79
 msgid "Total number of comments on this item"
-msgstr ""
+msgstr "Totale dei commenti per questo contenuto"
 
 #: ./profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
-msgstr ""
+msgstr "Totale dei commenti per questo contenuto"
 
 #: ./profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
-msgstr ""
+msgstr "Utenti che hanno commentato il contenuto"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
@@ -203,100 +215,107 @@ msgstr ""
 
 #: ./browser/comments.py:170
 msgid "Your comment awaits moderator approval."
-msgstr ""
+msgstr "Il tuo commento è in attesa di approvazione"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:52
 msgid "bulkactions_delete"
-msgstr ""
+msgstr "Elimina"
 
 #. Default: "Publish"
 #: ./browser/moderation.pt:49
 msgid "bulkactions_publish"
-msgstr ""
+msgstr "Pubblica"
 
 #. Default: "Action"
 #: ./browser/moderation.pt:70
 msgid "heading_action"
-msgstr ""
+msgstr "Azione"
 
 #. Default: "Commenter"
 #: ./browser/moderation.pt:65
 msgid "heading_author"
-msgstr ""
+msgstr "Commentatore"
 
 #. Default: "Comment"
 #: ./browser/moderation.pt:69
 msgid "heading_comment"
-msgstr ""
+msgstr "Commento"
 
 #. Default: "In Response To"
 #: ./browser/moderation.pt:67
 msgid "heading_context"
-msgstr ""
+msgstr "In risposta a"
 
 #. Default: "Date"
 #: ./browser/moderation.pt:66
 msgid "heading_date"
-msgstr ""
+msgstr "Data"
 
 #. Default: "Subject"
 #: ./browser/moderation.pt:68
 msgid "heading_subject"
-msgstr ""
+msgstr "Oggetto"
 
 #. Default: "If selected, anonymous users are able to post comments without logging in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ./interfaces.py:29
 msgid "help_anonymous_comments"
-msgstr ""
+msgstr "Se selezionato, gli utenti anonimi saranno in grado di inserire commenti senza autenticazione. E' altamente consigliato l'uso di captcha to prevenire spam se questa impostazione viene  abilitata"
 
 #. Default: "Use this setting to enable or disable captcha validation for comments. If no captcha options are currently available, install plone.formwidget.captcha or plone.formwidget.recaptcha."
 #: ./interfaces.py:40
 msgid "help_captcha"
+msgstr "Usa questa impostazione per abilitato o disabilitare la validazione tramite captcha. Se nessuna opzione di captcha è disponibile, installa plone.formwidget.captcha o plone.formwidget.recaptcha."
+
+#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'enable moderation'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
+#: ./browser/controlpanel.py:17
+msgid "help_discussion_settings_editform"
 msgstr ""
+"Alcune impostazioni relative ai commenti non sono nel Pannello di Controllo delle Discussioni.\n"
+"Per abilitare i commenti per uni specifico tipo di contenuto, vai alle Impostazioni tipo di contenuto del tipo voluto e scegli 'consenti i commenti'.\n"
+"Per abilitare i workflow di moderazioni dei commenti, vai alle Impostazioni tipo di contenuto, scegli \"Commento\" e imposta il workflow a \"Workflow Revisione Commento\"."
 
 #. Default: "If selected, users are able to post comments on the site."
 #: ./interfaces.py:22
 msgid "help_globally_enabled"
-msgstr ""
+msgstr "Se selezionato, gli utenti saranno in grado di inserire commenti nel sito."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ./interfaces.py:51
 msgid "help_show_commenter_image"
-msgstr ""
+msgstr "Se selezionato, un'immagine dell'utente verrà mostrata a fianco dei commenti."
 
 #. Default: "Apply"
 #: ./browser/moderation.pt:55
 msgid "label_apply"
-msgstr ""
+msgstr "Applica"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:113
 msgid "label_delete"
-msgstr ""
+msgstr "Elimina"
 
 #. Default: "Globally enable comments"
 #: ./interfaces.py:20
 msgid "label_globally_enabled"
-msgstr ""
+msgstr "Abilita globalmente i commenti"
 
 #. Default: "Publish"
 #: ./browser/moderation.pt:104
 msgid "label_publish"
-msgstr ""
+msgstr "Pubblica"
 
 #. Default: "No comments to moderate."
 #: ./browser/moderation.pt:27
 msgid "message_nothing_to_moderate"
-msgstr ""
+msgstr "Non ci sono commenti da moderare"
 
 #. Default: "Bulk Actions"
 #: ./browser/moderation.pt:48
 msgid "title_bulkactions"
-msgstr ""
+msgstr "Azioni in blocco"
 
 #. Default: "Moderate comments"
 #: ./browser/moderation.pt:21
 msgid "title_review"
-msgstr ""
-
+msgstr "Moderazione dei commenti"
