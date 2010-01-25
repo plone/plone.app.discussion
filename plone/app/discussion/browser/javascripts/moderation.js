@@ -82,24 +82,25 @@ jq(document).ready(function() {
         var params = jq(form).serialize();
         var valArray = jq('input:checkbox:checked');
         var selectField = jq(form).find("[name='form.select.BulkAction']");
-        if (valArray.length) {
+        if (selectField.val() == '-1') {
+        	// XXX: translate message
+            alert("You haven't selected a bulk action. Please select one.");
+        } else if (valArray.length == 0) {
+        	// XXX: translate message
+            alert("You haven't selected any comment for this bulk action. Please select at least one comment.");
+        } else {
             jq.post(target, params, function(data) {
                 valArray.each(function () {
-					/* Remove all selected lines. */
+                    /* Remove all selected lines. */
                     var row = jq(this).parent().parent();
                     row.fadeOut("normal", function() {
                        row.remove();
                     });
                 });
             });
-        } else {
-            // The user has submitted a bulk action, but no comment
-            // was selected.
-            // Todo: nicer and translated message
-            alert("You haven't selected anything for this bulk action.");
+            // reset the bulkaction select
+            selectField.find("option[value='-1']").attr( 'selected', 'selected' );
         }
-        // reset the bulkaction select
-        selectField.find("option[value='-1']").attr( 'selected', 'selected' );
     });
 
 });
