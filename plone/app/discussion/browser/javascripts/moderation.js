@@ -103,4 +103,25 @@ jq(document).ready(function() {
         }
     });
 
+    /*****************************************************************
+     * Show full text of a comment.
+     *****************************************************************/
+    jq(".show-full-comment-text").click(function(e) {    
+        e.preventDefault();
+        var target = jq(this).attr("href");
+        var td = jq(this).parent();
+        jq.ajax({
+            type: "GET",
+            url: target,
+            data: "",
+            success: function(data){
+                // show full text
+                td.replaceWith("<td>" + data + "</td>");
+            },
+            error: function(msg){
+                alert("Error getting full comment text:" + target);
+            }
+        });        
+    });
+
 });

@@ -99,7 +99,13 @@
                                        tal:content="item/Title" />
                                 </td>
 
-                                <td tal:content="structure python:view.cook(item.Description)" />
+                                <td>
+                                    <span tal:replace="structure python:view.cook(item.Description)" />
+                                    <a href=""
+                                       tal:attributes="href string:${item/getURL}/getText"
+                                       tal:condition="python:item.Description.endswith('[...]')"
+                                       class="show-full-comment-text">show full comment text</a>
+                                </td>
                                 <td class="actions">
                                     <input id=""
                                            class="context comment-publish-button"
