@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-01-24 19:38+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2010-01-25 10:09+0100\n"
+"Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
+"Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,55 +13,58 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 #: ./interfaces.py:165
 msgid "A comment id unique to this conversation"
-msgstr ""
+msgstr "Eine Kommentar ID, welche für diese Unterhaltung eindeutig ist"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple workflow for comments"
-msgstr ""
+msgstr "Einfacher Arbeitsablauf für Kommentare"
 
 #: ./browser/comments.py:59
 msgid "Add a comment"
-msgstr ""
+msgstr "Kommentar hinzufügen"
 
 #: ./browser/controlpanel.py:36
 msgid "Anonymous Comments"
-msgstr ""
+msgstr "Anonyme Kommentare"
 
 #: ./interfaces.py:180
 msgid "Author name (for display)"
-msgstr ""
+msgstr "Name des Autors (wird angezeigt)"
 
 #: ./browser/comments.py:177
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: ./interfaces.py:39
 msgid "Captcha"
-msgstr ""
+msgstr "Captcha"
 
 #: ./interfaces.py:178
 #: ./profiles/default/types/Discussion_Item.xml
 msgid "Comment"
-msgstr ""
+msgstr "Kommentar"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
-msgstr ""
+msgstr "Moderierter Arbeitsablauf für Kommentare"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment about the last transition"
-msgstr ""
+msgstr "Kommentar zum letzten Zustandsübergang"
 
 #: ./browser/moderation.py:87
 msgid "Comment deleted."
-msgstr ""
+msgstr "Kommentar gelöscht"
 
 #: ./browser/moderation.py:109
 msgid "Comment published."
-msgstr ""
+msgstr "Kommentar veröffentlicht"
 
 #: ./profiles/default/portal_atct.xml
 msgid "Commentators"
@@ -77,71 +80,71 @@ msgstr ""
 
 #: ./interfaces.py:162
 msgid "Conversation"
-msgstr ""
+msgstr "Unterhaltung"
 
 #: ./interfaces.py:181
 msgid "Creation date"
-msgstr ""
+msgstr "Erstellungsdatum"
 
 #: ./interfaces.py:80
 msgid "Date of the most recent comment"
-msgstr ""
+msgstr "Datum des letzten Kommentars"
 
 #: ./vocabularies.py:30
 msgid "Disabled"
-msgstr ""
+msgstr "Deaktiviert"
 
 #: ./profiles/default/controlpanel.xml
 msgid "Discussion"
-msgstr ""
+msgstr "Diskussion"
 
 #: ./browser/controlpanel.py:16
 msgid "Discussion settings"
-msgstr ""
+msgstr "Diskussion Einstellungen"
 
 #: ./interfaces.py:173
 msgid "Email"
-msgstr ""
+msgstr "E-Mail"
 
 #: ./browser/controlpanel.py:35
 msgid "Enable Comments"
-msgstr ""
+msgstr "Kommentare aktivieren"
 
 #: ./interfaces.py:28
 msgid "Enable anonymous comments"
-msgstr ""
+msgstr "Anonyme Kommentare aktivieren"
 
 #: ./interfaces.py:166
 msgid "Id of comment this comment is in reply to"
-msgstr ""
+msgstr "ID des Kommentars auf den geantwortet wird."
 
 #: ./interfaces.py:177
 msgid "MIME type"
-msgstr ""
+msgstr "MIME Typ"
 
 #: ./profiles/default/actions.xml
 msgid "Moderate comments"
-msgstr ""
+msgstr "Kommentare moderieren"
 
 #: ./interfaces.py:182
 msgid "Modification date"
-msgstr ""
+msgstr "Zeitpunkt, an dem der Artikel zuletzt verändert wurde"
 
 #: ./interfaces.py:163
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
-msgstr ""
+msgstr "Zur Redaktion eingereicht"
 
 #: ./interfaces.py:160
 msgid "Portal type"
-msgstr ""
+msgstr "Artikeltyp"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Previous transition"
-msgstr ""
+msgstr "Letzter Übergang"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Provides access to workflow history"
@@ -149,11 +152,11 @@ msgstr ""
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Publish"
-msgstr ""
+msgstr "Veröffentlichen"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
-msgstr ""
+msgstr "Veröffentlicht"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Publishing the comment makes it visible to other users."
@@ -169,19 +172,19 @@ msgstr ""
 
 #: ./interfaces.py:175
 msgid "Subject"
-msgstr ""
+msgstr "Betreff"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
-msgstr ""
+msgstr "Zur Redaktion eingereicht"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
-msgstr ""
+msgstr "Die ID des Benutzers welcher den vorherigen Zustandsübergang durchgeführt hat"
 
 #: ./browser/validator.py:28
 msgid "The code you entered was wrong, please enter the new one."
-msgstr ""
+msgstr "Die eingegebene Zeichenkette war falsch, bitte versuchen sie es erneut."
 
 #: ./interfaces.py:81
 msgid "The set of unique commentators (usernames)"
@@ -189,61 +192,61 @@ msgstr ""
 
 #: ./profiles/default/portal_atct.xml
 msgid "Total number of comments"
-msgstr ""
+msgstr "Gesamtanzahl von Kommentaren"
 
 #: ./interfaces.py:79
 msgid "Total number of comments on this item"
-msgstr ""
+msgstr "Gesamtanzahl von Kommentaren für diesen Artikel"
 
 #: ./profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
-msgstr ""
+msgstr "Gesamtanzahl von Kommentaren für diesen Artikel."
 
 #: ./profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
-msgstr ""
+msgstr "Benutzer die diesen Artikel kommentiert haben"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
-msgstr ""
+msgstr "Für alle Benutzer sichtbar, nicht änderbar."
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "When the previous transition was performed"
-msgstr ""
+msgstr "Nachdem der vorherige Übergang durchgeführt wurde."
 
 #: ./browser/comments.py:170
 msgid "Your comment awaits moderator approval."
-msgstr ""
+msgstr "Ihr Kommentar wurde eingereicht und wartet nun auf die Bestätigung des Moderators."
 
 #. Default: "Comment"
 #: ./browser/comments.py:85
 msgid "add_comment_button"
-msgstr ""
+msgstr "Kommentar hinzufügen"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:52
 msgid "bulkactions_delete"
-msgstr ""
+msgstr "Löschen"
 
 #. Default: "Publish"
 #: ./browser/moderation.pt:49
 msgid "bulkactions_publish"
-msgstr ""
+msgstr "Veröffentlichen"
 
 #. Default: "Action"
 #: ./browser/moderation.pt:70
 msgid "heading_action"
-msgstr ""
+msgstr "Aktion"
 
 #. Default: "Commenter"
 #: ./browser/moderation.pt:65
 msgid "heading_author"
-msgstr ""
+msgstr "Autor"
 
 #. Default: "Comment"
 #: ./browser/moderation.pt:69
 msgid "heading_comment"
-msgstr ""
+msgstr "Kommentar"
 
 #. Default: "In Response To"
 #: ./browser/moderation.pt:67
@@ -253,12 +256,12 @@ msgstr ""
 #. Default: "Date"
 #: ./browser/moderation.pt:66
 msgid "heading_date"
-msgstr ""
+msgstr "Datum"
 
 #. Default: "Subject"
 #: ./browser/moderation.pt:68
 msgid "heading_subject"
-msgstr ""
+msgstr "Betreff"
 
 #. Default: "If selected, anonymous users are able to post comments without logging in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ./interfaces.py:29
@@ -288,35 +291,35 @@ msgstr ""
 #. Default: "Apply"
 #: ./browser/moderation.pt:55
 msgid "label_apply"
-msgstr ""
+msgstr "Anwenden"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:113
 msgid "label_delete"
-msgstr ""
+msgstr "Löschen"
 
 #. Default: "Globally enable comments"
 #: ./interfaces.py:20
 msgid "label_globally_enabled"
-msgstr ""
+msgstr "Kommentare aktivieren"
 
 #. Default: "Publish"
 #: ./browser/moderation.pt:104
 msgid "label_publish"
-msgstr ""
+msgstr "Veröffentlichen"
 
 #. Default: "No comments to moderate."
 #: ./browser/moderation.pt:27
 msgid "message_nothing_to_moderate"
-msgstr ""
+msgstr "Es gibt keine Kommentare zu moderieren."
 
 #. Default: "Bulk Actions"
 #: ./browser/moderation.pt:48
 msgid "title_bulkactions"
-msgstr ""
+msgstr "Sammelbearbeitung"
 
 #. Default: "Moderate comments"
 #: ./browser/moderation.pt:21
 msgid "title_review"
-msgstr ""
+msgstr "Moderieren"
 
