@@ -4,8 +4,11 @@ Changelog
 1.0b3 (XXXX-XX-XX)
 ------------------
 
-* Bugfix for #2281226: Moderation View: Comments disappear when hitting the 'Apply' button without choosing a bulk action.
-* Allow to show the full text of a comment in the moderation view.
+* Bugfix for #2281226: Moderation View: Comments disappear when hitting the 'Apply' button without choosing a bulk action. [timo]
+* Allow to show the full text of a comment in the moderation view. [timo]
+* German translation added. [timo]
+* Italian translation added. [keul]
+
 
 1.0b2 (2010-01-22)
 ------------------
