@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-01-24 19:38+0000\n"
-"PO-Revision-Date: 2010-01-25 10:09+0100\n"
+"PO-Revision-Date: 2010-01-26 10:26+0100\n"
 "Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
 "Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -68,15 +68,15 @@ msgstr "Kommentar veröffentlicht"
 
 #: ./profiles/default/portal_atct.xml
 msgid "Commentators"
-msgstr ""
+msgstr "Benutzer die Kommentare abgegeben haben"
 
 #: ./browser/controlpanel.py:37
 msgid "Commenter Image"
-msgstr ""
+msgstr "Benutzer-Bild"
 
 #: ./profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
-msgstr ""
+msgstr "Kommentare wurden zu einem Artikel hinzugefügt."
 
 #: ./interfaces.py:162
 msgid "Conversation"
@@ -100,7 +100,7 @@ msgstr "Diskussion"
 
 #: ./browser/controlpanel.py:16
 msgid "Discussion settings"
-msgstr "Diskussion Einstellungen"
+msgstr "Diskussionseinstellungen"
 
 #: ./interfaces.py:173
 msgid "Email"
@@ -148,7 +148,7 @@ msgstr "Letzter Übergang"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Provides access to workflow history"
-msgstr ""
+msgstr "Erlaubt Zugang zur Historie des Arbeitsablaufs"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Publish"
@@ -160,15 +160,15 @@ msgstr "Veröffentlicht"
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Publishing the comment makes it visible to other users."
-msgstr ""
+msgstr "Veröffentlichung des Kommentars macht ihn sichtbar für andere Benutzer."
 
 #: ./profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer publishes content"
-msgstr ""
+msgstr "Reviewer veröffentlicht Inhalte"
 
 #: ./interfaces.py:50
 msgid "Show commenter image"
-msgstr ""
+msgstr "Bild des Benutzers anzeigen"
 
 #: ./interfaces.py:175
 msgid "Subject"
@@ -188,7 +188,7 @@ msgstr "Die eingegebene Zeichenkette war falsch, bitte versuchen sie es erneut."
 
 #: ./interfaces.py:81
 msgid "The set of unique commentators (usernames)"
-msgstr ""
+msgstr "Liste von Benutzern die Kommentare abgegeben haben"
 
 #: ./profiles/default/portal_atct.xml
 msgid "Total number of comments"
@@ -251,7 +251,7 @@ msgstr "Kommentar"
 #. Default: "In Response To"
 #: ./browser/moderation.pt:67
 msgid "heading_context"
-msgstr ""
+msgstr "Antwort auf"
 
 #. Default: "Date"
 #: ./browser/moderation.pt:66
@@ -266,27 +266,27 @@ msgstr "Betreff"
 #. Default: "If selected, anonymous users are able to post comments without logging in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ./interfaces.py:29
 msgid "help_anonymous_comments"
-msgstr ""
+msgstr "Wenn sie diese Einstellung aktivieren, können anonyme Benutzer Kommentare abgeben. Es wird empfohlen, diese Einstellung nur zu aktivieren wenn sie eine Captcha-Lösung aktiviert haben."
 
 #. Default: "Use this setting to enable or disable captcha validation for comments. If no captcha options are currently available, install plone.formwidget.captcha or plone.formwidget.recaptcha."
 #: ./interfaces.py:40
 msgid "help_captcha"
-msgstr ""
+msgstr "Benutzen sie diese Einstellung um Captcha Validierung für Kommentare zu aktivieren. Sollten keine Captcha Optionen angezeigt werden, installieren sie plone.formwidget.captcha oder plone.formwidget.recaptcha."
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'enable moderation'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:17
 msgid "help_discussion_settings_editform"
-msgstr ""
+msgstr "Einige Diskussionseinstellungen müssen an anderen Stellen vorgenommen werden. Um Kommentare für einzelne Artikeltypen zu aktivieren, gehen Sie zu den 'Artikeltypen' Einstellungen in der Webseiten Konfiguration und aktivieren sie die Einstellung 'Kommentieren erlauben'. Um die Moderation von Kommentaren zu aktivieren, gehen sie zu den 'Artikeltypen' Einstellungen in der Webseiten Konfiguration und wählen sie \"Kommentare\". Wählen Sie dort den Arbeitsablauf 'Moderierter Arbeitsablauf für Kommentare'."
 
 #. Default: "If selected, users are able to post comments on the site."
 #: ./interfaces.py:22
 msgid "help_globally_enabled"
-msgstr ""
+msgstr "Wenn sie diese Einstellung aktivieren, können Webseiten-Benutzer Kommentare abgeben."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ./interfaces.py:51
 msgid "help_show_commenter_image"
-msgstr ""
+msgstr "Wenn sie diese Einstellung aktivieren, wird ein Bild des Benutzers neben jedem Kommentar angezeigt."
 
 #. Default: "Apply"
 #: ./browser/moderation.pt:55
