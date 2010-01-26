@@ -41,6 +41,18 @@ from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
 
 
+class CancelButtonAction(button.ButtonAction):
+    """Cancel button with Plone CSS style.
+    """
+
+def cancelButtonActionFactory(request, field):
+    """Cancel button action factory.
+    """
+    button = CancelButtonAction(request, field)
+    button.klass += " standalone hide"
+    return button
+
+
 class CommentButtonAction(button.ButtonAction):
     """Comment button with Plone CSS style.
     """
@@ -76,6 +88,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
         self.buttons['comment'].actionFactory = commentButtonActionFactory
+        self.buttons['cancel'].actionFactory = cancelButtonActionFactory        
 
         # XXX: Since we are not using the author_email field in the
         # current state, we hide it by default. But we keep the field for
