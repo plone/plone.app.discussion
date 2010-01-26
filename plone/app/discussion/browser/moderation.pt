@@ -104,6 +104,7 @@
                                     <a href=""
                                        tal:attributes="href string:${item/getURL}/getText"
                                        tal:condition="python:item.Description.endswith('[...]')"
+                                       i18n:translate="label_show_full_comment_text"                                       
                                        class="show-full-comment-text">show full comment text</a>
                                 </td>
                                 <td class="actions">
