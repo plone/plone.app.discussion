@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <object name="Discussion Item" meta_type="Factory-based Type Information"
-   i18n:domain="plone.app.discussion" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+   i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">Comment</property>
  <property name="description" i18n:translate="">Comments added to a content item.</property>
  <property name="content_icon">discussionitem_icon.gif</property>

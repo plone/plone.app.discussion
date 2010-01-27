@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <atcttool xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-    <topic_indexes i18n:domain="plone.app.discussion">
+    <topic_indexes i18n:domain="plone">
 
         <index name="commentators" friendlyName="Commentators"
             description="Users who have commented on the item"
