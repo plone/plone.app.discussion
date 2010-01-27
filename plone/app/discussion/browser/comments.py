@@ -41,30 +41,6 @@ from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
 
 
-class CancelButtonAction(button.ButtonAction):
-    """Cancel button with Plone CSS style.
-    """
-
-def cancelButtonActionFactory(request, field):
-    """Cancel button action factory.
-    """
-    button = CancelButtonAction(request, field)
-    button.klass += " standalone hide"
-    return button
-
-
-class CommentButtonAction(button.ButtonAction):
-    """Comment button with Plone CSS style.
-    """
-
-def commentButtonActionFactory(request, field):
-    """Comment button action factory.
-    """
-    button = CommentButtonAction(request, field)
-    button.klass += " context"
-    return button
-
-
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True # don't use context to get widget data
@@ -87,14 +63,18 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if not portal_membership.isAnonymousUser():
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
-        self.buttons['comment'].actionFactory = commentButtonActionFactory
-        self.buttons['cancel'].actionFactory = cancelButtonActionFactory        
-
         # XXX: Since we are not using the author_email field in the
         # current state, we hide it by default. But we keep the field for
         # integrators or later use.
         self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
+        
+    def updateActions(self):
+        super(CommentForm, self).updateActions()        
+        self.actions['cancel'].addClass("standalone")
+        self.actions['cancel'].addClass("hide")  
+        self.actions['comment'].addClass("context")  
+        
     @button.buttonAndHandler(_(u"add_comment_button",default=u"Comment"), name='comment')
     def handleComment(self, action):
         context = aq_inner(self.context)
