@@ -28,7 +28,7 @@ jq(document).ready(function() {
         var row = jq(this).parent().parent();
         var form = jq(row).parents("form");
         var path = jq(row).find("input:checkbox").attr("value");
-		var target = path + "/@@moderate-delete-comment";
+        var target = path + "/@@moderate-delete-comment";
         var comment_id = jq(this).attr("id");
         jq.ajax({
             type: "GET",
@@ -39,7 +39,7 @@ jq(document).ready(function() {
                     jq(this).remove();
                 });
             },
-			error: function(msg){
+            error: function(msg){
                 alert("Error sending AJAX request:" + target);
             }
         });
@@ -58,7 +58,7 @@ jq(document).ready(function() {
         jq.ajax({
             type: "GET",
             url: target,
-			data: "workflow_action=publish",
+            data: "workflow_action=publish",
             success: function(msg){
                 // fade out row
                 jq(row).fadeOut("normal", function(){
@@ -83,10 +83,10 @@ jq(document).ready(function() {
         var valArray = jq('input:checkbox:checked');
         var selectField = jq(form).find("[name='form.select.BulkAction']");
         if (selectField.val() == '-1') {
-        	// XXX: translate message
+            // XXX: translate message
             alert("You haven't selected a bulk action. Please select one.");
         } else if (valArray.length == 0) {
-        	// XXX: translate message
+            // XXX: translate message
             alert("You haven't selected any comment for this bulk action. Please select at least one comment.");
         } else {
             jq.post(target, params, function(data) {

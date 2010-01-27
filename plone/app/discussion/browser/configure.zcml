@@ -87,10 +87,10 @@
         permission="zope2.View"
         />
 
-	<!-- Resource directory for javascripts -->
-	<browser:resourceDirectory
-		name="plone.app.discussion.javascripts"
-		directory="javascripts"
+    <!-- Resource directory for javascripts -->
+    <browser:resourceDirectory
+        name="plone.app.discussion.javascripts"
+        directory="javascripts"
         layer="..interfaces.IDiscussionLayer"
         />
 

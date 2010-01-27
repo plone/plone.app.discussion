@@ -5,7 +5,7 @@ jq(document).ready(function() {
      * comment form.
      *****************************************************************/
     jq(".reply").find("input[name='form.buttons.reply']").css("display", "none");
-	jq(".reply").find("input[name='form.buttons.cancel']").css("display", "none");
+    jq(".reply").find("input[name='form.buttons.cancel']").css("display", "none");
 
 
     /*****************************************************************
@@ -14,13 +14,13 @@ jq(document).ready(function() {
      * the comment.
      *****************************************************************/
     var post_comment_div = jq("#commenting");
-	var in_reply_to_field = post_comment_div.find("input[name='form.widgets.in_reply_to']");
-	if (in_reply_to_field.val() != "") {
-		var current_reply_id = "#" + in_reply_to_field.val();
-		var current_reply_to_div = jq(".discussion").find(current_reply_id);
+    var in_reply_to_field = post_comment_div.find("input[name='form.widgets.in_reply_to']");
+    if (in_reply_to_field.val() != "") {
+        var current_reply_id = "#" + in_reply_to_field.val();
+        var current_reply_to_div = jq(".discussion").find(current_reply_id);
         createReplyForm(current_reply_to_div);
-		clearForm(post_comment_div);
-	}
+        clearForm(post_comment_div);
+    }
 
     /*****************************************************************
      * Remove the z3c.form error messages and all input values from a
@@ -28,10 +28,10 @@ jq(document).ready(function() {
      *****************************************************************/
     function clearForm(form_div) {
         form_div.find(".error").removeClass("error");
-		form_div.find(".fieldErrorBox").remove();
+        form_div.find(".fieldErrorBox").remove();
         form_div.find("input[type='text']").attr("value", "")
         form_div.find("textarea").attr("value", "")
-	}
+    }
 
     /*****************************************************************
      * Create a reply-to-comment form right under the comment_div.
@@ -50,7 +50,7 @@ jq(document).ready(function() {
         /* Remove the ReCaptcha JS code before appending the form. If not
          * removed, this causes problems
          */
-		reply_div.find("#formfield-form-widgets-captcha").find("script").remove();
+        reply_div.find("#formfield-form-widgets-captcha").find("script").remove();
 
         /* Insert the cloned comment form right after the reply button of the
          * current comment.
@@ -84,7 +84,7 @@ jq(document).ready(function() {
 
         /* Show the cancel button in the reply-to-comment form */
         cancel_reply_button.css("display", "inline");
-	}
+    }
 
     /*****************************************************************
      * Show the reply button only when Javascript is enabled.
@@ -94,12 +94,12 @@ jq(document).ready(function() {
 
 
     /*****************************************************************
-	 * Create reply to comment form.
+     * Create reply to comment form.
      *****************************************************************/
-	jq(".reply-to-comment-button").bind("click", function(e){
+    jq(".reply-to-comment-button").bind("click", function(e){
         var comment_div = jq(this).parents().filter(".comment");
-		createReplyForm(comment_div);
-		clearForm(comment_div);
+        createReplyForm(comment_div);
+        clearForm(comment_div);
     });
 
     /*****************************************************************
@@ -123,12 +123,12 @@ jq(document).ready(function() {
      *****************************************************************/
     /*
     jq("input[name='form.button.DeleteComment']").click(function(e){
-		e.preventDefault();
-		var form = jq(this).parent();
+        e.preventDefault();
+        var form = jq(this).parent();
         var target = jq(form).attr("action");
-		var comment = jq(form).parent();
-		var reply_comments = jq(comment).find("~ .comment:not(.replyTreeLevel0 ~ div)");
-		reply_comments.css("background", "red");
+        var comment = jq(form).parent();
+        var reply_comments = jq(comment).find("~ .comment:not(.replyTreeLevel0 ~ div)");
+        reply_comments.css("background", "red");
         jq.ajax({
             type: "GET",
             url: target,
@@ -151,7 +151,7 @@ jq(document).ready(function() {
     /*
     jq("input[name='form.button.PublishComment']").click(function(e){
         e.preventDefault();
-		var button = jq(this);
+        var button = jq(this);
         var form = jq(this).parent();
         var target = jq(form).attr("action");
         var comment = jq(form).parent()

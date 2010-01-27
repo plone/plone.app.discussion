@@ -9,34 +9,34 @@
    ---------------------------------------------------------------- */
 .discussion,
 #commenting {
-	/* Clear "float: left" from "manage portlets" div above the
-	   comment viewlet. This will get fixed in the next Plone 4 
-	   release. */
-	clear: both;
+    /* Clear "float: left" from "manage portlets" div above the
+       comment viewlet. This will get fixed in the next Plone 4 
+       release. */
+    clear: both;
 }
 
 .comment {
-	min-height: 100px;
-	overflow: auto;
+    min-height: 100px;
+    overflow: auto;
 }
 
 .commentImage {
-	width: 90px;
-	float: left;
-	margin-right: -90px;
+    width: 90px;
+    float: left;
+    margin-right: -90px;
 }
 
 .commentImage a:link {
-	/* Override the default bottom border of links in Plone 4. */
-	border: 0px;	
+    /* Override the default bottom border of links in Plone 4. */
+    border: 0px;
 }
 
 .commentImage img {
-	margin-right: 1em;
+    margin-right: 1em;
 }
 
 .commentBody {
-	margin: 1em 0;
+    margin: 1em 0;
 }
 
 .showCommenterImage h3,
@@ -44,9 +44,9 @@
 .showCommenterImage .commentBody,
 .showCommenterImage .commentActions,
 .showCommenterImage .reply {
-	/* The showCommenterImage CSS class is only set if showing the
-	 * commenters image is enabled.
-	 */
+    /* The showCommenterImage CSS class is only set if showing the
+     * commenters image is enabled.
+     */
     margin-left: 90px;
 }
 
@@ -55,22 +55,22 @@
    ---------------------------------------------------------------- */
 
 .reply fieldset {
-	/* Fix bouncing fieldset when reply form is shown. */
-	margin: 0 !important;
+    /* Fix bouncing fieldset when reply form is shown. */
+    margin: 0 !important;
 }
 
 .reply-to-comment-button {
    /* Hide the reply-to-comment button and show it only if Javascript
     * is enabled. Since the reply functions rely on jQuery.
     */
-	display: none;
+    display: none;
 }
 
 .cancelreplytocomment {
-	/* Hide the cancel button in the comment form, show it only in the reply form
-	 * in order to close it.
-	 */
-	display: none;
+    /* Hide the cancel button in the comment form, show it only in the reply form
+     * in order to close it.
+     */
+    display: none;
 }
 
 
@@ -78,11 +78,11 @@
    ---------------------------------------------------------------- */
 
 #bulkactions {
-	text-align: left;
+    text-align: left;
 }
 
 #dobulkaction {
-	margin: 0.3em 0;
+    margin: 0.3em 0;
 }
 
 .comment-publish-button {
@@ -94,15 +94,15 @@
 }
 
 #review-comments {
-	margin: 0;
+    margin: 0;
 }
 
 #fieldset-moderate-comments {
-	padding: 2em 1em;
+    padding: 2em 1em;
 }
 
 #fieldset-moderate-comments .actions {
-	width: 14em;
+    width: 14em;
 }
 
 
@@ -113,11 +113,11 @@
     not have a .row class for portal-column-content. */
 
 .row #dobulkaction {
-	margin: 0;
+    margin: 0;
 }
 
 .row #commenting {
-	font-size: 80%;
+    font-size: 80%;
 }
 
 .row textarea {
@@ -137,6 +137,6 @@
 }
 
 .row #fieldset-moderate-comments .actions {
-	width: 9em !important;
+    width: 9em !important;
 }
 

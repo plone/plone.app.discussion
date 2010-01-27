@@ -4,7 +4,7 @@
      id="++resource++plone.app.discussion.javascripts/comments.js"
      cacheable="False" compression="safe" cookable="False"
      enabled="True" expression="" inline="False"
-	 />
+     />
  <javascript
      id="++resource++plone.app.discussion.javascripts/moderation.js"
      cacheable="False" compression="safe" cookable="False"

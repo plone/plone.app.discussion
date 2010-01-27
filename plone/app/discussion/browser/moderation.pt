@@ -21,7 +21,7 @@
         <h1 class="documentFirstHeading" i18n:translate="title_review">
             Moderate comments
         </h1>
-		
+
         <form tal:condition="not:items">
             <fieldset id="fieldset-moderate-comments" class="formPanel">
                 <p id="no-comments-message" i18n:translate="message_nothing_to_moderate">

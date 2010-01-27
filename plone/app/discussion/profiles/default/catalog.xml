@@ -10,8 +10,8 @@
     </index>
 
     <column value="total_comments" />
-	<column value="last_comment_date" />
-	<column value="commentators" />
+    <column value="last_comment_date" />
+    <column value="commentators" />
     <column value="in_response_to" />
 
 </object>

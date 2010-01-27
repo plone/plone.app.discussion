@@ -229,7 +229,7 @@ class CommentCatalogTest(PloneTestCase):
         self.assertEquals(self.comment_brain.in_response_to, 'doc1')
 
     def test_clear_and_rebuild_catalog(self):
-		# Clear and rebuild catalog
+        # Clear and rebuild catalog
         self.catalog.clearFindAndRebuild()
 
         # Check if comment is still there
