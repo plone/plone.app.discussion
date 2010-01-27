@@ -125,13 +125,19 @@ class Conversation(Traversable, Persistent, Explicit):
 
         obj = aq_parent(self)
 
+        # If discussion is disabled for the object, bail out
+        allow_discussion_flag = getattr(obj, 'allow_discussion', None)
+        if allow_discussion_flag is False:
+            return False
+
         # Check if traversal returned a folder with discussion_allowed set
         # to True or False.
         folder_allow_discussion = traverse_parents(obj)
-        if folder_allow_discussion == True:
+
+        if folder_allow_discussion is True:
             if not getattr(self, 'allow_discussion', None):
                 return True
-        elif folder_allow_discussion == False:
+        elif folder_allow_discussion is False:
             if getattr(aq_inner(self.__parent__), 'allow_discussion', None):
                 return True
 

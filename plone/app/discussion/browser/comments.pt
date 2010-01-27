@@ -1,5 +1,7 @@
+<tal:block tal:define="isDiscussionAllowed view/is_discussion_allowed"
+           tal:condition="isDiscussionAllowed"
+           i18n:domain="plone">
 <tal:block define="userHasReplyPermission view/can_reply;
-                   isDiscussionAllowed view/is_discussion_allowed;
                    isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
                    isAnon view/is_anonymous;
                    canManage view/can_manage;
@@ -7,9 +9,7 @@
                    has_replies python:view.has_replies(canManage);
                    showCommenterImage view/show_commenter_image;
                    errors options/state/getErrors|nothing;
-                   wtool context/@@plone_tools/workflow"
-           tal:condition="isDiscussionAllowed"
-           i18n:domain="plone">
+                   wtool context/@@plone_tools/workflow;">
 
     <div class="reply"
          tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
@@ -154,4 +154,5 @@
         </fieldset>
     </div>
 
+</tal:block>
 </tal:block>
