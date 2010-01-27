@@ -16,8 +16,6 @@ from persistent import Persistent
 
 from plone.registry.interfaces import IRegistry
 
-from zope.site.hooks import getSite
-
 from zope.interface import implements, implementer
 from zope.component import adapts, adapter, queryUtility
 
@@ -59,7 +57,9 @@ except ImportError:
     from BTrees.OOBTree import OOBTree as LOBTree
     from BTrees.OOBTree import OOSet as LLSet
 
-from plone.app.discussion.interfaces import IConversation, IReplies, IDiscussionSettings
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.comment import Comment
 
 ANNOTATION_KEY = 'plone.app.discussion:conversation'
@@ -84,7 +84,8 @@ class Conversation(Traversable, Persistent, Explicit):
         # id -> comment - find comment by id
         self._comments = LOBTree()
 
-        # id -> LLSet (children) - find all children for a given comment. 0 signifies root.
+        # id -> LLSet (children) - find all children for a given comment.
+        # 0 signifies root.
         self._children = LOBTree()
 
     def getId(self):
@@ -96,9 +97,6 @@ class Conversation(Traversable, Persistent, Explicit):
     def enabled(self):
         # Returns True if discussion is enabled on the conversation
 
-        portal_discussion = getToolByName(self, 'portal_discussion')
-        portal_types = getToolByName(self, 'portal_types')
-
         # Fetch discussion registry
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
@@ -107,8 +105,11 @@ class Conversation(Traversable, Persistent, Explicit):
         if not settings.globally_enabled:
             return False
 
+        parent = aq_inner(self.__parent__)
+
         # Always return False if object is a folder
-        if IFolderish.providedBy(aq_inner(self.__parent__)) and not INonStructuralFolder.providedBy(aq_inner(self.__parent__)):
+        if (IFolderish.providedBy(parent) and
+            not INonStructuralFolder.providedBy(parent)):
             return False
 
         def traverse_parents(obj):
@@ -116,18 +117,18 @@ class Conversation(Traversable, Persistent, Explicit):
             # enabled in a parent folder.
             for obj in self.aq_chain:
                 if not IPloneSiteRoot.providedBy(obj):
-                    if IFolderish.providedBy(obj) and \
-                        not INonStructuralFolder.providedBy(obj):
-                        allow_discussion_flag = getattr(obj,'allow_discussion',None)
-                        if allow_discussion_flag is not None:
-                            return allow_discussion_flag
+                    if (IFolderish.providedBy(obj) and
+                        not INonStructuralFolder.providedBy(obj)):
+                        flag = getattr(obj, 'allow_discussion', None)
+                        if flag is not None:
+                            return flag
             return None
 
         obj = aq_parent(self)
 
         # If discussion is disabled for the object, bail out
-        allow_discussion_flag = getattr(obj, 'allow_discussion', None)
-        if allow_discussion_flag is False:
+        obj_flag = getattr(obj, 'allow_discussion', None)
+        if obj_flag is False:
             return False
 
         # Check if traversal returned a folder with discussion_allowed set
@@ -138,16 +139,16 @@ class Conversation(Traversable, Persistent, Explicit):
             if not getattr(self, 'allow_discussion', None):
                 return True
         elif folder_allow_discussion is False:
-            if getattr(aq_inner(self.__parent__), 'allow_discussion', None):
+            if obj_flag:
                 return True
 
         # Check if discussion is allowed on the content type
-        portal_type = self.__parent__.portal_type
+        portal_types = getToolByName(self, 'portal_types')
         document_fti = getattr(portal_types, obj.portal_type)
         if not document_fti.getProperty('allow_discussion'):
             # If discussion is not allowed on the content type,
             # check if 'allow discussion' is overridden on the content object.
-            if not getattr(aq_inner(self.__parent__), 'allow_discussion', None):
+            if not obj_flag:
                 return False
 
         return True
@@ -449,8 +450,10 @@ class CommentReplies(ConversationReplies):
         self.comment = context
         self.conversation = aq_parent(self.comment)
 
-        if self.conversation is None or not hasattr(self.conversation, '_children'):
-            raise TypeError("This adapter doesn't know what to do with the parent conversation")
+        if (self.conversation is None or
+            not hasattr(self.conversation, '_children')):
+            raise TypeError("This adapter doesn't know what to do with the "
+                            "parent conversation")
 
         self.comment_id = self.comment.comment_id
 
