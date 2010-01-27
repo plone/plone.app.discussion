@@ -4,6 +4,7 @@ Changelog
 1.0b3 (XXXX-XX-XX)
 ------------------
 
+* Factored out subscriber declarations into its own ZCML file. [hannosch]
 * Bugfix for #2281226: Moderation View: Comments disappear when hitting the 'Apply' button without choosing a bulk action. [timo]
 * Allow to show the full text of a comment in the moderation view. [timo]
 * German translation added. [timo]

@@ -8,6 +8,7 @@
     <include package="plone.indexer" />
 
     <include file="permissions.zcml" />
+    <include file="subscribers.zcml" />
     <include package=".browser" />
 
     <i18n:registerTranslations directory="locales" />
@@ -56,38 +57,6 @@
 
     <adapter factory=".conversation.ConversationReplies" />
     <adapter factory=".conversation.CommentReplies" />
-
-    <!-- Event subscribers -->
-
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".comment.notify_workflow"
-        />
-
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".comment.notify_content_object"
-        />
-
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".comment.notify_content_object"
-        />
-
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".tool.index_object"
-        />
-
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".tool.unindex_object"
-        />
 
     <!-- Captcha Vocabulary -->
     <utility component=".vocabularies.captcha_vocabulary"
