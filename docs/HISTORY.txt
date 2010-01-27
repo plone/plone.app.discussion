@@ -4,6 +4,7 @@ Changelog
 1.0b3 (XXXX-XX-XX)
 ------------------
 
+* Provide our own copy of the default one state workflow. Not all Plone sites have this workflow installed. [hannosch]
 * Register the event subscribers for the correct interfaces in Plone 3. [hannosch]
 * Factored out subscriber declarations into its own ZCML file. [hannosch]
 * Bugfix for #2281226: Moderation View: Comments disappear when hitting the 'Apply' button without choosing a bulk action. [timo]
