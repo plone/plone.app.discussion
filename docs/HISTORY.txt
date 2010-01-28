@@ -4,6 +4,7 @@ Changelog
 1.0b3 (XXXX-XX-XX)
 ------------------
 
+* Added a commentTitle CSS class to the comment titles. [hannosch]
 * Update message ids to match their real text. [hannosch]
 * Set CSS classes for the comment form in the updateActions method. [timo]
 * Respect the allow_comments field on an object and avoid calculations if no comments should be shown. [hannosch]

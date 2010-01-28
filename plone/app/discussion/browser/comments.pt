@@ -59,7 +59,8 @@
                                          alt reply/Creator" />
                 </div>
 
-                <h3 tal:content="reply/Title" />
+                <h3 class="commentTitle"
+                    tal:content="reply/Title" />
 
                 <div class="documentByLine">
                         <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
