@@ -1,13 +1,12 @@
 from setuptools import setup, find_packages
-import os
 
-version = '1.0b3dev'
+version = '1.0b3'
 
 setup(name='plone.app.discussion',
       version=version,
       description="Enhanced discussion support for Plone",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+                       open("CHANGES.txt").read(),
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",

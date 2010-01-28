@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b3 (XXXX-XX-XX)
+1.0b3 (2010-01-28)
 ------------------
 
 * Added an i18n directory for messages in the plone domain and updated scripts
