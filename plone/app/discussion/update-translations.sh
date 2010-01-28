@@ -1,15 +1,6 @@
 #!/bin/sh
 #
 # Shell script to manage .po files.
-#
-# Run this file in the folder main __init__.py of product
-#
-# E.g. if your product is yourproduct.name
-# you run this file in yourproduct.name/yourproduct/name
-#
-#
-# Copyright 2009 Twinapex Research http://www.twinapex.com
-#
 
 # Assume the product name is the current folder name
 CURRENT_PATH=`pwd`
@@ -25,7 +16,13 @@ for lang in $LANGUAGES; do
 done
 
 # Rebuild .pot
-i18ndude rebuild-pot --pot locales/$PRODUCTNAME.pot --create $PRODUCTNAME .
+i18ndude rebuild-pot --pot locales/$PRODUCTNAME.pot --create $PRODUCTNAME --merge locales/$PRODUCTNAME-manual.pot .
+i18ndude rebuild-pot --pot i18n/plone.pot --create "plone" --merge i18n/plone-manual.pot profiles
+
+for lang in $LANGUAGES; do
+    touch -a i18n/plone-$lang.po
+    i18ndude sync --pot i18n/plone.pot i18n/plone-$lang.po
+done
 
 # Compile po files
 for lang in $(find locales -mindepth 1 -maxdepth 1 -type d); do
@@ -47,4 +44,3 @@ for lang in $(find locales -mindepth 1 -maxdepth 1 -type d); do
         msgfmt -o $MO $lang/LC_MESSAGES/${PRODUCTNAME}.po
     fi
 done
-

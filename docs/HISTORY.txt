@@ -4,6 +4,10 @@ Changelog
 1.0b3 (XXXX-XX-XX)
 ------------------
 
+* Added an i18n directory for messages in the plone domain and updated scripts
+  to rebuild and sync it.
+  [hannosch]
+
 * Added an optional conversationCanonicalAdapterFactory showing how to share
   comments across all translations with LinguaPlone, by storing and retrieving
   the conversation from the canonical object.

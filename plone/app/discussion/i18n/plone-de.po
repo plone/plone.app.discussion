@@ -1,0 +1,105 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plone.app.discussion\n"
+"POT-Creation-Date: 2010-01-28 14:59+0000\n"
+"PO-Revision-Date: 2010-01-26 10:26+0100\n"
+"Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
+"Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "A simple workflow for comments"
+msgstr "Einfacher Arbeitsablauf für Kommentare"
+
+#: profiles/default/types/Discussion_Item.xml
+msgid "Comment"
+msgstr "Kommentar"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Comment Review Workflow"
+msgstr "Moderierter Arbeitsablauf für Kommentare"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Comment about the last transition"
+msgstr "Kommentar zum letzten Zustandsübergang"
+
+#: profiles/default/portal_atct.xml
+msgid "Commentators"
+msgstr "Benutzer die Kommentare abgegeben haben"
+
+#: profiles/default/types/Discussion_Item.xml
+msgid "Comments added to a content item."
+msgstr "Kommentare wurden zu einem Artikel hinzugefügt."
+
+#: profiles/default/actionicons.xml
+#: profiles/default/controlpanel.xml
+msgid "Discussion"
+msgstr "Diskussion"
+
+#: profiles/default/actions.xml
+msgid "Moderate comments"
+msgstr "Kommentare moderieren"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Pending"
+msgstr "Zur Redaktion eingereicht"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Previous transition"
+msgstr "Letzter Übergang"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Provides access to workflow history"
+msgstr "Erlaubt Zugang zur Historie des Arbeitsablaufs"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Publish"
+msgstr "Veröffentlichen"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Published"
+msgstr "Veröffentlicht"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Publishing the comment makes it visible to other users."
+msgstr "Veröffentlichung des Kommentars macht ihn sichtbar für andere Benutzer."
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Reviewer publishes content"
+msgstr "Reviewer veröffentlicht Inhalte"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Submitted, pending review."
+msgstr "Zur Redaktion eingereicht"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "The ID of the user who performed the previous transition"
+msgstr "Die ID des Benutzers welcher den vorherigen Zustandsübergang durchgeführt hat"
+
+#: profiles/default/portal_atct.xml
+msgid "Total number of comments"
+msgstr "Gesamtanzahl von Kommentaren"
+
+#: profiles/default/portal_atct.xml
+msgid "Total number of comments on this item."
+msgstr "Gesamtanzahl von Kommentaren für diesen Artikel."
+
+#: profiles/default/portal_atct.xml
+msgid "Users who have commented on the item"
+msgstr "Benutzer die diesen Artikel kommentiert haben"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Visible to everyone, non-editable."
+msgstr "Für alle Benutzer sichtbar, nicht änderbar."
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "When the previous transition was performed"
+msgstr "Nachdem der vorherige Übergang durchgeführt wurde."
+
