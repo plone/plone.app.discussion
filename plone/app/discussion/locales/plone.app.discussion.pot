@@ -240,7 +240,7 @@ msgstr ""
 
 #. Default: "Commenter"
 #: ./browser/moderation.pt:65
-msgid "heading_author"
+msgid "heading_commenter"
 msgstr ""
 
 #. Default: "Comment"
@@ -250,7 +250,7 @@ msgstr ""
 
 #. Default: "In Response To"
 #: ./browser/moderation.pt:67
-msgid "heading_context"
+msgid "heading_in_reponse_to"
 msgstr ""
 
 #. Default: "Date"
@@ -320,6 +320,6 @@ msgstr ""
 
 #. Default: "Moderate comments"
 #: ./browser/moderation.pt:21
-msgid "title_review"
+msgid "heading_moderate_comments"
 msgstr ""
 
