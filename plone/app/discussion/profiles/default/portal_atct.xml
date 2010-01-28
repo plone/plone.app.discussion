@@ -24,7 +24,7 @@
         </index>
 
     </topic_indexes>
-    <topic_metadata i18n:domain="plone.app.discussion">
+    <topic_metadata i18n:domain="plone">
 
         <metadata
             name="total_comments"
