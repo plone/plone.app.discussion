@@ -26,9 +26,25 @@
         permission="plone.app.discussion.ReviewComments"
         />
 
+    <browser:page
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        name="moderate-comments"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.View"
+        permission="plone.app.discussion.ReviewComments"
+        />
+
     <!-- Moderation bulk actions view -->
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
+        name="bulk-actions"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.BulkActionsView"
+        permission="plone.app.discussion.ReviewComments"
+        />
+
+    <browser:page
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
         name="bulk-actions"
         layer="..interfaces.IDiscussionLayer"
         class=".moderation.BulkActionsView"

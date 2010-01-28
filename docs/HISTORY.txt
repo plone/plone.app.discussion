@@ -4,6 +4,7 @@ Changelog
 1.0b3 (XXXX-XX-XX)
 ------------------
 
+* Play by the Plone 3.3+ rules and use the INavigationRoot as a base for the moderation view. [hannosch]
 * Added a commentTitle CSS class to the comment titles. [hannosch]
 * Update message ids to match their real text. [hannosch]
 * Set CSS classes for the comment form in the updateActions method. [timo]
