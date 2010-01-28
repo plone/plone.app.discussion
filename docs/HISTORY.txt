@@ -4,6 +4,10 @@ Changelog
 1.0b3 (XXXX-XX-XX)
 ------------------
 
+* Added an optional conversationCanonicalAdapterFactory showing how to share
+  comments across all translations with LinguaPlone, by storing and retrieving
+  the conversation from the canonical object. [hannosch]
+
 * Play by the Plone 3.3+ rules and use the INavigationRoot as a base for the moderation view. [hannosch]
 * Added a commentTitle CSS class to the comment titles. [hannosch]
 * Update message ids to match their real text. [hannosch]

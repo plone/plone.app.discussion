@@ -341,6 +341,7 @@ class Conversation(Traversable, Persistent, Explicit):
         for k, v in self._comments.iteritems():
             yield (k, v.__of__(self),)
 
+
 @implementer(IConversation)
 @adapter(IAnnotatable)
 def conversationAdapterFactory(content):
@@ -355,6 +356,26 @@ def conversationAdapterFactory(content):
     else:
         conversation = annotions[ANNOTATION_KEY]
     return conversation.__of__(content)
+
+
+try:
+    from Products.LinguaPlone.interfaces import ITranslatable
+except ImportError:
+    pass
+else:
+    @implementer(IConversation)
+    @adapter(IAnnotatable)
+    def conversationCanonicalAdapterFactory(content):
+        """Adapter factory to fetch the default conversation from annotations.
+        Will create the conversation if it does not exist.
+
+        This adapter will fetch and store all comments on the canonical object,
+        so that comments will be shared across all translations.
+        """
+        if ITranslatable.providedBy(content):
+            content = content.getCanonical()
+        return conversationAdapterFactory(content)
+
 
 class ConversationReplies(object):
     """An IReplies adapter for conversations.
