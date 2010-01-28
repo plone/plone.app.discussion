@@ -6,42 +6,91 @@ Changelog
 
 * Added an optional conversationCanonicalAdapterFactory showing how to share
   comments across all translations with LinguaPlone, by storing and retrieving
-  the conversation from the canonical object. [hannosch]
+  the conversation from the canonical object.
+  [hannosch]
 
-* Play by the Plone 3.3+ rules and use the INavigationRoot as a base for the moderation view. [hannosch]
-* Added a commentTitle CSS class to the comment titles. [hannosch]
-* Update message ids to match their real text. [hannosch]
-* Set CSS classes for the comment form in the updateActions method. [timo]
-* Respect the allow_comments field on an object and avoid calculations if no comments should be shown. [hannosch]
-* Automatically load the ZCML files of the captcha widgets if they are installed. [hannosch]
-* Fixed i18n domain in GenericSetup profiles to be ``plone``. Other values aren't supported for GS profiles. [hannosch]
-* Provide our own copy of the default one state workflow. Not all Plone sites have this workflow installed. [hannosch]
-* Register the event subscribers for the correct interfaces in Plone 3. [hannosch]
-* Factored out subscriber declarations into its own ZCML file. [hannosch]
-* Bugfix for #2281226: Moderation View: Comments disappear when hitting the 'Apply' button without choosing a bulk action. [timo]
-* Allow to show the full text of a comment in the moderation view. [timo]
-* German translation added. [timo]
-* Italian translation added. [keul]
+* Play by the Plone 3.3+ rules and use the INavigationRoot as a base for the
+  moderation view.
+  [hannosch]
+
+* Added a commentTitle CSS class to the comment titles.
+  [hannosch]
+
+* Update message ids to match their real text.
+  [hannosch]
+
+* Set CSS classes for the comment form in the updateActions method.
+  [timo]
+
+* Respect the allow_comments field on an object and avoid calculations if no
+  comments should be shown.
+  [hannosch]
+
+* Automatically load the ZCML files of the captcha widgets if they are
+  installed.
+  [hannosch]
+
+* Fixed i18n domain in GenericSetup profiles to be ``plone``. Other values
+  aren't supported for GS profiles.
+  [hannosch]
+
+* Provide our own copy of the default one state workflow. Not all Plone sites
+  have this workflow installed.
+  [hannosch]
+
+* Register the event subscribers for the correct interfaces in Plone 3.
+  [hannosch]
+
+* Factored out subscriber declarations into its own ZCML file.
+  [hannosch]
+
+* Bugfix for #2281226: Moderation View: Comments disappear when hitting the
+  'Apply' button without choosing a bulk action.
+  [timo]
+
+* Allow to show the full text of a comment in the moderation view.
+  [timo]
+
+* German translation added.
+  [timo]
+
+* Italian translation added.
+  [keul]
 
 
 1.0b2 (2010-01-22)
 ------------------
 
-* Bugfix for #2010181: The name of a commenter who commented while not logged in should not appear as a link.
-* Bugfix for #2010078: Comments that await moderation are visually distinguished from published comments.
-* Bugfix for #2010085: Use object_provides instead of portal_type to query the catalog for comment.
-* Bugfix for #2010071: p.a.d. works with plone.z3cform 0.5.7 and plone.app.z3cform 0.4.9 now.
-* Bugfix for #1513398: Show "anonymous" when name field is empty in comment form.
-* Migration view: Dry run option added, abort transaction when something goes wrong during migration, be more verbose about errors.
+* Bugfix for #2010181: The name of a commenter who commented while not logged in
+  should not appear as a link.
+
+* Bugfix for #2010078: Comments that await moderation are visually distinguished
+  from published comments.
+
+* Bugfix for #2010085: Use object_provides instead of portal_type to query the
+  catalog for comment.
+
+* Bugfix for #2010071: p.a.d. works with plone.z3cform 0.5.7 and
+  plone.app.z3cform 0.4.9 now.
+
+* Bugfix for #1513398: Show "anonymous" when name field is empty in comment
+  form.
+
+* Migration view: Dry run option added, abort transaction when something goes
+  wrong during migration, be more verbose about errors.
 
 
 1.0b1 (2009-12-08)
 ------------------
 
 * Fix redirect after a adding a comment
+
 * Replace yes/no widgets with check boxes in the discussion control panel
+
 * Make comments viewlet show up in Plone 4
+
 * Apply Plone 4 styles to comment form
+
 * Simplify moderation view by removing the filters
 
 
@@ -49,13 +98,15 @@ Changelog
 ------------------
 
 * Plone 4 / Zope 2.12 support
+
 * Comment migration script added
+
 * Pluggable plone.z3cform comment forms
+
 * Captcha and ReCaptcha support added
 
 
 1.0a1 (2009-06-07)
 ------------------
 
-* Initial release
-* Basic commenting functionality and batch moderation
+* Basic commenting functionality and batch moderation.
