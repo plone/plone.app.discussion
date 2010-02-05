@@ -186,7 +186,7 @@ class CommentCatalogTest(PloneTestCase):
     def afterSetUp(self):
         # First we need to create some content.
         self.loginAsPortalOwner()
-        typetool = self.portal.portal_types
+        self.typetool = typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
 
         self.catalog = getToolByName(self.portal, 'portal_catalog')
@@ -293,6 +293,20 @@ class CommentCatalogTest(PloneTestCase):
         brains = self.catalog.searchResults(portal_type = 'Discussion Item')
         self.failUnless(brains)
         self.assertEquals(len(brains), 6)
+
+    def test_collection(self):
+        self.typetool.constructContent('Topic', self.portal, 'topic')
+        topic = self.portal.topic
+        topic.addCriterion('type_crit', 'ATPortalTypeCriterion')
+        self.failUnless('crit__type_crit_ATPortalTypeCriterion' in topic)
+        topic.getCriterion('type_crit_ATPortalTypeCriterion').setValue('Comment')
+
+        query = topic.buildQuery()
+        self.assertEquals(len(query), 1)
+        self.assertEquals(query['type_crit'], ('Comment',))
+
+        # XXX: FAIL
+        #self.assertEquals(len(topic.queryCatalog()), 1)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

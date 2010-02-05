@@ -20,9 +20,9 @@ from Products.Five.testbrowser import Browser
 from Products.PloneTestCase.ptc import PloneTestCase
 from Products.PloneTestCase.ptc import FunctionalTestCase
 
-
-from plone.app.discussion.browser.comments import CommentsViewlet
-from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings
+from plone.app.discussion.browser.comments import CommentForm, CommentsViewlet
+from plone.app.discussion.interfaces import IConversation, IComment 
+from plone.app.discussion.interfaces import IReplies, IDiscussionSettings
 from plone.app.discussion.tests.layer import DiscussionLayer
 
 
@@ -41,13 +41,17 @@ class TestCommentForm(PloneTestCase):
         context = getattr(self.portal, 'doc1')
         self.viewlet = CommentsViewlet(context, request, None, None)
 
+    def test_add_comment(self):
+        form = CommentForm(self.viewlet, self.app.REQUEST)
+        #self.viewlet.form.render(form)
+        #self.viewlet.form.handleComment()
         from z3c.form.testing import TestRequest
         request = TestRequest(form={
                                     'form.widgets.title': u'bar',
                                     'form.widgets.text': u'foo',}
         )
-        #from plone.app.discussion.browser.comments import CommentForm
-        #cf = CommentForm(self.portal, request)
+        cf = CommentForm(self.viewlet, request)
+        #cf.handleComments()
         # Zope publisher uses Python list to mark <select> values
         #self.portal.REQUEST["form.widgets.title"] = u"foo"
         #self.portal.REQUEST["form.widgets.title"] = u"Search"
