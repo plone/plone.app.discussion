@@ -1,76 +1,37 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone.app.discussion">
 
     <!-- Event subscribers -->
 
-    <configure zcml:condition="not-installed zope.app.container">
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".comment.notify_workflow"
+        />
 
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.lifecycleevent.interfaces.IObjectAddedEvent"
-          handler=".comment.notify_workflow"
-          />
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".comment.notify_content_object"
+        />
 
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.lifecycleevent.interfaces.IObjectAddedEvent"
-          handler=".comment.notify_content_object"
-          />
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
+             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+        handler=".comment.notify_content_object"
+        />
 
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-          handler=".comment.notify_content_object"
-          />
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".tool.index_object"
+        />
 
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.lifecycleevent.interfaces.IObjectAddedEvent"
-          handler=".tool.index_object"
-          />
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-          handler=".tool.unindex_object"
-          />
-
-      </configure>
-
-    <configure zcml:condition="installed zope.app.container">
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.app.container.interfaces.IObjectAddedEvent"
-          handler=".comment.notify_workflow"
-          />
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.app.container.interfaces.IObjectAddedEvent"
-          handler=".comment.notify_content_object"
-          />
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.app.container.interfaces.IObjectRemovedEvent"
-          handler=".comment.notify_content_object"
-          />
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.app.container.interfaces.IObjectAddedEvent"
-          handler=".tool.index_object"
-          />
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.app.container.interfaces.IObjectRemovedEvent"
-          handler=".tool.unindex_object"
-          />
-
-      </configure>
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
+             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+        handler=".tool.unindex_object"
+        />
 
 </configure>
