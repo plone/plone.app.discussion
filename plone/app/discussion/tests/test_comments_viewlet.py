@@ -45,12 +45,12 @@ class TestCommentForm(PloneTestCase):
         form = CommentForm(self.viewlet, self.app.REQUEST)
         #self.viewlet.form.render(form)
         #self.viewlet.form.handleComment()
-        from z3c.form.testing import TestRequest
-        request = TestRequest(form={
-                                    'form.widgets.title': u'bar',
-                                    'form.widgets.text': u'foo',}
-        )
-        cf = CommentForm(self.viewlet, request)
+        #from z3c.form.testing import TestRequest
+        #request = TestRequest(form={
+        #                            'form.widgets.title': u'bar',
+        #                            'form.widgets.text': u'foo',}
+        #)
+        #cf = CommentForm(self.viewlet, request)
         #cf.handleComments()
         # Zope publisher uses Python list to mark <select> values
         #self.portal.REQUEST["form.widgets.title"] = u"foo"
