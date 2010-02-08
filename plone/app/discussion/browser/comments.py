@@ -58,7 +58,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     def updateFields(self):
         self.fields['author_notification'].widgetFactory = SingleCheckBoxFieldWidget
-        self.move('author_notification', after='text')
         
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()

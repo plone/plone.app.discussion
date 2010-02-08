@@ -172,13 +172,13 @@ class IComment(Interface):
     author_name = schema.TextLine(title=_(u"Name"), required=False)
     author_email = schema.TextLine(title=_(u"Email"), required=False)
     
-    author_notification = schema.Bool(title=_("Notify me of new posts via email"), required=False)
-
     title = schema.TextLine(title=_(u"Subject"))
 
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
     text = schema.Text(title=_(u"Comment"))
 
+    author_notification = schema.Bool(title=_("Notify me of new posts via email"), required=False)
+    
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     creation_date = schema.Date(title=_(u"Creation date"))
     modification_date = schema.Date(title=_(u"Modification date"))
