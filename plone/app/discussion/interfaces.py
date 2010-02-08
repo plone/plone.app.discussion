@@ -171,6 +171,8 @@ class IComment(Interface):
     # for anonymous comments only, set to None for logged in comments
     author_name = schema.TextLine(title=_(u"Name"), required=False)
     author_email = schema.TextLine(title=_(u"Email"), required=False)
+    
+    author_notification = schema.Bool(title=_("Notify me of new posts via email"), required=False)
 
     title = schema.TextLine(title=_(u"Subject"))
 

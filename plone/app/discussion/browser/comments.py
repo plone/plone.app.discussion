@@ -19,6 +19,7 @@ from zope.viewlet.interfaces import IViewlet
 
 from z3c.form import form, field, button, interfaces, widget
 from z3c.form.browser.textarea import TextAreaWidget
+from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -55,19 +56,19 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                          'modification_date',
                                          'author_username')
 
+    def updateFields(self):
+        self.fields['author_notification'].widgetFactory = SingleCheckBoxFieldWidget
+        self.move('author_notification', after='text')
+        
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
         portal_membership = getToolByName(self.context, 'portal_membership')
         self.widgets['text'].addClass("autoresize")
+        self.widgets['author_notification'].label = _(u"")        
         if not portal_membership.isAnonymousUser():
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
-        # XXX: Since we are not using the author_email field in the
-        # current state, we hide it by default. But we keep the field for
-        # integrators or later use.
-        self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
-
         
     def updateActions(self):
         super(CommentForm, self).updateActions()        

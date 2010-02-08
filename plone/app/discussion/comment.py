@@ -61,6 +61,8 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     author_name = None
     author_email = None
+    
+    author_notification = None
 
     # Note: we want to use zope.component.createObject() to instantiate
     # comments as far as possible. comment_id and __parent__ are set via
@@ -126,3 +128,25 @@ def notify_content_object(obj, event):
     """
     content_obj = aq_parent(aq_parent(obj))
     content_obj.reindexObject(idxs=('total_comments', 'last_comment_date', 'commentators',))
+
+def notify_user(obj, event):
+    """Tell the user when a comment is added
+    """
+    acl_users = getToolByName(obj, 'acl_users')
+    mail_host = getToolByName(obj, 'MailHost')
+    portal_url = getToolByName(obj, 'portal_url')
+    
+    portal = portal_url.getPortalObject()
+    sender = portal.getProperty('email_from_address')
+    
+    if not sender:
+        return
+    
+    subject = "Is this you?"
+    message = "A presenter called %s was added here %s" % (obj.title, obj.absolute_url(),)
+    
+    matching_users = acl_users.searchUsers(fullname=obj.title)
+    for user_info in matching_users:
+        email = user_info.get('email', None)
+        if email is not None:
+            mail_host.secureSend(message, email, sender, subject)
