@@ -57,21 +57,29 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                          'author_username')
 
     def updateFields(self):
+        super(CommentForm, self).updateFields()
         self.fields['author_notification'].widgetFactory = SingleCheckBoxFieldWidget
-        
+
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()
+
+        # Widgets
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
         self.widgets['text'].addClass("autoresize")
-        self.widgets['author_notification'].label = _(u"")        
+        self.widgets['author_notification'].label = _(u"")   
+        
+        # Anonymous / Logged-in
         portal_membership = getToolByName(self.context, 'portal_membership')
         if not portal_membership.isAnonymousUser():
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
-        if not settings.notification_enabled:
-            self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE
+
+        # Notification enabled
+        # XXX: Not working! ComponentLookupError
+        #registry = queryUtility(IRegistry)
+        #settings = registry.forInterface(IDiscussionSettings)
+        #if not settings.notification_enabled:
+        #    self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE            
         
     def updateActions(self):
         super(CommentForm, self).updateActions()        
@@ -90,6 +98,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         author_name = u""
         author_username = u""
         author_email = u""
+        author_notification = None
 
         # Captcha check for anonymous users (if Captcha is enabled)
         registry = queryUtility(IRegistry)

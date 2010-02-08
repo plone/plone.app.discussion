@@ -86,7 +86,7 @@ class TestCommentsViewletIntegration(FunctionalTestCase):
         browser.getLink(id='document').click()
         browser.getControl(name='title').value = "Doc1"
         browser.getControl(name='allowDiscussion:boolean').value = True
-        browser.getControl(name='form.button.save').click()        
+        browser.getControl(name='form.button.save').click()
 
         doc1 = self.portal['doc1']
         doc1_url = doc1.absolute_url()        

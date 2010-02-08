@@ -168,7 +168,8 @@ class IComment(Interface):
     Comments are indexed in the catalog and subject to workflow and security.
     """
 
-    portal_type = schema.ASCIILine(title=_(u"Portal type"), default="Discussion Item")
+    portal_type = schema.ASCIILine(title=_(u"Portal type"), 
+                                   default="Discussion Item")
 
     __parent__ = schema.Object(title=_(u"Conversation"), schema=Interface)
     __name__ = schema.TextLine(title=_(u"Name"))
@@ -188,7 +189,9 @@ class IComment(Interface):
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
     text = schema.Text(title=_(u"Comment"))
 
-    author_notification = schema.Bool(title=_("Notify me of new posts via email"), required=False)
+    author_notification = schema.Bool(title=_(u"Notify me of new comments via "
+                                             "email."),
+                                     required=False)
     
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     creation_date = schema.Date(title=_(u"Creation date"))
