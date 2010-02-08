@@ -29,12 +29,14 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.fields['globally_enabled'].widgetFactory = SingleCheckBoxFieldWidget
         self.fields['anonymous_comments'].widgetFactory = SingleCheckBoxFieldWidget
         self.fields['show_commenter_image'].widgetFactory = SingleCheckBoxFieldWidget
+        self.fields['notification_enabled'].widgetFactory = SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
         super(DiscussionSettingsEditForm, self).updateWidgets()
         self.widgets['globally_enabled'].label = _(u"Enable Comments")
         self.widgets['anonymous_comments'].label = _(u"Anonymous Comments")
         self.widgets['show_commenter_image'].label = _(u"Commenter Image")
+        self.widgets['notification_enabled'].label = _(u"Email Notification")
 
 
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
