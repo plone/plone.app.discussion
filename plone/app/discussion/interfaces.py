@@ -55,6 +55,19 @@ class IDiscussionSettings(Interface):
                                        required=False,
                                        default=True)
 
+    moderator_notification_enabled = schema.Bool(
+                                         title=_(u"label_moderator_notification_enabled",
+                                         default=u"Enable moderator email notification"),
+                                         description=_(u"help_moderator_notification_enabled",
+                                                       default=u"If selected, "
+                                                                "the moderator "
+                                                                "is notified "
+                                                                "if a comment "
+                                                                "needs "
+                                                                "attention."),
+                                         required=False,
+                                         default=False)
+    
     notification_enabled = schema.Bool(
                                title=_(u"label_notification_enabled",
                                default=u"Enable email notification"),

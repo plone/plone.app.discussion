@@ -37,6 +37,12 @@
           handler=".tool.unindex_object"
           />
 
+      <subscriber
+          for="plone.app.discussion.interfaces.IComment
+               zope.lifecycleevent.interfaces.IObjectAddedEvent"
+          handler=".comment.notify_moderator"
+          />
+
       </configure>
 
     <configure zcml:condition="installed zope.app.container">
@@ -69,6 +75,12 @@
           for="plone.app.discussion.interfaces.IComment
                zope.app.container.interfaces.IObjectRemovedEvent"
           handler=".tool.unindex_object"
+          />
+
+      <subscriber
+          for="plone.app.discussion.interfaces.IComment
+               zope.app.container.interfaces.IObjectAddedEvent"
+          handler=".comment.notify_moderator"
           />
 
       </configure>
