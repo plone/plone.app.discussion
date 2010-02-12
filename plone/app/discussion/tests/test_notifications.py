@@ -121,4 +121,4 @@ class TestModeratorNotificationUnit(PloneTestCase):
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
-   
+
