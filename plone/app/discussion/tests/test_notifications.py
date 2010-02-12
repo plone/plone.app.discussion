@@ -118,7 +118,7 @@ class TestModeratorNotificationUnit(PloneTestCase):
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         self.assertEquals(len(self.mailhost.messages), 0)
-    
+
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
    

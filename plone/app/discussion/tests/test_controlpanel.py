@@ -61,6 +61,13 @@ class RegistryTest(PloneTestCase):
         self.failUnless('show_commenter_image' in IDiscussionSettings)
         self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image'], True)
 
+    def test_moderator_notification_enabled(self):
+        # Check show_commenter_image record
+        show_commenter_image = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled']
+
+        self.failUnless('moderator_notification_enabled' in IDiscussionSettings)
+        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'], False)
+
     def test_notification_enabled(self):
         # Check show_commenter_image record
         show_commenter_image = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.notification_enabled']
