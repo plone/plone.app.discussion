@@ -118,6 +118,24 @@ class TestUserNotificationUnit(PloneTestCase):
         
         self.assertEquals(len(self.mailhost.messages), 0)
 
+    def test_do_not_notify_user_when_no_sender_is_available(self):
+        # Set sender mail address to nonw and make sure no email is send to the
+        # moderator.
+        self.portal.email_from_address = None
+
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+        comment.author_notification = True
+        comment.author_email = "john@plone.test"
+        self.conversation.addComment(comment)
+
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 2'
+        comment.text = 'Comment text'
+        self.conversation.addComment(comment)
+        
+        self.assertEquals(len(self.mailhost.messages), 0)
 
 class TestModeratorNotificationUnit(PloneTestCase):
 
