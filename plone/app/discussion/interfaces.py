@@ -68,17 +68,18 @@ class IDiscussionSettings(Interface):
                                          required=False,
                                          default=False)
     
-    notification_enabled = schema.Bool(
-                               title=_(u"label_notification_enabled",
-                               default=u"Enable email notification"),
-                               description=_(u"help_notification_enabled",
+    user_notification_enabled = schema.Bool(
+                               title=_(u"label_user_notification_enabled",
+                               default=u"Enable user email notification"),
+                               description=_(u"help_user_notification_enabled",
                                              default=u"If selected, users can "
                                                       "choose to be notified "
                                                       "of new comments by "
                                                       "email."),
                                required=False,
                                default=False)
-    
+
+
 class IConversation(IIterableMapping):
     """A conversation about a content object.
 

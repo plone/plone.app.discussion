@@ -68,12 +68,12 @@ class RegistryTest(PloneTestCase):
         self.failUnless('moderator_notification_enabled' in IDiscussionSettings)
         self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'], False)
 
-    def test_notification_enabled(self):
+    def test_user_notification_enabled(self):
         # Check show_commenter_image record
-        show_commenter_image = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.notification_enabled']
+        show_commenter_image = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled']
 
-        self.failUnless('notification_enabled' in IDiscussionSettings)
-        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.notification_enabled'], False)
+        self.failUnless('user_notification_enabled' in IDiscussionSettings)
+        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled'], False)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

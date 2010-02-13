@@ -140,24 +140,33 @@ def notify_content_object(obj, event):
 def notify_user(obj, event):
     """Tell the user when a comment is added
     """
-    conversation = aq_parent(obj)
-    content_object = aq_parent(conversation)
+
+    # check if notification is enabled
+    registry = queryUtility(IRegistry)
+    settings = registry.forInterface(IDiscussionSettings)
+    if not settings.user_notification_enabled:
+        return
+
     mail_host = getToolByName(obj, 'MailHost')
     portal_url = getToolByName(obj, 'portal_url')
-    
     portal = portal_url.getPortalObject()
     sender = portal.getProperty('email_from_address')
 
     if not sender:
         return
+
+    conversation = aq_parent(obj)
+    content_object = aq_parent(conversation)
     
     for comment in conversation.getComments():
-        if comment.author_notification and comment.author_email:
-            subject = "A comment has been posted."
-            message = "A comment with the title '%s' has been posted here: %s" \
-                      % (obj.title,
-                         content_object.absolute_url(),)
-            mail_host.send(message, comment.author_email, sender, subject)
+        if obj != comment and \
+           comment.author_notification and \
+           comment.author_email:
+                subject = "A comment has been posted."
+                message = "A comment with the title '%s' has been posted here: %s" \
+                          % (obj.title,
+                             content_object.absolute_url(),)
+                mail_host.send(message, comment.author_email, sender, subject)
             
 def notify_moderator(obj, index):
     """Tell the moderator when a comment needs attention
