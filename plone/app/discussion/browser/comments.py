@@ -18,6 +18,7 @@ from zope.interface import Interface, implements
 from zope.viewlet.interfaces import IViewlet
 
 from z3c.form import form, field, button, interfaces, widget
+from z3c.form.interfaces import IFormLayer
 from z3c.form.browser.textarea import TextAreaWidget
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
@@ -187,25 +188,16 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         pass
 
 
-class CommentsViewlet(ViewletBase, layout.FormWrapper):
+class CommentsViewlet(ViewletBase):
 
     form = CommentForm
-
     index = ViewPageTemplateFile('comments.pt')
 
-    def __init__(self, context, request, view, manager):
-        super(CommentsViewlet, self).__init__(context, request, view, manager)
-        if self.form is not None:
-            self.form_instance = self.form(self.context.aq_inner, self.request)
-            self.form_instance.__name__ = self.__name__
-
-        self.portal_discussion = getToolByName(self.context, 'portal_discussion', None)
-        self.portal_membership = getToolByName(self.context, 'portal_membership', None)
-
-    def render_form(self):
-        z2.switch_on(self, request_layer=self.request_layer)
-        self.form.update(self.form_instance)
-        return self.form.render(self.form_instance)
+    def update(self):
+        super(CommentsViewlet, self).update()
+        z2.switch_on(self, request_layer=IFormLayer)
+        self.form = CommentForm(aq_inner(self.context), self.request)
+        self.form.update()
 
     # view methods
 
@@ -304,7 +296,8 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
         return settings.show_commenter_image
 
     def is_anonymous(self):
-        return self.portal_membership.isAnonymousUser()
+        portal_membership = getToolByName(self.context, 'portal_membership', None)
+        return portal_membership.isAnonymousUser()
 
     def login_action(self):
         return '%s/login_form?came_from=%s' % (self.navigation_root_url, url_quote(self.request.get('URL', '')),)
