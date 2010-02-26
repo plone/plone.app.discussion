@@ -4,6 +4,9 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Make p.a.d. styles less generic. This fixes #10253. 
+  [timo]
+
 * Added greek translation.
   [ggozad]
 
