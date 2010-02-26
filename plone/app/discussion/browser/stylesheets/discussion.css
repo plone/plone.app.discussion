@@ -1,12 +1,13 @@
 /* plone.app.discussion stylesheet */
 
-.hide {
+.discussion .hide {
     display: none;
 }
 
 
 /* Comments Viewlet
-   ---------------------------------------------------------------- */
+   -------------------------------------------------------------------------- */
+
 .discussion,
 #commenting {
     /* Clear "float: left" from "manage portlets" div above the
@@ -52,7 +53,7 @@
 
 
 /* Reply Form
-   ---------------------------------------------------------------- */
+   -------------------------------------------------------------------------- */
 
 .reply fieldset {
     /* Fix bouncing fieldset when reply form is shown. */
@@ -75,7 +76,7 @@
 
 
 /* Moderation View
-   ---------------------------------------------------------------- */
+   -------------------------------------------------------------------------- */
 
 #bulkactions {
     text-align: left;
@@ -107,7 +108,7 @@
 
 
 /* Plone 4 Styles
-   ---------------------------------------------------------------- */
+   -------------------------------------------------------------------------- */
 
 /* These styles are only applied for Plone 4, since Plone 3.x does 
     not have a .row class for portal-column-content. */
@@ -120,23 +121,29 @@
     font-size: 80%;
 }
 
-.row textarea {
+.row #commenting textarea,
+.row .discussion textarea {
     font: 100% Monaco, "Courier New", Courier, monospace;
     width: 100%;
 }
-.row fieldset {
+
+.row #commenting fieldset,
+.row .discussion fieldset {
     border: 0.1em solid #329fd7;
     border-style: solid none none none;
 }
-.row legend {
+
+.row #commenting legend,
+.row .discussion legend {
     padding: 0.5em 0.5em 0.5em 0;
     font-size: 85%;
 }
-.row label {
+
+.row #commenting label,
+.row .discussion label {
     font-weight:bold;
 }
 
 .row #fieldset-moderate-comments .actions {
     width: 9em !important;
 }
-
