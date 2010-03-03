@@ -228,6 +228,22 @@ class CommentCatalogTest(PloneTestCase):
         # object the comment was added to
         self.assertEquals(self.comment_brain.in_response_to, 'doc1')
 
+    def test_add_comment(self):
+        self.failUnless(self.comment_brain)
+    
+    def test_delete_comment(self):
+        # Make sure a comment is removed from the catalog as well when it is
+        # deleted.
+        del self.conversation[self.comment_id]
+        brains = self.catalog.searchResults(
+                     path = {'query' : '/'.join(self.comment.getPhysicalPath()) })
+        self.assertEquals(len(brains), 0)
+
+    def test_remove_comments_when_content_object_is_removed(self):
+        # Make sure all comments are removed from the catalog, if the content
+        # object is removed.
+        pass
+    
     def test_clear_and_rebuild_catalog(self):
         # Clear and rebuild catalog
         self.catalog.clearFindAndRebuild()
