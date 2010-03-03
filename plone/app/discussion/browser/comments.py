@@ -76,11 +76,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
         # Notification enabled
-        # XXX: Not working! ComponentLookupError
-        #registry = queryUtility(IRegistry)
-        #settings = registry.forInterface(IDiscussionSettings)
-        #if not settings.notification_enabled:
-        #    self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE            
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        if not settings.user_notification_enabled:
+            self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE
         
     def updateActions(self):
         super(CommentForm, self).updateActions()        
@@ -124,7 +123,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 author_username = data['author_username']
             if 'author_email' in data:
                 author_email = data['author_email']
-
+            if 'author_notification' in data:
+                author_notification = data['author_notification']
+                
             # The add-comment view is called on the conversation object
             conversation = IConversation(self.__parent__)
 
@@ -144,6 +145,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 comment.creator = author_name
                 comment.author_name = author_name
                 comment.author_email = author_email
+                comment.author_notification = author_notification
                 comment.creation_date = comment.modification_date = datetime.now()
             else:
                 member = portal_membership.getAuthenticatedMember()
@@ -155,6 +157,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 comment.author_username = member.getUserName()
                 comment.author_name = member.getProperty('fullname')
                 comment.author_email = member.getProperty('email')
+                comment.author_notification = comment.author_notification
                 comment.creation_date = comment.modification_date = datetime.now()
 
             # Check if the added comment is a reply to an existing comment
