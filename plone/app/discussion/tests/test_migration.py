@@ -17,6 +17,8 @@ from plone.app.discussion.interfaces import IConversation, IComment
 
 class MigrationTest(PloneTestCase):
 
+    layer = DiscussionLayer
+    
     def afterSetUp(self):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types

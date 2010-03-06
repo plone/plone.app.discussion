@@ -55,6 +55,31 @@ class IDiscussionSettings(Interface):
                                        required=False,
                                        default=True)
 
+    moderator_notification_enabled = schema.Bool(
+                                         title=_(u"label_moderator_notification_enabled",
+                                         default=u"Enable moderator email notification"),
+                                         description=_(u"help_moderator_notification_enabled",
+                                                       default=u"If selected, "
+                                                                "the moderator "
+                                                                "is notified "
+                                                                "if a comment "
+                                                                "needs "
+                                                                "attention."),
+                                         required=False,
+                                         default=False)
+    
+    user_notification_enabled = schema.Bool(
+                               title=_(u"label_user_notification_enabled",
+                               default=u"Enable user email notification"),
+                               description=_(u"help_user_notification_enabled",
+                                             default=u"If selected, users can "
+                                                      "choose to be notified "
+                                                      "of new comments by "
+                                                      "email."),
+                               required=False,
+                               default=False)
+
+
 class IConversation(IIterableMapping):
     """A conversation about a content object.
 
@@ -157,7 +182,8 @@ class IComment(Interface):
     Comments are indexed in the catalog and subject to workflow and security.
     """
 
-    portal_type = schema.ASCIILine(title=_(u"Portal type"), default="Discussion Item")
+    portal_type = schema.ASCIILine(title=_(u"Portal type"), 
+                                   default="Discussion Item")
 
     __parent__ = schema.Object(title=_(u"Conversation"), schema=Interface)
     __name__ = schema.TextLine(title=_(u"Name"))
@@ -171,12 +197,16 @@ class IComment(Interface):
     # for anonymous comments only, set to None for logged in comments
     author_name = schema.TextLine(title=_(u"Name"), required=False)
     author_email = schema.TextLine(title=_(u"Email"), required=False)
-
+    
     title = schema.TextLine(title=_(u"Subject"))
 
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
     text = schema.Text(title=_(u"Comment"))
 
+    author_notification = schema.Bool(title=_(u"Notify me of new comments via "
+                                             "email."),
+                                     required=False)
+    
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     creation_date = schema.Date(title=_(u"Creation date"))
     modification_date = schema.Date(title=_(u"Modification date"))

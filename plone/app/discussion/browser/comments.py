@@ -18,7 +18,9 @@ from zope.interface import Interface, implements
 from zope.viewlet.interfaces import IViewlet
 
 from z3c.form import form, field, button, interfaces, widget
+from z3c.form.interfaces import IFormLayer
 from z3c.form.browser.textarea import TextAreaWidget
+from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -55,19 +57,29 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                          'modification_date',
                                          'author_username')
 
+    def updateFields(self):
+        super(CommentForm, self).updateFields()
+        self.fields['author_notification'].widgetFactory = SingleCheckBoxFieldWidget
+
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()
+
+        # Widgets
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
-        portal_membership = getToolByName(self.context, 'portal_membership')
         self.widgets['text'].addClass("autoresize")
+        self.widgets['author_notification'].label = _(u"")   
+        
+        # Anonymous / Logged-in
+        portal_membership = getToolByName(self.context, 'portal_membership')
         if not portal_membership.isAnonymousUser():
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
-        # XXX: Since we are not using the author_email field in the
-        # current state, we hide it by default. But we keep the field for
-        # integrators or later use.
-        self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
+        # Notification enabled
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        if not settings.user_notification_enabled:
+            self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE
         
     def updateActions(self):
         super(CommentForm, self).updateActions()        
@@ -86,6 +98,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         author_name = u""
         author_username = u""
         author_email = u""
+        author_notification = None
 
         # Captcha check for anonymous users (if Captcha is enabled)
         registry = queryUtility(IRegistry)
@@ -110,7 +123,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 author_username = data['author_username']
             if 'author_email' in data:
                 author_email = data['author_email']
-
+            if 'author_notification' in data:
+                author_notification = data['author_notification']
+                
             # The add-comment view is called on the conversation object
             conversation = IConversation(self.__parent__)
 
@@ -130,6 +145,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 comment.creator = author_name
                 comment.author_name = author_name
                 comment.author_email = author_email
+                comment.author_notification = author_notification
                 comment.creation_date = comment.modification_date = datetime.now()
             else:
                 member = portal_membership.getAuthenticatedMember()
@@ -141,6 +157,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 comment.author_username = member.getUserName()
                 comment.author_name = member.getProperty('fullname')
                 comment.author_email = member.getProperty('email')
+                comment.author_notification = comment.author_notification
                 comment.creation_date = comment.modification_date = datetime.now()
 
             # Check if the added comment is a reply to an existing comment
@@ -174,25 +191,16 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         pass
 
 
-class CommentsViewlet(ViewletBase, layout.FormWrapper):
+class CommentsViewlet(ViewletBase):
 
     form = CommentForm
-
     index = ViewPageTemplateFile('comments.pt')
 
-    def __init__(self, context, request, view, manager):
-        super(CommentsViewlet, self).__init__(context, request, view, manager)
-        if self.form is not None:
-            self.form_instance = self.form(self.context.aq_inner, self.request)
-            self.form_instance.__name__ = self.__name__
-
-        self.portal_discussion = getToolByName(self.context, 'portal_discussion', None)
-        self.portal_membership = getToolByName(self.context, 'portal_membership', None)
-
-    def render_form(self):
-        z2.switch_on(self, request_layer=self.request_layer)
-        self.form.update(self.form_instance)
-        return self.form.render(self.form_instance)
+    def update(self):
+        super(CommentsViewlet, self).update()
+        z2.switch_on(self, request_layer=IFormLayer)
+        self.form = CommentForm(aq_inner(self.context), self.request)
+        self.form.update()
 
     # view methods
 
@@ -291,7 +299,8 @@ class CommentsViewlet(ViewletBase, layout.FormWrapper):
         return settings.show_commenter_image
 
     def is_anonymous(self):
-        return self.portal_membership.isAnonymousUser()
+        portal_membership = getToolByName(self.context, 'portal_membership', None)
+        return portal_membership.isAnonymousUser()
 
     def login_action(self):
         return '%s/login_form?came_from=%s' % (self.navigation_root_url, url_quote(self.request.get('URL', '')),)

@@ -1,10 +1,14 @@
 """The default comment class and factory.
 """
 from datetime import datetime
+
 from zope.interface import implements
+
 from zope.component.factory import Factory
+from zope.component import queryUtility
 
 from Acquisition import aq_parent, Implicit
+
 from AccessControl.Role import RoleManager
 from AccessControl.Owned import Owned
 
@@ -15,7 +19,9 @@ from Products.CMFCore.utils import getToolByName
 
 from OFS.Traversable import Traversable
 
-from plone.app.discussion.interfaces import IComment
+from plone.registry.interfaces import IRegistry
+
+from plone.app.discussion.interfaces import IComment, IDiscussionSettings
 
 try:
     # Plone 4:
@@ -61,6 +67,8 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     author_name = None
     author_email = None
+    
+    author_notification = None
 
     # Note: we want to use zope.component.createObject() to instantiate
     # comments as far as possible. comment_id and __parent__ are set via
@@ -125,4 +133,73 @@ def notify_content_object(obj, event):
     """Tell the content object when a comment is added
     """
     content_obj = aq_parent(aq_parent(obj))
-    content_obj.reindexObject(idxs=('total_comments', 'last_comment_date', 'commentators',))
+    content_obj.reindexObject(idxs=('total_comments', 
+                                    'last_comment_date', 
+                                    'commentators',))
+
+def notify_user(obj, event):
+    """Tell the user when a comment is added
+    """
+
+    # check if notification is enabled
+    registry = queryUtility(IRegistry)
+    settings = registry.forInterface(IDiscussionSettings)
+    if not settings.user_notification_enabled:
+        return
+
+    mail_host = getToolByName(obj, 'MailHost')
+    portal_url = getToolByName(obj, 'portal_url')
+    portal = portal_url.getPortalObject()
+    sender = portal.getProperty('email_from_address')
+
+    if not sender:
+        return
+
+    conversation = aq_parent(obj)
+    content_object = aq_parent(conversation)
+    
+    for comment in conversation.getComments():
+        if obj != comment and \
+           comment.author_notification and \
+           comment.author_email:
+                subject = "A comment has been posted."
+                message = "A comment with the title '%s' has been posted here: %s" \
+                          % (obj.title,
+                             content_object.absolute_url(),)
+                mail_host.send(message, comment.author_email, sender, subject)
+            
+def notify_moderator(obj, index):
+    """Tell the moderator when a comment needs attention
+    """
+    
+    # check if notification is enabled
+    registry = queryUtility(IRegistry)
+    settings = registry.forInterface(IDiscussionSettings)
+    if not settings.moderator_notification_enabled:
+        return
+    
+    # check if comment review workflow is enabled
+    wf = getToolByName(obj, 'portal_workflow')    
+    if wf.getChainForPortalType('Discussion Item') != \
+           ('comment_review_workflow',):
+        return
+    
+    mail_host = getToolByName(obj, 'MailHost')
+    portal_url = getToolByName(obj, 'portal_url')
+    portal = portal_url.getPortalObject()
+    sender = portal.getProperty('email_from_address')
+    mto = portal.getProperty('email_from_address')
+    
+    # check if a sender address is available
+    if not sender:
+        return
+
+    conversation = aq_parent(obj)
+    content_object = aq_parent(conversation)
+        
+    comment = conversation.getComments().next()
+    subject = "A comment has been posted."
+    message = "A comment with the title '%s' has been posted here: %s" \
+              % (obj.title,
+                 content_object.absolute_url(),)
+    mail_host.send(message, mto, sender, subject)
