@@ -8,14 +8,14 @@ Changelog
   attention.
   [timo]
   
-* New feature: As a commenter, I can enable/disable email notification of 
+* New feature: As a commenter, I can enable/disable email notification of
   additional comments on this object
   [timo]
-  
-* Make p.a.d. work with the recent version of plone.z3cform (0.5.10)
-  [timo]  
 
-* Make p.a.d. styles less generic. This fixes #10253. 
+* Make p.a.d. work with the recent version of plone.z3cform (0.5.10)
+  [timo]
+
+* Make p.a.d. styles less generic. This fixes #10253.
   [timo]
 
 * Added greek translation.
