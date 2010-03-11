@@ -29,11 +29,13 @@ try:
     # is necessary for comments to be indexed in Plone4.
     from Products.CMFCore.CMFCatalogAware import CatalogAware
     from Products.CMFCore.CMFCatalogAware import WorkflowAware
+    PLONE_4 = True
 except:
     # Plone 3:
     # Dummy imports to make Comment class happy
     from OFS.Traversable import Traversable as CatalogAware
     from OFS.Traversable import Traversable as WorkflowAware
+    PLONE_4 = False
 
 
 class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
@@ -202,4 +204,7 @@ def notify_moderator(obj, index):
     message = "A comment with the title '%s' has been posted here: %s" \
               % (obj.title,
                  content_object.absolute_url(),)
-    mail_host.send(message, mto, sender, subject)
+    if PLONE_4:
+        mail_host.send(message, mto, sender, subject)
+    else:
+        mail_host.secureSend(message, mto, sender, subject=subject)
