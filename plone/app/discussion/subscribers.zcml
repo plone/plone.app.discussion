@@ -36,13 +36,15 @@
                zope.lifecycleevent.interfaces.IObjectRemovedEvent"
           handler=".tool.unindex_object"
           />
-
+      
+      <!--
       <subscriber
           for="plone.app.discussion.interfaces.IComment
                zope.lifecycleevent.interfaces.IObjectAddedEvent"
           handler=".comment.notify_user"
           />
-
+	  -->
+	  
       <subscriber
           for="plone.app.discussion.interfaces.IComment
                zope.lifecycleevent.interfaces.IObjectAddedEvent"
@@ -83,11 +85,13 @@
           handler=".tool.unindex_object"
           />
 
+	  <!--
       <subscriber
           for="plone.app.discussion.interfaces.IComment
                zope.app.container.interfaces.IObjectAddedEvent"
           handler=".comment.notify_user"
           />
+      -->
 
       <subscriber
           for="plone.app.discussion.interfaces.IComment

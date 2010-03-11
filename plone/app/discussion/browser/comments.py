@@ -67,7 +67,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Widgets
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
         self.widgets['text'].addClass("autoresize")
-        self.widgets['author_notification'].label = _(u"")   
+        #self.widgets['author_notification'].label = _(u"")   
         
         # Anonymous / Logged-in
         portal_membership = getToolByName(self.context, 'portal_membership')
@@ -76,10 +76,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
         # Notification enabled
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
-        if not settings.user_notification_enabled:
-            self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE
+        #registry = queryUtility(IRegistry)
+        #settings = registry.forInterface(IDiscussionSettings)
+        #if not settings.user_notification_enabled:
+        #    self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE
         
     def updateActions(self):
         super(CommentForm, self).updateActions()        
