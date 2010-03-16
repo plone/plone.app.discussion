@@ -4,6 +4,10 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Fix unicode error when non-ASCII characters are typed into the name field of a
+  comment by anonymous users.
+  [regebro]
+
 * New feature: As a moderator, I am notified when new comments require my
   attention.
   [timo]
@@ -16,6 +20,7 @@ Changelog
 
 * Added greek translation.
   [ggozad]
+
 
 1.0b3 (2010-01-28)
 ------------------

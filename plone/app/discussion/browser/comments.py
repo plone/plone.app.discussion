@@ -142,22 +142,18 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             portal_membership = getToolByName(self.context, 'portal_membership')
 
             if portal_membership.isAnonymousUser():
-                comment.creator = author_name
+                comment.creator = None
                 comment.author_name = author_name
                 comment.author_email = author_email
-                comment.author_notification = author_notification
+                #comment.author_notification = author_notification
                 comment.creation_date = comment.modification_date = datetime.now()
             else:
                 member = portal_membership.getAuthenticatedMember()
-                fullname = member.getProperty('fullname')
-                if fullname == '' or None:
-                    comment.creator = member.id
-                else:
-                    comment.creator = fullname
+                comment.creator = member.id
                 comment.author_username = member.getUserName()
                 comment.author_name = member.getProperty('fullname')
                 comment.author_email = member.getProperty('email')
-                comment.author_notification = comment.author_notification
+                #comment.author_notification = comment.author_notification
                 comment.creation_date = comment.modification_date = datetime.now()
 
             # Check if the added comment is a reply to an existing comment
