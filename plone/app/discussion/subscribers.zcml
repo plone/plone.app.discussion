@@ -3,7 +3,7 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone.app.discussion">
 
-    <!-- Event subscribers -->
+    <!-- Plone 3 Event Subscribers -->
 
     <configure zcml:condition="not-installed zope.app.container">
 
@@ -51,8 +51,17 @@
           handler=".comment.notify_moderator"
           />
 
-      </configure>
+      <subscriber
+          for="Products.CMFCore.interfaces.IContentish
+               zope.lifecycleevent.interfaces.IObjectAddedEvent"
+          handler=".comment.notify_content_object_deleted"
+          />
+          
+    </configure>
 
+    
+    <!-- Plone 4 Event Subscribers -->
+    
     <configure zcml:condition="installed zope.app.container">
 
       <subscriber
@@ -99,6 +108,12 @@
           handler=".comment.notify_moderator"
           />
 
-      </configure>
+      <subscriber
+          for="Products.CMFCore.interfaces.IContentish
+               zope.app.container.interfaces.IObjectRemovedEvent"
+          handler=".comment.notify_content_object_deleted"
+          />
+          
+    </configure>
 
 </configure>

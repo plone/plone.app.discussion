@@ -2,10 +2,12 @@
 """
 from datetime import datetime
 
-from zope.interface import implements
+from zope.annotation.interfaces import IAnnotations, IAnnotatable
 
 from zope.component.factory import Factory
 from zope.component import queryUtility
+
+from zope.interface import implements
 
 from Acquisition import aq_parent, Implicit
 
@@ -21,7 +23,9 @@ from OFS.Traversable import Traversable
 
 from plone.registry.interfaces import IRegistry
 
-from plone.app.discussion.interfaces import IComment, IDiscussionSettings
+from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IDiscussionSettings
 
 try:
     # Plone 4:
@@ -139,6 +143,15 @@ def notify_content_object(obj, event):
                                     'last_comment_date', 
                                     'commentators',))
 
+def notify_content_object_deleted(obj, event):
+    """Remove all comments of a content object when the content object has been
+       deleted.
+    """
+    if IAnnotatable.providedBy(obj):
+        conversation = IConversation(obj)
+        for comment in conversation.getComments():
+            del conversation[comment.id]
+            
 def notify_user(obj, event):
     """Tell the user when a comment is added
     """

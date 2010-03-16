@@ -156,10 +156,9 @@ class ConversationTest(PloneTestCase):
         self.portal.manage_delObjects(['doc1'])
         
         # Make sure the comment has been deleted as well
-        # XXX: Failing! Pivotal Tracker issue #2494228.
-        #self.assertEquals(len(list(conversation.getComments())), 0)
-        #self.assertEquals(sum(1 for w in conversation.getThreads()), 0)
-        #self.assertEquals(conversation.total_comments, 0) 
+        self.assertEquals(len(list(conversation.getComments())), 0)
+        self.assertEquals(sum(1 for w in conversation.getThreads()), 0)
+        self.assertEquals(conversation.total_comments, 0) 
 
     def test_allow_discussion(self):
         # This is not a real test! It's only there to understand the

@@ -4,6 +4,9 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Fix #2494228: Remove comments as well when a content object is deleted.
+  [timo]
+
 * Fix unicode error when non-ASCII characters are typed into the name field of a
   comment by anonymous users.
   [regebro]
