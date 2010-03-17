@@ -6,10 +6,9 @@ from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.CMFPlone import PloneMessageFactory as _
-
 from Products.statusmessages.interfaces import IStatusMessage
 
+from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 
 # Begin ugly hack. It works around a ContentProviderLookupError: plone.htmlhead error caused by Zope 2 permissions.

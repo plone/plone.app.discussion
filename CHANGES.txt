@@ -4,6 +4,9 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Fix #2419342: Fix untranslated published/deleted status messages.
+  [timo]
+  
 * Remove fixed width of the actions column of the moderation view. The
   translated button titles can differ in size from the English titles.
   [timo]
