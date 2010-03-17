@@ -88,10 +88,11 @@
 
 .comment-publish-button {
     float: left;
+	margin-right: 0.5em;
 }
 
 .comment-delete-button {
-    float: right;
+    float: left;
 }
 
 #review-comments {
@@ -102,9 +103,6 @@
     padding: 2em 1em;
 }
 
-#fieldset-moderate-comments .actions {
-    width: 14em;
-}
 
 
 /* Plone 4 Styles
@@ -142,8 +140,4 @@
 .row #commenting label,
 .row .discussion label {
     font-weight:bold;
-}
-
-.row #fieldset-moderate-comments .actions {
-    width: 9em !important;
 }

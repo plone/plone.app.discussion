@@ -4,6 +4,10 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Remove fixed width of the actions column of the moderation view. The
+  translated button titles can differ in size from the English titles.
+  [timo]
+
 * Fix #2494228: Remove comments as well when a content object is deleted.
   [timo]
 
