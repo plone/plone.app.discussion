@@ -216,9 +216,9 @@ class IComment(Interface):
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
     text = schema.Text(title=_(u"Comment"))
 
-    author_notification = schema.Bool(title=_(u"Notify me of new comments via "
-                                             "email."),
-                                     required=False)
+    #author_notification = schema.Bool(title=_(u"Notify me of new comments via "
+    #                                         "email."),
+    #                                 required=False)
     
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     creation_date = schema.Date(title=_(u"Creation date"))
