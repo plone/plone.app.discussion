@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-01-28 14:59+0000\n"
-"PO-Revision-Date: 2010-01-26 10:26+0100\n"
+"PO-Revision-Date: 2010-03-17 16:11+0100\n"
 "Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
 "Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "Kommentar"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
-msgstr "Moderierter Arbeitsablauf für Kommentare"
+msgstr "Arbeitsablauf für moderierte Kommentare"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment about the last transition"
@@ -32,16 +32,16 @@ msgstr "Kommentar zum letzten Zustandsübergang"
 
 #: profiles/default/portal_atct.xml
 msgid "Commentators"
-msgstr "Benutzer die Kommentare abgegeben haben"
+msgstr "Kommentatoren"
 
 #: profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
-msgstr "Kommentare wurden zu einem Artikel hinzugefügt."
+msgstr "Ein Kommentar zu einem Artikel."
 
 #: profiles/default/actionicons.xml
 #: profiles/default/controlpanel.xml
 msgid "Discussion"
-msgstr "Diskussion"
+msgstr "Kommentare"
 
 #: profiles/default/actions.xml
 msgid "Moderate comments"
@@ -85,21 +85,20 @@ msgstr "Die ID des Benutzers welcher den vorherigen Zustandsübergang durchgefü
 
 #: profiles/default/portal_atct.xml
 msgid "Total number of comments"
-msgstr "Gesamtanzahl von Kommentaren"
+msgstr "Anzahl der Kommentare"
 
 #: profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
-msgstr "Gesamtanzahl von Kommentaren für diesen Artikel."
+msgstr "Anzahl der Kommentare zu diesem Artikel."
 
 #: profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
-msgstr "Benutzer die diesen Artikel kommentiert haben"
+msgstr "Benutzer, die den Artikel kommentiert haben"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
-msgstr "Für alle Benutzer sichtbar, nicht änderbar."
+msgstr "Für alle Benutzer sichtbar, nicht editierbar"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "When the previous transition was performed"
-msgstr "Nachdem der vorherige Übergang durchgeführt wurde."
-
+msgstr "Wann der vorherige Übergang durchgeführt wurde"
