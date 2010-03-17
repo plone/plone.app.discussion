@@ -37,6 +37,8 @@ class WorkflowTest(PloneTestCase):
 
 class TestCommentOperations(PloneTestCase):
 
+    layer = DiscussionLayer
+    
     def afterSetUp(self):
 
         self.loginAsPortalOwner()
