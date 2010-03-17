@@ -4,6 +4,10 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Fix #662654: As an administrator, I can configure a Collection to show recent 
+  comments. Rename 'Discussion Item' title from 'Comment' to 'Discussion Item'
+  [chaoflow]
+  
 * Fix #2419342: Fix untranslated published/deleted status messages.
   [timo]
   
