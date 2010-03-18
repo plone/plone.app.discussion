@@ -1,0 +1,10 @@
+==========
+Operations
+==========
+
+This section contains operations documents :
+
+- How to install and run Atomisator 
+- How to install and administrate postgres database for Atomisator
+
+

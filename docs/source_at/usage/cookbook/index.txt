@@ -1,0 +1,11 @@
+Cookbook
+========
+
+This is a cookbook
+
+
+.. toctree::
+    :glob:
+    :maxdepth: 1
+    
+    *
