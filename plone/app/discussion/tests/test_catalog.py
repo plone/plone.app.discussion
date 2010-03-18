@@ -314,12 +314,12 @@ class CommentCatalogTest(PloneTestCase):
         self.typetool.constructContent('Topic', self.portal, 'topic')
         topic = self.portal.topic
         crit = topic.addCriterion('Type', 'ATSimpleStringCriterion')
-        crit.setValue('Discussion Item')
+        crit.setValue('Comment')
         query = topic.buildQuery()
 
         # Make sure the comment we just added is returned by the collection
         self.assertEquals(len(query), 1)
-        self.assertEquals(query['Type'], 'Discussion Item')
+        self.assertEquals(query['Type'], 'Comment')
         self.assertEquals(len(topic.queryCatalog()), 1)
 
 def test_suite():
