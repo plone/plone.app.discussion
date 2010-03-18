@@ -54,6 +54,8 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     implements(IComment)
 
     meta_type = portal_type = 'Discussion Item'
+    # This needs to be kept in sync with types/Discussion_Item.xml title
+    fti_title = 'Comment'
 
     __parent__ = None
 
@@ -113,8 +115,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     def Type(self):
         """The Discussion Item content type
         """
-        ptypes = getToolByName(self, 'portal_types')
-        return ptypes[self.portal_type].title
+        return self.fti_title
 
     # CMF's event handlers assume any IDynamicType has these :(
 
