@@ -4,6 +4,9 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Move 'Moderate comments' link from site actions to user actions.
+  [timo]
+
 * Fix #662654: As an administrator, I can configure a Collection to show recent comments.
   Comment.Type() now correctly returns the FTI title ('Comment')
   [chaoflow]
