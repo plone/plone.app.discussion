@@ -1,6 +1,0 @@
-======
-Design
-======
-
-This section contains design documents.
-
