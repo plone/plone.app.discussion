@@ -16,18 +16,9 @@ Contents:
 
    architecture.txt
    design.txt
-
-API
----
-
-.. automodule:: plone.app.discussion
-
-    .. autoclass:: plone.app.discussion.conversation.Conversation
-
-        .. automethod:: plone.app.discussion.conversation.Conversation.enabled
-   
+   api.txt
 .. include:: ../../CHANGES.txt
-
+   
 
 Indices and tables
 ==================
