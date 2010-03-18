@@ -113,7 +113,8 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     def Type(self):
         """The Discussion Item content type
         """
-        return self.portal_type
+        ptypes = getToolByName(self, 'portal_types')
+        return ptypes[self.portal_type].title
 
     # CMF's event handlers assume any IDynamicType has these :(
 

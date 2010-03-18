@@ -215,7 +215,7 @@ class CommentCatalogTest(PloneTestCase):
     def test_type(self):
         self.assertEquals(self.comment_brain.portal_type, 'Discussion Item')
         self.assertEquals(self.comment_brain.meta_type, 'Discussion Item')
-        self.assertEquals(self.comment_brain.Type, 'Discussion Item')
+        self.assertEquals(self.comment_brain.Type, 'Comment')
 
     def test_review_state(self):
          self.assertEquals(self.comment_brain.review_state, 'published')
