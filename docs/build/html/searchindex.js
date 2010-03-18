@@ -1,0 +1,1 @@
+Search.setIndex({desctypes:{},terms:{index:0,search:0,welcom:0,app:0,indic:0,discuss:0,content:0,tabl:0,modul:0,document:0,plone:0,page:0},titles:["Welcome to plone.app.discussion&#8217;s documentation!"],modules:{},descrefs:{},filenames:["index"]})
