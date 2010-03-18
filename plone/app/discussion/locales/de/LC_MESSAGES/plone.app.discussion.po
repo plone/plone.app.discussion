@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-01-28 14:59+0000\n"
-"PO-Revision-Date: 2010-01-26 10:26+0100\n"
+"PO-Revision-Date: 2010-03-18 11:10+0100\n"
 "Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
 "Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: ./interfaces.py:165
 msgid "A comment id unique to this conversation"
-msgstr "Eine Kommentar ID, welche für diese Unterhaltung eindeutig ist"
+msgstr "Eine eindeutige ID des Kommentars"
 
 #: ./browser/comments.py:47
 msgid "Add a comment"
@@ -52,11 +52,11 @@ msgstr "Kommentar veröffentlicht"
 
 #: ./browser/controlpanel.py:37
 msgid "Commenter Image"
-msgstr "Benutzer-Bild"
+msgstr "Porträt des Benutzers"
 
 #: ./interfaces.py:162
 msgid "Conversation"
-msgstr "Unterhaltung"
+msgstr "Diskussion"
 
 #: ./interfaces.py:181
 msgid "Creation date"
@@ -68,11 +68,11 @@ msgstr "Datum des letzten Kommentars"
 
 #: ./vocabularies.py:30
 msgid "Disabled"
-msgstr "Deaktiviert"
+msgstr "Ausgeschaltet"
 
 #: ./browser/controlpanel.py:16
 msgid "Discussion settings"
-msgstr "Diskussionseinstellungen"
+msgstr "Kommentierungseinstellungen"
 
 #: ./interfaces.py:173
 msgid "Email"
@@ -80,23 +80,23 @@ msgstr "E-Mail"
 
 #: ./browser/controlpanel.py:35
 msgid "Enable Comments"
-msgstr "Kommentare aktivieren"
+msgstr "Kommentare einschalten"
 
 #: ./interfaces.py:28
 msgid "Enable anonymous comments"
-msgstr "Anonyme Kommentare aktivieren"
+msgstr "Anonyme Kommentare zulassen"
 
 #: ./interfaces.py:166
 msgid "Id of comment this comment is in reply to"
-msgstr "ID des Kommentars auf den geantwortet wird."
+msgstr "ID des Kommentars, auf den geantwortet wird."
 
 #: ./interfaces.py:177
 msgid "MIME type"
-msgstr "MIME Typ"
+msgstr "MIME-Typ"
 
 #: ./interfaces.py:182
 msgid "Modification date"
-msgstr "Zeitpunkt, an dem der Artikel zuletzt verändert wurde"
+msgstr "Änderungsdatum"
 
 #: ./interfaces.py:163
 msgid "Name"
@@ -108,7 +108,7 @@ msgstr "Artikeltyp"
 
 #: ./interfaces.py:50
 msgid "Show commenter image"
-msgstr "Bild des Benutzers anzeigen"
+msgstr "Benutzerporträt anzeigen"
 
 #: ./interfaces.py:175
 msgid "Subject"
@@ -116,24 +116,24 @@ msgstr "Betreff"
 
 #: ./browser/validator.py:28
 msgid "The code you entered was wrong, please enter the new one."
-msgstr "Die eingegebene Zeichenkette war falsch, bitte versuchen sie es erneut."
+msgstr "Die eingegebene Zeichenkette war falsch, bitte versuchen Sie es erneut."
 
 #: ./interfaces.py:81
 msgid "The set of unique commentators (usernames)"
-msgstr "Liste von Benutzern die Kommentare abgegeben haben"
+msgstr "Liste von Benutzern, die Kommentare abgegeben haben"
 
 #: ./interfaces.py:79
 msgid "Total number of comments on this item"
-msgstr "Gesamtanzahl von Kommentaren für diesen Artikel"
+msgstr "Anzahl der Kommentare zu diesem Artikel"
 
 #: ./browser/comments.py:163
 msgid "Your comment awaits moderator approval."
-msgstr "Ihr Kommentar wurde eingereicht und wartet nun auf die Bestätigung des Moderators."
+msgstr "Ihr Kommentar muss noch vom Moderator freigegeben werden."
 
 #. Default: "Comment"
 #: ./browser/comments.py:78
 msgid "add_comment_button"
-msgstr "Kommentar hinzufügen"
+msgstr "Kommentieren"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:52
@@ -168,12 +168,12 @@ msgstr "Datum"
 #. Default: "In Response To"
 #: ./browser/moderation.pt:67
 msgid "heading_in_reponse_to"
-msgstr "Antwort auf"
+msgstr "Kommentar zu"
 
 #. Default: "Moderate comments"
 #: ./browser/moderation.pt:21
 msgid "heading_moderate_comments"
-msgstr "Moderieren"
+msgstr "Kommentare moderieren"
 
 #. Default: "Subject"
 #: ./browser/moderation.pt:68
@@ -183,27 +183,30 @@ msgstr "Betreff"
 #. Default: "If selected, anonymous users are able to post comments without logging in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ./interfaces.py:29
 msgid "help_anonymous_comments"
-msgstr "Wenn sie diese Einstellung aktivieren, können anonyme Benutzer Kommentare abgeben. Es wird empfohlen, diese Einstellung nur zu aktivieren wenn sie eine Captcha-Lösung aktiviert haben."
+msgstr "Wenn Sie diese Einstellung aktivieren, können anonyme Benutzer Kommentare abgeben. Es ist empfehlenswert, dann auch Captchas zu aktivieren."
 
 #. Default: "Use this setting to enable or disable captcha validation for comments. If no captcha options are currently available, install plone.formwidget.captcha or plone.formwidget.recaptcha."
 #: ./interfaces.py:40
 msgid "help_captcha"
-msgstr "Benutzen sie diese Einstellung um Captcha Validierung für Kommentare zu aktivieren. Sollten keine Captcha Optionen angezeigt werden, installieren sie plone.formwidget.captcha oder plone.formwidget.recaptcha."
+msgstr "Wenn Sie diese Einstellung aktivieren, wird mit Hilfe der Captcha-Validierung überprüft, ob die Kommentare von einem echten Benutzer oder von einem automatisierten Skript stammen. Falls Sie die Option nicht einschalten können, fehlt evtl. ein benötigtes Programmmodul. Stellen Sie sicher, dass entweder plone.formwidget.captcha oder plone.formwidget.recaptcha installiert ist."
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'enable moderation'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:17
 msgid "help_discussion_settings_editform"
-msgstr "Einige Diskussionseinstellungen müssen an anderen Stellen vorgenommen werden. Um Kommentare für einzelne Artikeltypen zu aktivieren, gehen Sie zu den 'Artikeltypen' Einstellungen in der Webseiten Konfiguration und aktivieren sie die Einstellung 'Kommentieren erlauben'. Um die Moderation von Kommentaren zu aktivieren, gehen sie zu den 'Artikeltypen' Einstellungen in der Webseiten Konfiguration und wählen sie \"Kommentare\". Wählen Sie dort den Arbeitsablauf 'Moderierter Arbeitsablauf für Kommentare'."
+msgstr ""
+"Einige Kommentierungseinstellungen müssen an anderer Stelle vorgenommen werden. Um die Kommentierung einzelner Artikeltypen einzuschalten, gehen Sie in der 'Plone-Konfiguration' zu 'Artikeltypen', wählen Sie den gewünschten Artikeltyp aus und schalten Sie die Option 'Kommentieren erlauben' ein.\n"
+"\n"
+"Um die Moderation von Kommentaren zu aktivieren, wählen Sie den Artikeltyp 'Kommentar' aus und wählen Sie als neuen Arbeitsablauf 'Arbeitsablauf für moderierte Kommentare'."
 
 #. Default: "If selected, users are able to post comments on the site."
 #: ./interfaces.py:22
 msgid "help_globally_enabled"
-msgstr "Wenn sie diese Einstellung aktivieren, können Webseiten-Benutzer Kommentare abgeben."
+msgstr "Wenn Sie diese Einstellung aktivieren, können Artikel generell kommentiert werden."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ./interfaces.py:51
 msgid "help_show_commenter_image"
-msgstr "Wenn sie diese Einstellung aktivieren, wird ein Bild des Benutzers neben jedem Kommentar angezeigt."
+msgstr "Wenn Sie diese Einstellung aktivieren, wird das Porträt des kommentierenden Benutzers neben dem Kommentar angezeigt."
 
 #. Default: "Apply"
 #: ./browser/moderation.pt:55
@@ -218,7 +221,7 @@ msgstr "Löschen"
 #. Default: "Globally enable comments"
 #: ./interfaces.py:20
 msgid "label_globally_enabled"
-msgstr "Kommentare aktivieren"
+msgstr "Kommentierungsfunktion generell einschalten"
 
 #. Default: "Publish"
 #: ./browser/moderation.pt:111
@@ -228,15 +231,14 @@ msgstr "Veröffentlichen"
 #. Default: "show full comment text"
 #: ./browser/moderation.pt:104
 msgid "label_show_full_comment_text"
-msgstr ""
+msgstr "Den vollständigen Kommentar anzeigen"
 
 #. Default: "No comments to moderate."
 #: ./browser/moderation.pt:27
 msgid "message_nothing_to_moderate"
-msgstr "Es gibt keine Kommentare zu moderieren."
+msgstr "Es müssen keine Kommentare moderiert werden."
 
 #. Default: "Bulk Actions"
 #: ./browser/moderation.pt:48
 msgid "title_bulkactions"
 msgstr "Sammelbearbeitung"
-
