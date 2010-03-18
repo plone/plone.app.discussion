@@ -1,0 +1,6 @@
+# Sphinx inventory version 1
+# Project: plone.app.discussion
+# Version: 1.0b4
+plone.app.discussion mod index.html
+plone.app.discussion.conversation.Conversation class index.html
+plone.app.discussion.conversation.Conversation.enabled method index.html

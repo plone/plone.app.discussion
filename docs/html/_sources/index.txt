@@ -6,10 +6,28 @@
 Welcome to plone.app.discussion's documentation!
 ================================================
 
+.. module:`plone.app.discussion`
+
+
 Contents:
 
 .. toctree::
    :maxdepth: 2
+
+   architecture.txt
+   design.txt
+
+API
+---
+
+.. automodule:: plone.app.discussion
+
+    .. autoclass:: plone.app.discussion.conversation.Conversation
+
+        .. automethod:: plone.app.discussion.conversation.Conversation.enabled
+   
+.. include:: ../../CHANGES.txt
+
 
 Indices and tables
 ==================

@@ -3,14 +3,14 @@
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
+SPHINXBUILD = /home/timo/workspace/pad/plone.app.discussion/bin/zopepy /home/timo/workspace/pad/plone.app.discussion/bin/sphinx-build
 PAPER         =
-BUILDDIR      = build
+BUILDDIR      = /home/timo/workspace/pad/plone.app.discussion/docs
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) /home/timo/workspace/pad/plone.app.discussion/docs/source
 
 .PHONY: help clean html dirhtml pickle json htmlhelp qthelp latex changes linkcheck doctest
 
@@ -61,9 +61,9 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/ploneappdiscussion.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/sphinxbuilder.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/ploneappdiscussion.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/sphinxbuilder.qhc"
 
 latex:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
