@@ -59,7 +59,7 @@
                                     <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
                                     <option value="publish"
                                             i18n:translate="bulkactions_publish"
-                                            tal:condition="python: filter != 'published' and moderation_enabled">Publish</option>
+                                            tal:condition="python: filter != 'published' and moderation_enabled">Approve</option>
                                     <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
                                 </select>
                                 <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
@@ -122,7 +122,7 @@
                                     <input id=""
                                            class="context comment-publish-button"
                                            type="submit"
-                                           value="Publish"
+                                           value="Approve"
                                            name="form.button.Publish"
                                            i18n:attributes="value label_publish;"
                                            tal:attributes="id item/id"

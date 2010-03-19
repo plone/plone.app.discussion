@@ -105,7 +105,7 @@ class PublishComment(BrowserView):
         catalog.reindexObject(comment)
 
         IStatusMessage(self.context.REQUEST).addStatusMessage(
-            _("Comment published."),
+            _("Comment approved."),
             type="info")
 
         return self.context.REQUEST.RESPONSE.redirect(self.context.REQUEST.HTTP_REFERER)

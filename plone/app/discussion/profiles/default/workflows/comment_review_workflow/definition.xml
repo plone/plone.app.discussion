@@ -55,16 +55,16 @@
  </state>
 
  <transition transition_id="publish" new_state="published"
-             title="Reviewer publishes content"
+             title="Reviewer approves content"
              trigger="USER"
              before_script="" after_script=""
              i18n:attributes="title">
   <description i18n:translate="">
-    Publishing the comment makes it visible to other users.
+    Approving the comment makes it visible to other users.
   </description>
   <action url="%(content_url)s/content_status_modify?workflow_action=publish"
           category="workflow"
-          i18n:translate="">Publish</action>
+          i18n:translate="">Approve</action>
   <guard>
    <guard-permission>Review comments</guard-permission>
   </guard>
