@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-01-28 14:59+0000\n"
+"POT-Creation-Date: 2010-03-19 10:51+0000\n"
 "PO-Revision-Date: 2010-03-17 16:11+0100\n"
 "Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
 "Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
@@ -17,6 +17,14 @@ msgstr ""
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple workflow for comments"
 msgstr "Einfacher Arbeitsablauf für Kommentare"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approve"
+msgstr ""
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approving the comment makes it visible to other users."
+msgstr ""
 
 #: profiles/default/types/Discussion_Item.xml
 msgid "Comment"
@@ -60,20 +68,12 @@ msgid "Provides access to workflow history"
 msgstr "Erlaubt Zugang zur Historie des Arbeitsablaufs"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "Publish"
-msgstr "Veröffentlichen"
-
-#: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
 msgstr "Veröffentlicht"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "Publishing the comment makes it visible to other users."
-msgstr "Veröffentlichung des Kommentars macht ihn sichtbar für andere Benutzer."
-
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "Reviewer publishes content"
-msgstr "Reviewer veröffentlicht Inhalte"
+msgid "Reviewer approves content"
+msgstr ""
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
@@ -102,3 +102,4 @@ msgstr "Für alle Benutzer sichtbar, nicht editierbar"
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Wann der vorherige Übergang durchgeführt wurde"
+

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-01-28 14:59+0000\n"
+"POT-Creation-Date: 2010-03-19 10:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,14 @@ msgstr ""
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple workflow for comments"
+msgstr ""
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approve"
+msgstr ""
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approving the comment makes it visible to other users."
 msgstr ""
 
 #: profiles/default/types/Discussion_Item.xml
@@ -60,19 +68,11 @@ msgid "Provides access to workflow history"
 msgstr ""
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "Publish"
-msgstr ""
-
-#: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
 msgstr ""
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "Publishing the comment makes it visible to other users."
-msgstr ""
-
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "Reviewer publishes content"
+msgid "Reviewer approves content"
 msgstr ""
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
