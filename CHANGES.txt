@@ -4,6 +4,9 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Rename "Single State Workflow" to "Comment Single State Workflow".
+  [timo]
+
 * Rename 'publish comment' to 'approve comment'. This fixes #1608470.
   [timo]
   
