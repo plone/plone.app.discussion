@@ -4,6 +4,9 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Show a warning in the moderation view if the moderation workflow is disabled.
+  [timo]
+
 * Move 'Moderate comments' link from site actions to user actions.
   [timo]
 
