@@ -121,50 +121,64 @@ Changelog
 
 * Bugfix for #2010181: The name of a commenter who commented while not logged in
   should not appear as a link.
+  [timo]
 
 * Bugfix for #2010078: Comments that await moderation are visually distinguished
   from published comments.
+  [timo]
 
 * Bugfix for #2010085: Use object_provides instead of portal_type to query the
   catalog for comment.
+  [timo]
 
 * Bugfix for #2010071: p.a.d. works with plone.z3cform 0.5.7 and
   plone.app.z3cform 0.4.9 now.
+  [timo]
 
 * Bugfix for #1513398: Show "anonymous" when name field is empty in comment
   form.
+  [timo]
 
 * Migration view: Dry run option added, abort transaction when something goes
   wrong during migration, be more verbose about errors.
+  [timo]
 
 
 1.0b1 (2009-12-08)
 ------------------
 
 * Fix redirect after a adding a comment
+  [timo]
 
 * Replace yes/no widgets with check boxes in the discussion control panel
+  [timo]
 
 * Make comments viewlet show up in Plone 4
+  [timo]
 
 * Apply Plone 4 styles to comment form
+  [timo]
 
 * Simplify moderation view by removing the filters
-
+  [timo]
 
 1.0a2 (2009-10-18)
 ------------------
 
 * Plone 4 / Zope 2.12 support
-
+  [timo]
+  
 * Comment migration script added
-
+  [timo]
+  
 * Pluggable plone.z3cform comment forms
-
+  [timo]
+  
 * Captcha and ReCaptcha support added
-
+  [timo]
 
 1.0a1 (2009-06-07)
 ------------------
 
 * Basic commenting functionality and batch moderation.
+  [timo]
