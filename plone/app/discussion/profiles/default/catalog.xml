@@ -13,5 +13,6 @@
     <column value="last_comment_date" />
     <column value="commentators" />
     <column value="in_response_to" />
+    <column value="author_name" />
 
 </object>
