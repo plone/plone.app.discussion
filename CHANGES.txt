@@ -4,6 +4,10 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* Sphinx-based developer documentation added. See 
+  http://packages.python.org/plone.app.discussion.
+  [timo]
+
 * Rename "Single State Workflow" to "Comment Single State Workflow".
   [timo]
 
