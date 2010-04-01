@@ -91,7 +91,7 @@
                                            class="noborder"
                                            name="paths:list" id="#"
                                            value="#"
-                                           tal:attributes="value   item/getPath;
+                                           tal:attributes="value   python:view.item_path(item);
                                                            id      string:cb_${item/id};
                                                            checked item/checked|nothing;
                                                            alt     string:Select ${item/Title};

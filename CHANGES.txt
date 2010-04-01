@@ -54,6 +54,9 @@ Changelog
 * Added greek translation.
   [ggozad]
 
+* A bug in the moderator panel meant you couldn't delete items in a virtual
+  host, if your portal was named "plone".
+  [regebro]
 
 1.0b3 (2010-01-28)
 ------------------
