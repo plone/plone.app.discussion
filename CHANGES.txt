@@ -4,6 +4,10 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+* New feature: As a moderator, I am notified when new comments require my
+  attention.
+  [timo]
+
 * Sphinx-based developer documentation added. See 
   http://packages.python.org/plone.app.discussion.
   [timo]
@@ -40,10 +44,6 @@ Changelog
 * Fix unicode error when non-ASCII characters are typed into the name field of a
   comment by anonymous users.
   [regebro]
-
-* New feature: As a moderator, I am notified when new comments require my
-  attention.
-  [timo]
   
 * Make p.a.d. work with the recent version of plone.z3cform (0.5.10)
   [timo]
@@ -57,6 +57,7 @@ Changelog
 * A bug in the moderator panel meant you couldn't delete items in a virtual
   host, if your portal was named "plone".
   [regebro]
+
 
 1.0b3 (2010-01-28)
 ------------------
