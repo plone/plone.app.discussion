@@ -119,8 +119,29 @@ class IConversation(IIterableMapping):
     commentators = schema.Set(title=_(u"The set of unique commentators (usernames)"), readonly=True)
 
     def enabled():
-         """Return True if commenting enabled and False if not.
-         """
+        """ Returns True if discussion is enabled for this conversation.
+        
+        This method checks five different settings in order to figure out if
+        discussion is enable on a specific content object:
+        
+        1) Check if discussion is enabled globally in the plone.app.discussion
+           registry/control panel.
+           
+        2) If the current content object is a folder, always return False, since
+           we don't allow comments on a folder. This setting is used to allow/
+           disallow comments for all content objects inside a folder, not for 
+           the folder itself.
+           
+        3) Check if the allow_discussion boolean flag on the content object is 
+           set. If it is set to True or False, return the value. If it set to 
+           None, try further.
+           
+        4) Traverse to a folder with allow_discussion set to either True or 
+           False. If allow_discussion is not set (None), traverse further until
+           we reach the PloneSiteRoot.
+           
+        5) Check if discussion is allowed for the content type.
+        """
 
     def addComment(comment):
         """Adds a new comment to the list of comments, and returns the
