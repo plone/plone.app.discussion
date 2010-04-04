@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b4 (unreleased)
+1.0b4 (2010-04-04)
 ------------------
 
 * New feature: As a moderator, I am notified when new comments require my
@@ -24,8 +24,8 @@ Changelog
 * Move 'Moderate comments' link from site actions to user actions.
   [timo]
 
-* Fix #662654: As an administrator, I can configure a Collection to show recent comments.
-  Comment.Type() now correctly returns the FTI title ('Comment')
+* Fix #662654: As an administrator, I can configure a Collection to show recent 
+  comments. Comment.Type() now correctly returns the FTI title ('Comment')
   [chaoflow]
 
 * German translation updated.
@@ -166,6 +166,7 @@ Changelog
 * Simplify moderation view by removing the filters
   [timo]
 
+
 1.0a2 (2009-10-18)
 ------------------
 
@@ -180,6 +181,7 @@ Changelog
   
 * Captcha and ReCaptcha support added
   [timo]
+
 
 1.0a1 (2009-06-07)
 ------------------
