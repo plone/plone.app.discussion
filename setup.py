@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.0b4'
+version = '1.0b5dev'
 
 setup(name='plone.app.discussion',
       version=version,
@@ -13,7 +13,7 @@ setup(name='plone.app.discussion',
         ],
       keywords='plone discussion',
       author='Timo Stollenwerk',
-      author_email='<plone-developers at lists sourceforge net>',
+      author_email='plone-developers at lists sourceforge net',
       url='http://pypi.python.org/pypi/plone.app.discussion',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
