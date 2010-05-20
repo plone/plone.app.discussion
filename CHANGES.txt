@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.0b5 (unreleased)
+------------------
+
+* Removed moderation.js from js registry and include it only in moderation.pt as
+  that is the only place where it is used.
+  [ggozad]
+
+
 1.0b4 (2010-04-04)
 ------------------
 
