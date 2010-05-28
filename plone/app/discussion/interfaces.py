@@ -6,6 +6,7 @@ from zope.i18nmessageid import MessageFactory
 
 _ = MessageFactory('plone.app.discussion')
 
+
 class IDiscussionSettings(Interface):
     """Global discussion settings. This describes records stored in the
     configuration registry and obtainable via plone.registry.
@@ -192,6 +193,7 @@ class IConversation(IIterableMapping):
         returned in depth-first order.
         """
 
+
 class IReplies(IIterableMapping):
     """A set of related comments in reply to a given content object or
     another comment.
@@ -209,6 +211,7 @@ class IReplies(IIterableMapping):
     def __delitem__(key):
         """Delete the comment with the given key. The key is a long id.
         """
+
 
 class IComment(Interface):
     """A comment.
@@ -245,9 +248,13 @@ class IComment(Interface):
     creation_date = schema.Date(title=_(u"Creation date"))
     modification_date = schema.Date(title=_(u"Modification date"))
 
+
 class ICaptcha(Interface):
+    """Captcha/ReCaptcha text field to extend the existing comment form. 
+    """
     captcha = schema.TextLine(title=u"Captcha",
                               required=False)
+
 
 class ICommentingTool(Interface):
     """A tool that indexes all comments for usage by the management interface.
