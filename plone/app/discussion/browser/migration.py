@@ -48,6 +48,9 @@ class View(BrowserView):
         dtool = context.portal_discussion
         
         def log(msg):
+            # encode string before sending it to external world 
+            if isinstance(msg, unicode): 
+                msg = msg.encode('utf-8')             
             context.plone_log(msg)
             out.append(msg)
 

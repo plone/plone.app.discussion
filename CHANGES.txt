@@ -4,6 +4,9 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Fix encoding error in migration procedure, otherwise migration procedure 
+  breaks on joining output list in case we have there any non-ascii characters.
+  [piv]
 
 * plone.z3cform 0.6.0 compatibility (fix maximum recursion depth error which 
   appears with plone.z3cform higher than 0.5.10)
