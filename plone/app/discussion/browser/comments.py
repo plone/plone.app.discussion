@@ -13,7 +13,7 @@ from zope.annotation import IAttributeAnnotatable
 
 from zope.component import createObject, getMultiAdapter, queryUtility
 
-from zope.interface import Interface, implements
+from zope.interface import Interface, implements, alsoProvides
 
 from zope.viewlet.interfaces import IViewlet
 
@@ -42,6 +42,12 @@ from plone.app.discussion.browser.validator import CaptchaValidator
 from plone.z3cform import layout, z2
 from plone.z3cform.fieldsets import extensible
 
+# starting from 0.6.0 version plone.z3cform has IWrappedForm interface 
+try:
+    from plone.z3cform.interfaces import IWrappedForm 
+    HAS_WRAPPED_FORM = True 
+except ImportError: 
+    HAS_WRAPPED_FORM = True 
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
@@ -201,6 +207,8 @@ class CommentsViewlet(ViewletBase):
         super(CommentsViewlet, self).update()
         z2.switch_on(self, request_layer=IFormLayer)
         self.form = CommentForm(aq_inner(self.context), self.request)
+        if HAS_WRAPPED_FORM: 
+            alsoProvides(self.form, IWrappedForm) 
         self.form.update()
 
     # view methods

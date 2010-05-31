@@ -4,6 +4,11 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+
+* plone.z3cform 0.6.0 compatibility (fix maximum recursion depth error which 
+  appears with plone.z3cform higher than 0.5.10)
+  [piv]
+  
 * Removed moderation.js from js registry and include it only in moderation.pt as
   that is the only place where it is used.
   [ggozad]
