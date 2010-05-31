@@ -47,7 +47,7 @@ try:
     from plone.z3cform.interfaces import IWrappedForm 
     HAS_WRAPPED_FORM = True 
 except ImportError: 
-    HAS_WRAPPED_FORM = True 
+    HAS_WRAPPED_FORM = False
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
