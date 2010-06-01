@@ -1,8 +1,4 @@
-# Captcha/ReCaptcha validators. We override the standard validators from
-# plone.formwidget.captcha and plone.formwidget.recaptcha, in order to
-# switch between the two. This is necessary, because the zcml registration
-# of the CaptchaValidator has to be there, no matter which captcha solution
-# is installed, or even when no captcha solution is installed.
+# -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
 
@@ -14,31 +10,31 @@ from zope.component import getMultiAdapter, provideAdapter, queryUtility
 
 from zope.schema import ValidationError
 
+from zope.interface import implements, Interface
+from zope.schema.interfaces import IField
+from zope.component import adapts
+
 from plone.registry.interfaces import IRegistry
 
-from plone.app.discussion.interfaces import IDiscussionSettings, IDiscussionLayer, MessageFactory as _
-
-from zope.interface import implements, Interface
-from zope.schema.interfaces import IField
-from zope.component import adapts
+from plone.app.discussion.interfaces import ICaptcha
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.interfaces import IDiscussionLayer
+from plone.app.discussion.interfaces import MessageFactory as _
 
 try:
-    from plone.formwidget.captcha import CaptchaMessageFactory as _
-    class WrongCaptchaCode(ValidationError):
-        __doc__ = _("""The code you entered was wrong, please enter the new one.""")
+    from plone.formwidget.captcha.validator import WrongCaptchaCode
 except:
     pass
 
 try:
-    from plone.formwidget.recaptcha import ReCaptchaMessageFactory as _
-    class WrongReCaptchaCode(ValidationError):
-        __doc__ = _("""The code you entered was wrong, please enter the new one.""")
+    from plone.formwidget.recaptcha.validator import WrongCaptchaCode
 except:
     pass
 
 from zope.interface import implements, Interface
 from zope.schema.interfaces import IField
 from zope.component import adapts
+
 
 class CaptchaValidator(validator.SimpleFieldValidator):
     implements(IValidator)
@@ -53,7 +49,8 @@ class CaptchaValidator(validator.SimpleFieldValidator):
 
         if settings.captcha == 'captcha':
             # Fetch captcha view
-            captcha = getMultiAdapter((aq_inner(self.context), self.request), name='captcha')
+            captcha = getMultiAdapter((aq_inner(self.context), self.request), 
+                                      name='captcha')
             if value:
                 if not captcha.verify(value):
                     raise WrongCaptchaCode
@@ -61,9 +58,14 @@ class CaptchaValidator(validator.SimpleFieldValidator):
                     return True
             raise WrongCaptchaCode
         elif settings.captcha == 'recaptcha':
-            # Fetch recatpcha view
-            captcha = getMultiAdapter((aq_inner(self.context), self.request), name='recaptcha')
+            # Fetch recaptcha view
+            captcha = getMultiAdapter((aq_inner(self.context), self.request), 
+                                      name='recaptcha')
             if not captcha.verify():
-                raise WrongReCaptchaCode
+                raise WrongCaptchaCode
             else:
                 return True
+
+# Register Captcha validator for the Captcha field in the ICaptcha Form
+validator.WidgetValidatorDiscriminators(CaptchaValidator, 
+                                        field=ICaptcha['captcha'])            

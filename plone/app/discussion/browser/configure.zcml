@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"    
     i18n_domain="plone.app.discussion">
 
     <include package="plone.app.registry" />
@@ -81,18 +82,23 @@
         />
 
     <!-- Comment form extender -->
-    <adapter
-        factory=".captcha.Captcha"
-        provides="plone.app.discussion.interfaces.ICaptcha" />
-
-    <adapter
-        factory=".captcha.CaptchaExtender"
-        provides="plone.z3cform.fieldsets.interfaces.IFormExtender" />
-
-    <!-- Captcha validator -->
-    <adapter
-        factory=".captcha.CaptchaValidator"
-        />
+    <configure zcml:condition="have plone.app.discussion-captcha">
+        <!-- 
+          Register the Captcha form extender and validator only if there are
+          plugins installed that declare to implement a Captcha solution for
+          plone.app.discussion (e.g. plone.formwidget.captcha and 
+          plone.formwidget.recaptcha). 
+        -->
+        <adapter
+            factory=".captcha.Captcha"
+            provides="plone.app.discussion.interfaces.ICaptcha" />
+        <adapter
+            factory=".captcha.CaptchaExtender"
+            provides="plone.z3cform.fieldsets.interfaces.IFormExtender" />
+        <adapter
+            factory=".captcha.CaptchaValidator"
+            />
+    </configure>
 
     <!-- Comment view -->
     <browser:view
