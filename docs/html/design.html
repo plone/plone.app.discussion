@@ -20,6 +20,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="plone.app.discussion v1.0b4 documentation" href="index.html" />
+    <link rel="next" title="API/Interfaces" href="api.html" />
     <link rel="prev" title="Architectural Principles" href="architecture.html" /> 
   </head>
   <body>
@@ -30,8 +31,8 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
+          <a href="api.html" title="API/Interfaces"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="architecture.html" title="Architectural Principles"
              accesskey="P">previous</a> |</li>
@@ -219,19 +220,18 @@ an auto-moderation &#8216;white-list&#8217;, e.g. by email address or username.<
 </div>
 <div class="section" id="forms-and-ui">
 <h2>Forms and UI<a class="headerlink" href="#forms-and-ui" title="Permalink to this headline">¶</a></h2>
-<p>The basic commenting display/reply form should be placed in a viewlet.</p>
-<p>Ideally, the reply form should be inline, perhaps revealed with JavaScript
-if enabled. This allows full contextualisation of replies. The current
-solution, with a separate form that shows some context, is brittle and
-over-complicated.</p>
-<p>If we support quoting of comments in replies, we can load the text to quote
-using JavaScript as well.</p>
-<p>As a fall-back for non-JavaScript enabled browsers, it is probably OK not to
-support quoting and/or viewing of context, e.g. the user is taken to a standalone
-&#8216;comment reply&#8217; form.</p>
-<p>All actual forms should be handled using z3c.form and plone.z3cform&#8217;s
-ExtensibleForm support. This makes it possible to plug in additional fields
-declaratively, e.g. to include spam protection.</p>
+<p>The basic commenting display/reply form is placed in a viewlet.</p>
+<p>The reply form is dynamically created right under the comment when the user hits
+the reply button. To do so, we copy the standard comment form with a jQuery
+function. This function sets the form&#8217;s hidden in_reply_to field to the id of
+the comment the user wants to reply to. This also makes is possible to use
+z3c.form validation for the reply forms, because we can uniquely identify the
+a reply form request and return the reply form with validation errors.</p>
+<p>Since we rely on JavaScript for the reply form creation, the reply button is
+removed for nonJavaScript enabled browsers.</p>
+<p>The comment form uses z3c.form and plone.z3cform&#8217;s ExtensibleForm support. This
+makes it possible to plug in additional fields declaratively, e.g. to include
+SPAM protection.</p>
 </div>
 </div>
 
@@ -258,6 +258,9 @@ declaratively, e.g. to include spam protection.</p>
             <h4>Previous topic</h4>
             <p class="topless"><a href="architecture.html"
                                   title="previous chapter">Architectural Principles</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="api.html"
+                                  title="next chapter">API/Interfaces</a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/design.txt"
@@ -287,8 +290,8 @@ declaratively, e.g. to include spam protection.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             >modules</a> |</li>
+          <a href="api.html" title="API/Interfaces"
+             >next</a> |</li>
         <li class="right" >
           <a href="architecture.html" title="Architectural Principles"
              >previous</a> |</li>

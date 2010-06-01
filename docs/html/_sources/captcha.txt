@@ -1,0 +1,30 @@
+===========================
+Captcha Plugin Architecture
+===========================
+
+This document contains design notes for the plone.app.discussion Captcha plugin
+architecture. It also explains how to write your own Captcha plugin (???).
+
+Currently there are two plugins that work with plone.app.discussion:
+
+    1) plone.formwidget.captcha
+    2) plone.formwidget.recaptcha
+
+1) Captcha plugin must provide the feature "plone.app.discussion-captcha":
+
+Add this to your configure.zcml::
+
+    <configure ...
+        xmlns:meta="http://namespaces.zope.org/meta">
+        <!-- Declare that plone.formwidget.captcha provides a Captcha field that 
+             can be used by plone.app.discussion to add a Captcha field to comment 
+             forms. -->
+        <meta:provides feature="plone.app.discussion-captcha" />
+    
+        ...
+    </configure>
+    
+For examples have a look at plone.formwidget.captcha
+
+https://svn.plone.org/svn/plone/plone.formwidget.captcha/trunk/plone/formwidget/captcha/configure.zcml
+

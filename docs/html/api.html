@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API/Interfaces &mdash; plone.app.discussion v1.0b4 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '1.0b4',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="plone.app.discussion v1.0b4 documentation" href="index.html" />
+    <link rel="prev" title="Design Notes" href="design.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="design.html" title="Design Notes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">plone.app.discussion v1.0b4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="api-interfaces">
+<h1>API/Interfaces<a class="headerlink" href="#api-interfaces" title="Permalink to this headline">¶</a></h1>
+<p>The conversation and replies adapters.</p>
+<p>The conversation is responsible for storing all comments. It provides a
+dict-like API for accessing comments, where keys are integers and values
+are IComment objects. It also provides features for finding comments quickly.</p>
+<p>The IReplies adapter provides an API for finding and manipulating the comments
+directly in reply to a particular comment (implemented by the CommentReplies
+adpater) or at the top level of the conversation (implemented by the
+ConversationReplies adapter).</p>
+<dl class="interface">
+<dt id="plone.app.discussion.interfaces.IConversation">
+<em class="property">interface </em><tt class="descclassname">plone.app.discussion.interfaces.</tt><tt class="descname">IConversation</tt><a class="headerlink" href="#plone.app.discussion.interfaces.IConversation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends: <tt class="xref docutils literal"><span class="pre">zope.interface.common.mapping.IIterableMapping</span></tt></p>
+<p>A conversation about a content object.</p>
+<p>This is a persistent object in its own right and manages all comments.</p>
+<p>The dict interface allows access to all comments. They are stored by
+long integer key, in the order they were added.</p>
+<p>Note that __setitem__() is not supported - use addComment() instead.
+However, comments can be deleted using __delitem__().</p>
+<p>To get replies at the top level, adapt the conversation to IReplies.</p>
+<p>The conversation can be traversed to via the ++comments++ namespace.
+For example, path/to/object/++comments++/123 retrieves comment 123.</p>
+<p>The __parent__ of the conversation (and the acquisition parent during
+traversal) is the content object. The conversation is the __parent__
+(and acquisition parent) for all comments, regardless of threading.</p>
+<dl class="method">
+<dt id="IConversation.__delitem__">
+<tt class="descname">__delitem__</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#IConversation.__delitem__" title="Permalink to this definition">¶</a></dt>
+<dd>Delete the comment with the given key. The key is a long id.</dd></dl>
+
+<dl class="attribute">
+<dt id="IConversation.last_comment_date">
+<tt class="descname">last_comment_date</tt><a class="headerlink" href="#IConversation.last_comment_date" title="Permalink to this definition">¶</a></dt>
+<dd>Date of the most recent comment</dd></dl>
+
+<dl class="attribute">
+<dt id="IConversation.total_comments">
+<tt class="descname">total_comments</tt><a class="headerlink" href="#IConversation.total_comments" title="Permalink to this definition">¶</a></dt>
+<dd>Total number of comments on this item</dd></dl>
+
+<dl class="method">
+<dt id="IConversation.getComments">
+<tt class="descname">getComments</tt><big>(</big><em>start=0</em>, <em>size=None</em><big>)</big><a class="headerlink" href="#IConversation.getComments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator of comment objects for rendering.</p>
+<p>The &#8216;start&#8217; parameter is the id of the comment from which to start the
+batch. If no such comment exists, the next higher id will be used.
+This means that you can use max key from a previous batch + 1 safely.</p>
+<p>The &#8216;size&#8217; parameter is the number of comments to return in the
+batch.</p>
+<p>The comments are returned in creation date order, in the exact batch
+size specified.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="IConversation.enabled">
+<tt class="descname">enabled</tt><big>(</big><big>)</big><a class="headerlink" href="#IConversation.enabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if discussion is enabled for this conversation.</p>
+<p>This method checks five different settings in order to figure out if
+discussion is enable on a specific content object:</p>
+<ol class="arabic simple">
+<li>Check if discussion is enabled globally in the plone.app.discussion
+registry/control panel.</li>
+<li>If the current content object is a folder, always return False, since
+we don&#8217;t allow comments on a folder. This setting is used to allow/
+disallow comments for all content objects inside a folder, not for 
+the folder itself.</li>
+<li>Check if the allow_discussion boolean flag on the content object is 
+set. If it is set to True or False, return the value. If it set to 
+None, try further.</li>
+<li>Traverse to a folder with allow_discussion set to either True or 
+False. If allow_discussion is not set (None), traverse further until
+we reach the PloneSiteRoot.</li>
+<li>Check if discussion is allowed for the content type.</li>
+</ol>
+</dd></dl>
+
+<dl class="method">
+<dt id="IConversation.getThreads">
+<tt class="descname">getThreads</tt><big>(</big><em>start=0</em>, <em>size=None</em>, <em>root=0</em>, <em>depth=None</em><big>)</big><a class="headerlink" href="#IConversation.getThreads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a batch of comment objects for rendering.</p>
+<p>The &#8216;start&#8217; parameter is the id of the comment from which to start
+the batch. If no such comment exists, the next higher id will be used.
+This means that you can use max key from a previous batch + 1 safely.
+This should be a root level comment.</p>
+<p>The &#8216;size&#8217; parameter is the number of threads to return in the
+batch. Full threads are always returned (although you can stop
+consuming the iterator if you want to abort).</p>
+<p>&#8216;root&#8217;, if given, is the id of the comment to which reply
+threads will be found. &#8216;root&#8217; itself is not included. If not given,
+all threads are returned.</p>
+<p>If &#8216;depth&#8217; is given, it can be used to limit the depth of threads
+returned. For example, depth=1 will return only direct replies.</p>
+<p>Comments are returned as an iterator of dicts with keys &#8216;comment&#8217;,
+the comment, &#8216;id&#8217;, the comment id, and &#8216;depth&#8217;, which is 0 for
+top-level comments, 1 for their replies, and so on. The list is
+returned in depth-first order.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="IConversation.addComment">
+<tt class="descname">addComment</tt><big>(</big><em>comment</em><big>)</big><a class="headerlink" href="#IConversation.addComment" title="Permalink to this definition">¶</a></dt>
+<dd>Adds a new comment to the list of comments, and returns the
+comment id that was assigned. The comment_id property on the comment
+will be set accordingly.</dd></dl>
+
+<dl class="attribute">
+<dt id="IConversation.commentators">
+<tt class="descname">commentators</tt><a class="headerlink" href="#IConversation.commentators" title="Permalink to this definition">¶</a></dt>
+<dd>The set of unique commentators (usernames)</dd></dl>
+
+</dd></dl>
+
+<dl class="interface">
+<dt id="plone.app.discussion.interfaces.IReplies">
+<em class="property">interface </em><tt class="descclassname">plone.app.discussion.interfaces.</tt><tt class="descname">IReplies</tt><a class="headerlink" href="#plone.app.discussion.interfaces.IReplies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends: <tt class="xref docutils literal"><span class="pre">zope.interface.common.mapping.IIterableMapping</span></tt></p>
+<p>A set of related comments in reply to a given content object or
+another comment.</p>
+<p>Adapt a conversation or another comment to this interface to obtain the
+direct replies.</p>
+<dl class="method">
+<dt id="IReplies.__delitem__">
+<tt class="descname">__delitem__</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#IReplies.__delitem__" title="Permalink to this definition">¶</a></dt>
+<dd>Delete the comment with the given key. The key is a long id.</dd></dl>
+
+<dl class="method">
+<dt id="IReplies.addComment">
+<tt class="descname">addComment</tt><big>(</big><em>comment</em><big>)</big><a class="headerlink" href="#IReplies.addComment" title="Permalink to this definition">¶</a></dt>
+<dd>Adds a new comment as a child of this comment, and returns the
+comment id that was assigned. The comment_id property on the comment
+will be set accordingly.</dd></dl>
+
+</dd></dl>
+
+<dl class="interface">
+<dt id="plone.app.discussion.interfaces.IComment">
+<em class="property">interface </em><tt class="descclassname">plone.app.discussion.interfaces.</tt><tt class="descname">IComment</tt><a class="headerlink" href="#plone.app.discussion.interfaces.IComment" title="Permalink to this definition">¶</a></dt>
+<dd><p>A comment.</p>
+<p>Comments are indexed in the catalog and subject to workflow and security.</p>
+<dl class="attribute">
+<dt id="IComment.author_username">
+<tt class="descname">author_username</tt><a class="headerlink" href="#IComment.author_username" title="Permalink to this definition">¶</a></dt>
+<dd>Name</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.modification_date">
+<tt class="descname">modification_date</tt><a class="headerlink" href="#IComment.modification_date" title="Permalink to this definition">¶</a></dt>
+<dd>Modification date</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.title">
+<tt class="descname">title</tt><a class="headerlink" href="#IComment.title" title="Permalink to this definition">¶</a></dt>
+<dd>Subject</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.author_email">
+<tt class="descname">author_email</tt><a class="headerlink" href="#IComment.author_email" title="Permalink to this definition">¶</a></dt>
+<dd>Email</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.text">
+<tt class="descname">text</tt><a class="headerlink" href="#IComment.text" title="Permalink to this definition">¶</a></dt>
+<dd>Comment</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.portal_type">
+<tt class="descname">portal_type</tt><a class="headerlink" href="#IComment.portal_type" title="Permalink to this definition">¶</a></dt>
+<dd>Portal type</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.comment_id">
+<tt class="descname">comment_id</tt><a class="headerlink" href="#IComment.comment_id" title="Permalink to this definition">¶</a></dt>
+<dd>A comment id unique to this conversation</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.author_name">
+<tt class="descname">author_name</tt><a class="headerlink" href="#IComment.author_name" title="Permalink to this definition">¶</a></dt>
+<dd>Name</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.creation_date">
+<tt class="descname">creation_date</tt><a class="headerlink" href="#IComment.creation_date" title="Permalink to this definition">¶</a></dt>
+<dd>Creation date</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.mime_type">
+<tt class="descname">mime_type</tt><a class="headerlink" href="#IComment.mime_type" title="Permalink to this definition">¶</a></dt>
+<dd>MIME type</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.__name__">
+<tt class="descname">__name__</tt><a class="headerlink" href="#IComment.__name__" title="Permalink to this definition">¶</a></dt>
+<dd>Name</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.in_reply_to">
+<tt class="descname">in_reply_to</tt><a class="headerlink" href="#IComment.in_reply_to" title="Permalink to this definition">¶</a></dt>
+<dd>Id of comment this comment is in reply to</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.creator">
+<tt class="descname">creator</tt><a class="headerlink" href="#IComment.creator" title="Permalink to this definition">¶</a></dt>
+<dd>Author name (for display)</dd></dl>
+
+<dl class="attribute">
+<dt id="IComment.__parent__">
+<tt class="descname">__parent__</tt><a class="headerlink" href="#IComment.__parent__" title="Permalink to this definition">¶</a></dt>
+<dd>Conversation</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="design.html"
+                                  title="previous chapter">Design Notes</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/api.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="design.html" title="Design Notes"
+             >previous</a> |</li>
+        <li><a href="index.html">plone.app.discussion v1.0b4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Timo Stollenwerk.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.4.
+    </div>
+  </body>
+</html>

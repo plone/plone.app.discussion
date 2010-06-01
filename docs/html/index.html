@@ -30,9 +30,6 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             accesskey="M">modules</a> |</li>
-        <li class="right" >
           <a href="architecture.html" title="Architectural Principles"
              accesskey="N">next</a> |</li>
         <li><a href="#">plone.app.discussion v1.0b4 documentation</a> &raquo;</li> 
@@ -59,31 +56,44 @@
 <li class="toctree-l2"><a class="reference external" href="design.html#forms-and-ui">Forms and UI</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference external" href="api.html">API/Interfaces</a></li>
 </ul>
-<div class="section" id="module-plone.app.discussion">
-<h2>API<a class="headerlink" href="#module-plone.app.discussion" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="plone.app.discussion.conversation.Conversation">
-<em class="property">class </em><tt class="descclassname">plone.app.discussion.conversation.</tt><tt class="descname">Conversation</tt><big>(</big><em>id='++conversation++default'</em><big>)</big><a class="headerlink" href="#plone.app.discussion.conversation.Conversation" title="Permalink to this definition">¶</a></dt>
-<dd><p>A conversation is a container for all comments on a content object.</p>
-<p>It manages internal data structures for comment threading and efficient
-comment lookup.</p>
-<dl class="method">
-<dt id="plone.app.discussion.conversation.Conversation.enabled">
-<tt class="descname">enabled</tt><big>(</big><big>)</big><a class="headerlink" href="#plone.app.discussion.conversation.Conversation.enabled" title="Permalink to this definition">¶</a></dt>
-<dd>hi world</dd></dl>
-
-</dd></dl>
-
-</div>
 </div>
 <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="b4-unreleased">
-<h2>1.0b4 (unreleased)<a class="headerlink" href="#b4-unreleased" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="b5-unreleased">
+<h2>1.0b5 (unreleased)<a class="headerlink" href="#b5-unreleased" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Fix #662654: As an administrator, I can configure a Collection to show recent comments.
-Comment.Type() now correctly returns the FTI title (&#8216;Comment&#8217;)
+<li>Fix encoding error in migration procedure, otherwise migration procedure
+breaks on joining output list in case we have there any non-ascii characters.
+[piv]</li>
+<li>plone.z3cform 0.6.0 compatibility (fix maximum recursion depth error which
+appears with plone.z3cform higher than 0.5.10).
+[piv]</li>
+<li>Removed moderation.js from js registry and include it only in moderation.pt as
+that is the only place where it is used.
+[ggozad]</li>
+</ul>
+</div>
+<div class="section" id="b4-2010-04-04">
+<h2>1.0b4 (2010-04-04)<a class="headerlink" href="#b4-2010-04-04" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>New feature: As a moderator, I am notified when new comments require my
+attention.
+[timo]</li>
+<li>Sphinx-based developer documentation added. See
+<a class="reference external" href="http://packages.python.org/plone.app.discussion">http://packages.python.org/plone.app.discussion</a>.
+[timo]</li>
+<li>Rename &#8220;Single State Workflow&#8221; to &#8220;Comment Single State Workflow&#8221;.
+[timo]</li>
+<li>Rename &#8216;publish comment&#8217; to &#8216;approve comment&#8217;. This fixes #1608470.
+[timo]</li>
+<li>Show a warning in the moderation view if the moderation workflow is disabled.
+[timo]</li>
+<li>Move &#8216;Moderate comments&#8217; link from site actions to user actions.
+[timo]</li>
+<li>Fix #662654: As an administrator, I can configure a Collection to show recent
+comments. Comment.Type() now correctly returns the FTI title (&#8216;Comment&#8217;)
 [chaoflow]</li>
 <li>German translation updated.
 [juh]</li>
@@ -97,15 +107,15 @@ translated button titles can differ in size from the English titles.
 <li>Fix unicode error when non-ASCII characters are typed into the name field of a
 comment by anonymous users.
 [regebro]</li>
-<li>New feature: As a moderator, I am notified when new comments require my
-attention.
-[timo]</li>
 <li>Make p.a.d. work with the recent version of plone.z3cform (0.5.10)
 [timo]</li>
 <li>Make p.a.d. styles less generic. This fixes #10253.
 [timo]</li>
 <li>Added greek translation.
 [ggozad]</li>
+<li>A bug in the moderator panel meant you couldn&#8217;t delete items in a virtual
+host, if your portal was named &#8220;plone&#8221;.
+[regebro]</li>
 </ul>
 </div>
 <div class="section" id="b3-2010-01-28">
@@ -158,42 +168,58 @@ have this workflow installed.
 <h2>1.0b2 (2010-01-22)<a class="headerlink" href="#b2-2010-01-22" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Bugfix for #2010181: The name of a commenter who commented while not logged in
-should not appear as a link.</li>
+should not appear as a link.
+[timo]</li>
 <li>Bugfix for #2010078: Comments that await moderation are visually distinguished
-from published comments.</li>
+from published comments.
+[timo]</li>
 <li>Bugfix for #2010085: Use object_provides instead of portal_type to query the
-catalog for comment.</li>
+catalog for comment.
+[timo]</li>
 <li>Bugfix for #2010071: p.a.d. works with plone.z3cform 0.5.7 and
-plone.app.z3cform 0.4.9 now.</li>
+plone.app.z3cform 0.4.9 now.
+[timo]</li>
 <li>Bugfix for #1513398: Show &#8220;anonymous&#8221; when name field is empty in comment
-form.</li>
+form.
+[timo]</li>
 <li>Migration view: Dry run option added, abort transaction when something goes
-wrong during migration, be more verbose about errors.</li>
+wrong during migration, be more verbose about errors.
+[timo]</li>
 </ul>
 </div>
 <div class="section" id="b1-2009-12-08">
 <h2>1.0b1 (2009-12-08)<a class="headerlink" href="#b1-2009-12-08" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Fix redirect after a adding a comment</li>
-<li>Replace yes/no widgets with check boxes in the discussion control panel</li>
-<li>Make comments viewlet show up in Plone 4</li>
-<li>Apply Plone 4 styles to comment form</li>
-<li>Simplify moderation view by removing the filters</li>
+<li>Fix redirect after a adding a comment
+[timo]</li>
+<li>Replace yes/no widgets with check boxes in the discussion control panel
+[timo]</li>
+<li>Make comments viewlet show up in Plone 4
+[timo]</li>
+<li>Apply Plone 4 styles to comment form
+[timo]</li>
+<li>Simplify moderation view by removing the filters
+[timo]</li>
 </ul>
 </div>
 <div class="section" id="a2-2009-10-18">
 <h2>1.0a2 (2009-10-18)<a class="headerlink" href="#a2-2009-10-18" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Plone 4 / Zope 2.12 support</li>
-<li>Comment migration script added</li>
-<li>Pluggable plone.z3cform comment forms</li>
-<li>Captcha and ReCaptcha support added</li>
+<li>Plone 4 / Zope 2.12 support
+[timo]</li>
+<li>Comment migration script added
+[timo]</li>
+<li>Pluggable plone.z3cform comment forms
+[timo]</li>
+<li>Captcha and ReCaptcha support added
+[timo]</li>
 </ul>
 </div>
 <div class="section" id="a1-2009-06-07">
 <h2>1.0a1 (2009-06-07)<a class="headerlink" href="#a1-2009-06-07" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Basic commenting functionality and batch moderation.</li>
+<li>Basic commenting functionality and batch moderation.
+[timo]</li>
 </ul>
 </div>
 </div>
@@ -215,11 +241,11 @@ wrong during migration, be more verbose about errors.</li>
             <h3><a href="#">Table Of Contents</a></h3>
             <ul>
 <li><a class="reference external" href="#">Welcome to plone.app.discussion&#8217;s documentation!</a><ul>
-<li><a class="reference external" href="#module-plone.app.discussion">API</a></li>
 </ul>
 </li>
 <li><a class="reference external" href="#changelog">Changelog</a><ul>
-<li><a class="reference external" href="#b4-unreleased">1.0b4 (unreleased)</a></li>
+<li><a class="reference external" href="#b5-unreleased">1.0b5 (unreleased)</a></li>
+<li><a class="reference external" href="#b4-2010-04-04">1.0b4 (2010-04-04)</a></li>
 <li><a class="reference external" href="#b3-2010-01-28">1.0b3 (2010-01-28)</a></li>
 <li><a class="reference external" href="#b2-2010-01-22">1.0b2 (2010-01-22)</a></li>
 <li><a class="reference external" href="#b1-2009-12-08">1.0b1 (2009-12-08)</a></li>
@@ -261,9 +287,6 @@ wrong during migration, be more verbose about errors.</li>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
-             >modules</a> |</li>
         <li class="right" >
           <a href="architecture.html" title="Architectural Principles"
              >next</a> |</li>
