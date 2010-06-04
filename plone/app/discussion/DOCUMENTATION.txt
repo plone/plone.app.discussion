@@ -14,8 +14,8 @@ THINGS THAT NEED TO BE DOCUMENTED
 
 - Allow comments per content type / single content object / folder.
 
-- Enable moderation workflow.
+- How to enable and use the moderation workflow.
 
 - How to extend the comment form with a custom field.
 
-- How to set the maximum indent
+- How to set the maximum indent.
