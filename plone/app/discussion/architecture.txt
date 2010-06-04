@@ -1,0 +1,59 @@
+========================
+Architectural Principles
+========================
+
+This document outlines architectural principles used in the design of
+plone.app.discussion.
+
+  **Discussion items have a portal_type**
+    This makes it easier to search for them and manage them using existing
+    CMF and Plone UI constructs.
+
+  **Discussion items are cataloged**
+    It is possible to search for discussion items like any other type of
+    content.
+
+  **Discussion items are subject to workflow and permission**
+    Moderation, anonymous commenting, and auto approve/reject should be
+    handled using workflow states, automatic and manual transitions, and
+    permissions.
+
+  **Discussion items are light weight objects**
+    Discussion item objects are as light weight as possible. Ideally, a 
+    discussion item should be as lightweight as a catalog brain. This may mean 
+    that we forego convenience base classes and re-implement certain interfaces. 
+    Comments should not provide the full set of dublin core metadata, though 
+    custom indexers can be used to provide values for standard catalog indexes.
+
+  **Optimise for retrival speed**
+    HTML filtering and other processing should happen on save, not on render,
+    to make rendering quick.
+
+  **Settings are stored using plone.registry** 
+    Any global setting should be stored in plone.registry records.
+    
+  **Forms are constructed using extensible z3c.form forms**
+    This allows plugins (such as spam protection algorithms) to provide
+    additional validation. It also allows integrators to write add-ons that add
+    new fields to the comment form.
+
+  **Discussion items are stored in a BTree container**
+    This allows faster lookup and manipulation.
+
+  **Discussion items are accessed using a dict-like interface**
+    This makes iteration and manipulation more natural. Even if comments are
+    not stored threaded, the dict interface should act as if they are, i.e.
+    calling items() on a comment should return the replies to that comment
+    (in order).
+    
+  **Discussion items are retrieved in reverse creation date order**
+    Discussion items do not need to support explicit ordering. They should
+    always be retrieved in reverse creation date order (most recent for).
+    They can be stored with keys so that this is always true.
+    
+  **Discussion items do not need readable ids**
+    Ids can be based on the creation date.
+    
+  **Discussion items send events**
+    The usual zope.lifecycleevent and zope.container events are fired when 
+    discussion items are added, removed, or modified.

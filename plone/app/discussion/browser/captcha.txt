@@ -1,5 +1,5 @@
-Captcha Design Notes
-====================
+Captcha Plugin Architecture
+===========================
 
 This document contains design notes for the plone.app.discussion Captcha plugin
 architecture.
