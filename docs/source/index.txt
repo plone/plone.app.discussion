@@ -16,9 +16,11 @@ Contents:
 
    architecture.txt
    design.txt
+   captcha.txt
    api.txt
-.. include:: ../../CHANGES.txt
    
+.. include:: ../../CHANGES.txt
+
 
 Indices and tables
 ==================
