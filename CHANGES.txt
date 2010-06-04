@@ -4,6 +4,9 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Clean up Javascript code.
+  [timo]
+
 * Fix encoding error in migration procedure, otherwise migration procedure 
   breaks on joining output list in case we have there any non-ascii characters.
   [piv]

@@ -1,27 +1,9 @@
 jq(document).ready(function() {
 
-    /*****************************************************************
-     * Check or uncheck all checkboxes
-     *****************************************************************/
-    jq("input[name='check_all']").click(function(){
-          if(jq(this).val()==0){
-            jq(this).parents("table")
-                   .find("input:checkbox")
-                   .attr("checked","checked");
-            jq(this).val("1");
-          }
-          else{
-            jq(this).parents("table")
-                   .find("input:checkbox")
-                   .attr("checked","");
-            jq(this).val("0");
-          }
-    });
 
-
-    /*****************************************************************
-     * Delete comment
-     *****************************************************************/
+    /**************************************************************************
+     * Delete a single comment.
+     **************************************************************************/
     jq("input[name='form.button.Delete']").click(function(e) {
         e.preventDefault();
         var button = jq(this);
@@ -45,9 +27,10 @@ jq(document).ready(function() {
         });
     });
 
-    /*****************************************************************
-     * Publish comment
-     *****************************************************************/
+
+    /**************************************************************************
+     * Publish a single comment.
+     **************************************************************************/
     jq("input[name='form.button.Publish']").click(function(e) {
         e.preventDefault();
         var button = jq(this);
@@ -72,9 +55,9 @@ jq(document).ready(function() {
     });
 
 
-    /*****************************************************************
-     * Bulk actions (delete, publish)
-     *****************************************************************/
+    /**************************************************************************
+     * Bulk actions for comments (delete, publish)
+     **************************************************************************/
     jq("input[name='form.button.BulkAction']").click(function(e) {
         e.preventDefault();
         var form = jq(this).parents("form")
@@ -102,10 +85,30 @@ jq(document).ready(function() {
             selectField.find("option[value='-1']").attr( 'selected', 'selected' );
         }
     });
+	
 
-    /*****************************************************************
-     * Show full text of a comment.
-     *****************************************************************/
+    /**************************************************************************
+     * Check or uncheck all checkboxes from the batch moderation page.
+     **************************************************************************/
+    jq("input[name='check_all']").click(function(){
+          if(jq(this).val()==0){
+            jq(this).parents("table")
+                   .find("input:checkbox")
+                   .attr("checked","checked");
+            jq(this).val("1");
+          }
+          else{
+            jq(this).parents("table")
+                   .find("input:checkbox")
+                   .attr("checked","");
+            jq(this).val("0");
+          }
+    });
+		
+
+    /**************************************************************************
+     * Show full text of a comment in the batch moderation page.
+     **************************************************************************/
     jq(".show-full-comment-text").click(function(e) {    
         e.preventDefault();
         var target = jq(this).attr("href");
