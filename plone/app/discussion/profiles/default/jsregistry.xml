@@ -2,7 +2,7 @@
 <object name="portal_javascripts">
  <javascript
      id="++resource++plone.app.discussion.javascripts/comments.js"
-     cacheable="False" compression="safe" cookable="False"
+     cacheable="True" compression="safe" cookable="True"
      enabled="True" expression="" inline="False"
      />
 </object>

@@ -4,6 +4,10 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+
+* Enable caching and merging for comments.js to save some requests.
+  [pelle]
+
 * Design notes for the Captcha plugin architecture added.
   [timo]
 
