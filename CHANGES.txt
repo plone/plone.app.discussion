@@ -4,6 +4,9 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Design notes for the Captcha plugin architecture added.
+  [timo]
+
 * Make IDiscussionLayer inherit from Interface again. Remove IDefaultPloneLayer,
   since Plone 4.0b1 and plone.theme 2.0b1 are out now.
   [timo]

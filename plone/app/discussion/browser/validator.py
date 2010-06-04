@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# Captcha validator, see captcha.txt for design notes.
+
 from Acquisition import aq_inner
 
 from z3c.form import validator

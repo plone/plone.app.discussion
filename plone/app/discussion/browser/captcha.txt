@@ -1,0 +1,67 @@
+====================
+Captcha Design Notes
+====================
+
+This document contains design notes for the plone.app.discussion Captcha plugin
+architecture.
+
+
+Introduction
+------------
+
+When a Captcha plugin (e.g. plone.formwidget.captcha or 
+plone.formwidget.recaptcha) is installed, plone.app.discussion 
+extends the comment form with a Captcha field/widget and a Captcha validator.
+
+The form extender and validator are only registered if there is a plugin 
+installed that claims to provide the "plone.app.discussion-captcha" feature in 
+its configure.zcml file::
+
+    <configure ...
+        xmlns:meta="http://namespaces.zope.org/meta">
+        <!-- Declare that plone.formwidget.captcha provides a Captcha field that 
+             can be used by plone.app.discussion to add a Captcha field to comment 
+             forms. -->
+        <meta:provides feature="plone.app.discussion-captcha" />
+    
+        ...
+    </configure>
+
+For an example see:
+
+https://svn.plone.org/svn/plone/plone.formwidget.captcha/trunk/plone/formwidget/captcha/configure.zcml
+
+Currently plone.formwidget.captcha and plone.formwidget.recaptcha provide such a
+feature. If you want to write your own Captcha plugin, it has to provide this 
+feature as well.
+
+    
+CaptchaExtender
+---------------
+
+The CaptchaExtender class extends the comment form with a Captcha field and
+widget. The CaptchaExtender currently uses either the CaptchaFieldWidget from
+plone.formwidget.captcha or the ReCaptchaFieldWidget from 
+plone.formwidget.recaptcha. If you want to write your own Captcha solution, you
+have to override the update() method of the CaptchaExtender or write your own
+CaptchaExtender class.
+
+
+CaptchaValidator
+----------------
+
+The CaptchaValidator class provides custom versions of the 
+plone.formwidget.captcha and the plone.formwidget.recaptcha validators. It does 
+this, because we want to be able to have more than one Captcha solution 
+installed in one Plone instance. We also want to be able to easily switch 
+between different Captcha implementations inside a single Plone instance. 
+
+Therefore we have to check which Captcha solution is enabled in the discussion 
+control panel and use only the selected Captcha validator. It is not enough to 
+check if a Captcha plugin is just installed, because there could be more than 
+one.
+
+We do two checks. First we check for a suitable Captcha solution (check for the 
+plone.app.discussion-captcha feature, see notes above). Second, we check which 
+Captcha solution is enabled in the discussion control panel and apply the 
+corresponding field validator.

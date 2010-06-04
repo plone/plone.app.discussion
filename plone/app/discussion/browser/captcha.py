@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+# Captcha validator, see captcha.txt for design notes.
+
 from persistent import Persistent
 
 from Products.CMFCore.utils import getToolByName
