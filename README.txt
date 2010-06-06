@@ -83,6 +83,18 @@ Add-on Products
   (for ReCaptcha spam protection)
 
 
+Documentation
+=============
+
+- For developer documentation see  
+  `http://packages.python.org/plone.app.discussion 
+  <http://packages.python.org/plone.app.discussion>`_.
+
+- For integrator/end-user documentation see 
+  `http://plone.org/products/plone.app.discussion/documentation
+  <http://plone.org/products/plone.app.discussion/documentation>`_.
+
+
 Credits
 =======
 
@@ -98,4 +110,3 @@ Many thanks to:
 - Hanno Schlichting (for making p.a.d work with Zope 2.12)
 - Alan Hoey (for providing fixes)
 - Maik Roeder (for providing and setting up a buildbot)
-
