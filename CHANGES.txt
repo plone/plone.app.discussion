@@ -4,6 +4,8 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Dutch translation added.
+  [kcleong]
 
 * Enable caching and merging for comments.js to save some requests.
   [pelle]
