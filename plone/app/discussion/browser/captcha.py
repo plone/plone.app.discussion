@@ -6,7 +6,7 @@ from persistent import Persistent
 
 from Products.CMFCore.utils import getToolByName
 
-from z3c.form import validator
+from z3c.form import interfaces, validator
 from z3c.form.field import Fields
 
 from zope import interface, schema
@@ -70,4 +70,5 @@ class CaptchaExtender(extensible.FormExtender):
             elif self.captcha == 'recaptcha':
                 from plone.formwidget.recaptcha import ReCaptchaFieldWidget
                 self.form.fields['captcha'].widgetFactory = ReCaptchaFieldWidget
-
+            elif self.captcha == 'akismet':
+                self.form.fields['captcha'].mode = interfaces.HIDDEN_MODE
