@@ -4,6 +4,11 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Simplify the CaptchaValidator class by dynamically adapting a view with the 
+  name of the captcha plugin (e.g. recaptcha, captcha, akismet) for the 
+  validator.
+  [timo]
+
 * Dutch translation added.
   [kcleong]
 

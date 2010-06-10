@@ -40,34 +40,27 @@ from zope.component import adapts
 
 class CaptchaValidator(validator.SimpleFieldValidator):
     implements(IValidator)
-    adapts(Interface,IDiscussionLayer,Interface,IField,Interface)
+    adapts(Interface, IDiscussionLayer, Interface, IField, Interface)
     #       Object, Request, Form, Field, Widget,
+    # We adapt the CaptchaValidator class to all form fields (IField)
 
     def validate(self, value):
         super(CaptchaValidator, self).validate(value)
 
+        data = self.request.form
+
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
 
-        if settings.captcha == 'captcha':
-            # Fetch captcha view
+        if settings.captcha != 'disabled':
             captcha = getMultiAdapter((aq_inner(self.context), self.request), 
-                                      name='captcha')
-            if value:
-                if not captcha.verify(value):
-                    raise WrongCaptchaCode
-                else:
-                    return True
-            raise WrongCaptchaCode
-        elif settings.captcha == 'recaptcha':
-            # Fetch recaptcha view
-            captcha = getMultiAdapter((aq_inner(self.context), self.request), 
-                                      name='recaptcha')
-            if not captcha.verify():
+                                      name=settings.captcha)
+            if not captcha.verify(input=value):
                 raise WrongCaptchaCode
             else:
                 return True
-
+        
 # Register Captcha validator for the Captcha field in the ICaptcha Form
 validator.WidgetValidatorDiscriminators(CaptchaValidator, 
-                                        field=ICaptcha['captcha'])            
+                                        field=ICaptcha['captcha'])
+            

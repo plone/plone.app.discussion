@@ -119,7 +119,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             if 'captcha' in data:
                 # Check Captcha only if there is a value, otherwise
                 # the default "required" validator is sufficient.
-                captcha = CaptchaValidator(self.context, self.request, None, ICaptcha['captcha'], None)
+                captcha = CaptchaValidator(self.context, 
+                                           self.request, 
+                                           None, 
+                                           ICaptcha['captcha'], 
+                                           None)
                 captcha.validate(data['captcha'])
             else:
                 return
