@@ -4,6 +4,9 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Move captcha registration to its own captcha.zcml file.
+  [timo]
+
 * Akismet (http://akismet.com/) spam protection plugin (collective.akismet)
   support added.
   [timo]

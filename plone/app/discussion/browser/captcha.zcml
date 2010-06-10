@@ -1,0 +1,45 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:meta="http://namespaces.zope.org/meta"	
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plone.app.discussion">
+
+	<!-- 
+	  Plone 3 fixes
+	 
+	  Plone 3 / Zope 2.10 does not recognize the meta:provides feature. 
+      Therefore we claim to provide this feature when a suitable package is
+      installed. 
+	-->
+    <configure zcml:condition="installed plone.formwidget.captcha">
+        <meta:provides feature="plone.app.discussion-captcha" />
+    </configure>
+
+    <configure zcml:condition="installed plone.formwidget.recaptcha">
+        <meta:provides feature="plone.app.discussion-captcha" />
+    </configure>
+
+    <configure zcml:condition="installed collective.akismet">
+        <meta:provides feature="plone.app.discussion-captcha" />
+    </configure>
+
+    <!-- Captcha comment form extender -->
+    <configure zcml:condition="have plone.app.discussion-captcha">
+        <!-- 
+          Register the Captcha form extender and validator only if there are
+          plugins installed that declare to implement a Captcha solution for
+          plone.app.discussion (e.g. plone.formwidget.captcha and 
+          plone.formwidget.recaptcha, collective.akismet). 
+        -->
+        <adapter
+            factory=".captcha.Captcha"
+            provides="plone.app.discussion.interfaces.ICaptcha" />
+        <adapter
+            factory=".captcha.CaptchaExtender"
+            provides="plone.z3cform.fieldsets.interfaces.IFormExtender" />
+        <adapter
+            factory=".captcha.CaptchaValidator"
+            />
+    </configure>
+
+</configure>
