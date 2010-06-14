@@ -38,7 +38,8 @@
             factory=".captcha.CaptchaExtender"
             provides="plone.z3cform.fieldsets.interfaces.IFormExtender" />
         <adapter
-            factory=".captcha.CaptchaValidator"
+            factory=".validator.CaptchaValidator"
+			provides="z3c.form.interfaces.IValidator"
             />
     </configure>
 
