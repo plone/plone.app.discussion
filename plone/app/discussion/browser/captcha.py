@@ -71,4 +71,8 @@ class CaptchaExtender(extensible.FormExtender):
                 from plone.formwidget.recaptcha import ReCaptchaFieldWidget
                 self.form.fields['captcha'].widgetFactory = ReCaptchaFieldWidget
             elif self.captcha == 'akismet':
+                # Hide the captcha field and move the Akismet validator error 
+                # message to the top
                 self.form.fields['captcha'].mode = interfaces.HIDDEN_MODE
+                self.move('captcha', before='author_name', prefix='')
+                
