@@ -33,6 +33,11 @@ try:
 except:
     pass
 
+try:
+    from collective.akismet.browser.validator import AkismetReject
+except:
+    pass
+
 from zope.interface import implements, Interface
 from zope.schema.interfaces import IField
 from zope.component import adapts
@@ -56,7 +61,10 @@ class CaptchaValidator(validator.SimpleFieldValidator):
             captcha = getMultiAdapter((aq_inner(self.context), self.request), 
                                       name=settings.captcha)
             if not captcha.verify(input=value):
-                raise WrongCaptchaCode
+                if settings.captcha == 'akismet':
+                    raise AkismetReject
+                else:
+                    raise WrongCaptchaCode
             else:
                 return True
         
