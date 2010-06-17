@@ -4,6 +4,11 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Remove the hard coded check for title and text when the comment form is 
+  submitted. This allows integrators to write schema extenders that remove the 
+  title from the comment form.
+  [timo]
+  
 * Move captcha registration to its own captcha.zcml file.
   [timo]
 

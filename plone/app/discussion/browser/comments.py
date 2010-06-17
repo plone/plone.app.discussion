@@ -102,7 +102,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     def handleComment(self, action):
         context = aq_inner(self.context)
         wf = getToolByName(context, 'portal_workflow')
+        
         data, errors = self.extractData()
+        if errors:
+            return
 
         title = u""
         text = u""
@@ -128,72 +131,72 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             else:
                 return
 
-        if 'title' in data and 'text' in data:
+        if 'title' in data:
             title = data['title']
+        if 'text' in data:
             text = data['text']
+        if 'author_name' in data:
+            author_name = data['author_name']
+        if 'author_username' in data:
+            author_username = data['author_username']
+        if 'author_email' in data:
+            author_email = data['author_email']
+        if 'author_notification' in data:
+            author_notification = data['author_notification']
+            
+        # The add-comment view is called on the conversation object
+        conversation = IConversation(self.__parent__)
 
-            if 'author_name' in data:
-                author_name = data['author_name']
-            if 'author_username' in data:
-                author_username = data['author_username']
-            if 'author_email' in data:
-                author_email = data['author_email']
-            if 'author_notification' in data:
-                author_notification = data['author_notification']
-                
-            # The add-comment view is called on the conversation object
-            conversation = IConversation(self.__parent__)
+        if data['in_reply_to']:
+            # Fetch the comment we want to reply to
+            conversation_to_reply_to = conversation.get(data['in_reply_to'])
+            replies = IReplies(conversation_to_reply_to)
 
-            if data['in_reply_to']:
-                # Fetch the comment we want to reply to
-                conversation_to_reply_to = conversation.get(data['in_reply_to'])
-                replies = IReplies(conversation_to_reply_to)
+        # Create the comment
+        comment = createObject('plone.Comment')
+        comment.title = title
+        comment.text = text
 
-            # Create the comment
-            comment = createObject('plone.Comment')
-            comment.title = title
-            comment.text = text
+        portal_membership = getToolByName(self.context, 'portal_membership')
 
-            portal_membership = getToolByName(self.context, 'portal_membership')
+        if portal_membership.isAnonymousUser():
+            comment.creator = None
+            comment.author_name = author_name
+            comment.author_email = author_email
+            #comment.author_notification = author_notification
+            comment.creation_date = comment.modification_date = datetime.now()
+        else:
+            member = portal_membership.getAuthenticatedMember()
+            comment.creator = member.id
+            comment.author_username = member.getUserName()
+            comment.author_name = member.getProperty('fullname')
+            comment.author_email = member.getProperty('email')
+            #comment.author_notification = comment.author_notification
+            comment.creation_date = comment.modification_date = datetime.now()
 
-            if portal_membership.isAnonymousUser():
-                comment.creator = None
-                comment.author_name = author_name
-                comment.author_email = author_email
-                #comment.author_notification = author_notification
-                comment.creation_date = comment.modification_date = datetime.now()
-            else:
-                member = portal_membership.getAuthenticatedMember()
-                comment.creator = member.id
-                comment.author_username = member.getUserName()
-                comment.author_name = member.getProperty('fullname')
-                comment.author_email = member.getProperty('email')
-                #comment.author_notification = comment.author_notification
-                comment.creation_date = comment.modification_date = datetime.now()
+        # Check if the added comment is a reply to an existing comment
+        # or just a regular reply to the content object.
+        if data['in_reply_to']:
+            # Add a reply to an existing comment
+            comment_id = replies.addComment(comment)
+        else:
+            # Add a comment to the conversation
+            comment_id = conversation.addComment(comment)
 
-            # Check if the added comment is a reply to an existing comment
-            # or just a regular reply to the content object.
-            if data['in_reply_to']:
-                # Add a reply to an existing comment
-                comment_id = replies.addComment(comment)
-            else:
-                # Add a comment to the conversation
-                comment_id = conversation.addComment(comment)
-
-            # If a user post a comment and moderation is enabled, a message is shown
-            # to the user that his/her comment awaits moderation. If the user has manage
-            # right, he/she is redirected directly to the comment.
-            can_manage = getSecurityManager().checkPermission('Manage portal', context)
-            if wf.getChainForPortalType('Discussion Item') == \
-                ('comment_review_workflow',) and not can_manage:
-                # Show info message when comment moderation is enabled
-                IStatusMessage(self.context.REQUEST).addStatusMessage(
-                    _("Your comment awaits moderator approval."),
-                    type="info")
-                self.request.response.redirect(context.absolute_url())
-            else:
-                # Redirect to comment (inside a content object page)
-                self.request.response.redirect(context.absolute_url() + '#' + str(comment_id))
+        # If a user post a comment and moderation is enabled, a message is shown
+        # to the user that his/her comment awaits moderation. If the user has manage
+        # right, he/she is redirected directly to the comment.
+        can_manage = getSecurityManager().checkPermission('Manage portal', context)
+        if wf.getChainForPortalType('Discussion Item') == \
+            ('comment_review_workflow',) and not can_manage:
+            # Show info message when comment moderation is enabled
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _("Your comment awaits moderator approval."),
+                type="info")
+            self.request.response.redirect(context.absolute_url())
+        else:
+            # Redirect to comment (inside a content object page)
+            self.request.response.redirect(context.absolute_url() + '#' + str(comment_id))
 
     @button.buttonAndHandler(_(u"Cancel"))
     def handleCancel(self, action):
