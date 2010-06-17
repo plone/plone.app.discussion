@@ -155,23 +155,33 @@ def notify_content_object_deleted(obj, event):
             del conversation[comment.id]
             
 def notify_user(obj, event):
-    """Tell the user when a comment is added
+    """Tell users when a comment has been added.
+    
+       This method composes and sends emails to all users that have added a 
+       comment to this conversation and enabled user notification.
+       
+       This requires the user_notification setting to be enabled in the 
+       discussion control panel. 
     """
 
-    # check if notification is enabled
+    # Check if user notification is enabled
     registry = queryUtility(IRegistry)
     settings = registry.forInterface(IDiscussionSettings)
     if not settings.user_notification_enabled:
         return
 
+    # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
     portal_url = getToolByName(obj, 'portal_url')
     portal = portal_url.getPortalObject()
     sender = portal.getProperty('email_from_address')
 
+    # Check if a sender address is available
     if not sender:
         return
 
+    # Compose and send emails to all users that have add a comment to this
+    # conversation and enabled author_notification.
     conversation = aq_parent(obj)
     content_object = aq_parent(conversation)
     
@@ -186,39 +196,51 @@ def notify_user(obj, event):
                 mail_host.send(message, comment.author_email, sender, subject)
             
 def notify_moderator(obj, index):
-    """Tell the moderator when a comment needs attention
+    """Tell the moderator when a comment needs attention.
+    
+       This method sends an email to the site admin (mail control panel setting)
+       if comment moderation is enabled and a new comment has been added that
+       needs to be approved.   
+    
+       This requires the moderator_notification to be enabled in the discussion 
+       control panel and the comment_review_workflow enabled for the comment 
+       content type.
     """
     
-    # check if notification is enabled
+    # Check if moderator notification is enabled
     registry = queryUtility(IRegistry)
     settings = registry.forInterface(IDiscussionSettings)
     if not settings.moderator_notification_enabled:
         return
     
-    # check if comment review workflow is enabled
+    # Check if comment review workflow is enabled
     wf = getToolByName(obj, 'portal_workflow')    
     if wf.getChainForPortalType('Discussion Item') != \
            ('comment_review_workflow',):
         return
     
+    # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
     portal_url = getToolByName(obj, 'portal_url')
     portal = portal_url.getPortalObject()
     sender = portal.getProperty('email_from_address')
     mto = portal.getProperty('email_from_address')
     
-    # check if a sender address is available
+    # Check if a sender address is available
     if not sender:
         return
 
     conversation = aq_parent(obj)
     content_object = aq_parent(conversation)
-        
+
+    # Compose email        
     comment = conversation.getComments().next()
     subject = "A comment has been posted."
     message = "A comment with the title '%s' has been posted here: %s" \
               % (obj.title,
                  content_object.absolute_url(),)
+              
+    # Send email
     if PLONE_4:
         mail_host.send(message, mto, sender, subject)
     else:
