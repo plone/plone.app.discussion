@@ -4,6 +4,9 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Avoid deprecation warning for the Globals package.
+  [hannosch]
+
 * Remove the hard coded check for title and text when the comment form is
   submitted. This allows integrators to write schema extenders that remove the
   title from the comment form.

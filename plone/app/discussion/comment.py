@@ -14,7 +14,7 @@ from Acquisition import aq_parent, Implicit
 from AccessControl.Role import RoleManager
 from AccessControl.Owned import Owned
 
-from Globals import Persistent
+from persistent import Persistent
 
 from Products.CMFCore.DynamicType import DynamicType
 from Products.CMFCore.utils import getToolByName
