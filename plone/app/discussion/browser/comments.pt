@@ -150,7 +150,7 @@
                 formatting.
             </p>
 
-			<div tal:replace="structure view/form/render" />
+            <div tal:replace="structure view/form/render" />
 
         </fieldset>
     </div>
