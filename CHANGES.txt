@@ -4,11 +4,11 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
-* Remove the hard coded check for title and text when the comment form is 
-  submitted. This allows integrators to write schema extenders that remove the 
+* Remove the hard coded check for title and text when the comment form is
+  submitted. This allows integrators to write schema extenders that remove the
   title from the comment form.
   [timo]
-  
+
 * Move captcha registration to its own captcha.zcml file.
   [timo]
 
@@ -16,8 +16,8 @@ Changelog
   support added.
   [timo]
 
-* Simplify the CaptchaValidator class by dynamically adapting a view with the 
-  name of the captcha plugin (e.g. recaptcha, captcha, akismet) for the 
+* Simplify the CaptchaValidator class by dynamically adapting a view with the
+  name of the captcha plugin (e.g. recaptcha, captcha, akismet) for the
   validator.
   [timo]
 
@@ -37,14 +37,14 @@ Changelog
 * Clean up Javascript code.
   [timo]
 
-* Fix encoding error in migration procedure, otherwise migration procedure 
+* Fix encoding error in migration procedure, otherwise migration procedure
   breaks on joining output list in case we have there any non-ascii characters.
   [piv]
 
-* plone.z3cform 0.6.0 compatibility (fix maximum recursion depth error which 
+* plone.z3cform 0.6.0 compatibility (fix maximum recursion depth error which
   appears with plone.z3cform higher than 0.5.10).
   [piv]
-  
+
 * Removed moderation.js from js registry and include it only in moderation.pt as
   that is the only place where it is used.
   [ggozad]
@@ -57,7 +57,7 @@ Changelog
   attention.
   [timo]
 
-* Sphinx-based developer documentation added. See 
+* Sphinx-based developer documentation added. See
   http://packages.python.org/plone.app.discussion.
   [timo]
 
@@ -66,23 +66,23 @@ Changelog
 
 * Rename 'publish comment' to 'approve comment'. This fixes #1608470.
   [timo]
-  
+
 * Show a warning in the moderation view if the moderation workflow is disabled.
   [timo]
 
 * Move 'Moderate comments' link from site actions to user actions.
   [timo]
 
-* Fix #662654: As an administrator, I can configure a Collection to show recent 
+* Fix #662654: As an administrator, I can configure a Collection to show recent
   comments. Comment.Type() now correctly returns the FTI title ('Comment')
   [chaoflow]
 
 * German translation updated.
   [juh]
-  
+
 * Fix #2419342: Fix untranslated published/deleted status messages.
   [timo]
-  
+
 * Remove fixed width of the actions column of the moderation view. The
   translated button titles can differ in size from the English titles.
   [timo]
@@ -93,7 +93,7 @@ Changelog
 * Fix unicode error when non-ASCII characters are typed into the name field of a
   comment by anonymous users.
   [regebro]
-  
+
 * Make p.a.d. work with the recent version of plone.z3cform (0.5.10)
   [timo]
 
@@ -221,13 +221,13 @@ Changelog
 
 * Plone 4 / Zope 2.12 support
   [timo]
-  
+
 * Comment migration script added
   [timo]
-  
+
 * Pluggable plone.z3cform comment forms
   [timo]
-  
+
 * Captcha and ReCaptcha support added
   [timo]
 
