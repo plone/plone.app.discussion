@@ -9,30 +9,36 @@ Introduction
 ------------
 
 When a Captcha plugin (e.g. plone.formwidget.captcha or 
-plone.formwidget.recaptcha) is installed, plone.app.discussion 
-extends the comment form with a Captcha field/widget and a Captcha validator.
+plone.formwidget.recaptcha, collective.akismet) is installed, 
+plone.app.discussion extends the comment form with a Captcha field/widget and a 
+Captcha validator.
 
 The form extender and validator are only registered if there is a plugin 
 installed that claims to provide the "plone.app.discussion-captcha" feature in 
 its configure.zcml file::
 
-    <configure ...
-        xmlns:meta="http://namespaces.zope.org/meta">
+    <configure
+        xmlns:meta="http://namespaces.zope.org/meta"
+        xmlns:zcml="http://namespaces.zope.org/zcml">
+
         <!-- Declare that plone.formwidget.captcha provides a Captcha field that 
              can be used by plone.app.discussion to add a Captcha field to comment 
              forms. -->
         <meta:provides feature="plone.app.discussion-captcha" />
     
-        ...
     </configure>
 
-For an example see:
+.. note::
 
-https://svn.plone.org/svn/plone/plone.formwidget.captcha/trunk/plone/formwidget/captcha/configure.zcml
+  Currently plone.formwidget.captcha, plone.formwidget.recaptcha, and 
+  collective.akismet provide such a feature. If you want to write your own 
+  Captcha plugin, it has to provide this feature as well.
 
-Currently plone.formwidget.captcha and plone.formwidget.recaptcha provide such a
-feature. If you want to write your own Captcha plugin, it has to provide this 
-feature as well.
+.. seealso::
+
+  * https://svn.plone.org/svn/plone/plone.formwidget.captcha/trunk/plone/formwidget/captcha/meta.zcml
+  * https://svn.plone.org/svn/plone/plone.formwidget.recaptcha/trunk/plone/formwidget/recaptcha/meta.zcml
+  * https://svn.plone.org/svn/collective/collective.akismet/trunk/collective/akismet/meta.zcml
 
     
 CaptchaExtender
@@ -44,6 +50,10 @@ plone.formwidget.captcha or the ReCaptchaFieldWidget from
 plone.formwidget.recaptcha. If you want to write your own Captcha solution, you
 have to override the update() method of the CaptchaExtender or write your own
 CaptchaExtender class.
+
+.. literalinclude:: ../../plone/app/discussion/browser/captcha.py
+   :language: python
+   :pyobject: CaptchaExtender
 
 
 CaptchaValidator
@@ -64,3 +74,26 @@ We do two checks. First we check for a suitable Captcha solution (check for the
 plone.app.discussion-captcha feature, see notes above). Second, we check which 
 Captcha solution is enabled in the discussion control panel and apply the 
 corresponding field validator.
+
+The plone.app.discussion captcha validator always checks for a view with the 
+name of the captcha plugin. For instance, if plone.formwidget.captcha is enabled
+it checks for a "captcha" view.
+
+.. literalinclude:: ../../plone/app/discussion/browser/validator.py
+   :language: python
+   :pyobject: CaptchaValidator
+
+
+.. Writing your own Captcha plugin
+   -------------------------------
+
+   If you want to write your own Captcha plugin, you have to add at least the 
+   following things:
+
+   1) Add your Captcha plugin to the captcha_vocabulary (vocabularies.py) 
+
+   2) Override the update() method of the CapchaExtender class (browser/captcha.py)
+      to show your own Captcha widget.
+
+   3) Override the validate() method of the CaptchaValidator class 
+      (browser/validator.py) to use your own Captcha validator.

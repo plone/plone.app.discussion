@@ -67,7 +67,8 @@ class CaptchaValidator(validator.SimpleFieldValidator):
                     raise WrongCaptchaCode
             else:
                 return True
-        
+
+
 # Register Captcha validator for the Captcha field in the ICaptcha Form
 validator.WidgetValidatorDiscriminators(CaptchaValidator, 
                                         field=ICaptcha['captcha'])
