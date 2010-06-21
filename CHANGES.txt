@@ -4,6 +4,13 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Documentation for Captcha plugin architecture and email notification added.
+  See http://packages.python.org/plone.app.discussion.
+  [timo]
+  
+* Use sphinx.plonetheme for plone.app.discussion documentation.
+  [timo]
+
 * Avoid deprecation warning for the Globals package.
   [hannosch]
 
