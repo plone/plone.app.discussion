@@ -17,6 +17,7 @@ Contents:
    architecture.txt
    design.txt
    captcha.txt
+   email-notification.txt
    api.txt
    
 .. include:: ../../CHANGES.txt
