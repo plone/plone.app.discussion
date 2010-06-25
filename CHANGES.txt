@@ -4,6 +4,9 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Protect against missing canonical in conversationCanonicalAdapterFactory.
+  [hannosch]
+
 * Documentation for Captcha plugin architecture and email notification added.
   See http://packages.python.org/plone.app.discussion.
   [timo]

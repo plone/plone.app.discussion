@@ -373,7 +373,9 @@ else:
         so that comments will be shared across all translations.
         """
         if ITranslatable.providedBy(content):
-            content = content.getCanonical()
+            canonical = content.getCanonical()
+            if canonical is not None:
+                return conversationAdapterFactory(canonical)
         return conversationAdapterFactory(content)
 
 
