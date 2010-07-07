@@ -3,7 +3,6 @@ from datetime import datetime
 from Acquisition import aq_inner, aq_parent
 
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
