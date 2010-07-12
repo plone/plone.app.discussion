@@ -1,6 +1,6 @@
 import unittest
 
-from zope.component import getUtility, createObject
+from zope.component import queryUtility, createObject
 
 from Products.PloneTestCase.ptc import PloneTestCase
 from plone.app.discussion.tests.layer import DiscussionLayer
@@ -31,7 +31,7 @@ class ToolTest(PloneTestCase):
         conversation.addComment(comment)
 
         # Check that the comment got indexed in the tool:
-        tool = getUtility(ICommentingTool)
+        tool = queryUtility(ICommentingTool)
         comment = list(tool.searchResults())
         self.assert_(len(comment) == 1, "There is only one comment, but we got"
                      " %s results in the search" % len(comment))

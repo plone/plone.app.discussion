@@ -1,5 +1,5 @@
 """The portal_discussion tool, usually accessed via
-getUtility(ICommentingTool). The default implementation delegates to the
+queryUtility(ICommentingTool). The default implementation delegates to the
 standard portal_catalog for indexing comments.
 
 BBB support for the old portal_discussion is provided in the bbb package.
