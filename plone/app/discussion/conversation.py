@@ -17,7 +17,7 @@ from persistent import Persistent
 from plone.registry.interfaces import IRegistry
 
 from zope.interface import implements, implementer
-from zope.component import adapts, adapter, queryUtility
+from zope.component import adapts, adapter, getUtility
 
 from zope.annotation.interfaces import IAnnotations, IAnnotatable
 
@@ -98,7 +98,7 @@ class Conversation(Traversable, Persistent, Explicit):
         # Returns True if discussion is enabled on the conversation
 
         # Fetch discussion registry
-        registry = queryUtility(IRegistry)
+        registry = getUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
 
         # Check if discussion is allowed globally

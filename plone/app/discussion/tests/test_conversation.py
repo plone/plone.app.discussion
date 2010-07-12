@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime, timedelta
 
-from zope.component import createObject, queryUtility
+from zope.component import createObject, getUtility
 
 from Acquisition import aq_base, aq_parent, aq_inner
 
@@ -231,7 +231,7 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(conversation.enabled(), True)
 
         # Disable commenting in the registry
-        registry = queryUtility(IRegistry)
+        registry = getUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = False
 
@@ -259,7 +259,7 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(conversation.enabled(), True)
 
         # Disable commenting in the registry
-        registry = queryUtility(IRegistry)
+        registry = getUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = False
 
@@ -349,7 +349,7 @@ class ConversationTest(PloneTestCase):
     def test_is_discussion_allowed_on_content_object(self):
         # Allow discussion on a single content object
 
-        registry = queryUtility(IRegistry)
+        registry = getUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
 
         # Create a conversation.

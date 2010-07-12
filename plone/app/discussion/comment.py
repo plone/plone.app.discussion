@@ -5,7 +5,7 @@ from datetime import datetime
 from zope.annotation.interfaces import IAnnotations, IAnnotatable
 
 from zope.component.factory import Factory
-from zope.component import queryUtility
+from zope.component import getUtility
 
 from zope.interface import implements
 
@@ -165,7 +165,7 @@ def notify_user(obj, event):
     """
 
     # Check if user notification is enabled
-    registry = queryUtility(IRegistry)
+    registry = getUtility(IRegistry)
     settings = registry.forInterface(IDiscussionSettings)
     if not settings.user_notification_enabled:
         return
@@ -208,7 +208,7 @@ def notify_moderator(obj, index):
     """
     
     # Check if moderator notification is enabled
-    registry = queryUtility(IRegistry)
+    registry = getUtility(IRegistry)
     settings = registry.forInterface(IDiscussionSettings)
     if not settings.moderator_notification_enabled:
         return
