@@ -13,7 +13,7 @@ from zope import interface, schema
 
 from zope.annotation import factory
 
-from zope.component import adapts, provideAdapter, getUtility
+from zope.component import adapts, provideAdapter, queryUtility
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 from zope.interface import Interface, implements
@@ -54,7 +54,7 @@ class CaptchaExtender(extensible.FormExtender):
         self.request = request
         self.form = form
 
-        registry = getUtility(IRegistry)
+        registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         self.captcha = settings.captcha
         portal_membership = getToolByName(self.context, 'portal_membership')

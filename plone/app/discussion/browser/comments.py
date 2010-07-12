@@ -11,7 +11,7 @@ from zope import interface, schema
 
 from zope.annotation import IAttributeAnnotatable
 
-from zope.component import createObject, getMultiAdapter, getUtility
+from zope.component import createObject, getMultiAdapter, queryUtility
 
 from zope.interface import Interface, implements, alsoProvides
 
@@ -87,7 +87,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
          
         # XXX: Author notification code
-        #registry = getUtility(IRegistry)
+        #registry = queryUtility(IRegistry)
         #settings = registry.forInterface(IDiscussionSettings)
         #if not settings.user_notification_enabled:
         #    self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE
@@ -115,7 +115,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         author_notification = None
 
         # Captcha check for anonymous users (if Captcha is enabled)
-        registry = getUtility(IRegistry)
+        registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         portal_membership = getToolByName(self.context, 'portal_membership')
         if settings.captcha != 'disabled' and portal_membership.isAnonymousUser():
@@ -304,13 +304,13 @@ class CommentsViewlet(ViewletBase):
 
     def anonymous_discussion_allowed(self):
         # Check if anonymous comments are allowed in the registry
-        registry = getUtility(IRegistry)
+        registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         return settings.anonymous_comments
 
     def show_commenter_image(self):
         # Check if showing commenter image is enabled in the registry
-        registry = getUtility(IRegistry)
+        registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         return settings.show_commenter_image
 

@@ -4,9 +4,6 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
-* Always use zope.component getUtility instead of queryUtility.
-  [timo]
-  
 * Added norwegian translation.
   [ggozad]
 

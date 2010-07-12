@@ -9,7 +9,7 @@ from zope.app.container.interfaces import IObjectAddedEvent
 
 from zope.component import createObject
 from zope.component import getSiteManager
-from zope.component import getUtility
+from zope.component import queryUtility
 
 from Products.PloneTestCase.ptc import PloneTestCase
 
@@ -41,7 +41,7 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 #        self.mailhost = self.portal.MailHost
 #
 #        # Enable user notification setting
-#        registry = getUtility(IRegistry)
+#        registry = queryUtility(IRegistry)
 #        settings = registry.forInterface(IDiscussionSettings)
 #        registry['plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled'] = True
 #
@@ -88,7 +88,7 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 #
 #    def test_do_not_notify_user_when_notification_is_disabled(self):
 #        # Disable user notification and make sure no email is send to the user.
-#        registry = getUtility(IRegistry)
+#        registry = queryUtility(IRegistry)
 #        settings = registry.forInterface(IDiscussionSettings)
 #        registry['plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled'] = False
 #
@@ -162,7 +162,7 @@ class TestModeratorNotificationUnit(PloneTestCase):
             ('comment_review_workflow',))
         
         # Enable moderator notification setting
-        registry = getUtility(IRegistry)
+        registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'] = True        
 
@@ -220,7 +220,7 @@ class TestModeratorNotificationUnit(PloneTestCase):
     def test_do_not_notify_moderator_when_notification_is_disabled(self):
         # Disable moderator notification setting and make sure no email is send 
         # to the moderator.
-        registry = getUtility(IRegistry)
+        registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'] = False        
 

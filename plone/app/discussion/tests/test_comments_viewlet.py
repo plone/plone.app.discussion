@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from plone.registry import Registry
 
-from zope.component import createObject, getUtility
+from zope.component import createObject, queryUtility
 
 from Acquisition import aq_base, aq_parent, aq_inner
 
@@ -248,7 +248,7 @@ class TestCommentsViewlet(PloneTestCase):
         # Anonymous discussion is not allowed by default
         self.failIf(self.viewlet.anonymous_discussion_allowed())
         # Allow anonymous discussion
-        registry = getUtility(IRegistry)
+        registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments'] = True
         # Test if anonymous discussion is allowed for the viewlet
@@ -256,7 +256,7 @@ class TestCommentsViewlet(PloneTestCase):
     
     def test_show_commenter_image(self):
         self.failUnless(self.viewlet.show_commenter_image())
-        registry = getUtility(IRegistry)
+        registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image'] = False        
         self.failIf(self.viewlet.show_commenter_image())

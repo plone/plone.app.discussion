@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+from Products.Five.browser import BrowserView
+
+from zope.component import queryUtility
+from plone.registry.interfaces import IRegistry
 
 from plone.app.registry.browser import controlpanel
 
