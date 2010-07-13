@@ -21,7 +21,7 @@ except ImportError:
 
 HAS_AKISMET = False
 try:
-    from akismet import Akismet, AkismetError
+    import collective.akismet
     HAS_AKISMET = True
 except ImportError:
     pass
