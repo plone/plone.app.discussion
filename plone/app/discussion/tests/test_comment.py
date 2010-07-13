@@ -4,8 +4,6 @@ from zope.component import createObject
 
 from zope.component import getMultiAdapter
 
-from Products.CMFCore.utils import getToolByName
-
 from Products.PloneTestCase.ptc import PloneTestCase
 
 from plone.app.discussion.tests.layer import DiscussionLayer
@@ -209,7 +207,7 @@ class RepliesTest(PloneTestCase):
         comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
 
-        new_comment1_id = conversation.addComment(comment1)
+        conversation.addComment(comment1)
 
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'

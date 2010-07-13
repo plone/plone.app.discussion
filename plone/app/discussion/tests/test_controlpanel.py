@@ -35,36 +35,26 @@ class RegistryTest(PloneTestCase):
 
     def test_globally_enabled(self):
         # Check globally_enabled record
-        globally_enabled_record = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled']
-
         self.failUnless('globally_enabled' in IDiscussionSettings)
         self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled'], True)
 
     def test_captcha(self):
         # Check globally_enabled record
-        globally_enabled_record = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.captcha']
-
         self.failUnless('captcha' in IDiscussionSettings)
         self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.captcha'], 'disabled')
 
     def test_anonymous_comments(self):
         # Check anonymous_comments record
-        anonymous_comments_record = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments']
-
         self.failUnless('anonymous_comments' in IDiscussionSettings)
         self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments'], False)
 
     def test_show_commenter_image(self):
         # Check show_commenter_image record
-        show_commenter_image = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image']
-
         self.failUnless('show_commenter_image' in IDiscussionSettings)
         self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image'], True)
 
     def test_moderator_notification_enabled(self):
         # Check show_commenter_image record
-        show_commenter_image = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled']
-
         self.failUnless('moderator_notification_enabled' in IDiscussionSettings)
         self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'], False)
 

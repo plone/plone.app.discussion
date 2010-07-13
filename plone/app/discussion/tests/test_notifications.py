@@ -1,11 +1,6 @@
 import unittest
 
-from email import message_from_string
-
 from Acquisition import aq_base
-
-from zope.app.container.contained import ObjectAddedEvent
-from zope.app.container.interfaces import IObjectAddedEvent
 
 from zope.component import createObject
 from zope.component import getSiteManager
@@ -18,9 +13,7 @@ from Products.CMFPlone.tests.utils import MockMailHost
 
 from plone.registry.interfaces import IRegistry
 
-from plone.app.discussion.comment import notify_user
-from plone.app.discussion.interfaces import IComment, IConversation, IReplies
-from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.tests.layer import DiscussionLayer
 
 
@@ -163,7 +156,6 @@ class TestModeratorNotificationUnit(PloneTestCase):
         
         # Enable moderator notification setting
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'] = True        
 
         # Create test content
@@ -221,7 +213,6 @@ class TestModeratorNotificationUnit(PloneTestCase):
         # Disable moderator notification setting and make sure no email is send 
         # to the moderator.
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'] = False        
 
         comment = createObject('plone.Comment')

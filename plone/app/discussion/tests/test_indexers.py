@@ -1,6 +1,6 @@
 import unittest
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from DateTime import DateTime
 
 from zope.component import createObject
@@ -10,10 +10,7 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 
 from plone.app.discussion.interfaces import IConversation
 
-from plone.indexer import indexer
 from plone.indexer.delegate import DelegatingIndexerFactory
-
-from zope.component import provideAdapter
 
 from plone.app.discussion import catalog
 
@@ -128,7 +125,7 @@ class CommentIndexersTest(PloneTestCase):
         comment_long.title = 'Long Comment'
         comment_long.text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
 
-        new_id = self.conversation.addComment(comment_long)
+        self.conversation.addComment(comment_long)
         self.assertEquals(catalog.description(comment_long)(), 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At [...]')
 
     def test_dates(self):

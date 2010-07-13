@@ -1,26 +1,14 @@
 import unittest
 
 from DateTime import DateTime
-from datetime import datetime, timedelta
-
-from plone.registry import Registry
 
 from zope.component import createObject
 
-from Acquisition import aq_base, aq_parent, aq_inner
-
-from OFS.Image import Image
-
-from plone.app.vocabularies.types import BAD_TYPES
-
-from Products.CMFCore.FSImage import FSImage
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.tests import dummy
 from Products.PloneTestCase.ptc import PloneTestCase
 
 from plone.app.discussion.browser.moderation import View
-from plone.app.discussion.interfaces import IConversation, IComment
-from plone.app.discussion.interfaces import IReplies, IDiscussionSettings
+from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.tests.layer import DiscussionLayer
 
 

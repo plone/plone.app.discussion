@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from zope.component import createObject, queryUtility
 
-from Acquisition import aq_base, aq_parent, aq_inner
+from Acquisition import aq_base, aq_parent
 
 from plone.app.vocabularies.types import BAD_TYPES
 
@@ -83,7 +83,7 @@ class ConversationTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        replies = IReplies(conversation)
+        IReplies(conversation)
 
         # Create a nested comment structure:
         #
@@ -128,10 +128,10 @@ class ConversationTest(PloneTestCase):
         new_id_1_1 = conversation.addComment(comment1_1)
 
         comment1_1_1.in_reply_to = new_id_1_1
-        new_id_1_1_1 = conversation.addComment(comment1_1_1)
+        conversation.addComment(comment1_1_1)
 
         comment1_2.in_reply_to = new_id_1
-        new_id_1_2 = conversation.addComment(comment1_2)
+        conversation.addComment(comment1_2)
 
         comment2_1.in_reply_to = new_id_2
         new_id_2_1 = conversation.addComment(comment2_1)
@@ -150,7 +150,7 @@ class ConversationTest(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
         comment.text = 'Comment text'
-        new_id = conversation.addComment(comment)
+        conversation.addComment(comment)
 
         # Delete the content object
         self.portal.manage_delObjects(['doc1'])
@@ -170,11 +170,10 @@ class ConversationTest(PloneTestCase):
 
 
         # Create a conversation.
-        conversation = IConversation(self.portal.doc1)
+        IConversation(self.portal.doc1)
 
         # By default, discussion is disabled for all content types
         portal_types = getToolByName(self.portal, 'portal_types')
-        from plone.app.vocabularies.types import BAD_TYPES
         for type in list(portal_types):
             type_fti = getattr(portal_types, type)
             if type not in BAD_TYPES:
@@ -349,9 +348,6 @@ class ConversationTest(PloneTestCase):
     def test_is_discussion_allowed_on_content_object(self):
         # Allow discussion on a single content object
 
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
-
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
 
@@ -448,9 +444,9 @@ class ConversationTest(PloneTestCase):
         comment3.title = 'Comment 3'
         comment3.text = 'Comment text'
 
-        new_comment1_id = conversation.addComment(comment1)
-        new_comment2_id = conversation.addComment(comment2)
-        new_comment3_id = conversation.addComment(comment3)
+        conversation.addComment(comment1)
+        conversation.addComment(comment2)
+        conversation.addComment(comment3)
 
         self.assertEquals(conversation.total_comments, 3)
 
@@ -472,13 +468,13 @@ class ConversationTest(PloneTestCase):
         comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
         comment1.author_username = "Jim"
-        new_comment1_id = conversation.addComment(comment1)
+        conversation.addComment(comment1)
 
         comment2 = createObject('plone.Comment')
         comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
         comment2.author_username = "Joe"
-        new_comment2_id = conversation.addComment(comment2)
+        conversation.addComment(comment2)
 
         comment3 = createObject('plone.Comment')
         comment3.title = 'Comment 3'
@@ -533,7 +529,7 @@ class ConversationTest(PloneTestCase):
         comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
         comment1.creation_date = datetime.now() - timedelta(4)
-        new_comment1_id = conversation.addComment(comment1)
+        conversation.addComment(comment1)
 
         comment2 = createObject('plone.Comment')
         comment2.title = 'Comment 2'
@@ -579,7 +575,7 @@ class ConversationTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        replies = IReplies(conversation)
+        IReplies(conversation)
 
         # Create a nested comment structure:
         #
@@ -803,11 +799,11 @@ class RepliesTest(PloneTestCase):
         new_id_1_1 = replies_to_comment1.addComment(comment1_1)
         comment1_1 = self.portal.doc1.restrictedTraverse('++conversation++default/%s' % new_id_1_1)
         replies_to_comment1_1 = IReplies(comment1_1)
-        new_id_1_1_1 = replies_to_comment1_1.addComment(comment1_1_1)
+        replies_to_comment1_1.addComment(comment1_1_1)
 
-        new_id_1_2 = replies_to_comment1.addComment(comment1_2)
+        replies_to_comment1.addComment(comment1_2)
 
-        new_id_2_1 = replies_to_comment2.addComment(comment2_1)
+        replies_to_comment2.addComment(comment2_1)
 
         # check that replies only contain the direct comments
         # and no comments deeper than 1

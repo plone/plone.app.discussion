@@ -4,15 +4,13 @@ from datetime import datetime
 
 from zope.component import createObject
 
-from zope.component import getMultiAdapter
-
 from Products.CMFCore.utils import getToolByName
 
 from Products.PloneTestCase.ptc import PloneTestCase
 
 from plone.app.discussion.tests.layer import DiscussionLayer
 
-from plone.app.discussion.interfaces import IComment, IConversation, IReplies
+from plone.app.discussion.interfaces import IConversation
 
 class CatalogSetupTest(PloneTestCase):
 
@@ -218,7 +216,7 @@ class CommentCatalogTest(PloneTestCase):
         self.assertEquals(self.comment_brain.Type, 'Comment')
 
     def test_review_state(self):
-         self.assertEquals(self.comment_brain.review_state, 'published')
+        self.assertEquals(self.comment_brain.review_state, 'published')
 
     def test_creator(self):
         self.assertEquals(self.comment_brain.Creator, 'Jim')
@@ -294,13 +292,13 @@ class CommentCatalogTest(PloneTestCase):
         new_id_1_1 = self.conversation.addComment(comment1_1)
 
         comment1_1_1.in_reply_to = new_id_1_1
-        new_id_1_1_1 = self.conversation.addComment(comment1_1_1)
+        self.conversation.addComment(comment1_1_1)
 
         comment1_2.in_reply_to = new_id_1
-        new_id_1_2 = self.conversation.addComment(comment1_2)
+        self.conversation.addComment(comment1_2)
 
         comment2_1.in_reply_to = new_id_2
-        new_id_2_1 = self.conversation.addComment(comment2_1)
+        self.conversation.addComment(comment2_1)
 
         # Clear and rebuild catalog
         self.catalog.clearFindAndRebuild()

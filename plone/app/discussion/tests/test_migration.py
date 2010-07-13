@@ -91,14 +91,14 @@ class MigrationTest(PloneTestCase):
         talkback = self.discussion.getDiscussionFor(self.doc)
 
         # First comment
-        comment1_id = talkback.createReply(title='First comment',
-                                           text='This is my first comment.')
+        talkback.createReply(title='First comment',
+                             text='This is my first comment.')
         comment1 = talkback.getReplies()[0]
         talkback_comment1 = self.discussion.getDiscussionFor(comment1)
 
         # Re: First comment
-        comment1_1_id = talkback_comment1.createReply(title='Re: First comment',
-                                                      text='This is my first reply.')
+        talkback_comment1.createReply(title='Re: First comment',
+                                      text='This is my first reply.')
         comment1_1 = talkback_comment1.getReplies()[0]
         talkback_comment1_1 = self.discussion.getDiscussionFor(comment1_1)
 
@@ -107,40 +107,30 @@ class MigrationTest(PloneTestCase):
         self.assertEquals(len(talkback_comment1_1.getReplies()), 0)
 
         #Re: Re: First comment
-        comment1_1_1_id = talkback_comment1_1.createReply(title='Re: Re: First comment',
-                                                      text='This is my first re-reply.')
+        talkback_comment1_1.createReply(title='Re: Re: First comment',
+                                        text='This is my first re-reply.')
         comment1_1_1 = talkback_comment1_1.getReplies()[0]
         talkback_comment1_1_1 = self.discussion.getDiscussionFor(comment1_1_1)
 
         # Re: Re: Re: First comment
-        comment1_1_1_1_id = talkback_comment1_1_1.createReply(title='Re: Re: Re: First comment',
-                                                              text='This is my first re-re-reply.')
-        comment1_1_1_1 = talkback_comment1_1_1.getReplies()[0]
-        talkback_comment1_1_1_1 = self.discussion.getDiscussionFor(comment1_1_1_1)
+        talkback_comment1_1_1.createReply(title='Re: Re: Re: First comment',
+                                          text='This is my first re-re-reply.')
 
         # Re: First comment (2)
-        comment1_2_id = talkback_comment1.createReply(title='Re: First comment (2)',
-                                                      text='This is my first reply (2).')
-        comment1_2 = talkback_comment1.getReplies()[1]
-        talkback_comment1_2 = self.discussion.getDiscussionFor(comment1_2)
+        talkback_comment1.createReply(title='Re: First comment (2)',
+                                      text='This is my first reply (2).')
 
         # Re: First comment (3)
-        comment1_3_id = talkback_comment1.createReply(title='Re: First comment (3)',
-                                                      text='This is my first reply (3).')
-        comment1_3 = talkback_comment1.getReplies()[2]
-        talkback_comment1_3 = self.discussion.getDiscussionFor(comment1_3)
+        talkback_comment1.createReply(title='Re: First comment (3)',
+                                      text='This is my first reply (3).')
 
         # Re: First comment (4)
-        comment1_4_id = talkback_comment1.createReply(title='Re: First comment (4)',
-                                                      text='This is my first reply (4).')
-        comment1_4 = talkback_comment1.getReplies()[3]
-        talkback_comment1_4 = self.discussion.getDiscussionFor(comment1_4)
+        talkback_comment1.createReply(title='Re: First comment (4)',
+                                      text='This is my first reply (4).')
 
         # Second comment
-        comment2_id = talkback.createReply(title='Second comment',
-                                           text='This is my second comment.')
-        comment2 = talkback.getReplies()[1]
-        talkback_comment2 = self.discussion.getDiscussionFor(comment2)
+        talkback.createReply(title='Second comment',
+                             text='This is my second comment.')
 
         # Call migration script
         self.view()

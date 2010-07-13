@@ -1,28 +1,20 @@
 import unittest
-from datetime import datetime, timedelta
-
-from plone.registry import Registry
+from datetime import datetime
 
 from zope.component import createObject, queryUtility
 
-from Acquisition import aq_base, aq_parent, aq_inner
-
 from OFS.Image import Image
-
-from plone.app.vocabularies.types import BAD_TYPES
 
 from plone.registry.interfaces import IRegistry
 
-from Products.CMFCore.FSImage import FSImage
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.tests import dummy
 from Products.Five.testbrowser import Browser
 from Products.PloneTestCase.ptc import PloneTestCase
 from Products.PloneTestCase.ptc import FunctionalTestCase
 
-from plone.app.discussion.browser.comments import CommentForm, CommentsViewlet
-from plone.app.discussion.interfaces import IConversation, IComment 
-from plone.app.discussion.interfaces import IReplies, IDiscussionSettings
+from plone.app.discussion.browser.comments import CommentsViewlet
+from plone.app.discussion.interfaces import IConversation 
 from plone.app.discussion.tests.layer import DiscussionLayer
 
 
@@ -42,7 +34,7 @@ class TestCommentForm(PloneTestCase):
         self.viewlet = CommentsViewlet(context, request, None, None)
 
     def test_add_comment(self):
-        form = CommentForm(self.viewlet, self.app.REQUEST)
+        #form = CommentForm(self.viewlet, self.app.REQUEST)
         #self.viewlet.form.render(form)
         #self.viewlet.form.handleComment()
         #from z3c.form.testing import TestRequest
@@ -64,7 +56,7 @@ class TestCommentForm(PloneTestCase):
         # Always check form errors after update()
         #errors = view.errors
         #self.assertEqual(len(errors), 0, "Got errors:" + str(errors))
-
+        pass
 
 class TestCommentsViewletIntegration(FunctionalTestCase):
 
@@ -185,7 +177,7 @@ class TestCommentsViewlet(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
         comment.text = 'Comment text'
-        conversation = IConversation(self.portal.doc1)
+        IConversation(self.portal.doc1)
         portal_membership = getToolByName(self.portal, 'portal_membership')
         m = portal_membership.getAuthenticatedMember()
         self.assertEquals(self.viewlet.get_commenter_home_url(m.getUserName()),
@@ -209,7 +201,7 @@ class TestCommentsViewlet(PloneTestCase):
         comment.text = 'Comment text'
         comment.Creator = 'Jim'
         comment.author_username = 'jim'
-        new_id = conversation.addComment(comment)
+        conversation.addComment(comment)
 
         # Call get_commenter_portrait method of the viewlet
         self.viewlet.update()
@@ -235,7 +227,7 @@ class TestCommentsViewlet(PloneTestCase):
         comment.text = 'Comment text'
         comment.Creator = 'Jim'
         comment.author_username = 'jim'
-        new_id = conversation.addComment(comment)
+        conversation.addComment(comment)
 
         # Call get_commenter_portrait method of the viewlet
         self.viewlet.update()
@@ -249,7 +241,6 @@ class TestCommentsViewlet(PloneTestCase):
         self.failIf(self.viewlet.anonymous_discussion_allowed())
         # Allow anonymous discussion
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments'] = True
         # Test if anonymous discussion is allowed for the viewlet
         self.failUnless(self.viewlet.anonymous_discussion_allowed())
@@ -257,7 +248,6 @@ class TestCommentsViewlet(PloneTestCase):
     def test_show_commenter_image(self):
         self.failUnless(self.viewlet.show_commenter_image())
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image'] = False        
         self.failIf(self.viewlet.show_commenter_image())
         
