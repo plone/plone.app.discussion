@@ -4,6 +4,13 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Make sure the form fields in the reply form are always placed under the field 
+  labels. 
+  [timo]
+  
+* Fix CSS overflow bug that occurs with the new Plone 4.0b5 comment styles.
+  [timo]
+  
 * Unnecessary imports and variables removed.
   [timo]
   

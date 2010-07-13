@@ -18,7 +18,6 @@
 
 .comment {
     min-height: 100px;
-    overflow: auto;
 }
 
 .commentImage {
@@ -58,6 +57,13 @@
 .reply fieldset {
     /* Fix bouncing fieldset when reply form is shown. */
     margin: 0 !important;
+}
+
+.reply .text-widget {
+	/* Make sure the input fields are always below the label. This sometimes
+	 * break when the reply form is copied from the main comment form. 
+	 */
+	display: block;
 }
 
 .reply-to-comment-button {
