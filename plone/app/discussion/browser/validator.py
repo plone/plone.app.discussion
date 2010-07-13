@@ -47,8 +47,6 @@ class CaptchaValidator(validator.SimpleFieldValidator):
     def validate(self, value):
         super(CaptchaValidator, self).validate(value)
 
-        data = self.request.form
-
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
 
@@ -56,7 +54,7 @@ class CaptchaValidator(validator.SimpleFieldValidator):
             captcha = getMultiAdapter((aq_inner(self.context), self.request), 
                                       name=settings.captcha)
             if not captcha.verify(input=value):
-                 raise WrongCaptchaCode
+                raise WrongCaptchaCode
             else:
                 return True
 
