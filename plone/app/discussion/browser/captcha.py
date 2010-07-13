@@ -6,28 +6,25 @@ from persistent import Persistent
 
 from Products.CMFCore.utils import getToolByName
 
-from z3c.form import interfaces, validator
+from z3c.form import interfaces
 from z3c.form.field import Fields
 
-from zope import interface, schema
+from zope import interface
 
 from zope.annotation import factory
 
-from zope.component import adapts, provideAdapter, queryUtility
+from zope.component import adapts, queryUtility
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
-from zope.interface import Interface, implements
+from zope.interface import Interface
 
 from plone.registry.interfaces import IRegistry
 
 from plone.z3cform.fieldsets import extensible
-from plone.z3cform.fieldsets.interfaces import IFormExtender
 
 from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.comment import Comment
 from plone.app.discussion.interfaces import IDiscussionSettings, ICaptcha
-
-from plone.app.discussion.browser.validator import CaptchaValidator
 
 
 class Captcha(Persistent):
@@ -70,9 +67,6 @@ class CaptchaExtender(extensible.FormExtender):
             elif self.captcha == 'recaptcha':
                 from plone.formwidget.recaptcha import ReCaptchaFieldWidget
                 self.form.fields['captcha'].widgetFactory = ReCaptchaFieldWidget
-            elif self.captcha == 'akismet':
-                # Hide the captcha field and move the Akismet validator error 
-                # message to the top
+            else:
                 self.form.fields['captcha'].mode = interfaces.HIDDEN_MODE
-                self.move('captcha', before='author_name', prefix='')
                 
