@@ -33,11 +33,6 @@ try:
 except:
     pass
 
-try:
-    from collective.akismet.browser.validator import AkismetReject
-except:
-    pass
-
 from zope.interface import implements, Interface
 from zope.schema.interfaces import IField
 from zope.component import adapts
@@ -57,14 +52,11 @@ class CaptchaValidator(validator.SimpleFieldValidator):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
 
-        if settings.captcha != 'disabled':
+        if settings.captcha == 'captcha' or settings.captcha == 'recaptcha':
             captcha = getMultiAdapter((aq_inner(self.context), self.request), 
                                       name=settings.captcha)
             if not captcha.verify(input=value):
-                if settings.captcha == 'akismet':
-                    raise AkismetReject
-                else:
-                    raise WrongCaptchaCode
+                 raise WrongCaptchaCode
             else:
                 return True
 

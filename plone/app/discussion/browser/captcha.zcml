@@ -19,17 +19,13 @@
         <meta:provides feature="plone.app.discussion-captcha" />
     </configure>
 
-    <configure zcml:condition="installed collective.akismet">
-        <meta:provides feature="plone.app.discussion-captcha" />
-    </configure>
-
     <!-- Captcha comment form extender -->
     <configure zcml:condition="have plone.app.discussion-captcha">
         <!-- 
           Register the Captcha form extender and validator only if there are
           plugins installed that declare to implement a Captcha solution for
           plone.app.discussion (e.g. plone.formwidget.captcha and 
-          plone.formwidget.recaptcha, collective.akismet). 
+          plone.formwidget.recaptcha). 
         -->
         <adapter
             factory=".captcha.Captcha"
@@ -43,4 +39,12 @@
             />
     </configure>
 
+    <!-- Akismet Validator -->
+    <configure zcml:condition="installed collective.akismet">
+        <adapter
+            factory="collective.akismet.validator.AkismetValidator"
+            provides="z3c.form.interfaces.IValidator"
+            />    	
+    </configure>
+	
 </configure>
