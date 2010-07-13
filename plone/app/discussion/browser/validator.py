@@ -8,11 +8,8 @@ from z3c.form import validator
 
 from z3c.form.interfaces import IValidator
 
-from zope.component import getMultiAdapter, provideAdapter, queryUtility
+from zope.component import getMultiAdapter, queryUtility
 
-from zope.schema import ValidationError
-
-from zope.interface import implements, Interface
 from zope.schema.interfaces import IField
 from zope.component import adapts
 
@@ -21,7 +18,6 @@ from plone.registry.interfaces import IRegistry
 from plone.app.discussion.interfaces import ICaptcha
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import IDiscussionLayer
-from plone.app.discussion.interfaces import MessageFactory as _
 
 try:
     from plone.formwidget.captcha.validator import WrongCaptchaCode

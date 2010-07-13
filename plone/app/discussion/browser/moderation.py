@@ -105,8 +105,6 @@ class PublishComment(BrowserView):
     def __call__(self):
 
         comment = aq_inner(self.context)
-        comment_id = self.context.id
-
         workflow_action = self.request.form['workflow_action']
         portal_workflow = getToolByName(comment, 'portal_workflow')
         portal_workflow.doActionFor(comment, workflow_action)
@@ -125,8 +123,6 @@ class BulkActionsView(BrowserView):
     """
 
     def __call__(self):
-
-        context = aq_inner(self.context)
 
         if self.request.has_key('form.select.BulkAction'):
 
