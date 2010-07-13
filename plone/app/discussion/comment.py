@@ -2,7 +2,7 @@
 """
 from datetime import datetime
 
-from zope.annotation.interfaces import IAnnotations, IAnnotatable
+from zope.annotation.interfaces import IAnnotatable
 
 from zope.component.factory import Factory
 from zope.component import queryUtility
