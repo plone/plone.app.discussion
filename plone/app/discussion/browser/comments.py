@@ -1,4 +1,4 @@
-from Acquisition import aq_inner, aq_parent, aq_base
+from Acquisition import aq_inner
 
 from AccessControl import getSecurityManager
 
@@ -7,39 +7,31 @@ from DateTime import DateTime
 
 from urllib import quote as url_quote
 
-from zope import interface, schema
+from zope.component import createObject, queryUtility
 
-from zope.annotation import IAttributeAnnotatable
+from zope.interface import alsoProvides
 
-from zope.component import createObject, getMultiAdapter, queryUtility
-
-from zope.interface import Interface, implements, alsoProvides
-
-from zope.viewlet.interfaces import IViewlet
-
-from z3c.form import form, field, button, interfaces, widget
+from z3c.form import form, field, button, interfaces
 from z3c.form.interfaces import IFormLayer
-from z3c.form.browser.textarea import TextAreaWidget
-from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
-from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
 from Products.CMFCore.utils import getToolByName
-
-from plone.app.discussion.interfaces import _
 from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.registry.interfaces import IRegistry
 
 from plone.app.layout.viewlets.common import ViewletBase
 
-from plone.app.discussion.comment import Comment, CommentFactory
-from plone.app.discussion.interfaces import IConversation, IComment, IReplies, IDiscussionSettings, ICaptcha
+from plone.app.discussion.interfaces import _
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IReplies
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.interfaces import ICaptcha
 
 from plone.app.discussion.browser.validator import CaptchaValidator
 
-from plone.z3cform import layout, z2
+from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
 
 # starting from 0.6.0 version plone.z3cform has IWrappedForm interface 
