@@ -6,15 +6,15 @@ from plone.app.discussion.interfaces import _
 
 HAS_CAPTCHA = False
 try:
-     import plone.formwidget.captcha
-     HAS_CAPTCHA = True
+    import plone.formwidget.captcha
+    HAS_CAPTCHA = True
 except ImportError:
     pass
 
 HAS_RECAPTCHA = False
 try:
-     import plone.formwidget.recaptcha
-     HAS_RECAPTCHA = True
+    import plone.formwidget.recaptcha
+    HAS_RECAPTCHA = True
 except ImportError:
     pass
 
