@@ -205,7 +205,7 @@ class CommentsViewlet(ViewletBase):
     def update(self):
         super(CommentsViewlet, self).update()
         z2.switch_on(self, request_layer=IFormLayer)
-        self.form = CommentForm(aq_inner(self.context), self.request)
+        self.form = self.form(aq_inner(self.context), self.request)
         if HAS_WRAPPED_FORM: 
             alsoProvides(self.form, IWrappedForm) 
         self.form.update()

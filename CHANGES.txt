@@ -4,6 +4,10 @@ Changelog
 1.0b5 (unreleased)
 ------------------
 
+* Use self.form instead of CommentForm for the CommentsViewlet update method so 
+  integrators don't have to override the viewlet's update method. 
+  [Matous]
+
 * Make sure the form fields in the reply form are always placed under the field 
   labels. 
   [timo]
