@@ -1,12 +1,12 @@
 Changelog
 =========
 
-1.0b5 (unreleased)
+1.0b5 (2010-07-16)
 ------------------
 
 * Use self.form instead of CommentForm for the CommentsViewlet update method so 
   integrators don't have to override the viewlet's update method. 
-  [Matous]
+  [matous]
 
 * Make sure the form fields in the reply form are always placed under the field 
   labels. 
