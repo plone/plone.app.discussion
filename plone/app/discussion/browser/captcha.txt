@@ -9,9 +9,8 @@ Introduction
 ------------
 
 When a Captcha plugin (e.g. plone.formwidget.captcha or 
-plone.formwidget.recaptcha, collective.akismet) is installed, 
-plone.app.discussion extends the comment form with a Captcha field/widget and a 
-Captcha validator.
+plone.formwidget.recaptcha) is installed, plone.app.discussion extends the 
+comment form with a Captcha field/widget and a Captcha validator.
 
 The form extender and validator are only registered if there is a plugin 
 installed that claims to provide the "plone.app.discussion-captcha" feature in 
@@ -30,15 +29,14 @@ its configure.zcml file::
 
 .. note::
 
-  Currently plone.formwidget.captcha, plone.formwidget.recaptcha, and 
-  collective.akismet provide such a feature. If you want to write your own 
-  Captcha plugin, it has to provide this feature as well.
+  Currently plone.formwidget.captcha and plone.formwidget.recaptcha claim to 
+  provide such a feature. If you want to write your own Captcha plugin, it has 
+  to provide this feature as well.
 
 .. seealso::
 
   * https://svn.plone.org/svn/plone/plone.formwidget.captcha/trunk/plone/formwidget/captcha/meta.zcml
   * https://svn.plone.org/svn/plone/plone.formwidget.recaptcha/trunk/plone/formwidget/recaptcha/meta.zcml
-  * https://svn.plone.org/svn/collective/collective.akismet/trunk/collective/akismet/meta.zcml
 
     
 CaptchaExtender
