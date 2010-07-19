@@ -6,17 +6,9 @@ from Products.Five.browser import BrowserView
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.CMFPlone import PloneMessageFactory as _
-
-from Products.statusmessages.interfaces import IStatusMessage
-
-from Products.CMFCore.interfaces import IContentish
-
 from Products.CMFCore.interfaces._content import IDiscussionResponse
 
 import transaction
-
-from zope.component import createObject
 
 from plone.app.discussion.comment import CommentFactory
 
@@ -44,7 +36,6 @@ class View(BrowserView):
             transaction.begin()
         
         catalog = getToolByName(context, 'portal_catalog')
-        dtool = context.portal_discussion
         
         def log(msg):
             # encode string before sending it to external world 
