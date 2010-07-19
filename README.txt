@@ -82,6 +82,10 @@ Add-on Products
   <http://pypi.python.org/pypi/plone.formwidget.recaptcha/>`_
   (for ReCaptcha spam protection)
 
+- `collective.akismet
+  <http://pypi.python.org/pypi/collective.akismet/>`_
+  (for Akismet spam protection)
+
 
 Documentation
 =============
