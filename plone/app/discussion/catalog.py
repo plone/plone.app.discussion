@@ -25,25 +25,39 @@ def total_comments(object):
     # Total number of comments on a conversation
     # Indexers won't work on old discussion items
     if object.meta_type != 'Discussion Item':
-
-        conversation = IConversation(object)
-        return conversation.total_comments
+        try:
+            conversation = IConversation(object)
+            return conversation.total_comments
+        except TypeError:
+            # The item is contentish but nobody
+            # implemented an adapter for it
+            pass
 
 @indexer(IContentish, IZCatalog)
 def last_comment_date(object):
     # Date of the latest comment on a conversation
     # Indexers won't work on old discussion items
     if object.meta_type != 'Discussion Item':
-        conversation = IConversation(object)
-        return conversation.last_comment_date
+        try:
+            conversation = IConversation(object)
+            return conversation.last_comment_date
+        except TypeError:
+            # The item is contentish but nobody
+            # implemented an adapter for it
+            pass
 
 @indexer(IContentish, IZCatalog)
 def commentators(object):
     # List of commentators on a conversation
     # Indexers won't work on old discussion items
     if object.meta_type != 'Discussion Item':
-        conversation = IConversation(object)
-        return tuple(conversation.commentators.keys())
+        try:
+            conversation = IConversation(object)
+            return tuple(conversation.commentators.keys())
+        except TypeError:
+            # The item is contentish but nobody
+            # implemented an adapter for it
+            pass
 
 # Comment Indexers
 

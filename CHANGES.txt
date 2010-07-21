@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0b6 (unreleased)
+------------------
+
+* Catch Type errors in indexers if object can not be adapted to IDiscussion
+  [do3cc]
+
 1.0b5 (2010-07-16)
 ------------------
 
