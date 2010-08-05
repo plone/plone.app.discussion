@@ -7,7 +7,7 @@ CURRENT_PATH=`pwd`
 PRODUCTNAME="plone.app.discussion"
 
 # List of languages
-LANGUAGES="de it"
+LANGUAGES="de es it nl no"
 
 # Create locales folder structure for languages
 install -d locales

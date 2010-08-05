@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-03-19 10:51+0000\n"
+"POT-Creation-Date: 2010-08-05 16:46+0000\n"
 "PO-Revision-Date: 2010-03-18 11:10+0100\n"
 "Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
 "Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
@@ -14,191 +14,187 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.discussion\n"
 
-#: ./interfaces.py:225
+#: ./interfaces.py:228
 msgid "A comment id unique to this conversation"
 msgstr "Eine eindeutige ID des Kommentars"
 
-#: ./browser/comments.py:49
+#: ./browser/comments.py:47
 msgid "Add a comment"
 msgstr "Kommentar hinzufügen"
 
-#: ./browser/controlpanel.py:38
+#: ./browser/controlpanel.py:35
 msgid "Anonymous Comments"
 msgstr "Anonyme Kommentare"
 
-#: ./interfaces.py:244
+#: ./interfaces.py:247
 msgid "Author name (for display)"
 msgstr "Name des Autors (wird angezeigt)"
 
-#: ./browser/comments.py:188
+#: ./browser/comments.py:190
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: ./interfaces.py:50
+#: ./interfaces.py:51
 msgid "Captcha"
 msgstr "Captcha"
 
-#: ./interfaces.py:238
+#: ./interfaces.py:241
 msgid "Comment"
 msgstr "Kommentar"
 
-#: ./browser/moderation.py:108
+#: ./browser/moderation.py:116
 msgid "Comment approved."
 msgstr ""
 
-#: ./browser/moderation.py:86
+#: ./browser/moderation.py:96
 msgid "Comment deleted."
 msgstr "Kommentar gelöscht"
 
-#: ./browser/controlpanel.py:39
+#: ./browser/controlpanel.py:36
 msgid "Commenter Image"
 msgstr "Porträt des Benutzers"
 
-#: ./interfaces.py:222
+#: ./interfaces.py:225
 msgid "Conversation"
 msgstr "Diskussion"
 
-#: ./interfaces.py:245
+#: ./interfaces.py:248
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
-#: ./interfaces.py:118
+#: ./interfaces.py:119
 msgid "Date of the most recent comment"
 msgstr "Datum des letzten Kommentars"
 
-#: ./vocabularies.py:30
+#: ./vocabularies.py:37
 msgid "Disabled"
 msgstr "Ausgeschaltet"
 
-#: ./browser/controlpanel.py:16
+#: ./browser/controlpanel.py:13
 msgid "Discussion settings"
 msgstr "Kommentierungseinstellungen"
 
-#: ./interfaces.py:233
+#: ./interfaces.py:236
 msgid "Email"
 msgstr "E-Mail"
 
-#: ./browser/controlpanel.py:37
+#: ./browser/controlpanel.py:34
 msgid "Enable Comments"
 msgstr "Kommentare einschalten"
 
-#: ./interfaces.py:36
+#: ./interfaces.py:37
 msgid "Enable anonymous comments"
 msgstr "Anonyme Kommentare zulassen"
 
-#: ./interfaces.py:226
+#: ./interfaces.py:229
 msgid "Id of comment this comment is in reply to"
 msgstr "ID des Kommentars, auf den geantwortet wird."
 
-#: ./interfaces.py:237
+#: ./interfaces.py:240
 msgid "MIME type"
 msgstr "MIME-Typ"
 
-#: ./browser/controlpanel.py:40
+#: ./browser/controlpanel.py:37
 msgid "Moderator Email Notification"
 msgstr ""
 
-#: ./interfaces.py:246
+#: ./interfaces.py:249
 msgid "Modification date"
 msgstr "Änderungsdatum"
 
-#: ./interfaces.py:223
+#: ./interfaces.py:226
 msgid "Name"
 msgstr "Name"
 
-#: ./interfaces.py:219
+#: ./interfaces.py:222
 msgid "Portal type"
 msgstr "Artikeltyp"
 
-#: ./interfaces.py:63
+#: ./interfaces.py:64
 msgid "Show commenter image"
 msgstr "Benutzerporträt anzeigen"
 
-#: ./interfaces.py:235
+#: ./interfaces.py:238
 msgid "Subject"
 msgstr "Betreff"
 
-#: ./browser/validator.py:28
-msgid "The code you entered was wrong, please enter the new one."
-msgstr "Die eingegebene Zeichenkette war falsch, bitte versuchen Sie es erneut."
-
-#: ./interfaces.py:119
+#: ./interfaces.py:120
 msgid "The set of unique commentators (usernames)"
 msgstr "Liste von Benutzern, die Kommentare abgegeben haben"
 
-#: ./interfaces.py:117
+#: ./interfaces.py:118
 msgid "Total number of comments on this item"
 msgstr "Anzahl der Kommentare zu diesem Artikel"
 
-#: ./browser/comments.py:181
+#: ./browser/comments.py:183
 msgid "Your comment awaits moderator approval."
 msgstr "Ihr Kommentar muss noch vom Moderator freigegeben werden."
 
 #. Default: "Comment"
-#: ./browser/comments.py:95
+#: ./browser/comments.py:93
 msgid "add_comment_button"
 msgstr "Kommentieren"
 
 #. Default: "Delete"
-#: ./browser/moderation.pt:63
+#: ./browser/moderation.pt:66
 msgid "bulkactions_delete"
 msgstr "Löschen"
 
 #. Default: "Approve"
-#: ./browser/moderation.pt:60
+#: ./browser/moderation.pt:63
 #, fuzzy
 msgid "bulkactions_publish"
 msgstr "Veröffentlichen"
 
 #. Default: "Action"
-#: ./browser/moderation.pt:81
+#: ./browser/moderation.pt:84
 msgid "heading_action"
 msgstr "Aktion"
 
 #. Default: "Comment"
-#: ./browser/moderation.pt:80
+#: ./browser/moderation.pt:83
 msgid "heading_comment"
 msgstr "Kommentar"
 
 #. Default: "Commenter"
-#: ./browser/moderation.pt:76
+#: ./browser/moderation.pt:79
 msgid "heading_commenter"
 msgstr "Autor"
 
 #. Default: "Date"
-#: ./browser/moderation.pt:77
+#: ./browser/moderation.pt:80
 msgid "heading_date"
 msgstr "Datum"
 
 #. Default: "In Response To"
-#: ./browser/moderation.pt:78
+#: ./browser/moderation.pt:81
 msgid "heading_in_reponse_to"
 msgstr "Kommentar zu"
 
 #. Default: "Moderate comments"
-#: ./browser/moderation.pt:21
+#: ./browser/moderation.pt:24
 msgid "heading_moderate_comments"
 msgstr "Kommentare moderieren"
 
 #. Default: "Subject"
-#: ./browser/moderation.pt:79
+#: ./browser/moderation.pt:82
 msgid "heading_subject"
 msgstr "Betreff"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
-#: ./interfaces.py:37
+#: ./interfaces.py:38
 #, fuzzy
 msgid "help_anonymous_comments"
 msgstr "Wenn Sie diese Einstellung aktivieren, können anonyme Benutzer Kommentare abgeben. Es ist empfehlenswert, dann auch Captchas zu aktivieren."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
-#: ./interfaces.py:51
+#: ./interfaces.py:52
 #, fuzzy
 msgid "help_captcha"
 msgstr "Wenn Sie diese Einstellung aktivieren, wird mit Hilfe der Captcha-Validierung überprüft, ob die Kommentare von einem echten Benutzer oder von einem automatisierten Skript stammen. Falls Sie die Option nicht einschalten können, fehlt evtl. ein benötigtes Programmmodul. Stellen Sie sicher, dass entweder plone.formwidget.captcha oder plone.formwidget.recaptcha installiert ist."
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'enable moderation'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
-#: ./browser/controlpanel.py:17
+#: ./browser/controlpanel.py:14
 msgid "help_discussion_settings_editform"
 msgstr ""
 "Einige Kommentierungseinstellungen müssen an anderer Stelle vorgenommen werden. Um die Kommentierung einzelner Artikeltypen einzuschalten, gehen Sie in der 'Plone-Konfiguration' zu 'Artikeltypen', wählen Sie den gewünschten Artikeltyp aus und schalten Sie die Option 'Kommentieren erlauben' ein.\n"
@@ -206,64 +202,64 @@ msgstr ""
 "Um die Moderation von Kommentaren zu aktivieren, wählen Sie den Artikeltyp 'Kommentar' aus und wählen Sie als neuen Arbeitsablauf 'Arbeitsablauf für moderierte Kommentare'."
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objectsbefore users will be able to post comments."
-#: ./interfaces.py:23
+#: ./interfaces.py:24
 #, fuzzy
 msgid "help_globally_enabled"
 msgstr "Wenn Sie diese Einstellung aktivieren, können Artikel generell kommentiert werden."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
-#: ./interfaces.py:74
+#: ./interfaces.py:75
 msgid "help_moderator_notification_enabled"
 msgstr ""
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ./interfaces.py:64
+#: ./interfaces.py:65
 msgid "help_show_commenter_image"
 msgstr "Wenn Sie diese Einstellung aktivieren, wird das Porträt des kommentierenden Benutzers neben dem Kommentar angezeigt."
 
 #. Default: "Apply"
-#: ./browser/moderation.pt:66
+#: ./browser/moderation.pt:69
 msgid "label_apply"
 msgstr "Anwenden"
 
 #. Default: "Delete"
-#: ./browser/moderation.pt:131
+#: ./browser/moderation.pt:134
 msgid "label_delete"
 msgstr "Löschen"
 
 #. Default: "Globally enable comments"
-#: ./interfaces.py:21
+#: ./interfaces.py:22
 msgid "label_globally_enabled"
 msgstr "Kommentierungsfunktion generell einschalten"
 
 #. Default: "Enable moderator email notification"
-#: ./interfaces.py:72
+#: ./interfaces.py:73
 msgid "label_moderator_notification_enabled"
 msgstr ""
 
 #. Default: "Approve"
-#: ./browser/moderation.pt:122
+#: ./browser/moderation.pt:125
 #, fuzzy
 msgid "label_publish"
 msgstr "Veröffentlichen"
 
 #. Default: "show full comment text"
-#: ./browser/moderation.pt:115
+#: ./browser/moderation.pt:118
 msgid "label_show_full_comment_text"
 msgstr "Den vollständigen Kommentar anzeigen"
 
 #. Default: "Moderation workflow is disabled. You have to <a href=\"${DYNAMIC_CONTENT}\"> enable the 'Comment Review Workflow' for the Comment content type</a> before you can moderate comments here."
-#: ./browser/moderation.pt:29
+#: ./browser/moderation.pt:32
 msgid "message_moderation_disabled"
 msgstr ""
 
 #. Default: "No comments to moderate."
-#: ./browser/moderation.pt:38
+#: ./browser/moderation.pt:41
 msgid "message_nothing_to_moderate"
 msgstr "Es müssen keine Kommentare moderiert werden."
 
 #. Default: "Bulk Actions"
-#: ./browser/moderation.pt:59
+#: ./browser/moderation.pt:62
 msgid "title_bulkactions"
 msgstr "Sammelbearbeitung"
 
