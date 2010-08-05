@@ -1,0 +1,257 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plone.app.discussion\n"
+"POT-Creation-Date: 2010-08-05 16:46+0000\n"
+"PO-Revision-Date: 2010-08-05 18:56+0100\n"
+"Last-Translator: Vincent Fretin <vincent.fretin@gmail.com>\n"
+"Language-Team: Vincent Fretin <vincent.fretin@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: fr\n"
+"Language-Name: Français\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone.app.discussion\n"
+
+#: ./interfaces.py:228
+msgid "A comment id unique to this conversation"
+msgstr ""
+
+#: ./browser/comments.py:47
+msgid "Add a comment"
+msgstr ""
+
+#: ./browser/controlpanel.py:35
+msgid "Anonymous Comments"
+msgstr ""
+
+#: ./interfaces.py:247
+msgid "Author name (for display)"
+msgstr ""
+
+#: ./browser/comments.py:190
+msgid "Cancel"
+msgstr ""
+
+#: ./interfaces.py:51
+msgid "Captcha"
+msgstr ""
+
+#: ./interfaces.py:241
+msgid "Comment"
+msgstr ""
+
+#: ./browser/moderation.py:116
+msgid "Comment approved."
+msgstr ""
+
+#: ./browser/moderation.py:96
+msgid "Comment deleted."
+msgstr ""
+
+#: ./browser/controlpanel.py:36
+msgid "Commenter Image"
+msgstr ""
+
+#: ./interfaces.py:225
+msgid "Conversation"
+msgstr ""
+
+#: ./interfaces.py:248
+msgid "Creation date"
+msgstr ""
+
+#: ./interfaces.py:119
+msgid "Date of the most recent comment"
+msgstr ""
+
+#: ./vocabularies.py:37
+msgid "Disabled"
+msgstr ""
+
+#: ./browser/controlpanel.py:13
+msgid "Discussion settings"
+msgstr ""
+
+#: ./interfaces.py:236
+msgid "Email"
+msgstr ""
+
+#: ./browser/controlpanel.py:34
+msgid "Enable Comments"
+msgstr ""
+
+#: ./interfaces.py:37
+msgid "Enable anonymous comments"
+msgstr ""
+
+#: ./interfaces.py:229
+msgid "Id of comment this comment is in reply to"
+msgstr ""
+
+#: ./interfaces.py:240
+msgid "MIME type"
+msgstr ""
+
+#: ./browser/controlpanel.py:37
+msgid "Moderator Email Notification"
+msgstr ""
+
+#: ./interfaces.py:249
+msgid "Modification date"
+msgstr ""
+
+#: ./interfaces.py:226
+msgid "Name"
+msgstr ""
+
+#: ./interfaces.py:222
+msgid "Portal type"
+msgstr ""
+
+#: ./interfaces.py:64
+msgid "Show commenter image"
+msgstr ""
+
+#: ./interfaces.py:238
+msgid "Subject"
+msgstr ""
+
+#: ./interfaces.py:120
+msgid "The set of unique commentators (usernames)"
+msgstr ""
+
+#: ./interfaces.py:118
+msgid "Total number of comments on this item"
+msgstr ""
+
+#: ./browser/comments.py:183
+msgid "Your comment awaits moderator approval."
+msgstr ""
+
+#. Default: "Comment"
+#: ./browser/comments.py:93
+msgid "add_comment_button"
+msgstr ""
+
+#. Default: "Delete"
+#: ./browser/moderation.pt:66
+msgid "bulkactions_delete"
+msgstr ""
+
+#. Default: "Approve"
+#: ./browser/moderation.pt:63
+msgid "bulkactions_publish"
+msgstr ""
+
+#. Default: "Action"
+#: ./browser/moderation.pt:84
+msgid "heading_action"
+msgstr ""
+
+#. Default: "Comment"
+#: ./browser/moderation.pt:83
+msgid "heading_comment"
+msgstr ""
+
+#. Default: "Commenter"
+#: ./browser/moderation.pt:79
+msgid "heading_commenter"
+msgstr ""
+
+#. Default: "Date"
+#: ./browser/moderation.pt:80
+msgid "heading_date"
+msgstr ""
+
+#. Default: "In Response To"
+#: ./browser/moderation.pt:81
+msgid "heading_in_reponse_to"
+msgstr ""
+
+#. Default: "Moderate comments"
+#: ./browser/moderation.pt:24
+msgid "heading_moderate_comments"
+msgstr ""
+
+#. Default: "Subject"
+#: ./browser/moderation.pt:82
+msgid "heading_subject"
+msgstr ""
+
+#. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
+#: ./interfaces.py:38
+msgid "help_anonymous_comments"
+msgstr ""
+
+#. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
+#: ./interfaces.py:52
+msgid "help_captcha"
+msgstr ""
+
+#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'enable moderation'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
+#: ./browser/controlpanel.py:14
+msgid "help_discussion_settings_editform"
+msgstr ""
+
+#. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objectsbefore users will be able to post comments."
+#: ./interfaces.py:24
+msgid "help_globally_enabled"
+msgstr ""
+
+#. Default: "If selected, the moderator is notified if a comment needs attention."
+#: ./interfaces.py:75
+msgid "help_moderator_notification_enabled"
+msgstr ""
+
+#. Default: "If selected, an image of the user is shown next to the comment."
+#: ./interfaces.py:65
+msgid "help_show_commenter_image"
+msgstr ""
+
+#. Default: "Apply"
+#: ./browser/moderation.pt:69
+msgid "label_apply"
+msgstr ""
+
+#. Default: "Delete"
+#: ./browser/moderation.pt:134
+msgid "label_delete"
+msgstr ""
+
+#. Default: "Globally enable comments"
+#: ./interfaces.py:22
+msgid "label_globally_enabled"
+msgstr ""
+
+#. Default: "Enable moderator email notification"
+#: ./interfaces.py:73
+msgid "label_moderator_notification_enabled"
+msgstr ""
+
+#. Default: "Approve"
+#: ./browser/moderation.pt:125
+msgid "label_publish"
+msgstr ""
+
+#. Default: "show full comment text"
+#: ./browser/moderation.pt:118
+msgid "label_show_full_comment_text"
+msgstr ""
+
+#. Default: "Moderation workflow is disabled. You have to <a href=\"${DYNAMIC_CONTENT}\"> enable the 'Comment Review Workflow' for the Comment content type</a> before you can moderate comments here."
+#: ./browser/moderation.pt:32
+msgid "message_moderation_disabled"
+msgstr ""
+
+#. Default: "No comments to moderate."
+#: ./browser/moderation.pt:41
+msgid "message_nothing_to_moderate"
+msgstr ""
+
+#. Default: "Bulk Actions"
+#: ./browser/moderation.pt:62
+msgid "title_bulkactions"
+msgstr ""
+
