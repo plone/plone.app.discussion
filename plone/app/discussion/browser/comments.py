@@ -22,7 +22,7 @@ from plone.registry.interfaces import IRegistry
 
 from plone.app.layout.viewlets.common import ViewletBase
 
-from plone.app.discussion.interfaces import _
+from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies

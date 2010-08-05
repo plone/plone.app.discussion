@@ -2,9 +2,7 @@ from zope.interface import Interface
 from zope.interface.common.mapping import IIterableMapping
 from zope import schema
 
-from zope.i18nmessageid import MessageFactory
-
-_ = MessageFactory('plone.app.discussion')
+from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 
 
 class IDiscussionSettings(Interface):
@@ -34,7 +32,8 @@ class IDiscussionSettings(Interface):
                            default=True)
 
     anonymous_comments = schema.Bool(
-                             title=_(u"Enable anonymous comments"),
+                             title=_(u"label_anonymous_comments", 
+                                     default="Enable anonymous comments"),
                              description=_(u"help_anonymous_comments",
                                            default=u"If selected, anonymous "
                                                     "users are able to post "
@@ -48,7 +47,7 @@ class IDiscussionSettings(Interface):
                              default=False)
 
     captcha = schema.Choice(
-                  title=_(u"Captcha"),
+                  title=_(u"label_captcha", default="Captcha"),
                   description=_(u"help_captcha",
                                 default=u"Use this setting to enable or "
                                          "disable Captcha validation for "
@@ -61,7 +60,8 @@ class IDiscussionSettings(Interface):
                    vocabulary='plone.app.discussion.vocabularies.CaptchaVocabulary',)
 
     show_commenter_image = schema.Bool(
-                               title=_(u"Show commenter image"),
+                               title=_(u"label_show_commenter_image",
+                                       default=u"Show commenter image"),
                                description=_(u"help_show_commenter_image",
                                              default=u"If selected, an image "
                                                        "of the user is shown "
@@ -71,7 +71,7 @@ class IDiscussionSettings(Interface):
 
     moderator_notification_enabled = schema.Bool(
                                          title=_(u"label_moderator_notification_enabled",
-                                         default=u"Enable moderator email notification"),
+                                                 default=u"Enable moderator email notification"),
                                          description=_(u"help_moderator_notification_enabled",
                                                        default=u"If selected, "
                                                                 "the moderator "
@@ -235,10 +235,12 @@ class IComment(Interface):
     author_name = schema.TextLine(title=_(u"Name"), required=False)
     author_email = schema.TextLine(title=_(u"Email"), required=False)
     
-    title = schema.TextLine(title=_(u"Subject"))
+    title = schema.TextLine(title=_(u"label_subject", 
+                                    default=u"Subject"))
 
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
-    text = schema.Text(title=_(u"Comment"))
+    text = schema.Text(title=_(u"label_comment", 
+                               default=u"Comment"))
 
     #author_notification = schema.Bool(title=_(u"Notify me of new comments via "
     #                                         "email."),

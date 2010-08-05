@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+
+from zope.i18nmessageid import MessageFactory
+PloneAppDiscussionMessageFactory = MessageFactory('plone.app.discussion')
+
 # Monkey patch plone.app.vocabularies.types.BAD_TYPES and remove
 # 'Discussion Item' from this tuple, so that Comments can be found
 # in the search. This will become needless once plone.app.discussion
