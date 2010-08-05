@@ -1,257 +1,257 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-08-05 16:46+0000\n"
+"Project-Id-Version: plone.app.discussion\n"
+"POT-Creation-Date: 2010-08-05 16:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Judith Sanleandro <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
+"Language-Code: es\n"
+"Language-Name: Spanish\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: DOMAIN\n"
+"Domain: plone.app.discussion\n"
 
 #: ./interfaces.py:228
 msgid "A comment id unique to this conversation"
-msgstr ""
+msgstr "Un comentario de ID exclusivo para esta conversación"
 
 #: ./browser/comments.py:47
 msgid "Add a comment"
-msgstr ""
+msgstr "Añadir un comentario"
 
 #: ./browser/controlpanel.py:35
 msgid "Anonymous Comments"
-msgstr ""
+msgstr "Comentarios anónimos"
 
 #: ./interfaces.py:247
 msgid "Author name (for display)"
-msgstr ""
+msgstr "Nombre del autor (para mostrar)"
 
 #: ./browser/comments.py:190
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: ./interfaces.py:51
 msgid "Captcha"
-msgstr ""
+msgstr "captcha"
 
 #: ./interfaces.py:241
 msgid "Comment"
-msgstr ""
+msgstr "Comentario"
 
 #: ./browser/moderation.py:116
 msgid "Comment approved."
-msgstr ""
+msgstr "Comentario aprobado"
 
 #: ./browser/moderation.py:96
 msgid "Comment deleted."
-msgstr ""
+msgstr "Comentario eliminado"
 
 #: ./browser/controlpanel.py:36
 msgid "Commenter Image"
-msgstr ""
+msgstr "Imagen del autor"
 
 #: ./interfaces.py:225
 msgid "Conversation"
-msgstr ""
+msgstr "Conversación"
 
 #: ./interfaces.py:248
 msgid "Creation date"
-msgstr ""
+msgstr "Fecha de creación"
 
 #: ./interfaces.py:119
 msgid "Date of the most recent comment"
-msgstr ""
+msgstr "Fecha del comentario más reciente"
 
 #: ./vocabularies.py:37
 msgid "Disabled"
-msgstr ""
+msgstr "Desactivado"
 
 #: ./browser/controlpanel.py:13
 msgid "Discussion settings"
-msgstr ""
+msgstr "Ajustes de discusión"
 
 #: ./interfaces.py:236
 msgid "Email"
-msgstr ""
+msgstr "Correo electrónico"
 
 #: ./browser/controlpanel.py:34
 msgid "Enable Comments"
-msgstr ""
+msgstr "Permitir comentarios"
 
 #: ./interfaces.py:37
 msgid "Enable anonymous comments"
-msgstr ""
+msgstr "Permitir comentarios anónimos"
 
 #: ./interfaces.py:229
 msgid "Id of comment this comment is in reply to"
-msgstr ""
+msgstr "ID del comentario este comentario es en respuesta a"
 
 #: ./interfaces.py:240
 msgid "MIME type"
-msgstr ""
+msgstr "tipo MIME"
 
 #: ./browser/controlpanel.py:37
 msgid "Moderator Email Notification"
-msgstr ""
+msgstr "Notificación del moderador por e-maill"
 
 #: ./interfaces.py:249
 msgid "Modification date"
-msgstr ""
+msgstr "Fecha de modificación"
 
 #: ./interfaces.py:226
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: ./interfaces.py:222
 msgid "Portal type"
-msgstr ""
+msgstr "Tipo de portal"
 
 #: ./interfaces.py:64
 msgid "Show commenter image"
-msgstr ""
+msgstr "Mostrar imagen del autor"
 
 #: ./interfaces.py:238
 msgid "Subject"
-msgstr ""
+msgstr "Tema"
 
 #: ./interfaces.py:120
 msgid "The set of unique commentators (usernames)"
-msgstr ""
+msgstr "Ajuste de autores exclusivos (nombres de usuario)"
 
 #: ./interfaces.py:118
 msgid "Total number of comments on this item"
-msgstr ""
+msgstr "Número total de comentarios para este asunto"
 
 #: ./browser/comments.py:183
 msgid "Your comment awaits moderator approval."
-msgstr ""
+msgstr "Su comentario está pendiente de aprobación del moderador"
 
 #. Default: "Comment"
 #: ./browser/comments.py:93
 msgid "add_comment_button"
-msgstr ""
+msgstr "añadir botón de comentario"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:66
 msgid "bulkactions_delete"
-msgstr ""
+msgstr "borrar bulkactions"
 
 #. Default: "Approve"
 #: ./browser/moderation.pt:63
 msgid "bulkactions_publish"
-msgstr ""
+msgstr "publicar bulkactions"
 
 #. Default: "Action"
 #: ./browser/moderation.pt:84
 msgid "heading_action"
-msgstr ""
+msgstr "acción título"
 
 #. Default: "Comment"
 #: ./browser/moderation.pt:83
 msgid "heading_comment"
-msgstr ""
+msgstr "comentario título"
 
 #. Default: "Commenter"
 #: ./browser/moderation.pt:79
 msgid "heading_commenter"
-msgstr ""
+msgstr "autor título"
 
 #. Default: "Date"
 #: ./browser/moderation.pt:80
 msgid "heading_date"
-msgstr ""
+msgstr "fecha título"
 
 #. Default: "In Response To"
 #: ./browser/moderation.pt:81
 msgid "heading_in_reponse_to"
-msgstr ""
+msgstr "título en respuesta a"
 
 #. Default: "Moderate comments"
 #: ./browser/moderation.pt:24
 msgid "heading_moderate_comments"
-msgstr ""
+msgstr "comentarios moderados de título"
 
 #. Default: "Subject"
 #: ./browser/moderation.pt:82
 msgid "heading_subject"
-msgstr ""
+msgstr "tema título"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ./interfaces.py:38
 msgid "help_anonymous_comments"
-msgstr ""
+msgstr "ayuda comentarios anónimos"
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
 #: ./interfaces.py:52
 msgid "help_captcha"
-msgstr ""
+msgstr "ayuda captcha"
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'enable moderation'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:14
 msgid "help_discussion_settings_editform"
-msgstr ""
+msgstr "ayuda formas de edición ajustes discusión"
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objectsbefore users will be able to post comments."
 #: ./interfaces.py:24
 msgid "help_globally_enabled"
-msgstr ""
+msgstr "ayuda activación global"
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
 #: ./interfaces.py:75
 msgid "help_moderator_notification_enabled"
-msgstr ""
+msgstr "ayuda notificación moderador activa"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ./interfaces.py:65
 msgid "help_show_commenter_image"
-msgstr ""
+msgstr "ayuda mostra imagen autor"
 
 #. Default: "Apply"
 #: ./browser/moderation.pt:69
 msgid "label_apply"
-msgstr ""
+msgstr "aplicar etiqueta"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:134
 msgid "label_delete"
-msgstr ""
+msgstr "etiqueta borrar"
 
 #. Default: "Globally enable comments"
 #: ./interfaces.py:22
 msgid "label_globally_enabled"
-msgstr ""
+msgstr "etiqueta activación global"
 
 #. Default: "Enable moderator email notification"
 #: ./interfaces.py:73
 msgid "label_moderator_notification_enabled"
-msgstr ""
+msgstr "etiqueta notificación moderador activada"
 
 #. Default: "Approve"
 #: ./browser/moderation.pt:125
 msgid "label_publish"
-msgstr ""
+msgstr "etiqueta publicar"
 
 #. Default: "show full comment text"
 #: ./browser/moderation.pt:118
 msgid "label_show_full_comment_text"
-msgstr ""
+msgstr "etiqueta mostrar texto complete comentario"
 
 #. Default: "Moderation workflow is disabled. You have to <a href=\"${DYNAMIC_CONTENT}\"> enable the 'Comment Review Workflow' for the Comment content type</a> before you can moderate comments here."
 #: ./browser/moderation.pt:32
 msgid "message_moderation_disabled"
-msgstr ""
+msgstr "moderación mensaje desactivada"
 
 #. Default: "No comments to moderate."
 #: ./browser/moderation.pt:41
 msgid "message_nothing_to_moderate"
-msgstr ""
+msgstr "mensaje nada para moderar"
 
 #. Default: "Bulk Actions"
 #: ./browser/moderation.pt:62
 msgid "title_bulkactions"
-msgstr ""
+msgstr "título bulkactions"
 

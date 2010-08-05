@@ -8,7 +8,11 @@ Changelog
   [do3cc]
 
 * Call the CaptchaValidator even when no captcha data was submitted. This is 
-  necessary to ensure that the collective.akismet validator is called when installed. 
+  necessary to ensure that the collective.akismet validator is called when 
+  installed. 
+  [timo]
+  
+* Spanish translation added. Thanks to Judith Sanleandro.
   [timo]
 
 
