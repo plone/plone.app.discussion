@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-05 16:46+0000\n"
+"POT-Creation-Date: 2010-08-05 18:38+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Hanno Schlichting <hannosch@plone.org>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
@@ -26,20 +26,12 @@ msgstr ""
 msgid "Anonymous Comments"
 msgstr ""
 
-#: ./interfaces.py:247
+#: ./interfaces.py:249
 msgid "Author name (for display)"
 msgstr ""
 
 #: ./browser/comments.py:190
 msgid "Cancel"
-msgstr ""
-
-#: ./interfaces.py:51
-msgid "Captcha"
-msgstr ""
-
-#: ./interfaces.py:241
-msgid "Comment"
 msgstr ""
 
 #: ./browser/moderation.py:116
@@ -58,7 +50,7 @@ msgstr ""
 msgid "Conversation"
 msgstr ""
 
-#: ./interfaces.py:248
+#: ./interfaces.py:250
 msgid "Creation date"
 msgstr ""
 
@@ -82,15 +74,11 @@ msgstr ""
 msgid "Enable Comments"
 msgstr ""
 
-#: ./interfaces.py:37
-msgid "Enable anonymous comments"
-msgstr ""
-
 #: ./interfaces.py:229
 msgid "Id of comment this comment is in reply to"
 msgstr ""
 
-#: ./interfaces.py:240
+#: ./interfaces.py:241
 msgid "MIME type"
 msgstr ""
 
@@ -98,7 +86,7 @@ msgstr ""
 msgid "Moderator Email Notification"
 msgstr ""
 
-#: ./interfaces.py:249
+#: ./interfaces.py:251
 msgid "Modification date"
 msgstr ""
 
@@ -108,14 +96,6 @@ msgstr ""
 
 #: ./interfaces.py:222
 msgid "Portal type"
-msgstr ""
-
-#: ./interfaces.py:64
-msgid "Show commenter image"
-msgstr ""
-
-#: ./interfaces.py:238
-msgid "Subject"
 msgstr ""
 
 #: ./interfaces.py:120
@@ -181,12 +161,12 @@ msgid "heading_subject"
 msgstr ""
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
-#: ./interfaces.py:38
+#: ./interfaces.py:37
 msgid "help_anonymous_comments"
 msgstr ""
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
-#: ./interfaces.py:52
+#: ./interfaces.py:51
 msgid "help_captcha"
 msgstr ""
 
@@ -196,7 +176,7 @@ msgid "help_discussion_settings_editform"
 msgstr ""
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objectsbefore users will be able to post comments."
-#: ./interfaces.py:24
+#: ./interfaces.py:22
 msgid "help_globally_enabled"
 msgstr ""
 
@@ -210,9 +190,24 @@ msgstr ""
 msgid "help_show_commenter_image"
 msgstr ""
 
+#. Default: "Enable anonymous comments"
+#: ./interfaces.py:35
+msgid "label_anonymous_comments"
+msgstr ""
+
 #. Default: "Apply"
 #: ./browser/moderation.pt:69
 msgid "label_apply"
+msgstr ""
+
+#. Default: "Captcha"
+#: ./interfaces.py:50
+msgid "label_captcha"
+msgstr ""
+
+#. Default: "Comment"
+#: ./interfaces.py:242
+msgid "label_comment"
 msgstr ""
 
 #. Default: "Delete"
@@ -221,7 +216,7 @@ msgid "label_delete"
 msgstr ""
 
 #. Default: "Globally enable comments"
-#: ./interfaces.py:22
+#: ./interfaces.py:20
 msgid "label_globally_enabled"
 msgstr ""
 
@@ -235,9 +230,19 @@ msgstr ""
 msgid "label_publish"
 msgstr ""
 
+#. Default: "Show commenter image"
+#: ./interfaces.py:63
+msgid "label_show_commenter_image"
+msgstr ""
+
 #. Default: "show full comment text"
 #: ./browser/moderation.pt:118
 msgid "label_show_full_comment_text"
+msgstr ""
+
+#. Default: "Subject"
+#: ./interfaces.py:238
+msgid "label_subject"
 msgstr ""
 
 #. Default: "Moderation workflow is disabled. You have to <a href=\"${DYNAMIC_CONTENT}\"> enable the 'Comment Review Workflow' for the Comment content type</a> before you can moderate comments here."
