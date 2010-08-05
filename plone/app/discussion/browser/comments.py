@@ -111,17 +111,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         settings = registry.forInterface(IDiscussionSettings)
         portal_membership = getToolByName(self.context, 'portal_membership')
         if settings.captcha != 'disabled' and portal_membership.isAnonymousUser():
-            if 'captcha' in data:
-                # Check Captcha only if there is a value, otherwise
-                # the default "required" validator is sufficient.
-                captcha = CaptchaValidator(self.context, 
-                                           self.request, 
-                                           None, 
-                                           ICaptcha['captcha'], 
-                                           None)
-                captcha.validate(data['captcha'])
-            else:
-                return
+            if not 'captcha' in data:
+                data['captcha'] = u""
+            captcha = CaptchaValidator(self.context, 
+                                       self.request, 
+                                       None, 
+                                       ICaptcha['captcha'], 
+                                       None)
+            captcha.validate(data['captcha'])
 
         if 'title' in data:
             title = data['title']

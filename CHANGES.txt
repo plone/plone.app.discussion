@@ -1,11 +1,16 @@
 Changelog
 =========
 
-1.0b6 (unreleased)
+1.0b6 (2010-08-05)
 ------------------
 
 * Catch Type errors in indexers if object can not be adapted to IDiscussion
   [do3cc]
+
+* Call the CaptchaValidator even when no captcha data was submitted. This is 
+  necessary to ensure that the collective.akismet validator is called when installed. 
+  [timo]
+
 
 1.0b5 (2010-07-16)
 ------------------
