@@ -7,6 +7,14 @@ Changelog
 * Added French translation.
   [vincentfretin]
 
+* Renamed legend_add_comment to label_add_comment to have the translation from
+  plone domain.
+  [vincentfretin]
+
+* label_comment_by and label_commented_at are not in Plone 4 translation anymore, so
+  these two messages moved to plone.app.discussions i18n domain.
+  [vincentfretin]
+
 * Translate "Warning" shown in @@moderate-comments in the plone domain.
   [vincentfretin]
 

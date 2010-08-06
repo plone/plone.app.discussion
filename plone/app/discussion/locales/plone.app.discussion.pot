@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-06 10:01+0000\n"
+"POT-Creation-Date: 2010-08-06 15:31+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Hanno Schlichting <hannosch@plone.org>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
@@ -208,6 +208,16 @@ msgstr ""
 #. Default: "Comment"
 #: ./interfaces.py:242
 msgid "label_comment"
+msgstr ""
+
+#. Default: "Posted by"
+#: ./browser/comments.pt:66
+msgid "label_comment_by"
+msgstr ""
+
+#. Default: "at"
+#: ./browser/comments.pt:79
+msgid "label_commented_at"
 msgstr ""
 
 #. Default: "Delete"

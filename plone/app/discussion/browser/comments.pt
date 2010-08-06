@@ -62,7 +62,7 @@
                 <h3 class="commentTitle"
                     tal:content="reply/Title" />
 
-                <div class="documentByLine">
+                <div class="documentByLine" i18n:domain="plone.app.discussion">
                         <tal:posted i18n:translate="label_comment_by">Posted by</tal:posted>
                         <tal:name>
                             <a href=""
@@ -144,7 +144,7 @@
 
         <fieldset>
 
-            <legend i18n:translate="legend_add_comment">Add comment</legend>
+            <legend i18n:translate="label_add_comment">Add comment</legend>
             <p i18n:translate="description_add_comment">
                 You can add a comment by filling out the form below. Plain text
                 formatting.
