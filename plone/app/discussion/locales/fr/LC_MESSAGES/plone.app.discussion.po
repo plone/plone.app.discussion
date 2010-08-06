@@ -47,7 +47,7 @@ msgid "Commenter Image"
 msgstr "Portrait de l'utilisateur"
 
 msgid "Commenting infrastructure for Plone"
-msgstr "Infrastructure pour déposer des commentaires"
+msgstr "Infrastructure pour déposer des commentaires."
 
 #: ./interfaces.py:225
 msgid "Conversation"
