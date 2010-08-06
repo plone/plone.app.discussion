@@ -27,7 +27,7 @@
 
         <dl class="portalMessage warning"
             tal:condition="not: view/moderation_enabled">
-            <dt> Warning </dt>
+            <dt i18n:domain="plone" i18n:translate="">Warning</dt>
             <dd i18n:translate="message_moderation_disabled">
                 Moderation workflow is disabled. You have to
                 <a i18n:name="enable_comment_workflow"

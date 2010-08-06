@@ -4,6 +4,9 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Translate "Warning" shown in @@moderate-comments in the plone domain.
+  [vincentfretin]
+
 * Fixed i18n markup of message_moderation_disabled.
   [vincentfretin]
 
