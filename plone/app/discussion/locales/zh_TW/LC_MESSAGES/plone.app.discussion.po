@@ -1,0 +1,270 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plone.app.discussion\n"
+"POT-Creation-Date: 2010-08-06 10:01+0000\n"
+"PO-Revision-Date: 2010-08-06 23:10+0800\n"
+"Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
+"Language-Team: Taiwan Python User Group <plone-i18n@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: zh-tw\n"
+"Language-Name: Traditonal Chinese\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone.app.discussion\n"
+
+#: ./interfaces.py:228
+msgid "A comment id unique to this conversation"
+msgstr "留言的識別碼"
+
+#: ./browser/comments.py:47
+msgid "Add a comment"
+msgstr "新增留言"
+
+#: ./browser/controlpanel.py:35
+msgid "Anonymous Comments"
+msgstr "匿名留言"
+
+#: ./interfaces.py:249
+msgid "Author name (for display)"
+msgstr "作者 (顯示在網頁上)"
+
+#: ./browser/comments.py:190
+msgid "Cancel"
+msgstr "取消"
+
+#: ./browser/moderation.py:116
+msgid "Comment approved."
+msgstr "留言已審核"
+
+#: ./browser/moderation.py:96
+msgid "Comment deleted."
+msgstr "留言已刪除"
+
+#: ./browser/controlpanel.py:36
+msgid "Commenter Image"
+msgstr "留言者圖檔"
+
+#: ./interfaces.py:225
+msgid "Conversation"
+msgstr "討論"
+
+#: ./interfaces.py:250
+msgid "Creation date"
+msgstr "建立日期"
+
+#: ./interfaces.py:119
+msgid "Date of the most recent comment"
+msgstr "最近留言的日期"
+
+#: ./vocabularies.py:37
+msgid "Disabled"
+msgstr "已停用"
+
+#: ./browser/controlpanel.py:13
+msgid "Discussion settings"
+msgstr "討論區設定"
+
+#: ./interfaces.py:236
+msgid "Email"
+msgstr "E-Mail"
+
+#: ./browser/controlpanel.py:34
+msgid "Enable Comments"
+msgstr "允許留言"
+
+#: ./interfaces.py:229
+msgid "Id of comment this comment is in reply to"
+msgstr ""
+
+#: ./interfaces.py:241
+msgid "MIME type"
+msgstr "MIME-Type"
+
+#: ./browser/controlpanel.py:37
+msgid "Moderator Email Notification"
+msgstr ""
+
+#: ./interfaces.py:251
+msgid "Modification date"
+msgstr "修改日期"
+
+#: ./interfaces.py:226
+msgid "Name"
+msgstr "名稱"
+
+#: ./interfaces.py:222
+msgid "Portal type"
+msgstr ""
+
+#: ./interfaces.py:120
+msgid "The set of unique commentators (usernames)"
+msgstr ""
+
+#: ./interfaces.py:118
+msgid "Total number of comments on this item"
+msgstr "本項目的留言數目"
+
+#: ./browser/comments.py:183
+msgid "Your comment awaits moderator approval."
+msgstr "你的留言等待審核中。"
+
+#. Default: "Comment"
+#: ./browser/comments.py:93
+msgid "add_comment_button"
+msgstr "留言"
+
+#. Default: "Delete"
+#: ./browser/moderation.pt:68
+msgid "bulkactions_delete"
+msgstr "刪除"
+
+#. Default: "Approve"
+#: ./browser/moderation.pt:65
+msgid "bulkactions_publish"
+msgstr "審核"
+
+#. Default: "Action"
+#: ./browser/moderation.pt:86
+msgid "heading_action"
+msgstr "動作"
+
+#. Default: "Comment"
+#: ./browser/moderation.pt:85
+msgid "heading_comment"
+msgstr "留言"
+
+#. Default: "Commenter"
+#: ./browser/moderation.pt:81
+msgid "heading_commenter"
+msgstr "留言者"
+
+#. Default: "Date"
+#: ./browser/moderation.pt:82
+msgid "heading_date"
+msgstr "日期"
+
+#. Default: "In Response To"
+#: ./browser/moderation.pt:83
+msgid "heading_in_reponse_to"
+msgstr "回應"
+
+#. Default: "Moderate comments"
+#: ./browser/moderation.pt:24
+msgid "heading_moderate_comments"
+msgstr "審核留言"
+
+#. Default: "Subject"
+#: ./browser/moderation.pt:84
+msgid "heading_subject"
+msgstr "標題"
+
+#. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
+#: ./interfaces.py:37
+msgid "help_anonymous_comments"
+msgstr "勾選的話，匿名使用者不必登入系統就能留言。建議使用 captcha 來避免垃圾留言。"
+
+#. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
+#: ./interfaces.py:51
+msgid "help_captcha"
+msgstr ""
+
+#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
+#: ./browser/controlpanel.py:14
+msgid "help_discussion_settings_editform"
+msgstr ""
+"某些討論區設定值並未在討論區控制面板找得到。\n"
+"想要指定某個內容型別的留言功能，請到型別控制面板，指定「允許留言」。\n"
+"想要指定留言的審核流程，請到型別控制面板，點選「留言」並指定工作流程為「留言審核流程」。"
+
+#. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objectsbefore users will be able to post comments."
+#: ./interfaces.py:22
+msgid "help_globally_enabled"
+msgstr ""
+
+#. Default: "If selected, the moderator is notified if a comment needs attention."
+#: ./interfaces.py:75
+msgid "help_moderator_notification_enabled"
+msgstr ""
+
+#. Default: "If selected, an image of the user is shown next to the comment."
+#: ./interfaces.py:65
+msgid "help_show_commenter_image"
+msgstr ""
+
+#. Default: "Enable anonymous comments"
+#: ./interfaces.py:35
+msgid "label_anonymous_comments"
+msgstr "啟用匿名留言功能"
+
+#. Default: "Apply"
+#: ./browser/moderation.pt:71
+msgid "label_apply"
+msgstr ""
+
+#. Default: "Captcha"
+#: ./interfaces.py:50
+msgid "label_captcha"
+msgstr ""
+
+#. Default: "Comment"
+#: ./interfaces.py:242
+msgid "label_comment"
+msgstr "留言"
+
+#. Default: "Delete"
+#: ./browser/moderation.pt:136
+msgid "label_delete"
+msgstr "刪除"
+
+#. Default: "Globally enable comments"
+#: ./interfaces.py:20
+msgid "label_globally_enabled"
+msgstr "全域啟用留言功能"
+
+#. Default: "Enable moderator email notification"
+#: ./interfaces.py:73
+msgid "label_moderator_notification_enabled"
+msgstr ""
+
+#. Default: "Approve"
+#: ./browser/moderation.pt:127
+msgid "label_publish"
+msgstr "審核"
+
+#. Default: "Show commenter image"
+#: ./interfaces.py:63
+msgid "label_show_commenter_image"
+msgstr "顯示留言者圖檔"
+
+#. Default: "show full comment text"
+#: ./browser/moderation.pt:120
+msgid "label_show_full_comment_text"
+msgstr "顯示完整的留言內容"
+
+#. Default: "Subject"
+#: ./interfaces.py:238
+msgid "label_subject"
+msgstr "標題"
+
+#. Default: "enable the 'Comment Review Workflow' for the Comment content type"
+#: ./browser/moderation.pt:33
+msgid "message_enable_comment_workflow"
+msgstr ""
+
+#. Default: "Moderation workflow is disabled. You have to ${enable_comment_workflow} before you can moderate comments here."
+#: ./browser/moderation.pt:33
+msgid "message_moderation_disabled"
+msgstr ""
+
+#. Default: "No comments to moderate."
+#: ./browser/moderation.pt:43
+msgid "message_nothing_to_moderate"
+msgstr "沒有留言等待審核。"
+
+#. Default: "Bulk Actions"
+#: ./browser/moderation.pt:64
+msgid "title_bulkactions"
+msgstr "批次動作"
+
