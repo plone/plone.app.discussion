@@ -29,8 +29,10 @@
             tal:condition="not: view/moderation_enabled">
             <dt> Warning </dt>
             <dd i18n:translate="message_moderation_disabled">
-                Moderation workflow is disabled. You have to <a href=""
-                tal:attributes="href string:${context/portal_url}/@@types-controlpanel">
+                Moderation workflow is disabled. You have to
+                <a i18n:name="enable_comment_workflow"
+                   i18n:translate="message_enable_comment_workflow" href=""
+                   tal:attributes="href string:${context/portal_url}/@@types-controlpanel">
                 enable the 'Comment Review Workflow' for the Comment content 
                 type</a> before you can moderate comments here.
             </dd>

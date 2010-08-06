@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-05 18:38+0000\n"
+"POT-Creation-Date: 2010-08-06 09:48+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Hanno Schlichting <hannosch@plone.org>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
@@ -116,37 +116,37 @@ msgid "add_comment_button"
 msgstr ""
 
 #. Default: "Delete"
-#: ./browser/moderation.pt:66
+#: ./browser/moderation.pt:68
 msgid "bulkactions_delete"
 msgstr ""
 
 #. Default: "Approve"
-#: ./browser/moderation.pt:63
+#: ./browser/moderation.pt:65
 msgid "bulkactions_publish"
 msgstr ""
 
 #. Default: "Action"
-#: ./browser/moderation.pt:84
+#: ./browser/moderation.pt:86
 msgid "heading_action"
 msgstr ""
 
 #. Default: "Comment"
-#: ./browser/moderation.pt:83
+#: ./browser/moderation.pt:85
 msgid "heading_comment"
 msgstr ""
 
 #. Default: "Commenter"
-#: ./browser/moderation.pt:79
+#: ./browser/moderation.pt:81
 msgid "heading_commenter"
 msgstr ""
 
 #. Default: "Date"
-#: ./browser/moderation.pt:80
+#: ./browser/moderation.pt:82
 msgid "heading_date"
 msgstr ""
 
 #. Default: "In Response To"
-#: ./browser/moderation.pt:81
+#: ./browser/moderation.pt:83
 msgid "heading_in_reponse_to"
 msgstr ""
 
@@ -156,7 +156,7 @@ msgid "heading_moderate_comments"
 msgstr ""
 
 #. Default: "Subject"
-#: ./browser/moderation.pt:82
+#: ./browser/moderation.pt:84
 msgid "heading_subject"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgstr ""
 msgid "help_captcha"
 msgstr ""
 
-#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'enable moderation'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
+#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'Allow comments'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:14
 msgid "help_discussion_settings_editform"
 msgstr ""
@@ -196,7 +196,7 @@ msgid "label_anonymous_comments"
 msgstr ""
 
 #. Default: "Apply"
-#: ./browser/moderation.pt:69
+#: ./browser/moderation.pt:71
 msgid "label_apply"
 msgstr ""
 
@@ -211,7 +211,7 @@ msgid "label_comment"
 msgstr ""
 
 #. Default: "Delete"
-#: ./browser/moderation.pt:134
+#: ./browser/moderation.pt:136
 msgid "label_delete"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgid "label_moderator_notification_enabled"
 msgstr ""
 
 #. Default: "Approve"
-#: ./browser/moderation.pt:125
+#: ./browser/moderation.pt:127
 msgid "label_publish"
 msgstr ""
 
@@ -236,7 +236,7 @@ msgid "label_show_commenter_image"
 msgstr ""
 
 #. Default: "show full comment text"
-#: ./browser/moderation.pt:118
+#: ./browser/moderation.pt:120
 msgid "label_show_full_comment_text"
 msgstr ""
 
@@ -245,18 +245,23 @@ msgstr ""
 msgid "label_subject"
 msgstr ""
 
-#. Default: "Moderation workflow is disabled. You have to <a href=\"${DYNAMIC_CONTENT}\"> enable the 'Comment Review Workflow' for the Comment content type</a> before you can moderate comments here."
-#: ./browser/moderation.pt:32
+#. Default: "enable the 'Comment Review Workflow' for the Comment content type"
+#: ./browser/moderation.pt:33
+msgid "message_enable_comment_workflow"
+msgstr ""
+
+#. Default: "Moderation workflow is disabled. You have to ${enable_comment_workflow} before you can moderate comments here."
+#: ./browser/moderation.pt:33
 msgid "message_moderation_disabled"
 msgstr ""
 
 #. Default: "No comments to moderate."
-#: ./browser/moderation.pt:41
+#: ./browser/moderation.pt:43
 msgid "message_nothing_to_moderate"
 msgstr ""
 
 #. Default: "Bulk Actions"
-#: ./browser/moderation.pt:62
+#: ./browser/moderation.pt:64
 msgid "title_bulkactions"
 msgstr ""
 

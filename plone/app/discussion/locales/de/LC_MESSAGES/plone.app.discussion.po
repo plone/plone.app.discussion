@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-05 18:38+0000\n"
+"POT-Creation-Date: 2010-08-06 09:48+0000\n"
 "PO-Revision-Date: 2010-03-18 11:10+0100\n"
 "Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
 "Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
@@ -116,37 +116,37 @@ msgid "add_comment_button"
 msgstr "Kommentieren"
 
 #. Default: "Delete"
-#: ./browser/moderation.pt:66
+#: ./browser/moderation.pt:68
 msgid "bulkactions_delete"
 msgstr "Löschen"
 
 #. Default: "Approve"
-#: ./browser/moderation.pt:63
+#: ./browser/moderation.pt:65
 msgid "bulkactions_publish"
 msgstr "Veröffentlichen"
 
 #. Default: "Action"
-#: ./browser/moderation.pt:84
+#: ./browser/moderation.pt:86
 msgid "heading_action"
 msgstr "Aktion"
 
 #. Default: "Comment"
-#: ./browser/moderation.pt:83
+#: ./browser/moderation.pt:85
 msgid "heading_comment"
 msgstr "Kommentar"
 
 #. Default: "Commenter"
-#: ./browser/moderation.pt:79
+#: ./browser/moderation.pt:81
 msgid "heading_commenter"
 msgstr "Autor"
 
 #. Default: "Date"
-#: ./browser/moderation.pt:80
+#: ./browser/moderation.pt:82
 msgid "heading_date"
 msgstr "Datum"
 
 #. Default: "In Response To"
-#: ./browser/moderation.pt:81
+#: ./browser/moderation.pt:83
 msgid "heading_in_reponse_to"
 msgstr "Kommentar zu"
 
@@ -156,7 +156,7 @@ msgid "heading_moderate_comments"
 msgstr "Kommentare moderieren"
 
 #. Default: "Subject"
-#: ./browser/moderation.pt:82
+#: ./browser/moderation.pt:84
 msgid "heading_subject"
 msgstr "Betreff"
 
@@ -170,8 +170,9 @@ msgstr "Wenn Sie diese Einstellung aktivieren, können anonyme Benutzer Kommenta
 msgid "help_captcha"
 msgstr "Wenn Sie diese Einstellung aktivieren, wird mit Hilfe der Captcha-Validierung überprüft, ob die Kommentare von einem echten Benutzer oder von einem automatisierten Skript stammen. Falls Sie die Option nicht einschalten können, fehlt evtl. ein benötigtes Programmmodul. Stellen Sie sicher, dass entweder plone.formwidget.captcha oder plone.formwidget.recaptcha installiert ist."
 
-#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'enable moderation'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
+#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'Allow comments'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:14
+#, fuzzy
 msgid "help_discussion_settings_editform"
 msgstr ""
 "Einige Kommentierungseinstellungen müssen an anderer Stelle vorgenommen werden. Um die Kommentierung einzelner Artikeltypen einzuschalten, gehen Sie in der 'Plone-Konfiguration' zu 'Artikeltypen', wählen Sie den gewünschten Artikeltyp aus und schalten Sie die Option 'Kommentieren erlauben' ein.\n"
@@ -199,7 +200,7 @@ msgid "label_anonymous_comments"
 msgstr ""
 
 #. Default: "Apply"
-#: ./browser/moderation.pt:69
+#: ./browser/moderation.pt:71
 msgid "label_apply"
 msgstr "Anwenden"
 
@@ -214,7 +215,7 @@ msgid "label_comment"
 msgstr "Kommentar"
 
 #. Default: "Delete"
-#: ./browser/moderation.pt:134
+#: ./browser/moderation.pt:136
 msgid "label_delete"
 msgstr "Löschen"
 
@@ -229,7 +230,7 @@ msgid "label_moderator_notification_enabled"
 msgstr ""
 
 #. Default: "Approve"
-#: ./browser/moderation.pt:125
+#: ./browser/moderation.pt:127
 msgid "label_publish"
 msgstr "Veröffentlichen"
 
@@ -239,7 +240,7 @@ msgid "label_show_commenter_image"
 msgstr ""
 
 #. Default: "show full comment text"
-#: ./browser/moderation.pt:118
+#: ./browser/moderation.pt:120
 msgid "label_show_full_comment_text"
 msgstr "Den vollständigen Kommentar anzeigen"
 
@@ -248,18 +249,23 @@ msgstr "Den vollständigen Kommentar anzeigen"
 msgid "label_subject"
 msgstr "Betreff"
 
-#. Default: "Moderation workflow is disabled. You have to <a href=\"${DYNAMIC_CONTENT}\"> enable the 'Comment Review Workflow' for the Comment content type</a> before you can moderate comments here."
-#: ./browser/moderation.pt:32
+#. Default: "enable the 'Comment Review Workflow' for the Comment content type"
+#: ./browser/moderation.pt:33
+msgid "message_enable_comment_workflow"
+msgstr ""
+
+#. Default: "Moderation workflow is disabled. You have to ${enable_comment_workflow} before you can moderate comments here."
+#: ./browser/moderation.pt:33
 msgid "message_moderation_disabled"
 msgstr ""
 
 #. Default: "No comments to moderate."
-#: ./browser/moderation.pt:41
+#: ./browser/moderation.pt:43
 msgid "message_nothing_to_moderate"
 msgstr "Es müssen keine Kommentare moderiert werden."
 
 #. Default: "Bulk Actions"
-#: ./browser/moderation.pt:62
+#: ./browser/moderation.pt:64
 msgid "title_bulkactions"
 msgstr "Sammelbearbeitung"
 
