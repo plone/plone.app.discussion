@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-05 16:46+0000\n"
+"POT-Creation-Date: 2010-08-06 17:21+0000\n"
 "PO-Revision-Date: 2010-08-06 23:11+0800\n"
 "Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
 "Language-Team: Taiwan Python User Group <plone-i18n@lists.sourceforge.net>\n"
@@ -13,6 +13,10 @@ msgstr ""
 "Language-Name: Traditional Chinese\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone\n"
+
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "- Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
+msgstr ""
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple workflow for comments"
@@ -34,7 +38,12 @@ msgstr "留言"
 msgid "Comment Review Workflow"
 msgstr "留言審核流程"
 
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Comment Single State Workflow"
+msgstr ""
+
 #: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "最後狀態轉移的備註"
 
@@ -60,14 +69,17 @@ msgid "Pending"
 msgstr "待審核"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "前一個移轉狀態"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "提供工作流程歷史記錄的功能"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "已發佈"
 
@@ -80,6 +92,7 @@ msgid "Submitted, pending review."
 msgstr "已送出，待審核中。"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "執行前一個狀態移轉的使用者識別碼"
 
@@ -95,11 +108,16 @@ msgstr "在此項目留言的總數。"
 msgid "Users who have commented on the item"
 msgstr "在此項目留言的使用者"
 
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Visible to everyone, editable by the owner."
+msgstr ""
+
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "每個人都看得到，但無法編輯。"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "當前一個移轉動作被執行時"
 

@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <dc-workflow xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+             i18n:domain="plone"
              workflow_id="one_state_workflow"
              title="Comment Single State Workflow"
              description="- Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
