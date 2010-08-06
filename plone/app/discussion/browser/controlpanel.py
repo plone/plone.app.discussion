@@ -16,7 +16,7 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
                              "in the Discussion Control Panel.\n"
                              "To enable comments for a specific content type, " 
                              "go to the Types Control Panel of this type and "
-                             "choose 'Allow comments'.\n"
+                             "choose \"Allow comments\".\n"
                              "To enable the moderation workflow for comments, "
                              "go to the Types Control Panel, choose \"Comment\" "
                              "and set workflow to \"Comment Review Workflow\".")

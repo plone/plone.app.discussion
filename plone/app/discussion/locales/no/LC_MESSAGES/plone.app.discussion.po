@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-06 09:48+0000\n"
+"POT-Creation-Date: 2010-08-06 10:01+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Sverre Helge Bolstad <sverrehelge@gmail.com>\n"
 "Language-Team: Norwegian <plone-i18n@lists.sourceforge.net>\n"
@@ -170,7 +170,7 @@ msgstr "Dersom innstillingen er valgt kan anonyme brukere kommentere uten å log
 msgid "help_captcha"
 msgstr "Bruk denne innstillingen for å aktivere eller deaktivere captcha-validering av kommentarer. Installér plone.formwidget.captcha eller plone.formwidget.recaptcha dersom det mangler valg her."
 
-#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose 'Allow comments'.\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
+#. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:14
 #, fuzzy
 msgid "help_discussion_settings_editform"
