@@ -159,12 +159,12 @@ The basic commenting display/reply form is placed in a viewlet.
 The reply form is dynamically created right under the comment when the user hits
 the reply button. To do so, we copy the standard comment form with a jQuery 
 function. This function sets the form's hidden in_reply_to field to the id of
-the comment the user wants to reply to. This also makes is possible to use 
+the comment the user wants to reply to. This also makes it possible to use 
 z3c.form validation for the reply forms, because we can uniquely identify the 
-a reply form request and return the reply form with validation errors.
+reply form request and return the reply form with validation errors.
 
 Since we rely on JavaScript for the reply form creation, the reply button is
-removed for nonJavaScript enabled browsers.
+removed for non JavaScript enabled browsers.
 
 The comment form uses z3c.form and plone.z3cform's ExtensibleForm support. This 
 makes it possible to plug in additional fields declaratively, e.g. to include 
