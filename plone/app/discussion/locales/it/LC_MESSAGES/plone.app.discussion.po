@@ -13,6 +13,7 @@ msgstr ""
 "Language-Name: Italian\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.discussion\n"
+"X-Is-Fallback-For: it-it it-ch it-sm it-hr it-si\n"
 
 #: ./interfaces.py:228
 msgid "A comment id unique to this conversation"
@@ -36,7 +37,7 @@ msgstr "Annulla"
 
 #: ./browser/moderation.py:116
 msgid "Comment approved."
-msgstr ""
+msgstr "Commento approvato."
 
 #: ./browser/moderation.py:96
 msgid "Comment deleted."
@@ -84,7 +85,7 @@ msgstr ""
 
 #: ./browser/controlpanel.py:37
 msgid "Moderator Email Notification"
-msgstr ""
+msgstr "Notifiche email"
 
 #: ./interfaces.py:251
 msgid "Modification date"
@@ -191,7 +192,7 @@ msgstr "Se selezionato, gli utenti saranno in grado di inserire commenti nel sit
 #. Default: "If selected, the moderator is notified if a comment needs attention."
 #: ./interfaces.py:75
 msgid "help_moderator_notification_enabled"
-msgstr ""
+msgstr "Se selezionato il moderatore riceverà una notifica se il commento dovrà necessita della sua attenzione."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ./interfaces.py:65
@@ -201,7 +202,7 @@ msgstr "Se selezionato, un'immagine dell'utente verrà mostrata a fianco dei com
 #. Default: "Enable anonymous comments"
 #: ./interfaces.py:35
 msgid "label_anonymous_comments"
-msgstr ""
+msgstr "Abilita i commenti agli utenti anonimi"
 
 #. Default: "Apply"
 #: ./browser/moderation.pt:71
@@ -216,7 +217,7 @@ msgstr ""
 #. Default: "Comment"
 #: ./interfaces.py:242
 msgid "label_comment"
-msgstr ""
+msgstr "Commento"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:136
@@ -231,7 +232,7 @@ msgstr "Abilita globalmente i commenti"
 #. Default: "Enable moderator email notification"
 #: ./interfaces.py:73
 msgid "label_moderator_notification_enabled"
-msgstr ""
+msgstr "Abilita le notifiche ai moderatori"
 
 #. Default: "Approve"
 #: ./browser/moderation.pt:127
@@ -242,7 +243,7 @@ msgstr "Pubblica"
 #. Default: "Show commenter image"
 #: ./interfaces.py:63
 msgid "label_show_commenter_image"
-msgstr ""
+msgstr "Visualizza le immagini dei commentatori"
 
 #. Default: "show full comment text"
 #: ./browser/moderation.pt:120
@@ -252,17 +253,17 @@ msgstr "mostra testo completo del commento"
 #. Default: "Subject"
 #: ./interfaces.py:238
 msgid "label_subject"
-msgstr ""
+msgstr "Oggetto"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ./browser/moderation.pt:33
 msgid "message_enable_comment_workflow"
-msgstr ""
+msgstr "abilitare il 'Comment Review Workflow' per il tipo di contenuto Comment"
 
 #. Default: "Moderation workflow is disabled. You have to ${enable_comment_workflow} before you can moderate comments here."
 #: ./browser/moderation.pt:33
 msgid "message_moderation_disabled"
-msgstr ""
+msgstr "Il workflow per la moderazione dei commenti è disabilitato. Devi ${enable_comment_workflow} prima di poteri moderare i commenti."
 
 #. Default: "No comments to moderate."
 #: ./browser/moderation.pt:43
