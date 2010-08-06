@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-06 17:21+0000\n"
-"PO-Revision-Date: 2010-08-06 21:14+0100\n"
+"POT-Creation-Date: 2010-08-06 19:19+0000\n"
+"PO-Revision-Date: 2010-08-06 21:21+0100\n"
 "Last-Translator: Vincent Fretin <vincent.fretin@gmail.com>\n"
 "Language-Team: Vincent Fretin <vincent.fretin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -45,6 +45,9 @@ msgstr "Commentaire supprimé."
 #: ./browser/controlpanel.py:36
 msgid "Commenter Image"
 msgstr "Portrait de l'utilisateur"
+
+msgid "Commenting infrastructure for Plone"
+msgstr "Infrastructure pour déposer des commentaires"
 
 #: ./interfaces.py:225
 msgid "Conversation"
@@ -93,6 +96,10 @@ msgstr "Date de modification"
 #: ./interfaces.py:226
 msgid "Name"
 msgstr "Nom"
+
+#: ./plone.app.discussion/plone/app/discussion/configure.zcml
+msgid "Plone Discussions"
+msgstr "Plone Discussions"
 
 #: ./interfaces.py:222
 msgid "Portal type"

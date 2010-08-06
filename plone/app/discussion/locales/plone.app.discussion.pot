@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-06 17:21+0000\n"
+"POT-Creation-Date: 2010-08-06 19:19+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Hanno Schlichting <hannosch@plone.org>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
@@ -44,6 +44,9 @@ msgstr ""
 
 #: ./browser/controlpanel.py:36
 msgid "Commenter Image"
+msgstr ""
+
+msgid "Commenting infrastructure for Plone"
 msgstr ""
 
 #: ./interfaces.py:225
@@ -92,6 +95,10 @@ msgstr ""
 
 #: ./interfaces.py:226
 msgid "Name"
+msgstr ""
+
+#: ./plone.app.discussion/plone/app/discussion/configure.zcml
+msgid "Plone Discussions"
 msgstr ""
 
 #: ./interfaces.py:222

@@ -9,3 +9,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ./plone.app.discussion/plone/app/discussion/configure.zcml
+msgid "Plone Discussions"
+msgstr ""
+
+msgid "Commenting infrastructure for Plone"
+msgstr ""

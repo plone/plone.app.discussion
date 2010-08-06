@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-06 17:21+0000\n"
+"POT-Creation-Date: 2010-08-06 19:19+0000\n"
 "PO-Revision-Date: 2010-03-18 11:10+0100\n"
 "Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
 "Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
@@ -45,6 +45,9 @@ msgstr "Kommentar gelöscht"
 #: ./browser/controlpanel.py:36
 msgid "Commenter Image"
 msgstr "Porträt des Benutzers"
+
+msgid "Commenting infrastructure for Plone"
+msgstr ""
 
 #: ./interfaces.py:225
 msgid "Conversation"
@@ -93,6 +96,10 @@ msgstr "Änderungsdatum"
 #: ./interfaces.py:226
 msgid "Name"
 msgstr "Name"
+
+#: ./plone.app.discussion/plone/app/discussion/configure.zcml
+msgid "Plone Discussions"
+msgstr ""
 
 #: ./interfaces.py:222
 msgid "Portal type"

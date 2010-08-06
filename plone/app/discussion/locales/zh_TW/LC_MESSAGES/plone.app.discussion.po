@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-06 17:21+0000\n"
+"POT-Creation-Date: 2010-08-06 19:19+0000\n"
 "PO-Revision-Date: 2010-08-06 23:10+0800\n"
 "Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
 "Language-Team: Taiwan Python User Group <plone-i18n@lists.sourceforge.net>\n"
@@ -45,6 +45,9 @@ msgstr "留言已刪除"
 #: ./browser/controlpanel.py:36
 msgid "Commenter Image"
 msgstr "留言者圖檔"
+
+msgid "Commenting infrastructure for Plone"
+msgstr ""
 
 #: ./interfaces.py:225
 msgid "Conversation"
@@ -93,6 +96,10 @@ msgstr "修改日期"
 #: ./interfaces.py:226
 msgid "Name"
 msgstr "名稱"
+
+#: ./plone.app.discussion/plone/app/discussion/configure.zcml
+msgid "Plone Discussions"
+msgstr ""
 
 #: ./interfaces.py:222
 msgid "Portal type"
