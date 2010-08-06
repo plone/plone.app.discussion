@@ -4,6 +4,12 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* We need five:registerPackage to register the i18n folder.
+  [vincentfretin]
+
+* Added Traditional Chinese (zh_TW) translation.
+  [TsungWei Hu]
+
 * Added French translation.
   [vincentfretin]
 
