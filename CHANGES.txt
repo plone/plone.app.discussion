@@ -4,6 +4,9 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Added French translation.
+  [vincentfretin]
+
 * Translate "Warning" shown in @@moderate-comments in the plone domain.
   [vincentfretin]
 

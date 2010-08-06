@@ -1,105 +1,105 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-08-05 16:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2010-08-06 17:15+0100\n"
+"Last-Translator: Vincent Fretin <vincent.fretin@gmail.com>\n"
+"Language-Team: Vincent Fretin <vincent.fretin@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
+"Language-Code: fr\n"
+"Language-Name: Français\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: DOMAIN\n"
+"Domain: plone\n"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple workflow for comments"
-msgstr ""
+msgstr "Un simple workflow pour les commentaires"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
-msgstr ""
+msgstr "Approuver"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
-msgstr ""
+msgstr "Approuver le commentaire le rend visible aux autres utilisateurs."
 
 #: profiles/default/types/Discussion_Item.xml
 msgid "Comment"
-msgstr ""
+msgstr "Commentaire"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
-msgstr ""
+msgstr "Workflow de modération des commentaires"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment about the last transition"
-msgstr ""
+msgstr "Commentaire à propos de la dernière transition"
 
 #: profiles/default/portal_atct.xml
 msgid "Commentators"
-msgstr ""
+msgstr "Commentateurs"
 
 #: profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
-msgstr ""
+msgstr "Commentaires ajoutés à un élément."
 
 #: profiles/default/actionicons.xml
 #: profiles/default/controlpanel.xml
 msgid "Discussion"
-msgstr ""
+msgstr "Discussion"
 
 #: profiles/default/actions.xml
 msgid "Moderate comments"
-msgstr ""
+msgstr "Modération des commentaires"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
-msgstr ""
+msgstr "En attente"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Previous transition"
-msgstr ""
+msgstr "Transition précédente"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Provides access to workflow history"
-msgstr ""
+msgstr "Permet d'accéder à l'historique du workflow"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
-msgstr ""
+msgstr "Publié"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
-msgstr ""
+msgstr "Modérateur approuve le contenu"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
-msgstr ""
+msgstr "Soumis, en attente de modération."
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
-msgstr ""
+msgstr "L'identifiant utilisateur qui a effectué la transition précédente"
 
 #: profiles/default/portal_atct.xml
 msgid "Total number of comments"
-msgstr ""
+msgstr "Nombre total de commentaires"
 
 #: profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
-msgstr ""
+msgstr "Nombre total de commentaires pour cet élément."
 
 #: profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
-msgstr ""
+msgstr "Utilisateurs qui ont commenté sur cet élément"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
-msgstr ""
+msgstr "Visible par tout le monde, non modifiable."
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "When the previous transition was performed"
-msgstr ""
+msgstr "Quand la précédente transition a été effectué"
 
