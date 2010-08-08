@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-08-06 19:19+0000\n"
-"PO-Revision-Date: 2010-08-06 23:10+0800\n"
+"PO-Revision-Date: 2010-08-07 23:10+0800\n"
 "Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
 "Language-Team: Taiwan Python User Group <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgid "Commenter Image"
 msgstr "留言者圖檔"
 
 msgid "Commenting infrastructure for Plone"
-msgstr ""
+msgstr "Plone 的留言功能"
 
 #: ./interfaces.py:225
 msgid "Conversation"
@@ -79,7 +79,7 @@ msgstr "允許留言"
 
 #: ./interfaces.py:229
 msgid "Id of comment this comment is in reply to"
-msgstr ""
+msgstr "留言的識別碼"
 
 #: ./interfaces.py:241
 msgid "MIME type"
@@ -87,7 +87,7 @@ msgstr "MIME-Type"
 
 #: ./browser/controlpanel.py:37
 msgid "Moderator Email Notification"
-msgstr ""
+msgstr "審核者的電子郵件通知"
 
 #: ./interfaces.py:251
 msgid "Modification date"
@@ -99,15 +99,15 @@ msgstr "名稱"
 
 #: ./plone.app.discussion/plone/app/discussion/configure.zcml
 msgid "Plone Discussions"
-msgstr ""
+msgstr "Plone 討論區"
 
 #: ./interfaces.py:222
 msgid "Portal type"
-msgstr ""
+msgstr "網站型別"
 
 #: ./interfaces.py:120
 msgid "The set of unique commentators (usernames)"
-msgstr ""
+msgstr "留言者 (使用者名稱) 的集合"
 
 #: ./interfaces.py:118
 msgid "Total number of comments on this item"
@@ -175,7 +175,7 @@ msgstr "勾選的話，匿名使用者不必登入系統就能留言。建議使
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
 #: ./interfaces.py:51
 msgid "help_captcha"
-msgstr ""
+msgstr "設定留言是否啟用或停用 captcha 功能，如果還沒有這類模組選項的話，可安裝 plone.formwidget.captcha 或 plone.formwidget.recaptcha。"
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:14
@@ -188,17 +188,17 @@ msgstr ""
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objectsbefore users will be able to post comments."
 #: ./interfaces.py:22
 msgid "help_globally_enabled"
-msgstr ""
+msgstr "勾選的話，就啟用使用者的留言功能，不過，仍然要決定哪些內容型別、目錄、項目，能讓使用者留言。"
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
 #: ./interfaces.py:75
 msgid "help_moderator_notification_enabled"
-msgstr ""
+msgstr "勾選的話，有人留言時就會通知審核者。"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ./interfaces.py:65
 msgid "help_show_commenter_image"
-msgstr ""
+msgstr "勾選的話，使用者的圖檔會顯示在留言旁邊。"
 
 #. Default: "Enable anonymous comments"
 #: ./interfaces.py:35
@@ -208,12 +208,12 @@ msgstr "啟用匿名留言功能"
 #. Default: "Apply"
 #: ./browser/moderation.pt:71
 msgid "label_apply"
-msgstr ""
+msgstr "更新"
 
 #. Default: "Captcha"
 #: ./interfaces.py:50
 msgid "label_captcha"
-msgstr ""
+msgstr "captcha"
 
 #. Default: "Comment"
 #: ./interfaces.py:242
@@ -223,12 +223,12 @@ msgstr "留言"
 #. Default: "Posted by"
 #: ./browser/comments.pt:66
 msgid "label_comment_by"
-msgstr ""
+msgstr "作者"
 
 #. Default: "at"
 #: ./browser/comments.pt:79
 msgid "label_commented_at"
-msgstr ""
+msgstr "於"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:136
@@ -243,7 +243,7 @@ msgstr "全域啟用留言功能"
 #. Default: "Enable moderator email notification"
 #: ./interfaces.py:73
 msgid "label_moderator_notification_enabled"
-msgstr ""
+msgstr "啟用通知審核者的功能"
 
 #. Default: "Approve"
 #: ./browser/moderation.pt:127
@@ -268,12 +268,12 @@ msgstr "標題"
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ./browser/moderation.pt:33
 msgid "message_enable_comment_workflow"
-msgstr ""
+msgstr "啟用「留言審核工作流程」"
 
 #. Default: "Moderation workflow is disabled. You have to ${enable_comment_workflow} before you can moderate comments here."
 #: ./browser/moderation.pt:33
 msgid "message_moderation_disabled"
-msgstr ""
+msgstr "審核工作流程已停用，必須 ${enable_comment_workflow} 才能審核這裡的留言。"
 
 #. Default: "No comments to moderate."
 #: ./browser/moderation.pt:43

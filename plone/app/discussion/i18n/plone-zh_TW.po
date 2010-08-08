@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-08-06 17:21+0000\n"
-"PO-Revision-Date: 2010-08-06 23:11+0800\n"
+"PO-Revision-Date: 2010-08-07 23:11+0800\n"
 "Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
 "Language-Team: Taiwan Python User Group <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "- Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr ""
+msgstr "- 沒有狀態移轉的工作流程，但提供「已發佈」狀態，可讓需要的應用程式繼續正常運作。"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple workflow for comments"
@@ -24,11 +24,11 @@ msgstr "簡易的留言工作流程"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
-msgstr ""
+msgstr "允許"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
-msgstr ""
+msgstr "允許留言公開給其他使用者。"
 
 #: profiles/default/types/Discussion_Item.xml
 msgid "Comment"
@@ -40,7 +40,7 @@ msgstr "留言審核流程"
 
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment Single State Workflow"
-msgstr ""
+msgstr "單一狀態的工作流程"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 #: profiles/default/workflows/one_state_workflow/definition.xml
@@ -110,7 +110,7 @@ msgstr "在此項目留言的使用者"
 
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Visible to everyone, editable by the owner."
-msgstr ""
+msgstr "所有人可檢視，擁有者可編輯。"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
