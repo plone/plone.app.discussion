@@ -182,10 +182,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             IStatusMessage(self.context.REQUEST).addStatusMessage(
                 _("Your comment awaits moderator approval."),
                 type="info")
-            self.request.response.redirect(context.absolute_url())
+            self.request.response.redirect(self.action)
         else:
             # Redirect to comment (inside a content object page)
-            self.request.response.redirect(context.absolute_url() + '#' + str(comment_id))
+            self.request.response.redirect(self.action + '#' + str(comment_id))
 
     @button.buttonAndHandler(_(u"Cancel"))
     def handleCancel(self, action):

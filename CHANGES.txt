@@ -4,6 +4,11 @@ Changelog
 1.0b6 (unreleased)
 ------------------
 
+* Redirect to the comment form action instead of the absolute url when a 
+  comment is posted. This fixes the accidentially triggered file upload when a 
+  comment is posted on a file content object.
+  [timo]
+
 * We need five:registerPackage to register the i18n folder.
   [vincentfretin]
 
