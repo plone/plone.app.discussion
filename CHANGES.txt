@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b7 (unreleased)
+1.0b6 (unreleased)
 ------------------
 
 * We need five:registerPackage to register the i18n folder.
@@ -26,10 +26,6 @@ Changelog
 
 * Fixed i18n markup of message_moderation_disabled.
   [vincentfretin]
-
-
-1.0b6 (2010-08-05)
-------------------
 
 * Catch Type errors in indexers if object can not be adapted to IDiscussion
   [do3cc]
