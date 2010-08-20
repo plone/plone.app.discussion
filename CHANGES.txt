@@ -4,6 +4,11 @@ Changelog
 1.0b6 (unreleased)
 ------------------
 
+* Fixed the case where a folder has allow_discussion=False and
+  conversation.enabled() on a document in this folder returned False
+  instead of True because of allow_discussion acquisition.
+  [vincentfretin]
+
 * Redirect to the comment form action instead of the absolute url when a 
   comment is posted. This fixes the accidentially triggered file upload when a 
   comment is posted on a file content object.

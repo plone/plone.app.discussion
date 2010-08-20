@@ -127,7 +127,7 @@ class Conversation(Traversable, Persistent, Explicit):
         obj = aq_parent(self)
 
         # If discussion is disabled for the object, bail out
-        obj_flag = getattr(obj, 'allow_discussion', None)
+        obj_flag = getattr(aq_base(obj), 'allow_discussion', None)
         if obj_flag is False:
             return False
 

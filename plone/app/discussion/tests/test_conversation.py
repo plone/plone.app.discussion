@@ -215,6 +215,31 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(portal_discussion.isDiscussionAllowedFor(self.portal.doc1), True)
         self.assertEquals(getattr(self.portal.doc1, 'allow_discussion', None), True)
 
+    def test_comments_enabled_on_doc_in_subfolder(self):
+        typetool = self.portal.portal_types
+        typetool.constructContent('Folder', self.portal, 'folder1')
+        typetool.constructContent('Document', self.portal.folder1, 'doc2')
+        
+        folder = self.portal.folder1
+        folder.allowDiscussion(False)
+        self.assertFalse(hasattr(aq_base(folder), 'allow_discussion'))
+        folder.allowDiscussion(True)
+        self.assertTrue(aq_base(folder).allow_discussion)
+        folder.allowDiscussion(False)
+        self.assertFalse(aq_base(folder).allow_discussion)
+        
+        doc = self.portal.folder1.doc2
+        conversation = IConversation(doc)
+        self.assertEquals(conversation.enabled(), False)
+        
+        # We have to allow discussion on Document content type, since
+        # otherwise allow_discussion will always return False
+        portal_types = getToolByName(self.portal, 'portal_types')
+        document_fti = getattr(portal_types, 'Document')
+        document_fti.manage_changeProperties(allow_discussion = True)
+
+        self.assertEquals(conversation.enabled(), True)
+
     def test_disable_commenting_globally(self):
 
         # Create a conversation.
