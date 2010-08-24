@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b6 (unreleased)
+1.0b6 (2010-08-24)
 ------------------
 
 * Fixed the case where a folder has allow_discussion=False and
@@ -9,8 +9,8 @@ Changelog
   instead of True because of allow_discussion acquisition.
   [vincentfretin]
 
-* Redirect to the comment form action instead of the absolute url when a 
-  comment is posted. This fixes the accidentially triggered file upload when a 
+* Redirect to the comment form action instead of the absolute URL when a 
+  comment is posted. This fixes the accidentally triggered file upload when a 
   comment is posted on a file content object.
   [timo]
 
@@ -27,8 +27,8 @@ Changelog
   plone domain.
   [vincentfretin]
 
-* label_comment_by and label_commented_at are not in Plone 4 translation anymore, so
-  these two messages moved to plone.app.discussions i18n domain.
+* label_comment_by and label_commented_at are not in Plone 4 translation 
+  anymore, so these two messages moved to plone.app.discussions i18n domain.
   [vincentfretin]
 
 * Translate "Warning" shown in @@moderate-comments in the plone domain.
