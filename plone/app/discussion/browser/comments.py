@@ -223,7 +223,7 @@ class CommentsViewlet(ViewletBase):
     def has_replies(self, workflow_actions=False):
         """Returns true if there are replies.
         """
-        if self.get_replies(workflow_actions):
+        if self.get_replies(workflow_actions) is not None:
             try:
                 self.get_replies(workflow_actions).next()
                 return True
