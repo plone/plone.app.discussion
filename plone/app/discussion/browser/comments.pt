@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="commentBody"
-                     tal:content="reply/getText" />
+                     tal:content="structure python:view.cook(reply.getText())" />
 
                 <div class="commentActions">
                     <button class="context reply-to-comment-button hide allowMultiSubmit"

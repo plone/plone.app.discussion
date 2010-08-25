@@ -173,9 +173,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment_id = conversation.addComment(comment)
 
         # If a user post a comment and moderation is enabled, a message is shown
-        # to the user that his/her comment awaits moderation. If the user has manage
-        # right, he/she is redirected directly to the comment.
-        can_manage = getSecurityManager().checkPermission('Manage portal', context)
+        # to the user that his/her comment awaits moderation. If the user has 
+        # manage right, he/she is redirected directly to the comment.
+        can_manage = getSecurityManager().checkPermission('Manage portal', 
+                                                          context)
         if wf.getChainForPortalType('Discussion Item') == \
             ('comment_review_workflow',) and not can_manage:
             # Show info message when comment moderation is enabled
@@ -209,11 +210,22 @@ class CommentsViewlet(ViewletBase):
 
     # view methods
 
+    def cook(self, text):
+        transforms = getToolByName(self, 'portal_transforms')
+        targetMimetype = 'text/html'
+        mimetype = 'text/plain'
+        return transforms.convertTo(targetMimetype, 
+                                    text, 
+                                    context=self, 
+                                    mimetype=mimetype).getData()
+    
     def can_reply(self):
-        return getSecurityManager().checkPermission('Reply to item', aq_inner(self.context))
+        return getSecurityManager().checkPermission('Reply to item', 
+                                                    aq_inner(self.context))
 
     def can_manage(self):
-        return getSecurityManager().checkPermission('Manage portal', aq_inner(self.context))
+        return getSecurityManager().checkPermission('Manage portal', 
+                                                    aq_inner(self.context))
 
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
@@ -268,7 +280,7 @@ class CommentsViewlet(ViewletBase):
                     r = r.copy()
                     r['workflow_status'] = workflow_status
                     yield r
-
+        
         # Return all direct replies
         if conversation.total_comments > 0:
             if workflow_actions:
@@ -288,7 +300,9 @@ class CommentsViewlet(ViewletBase):
             # return the default user image if no username is given
             return 'defaultUser.gif'
         else:
-            portal_membership = getToolByName(self.context, 'portal_membership', None)
+            portal_membership = getToolByName(self.context,
+                                              'portal_membership',
+                                              None)
             return portal_membership.getPersonalPortrait(username).absolute_url();
 
     def anonymous_discussion_allowed(self):
@@ -304,15 +318,23 @@ class CommentsViewlet(ViewletBase):
         return settings.show_commenter_image
 
     def is_anonymous(self):
-        portal_membership = getToolByName(self.context, 'portal_membership', None)
+        portal_membership = getToolByName(self.context, 
+                                          'portal_membership', 
+                                          None)
         return portal_membership.isAnonymousUser()
 
     def login_action(self):
-        return '%s/login_form?came_from=%s' % (self.navigation_root_url, url_quote(self.request.get('URL', '')),)
+        return '%s/login_form?came_from=%s' % (self.navigation_root_url, 
+                                               url_quote(self.request.get('URL', '')),)
 
     def format_time(self, time):
         # We have to transform Python datetime into Zope DateTime
         # before we can call toLocalizedTime.
         util = getToolByName(self.context, 'translation_service')
-        zope_time = DateTime(time.year, time.month, time.day, time.hour, time.minute, time.second)
+        zope_time = DateTime(time.year, 
+                             time.month, 
+                             time.day, 
+                             time.hour, 
+                             time.minute, 
+                             time.second)
         return util.toLocalizedTime(zope_time, long_format=True)

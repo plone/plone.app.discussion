@@ -4,6 +4,9 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Plain text to HTML transformation added for comment text.
+  [timo]
+
 * Rewrote all tal:condition in comments.pt. The authenticated user has
   the reply button and the comment form if he has the "Reply to item"
   permission And the discussion is currently allowed.
