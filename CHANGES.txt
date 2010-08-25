@@ -4,7 +4,8 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
-* Plain text to HTML transformation added for comment text.
+* Plain text and intelligent text options for comment text added to preserve 
+  basic text structure and to make links clickable.
   [timo]
 
 * Rewrote all tal:condition in comments.pt. The authenticated user has

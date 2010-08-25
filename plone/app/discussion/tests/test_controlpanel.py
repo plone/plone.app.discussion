@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 
 from zope.component import getMultiAdapter
@@ -36,8 +37,16 @@ class RegistryTest(PloneTestCase):
     def test_globally_enabled(self):
         # Check globally_enabled record
         self.failUnless('globally_enabled' in IDiscussionSettings)
-        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled'], True)
+        self.assertEquals(
+            self.registry['plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled'], 
+            True)
 
+    def test_text_transform(self):
+        self.failUnless('text_transform' in IDiscussionSettings)
+        self.assertEquals(
+            self.registry['plone.app.discussion.interfaces.IDiscussionSettings.text_transform'],
+            'text/plain')
+        
     def test_captcha(self):
         # Check globally_enabled record
         self.failUnless('captcha' in IDiscussionSettings)

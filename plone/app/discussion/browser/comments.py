@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 
 from AccessControl import getSecurityManager
@@ -213,7 +214,9 @@ class CommentsViewlet(ViewletBase):
     def cook(self, text):
         transforms = getToolByName(self, 'portal_transforms')
         targetMimetype = 'text/html'
-        mimetype = 'text/plain'
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        mimetype = settings.text_transform        
         return transforms.convertTo(targetMimetype, 
                                     text, 
                                     context=self, 

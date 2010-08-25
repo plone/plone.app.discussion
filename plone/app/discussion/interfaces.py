@@ -46,6 +46,14 @@ class IDiscussionSettings(Interface):
                              required=False,
                              default=False)
 
+    text_transform = schema.Choice(
+                  title=_(u"label_text_transform", default="Comment text transform"),
+                  description=_(u"help_text_transform",
+                                default=u""),
+                   required=True,
+                   default='text/plain',
+                   vocabulary='plone.app.discussion.vocabularies.TextTransformVocabulary',)
+    
     captcha = schema.Choice(
                   title=_(u"label_captcha", default="Captcha"),
                   description=_(u"help_captcha",

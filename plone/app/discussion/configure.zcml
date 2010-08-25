@@ -64,7 +64,13 @@
 
     <!-- Captcha Vocabulary -->
     <utility component=".vocabularies.captcha_vocabulary"
-           name="plone.app.discussion.vocabularies.CaptchaVocabulary" />
+             name="plone.app.discussion.vocabularies.CaptchaVocabulary"
+             provides="zope.schema.interfaces.IVocabularyFactory" />
+
+    <!-- Text Transform Vocabulary -->
+    <utility component=".vocabularies.text_transform_vocabulary"
+             name="plone.app.discussion.vocabularies.TextTransformVocabulary"
+             provides="zope.schema.interfaces.IVocabularyFactory" />
 
     <configure zcml:condition="installed plone.formwidget.captcha">
       <include package="plone.formwidget.captcha" />

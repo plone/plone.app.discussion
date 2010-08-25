@@ -1,6 +1,9 @@
 from zope import interface
 import zope.schema.interfaces
-import zope.schema.vocabulary
+
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+
+from Products.CMFCore.utils import getToolByName
 
 from plone.app.discussion.interfaces import _ 
 
@@ -31,31 +34,45 @@ def captcha_vocabulary(context):
     """
     terms = []
     terms.append(
-        zope.schema.vocabulary.SimpleTerm(
+        SimpleTerm(
             value='disabled',
             token='disabled',
             title=_(u'Disabled')))
 
     if HAS_CAPTCHA:
         terms.append(
-            zope.schema.vocabulary.SimpleTerm(
+            SimpleTerm(
                 value='captcha',
                 token='captcha',
                 title='Captcha'))
     if HAS_RECAPTCHA:
         terms.append(
-            zope.schema.vocabulary.SimpleTerm(
+            SimpleTerm(
                 value='recaptcha',
                 token='recaptcha',
                 title='ReCaptcha'))
     if HAS_AKISMET:
         terms.append(
-            zope.schema.vocabulary.SimpleTerm(
+            SimpleTerm(
                 value='akismet',
                 token='akismet',
                 title='Akismet'))    
     
-    return zope.schema.vocabulary.SimpleVocabulary(terms)
+    return SimpleVocabulary(terms)
 
-interface.alsoProvides(captcha_vocabulary,
-                       zope.schema.interfaces.IVocabularyFactory)
+
+def text_transform_vocabulary(context):
+    """Vocabulary with all available portal_transform transformations.
+    """
+    terms = []
+    terms.append(
+        SimpleTerm(
+            value='text/plain',
+            token='text/plain',
+            title='Plain text'))
+    terms.append(
+        SimpleTerm(
+            value='text/x-web-intelligent',
+            token='text/x-web-intelligent',
+            title='Intelligent text'))
+    return SimpleVocabulary(terms)
