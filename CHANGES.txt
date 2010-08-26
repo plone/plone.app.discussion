@@ -4,6 +4,10 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Put email notification subscribers into their own zcml file so it is easier
+  for integrators to override them.
+  [timo]
+  
 * Plain text and intelligent text options for comment text added to preserve 
   basic text structure and to make links clickable.
   [timo]

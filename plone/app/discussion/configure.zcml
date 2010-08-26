@@ -12,6 +12,7 @@
     <include package="plone.indexer" />
 
     <include file="permissions.zcml" />
+    <include file="notifications.zcml" />
     <include file="subscribers.zcml" />
     <include package=".browser" />
 
