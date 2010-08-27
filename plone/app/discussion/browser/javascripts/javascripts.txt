@@ -1,0 +1,42 @@
+===============================
+plone.app.discussion Javascript
+===============================
+
+This document contains a description of how the plone.app.discussion javascript
+code works.
+
+HTML Structure
+--------------
+
+The "discussion" div contains all comments that have been posted to a specific
+content object. Each comment div has a unique id::
+
+  <div class="discussion">
+    <div class="comment" id="1282720906349675">
+      <h3 class="commentTitle"></h3>
+      <div class="documentByLine"></div>
+      <div class="commentBody"> </div>
+      <div class="commentActions">
+        <button class="reply-to-comment-button">Reply</button> 
+      </div>
+    </div>
+
+The comment form is rendered inside a "commenting" div::
+
+  <div id="commenting" class="reply">
+    <fieldset>
+      <legend i18n:translate="label_add_comment">Add comment</legend>
+      <p>
+        You can add a comment by filling out the form below. Plain text
+        formatting.
+      </p>
+      <form>
+        <div id="formfield-form-widgets-in_reply_to">
+          <input id="form-widgets-in_reply_to"
+                 name="form.widgets.in_reply_to" value=
+                 type="hidden" 
+           />
+        </div>
+      </form>
+    </fieldset>
+  </div>
