@@ -1,4 +1,5 @@
-jq(document).ready(function() {
+
+jq(document).ready(function () {
 
 
     /**************************************************************************
@@ -19,18 +20,15 @@ jq(document).ready(function() {
 
 
     /**************************************************************************
-     * If the user has hit the reply button of a reply-to-comment form (form was 
-     * submitted with a value for the "in_reply_to" field in the request), 
-     * create a reply-to-comment form right under this comment.
+     * Remove all error messages and field values from the form that is passed
+     * to the function.
      **************************************************************************/
-    var post_comment_div = jq("#commenting");
-    var in_reply_to_field = 
-	    post_comment_div.find("input[name='form.widgets.in_reply_to']");
-    if (in_reply_to_field.val() != "") {
-        var current_reply_id = "#" + in_reply_to_field.val();
-        var current_reply_to_div = jq(".discussion").find(current_reply_id);
-        createReplyForm(current_reply_to_div);
-        clearForm(post_comment_div);
+    function clearForm(form_div) {
+        form_div.find(".error").removeClass("error");
+        form_div.find(".fieldErrorBox").remove();
+        form_div.find("input[type='text']").attr("value", "");
+        form_div.find("textarea").attr("value", "");
+        /* XXX: Clean all additional form extender fields. */
     }
 
 
@@ -39,7 +37,7 @@ jq(document).ready(function() {
      * the function. We do this by copying the regular comment form and 
      * adding a hidden in_reply_to field to the form.
      **************************************************************************/
-    function createReplyForm(comment_div){
+    function createReplyForm(comment_div) {
 
         var comment_id = comment_div.attr("id");
 
@@ -64,7 +62,7 @@ jq(document).ready(function() {
 
         /* Remove id="reply" attribute, since we use it to uniquely
            the main reply form. */
-        reply_div.removeAttr("id")
+        reply_div.removeAttr("id");
 
         /* Hide the reply button (only hide, because we may want to show it
          * again if the user hits the cancel button).
@@ -94,24 +92,27 @@ jq(document).ready(function() {
     }
 
     
-	/**************************************************************************
-     * Remove all error messages and field values from the form that is passed
-     * to the function.
+    /**************************************************************************
+     * If the user has hit the reply button of a reply-to-comment form (form was 
+     * submitted with a value for the "in_reply_to" field in the request), 
+     * create a reply-to-comment form right under this comment.
      **************************************************************************/
-    function clearForm(form_div) {
-        form_div.find(".error").removeClass("error");
-        form_div.find(".fieldErrorBox").remove();
-        form_div.find("input[type='text']").attr("value", "");
-        form_div.find("textarea").attr("value", "");
-        /* XXX: Clean all additional form extender fields. */
+    var post_comment_div = jq("#commenting");
+    var in_reply_to_field = 
+        post_comment_div.find("input[name='form.widgets.in_reply_to']");
+    if (in_reply_to_field.val() !== "") {
+        var current_reply_id = "#" + in_reply_to_field.val();
+        var current_reply_to_div = jq(".discussion").find(current_reply_id);
+        createReplyForm(current_reply_to_div);
+        clearForm(post_comment_div);
     }
-	
+    	
     
 	/**************************************************************************
      * If the user hits the "reply" button of an existing comment, create a 
      * reply form right beneath this comment.
      **************************************************************************/
-    jq(".reply-to-comment-button").bind("click", function(e){
+    jq(".reply-to-comment-button").bind("click", function (e) {
         var comment_div = jq(this).parents().filter(".comment");
         createReplyForm(comment_div);
         clearForm(comment_div);
@@ -122,21 +123,23 @@ jq(document).ready(function() {
      * If the user hits the "clear" button of an open reply-to-comment form,
      * remove the form and show the "reply" button again.
      **************************************************************************/
-    jq("#form-buttons-cancel").bind("click", function(e){
+    jq("#form-buttons-cancel").bind("click", function (e) {
         e.preventDefault();
-        reply_to_comment_button = jq(this).
-		                              parents().
-								      filter(".comment").
-									  find(".reply-to-comment-button");
+        var reply_to_comment_button = jq(this).
+		                                  parents().
+								          filter(".comment").
+									      find(".reply-to-comment-button");
 
         /* Find the reply-to-comment form and hide and remove it again. */
-        reply_to_comment_form = jq(this).parents().filter(".reply")
-        reply_to_comment_form.slideUp("slow", function() { jq(this).remove(); } );
+        reply_to_comment_form = jq(this).parents().filter(".reply");
+        reply_to_comment_form.slideUp("slow", function () { 
+            jq(this).remove(); 
+        });
 
         /* Show the reply-to-comment button again. */
         reply_to_comment_button.css("display", "inline");
 
     });
 
- });
+});
  

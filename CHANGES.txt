@@ -4,6 +4,9 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Make Javascripts pass JSLint validation.
+  [timo]
+
 * Put email notification subscribers into their own zcml file so it is easier
   for integrators to override them.
   [timo]
