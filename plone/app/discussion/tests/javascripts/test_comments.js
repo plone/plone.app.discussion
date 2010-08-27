@@ -59,11 +59,6 @@ module("comments", {
 });
 
 
-test("Initialisation", function() {
-    expect(1);
-    ok($.discussion, "$.discussion");
-});
-
 test("Hide the reply and the cancel button for the comment form", function(){
     expect(1);
     $(".reply").find("input[name='form.buttons.cancel']").css("display", "none");
@@ -79,7 +74,7 @@ test("Show the reply button only when Javascript is enabled", function(){
 test("Create a comment reply form.", function() {
     expect(2);
     var comment_div = $("#1282720906349675");
-    $.discussion.createReplyForm(comment_div);
+    createReplyForm(comment_div);
     var reply_form = comment_div.find(".reply");
     ok(reply_form, "Reply form has been copied");
     same(reply_form.find("input[name='form.widgets.in_reply_to']").val(), "1282720906349675", "The reply for should have the id of the comment in the in_reply_to field");
@@ -88,14 +83,14 @@ test("Create a comment reply form.", function() {
 test("Clear all form values from a form.", function() {
     // Create a reply form with some values
     var comment_div = $("#1282720906349675");
-    $.discussion.createReplyForm(comment_div);
+    createReplyForm(comment_div);
     var reply_form = comment_div.find(".reply");
     var author = reply_form.find("input[name='form.widgets.author']");
     var text = comment_div.find("input[name='form.widgets.text']");
     author.val("my author");
     text.val("my text");
     // Call the clearForm function to clear the form
-    $.discussion.clearForm(comment_div);
+    clearForm(comment_div);
     // Check if all form fields have been cleared
     var author = comment_div.find("input[name='form.widgets.author']");
     var text = comment_div.find("input[name='form.widgets.text']");
