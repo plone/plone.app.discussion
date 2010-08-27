@@ -1,4 +1,6 @@
 
+$(document).ready(function () {
+
 
 module("comments", {
     setup: function () {
@@ -96,5 +98,9 @@ test("Clear all form values from a form.", function() {
     var text = comment_div.find("input[name='form.widgets.text']");
     equals(author.val(), "", "The author form value should be empty");
     equals(text.text(), "", "The text form value should be empty");
+
 });
+
+});
+
 
