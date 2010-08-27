@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+dir="ltr" id="html">
+    <head>
+        <meta name="generator" content=
+        "HTML Tidy, see www.w3.org" />
+        <meta http-equiv="Content-Type" content=
+        "text/html; charset=utf-8" />
+
+        <title>plone.app.discussion comments Test Suite</title>
+        <!-- QUnit -->
+        <link rel="stylesheet" href="../qunit/qunit.css" type=
+        "text/css" media="screen" />
+<script type="text/javascript" src="../qunit/qunit.js">
+</script>
+        <!-- Scripts -->
+<script type="text/javascript" src="jquery.js">
+</script>
+<script type="text/javascript" src=
+"../../browser/javascripts/comments.js">
+</script>
+        <!-- Tests -->
+<script type="text/javascript" src="comments.js">
+</script>
+    </head>
+
+    <body>
+        <h1 id="qunit-header">plone.app.discussion comments Test
+        Suite</h1>
+
+        <h2 id="qunit-banner"></h2>
+
+        <div id="qunit-testrunner-toolbar">
+        </div>
+
+        <h2 id="qunit-userAgent"></h2>
+
+        <ol id="qunit-tests">
+        </ol>
+
+        <div id="commenting" class="reply" style="display: none">
+            <fieldset>
+                <legend>Kommentieren</legend> 
+
+                <p>Formatierung als einfacher Text. URLs werden in
+                Links umgewandelt.</p>
+
+                <form class=
+                "rowlike enableUnloadProtection kssattr-formname-document_view"
+                 action=
+                "http://localhost:8090/Plone/front-page/document_view"
+                 method="post" id="form" enctype=
+                "multipart/form-data">
+                    <!-- Default fieldset -->
+
+                    <div class=
+                    "field z3cformInlineValidation kssattr-fieldname-form.widgets.in_reply_to"
+                     id="formfield-form-widgets-in_reply_to">
+                        <input id="form-widgets-in_reply_to" name=
+                        "form.widgets.in_reply_to" value="" class=
+                        "hidden-widget" type="hidden" />
+                    </div>
+
+                    <div class=
+                    "field z3cformInlineValidation kssattr-fieldname-form.widgets.author_name"
+                     id="formfield-form-widgets-author_name">
+                        <label for="form-widgets-author_name"
+                        class="horizontal">Name</label> <input id=
+                        "form-widgets-author_name" name=
+                        "form.widgets.author_name" class=
+                        "text-widget textline-field" value="" type=
+                        "text" />
+                    </div>
+
+                    <div class=
+                    "field z3cformInlineValidation kssattr-fieldname-form.widgets.author_email"
+                     id="formfield-form-widgets-author_email">
+                        <input id="form-widgets-author_email" name=
+                        "form.widgets.author_email" value="" class=
+                        "hidden-widget" type="hidden" />
+                    </div>
+
+                    <div class=
+                    "field z3cformInlineValidation kssattr-fieldname-form.widgets.title"
+                     id="formfield-form-widgets-title">
+                        <label for="form-widgets-title" class=
+                        "horizontal">Betreff</label> <span class=
+                        "required horizontal" title="Required"
+                        style="color: red">%a0;</span> <input id=
+                        "form-widgets-title" name=
+                        "form.widgets.title" class=
+                        "text-widget required textline-field"
+                        value="" type="text" />
+                    </div>
+
+                    <div class=
+                    "field z3cformInlineValidation kssattr-fieldname-form.widgets.text"
+                     id="formfield-form-widgets-text">
+                        <label for="form-widgets-text" class=
+                        "horizontal">Kommentar</label> <span class=
+                        "required horizontal" title="Required"
+                        style="color: red">%a0;</span> <textarea
+                        id="form-widgets-text" name=
+                        "form.widgets.text" class=
+                        "textarea-widget required text-field autoresize">
+                        </textarea>
+                    </div>
+                    <!-- Secondary fieldsets -->
+
+                    <div class="formControls">
+                        <input id="form-buttons-comment" name=
+                        "form.buttons.comment" class=
+                        "submit-widget button-field context" value=
+                        "Kommentieren" type="submit" /> <input id=
+                        "form-buttons-cancel" name=
+                        "form.buttons.cancel" class=
+                        "submit-widget button-field standalone hide"
+                         value="Abbrechen" type="submit" />
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </body>
+</html>
+
