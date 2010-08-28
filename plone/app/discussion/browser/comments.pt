@@ -22,7 +22,7 @@
                    />
         </form>
     </div>
-<BREAK ZPTLINT
+
     <div class="discussion"
          tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage' or 'discussion';"
          tal:condition="has_replies">
