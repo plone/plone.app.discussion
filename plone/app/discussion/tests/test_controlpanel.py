@@ -2,8 +2,10 @@
 import unittest
 
 from zope.component import getMultiAdapter
+from zope.component import createObject, queryUtility
 
 from plone.registry import Registry
+from plone.registry.interfaces import IRegistry
 
 from Products.CMFCore.utils import getToolByName
 from Products.PloneTestCase.ptc import PloneTestCase
@@ -22,6 +24,10 @@ class RegistryTest(PloneTestCase):
         self.registry = Registry()
         self.registry.registerInterface(IDiscussionSettings)
 
+    def test_registry_registered(self):
+        registry = queryUtility(IRegistry)
+        self.failUnless(registry.forInterface(IDiscussionSettings))
+            
     def test_discussion_controlpanel_view(self):
         view = getMultiAdapter((self.portal, self.portal.REQUEST), 
                                name="discussion-settings")
