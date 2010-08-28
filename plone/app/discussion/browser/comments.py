@@ -92,7 +92,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         self.actions['cancel'].addClass("hide")  
         self.actions['comment'].addClass("context")  
         
-    @button.buttonAndHandler(_(u"add_comment_button",default=u"Comment"), 
+    @button.buttonAndHandler(_(u"add_comment_button", default=u"Comment"), 
                              name='comment')
     def handleComment(self, action):
         context = aq_inner(self.context)
@@ -112,7 +112,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         portal_membership = getToolByName(self.context, 'portal_membership')
-        if settings.captcha != 'disabled' and portal_membership.isAnonymousUser():
+        if settings.captcha != 'disabled' and \
+        portal_membership.isAnonymousUser():
             if not 'captcha' in data:
                 data['captcha'] = u""
             captcha = CaptchaValidator(self.context, 
@@ -132,7 +133,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if 'author_email' in data:
             author_email = data['author_email']
         #if 'author_notification' in data:
-         #   author_notification = data['author_notification']
+        #    author_notification = data['author_notification']
             
         # The add-comment view is called on the conversation object
         conversation = IConversation(self.__parent__)
@@ -306,7 +307,8 @@ class CommentsViewlet(ViewletBase):
             portal_membership = getToolByName(self.context,
                                               'portal_membership',
                                               None)
-            return portal_membership.getPersonalPortrait(username).absolute_url();
+            return portal_membership.getPersonalPortrait(username)\
+                   .absolute_url()
 
     def anonymous_discussion_allowed(self):
         # Check if anonymous comments are allowed in the registry
@@ -325,10 +327,11 @@ class CommentsViewlet(ViewletBase):
                                           'portal_membership', 
                                           None)
         return portal_membership.isAnonymousUser()
-
+    
     def login_action(self):
-        return '%s/login_form?came_from=%s' % (self.navigation_root_url, 
-                                               url_quote(self.request.get('URL', '')),)
+        return '%s/login_form?came_from=%s' % \
+            (self.navigation_root_url,
+             url_quote(self.request.get('URL', '')),)
 
     def format_time(self, time):
         # We have to transform Python datetime into Zope DateTime
