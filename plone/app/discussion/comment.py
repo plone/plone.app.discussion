@@ -41,6 +41,12 @@ except:
     from OFS.Traversable import Traversable as WorkflowAware
     PLONE_4 = False
 
+USER_NOTIFICATION_MESSAGE = "A comment with the title '%s' has been posted ", \
+                            "here: %s"
+
+MODERATOR_NOTIFICATION_MESSAGE = "A comment with the title '%s' has been ", \
+                                 "posted here: %s"
+
 
 class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
               RoleManager, Owned, Implicit, Persistent):
@@ -130,14 +136,14 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
 CommentFactory = Factory(Comment)
 
-def notify_workflow(obj, event):
+def notify_workflow(obj):
     """Tell the workflow tool when a comment is added
     """
     tool = getToolByName(obj, 'portal_workflow', None)
     if tool is not None:
         tool.notifyCreated(obj)
 
-def notify_content_object(obj, event):
+def notify_content_object(obj):
     """Tell the content object when a comment is added
     """
     content_obj = aq_parent(aq_parent(obj))
@@ -145,7 +151,7 @@ def notify_content_object(obj, event):
                                     'last_comment_date', 
                                     'commentators',))
 
-def notify_content_object_deleted(obj, event):
+def notify_content_object_deleted(obj):
     """Remove all comments of a content object when the content object has been
        deleted.
     """
@@ -154,7 +160,7 @@ def notify_content_object_deleted(obj, event):
         for comment in conversation.getComments():
             del conversation[comment.id]
             
-def notify_user(obj, event):
+def notify_user(obj):
     """Tell users when a comment has been added.
     
        This method composes and sends emails to all users that have added a 
@@ -187,15 +193,13 @@ def notify_user(obj, event):
     
     for comment in conversation.getComments():
         if obj != comment and \
-           comment.author_notification and \
-           comment.author_email:
-                subject = "A comment has been posted."
-                message = "A comment with the title '%s' has been posted here: %s" \
-                          % (obj.title,
-                             content_object.absolute_url(),)
-                mail_host.send(message, comment.author_email, sender, subject)
+        comment.author_notification and comment.author_email:
+            subject = "A comment has been posted."
+            message = USER_NOTIFICATION_MESSAGE % (obj.title,
+                content_object.absolute_url(),)
+            mail_host.send(message, comment.author_email, sender, subject)
             
-def notify_moderator(obj, index):
+def notify_moderator(obj):
     """Tell the moderator when a comment needs attention.
     
        This method sends an email to the site admin (mail control panel setting)
@@ -234,9 +238,9 @@ def notify_moderator(obj, index):
     content_object = aq_parent(conversation)
 
     # Compose email        
-    comment = conversation.getComments().next()
+    #comment = conversation.getComments().next()
     subject = "A comment has been posted."
-    message = "A comment with the title '%s' has been posted here: %s" \
+    message = MODERATOR_NOTIFICATION_MESSAGE \
               % (obj.title,
                  content_object.absolute_url(),)
               
