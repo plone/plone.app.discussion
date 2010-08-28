@@ -105,7 +105,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         title = u""
         text = u""
         author_name = u""
-        author_username = u""
         author_email = u""
         #author_notification = None
 
@@ -129,8 +128,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             text = data['text']
         if 'author_name' in data:
             author_name = data['author_name']
-        if 'author_username' in data:
-            author_username = data['author_username']
+
         if 'author_email' in data:
             author_email = data['author_email']
         #if 'author_notification' in data:
