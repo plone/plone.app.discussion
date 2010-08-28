@@ -58,7 +58,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     def updateFields(self):
         super(CommentForm, self).updateFields()
-        #self.fields['author_notification'].widgetFactory = SingleCheckBoxFieldWidget
+        #self.fields['author_notification'].widgetFactory = 
+        #    SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()
@@ -91,7 +92,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         self.actions['cancel'].addClass("hide")  
         self.actions['comment'].addClass("context")  
         
-    @button.buttonAndHandler(_(u"add_comment_button",default=u"Comment"), name='comment')
+    @button.buttonAndHandler(_(u"add_comment_button",default=u"Comment"), 
+                             name='comment')
     def handleComment(self, action):
         context = aq_inner(self.context)
         wf = getToolByName(context, 'portal_workflow')
@@ -105,7 +107,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         author_name = u""
         author_username = u""
         author_email = u""
-        author_notification = None
+        #author_notification = None
 
         # Captcha check for anonymous users (if Captcha is enabled)
         registry = queryUtility(IRegistry)
@@ -131,8 +133,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             author_username = data['author_username']
         if 'author_email' in data:
             author_email = data['author_email']
-        if 'author_notification' in data:
-            author_notification = data['author_notification']
+        #if 'author_notification' in data:
+         #   author_notification = data['author_notification']
             
         # The add-comment view is called on the conversation object
         conversation = IConversation(self.__parent__)
