@@ -1,3 +1,6 @@
+"""Test for the plone.app.discussion indexers
+"""
+
 import unittest
 
 from datetime import datetime
@@ -14,8 +17,20 @@ from plone.indexer.delegate import DelegatingIndexerFactory
 
 from plone.app.discussion import catalog
 
+LONG_TEXT = """Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed 
+diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
+sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. 
+Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit 
+amet."""
+
+LONG_TEXT_CUT = """Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed 
+diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, 
+sed diam voluptua. At [...]"""
+
 
 class ConversationIndexersTest(PloneTestCase):
+    """Conversation Indexer Tests
+    """
 
     layer = DiscussionLayer
 
@@ -58,7 +73,8 @@ class ConversationIndexersTest(PloneTestCase):
         self.conversation = conversation
 
     def test_conversation_total_comments(self):
-        self.assert_(isinstance(catalog.total_comments, DelegatingIndexerFactory))
+        self.assert_(isinstance(catalog.total_comments, 
+                                DelegatingIndexerFactory))
         self.assertEquals(catalog.total_comments(self.portal.doc1)(), 3)
         del self.conversation[self.new_id1]
         self.assertEquals(catalog.total_comments(self.portal.doc1)(), 2)
@@ -67,18 +83,23 @@ class ConversationIndexersTest(PloneTestCase):
         self.assertEquals(catalog.total_comments(self.portal.doc1)(), 0)
 
     def test_conversation_last_comment_date(self):
-        self.assert_(isinstance(catalog.last_comment_date, DelegatingIndexerFactory))
-        self.assertEquals(catalog.last_comment_date(self.portal.doc1)(), datetime(2009, 4, 12, 11, 12, 12))
+        self.assert_(isinstance(catalog.last_comment_date, 
+                                DelegatingIndexerFactory))
+        self.assertEquals(catalog.last_comment_date(self.portal.doc1)(), 
+                          datetime(2009, 4, 12, 11, 12, 12))
         del self.conversation[self.new_id3]
-        self.assertEquals(catalog.last_comment_date(self.portal.doc1)(), datetime(2007, 12, 13, 4, 18, 12))
+        self.assertEquals(catalog.last_comment_date(self.portal.doc1)(), 
+                          datetime(2007, 12, 13, 4, 18, 12))
         del self.conversation[self.new_id2]
         del self.conversation[self.new_id1]
         self.assertEquals(catalog.last_comment_date(self.portal.doc1)(), None)
 
     def test_conversation_commentators(self):
         pass
-        #self.assertEquals(catalog.commentators(self.portal.doc1)(), ('Jim', 'Emma', 'Lukas'))
-        #self.assert_(isinstance(catalog.commentators, DelegatingIndexerFactory))
+        #self.assertEquals(catalog.commentators(self.portal.doc1)(), 
+        #                  ('Jim', 'Emma', 'Lukas'))
+        #self.assert_(isinstance(catalog.commentators, 
+        #                        DelegatingIndexerFactory))
 
 class CommentIndexersTest(PloneTestCase):
 
@@ -94,8 +115,8 @@ class CommentIndexersTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        # Add a comment. Note: in real life, we always create comments via the factory
-        # to allow different factories to be swapped in
+        # Add a comment. Note: in real life, we always create comments via the 
+        # factory to allow different factories to be swapped in
 
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
@@ -104,9 +125,7 @@ class CommentIndexersTest(PloneTestCase):
         comment.creation_date = datetime(2006, 9, 17, 14, 18, 12)
         comment.modification_date = datetime(2008, 3, 12, 7, 32, 52)
 
-        new_id = conversation.addComment(comment)
-
-        self.comment_id = new_id
+        self.comment_id = conversation.addComment(comment)
         self.comment = comment.__of__(conversation)
         self.conversation = conversation
 
@@ -115,7 +134,8 @@ class CommentIndexersTest(PloneTestCase):
         self.assert_(isinstance(catalog.title, DelegatingIndexerFactory))
 
     def test_description(self):
-        self.assertEquals(catalog.description(self.comment)(), 'Lorem ipsum dolor sit amet.')
+        self.assertEquals(catalog.description(self.comment)(), 
+                          'Lorem ipsum dolor sit amet.')
         self.assert_(isinstance(catalog.description, DelegatingIndexerFactory))
 
     def test_description_long(self):
@@ -123,20 +143,25 @@ class CommentIndexersTest(PloneTestCase):
         # only the first 25 words
         comment_long = createObject('plone.Comment')
         comment_long.title = 'Long Comment'
-        comment_long.text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+        comment_long.text = LONG_TEXT
 
         self.conversation.addComment(comment_long)
-        self.assertEquals(catalog.description(comment_long)(), 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At [...]')
+        self.assertEquals(catalog.description(comment_long)(), 
+                          LONG_TEXT_CUT.replace("\n", ""))
 
     def test_dates(self):
         # Test if created, modified, effective etc. are set correctly
-        self.assertEquals(catalog.created(self.comment)(), DateTime(2006, 9, 17, 14, 18, 12))
-        self.assertEquals(catalog.modified(self.comment)(), DateTime(2008, 3, 12, 7, 32, 52))
+        self.assertEquals(catalog.created(self.comment)(), 
+                          DateTime(2006, 9, 17, 14, 18, 12))
+        self.assertEquals(catalog.modified(self.comment)(), 
+                          DateTime(2008, 3, 12, 7, 32, 52))
 
     def test_searchable_text(self):
         # Test if searchable text is a concatenation of title and comment text
-        self.assertEquals(catalog.searchable_text(self.comment)(), ('Comment 1', 'Lorem ipsum dolor sit amet.'))
-        self.assert_(isinstance(catalog.searchable_text, DelegatingIndexerFactory))
+        self.assertEquals(catalog.searchable_text(self.comment)(), 
+                          ('Comment 1', 'Lorem ipsum dolor sit amet.'))
+        self.assert_(isinstance(catalog.searchable_text, 
+                                DelegatingIndexerFactory))
 
     def test_creator(self):
         self.assertEquals(catalog.creator(self.comment)(), ('Jim'))

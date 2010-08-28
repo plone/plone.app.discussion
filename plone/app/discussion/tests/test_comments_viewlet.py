@@ -27,7 +27,9 @@ class TestCommentForm(PloneTestCase):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        self.portal_discussion = getToolByName(self.portal, 'portal_discussion', None)
+        self.portal_discussion = getToolByName(self.portal, 
+                                               'portal_discussion', 
+                                               None)
         self.membership_tool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
         request = self.app.REQUEST
@@ -87,7 +89,8 @@ class TestCommentsViewletIntegration(FunctionalTestCase):
         # Do not show the old comment viewlet
         self.failIf('discussion_reply_form' in browser.contents)
         # Show the new comment viewlet
-        self.failUnless('formfield-form-widgets-in_reply_to' in browser.contents)
+        self.failUnless('formfield-form-widgets-in_reply_to' in 
+                        browser.contents)
         self.failUnless('formfield-form-widgets-title' in browser.contents)
         self.failUnless('formfield-form-widgets-text' in browser.contents)
 
@@ -100,7 +103,9 @@ class TestCommentsViewlet(PloneTestCase):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        self.portal_discussion = getToolByName(self.portal, 'portal_discussion', None)
+        self.portal_discussion = getToolByName(self.portal, 
+                                               'portal_discussion', 
+                                               None)
         self.membership_tool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
         request = self.app.REQUEST
@@ -112,7 +117,7 @@ class TestCommentsViewlet(PloneTestCase):
         
         Second paragraph"""
         self.assertEquals(self.viewlet.cook(text),
-                          "<p>First paragraph<br />        <br />        Second paragraph</p>")
+        "<p>First paragraph<br />        <br />        Second paragraph</p>")
 
     def test_cook_no_html(self):
         text = """<b>Got HTML?</b>"""
@@ -122,7 +127,7 @@ class TestCommentsViewlet(PloneTestCase):
     def test_cook_with_no_ascii_characters(self):
         text = """Umlaute sind ä, ö und ü."""
         self.assertEquals(self.viewlet.cook(text), 
-                          "<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>")
+            "<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>")
     
     def test_cook_links(self):
         text = "Go to http://www.plone.org"
@@ -183,18 +188,21 @@ class TestCommentsViewlet(PloneTestCase):
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         c1 = conversation.addComment(comment)
-        self.assertEquals(sum(1 for w in self.viewlet.get_replies(workflow_actions=True)), 1)
+        self.assertEquals(sum(1 for w in 
+                              self.viewlet.get_replies(workflow_actions=True)), 
+                              1)
         # Enable moderation workflow
-        self.portal.portal_workflow.setChainForPortalTypes(('Discussion Item',),
-                                                           ('simple_publication_workflow,'))
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ('Discussion Item',),
+            ('simple_publication_workflow,'))
         # Check if workflow actions are available
         reply = self.viewlet.get_replies(workflow_actions=True).next()
         self.failUnless(reply.has_key('actions'))
         self.assertEquals(reply['actions'][0]['id'],
                           'publish')
         self.assertEquals(reply['actions'][0]['url'],
-                          'http://nohost/plone/doc1/++conversation++default/%s' % int(c1) +
-                          '/content_status_modify?workflow_action=publish') 
+            'http://nohost/plone/doc1/++conversation++default/%s' % int(c1) +
+            '/content_status_modify?workflow_action=publish') 
                 
     def test_get_commenter_home_url(self):
         comment = createObject('plone.Comment')
@@ -213,9 +221,13 @@ class TestCommentsViewlet(PloneTestCase):
 
         # Add a user with a member image
         self.membership_tool.addMember('jim', 'Jim', ['Member'], [])
-        self.memberdata._setPortrait(Image(id='jim', file=dummy.File(), title=''), 'jim')
-        self.assertEqual(self.memberdata._getPortrait('jim').getId(), 'jim')
-        self.assertEqual(self.memberdata._getPortrait('jim').meta_type, 'Image')
+        self.memberdata._setPortrait(Image(id='jim', 
+                                           file=dummy.File(),
+                                           title=''), 'jim')
+        self.assertEqual(self.memberdata._getPortrait('jim').getId(), 
+                         'jim')
+        self.assertEqual(self.memberdata._getPortrait('jim').meta_type, 
+                         'Image')
 
         # Add a conversation with a comment
         conversation = IConversation(self.portal.doc1)
@@ -232,7 +244,7 @@ class TestCommentsViewlet(PloneTestCase):
 
         # Check if the correct member image URL is returned
         self.assertEquals(portrait_url, 
-                          'http://nohost/plone/portal_memberdata/portraits/jim')
+            'http://nohost/plone/portal_memberdata/portraits/jim')
 
     def test_get_commenter_portrait_is_none(self):
         self.assertEquals(self.viewlet.get_commenter_portrait(), 
@@ -264,14 +276,16 @@ class TestCommentsViewlet(PloneTestCase):
         self.failIf(self.viewlet.anonymous_discussion_allowed())
         # Allow anonymous discussion
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments'] = True
+        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
+                  'anonymous_comments'] = True
         # Test if anonymous discussion is allowed for the viewlet
         self.failUnless(self.viewlet.anonymous_discussion_allowed())
     
     def test_show_commenter_image(self):
         self.failUnless(self.viewlet.show_commenter_image())
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image'] = False        
+        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
+                 'show_commenter_image'] = False        
         self.failIf(self.viewlet.show_commenter_image())
         
     def test_is_anonymous(self):
@@ -282,7 +296,7 @@ class TestCommentsViewlet(PloneTestCase):
     def test_login_action(self):
         self.viewlet.update()
         self.assertEquals(self.viewlet.login_action(),
-                          'http://nohost/plone/login_form?came_from=http%3A//nohost') 
+            'http://nohost/plone/login_form?came_from=http%3A//nohost') 
    
     def test_format_time(self):
         python_time = datetime(2009, 02, 01, 23, 32, 03, 57)

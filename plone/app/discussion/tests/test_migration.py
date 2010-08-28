@@ -34,7 +34,8 @@ class MigrationTest(PloneTestCase):
         request.set("test", True)
         context = getattr(self.portal, 'doc')
         self.view = View(context, request)
-        self.workflow.setChainForPortalTypes(('Discussion Item',), 'comment_review_workflow')
+        self.workflow.setChainForPortalTypes(('Discussion Item',), 
+                                             'comment_review_workflow')
 
         self.doc = self.portal.doc
 
@@ -57,7 +58,8 @@ class MigrationTest(PloneTestCase):
         self.view()
 
         # Make sure a conversation has been created
-        self.failUnless('plone.app.discussion:conversation' in IAnnotations(self.doc))
+        self.failUnless('plone.app.discussion:conversation' in 
+                        IAnnotations(self.doc))
         conversation = IConversation(self.doc)
 
         # Check migration
@@ -68,8 +70,10 @@ class MigrationTest(PloneTestCase):
         self.assertEquals(comment1.Title(), 'My Title')
         self.assertEquals(comment1.text, 'My Text')
         self.assertEquals(comment1.Creator(), 'Jim')
-        self.assertEquals(comment1.creation_date, datetime(2003, 3, 11, 9, 28, 6))
-        self.assertEquals(comment1.modification_date, datetime(2009, 7, 12, 19, 38, 7))
+        self.assertEquals(comment1.creation_date, 
+                          datetime(2003, 3, 11, 9, 28, 6))
+        self.assertEquals(comment1.modification_date, 
+                          datetime(2009, 7, 12, 19, 38, 7))
         self.assertEquals(
             [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},]
             , list(conversation.getThreads()))
@@ -149,15 +153,15 @@ class MigrationTest(PloneTestCase):
         comment2 = conversation.values()[7]
 
         self.assertEquals(
-            [{'comment': comment1,       'depth': 0, 'id': long(comment1.id)},
-             {'comment': comment1_1,     'depth': 1, 'id': long(comment1_1.id)},
-             {'comment': comment1_1_1,   'depth': 2, 'id': long(comment1_1_1.id)},
-             {'comment': comment1_1_1_1, 'depth': 3, 'id': long(comment1_1_1_1.id)},
-             {'comment': comment1_2,     'depth': 1, 'id': long(comment1_2.id)},
-             {'comment': comment1_3,     'depth': 1, 'id': long(comment1_3.id)},
-             {'comment': comment1_4,     'depth': 1, 'id': long(comment1_4.id)},
-             {'comment': comment2,       'depth': 0, 'id': long(comment2.id)},
-            ], list(conversation.getThreads()))
+        [{'comment': comment1,       'depth': 0, 'id': long(comment1.id)},
+         {'comment': comment1_1,     'depth': 1, 'id': long(comment1_1.id)},
+         {'comment': comment1_1_1,   'depth': 2, 'id': long(comment1_1_1.id)},
+         {'comment': comment1_1_1_1, 'depth': 3, 'id': long(comment1_1_1_1.id)},
+         {'comment': comment1_2,     'depth': 1, 'id': long(comment1_2.id)},
+         {'comment': comment1_3,     'depth': 1, 'id': long(comment1_3.id)},
+         {'comment': comment1_4,     'depth': 1, 'id': long(comment1_4.id)},
+         {'comment': comment2,       'depth': 0, 'id': long(comment2.id)},
+        ], list(conversation.getThreads()))
 
         talkback = self.discussion.getDiscussionFor(self.doc)
         self.assertEquals(len(talkback.getReplies()), 0)

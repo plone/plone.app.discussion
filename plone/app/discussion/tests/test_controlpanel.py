@@ -38,41 +38,51 @@ class RegistryTest(PloneTestCase):
         # Check globally_enabled record
         self.failUnless('globally_enabled' in IDiscussionSettings)
         self.assertEquals(
-            self.registry['plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled'], 
+            self.registry['plone.app.discussion.interfaces.' +
+                          'IDiscussionSettings.globally_enabled'], 
             True)
 
     def test_text_transform(self):
         self.failUnless('text_transform' in IDiscussionSettings)
         self.assertEquals(
-            self.registry['plone.app.discussion.interfaces.IDiscussionSettings.text_transform'],
+            self.registry['plone.app.discussion.interfaces.' +
+                          'IDiscussionSettings.text_transform'],
             'text/plain')
         
     def test_captcha(self):
         # Check globally_enabled record
         self.failUnless('captcha' in IDiscussionSettings)
-        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.captcha'], 'disabled')
+        self.assertEquals(self.registry['plone.app.discussion.interfaces.' +
+                                        'IDiscussionSettings.captcha'],
+                          'disabled')
 
     def test_anonymous_comments(self):
         # Check anonymous_comments record
         self.failUnless('anonymous_comments' in IDiscussionSettings)
-        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments'], False)
+        self.assertEquals(self.registry['plone.app.discussion.interfaces.' +
+            'IDiscussionSettings.anonymous_comments'], False)
 
     def test_show_commenter_image(self):
         # Check show_commenter_image record
         self.failUnless('show_commenter_image' in IDiscussionSettings)
-        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image'], True)
+        self.assertEquals(self.registry['plone.app.discussion.interfaces.' + 
+            'IDiscussionSettings.show_commenter_image'], True)
 
     def test_moderator_notification_enabled(self):
         # Check show_commenter_image record
-        self.failUnless('moderator_notification_enabled' in IDiscussionSettings)
-        self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'], False)
+        self.failUnless('moderator_notification_enabled' in 
+                        IDiscussionSettings)
+        self.assertEquals(self.registry['plone.app.discussion.interfaces.' +
+            'IDiscussionSettings.moderator_notification_enabled'], False)
 
     #def test_user_notification_enabled(self):
     #    # Check show_commenter_image record
-    #    show_commenter_image = self.registry.records['plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled']
+    #    show_commenter_image = self.registry.records['plone.app.discussion.' +
+    #        'interfaces.IDiscussionSettings.user_notification_enabled']
     #
     #    self.failUnless('user_notification_enabled' in IDiscussionSettings)
-    #    self.assertEquals(self.registry['plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled'], False)
+    #    self.assertEquals(self.registry['plone.app.discussion.interfaces.' +
+    #        'IDiscussionSettings.user_notification_enabled'], False)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
