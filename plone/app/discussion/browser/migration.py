@@ -65,8 +65,10 @@ class View(BrowserView):
                 comment.text = reply.text
                 comment.creator = reply.Creator()
 
-                comment.creation_date = datetime.fromtimestamp(reply.creation_date)
-                comment.modification_date = datetime.fromtimestamp(reply.modification_date)
+                comment.creation_date = datetime.fromtimestamp(
+                    reply.creation_date)
+                comment.modification_date = datetime.fromtimestamp(
+                    reply.modification_date)
 
                 comment.reply_to = in_reply_to
 
@@ -83,7 +85,10 @@ class View(BrowserView):
 
                 # migrate all talkbacks of the reply
                 talkback = getattr( reply, 'talkback', None )
-                no_replies_left = migrate_replies(context, new_in_reply_to, talkback.getReplies(), depth=depth+1)
+                no_replies_left = migrate_replies(context, 
+                                                  new_in_reply_to, 
+                                                  talkback.getReplies(), 
+                                                  depth=depth+1)
                 if no_replies_left:
                     # remove reply and talkback
                     talkback.deleteReply(reply.id)
@@ -92,17 +97,23 @@ class View(BrowserView):
                     log("%sremove %s" % (indent, reply.id))
                     self.total_comments_deleted += 1
 
-            # Return True when all comments on a certain level have been migrated.
+            # Return True when all comments on a certain level have been 
+            # migrated.
             return True
 
         # Find content
         brains = catalog.searchResults(
-                    object_provides='Products.CMFCore.interfaces._content.IContentish')
+                    object_provides='Products.CMFCore.interfaces._content.\
+                                     IContentish')
         log("Found %s content objects." % len(brains))
 
-        count_discussion_items = len(catalog.searchResults(Type='Discussion Item'))
-        count_comments_pad = len(catalog.searchResults(object_provides=IComment.__identifier__))
-        count_comments_old = len(catalog.searchResults(object_provides=IDiscussionResponse.__identifier__))
+        count_discussion_items = len(
+            catalog.searchResults(Type='Discussion Item'))
+        count_comments_pad = len(
+            catalog.searchResults(object_provides=IComment.__identifier__))
+        count_comments_old = len(
+            catalog.searchResults(object_provides=IDiscussionResponse.\
+                                  __identifier__))
         
         log("Found %s Discussion Item objects." % count_discussion_items)
         log("Found %s old discussion items." % count_comments_old)
@@ -128,14 +139,16 @@ class View(BrowserView):
                 if replies:
                     conversation = IConversation(obj)
                 log("\n")
-                log("Migrate '%s' (%s)" % (obj.Title(), obj.absolute_url(relative=1)))
+                log("Migrate '%s' (%s)" % (obj.Title(), 
+                                           obj.absolute_url(relative=1)))
                 migrate_replies(context, 0, replies)
                 obj = aq_parent(talkback)
                 obj.talkback = None
 
         if self.total_comments_deleted != self.total_comments_migrated:
-            log("Something went wrong during migration. The number of migrated comments (%s)\
-                 differs from the number of deleted comments (%s)."
+            log("Something went wrong during migration. The number of \
+                 migrated comments (%s) differs from the number of deleted \
+                 comments (%s)."
                  % (self.total_comments_migrated, self.total_comments_deleted))
             if not test:
                 transaction.abort()
@@ -149,7 +162,8 @@ class View(BrowserView):
             % (self.total_comments_migrated, count_comments_old))
         
         if self.total_comments_migrated != count_comments_old:
-            log("%s comments could not be migrated." % (count_comments_old - self.total_comments_migrated))
+            log("%s comments could not be migrated." 
+                % (count_comments_old - self.total_comments_migrated))
             log("Please make sure your portal catalog is up-to-date.")
         
         if dry_run and not test:
