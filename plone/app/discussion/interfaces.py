@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""Interfaces for plone.app.discussion
+"""
+
 from zope.interface import Interface
 from zope.interface.common.mapping import IIterableMapping
 from zope import schema
@@ -17,78 +21,73 @@ class IDiscussionSettings(Interface):
     # - Search control panel: Show comments in search results
 
     globally_enabled = schema.Bool(
-                           title=_(u"label_globally_enabled",
-                                   default=u"Globally enable comments"),
-                           description=_(u"help_globally_enabled",
-                                         default=u"If selected, users are able "
-                                                  "to post comments on the site"
-                                                   ". Though, you have to "
-                                                   "enable comments for "
-                                                   "specific content types, "
-                                                   "folders or content objects"
-                                                   "before users will be able "
-                                                   "to post comments."),
-                           required=False,
-                           default=True)
+        title=_(u"label_globally_enabled",
+                default=u"Globally enable comments"),
+        description=_(u"help_globally_enabled",
+                default=u"If selected, users are able to post comments on the "
+                         "site. Though, you have to enable comments for "
+                         "specific content types, folders or content objects"
+                         "before users will be able to post comments."),
+        required=False,
+        default=True,
+        )
 
     anonymous_comments = schema.Bool(
-                             title=_(u"label_anonymous_comments", 
-                                     default="Enable anonymous comments"),
-                             description=_(u"help_anonymous_comments",
-                                           default=u"If selected, anonymous "
-                                                    "users are able to post "
-                                                    "comments without loggin "
-                                                    "in. It is highly " 
-                                                    "recommended to use a "
-                                                    "captcha solution to "
-                                                    "prevent spam if this "
-                                                    "setting is enabled."),
-                             required=False,
-                             default=False)
+        title=_(u"label_anonymous_comments", 
+                default="Enable anonymous comments"),
+        description=_(u"help_anonymous_comments",
+                default=u"If selected, anonymous users are able to post "
+                         "comments without loggin in. It is highly " 
+                         "recommended to use a captcha solution to prevent "
+                         "spam if this setting is enabled."),
+        required=False,
+        default=False,
+        )
 
     text_transform = schema.Choice(
-                  title=_(u"label_text_transform", default="Comment text transform"),
-                  description=_(u"help_text_transform",
-                                default=u""),
-                   required=True,
-                   default='text/plain',
-                   vocabulary='plone.app.discussion.vocabularies.TextTransformVocabulary',)
+        title=_(u"label_text_transform", 
+                default="Comment text transform"),
+        description=_(u"help_text_transform",
+                default=u""),
+        required=True,
+        default='text/plain',
+        vocabulary='plone.app.discussion.vocabularies.TextTransformVocabulary',
+        )
     
     captcha = schema.Choice(
-                  title=_(u"label_captcha", default="Captcha"),
-                  description=_(u"help_captcha",
-                                default=u"Use this setting to enable or "
-                                         "disable Captcha validation for "
-                                         "comments. Install "
-                                         "plone.formwidget.captcha or "
-                                         "plone.formwidget.recaptcha if there "
-                                         "are no options available."),
-                   required=True,
-                   default='disabled',
-                   vocabulary='plone.app.discussion.vocabularies.CaptchaVocabulary',)
+        title=_(u"label_captcha", 
+                default="Captcha"),
+        description=_(u"help_captcha",
+                default=u"Use this setting to enable or disable Captcha "
+                         "validation for comments. Install "
+                         "plone.formwidget.captcha or "
+                         "plone.formwidget.recaptcha if there are no options "
+                         "available."),
+        required=True,
+        default='disabled',
+        vocabulary='plone.app.discussion.vocabularies.CaptchaVocabulary',
+        )
 
     show_commenter_image = schema.Bool(
-                               title=_(u"label_show_commenter_image",
-                                       default=u"Show commenter image"),
-                               description=_(u"help_show_commenter_image",
-                                             default=u"If selected, an image "
-                                                       "of the user is shown "
-                                                       "next to the comment."),
-                                       required=False,
-                                       default=True)
+        title=_(u"label_show_commenter_image",
+                default=u"Show commenter image"),
+        description=_(u"help_show_commenter_image",
+                default=u"If selected, an image "
+                         "of the user is shown "
+                         "next to the comment."),
+        required=False,
+        default=True,
+        )
 
     moderator_notification_enabled = schema.Bool(
-                                         title=_(u"label_moderator_notification_enabled",
-                                                 default=u"Enable moderator email notification"),
-                                         description=_(u"help_moderator_notification_enabled",
-                                                       default=u"If selected, "
-                                                                "the moderator "
-                                                                "is notified "
-                                                                "if a comment "
-                                                                "needs "
-                                                                "attention."),
-                                         required=False,
-                                         default=False)
+        title=_(u"label_moderator_notification_enabled",
+                default=u"Enable moderator email notification"),
+        description=_(u"help_moderator_notification_enabled",
+                default=u"If selected, the moderator is notified if a comment "
+                         "needs attention."),
+        required=False,
+        default=False,
+        )
     
     #user_notification_enabled = schema.Bool(
     #                           title=_(u"label_user_notification_enabled",
@@ -123,9 +122,21 @@ class IConversation(IIterableMapping):
     (and acquisition parent) for all comments, regardless of threading.
     """
 
-    total_comments = schema.Int(title=_(u"Total number of comments on this item"), min=0, readonly=True)
-    last_comment_date = schema.Date(title=_(u"Date of the most recent comment"), readonly=True)
-    commentators = schema.Set(title=_(u"The set of unique commentators (usernames)"), readonly=True)
+    total_comments = schema.Int(
+        title=_(u"Total number of comments on this item"), 
+        min=0, 
+        readonly=True,
+        )
+    
+    last_comment_date = schema.Date(
+        title=_(u"Date of the most recent comment"), 
+        readonly=True,
+        )
+    
+    commentators = schema.Set(
+        title=_(u"The set of unique commentators (usernames)"), 
+        readonly=True,
+        )
 
     def enabled():
         """ Returns True if discussion is enabled for this conversation.
@@ -227,14 +238,23 @@ class IComment(Interface):
     Comments are indexed in the catalog and subject to workflow and security.
     """
 
-    portal_type = schema.ASCIILine(title=_(u"Portal type"), 
-                                   default="Discussion Item")
+    portal_type = schema.ASCIILine(
+        title=_(u"Portal type"), 
+        default="Discussion Item",
+        )
 
-    __parent__ = schema.Object(title=_(u"Conversation"), schema=Interface)
+    __parent__ = schema.Object(
+        title=_(u"Conversation"), schema=Interface)
+    
     __name__ = schema.TextLine(title=_(u"Name"))
 
-    comment_id = schema.Int(title=_(u"A comment id unique to this conversation"))
-    in_reply_to = schema.Int(title=_(u"Id of comment this comment is in reply to"), required=False)
+    comment_id = schema.Int(
+        title=_(u"A comment id unique to this conversation"))
+    
+    in_reply_to = schema.Int(
+        title=_(u"Id of comment this comment is in reply to"), 
+        required=False,
+        )
 
     # for logged in comments - set to None for anonymous
     author_username = schema.TextLine(title=_(u"Name"), required=False)
