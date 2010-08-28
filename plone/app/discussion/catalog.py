@@ -16,7 +16,7 @@ from plone.app.discussion.interfaces import IConversation, IComment
 
 from plone.indexer import indexer
 
-MAX_DESCRIPTION=25
+MAX_DESCRIPTION = 25
 
 # Conversation Indexers
 
