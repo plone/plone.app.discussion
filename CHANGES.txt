@@ -4,6 +4,9 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Clean up code with PyLint.
+  [timo]
+
 * Make Javascripts pass JSLint validation.
   [timo]
 
