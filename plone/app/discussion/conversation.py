@@ -42,7 +42,7 @@ try:
     # Plone 4
     from zope.lifecycleevent import ObjectAddedEvent
     from zope.lifecycleevent import ObjectRemovedEvent
-except:
+except ImportError:
     # Plone 3.x
     from zope.app.container.contained import ObjectAddedEvent
     from zope.app.container.contained import ObjectRemovedEvent
@@ -63,6 +63,7 @@ from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.comment import Comment
 
 ANNOTATION_KEY = 'plone.app.discussion:conversation'
+
 
 class Conversation(Traversable, Persistent, Explicit):
     """A conversation is a container for all comments on a content object.
@@ -484,4 +485,6 @@ class CommentReplies(ConversationReplies):
         comment.in_reply_to = self.comment_id
         return self.conversation.addComment(comment)
 
-    # Dict API is inherited, written in terms of self.conversation and self.children
+    # Dict API is inherited, written in terms of self.conversation and 
+    # self.children
+
