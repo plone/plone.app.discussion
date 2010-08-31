@@ -36,7 +36,8 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 #        # Enable user notification setting
 #        registry = queryUtility(IRegistry)
 #        settings = registry.forInterface(IDiscussionSettings)
-#        registry['plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled'] = True
+#        registry['plone.app.discussion.interfaces.IDiscussionSettings.\
+#                  user_notification_enabled'] = True
 #
 #        # Create test content
 #        self.loginAsPortalOwner()
@@ -48,7 +49,8 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 #        self.portal.MailHost = self.portal._original_MailHost
 #        sm = getSiteManager(context=self.portal)
 #        sm.unregisterUtility(provided=IMailHost)
-#        sm.registerUtility(aq_base(self.portal._original_MailHost), provided=IMailHost)
+#        sm.registerUtility(aq_base(self.portal._original_MailHost), 
+#                           provided=IMailHost)
 #    
 #    def test_notify_user(self):
 #        # Add a comment with user notification enabled. Add another comment
@@ -71,19 +73,23 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 #        self.failUnless('To: john@plone.test' in msg)
 #        self.failUnless('From: portal@plone.test' in msg)
 #
-#        #We expect the headers to be properly header encoded (7-bit):
+#        # We expect the headers to be properly header encoded (7-bit):
 #        #>>> 'Subject: =?utf-8?q?Some_t=C3=A4st_subject=2E?=' in msg
 #        #True
 
-#        #The output should be encoded in a reasonable manner (in this case quoted-printable):
+#        # The output should be encoded in a reasonable manner 
+#        # (in this case quoted-printable):
 #        #>>> msg
-#        #'...Another t=C3=A4st message...You are receiving this mail because T=C3=A4st user\ntest@plone.test...is sending feedback about the site you administer at...
+#        #'...Another t=C3=A4st message...You are receiving this mail \
+#        #because T=C3=A4st user\ntest@plone.test...is sending feedback \
+#        #about the site you administer at...
 #
 #    def test_do_not_notify_user_when_notification_is_disabled(self):
 #        # Disable user notification and make sure no email is send to the user.
 #        registry = queryUtility(IRegistry)
 #        settings = registry.forInterface(IDiscussionSettings)
-#        registry['plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled'] = False
+#        registry['plone.app.discussion.interfaces.IDiscussionSettings.\
+#                  user_notification_enabled'] = False
 #
 #        comment = createObject('plone.Comment')
 #        comment.title = 'Comment 1'
@@ -114,8 +120,8 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 #        self.assertEquals(len(self.mailhost.messages), 0)
 #
 #    def test_do_not_notify_user_when_no_sender_is_available(self):
-#        # Set sender mail address to nonw and make sure no email is send to the
-#        # moderator.
+#        # Set sender mail address to none and make sure no email is send to
+#        # the moderator.
 #        self.portal.email_from_address = None
 #
 #        comment = createObject('plone.Comment')
@@ -156,7 +162,8 @@ class TestModeratorNotificationUnit(PloneTestCase):
         
         # Enable moderator notification setting
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'] = True        
+        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
+                'moderator_notification_enabled'] = True
 
         # Create test content
         self.loginAsPortalOwner()
@@ -168,7 +175,8 @@ class TestModeratorNotificationUnit(PloneTestCase):
         self.portal.MailHost = self.portal._original_MailHost
         sm = getSiteManager(context=self.portal)
         sm.unregisterUtility(provided=IMailHost)
-        sm.registerUtility(aq_base(self.portal._original_MailHost), provided=IMailHost)
+        sm.registerUtility(aq_base(self.portal._original_MailHost), 
+                           provided=IMailHost)
     
     def test_notify_moderator(self):
         # Add a comment and make sure an email is send to the moderator.
@@ -194,9 +202,12 @@ class TestModeratorNotificationUnit(PloneTestCase):
         #>>> 'Subject: =?utf-8?q?Some_t=C3=A4st_subject=2E?=' in msg
         #True
 
-        #The output should be encoded in a reasonable manner (in this case quoted-printable):
+        #The output should be encoded in a reasonable manner (in this case 
+        # quoted-printable):
         #>>> msg
-        #'...Another t=C3=A4st message...You are receiving this mail because T=C3=A4st user\ntest@plone.test...is sending feedback about the site you administer at...
+        #'...Another t=C3=A4st message...You are receiving this mail because 
+        # T=C3=A4st user\ntest@plone.test...is sending feedback about the site 
+        # you administer at...
 
     def test_do_not_notify_moderator_when_no_sender_is_available(self):
         # Set sender mail address to nonw and make sure no email is send to the
@@ -213,7 +224,8 @@ class TestModeratorNotificationUnit(PloneTestCase):
         # Disable moderator notification setting and make sure no email is send 
         # to the moderator.
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled'] = False        
+        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
+                 'moderator_notification_enabled'] = False
 
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
