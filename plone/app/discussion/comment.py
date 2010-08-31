@@ -7,6 +7,8 @@ from zope.annotation.interfaces import IAnnotatable
 from zope.component.factory import Factory
 from zope.component import queryUtility
 
+from zope.i18n import translate
+from zope.i18nmessageid import Message
 from zope.interface import implements
 
 from Acquisition import aq_parent, Implicit
@@ -25,6 +27,7 @@ from OFS.Traversable import Traversable
 
 from plone.registry.interfaces import IRegistry
 
+from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
@@ -43,8 +46,9 @@ except:
     from OFS.Traversable import Traversable as WorkflowAware
     PLONE_4 = False
 
-MAIL_NOTIFICATION_MESSAGE = Template("A comment with the title '%title' "
-                                     "has been posted here: %link")
+MAIL_NOTIFICATION_MESSAGE = _(u"mail_notification_message",
+    default=u"A comment with the title '%(title)s' "
+             "has been posted here: %(link)s")
 
 
 class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
@@ -193,10 +197,11 @@ def notify_user(obj, event):
     for comment in conversation.getComments():
         if obj != comment and \
         comment.author_notification and comment.author_email:
-            subject = "A comment has been posted."
-            message = MAIL_NOTIFICATION_MESSAGE.substitute(
-                title=obj.title,
-                link=content_object.absolute_url())
+            subject = _(u"A comment has been posted.")
+            message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
+                mapping={'title': obj.title,
+                         'link': content_object.absolute_url()}),
+                context=obj.REQUEST)
             mail_host.send(message, comment.author_email, sender, subject)
             
 def notify_moderator(obj, event):
@@ -239,11 +244,12 @@ def notify_moderator(obj, event):
 
     # Compose email        
     #comment = conversation.getComments().next()
-    subject = "A comment has been posted."
-    message = MAIL_NOTIFICATION_MESSAGE.substitute(
-        title=obj.title,
-        link=content_object.absolute_url())
-              
+    subject = _(u"A comment has been posted.")
+    message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
+        mapping={'title': obj.title,
+                 'link': content_object.absolute_url()}),
+        context=obj.REQUEST)
+
     # Send email
     if PLONE_4:
         mail_host.send(message, mto, sender, subject)
