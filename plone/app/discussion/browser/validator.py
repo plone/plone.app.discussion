@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
-# Captcha validator, see captcha.txt for design notes.
+"""Captcha validator, see captcha.txt for design notes.
+"""
 
 from Acquisition import aq_inner
 
@@ -9,6 +9,8 @@ from z3c.form import validator
 from z3c.form.interfaces import IValidator
 
 from zope.component import getMultiAdapter, queryUtility
+
+from zope.interface import implements, Interface
 
 from zope.schema.interfaces import IField
 from zope.component import adapts
@@ -21,17 +23,13 @@ from plone.app.discussion.interfaces import IDiscussionLayer
 
 try:
     from plone.formwidget.captcha.validator import WrongCaptchaCode
-except:
+except ImportError:
     pass
 
 try:
     from plone.formwidget.recaptcha.validator import WrongCaptchaCode
-except:
+except ImportError:
     pass
-
-from zope.interface import implements, Interface
-from zope.schema.interfaces import IField
-from zope.component import adapts
 
 
 class CaptchaValidator(validator.SimpleFieldValidator):
