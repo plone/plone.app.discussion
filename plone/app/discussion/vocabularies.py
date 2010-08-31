@@ -1,9 +1,6 @@
-from zope import interface
-import zope.schema.interfaces
+# -*- coding: utf-8 -*-
 
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-
-from Products.CMFCore.utils import getToolByName
 
 from plone.app.discussion.interfaces import _ 
 
