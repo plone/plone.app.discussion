@@ -197,7 +197,8 @@ def notify_user(obj, event):
     for comment in conversation.getComments():
         if obj != comment and \
         comment.author_notification and comment.author_email:
-            subject = _(u"A comment has been posted.")
+            subject = translate(_(u"A comment has been posted."),
+                context=obj.REQUEST)
             message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
                 mapping={'title': obj.title,
                          'link': content_object.absolute_url()}),
@@ -244,7 +245,7 @@ def notify_moderator(obj, event):
 
     # Compose email        
     #comment = conversation.getComments().next()
-    subject = _(u"A comment has been posted.")
+    subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
     message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
         mapping={'title': obj.title,
                  'link': content_object.absolute_url()}),
@@ -252,6 +253,6 @@ def notify_moderator(obj, event):
 
     # Send email
     if PLONE_4:
-        mail_host.send(message, mto, sender, subject)
+        mail_host.send(message, mto, sender, subject, charset='utf-8')
     else:
-        mail_host.secureSend(message, mto, sender, subject=subject)
+        mail_host.secureSend(message, mto, sender, subject=subject, charset='utf-8')
