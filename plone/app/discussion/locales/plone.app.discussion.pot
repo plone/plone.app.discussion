@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-09-01 07:20+0000\n"
+"POT-Creation-Date: 2010-09-01 07:24+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Hanno Schlichting <hannosch@plone.org>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "A comment has been posted."
 msgstr ""
 
-#: ./interfaces.py:252
+#: ./interfaces.py:250
 msgid "A comment id unique to this conversation"
 msgstr ""
 
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Anonymous Comments"
 msgstr ""
 
-#: ./interfaces.py:277
+#: ./interfaces.py:275
 msgid "Author name (for display)"
 msgstr ""
 
@@ -53,15 +53,15 @@ msgstr ""
 msgid "Commenting infrastructure for Plone"
 msgstr ""
 
-#: ./interfaces.py:247
+#: ./interfaces.py:245
 msgid "Conversation"
 msgstr ""
 
-#: ./interfaces.py:278
+#: ./interfaces.py:276
 msgid "Creation date"
 msgstr ""
 
-#: ./interfaces.py:132
+#: ./interfaces.py:130
 msgid "Date of the most recent comment"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Discussion settings"
 msgstr ""
 
-#: ./interfaces.py:264
+#: ./interfaces.py:262
 msgid "Email"
 msgstr ""
 
@@ -81,11 +81,11 @@ msgstr ""
 msgid "Enable Comments"
 msgstr ""
 
-#: ./interfaces.py:255
+#: ./interfaces.py:253
 msgid "Id of comment this comment is in reply to"
 msgstr ""
 
-#: ./interfaces.py:269
+#: ./interfaces.py:267
 msgid "MIME type"
 msgstr ""
 
@@ -93,11 +93,11 @@ msgstr ""
 msgid "Moderator Email Notification"
 msgstr ""
 
-#: ./interfaces.py:279
+#: ./interfaces.py:277
 msgid "Modification date"
 msgstr ""
 
-#: ./interfaces.py:249
+#: ./interfaces.py:247
 msgid "Name"
 msgstr ""
 
@@ -105,15 +105,15 @@ msgstr ""
 msgid "Plone Discussions"
 msgstr ""
 
-#: ./interfaces.py:242
+#: ./interfaces.py:240
 msgid "Portal type"
 msgstr ""
 
-#: ./interfaces.py:137
+#: ./interfaces.py:135
 msgid "The set of unique commentators (usernames)"
 msgstr ""
 
-#: ./interfaces.py:126
+#: ./interfaces.py:124
 msgid "Total number of comments on this item"
 msgstr ""
 
@@ -177,7 +177,7 @@ msgid "help_anonymous_comments"
 msgstr ""
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
-#: ./interfaces.py:60
+#: ./interfaces.py:58
 msgid "help_captcha"
 msgstr ""
 
@@ -192,17 +192,13 @@ msgid "help_globally_enabled"
 msgstr ""
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
-#: ./interfaces.py:85
+#: ./interfaces.py:83
 msgid "help_moderator_notification_enabled"
 msgstr ""
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ./interfaces.py:74
+#: ./interfaces.py:72
 msgid "help_show_commenter_image"
-msgstr ""
-
-#: ./interfaces.py:50
-msgid "help_text_transform"
 msgstr ""
 
 #. Default: "Enable anonymous comments"
@@ -216,12 +212,12 @@ msgid "label_apply"
 msgstr ""
 
 #. Default: "Captcha"
-#: ./interfaces.py:58
+#: ./interfaces.py:56
 msgid "label_captcha"
 msgstr ""
 
 #. Default: "Comment"
-#: ./interfaces.py:270
+#: ./interfaces.py:268
 msgid "label_comment"
 msgstr ""
 
@@ -246,7 +242,7 @@ msgid "label_globally_enabled"
 msgstr ""
 
 #. Default: "Enable moderator email notification"
-#: ./interfaces.py:83
+#: ./interfaces.py:81
 msgid "label_moderator_notification_enabled"
 msgstr ""
 
@@ -256,7 +252,7 @@ msgid "label_publish"
 msgstr ""
 
 #. Default: "Show commenter image"
-#: ./interfaces.py:72
+#: ./interfaces.py:70
 msgid "label_show_commenter_image"
 msgstr ""
 
@@ -266,7 +262,7 @@ msgid "label_show_full_comment_text"
 msgstr ""
 
 #. Default: "Subject"
-#: ./interfaces.py:266
+#: ./interfaces.py:264
 msgid "label_subject"
 msgstr ""
 

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-09-01 07:20+0000\n"
+"POT-Creation-Date: 2010-09-01 07:24+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Sverre Helge Bolstad <sverrehelge@gmail.com>\n"
 "Language-Team: Norwegian <plone-i18n@lists.sourceforge.net>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "A comment has been posted."
 msgstr ""
 
-#: ./interfaces.py:252
+#: ./interfaces.py:250
 msgid "A comment id unique to this conversation"
 msgstr "En kommentar-id unik for denne kommentaren"
 
@@ -30,7 +30,7 @@ msgstr "Legg til en kommentar"
 msgid "Anonymous Comments"
 msgstr "Anonym kommentar"
 
-#: ./interfaces.py:277
+#: ./interfaces.py:275
 msgid "Author name (for display)"
 msgstr "Forfatternavn (synlig)"
 
@@ -53,15 +53,15 @@ msgstr "Forfatterbilde"
 msgid "Commenting infrastructure for Plone"
 msgstr ""
 
-#: ./interfaces.py:247
+#: ./interfaces.py:245
 msgid "Conversation"
 msgstr "Diskusjon"
 
-#: ./interfaces.py:278
+#: ./interfaces.py:276
 msgid "Creation date"
 msgstr "Dato opprettet"
 
-#: ./interfaces.py:132
+#: ./interfaces.py:130
 msgid "Date of the most recent comment"
 msgstr "Dato for den nyeste kommentaren"
 
@@ -73,7 +73,7 @@ msgstr "Slått av"
 msgid "Discussion settings"
 msgstr "Innstillinger for kommentarer"
 
-#: ./interfaces.py:264
+#: ./interfaces.py:262
 msgid "Email"
 msgstr "E-post"
 
@@ -81,11 +81,11 @@ msgstr "E-post"
 msgid "Enable Comments"
 msgstr "Slå på kommentarer"
 
-#: ./interfaces.py:255
+#: ./interfaces.py:253
 msgid "Id of comment this comment is in reply to"
 msgstr "Id til kommentar som denne kommentaren er en kommentar til"
 
-#: ./interfaces.py:269
+#: ./interfaces.py:267
 msgid "MIME type"
 msgstr "MIME-type"
 
@@ -93,11 +93,11 @@ msgstr "MIME-type"
 msgid "Moderator Email Notification"
 msgstr "Varsling av moderator på epost"
 
-#: ./interfaces.py:279
+#: ./interfaces.py:277
 msgid "Modification date"
 msgstr "Endringsdato"
 
-#: ./interfaces.py:249
+#: ./interfaces.py:247
 msgid "Name"
 msgstr "Navn"
 
@@ -105,15 +105,15 @@ msgstr "Navn"
 msgid "Plone Discussions"
 msgstr ""
 
-#: ./interfaces.py:242
+#: ./interfaces.py:240
 msgid "Portal type"
 msgstr "Portaltype"
 
-#: ./interfaces.py:137
+#: ./interfaces.py:135
 msgid "The set of unique commentators (usernames)"
 msgstr "Listen over forfattere (brukernavn)"
 
-#: ./interfaces.py:126
+#: ./interfaces.py:124
 msgid "Total number of comments on this item"
 msgstr "Antall kommentarer på denne artikkelen"
 
@@ -177,7 +177,7 @@ msgid "help_anonymous_comments"
 msgstr "Dersom innstillingen er valgt kan anonyme brukere kommentere uten å logge inn. Det er anbefalt å bruke en captcha-løsning for å forhindre nettsøppel dersom denne innstillingen er valgt"
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
-#: ./interfaces.py:60
+#: ./interfaces.py:58
 msgid "help_captcha"
 msgstr "Bruk denne innstillingen for å aktivere eller deaktivere captcha-validering av kommentarer. Installér plone.formwidget.captcha eller plone.formwidget.recaptcha dersom det mangler valg her."
 
@@ -195,18 +195,14 @@ msgid "help_globally_enabled"
 msgstr "Dersom denne instillingen er valgt kan brukerene legge til kommentarer på nettstedet. Men du må likevel aktivere kommentarer for spesifikke innholdstyper, mapper eller innholdsobjekter før brukerene får lov til å legge til kommentarer."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
-#: ./interfaces.py:85
+#: ./interfaces.py:83
 msgid "help_moderator_notification_enabled"
 msgstr "Dersom innstillingen er valgt vil moderatoren bli varslet når en kommentar er lagt til."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ./interfaces.py:74
+#: ./interfaces.py:72
 msgid "help_show_commenter_image"
 msgstr "Dersom denne er valgt vil bildet av brukeren vise ved siden av kommentaren."
-
-#: ./interfaces.py:50
-msgid "help_text_transform"
-msgstr ""
 
 #. Default: "Enable anonymous comments"
 #: ./interfaces.py:36
@@ -219,12 +215,12 @@ msgid "label_apply"
 msgstr "Bruk"
 
 #. Default: "Captcha"
-#: ./interfaces.py:58
+#: ./interfaces.py:56
 msgid "label_captcha"
 msgstr ""
 
 #. Default: "Comment"
-#: ./interfaces.py:270
+#: ./interfaces.py:268
 msgid "label_comment"
 msgstr ""
 
@@ -249,7 +245,7 @@ msgid "label_globally_enabled"
 msgstr "Aktiver kommentarer globalt"
 
 #. Default: "Enable moderator email notification"
-#: ./interfaces.py:83
+#: ./interfaces.py:81
 msgid "label_moderator_notification_enabled"
 msgstr "Slå på e-postvarsling av moderator"
 
@@ -259,7 +255,7 @@ msgid "label_publish"
 msgstr "Godkjenn"
 
 #. Default: "Show commenter image"
-#: ./interfaces.py:72
+#: ./interfaces.py:70
 msgid "label_show_commenter_image"
 msgstr ""
 
@@ -269,7 +265,7 @@ msgid "label_show_full_comment_text"
 msgstr "Vis hele kommentaren"
 
 #. Default: "Subject"
-#: ./interfaces.py:266
+#: ./interfaces.py:264
 msgid "label_subject"
 msgstr ""
 

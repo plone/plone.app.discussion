@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-09-01 07:20+0000\n"
+"POT-Creation-Date: 2010-09-01 07:24+0000\n"
 "PO-Revision-Date: 2010-08-07 23:10+0800\n"
 "Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
 "Language-Team: Taiwan Python User Group <plone-i18n@lists.sourceforge.net>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "A comment has been posted."
 msgstr ""
 
-#: ./interfaces.py:252
+#: ./interfaces.py:250
 msgid "A comment id unique to this conversation"
 msgstr "留言的識別碼"
 
@@ -30,7 +30,7 @@ msgstr "新增留言"
 msgid "Anonymous Comments"
 msgstr "匿名留言"
 
-#: ./interfaces.py:277
+#: ./interfaces.py:275
 msgid "Author name (for display)"
 msgstr "作者 (顯示在網頁上)"
 
@@ -53,15 +53,15 @@ msgstr "留言者圖檔"
 msgid "Commenting infrastructure for Plone"
 msgstr "Plone 的留言功能"
 
-#: ./interfaces.py:247
+#: ./interfaces.py:245
 msgid "Conversation"
 msgstr "討論"
 
-#: ./interfaces.py:278
+#: ./interfaces.py:276
 msgid "Creation date"
 msgstr "建立日期"
 
-#: ./interfaces.py:132
+#: ./interfaces.py:130
 msgid "Date of the most recent comment"
 msgstr "最近留言的日期"
 
@@ -73,7 +73,7 @@ msgstr "已停用"
 msgid "Discussion settings"
 msgstr "討論區設定"
 
-#: ./interfaces.py:264
+#: ./interfaces.py:262
 msgid "Email"
 msgstr "E-Mail"
 
@@ -81,11 +81,11 @@ msgstr "E-Mail"
 msgid "Enable Comments"
 msgstr "允許留言"
 
-#: ./interfaces.py:255
+#: ./interfaces.py:253
 msgid "Id of comment this comment is in reply to"
 msgstr "留言的識別碼"
 
-#: ./interfaces.py:269
+#: ./interfaces.py:267
 msgid "MIME type"
 msgstr "MIME-Type"
 
@@ -93,11 +93,11 @@ msgstr "MIME-Type"
 msgid "Moderator Email Notification"
 msgstr "審核者的電子郵件通知"
 
-#: ./interfaces.py:279
+#: ./interfaces.py:277
 msgid "Modification date"
 msgstr "修改日期"
 
-#: ./interfaces.py:249
+#: ./interfaces.py:247
 msgid "Name"
 msgstr "名稱"
 
@@ -105,15 +105,15 @@ msgstr "名稱"
 msgid "Plone Discussions"
 msgstr "Plone 討論區"
 
-#: ./interfaces.py:242
+#: ./interfaces.py:240
 msgid "Portal type"
 msgstr "網站型別"
 
-#: ./interfaces.py:137
+#: ./interfaces.py:135
 msgid "The set of unique commentators (usernames)"
 msgstr "留言者 (使用者名稱) 的集合"
 
-#: ./interfaces.py:126
+#: ./interfaces.py:124
 msgid "Total number of comments on this item"
 msgstr "本項目的留言數目"
 
@@ -177,7 +177,7 @@ msgid "help_anonymous_comments"
 msgstr "勾選的話，匿名使用者不必登入系統就能留言。建議使用 captcha 來避免垃圾留言。"
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
-#: ./interfaces.py:60
+#: ./interfaces.py:58
 msgid "help_captcha"
 msgstr "設定留言是否啟用或停用 captcha 功能，如果還沒有這類模組選項的話，可安裝 plone.formwidget.captcha 或 plone.formwidget.recaptcha。"
 
@@ -195,18 +195,14 @@ msgid "help_globally_enabled"
 msgstr "勾選的話，就啟用使用者的留言功能，不過，仍然要決定哪些內容型別、目錄、項目，能讓使用者留言。"
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
-#: ./interfaces.py:85
+#: ./interfaces.py:83
 msgid "help_moderator_notification_enabled"
 msgstr "勾選的話，有人留言時就會通知審核者。"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ./interfaces.py:74
+#: ./interfaces.py:72
 msgid "help_show_commenter_image"
 msgstr "勾選的話，使用者的圖檔會顯示在留言旁邊。"
-
-#: ./interfaces.py:50
-msgid "help_text_transform"
-msgstr ""
 
 #. Default: "Enable anonymous comments"
 #: ./interfaces.py:36
@@ -219,12 +215,12 @@ msgid "label_apply"
 msgstr "更新"
 
 #. Default: "Captcha"
-#: ./interfaces.py:58
+#: ./interfaces.py:56
 msgid "label_captcha"
 msgstr "captcha"
 
 #. Default: "Comment"
-#: ./interfaces.py:270
+#: ./interfaces.py:268
 msgid "label_comment"
 msgstr "留言"
 
@@ -249,7 +245,7 @@ msgid "label_globally_enabled"
 msgstr "全域啟用留言功能"
 
 #. Default: "Enable moderator email notification"
-#: ./interfaces.py:83
+#: ./interfaces.py:81
 msgid "label_moderator_notification_enabled"
 msgstr "啟用通知審核者的功能"
 
@@ -259,7 +255,7 @@ msgid "label_publish"
 msgstr "審核"
 
 #. Default: "Show commenter image"
-#: ./interfaces.py:72
+#: ./interfaces.py:70
 msgid "label_show_commenter_image"
 msgstr "顯示留言者圖檔"
 
@@ -269,7 +265,7 @@ msgid "label_show_full_comment_text"
 msgstr "顯示完整的留言內容"
 
 #. Default: "Subject"
-#: ./interfaces.py:266
+#: ./interfaces.py:264
 msgid "label_subject"
 msgstr "標題"
 
