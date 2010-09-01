@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-09-01 07:20+0000\n"
-"PO-Revision-Date: 2010-08-06 21:21+0100\n"
+"PO-Revision-Date: 2010-09-01 09:23+0100\n"
 "Last-Translator: Vincent Fretin <vincent.fretin@gmail.com>\n"
 "Language-Team: Vincent Fretin <vincent.fretin@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: ./comment.py:200
 msgid "A comment has been posted."
-msgstr ""
+msgstr "Un commentaire a été posté."
 
 #: ./interfaces.py:252
 msgid "A comment id unique to this conversation"
@@ -205,7 +205,7 @@ msgstr "Si activé, le portrait de l'utilisateur apparait à côté du commentai
 
 #: ./interfaces.py:50
 msgid "help_text_transform"
-msgstr ""
+msgstr " "
 
 #. Default: "Enable anonymous comments"
 #: ./interfaces.py:36
@@ -275,12 +275,12 @@ msgstr "Sujet"
 #. Default: "Comment text transform"
 #: ./interfaces.py:48
 msgid "label_text_transform"
-msgstr ""
+msgstr "Transformation du texte du commentaire"
 
 #. Default: "A comment with the title '${title}' has been posted here: ${link}"
 #: ./comment.py:49
 msgid "mail_notification_message"
-msgstr ""
+msgstr "Un commentaire avec le titre '${title}' a été posté ici : {link}"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ./browser/moderation.pt:33
