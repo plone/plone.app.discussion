@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-06 19:19+0000\n"
+"POT-Creation-Date: 2010-09-01 07:20+0000\n"
 "PO-Revision-Date: 2010-06-07 16:30+0100\n"
 "Last-Translator: Kim Chee Leong <leong@gw20e.com>\n"
 "Language-Team: Nederlands <plone-i18n@lists.sourceforge.net>\n"
@@ -14,50 +14,54 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.discussion\n"
 
-#: ./interfaces.py:228
+#: ./comment.py:200
+msgid "A comment has been posted."
+msgstr ""
+
+#: ./interfaces.py:252
 msgid "A comment id unique to this conversation"
 msgstr "Een unieke ID voor dit commentaar"
 
-#: ./browser/comments.py:47
+#: ./browser/comments.py:48
 msgid "Add a comment"
 msgstr "Voeg opmerking toe"
 
-#: ./browser/controlpanel.py:35
+#: ./browser/controlpanel.py:41
 msgid "Anonymous Comments"
 msgstr "Anoniem commentaar"
 
-#: ./interfaces.py:249
+#: ./interfaces.py:277
 msgid "Author name (for display)"
 msgstr "Auteur"
 
-#: ./browser/comments.py:190
+#: ./browser/comments.py:193
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: ./browser/moderation.py:116
+#: ./browser/moderation.py:121
 msgid "Comment approved."
 msgstr "Commentaar goedgekeurd"
 
-#: ./browser/moderation.py:96
+#: ./browser/moderation.py:100
 msgid "Comment deleted."
 msgstr "Commentaar verwijderd"
 
-#: ./browser/controlpanel.py:36
+#: ./browser/controlpanel.py:42
 msgid "Commenter Image"
 msgstr "Profielfoto commentator"
 
 msgid "Commenting infrastructure for Plone"
 msgstr ""
 
-#: ./interfaces.py:225
+#: ./interfaces.py:247
 msgid "Conversation"
 msgstr "Conversatie"
 
-#: ./interfaces.py:250
+#: ./interfaces.py:278
 msgid "Creation date"
 msgstr "Aanmaakdatum"
 
-#: ./interfaces.py:119
+#: ./interfaces.py:132
 msgid "Date of the most recent comment"
 msgstr "Datum van het laatste commentaar"
 
@@ -69,31 +73,31 @@ msgstr "Uitgeschakeld"
 msgid "Discussion settings"
 msgstr "Discussie instellingen"
 
-#: ./interfaces.py:236
+#: ./interfaces.py:264
 msgid "Email"
 msgstr "E-mail"
 
-#: ./browser/controlpanel.py:34
+#: ./browser/controlpanel.py:40
 msgid "Enable Comments"
 msgstr "Commentaar toestaan"
 
-#: ./interfaces.py:229
+#: ./interfaces.py:255
 msgid "Id of comment this comment is in reply to"
 msgstr ""
 
-#: ./interfaces.py:241
+#: ./interfaces.py:269
 msgid "MIME type"
 msgstr "MIME-type"
 
-#: ./browser/controlpanel.py:37
+#: ./browser/controlpanel.py:44
 msgid "Moderator Email Notification"
 msgstr "E-mail notificatie voor de redactie"
 
-#: ./interfaces.py:251
+#: ./interfaces.py:279
 msgid "Modification date"
 msgstr "Wijzigingsdatum"
 
-#: ./interfaces.py:226
+#: ./interfaces.py:249
 msgid "Name"
 msgstr "Naam"
 
@@ -101,24 +105,24 @@ msgstr "Naam"
 msgid "Plone Discussions"
 msgstr ""
 
-#: ./interfaces.py:222
+#: ./interfaces.py:242
 msgid "Portal type"
 msgstr "type"
 
-#: ./interfaces.py:120
+#: ./interfaces.py:137
 msgid "The set of unique commentators (usernames)"
 msgstr "Lijst van commentatoren (gebruikernamen)"
 
-#: ./interfaces.py:118
+#: ./interfaces.py:126
 msgid "Total number of comments on this item"
 msgstr "Totaal aantal reacties op dit item"
 
-#: ./browser/comments.py:183
+#: ./browser/comments.py:186
 msgid "Your comment awaits moderator approval."
 msgstr "Je commentaar zal geplaatst worden na goedkeuring."
 
 #. Default: "Comment"
-#: ./browser/comments.py:93
+#: ./browser/comments.py:95
 msgid "add_comment_button"
 msgstr "Commentaar toevoegen"
 
@@ -168,12 +172,12 @@ msgid "heading_subject"
 msgstr "Onderwerp"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
-#: ./interfaces.py:37
+#: ./interfaces.py:38
 msgid "help_anonymous_comments"
 msgstr "Indien geselecteerd, anonieme bezoekers kunnen een reactie achterlaten zonder in te loggen. Het is aanbevolen om de captcha-oplossing te gebruiken om spam te voorkomen als deze optie is ingeschakeld."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha or plone.formwidget.recaptcha if there are no options available."
-#: ./interfaces.py:51
+#: ./interfaces.py:60
 msgid "help_captcha"
 msgstr "Indien geselecteerd, Captcha validatie wordt gebruikt voor het commentaar. Installeer plone.formwidget of plone.formwidget.recaptcha als er geen opties beschikbaar zijn."
 
@@ -184,22 +188,26 @@ msgid "help_discussion_settings_editform"
 msgstr "Sommige discussie instellingen staan niet op deze pagina. Om commentaar in te schakelen voor een specifiek content-type, ga naar het Typen instellingenscherm van het betreffende type en kies 'commentaar toestaan'. Om de moderatie-workflow in te schakelen, ga naar het Typen instellingenscherm en kies het type 'Comment' stel de 'Comment Review Workflow' in."
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objectsbefore users will be able to post comments."
-#: ./interfaces.py:22
+#: ./interfaces.py:26
 msgid "help_globally_enabled"
 msgstr "Indien geselecteerd, gebruikers kunnen commentaar plaatsen op de site. Het kan zijn dat commentaar voor een specifiek content-type ingeschakeld moet worden voordat commentaar mogelijk is."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
-#: ./interfaces.py:75
+#: ./interfaces.py:85
 msgid "help_moderator_notification_enabled"
 msgstr "Indien geselecteerd, de moderator zal ingelicht worden als een commentaar aandacht nodig heeft."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ./interfaces.py:65
+#: ./interfaces.py:74
 msgid "help_show_commenter_image"
 msgstr "Indien geselecteerd, de profielfoto van een gebruiker wordt naast het commentaar getoond."
 
+#: ./interfaces.py:50
+msgid "help_text_transform"
+msgstr ""
+
 #. Default: "Enable anonymous comments"
-#: ./interfaces.py:35
+#: ./interfaces.py:36
 msgid "label_anonymous_comments"
 msgstr ""
 
@@ -209,12 +217,12 @@ msgid "label_apply"
 msgstr "Toepassen"
 
 #. Default: "Captcha"
-#: ./interfaces.py:50
+#: ./interfaces.py:58
 msgid "label_captcha"
 msgstr ""
 
 #. Default: "Comment"
-#: ./interfaces.py:242
+#: ./interfaces.py:270
 msgid "label_comment"
 msgstr ""
 
@@ -234,12 +242,12 @@ msgid "label_delete"
 msgstr "Verwijderen"
 
 #. Default: "Globally enable comments"
-#: ./interfaces.py:20
+#: ./interfaces.py:24
 msgid "label_globally_enabled"
 msgstr "Commentaar globaal toestaan"
 
 #. Default: "Enable moderator email notification"
-#: ./interfaces.py:73
+#: ./interfaces.py:83
 msgid "label_moderator_notification_enabled"
 msgstr "Notificatie voor moderator  inschakelen"
 
@@ -249,7 +257,7 @@ msgid "label_publish"
 msgstr "Publiceren"
 
 #. Default: "Show commenter image"
-#: ./interfaces.py:63
+#: ./interfaces.py:72
 msgid "label_show_commenter_image"
 msgstr ""
 
@@ -259,8 +267,18 @@ msgid "label_show_full_comment_text"
 msgstr "Toon het volledige commentaar"
 
 #. Default: "Subject"
-#: ./interfaces.py:238
+#: ./interfaces.py:266
 msgid "label_subject"
+msgstr ""
+
+#. Default: "Comment text transform"
+#: ./interfaces.py:48
+msgid "label_text_transform"
+msgstr ""
+
+#. Default: "A comment with the title '${title}' has been posted here: ${link}"
+#: ./comment.py:49
+msgid "mail_notification_message"
 msgstr ""
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
