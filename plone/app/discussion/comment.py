@@ -47,8 +47,8 @@ except:
     PLONE_4 = False
 
 MAIL_NOTIFICATION_MESSAGE = _(u"mail_notification_message",
-    default=u"A comment with the title '%(title)s' "
-             "has been posted here: %(link)s")
+    default=u"A comment with the title '${title}' "
+             "has been posted here: ${link}")
 
 
 class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
