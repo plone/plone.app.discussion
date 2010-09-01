@@ -4,6 +4,9 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Czech translation added.
+  [naro]
+
 * Clean up code with PyLint.
   [timo]
 
