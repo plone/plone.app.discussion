@@ -2,9 +2,23 @@
 import unittest
 from datetime import datetime
 
+from Acquisition import Implicit
+        
 from zope.component import createObject, queryUtility
 
 from OFS.Image import Image
+
+from zope.interface import alsoProvides
+from zope.publisher.browser import TestRequest
+from zope.annotation.interfaces import IAttributeAnnotatable
+from z3c.form.interfaces import IFormLayer
+
+from zope.component import provideAdapter
+from zope.publisher.interfaces.browser import IBrowserRequest
+from zope.interface import Interface, implements
+
+from zope.interface import Interface, implements
+from zope.component import getMultiAdapter
 
 from plone.registry.interfaces import IRegistry
 
@@ -15,6 +29,7 @@ from Products.PloneTestCase.ptc import PloneTestCase
 from Products.PloneTestCase.ptc import FunctionalTestCase
 
 from plone.app.discussion.browser.comments import CommentsViewlet
+from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.interfaces import IConversation 
 from plone.app.discussion.tests.layer import DiscussionLayer
 
@@ -32,34 +47,56 @@ class TestCommentForm(PloneTestCase):
                                                None)
         self.membership_tool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
-        request = self.app.REQUEST
-        context = getattr(self.portal, 'doc1')
-        self.viewlet = CommentsViewlet(context, request, None, None)
+        self.request = self.app.REQUEST
+        self.context = getattr(self.portal, 'doc1')
+        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
 
     def test_add_comment(self):
-        #form = CommentForm(self.viewlet, self.app.REQUEST)
-        #self.viewlet.form.render(form)
-        #self.viewlet.form.handleComment()
-        #from z3c.form.testing import TestRequest
-        #request = TestRequest(form={
-        #                            'form.widgets.title': u'bar',
-        #                            'form.widgets.text': u'foo',}
-        #)
-        #cf = CommentForm(self.viewlet, request)
-        #cf.handleComments()
-        # Zope publisher uses Python list to mark <select> values
-        #self.portal.REQUEST["form.widgets.title"] = u"foo"
-        #self.portal.REQUEST["form.widgets.title"] = u"Search"
-        #view = self.portal.doc1.restrictedTraverse("@@view")
-        # Call update() for form
-        #view.process_form()
-        #self.viewlet.form.handleComment()
-        #print self.viewlet.form.render()
+
+        def make_request(form={}):
+            request = TestRequest()
+            request.form.update(form)
+            alsoProvides(request, IFormLayer)
+            alsoProvides(request, IAttributeAnnotatable)
+            return request
         
-        # Always check form errors after update()
-        #errors = view.errors
-        #self.assertEqual(len(errors), 0, "Got errors:" + str(errors))
-        pass
+        provideAdapter(adapts=(Interface, IBrowserRequest),
+                       provides=Interface,
+                       factory=CommentForm,
+                       name=u"comment-form")
+
+        class Comment(Implicit):
+            __allow_access_to_unprotected_subobjects__ = 1
+            implements(Interface)
+            
+        context = Comment()
+        request = make_request(form={})
+
+        commentForm = getMultiAdapter((self.context, request), name=u"comment-form")
+        commentForm.update()
+        data, errors = commentForm.extractData()
+        
+        self.assertEquals(len(errors), 2)
+        
+        context = Comment()
+        request = make_request(form={'form.widgets.text': 'foo'})
+
+        commentForm = getMultiAdapter((self.context, request), name=u"comment-form")
+        commentForm.update()
+        data, errors = commentForm.extractData()
+
+        self.assertEquals(len(errors), 1)
+
+        context = Comment()
+        request = make_request(form={'form.widgets.title': 'foo',
+                                     'form.widgets.text': 'bar'})
+
+        commentForm = getMultiAdapter((self.context, request), name=u"comment-form")
+        commentForm.update()
+        data, errors = commentForm.extractData()
+        
+        self.assertEquals(len(errors), 0)
+
 
 class TestCommentsViewletIntegration(FunctionalTestCase):
 

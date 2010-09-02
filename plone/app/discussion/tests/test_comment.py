@@ -10,6 +10,7 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 
 from plone.app.discussion.interfaces import IComment, IConversation, IReplies
 
+
 class CommentTest(PloneTestCase):
 
     layer = DiscussionLayer
@@ -126,6 +127,7 @@ class CommentTest(PloneTestCase):
 
         # TODO: is this correct? Redirect ist 301
         self.assertEquals(200, self.app.REQUEST.response.getStatus())
+
 
 class RepliesTest(PloneTestCase):
 
