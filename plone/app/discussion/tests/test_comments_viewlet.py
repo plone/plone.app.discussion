@@ -28,6 +28,7 @@ from Products.Five.testbrowser import Browser
 from Products.PloneTestCase.ptc import PloneTestCase
 from Products.PloneTestCase.ptc import FunctionalTestCase
 
+from plone.app.discussion.comment import Comment
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.interfaces import IConversation 
@@ -64,38 +65,38 @@ class TestCommentForm(PloneTestCase):
                        provides=Interface,
                        factory=CommentForm,
                        name=u"comment-form")
-
-        class Comment(Implicit):
-            __allow_access_to_unprotected_subobjects__ = 1
-            implements(Interface)
-            
-        context = Comment()
+        
         request = make_request(form={})
 
-        commentForm = getMultiAdapter((self.context, request), name=u"comment-form")
+        commentForm = getMultiAdapter((self.context, request), 
+                                      name=u"comment-form")
         commentForm.update()
         data, errors = commentForm.extractData()
         
         self.assertEquals(len(errors), 2)
+        self.failIf(commentForm.handleComment(commentForm, "foo"))
         
-        context = Comment()
+
         request = make_request(form={'form.widgets.text': 'foo'})
 
-        commentForm = getMultiAdapter((self.context, request), name=u"comment-form")
+        commentForm = getMultiAdapter((self.context, request), 
+                                      name=u"comment-form")
         commentForm.update()
         data, errors = commentForm.extractData()
 
         self.assertEquals(len(errors), 1)
+        
 
-        context = Comment()
         request = make_request(form={'form.widgets.title': 'foo',
                                      'form.widgets.text': 'bar'})
 
-        commentForm = getMultiAdapter((self.context, request), name=u"comment-form")
+        commentForm = getMultiAdapter((self.context, request), 
+                                      name=u"comment-form")
         commentForm.update()
         data, errors = commentForm.extractData()
         
         self.assertEquals(len(errors), 0)
+        self.failIf(commentForm.handleComment(commentForm, "foo"))
 
 
 class TestCommentsViewletIntegration(FunctionalTestCase):
@@ -131,6 +132,13 @@ class TestCommentsViewletIntegration(FunctionalTestCase):
         self.failUnless('formfield-form-widgets-title' in browser.contents)
         self.failUnless('formfield-form-widgets-text' in browser.contents)
 
+        browser.getControl(name='form.widgets.title').value = "My Comment"
+        browser.getControl(name='form.widgets.text').value = "Lorem ipsum"
+        browser.getControl(name='form.buttons.comment').click()
+        
+        self.failUnless("My Comment" in browser.contents)
+        self.failUnless("Lorem ipsum" in browser.contents)   
+        
     
 class TestCommentsViewlet(PloneTestCase):
 
