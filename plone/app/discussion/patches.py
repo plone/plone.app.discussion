@@ -45,4 +45,3 @@ def patchedClearFindAndRebuild(self):
     self.manage_catalogClear()
     portal = aq_parent(aq_inner(self))
     portal.ZopeFindAndApply(portal, search_sub=True, apply_func=indexObject)
-    
