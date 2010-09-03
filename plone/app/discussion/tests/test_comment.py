@@ -10,6 +10,8 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 
 from plone.app.discussion.interfaces import IComment, IConversation, IReplies
 
+from plone.app.discussion.browser.comment import View
+
 
 class CommentTest(PloneTestCase):
 
@@ -125,8 +127,11 @@ class CommentTest(PloneTestCase):
         self.failUnless(getMultiAdapter((comment, self.app.REQUEST), 
                                         name='view'))
 
-        # TODO: is this correct? Redirect ist 301
-        self.assertEquals(200, self.app.REQUEST.response.getStatus())
+        # make sure the HTTP redirect (status code 302) works when a comment
+        # is called directly
+        view = View(comment, self.app.REQUEST)
+        View.__call__(view)
+        self.assertEquals(self.app.REQUEST.response.status, 302)
 
 
 class RepliesTest(PloneTestCase):
