@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 
+from AccessControl import Unauthorized
 from AccessControl import getSecurityManager
 
 from datetime import datetime
@@ -108,11 +109,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         author_email = u""
         #author_notification = None
 
-        # Captcha check for anonymous users (if Captcha is enabled)
+        # Captcha check for anonymous users (if Captcha is enabled and 
+        # anonymous commenting is allowed)
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         portal_membership = getToolByName(self.context, 'portal_membership')
         if settings.captcha != 'disabled' and \
+        settings.anonymous_comments and \
         portal_membership.isAnonymousUser():
             if not 'captcha' in data:
                 data['captcha'] = u""
@@ -123,13 +126,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                        None)
             captcha.validate(data['captcha'])
 
+        # Fetch data from request
         if 'title' in data:
             title = data['title']
         if 'text' in data:
             text = data['text']
         if 'author_name' in data:
             author_name = data['author_name']
-
         if 'author_email' in data:
             author_email = data['author_email']
         #if 'author_notification' in data:
@@ -137,6 +140,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             
         # The add-comment view is called on the conversation object
         conversation = IConversation(self.__parent__)
+        
+        # Check if conversation is enabled on this content object
+        if not conversation.enabled():
+            raise Unauthorized, "Discussion is not enabled for this content\
+                                 object."
 
         if data['in_reply_to']:
             # Fetch the comment we want to reply to
@@ -150,13 +158,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         portal_membership = getToolByName(self.context, 'portal_membership')
 
-        if portal_membership.isAnonymousUser():
+        if portal_membership.isAnonymousUser() and \
+        settings.anonymous_comments:
             comment.creator = None
             comment.author_name = author_name
             comment.author_email = author_email
             #comment.author_notification = author_notification
             comment.creation_date = comment.modification_date = datetime.now()
-        else:
+        elif not portal_membership.isAnonymousUser():
             member = portal_membership.getAuthenticatedMember()
             comment.creator = member.id
             comment.author_username = member.getUserName()
@@ -164,7 +173,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_email = member.getProperty('email')
             #comment.author_notification = comment.author_notification
             comment.creation_date = comment.modification_date = datetime.now()
-
+        else:
+            raise Unauthorized, "Anonymous user tries to post a comment, but \
+                                 anonymous commenting is disabled."
+        
         # Check if the added comment is a reply to an existing comment
         # or just a regular reply to the content object.
         if data['in_reply_to']:

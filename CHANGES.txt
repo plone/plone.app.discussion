@@ -4,6 +4,11 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Raise an unauthorized error when authenticated users try to post a comment
+  on a content object that has discussion disabled. Thanks to vincentfrentin
+  for reporting this.
+  [timo]
+  
 * Czech translation added.
   [naro]
 

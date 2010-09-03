@@ -2,6 +2,8 @@
 import unittest
 from datetime import datetime
 
+from AccessControl import Unauthorized
+
 from Acquisition import Implicit
         
 from zope.component import createObject, queryUtility
@@ -23,11 +25,15 @@ from zope.component import getMultiAdapter
 from plone.registry.interfaces import IRegistry
 
 from Products.CMFCore.utils import getToolByName
+
 from Products.CMFPlone.tests import dummy
+
 from Products.Five.testbrowser import Browser
+
 from Products.PloneTestCase.ptc import PloneTestCase
 from Products.PloneTestCase.ptc import FunctionalTestCase
-
+from Products.PloneTestCase.setup import portal_owner, default_password
+        
 from plone.app.discussion.comment import Comment
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
@@ -43,16 +49,19 @@ class TestCommentForm(PloneTestCase):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        self.portal_discussion = getToolByName(self.portal, 
-                                               'portal_discussion', 
-                                               None)
-        self.membership_tool = getToolByName(self.folder, 'portal_membership')
+        self.dtool = getToolByName(self.portal, 
+                                   'portal_discussion', 
+                                    None)
+        self.dtool.overrideDiscussionFor(self.portal.doc1, False)
+        self.mtool = getToolByName(self.folder, 'portal_membership', None)
         self.memberdata = self.portal.portal_memberdata
         self.request = self.app.REQUEST
         self.context = getattr(self.portal, 'doc1')
-        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
-
+        
     def test_add_comment(self):
+        # Allow discussion
+        self.dtool.overrideDiscussionFor(self.portal.doc1, True)
+        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
 
         def make_request(form={}):
             request = TestRequest()
@@ -66,6 +75,7 @@ class TestCommentForm(PloneTestCase):
                        factory=CommentForm,
                        name=u"comment-form")
         
+        # The form should return errors if the two required fields are empty
         request = make_request(form={})
 
         commentForm = getMultiAdapter((self.context, request), 
@@ -76,7 +86,7 @@ class TestCommentForm(PloneTestCase):
         self.assertEquals(len(errors), 2)
         self.failIf(commentForm.handleComment(commentForm, "foo"))
         
-
+        # The form should return an error if the comment text field is empty
         request = make_request(form={'form.widgets.text': 'foo'})
 
         commentForm = getMultiAdapter((self.context, request), 
@@ -85,8 +95,10 @@ class TestCommentForm(PloneTestCase):
         data, errors = commentForm.extractData()
 
         self.assertEquals(len(errors), 1)
-        
-
+        self.failIf(commentForm.handleComment(commentForm, "foo"))
+                
+        # The form is submitted successfully, if all required fields are 
+        # filled out
         request = make_request(form={'form.widgets.title': 'foo',
                                      'form.widgets.text': 'bar'})
 
@@ -97,6 +109,76 @@ class TestCommentForm(PloneTestCase):
         
         self.assertEquals(len(errors), 0)
         self.failIf(commentForm.handleComment(commentForm, "foo"))
+        
+
+    def test_can_not_add_comments_if_discussion_is_not_allowed(self):
+        """Make sure that comments can't be posted if discussion is disabled.
+        """
+        
+        # Discussion is disabled by default
+        
+        def make_request(form={}):
+            request = TestRequest()
+            request.form.update(form)
+            alsoProvides(request, IFormLayer)
+            alsoProvides(request, IAttributeAnnotatable)
+            return request
+        
+        provideAdapter(adapts=(Interface, IBrowserRequest),
+                       provides=Interface,
+                       factory=CommentForm,
+                       name=u"comment-form")
+        
+        request = make_request(form={'form.widgets.title': 'foo',
+                                     'form.widgets.text': 'bar'})
+
+        commentForm = getMultiAdapter((self.context, request), 
+                                      name=u"comment-form")
+        commentForm.update()
+        data, errors = commentForm.extractData()
+        
+        # No form errors, but raise unauthorized because discussion is not
+        # allowed
+        self.assertEquals(len(errors), 0)
+        self.assertRaises(Unauthorized,
+                          commentForm.handleComment,
+                          commentForm,
+                          "foo")
+                                
+    def test_add_comment_as_anonymous(self):
+        """Make sure that anonymous users can't post comments if anonymous
+           comments are disabled.
+        """
+        
+        # Anonymous comments are disabled by default
+        
+        self.logout()
+        
+        def make_request(form={}):
+            request = TestRequest()
+            request.form.update(form)
+            alsoProvides(request, IFormLayer)
+            alsoProvides(request, IAttributeAnnotatable)
+            return request
+        
+        provideAdapter(adapts=(Interface, IBrowserRequest),
+                       provides=Interface,
+                       factory=CommentForm,
+                       name=u"comment-form")
+        
+        request = make_request(form={'form.widgets.title': 'foo',
+                                     'form.widgets.text': 'bar'})
+
+        commentForm = getMultiAdapter((self.context, request), 
+                                      name=u"comment-form")
+        commentForm.update()
+        data, errors = commentForm.extractData()
+        
+        self.assertEquals(len(errors), 0)
+        self.assertRaises(Unauthorized,
+                          commentForm.handleComment,
+                          commentForm,
+                          "foo")
 
 
 class TestCommentsViewletIntegration(FunctionalTestCase):
@@ -107,8 +189,6 @@ class TestCommentsViewletIntegration(FunctionalTestCase):
         browser = Browser()
         portal_url = self.portal.absolute_url()
         browser.handleErrors = False
-
-        from Products.PloneTestCase.setup import portal_owner, default_password
 
         browser.open(portal_url + '/login_form')
         browser.getControl(name='__ac_name').value = portal_owner
@@ -151,7 +231,7 @@ class TestCommentsViewlet(PloneTestCase):
         self.portal_discussion = getToolByName(self.portal, 
                                                'portal_discussion', 
                                                None)
-        self.membership_tool = getToolByName(self.folder, 'portal_membership')
+        self.mtool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
         request = self.app.REQUEST
         context = getattr(self.portal, 'doc1')
@@ -265,7 +345,7 @@ class TestCommentsViewlet(PloneTestCase):
     def test_get_commenter_portrait(self):
 
         # Add a user with a member image
-        self.membership_tool.addMember('jim', 'Jim', ['Member'], [])
+        self.mtool.addMember('jim', 'Jim', ['Member'], [])
         self.memberdata._setPortrait(Image(id='jim', 
                                            file=dummy.File(),
                                            title=''), 'jim')
@@ -298,7 +378,7 @@ class TestCommentsViewlet(PloneTestCase):
     def test_get_commenter_portrait_without_userimage(self):
 
         # Create a user without a user image
-        self.membership_tool.addMember('jim', 'Jim', ['Member'], [])
+        self.mtool.addMember('jim', 'Jim', ['Member'], [])
 
         # Add a conversation with a comment
         conversation = IConversation(self.portal.doc1)
