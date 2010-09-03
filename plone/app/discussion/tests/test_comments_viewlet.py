@@ -3,8 +3,6 @@ import unittest
 from datetime import datetime
 
 from AccessControl import Unauthorized
-
-from Acquisition import Implicit
         
 from zope.component import createObject, queryUtility
 
@@ -17,9 +15,8 @@ from z3c.form.interfaces import IFormLayer
 
 from zope.component import provideAdapter
 from zope.publisher.interfaces.browser import IBrowserRequest
-from zope.interface import Interface, implements
 
-from zope.interface import Interface, implements
+from zope.interface import Interface
 from zope.component import getMultiAdapter
 
 from plone.registry.interfaces import IRegistry
@@ -33,8 +30,7 @@ from Products.Five.testbrowser import Browser
 from Products.PloneTestCase.ptc import PloneTestCase
 from Products.PloneTestCase.ptc import FunctionalTestCase
 from Products.PloneTestCase.setup import portal_owner, default_password
-        
-from plone.app.discussion.comment import Comment
+
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.interfaces import IConversation 
