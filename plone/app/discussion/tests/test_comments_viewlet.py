@@ -83,26 +83,26 @@ class TestCommentForm(PloneTestCase):
         self.failIf(commentForm.handleComment(commentForm, "foo"))
         
         # The form should return an error if the comment text field is empty
-        request = make_request(form={'form.widgets.text': 'foo'})
-
-        commentForm = getMultiAdapter((self.context, request), 
-                                      name=u"comment-form")
-        commentForm.update()
-        data, errors = commentForm.extractData()
-
-        self.assertEquals(len(errors), 1)
-        self.failIf(commentForm.handleComment(commentForm, "foo"))
-                
-        # The form is submitted successfully, if all required fields are 
-        # filled out
-        request = make_request(form={'form.widgets.title': 'foo',
-                                     'form.widgets.text': 'bar'})
+        request = make_request(form={'form.widgets.text': u'foo'})
 
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
         commentForm.update()
         data, errors = commentForm.extractData()
         
+        self.assertEquals(len(errors), 1)
+        self.failIf(commentForm.handleComment(commentForm, "foo"))
+                
+        # The form is submitted successfully, if all required fields are 
+        # filled out
+        request = make_request(form={'form.widgets.title': u'foo',
+                                     'form.widgets.text': u'bar'})
+
+        commentForm = getMultiAdapter((self.context, request), 
+                                      name=u"comment-form")
+        commentForm.update()
+        data, errors = commentForm.extractData()
+
         self.assertEquals(len(errors), 0)
         self.failIf(commentForm.handleComment(commentForm, "foo"))
         
@@ -125,8 +125,8 @@ class TestCommentForm(PloneTestCase):
                        factory=CommentForm,
                        name=u"comment-form")
         
-        request = make_request(form={'form.widgets.title': 'foo',
-                                     'form.widgets.text': 'bar'})
+        request = make_request(form={'form.widgets.title': u'foo',
+                                     'form.widgets.text': u'bar'})
 
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
@@ -162,8 +162,8 @@ class TestCommentForm(PloneTestCase):
                        factory=CommentForm,
                        name=u"comment-form")
         
-        request = make_request(form={'form.widgets.title': 'foo',
-                                     'form.widgets.text': 'bar'})
+        request = make_request(form={'form.widgets.title': u'foo',
+                                     'form.widgets.text': u'bar'})
 
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
