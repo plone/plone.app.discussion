@@ -4,6 +4,9 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Fetch context for the comment view with "context = aq_inner(self.context)".
+  [timo]
+ 
 * Raise an unauthorized error when authenticated users try to post a comment
   on a content object that has discussion disabled. Thanks to vincentfrentin
   for reporting this.
