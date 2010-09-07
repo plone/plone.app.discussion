@@ -164,7 +164,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_name = author_name
             comment.author_email = author_email
             #comment.author_notification = author_notification
-            comment.creation_date = comment.modification_date = datetime.now()
+            comment.creation_date = comment.modification_date = datetime.utcnow()
         elif not portal_membership.isAnonymousUser():
             member = portal_membership.getAuthenticatedMember()
             comment.creator = member.id
@@ -172,7 +172,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_name = member.getProperty('fullname')
             comment.author_email = member.getProperty('email')
             #comment.author_notification = comment.author_notification
-            comment.creation_date = comment.modification_date = datetime.now()
+            comment.creation_date = comment.modification_date = datetime.utcnow()
         else:
             raise Unauthorized, "Anonymous user tries to post a comment, but \
                                  anonymous commenting is disabled."
@@ -349,10 +349,5 @@ class CommentsViewlet(ViewletBase):
         # We have to transform Python datetime into Zope DateTime
         # before we can call toLocalizedTime.
         util = getToolByName(self.context, 'translation_service')
-        zope_time = DateTime(time.year, 
-                             time.month, 
-                             time.day, 
-                             time.hour, 
-                             time.minute, 
-                             time.second)
+        zope_time = DateTime(time.isoformat())
         return util.toLocalizedTime(zope_time, long_format=True)
