@@ -92,7 +92,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     # IConversation.addComment().
 
     def __init__(self):
-        self.creation_date = self.modification_date = datetime.now()
+        self.creation_date = self.modification_date = datetime.utcnow()
 
     @property
     def __name__(self):
