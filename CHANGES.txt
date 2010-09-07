@@ -4,6 +4,9 @@ Changelog
 1.0b7 (unreleased)
 ------------------
 
+* Store dates in utc and not in local time. Display local time
+  [do3cc]
+
 * Fetch context for the comment view with "context = aq_inner(self.context)".
   [timo]
  
