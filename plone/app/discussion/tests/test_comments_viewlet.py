@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+import time
 from datetime import datetime
 
 from AccessControl import Unauthorized
@@ -421,6 +422,15 @@ class TestCommentsViewlet(PloneTestCase):
    
     def test_format_time(self):
         python_time = datetime(2009, 02, 01, 23, 32, 03, 57)
+        # Python Time must be utc time. There seems to be no too simple way
+        # to tell datetime to be of utc time.
+        # therefor, we convert the time to seconds since epoch, which seems
+        # to assume, that the datetime was given in local time, and does the
+        # correction to the seconds since epoch. Then time.gmtime returns
+        # a correct utc time that can be used to make datetime set the utc
+        # time of the local time given above. That way, the time for the
+        # example below is correct within each time zone, independent of DST
+        python_time = datetime(*time.gmtime(time.mktime(python_time.timetuple()))[:7])
         localized_time = self.viewlet.format_time(python_time)
         self.assertEquals(localized_time, "Feb 01, 2009 11:32 PM")
 
