@@ -1,3 +1,7 @@
+import datetime
+
+import logging
+
 import unittest
 
 from zope.component import createObject
@@ -13,6 +17,9 @@ from plone.app.discussion.interfaces import IComment, IConversation, IReplies
 from plone.app.discussion.browser.comment import View
 
 
+logger = logging.getLogger('plone.app.discussion.tests')
+logger.addHandler(logging.StreamHandler())
+
 class CommentTest(PloneTestCase):
 
     layer = DiscussionLayer
@@ -26,6 +33,22 @@ class CommentTest(PloneTestCase):
     def test_factory(self):
         comment1 = createObject('plone.Comment')
         self.assert_(IComment.providedBy(comment1))
+
+    def test_UTCDates(self):
+        utc_to_local_diff = datetime.datetime.now() - datetime.datetime.utcnow()
+        utc_to_local_diff = abs(utc_to_local_diff.seconds)
+        if utc_to_local_diff < 60:
+            logger.warning("Your computer is living in a timezone where local "
+                           "time equals utc time. Some potential errors can "
+                           "get hidden by that")
+        comment1 = createObject('plone.Comment')
+        local_utc = datetime.datetime.utcnow()
+        for date in (comment1.creation_date, comment1.modification_date):
+            difference = abs(date - local_utc)
+            difference = difference.seconds
+            # We hope that between comment1 and local_utc happen less than
+            # 10 seconds
+            self.assertFalse(difference / 10)
 
     def test_id(self):
         comment1 = createObject('plone.Comment')
