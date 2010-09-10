@@ -25,6 +25,13 @@ try:
 except ImportError:
     pass
 
+HAS_NOROBOTS = False
+try:
+    import collective.z3cform.norobots
+    HAS_NOROBOTS = True
+except ImportError:
+    pass
+
 
 def captcha_vocabulary(context):
     """Vocabulary with all available captcha implementations.
@@ -54,6 +61,14 @@ def captcha_vocabulary(context):
                 value='akismet',
                 token='akismet',
                 title='Akismet'))    
+
+
+    if HAS_NOROBOTS:
+        terms.append(
+            SimpleTerm(
+                value='norobots',
+                token='norobots',
+                title='Norobots'))
     
     return SimpleVocabulary(terms)
 

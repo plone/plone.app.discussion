@@ -67,6 +67,9 @@ class CaptchaExtender(extensible.FormExtender):
             elif self.captcha == 'recaptcha':
                 from plone.formwidget.recaptcha import ReCaptchaFieldWidget
                 self.form.fields['captcha'].widgetFactory = ReCaptchaFieldWidget
+            elif self.captcha == 'norobots':
+                from collective.z3cform.norobots import NorobotsFieldWidget
+                self.form.fields['captcha'].widgetFactory = NorobotsFieldWidget
             else:
                 self.form.fields['captcha'].mode = interfaces.HIDDEN_MODE
                 
