@@ -26,18 +26,18 @@ class IDiscussionSettings(Interface):
         description=_(u"help_globally_enabled",
                 default=u"If selected, users are able to post comments on the "
                          "site. Though, you have to enable comments for "
-                         "specific content types, folders or content objects"
+                         "specific content types, folders or content objects "
                          "before users will be able to post comments."),
         required=False,
         default=True,
         )
 
     anonymous_comments = schema.Bool(
-        title=_(u"label_anonymous_comments", 
+        title=_(u"label_anonymous_comments",
                 default="Enable anonymous comments"),
         description=_(u"help_anonymous_comments",
                 default=u"If selected, anonymous users are able to post "
-                         "comments without loggin in. It is highly " 
+                         "comments without loggin in. It is highly "
                          "recommended to use a captcha solution to prevent "
                          "spam if this setting is enabled."),
         required=False,
@@ -45,15 +45,15 @@ class IDiscussionSettings(Interface):
         )
 
     text_transform = schema.Choice(
-        title=_(u"label_text_transform", 
+        title=_(u"label_text_transform",
                 default="Comment text transform"),
         required=True,
         default='text/plain',
         vocabulary='plone.app.discussion.vocabularies.TextTransformVocabulary',
         )
-    
+
     captcha = schema.Choice(
-        title=_(u"label_captcha", 
+        title=_(u"label_captcha",
                 default="Captcha"),
         description=_(u"help_captcha",
                 default=u"Use this setting to enable or disable Captcha "
@@ -86,7 +86,7 @@ class IDiscussionSettings(Interface):
         required=False,
         default=False,
         )
-    
+
     #user_notification_enabled = schema.Bool(
     #                           title=_(u"label_user_notification_enabled",
     #                           default=u"Enable user email notification"),
@@ -121,43 +121,43 @@ class IConversation(IIterableMapping):
     """
 
     total_comments = schema.Int(
-        title=_(u"Total number of comments on this item"), 
-        min=0, 
+        title=_(u"Total number of comments on this item"),
+        min=0,
         readonly=True,
         )
-    
+
     last_comment_date = schema.Date(
-        title=_(u"Date of the most recent comment"), 
+        title=_(u"Date of the most recent comment"),
         readonly=True,
         )
-    
+
     commentators = schema.Set(
-        title=_(u"The set of unique commentators (usernames)"), 
+        title=_(u"The set of unique commentators (usernames)"),
         readonly=True,
         )
 
     def enabled():
         """ Returns True if discussion is enabled for this conversation.
-        
+
         This method checks five different settings in order to figure out if
         discussion is enable on a specific content object:
-        
+
         1) Check if discussion is enabled globally in the plone.app.discussion
            registry/control panel.
-           
+
         2) If the current content object is a folder, always return False, since
            we don't allow comments on a folder. This setting is used to allow/
-           disallow comments for all content objects inside a folder, not for 
+           disallow comments for all content objects inside a folder, not for
            the folder itself.
-           
-        3) Check if the allow_discussion boolean flag on the content object is 
-           set. If it is set to True or False, return the value. If it set to 
+
+        3) Check if the allow_discussion boolean flag on the content object is
+           set. If it is set to True or False, return the value. If it set to
            None, try further.
-           
-        4) Traverse to a folder with allow_discussion set to either True or 
+
+        4) Traverse to a folder with allow_discussion set to either True or
            False. If allow_discussion is not set (None), traverse further until
            we reach the PloneSiteRoot.
-           
+
         5) Check if discussion is allowed for the content type.
         """
 
@@ -237,20 +237,20 @@ class IComment(Interface):
     """
 
     portal_type = schema.ASCIILine(
-        title=_(u"Portal type"), 
+        title=_(u"Portal type"),
         default="Discussion Item",
         )
 
     __parent__ = schema.Object(
         title=_(u"Conversation"), schema=Interface)
-    
+
     __name__ = schema.TextLine(title=_(u"Name"))
 
     comment_id = schema.Int(
         title=_(u"A comment id unique to this conversation"))
-    
+
     in_reply_to = schema.Int(
-        title=_(u"Id of comment this comment is in reply to"), 
+        title=_(u"Id of comment this comment is in reply to"),
         required=False,
         )
 
@@ -260,25 +260,25 @@ class IComment(Interface):
     # for anonymous comments only, set to None for logged in comments
     author_name = schema.TextLine(title=_(u"Name"), required=False)
     author_email = schema.TextLine(title=_(u"Email"), required=False)
-    
-    title = schema.TextLine(title=_(u"label_subject", 
+
+    title = schema.TextLine(title=_(u"label_subject",
                                     default=u"Subject"))
 
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
-    text = schema.Text(title=_(u"label_comment", 
+    text = schema.Text(title=_(u"label_comment",
                                default=u"Comment"))
 
     #author_notification = schema.Bool(title=_(u"Notify me of new comments via "
     #                                         "email."),
     #                                 required=False)
-    
+
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     creation_date = schema.Date(title=_(u"Creation date"))
     modification_date = schema.Date(title=_(u"Modification date"))
 
 
 class ICaptcha(Interface):
-    """Captcha/ReCaptcha text field to extend the existing comment form. 
+    """Captcha/ReCaptcha text field to extend the existing comment form.
     """
     captcha = schema.TextLine(title=u"Captcha",
                               required=False)
