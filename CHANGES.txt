@@ -5,7 +5,7 @@ Changelog
 ------------------
 
 * Captcha plugin support for collective.z3cform.norobots added. 
-  []
+  [saffe]
 
 * Store dates in utc and not in local time. Display local time
   [do3cc]
