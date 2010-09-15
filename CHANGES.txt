@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.0b7 (unreleased)
+1.0b7 (2010-09-15)
 ------------------
 
-* Captcha plugin support for collective.z3cform.norobots added. 
+* Captcha plugin support for collective.z3cform.norobots (version >= 1.1) added. 
   [saffe]
 
 * Store dates in utc and not in local time. Display local time
