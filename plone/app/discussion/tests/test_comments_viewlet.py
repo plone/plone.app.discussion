@@ -183,36 +183,43 @@ class TestCommentsViewletIntegration(FunctionalTestCase):
     layer = DiscussionLayer
 
     def testCommentsViewlet(self):
+        # Fetch testbrowser
         browser = Browser()
         portal_url = self.portal.absolute_url()
         browser.handleErrors = False
 
+        # Login
         browser.open(portal_url + '/login_form')
         browser.getControl(name='__ac_name').value = portal_owner
         browser.getControl(name='__ac_password').value = default_password
         browser.getControl(name='submit').click()
 
+        # Create page with comments allowed
         browser.open(portal_url)
         browser.getLink(id='document').click()
         browser.getControl(name='title').value = "Doc1"
         browser.getControl(name='allowDiscussion:boolean').value = True
         browser.getControl(name='form.button.save').click()        
 
-        doc1 = self.portal['doc1']
-        doc1_url = doc1.absolute_url()        
-        browser.open(doc1_url)
-        # Do not show the old comment viewlet
+        # Check that the form has been properly submitted
+        self.assertEquals(browser.url, 'http://nohost/plone/doc1')
+        
+        # Check that the old comments viewlet does not show up
         self.failIf('discussion_reply_form' in browser.contents)
-        # Show the new comment viewlet
+        
+        # Check that the comment form/viewlet shows up
         self.failUnless('formfield-form-widgets-in_reply_to' in 
                         browser.contents)
         self.failUnless('formfield-form-widgets-title' in browser.contents)
         self.failUnless('formfield-form-widgets-text' in browser.contents)
 
+        # Submit the comment form
         browser.getControl(name='form.widgets.title').value = "My Comment"
         browser.getControl(name='form.widgets.text').value = "Lorem ipsum"
-        browser.getControl(name='form.buttons.comment').click()
+        submit = browser.getControl(name='form.buttons.comment')
+        submit.click()
         
+        # Check that the comment has been posted
         self.failUnless("My Comment" in browser.contents)
         self.failUnless("Lorem ipsum" in browser.contents)   
         
