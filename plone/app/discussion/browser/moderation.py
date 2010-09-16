@@ -22,7 +22,7 @@ from plone.app.discussion.interfaces import IComment
 # Bug report: https://bugs.launchpad.net/zope2/+bug/176566
 #
 
-def _getContext(self):
+def _getContext(self): # pragma: no cover
     self = self.aq_parent
     while getattr(self, '_is_wrapperish', None):
         self = self.aq_parent
