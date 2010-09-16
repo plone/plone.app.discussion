@@ -22,13 +22,13 @@ from plone.app.discussion.interfaces import IComment
 # Bug report: https://bugs.launchpad.net/zope2/+bug/176566
 #
 
-def _getContext(self): # pragma: no cover
-    self = self.aq_parent
-    while getattr(self, '_is_wrapperish', None):
-        self = self.aq_parent
-    return self    
+def _getContext(self):                                      # pragma: no cover
+    self = self.aq_parent                                   # pragma: no cover
+    while getattr(self, '_is_wrapperish', None):            # pragma: no cover
+        self = self.aq_parent                               # pragma: no cover
+    return self                                             # pragma: no cover
             
-ZopeTwoPageTemplateFile._getContext = _getContext
+ZopeTwoPageTemplateFile._getContext = _getContext           # pragma: no cover
 # End ugly hack.
 
 

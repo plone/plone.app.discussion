@@ -142,12 +142,28 @@ class ModerationBulkActionsViewTest(PloneTestCase):
                             '++conversation++default/%s' % new_id_3)
 
         self.conversation = conversation
+    
+    def test_default_bulkaction(self):
+        self.request = self.app.REQUEST
+        self.context = self.portal
+        self.request.set('form.select.BulkAction', '-1')
+        view = BulkActionsView(self.context, self.request)
+        self.failIf(view())
         
+    def test_wrong_bulkaction(self):
+        self.request = self.app.REQUEST
+        self.context = self.portal
+        self.request.set('form.select.BulkAction', 'stupid')        
+        view = BulkActionsView(self.context, self.request)
+        self.assertRaises(TypeError,
+                          view)
+    
     def test_retract(self):
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', 'retract')
         view = BulkActionsView(self.context, self.request)
+        view()
         
         self.assertRaises(NotImplementedError,
                           view.retract)
@@ -168,6 +184,7 @@ class ModerationBulkActionsViewTest(PloneTestCase):
             if workflow_status == 'published':
                 published_comments += 1
         
+        # Make sure the comment has been published
         self.assertEquals(published_comments, 1)
         
     def test_mark_as_spam(self):
@@ -175,6 +192,7 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.context = self.portal
         self.request.set('form.select.BulkAction', 'mark_as_spam')
         view = BulkActionsView(self.context, self.request)
+        view()
         
         self.assertRaises(NotImplementedError,
                           view.mark_as_spam)
