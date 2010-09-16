@@ -103,13 +103,10 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
+        self.wf = getToolByName(self.portal, 
+                                'portal_workflow',
+                                None)
         
-        self.portal_discussion = getToolByName(self.portal,
-                                               'portal_discussion',
-                                               None)
-        self.membership_tool = getToolByName(self.folder,
-                                             'portal_membership')
-        self.memberdata = self.portal.portal_memberdata
         self.request = self.app.REQUEST
         self.context = self.portal
         self.portal.portal_workflow.setChainForPortalTypes(
@@ -159,9 +156,20 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', 'publish')
-        self.request.set('paths', [])
+        self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])        
         view = BulkActionsView(self.context, self.request)
-
+        view()
+        
+        # Count published comments
+        published_comments = 0
+        for r in self.conversation.getThreads():
+            comment_obj = r['comment']
+            workflow_status = self.wf.getInfoFor(comment_obj, 'review_state')
+            if workflow_status == 'published':
+                published_comments += 1
+        
+        self.assertEquals(published_comments, 1)
+        
     def test_mark_as_spam(self):
         self.request = self.app.REQUEST
         self.context = self.portal
