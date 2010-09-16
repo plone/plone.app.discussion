@@ -144,19 +144,12 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.conversation = conversation
     
     def test_default_bulkaction(self):
+        # Make sure no error is raised when no bulk actions has been supplied
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', '-1')
         view = BulkActionsView(self.context, self.request)
         self.failIf(view())
-        
-    def test_wrong_bulkaction(self):
-        self.request = self.app.REQUEST
-        self.context = self.portal
-        self.request.set('form.select.BulkAction', 'stupid')        
-        view = BulkActionsView(self.context, self.request)
-        self.assertRaises(TypeError,
-                          view)
     
     def test_retract(self):
         self.request = self.app.REQUEST
