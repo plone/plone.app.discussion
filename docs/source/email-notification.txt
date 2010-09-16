@@ -78,9 +78,9 @@ Plone 3 Event Subscribers
 
 *plone/app/discussion/subscribers.zcml*
 
-.. literalinclude:: ../../plone/app/discussion/subscribers.zcml
+.. literalinclude:: ../../plone/app/discussion/notifications.zcml
    :encoding: utf-8
-   :lines: 40-52
+   :lines: 6-24
 
 
 Plone 4 Event Subscribers
@@ -88,6 +88,6 @@ Plone 4 Event Subscribers
 
 *plone/app/discussion/subscribers.zcml*
 
-.. literalinclude:: ../../plone/app/discussion/subscribers.zcml
+.. literalinclude:: ../../plone/app/discussion/notifications.zcml
    :encoding: utf-8
-   :lines: 97-109
+   :lines: 27-45
