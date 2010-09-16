@@ -86,6 +86,10 @@ Add-on Products
   <http://pypi.python.org/pypi/collective.akismet/>`_
   (for Akismet spam protection)
 
+- `collective.z3cform.norobots
+  <http://pypi.python.org/pypi/collective.z3cform.norobots/1.1/>`_
+  (provides a "human" captcha widget based on a list of questions/answers)
+
 
 Documentation
 =============
