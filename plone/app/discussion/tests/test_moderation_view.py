@@ -148,6 +148,7 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', '-1')
+        self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
         view = BulkActionsView(self.context, self.request)
         self.failIf(view())
     
@@ -155,17 +156,17 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', 'retract')
+        self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
         view = BulkActionsView(self.context, self.request)
-        view()
         
         self.assertRaises(NotImplementedError,
-                          view.retract)
+                          view)
 
     def test_publish(self):
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', 'publish')
-        self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])        
+        self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())]) 
         view = BulkActionsView(self.context, self.request)
         view()
         
@@ -184,11 +185,11 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', 'mark_as_spam')
+        self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
         view = BulkActionsView(self.context, self.request)
-        view()
         
         self.assertRaises(NotImplementedError,
-                          view.mark_as_spam)
+                          view)
 
     def test_delete(self):
         self.request = self.app.REQUEST
