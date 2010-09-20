@@ -42,10 +42,10 @@ try:
     # Plone 4
     from zope.lifecycleevent import ObjectAddedEvent
     from zope.lifecycleevent import ObjectRemovedEvent
-except ImportError:
+except ImportError: # pragma: no cover
     # Plone 3.x
-    from zope.app.container.contained import ObjectAddedEvent
-    from zope.app.container.contained import ObjectRemovedEvent
+    from zope.app.container.contained import ObjectAddedEvent # pragma: no cover
+    from zope.app.container.contained import ObjectRemovedEvent # pragma: no cover
 
 from BTrees.OIBTree import OIBTree
 
@@ -53,9 +53,9 @@ try:
     # These exist in new versions, but not in the one that comes with Zope 2.10.
     from BTrees.LOBTree import LOBTree
     from BTrees.LLBTree import LLSet
-except ImportError:
-    from BTrees.OOBTree import OOBTree as LOBTree
-    from BTrees.OOBTree import OOSet as LLSet
+except ImportError: # pragma: no cover
+    from BTrees.OOBTree import OOBTree as LOBTree # pragma: no cover
+    from BTrees.OOBTree import OOSet as LLSet # pragma: no cover
 
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
@@ -364,9 +364,9 @@ try:
 except ImportError:
     pass
 else:
-    @implementer(IConversation)
-    @adapter(IAnnotatable)
-    def conversationCanonicalAdapterFactory(content):
+    @implementer(IConversation) # pragma: no cover
+    @adapter(IAnnotatable) # pragma: no cover
+    def conversationCanonicalAdapterFactory(content): # pragma: no cover
         """Adapter factory to fetch the default conversation from annotations.
         Will create the conversation if it does not exist.
 

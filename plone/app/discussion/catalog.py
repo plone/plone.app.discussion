@@ -28,7 +28,7 @@ def total_comments(object):
         try:
             conversation = IConversation(object)
             return conversation.total_comments
-        except TypeError:
+        except TypeError: # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it
             pass
@@ -41,7 +41,7 @@ def last_comment_date(object):
         try:
             conversation = IConversation(object)
             return conversation.last_comment_date
-        except TypeError:
+        except TypeError: # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it
             pass
@@ -54,7 +54,7 @@ def commentators(object):
         try:
             conversation = IConversation(object)
             return tuple(conversation.commentators.keys())
-        except TypeError:
+        except TypeError: # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it
             pass
