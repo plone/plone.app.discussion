@@ -40,7 +40,7 @@ from plone.z3cform.fieldsets import extensible
 try:
     from plone.z3cform.interfaces import IWrappedForm 
     HAS_WRAPPED_FORM = True 
-except ImportError: 
+except ImportError: # pragma: no cover
     HAS_WRAPPED_FORM = False
 
 class CommentForm(extensible.ExtensibleForm, form.Form):

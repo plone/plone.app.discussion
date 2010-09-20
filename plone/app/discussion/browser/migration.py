@@ -33,14 +33,14 @@ class View(BrowserView):
         test = self.request.has_key("test") 
         
         if not test:
-            transaction.begin()
+            transaction.begin() # pragma: no cover
         
         catalog = getToolByName(context, 'portal_catalog')
         
         def log(msg):
             # encode string before sending it to external world 
             if isinstance(msg, unicode): 
-                msg = msg.encode('utf-8')             
+                msg = msg.encode('utf-8') # pragma: no cover          
             context.plone_log(msg)
             out.append(msg)
 
@@ -147,11 +147,11 @@ class View(BrowserView):
         if self.total_comments_deleted != self.total_comments_migrated:
             log("Something went wrong during migration. The number of \
                 migrated comments (%s) differs from the number of deleted \
-                comments (%s)."
+                comments (%s)." # pragma: no cover
                  % (self.total_comments_migrated, self.total_comments_deleted))
-            if not test:
-                transaction.abort()
-            log("Abort transaction")
+            if not test:  # pragma: no cover
+                transaction.abort() # pragma: no cover
+            log("Abort transaction")  # pragma: no cover
         
         log("\n")
         log("Comment migration finished.")
@@ -162,13 +162,13 @@ class View(BrowserView):
         
         if self.total_comments_migrated != count_comments_old:
             log("%s comments could not be migrated." 
-                % (count_comments_old - self.total_comments_migrated))
-            log("Please make sure your portal catalog is up-to-date.")
+                % (count_comments_old - self.total_comments_migrated)) # pragma: no cover
+            log("Please make sure your portal catalog is up-to-date.") # pragma: no cover
         
         if dry_run and not test:
-            transaction.abort()
-            log("Dry run")
-            log("Abort transaction")
+            transaction.abort() # pragma: no cover
+            log("Dry run") # pragma: no cover
+            log("Abort transaction") # pragma: no cover
         if not test:
-            transaction.commit()        
+            transaction.commit() # pragma: no cover        
         return '\n'.join(out)

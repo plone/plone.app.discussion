@@ -33,6 +33,6 @@ class ConversationNamespace(object):
         
         conversation = queryAdapter(self.context, IConversation, name=name)
         if conversation is None:
-            raise TraversalError(name)
+            raise TraversalError(name) # pragma: no cover
         
         return conversation
