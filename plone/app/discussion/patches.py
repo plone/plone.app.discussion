@@ -34,7 +34,7 @@ def patchedClearFindAndRebuild(self):
                             comment = comment.__of__(conversation)
                             if catalog:
                                 catalog.indexObject(comment)
-                        except StopIteration:
+                        except StopIteration: # pragma: no cover
                             pass
 
             except TypeError:

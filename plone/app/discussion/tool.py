@@ -13,6 +13,7 @@ from interfaces import ICommentingTool, IComment
 from Products.CMFCore.utils import UniqueObject, getToolByName
 from OFS.SimpleItem import SimpleItem
 
+
 class CommentingTool(UniqueObject, SimpleItem):
         
     interface.implements(ICommentingTool)
