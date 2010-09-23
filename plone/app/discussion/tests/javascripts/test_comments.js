@@ -37,8 +37,25 @@ $(document).ready(function () {
 	                ))
 	            );
 	        $(document.body).append(comments);
-	                
+			
 	        // Create a basic commenting form
+			//
+            // <form class="form">
+			//   <div class="formfield-form-widgets-in_reply_to">
+			//     <input name="form.widgets.in_reply_to">
+			//   </div>
+			//   <div class="formfield-form-widgets-author_name">
+			//     <input name="form.widgets.author" type="text">
+			//   </div>
+			//   <div class="formfield-form-widgets-text">
+			//     <textarea name="form.widgets.text"></textarea>
+			//   </div>
+			//   <div class="formControls">
+			//     <input name="form.buttons.comment">
+			//     <input name="form.buttons.cancel">
+			//   </div>
+			// </form>
+			
 	        var commentform = $(document.createElement("div"))
 	            .append($(document.createElement("form"))
 	                .addClass("form")
