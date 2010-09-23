@@ -12,7 +12,6 @@ class ToolTest(PloneTestCase):
     layer = DiscussionLayer
 
     def afterSetUp(self):
-        # XXX If we make this a layer, it only get run once...
         # First we need to create some content.
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
