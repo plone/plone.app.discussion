@@ -4,6 +4,12 @@ Changelog
 1.0b8 (unreleased)
 ------------------
 
+- Revert r35608 since this was breaking the comment moderation bulk actions. 
+  The BulkActionsView expects the absolute path of the comments without the 
+  portal url (e.g. '/plone/doc1/++conversation++default/1285346769126020'). 
+  This fixes https://dev.plone.org/plone/ticket/11156.
+  [timo]
+
 - Use "(function($) { /* some code that uses $ */ })(jQuery)" instead of
   "$(document).ready(function(){ /* some code that uses $ */ });" to invoke 
   jQuery code.

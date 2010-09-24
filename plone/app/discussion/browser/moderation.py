@@ -48,11 +48,6 @@ class View(BrowserView):
         self.request.set('disable_border', True)
 
         context = aq_inner(self.context)
-        
-        # Help for path mangling
-        portal_url = getToolByName(context, 'portal_url')
-        self.portal_url = portal_url()
-        self.portal_path = portal_url.getPortalPath()
 
         catalog = getToolByName(context, 'portal_catalog')
 
@@ -76,11 +71,6 @@ class View(BrowserView):
             return True
         else:
             return False
-        
-    def item_path(self, item):
-        # Path mangling to support virtual hosting
-        path = item.getPath()[len(self.portal_path):]
-        return self.portal_url + path
 
 
 class DeleteComment(BrowserView):
