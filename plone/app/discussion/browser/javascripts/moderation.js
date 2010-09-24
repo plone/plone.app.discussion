@@ -1,25 +1,24 @@
 
-jq(document).ready(function () {
-
+(function ($) {
 
     /**************************************************************************
      * Delete a single comment.
      **************************************************************************/
-    jq("input[name='form.button.Delete']").click(function (e) {
+    $("input[name='form.button.Delete']").click(function (e) {
         e.preventDefault();
-        var button = jq(this);
-        var row = jq(this).parent().parent();
-        var form = jq(row).parents("form");
-        var path = jq(row).find("input:checkbox").attr("value");
+        var button = $(this);
+        var row = $(this).parent().parent();
+        var form = $(row).parents("form");
+        var path = $(row).find("input:checkbox").attr("value");
         var target = path + "/@@moderate-delete-comment";
-        var comment_id = jq(this).attr("id");
-        jq.ajax({
+        var comment_id = $(this).attr("id");
+        $.ajax({
             type: "GET",
             url: target,
             success: function (msg) {
                 // fade out row
-                jq(row).fadeOut("normal", function () {
-                    jq(this).remove();
+                $(row).fadeOut("normal", function () {
+                    $(this).remove();
                 });
             },
             error: function (msg) {
@@ -32,21 +31,21 @@ jq(document).ready(function () {
     /**************************************************************************
      * Publish a single comment.
      **************************************************************************/
-    jq("input[name='form.button.Publish']").click(function (e) {
+    $("input[name='form.button.Publish']").click(function (e) {
         e.preventDefault();
-        var button = jq(this);
-        var row = jq(this).parent().parent();
-        var form = jq(row).parents("form");
-        var path = jq(row).find("input:checkbox").attr("value");
+        var button = $(this);
+        var row = $(this).parent().parent();
+        var form = $(row).parents("form");
+        var path = $(row).find("input:checkbox").attr("value");
         var target = path + "/@@moderate-publish-comment";
-        jq.ajax({
+        $.ajax({
             type: "GET",
             url: target,
             data: "workflow_action=publish",
             success: function (msg) {
                 // fade out row
-                jq(row).fadeOut("normal", function () {
-                    jq(this).remove();
+                $(row).fadeOut("normal", function () {
+                    $(this).remove();
                 });
             },
             error: function (msg) {
@@ -59,24 +58,25 @@ jq(document).ready(function () {
     /**************************************************************************
      * Bulk actions for comments (delete, publish)
      **************************************************************************/
-    jq("input[name='form.button.BulkAction']").click(function (e) {
+    $("input[name='form.button.BulkAction']").click(function (e) {
         e.preventDefault();
-        var form = jq(this).parents("form");
-        var target = jq(form).attr('action');
-        var params = jq(form).serialize();
-        var valArray = jq('input:checkbox:checked');
-        var selectField = jq(form).find("[name='form.select.BulkAction']");
+        var form = $(this).parents("form");
+        var target = $(form).attr('action');
+        var params = $(form).serialize();
+        var valArray = $('input:checkbox:checked');
+        var selectField = $(form).find("[name='form.select.BulkAction']");
         if (selectField.val() === '-1') {
             // XXX: translate message
             alert("You haven't selected a bulk action. Please select one.");
         } else if (valArray.length === 0) {
             // XXX: translate message
-            alert("You haven't selected any comment for this bulk action. Please select at least one comment.");
+            alert("You haven't selected any comment for this bulk action." +
+			      "Please select at least one comment.");
         } else {
-            jq.post(target, params, function (data) {
+            $.post(target, params, function (data) {
                 valArray.each(function () {
                     /* Remove all selected lines. */
-                    var row = jq(this).parent().parent();
+                    var row = $(this).parent().parent();
                     row.fadeOut("normal", function () {
                         row.remove();
                     });
@@ -91,17 +91,17 @@ jq(document).ready(function () {
     /**************************************************************************
      * Check or uncheck all checkboxes from the batch moderation page.
      **************************************************************************/
-    jq("input[name='check_all']").click(function () {
-        if (jq(this).val() === 0) {
-            jq(this).parents("table")
+    $("input[name='check_all']").click(function () {
+        if ($(this).val() === 0) {
+            $(this).parents("table")
                    .find("input:checkbox")
                    .attr("checked", "checked");
-            jq(this).val("1");
+            $(this).val("1");
         } else {
-            jq(this).parents("table")
+            $(this).parents("table")
                    .find("input:checkbox")
                    .attr("checked", "");
-            jq(this).val("0");
+            $(this).val("0");
         }
     });
 		
@@ -109,11 +109,11 @@ jq(document).ready(function () {
     /**************************************************************************
      * Show full text of a comment in the batch moderation page.
      **************************************************************************/
-    jq(".show-full-comment-text").click(function (e) {    
+    $(".show-full-comment-text").click(function (e) {    
         e.preventDefault();
-        var target = jq(this).attr("href");
-        var td = jq(this).parent();
-        jq.ajax({
+        var target = $(this).attr("href");
+        var td = $(this).parent();
+        $.ajax({
             type: "GET",
             url: target,
             data: "",
@@ -127,4 +127,5 @@ jq(document).ready(function () {
         });        
     });
 
-});
+}(jQuery));
+

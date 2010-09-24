@@ -115,26 +115,24 @@ $(document).ready(function () {
 	test("Create a comment reply form.", function() {
 	    expect(2);
 	    var comment_div = $("#1282720906349675");
-		var reply_button = comment_div.find(".reply-to-comment-button");
-		// Hit the reply button
-		reply_button.trigger("click");
-	    createReplyForm(comment_div);
-	    var reply_form = comment_div.find(".reply");
-	    ok(reply_form, "Reply form has been copied");
+		var reply_button = comment_div.children(".reply-to-comment-button");
+	    $.createReplyForm(comment_div);
+	    var reply_form = comment_div.children(".reply");
+	    ok(reply_form.find("input[name='form.widgets.in_reply_to']"), "Reply form has been copied");
 	    same(reply_form.find("input[name='form.widgets.in_reply_to']").val(), "1282720906349675", "The reply for should have the id of the comment in the in_reply_to field");
 	});
 	
 	test("Clear all form values from a form.", function() {
 	    // Create a reply form with some values
 	    var comment_div = $("#1282720906349675");
-	    createReplyForm(comment_div);
+	    $.createReplyForm(comment_div);
 	    var reply_form = comment_div.find(".reply");
 	    var author = reply_form.find("input[name='form.widgets.author']");
 	    var text = comment_div.find("input[name='form.widgets.text']");
 	    author.val("my author");
 	    text.val("my text");
 	    // Call the clearForm function to clear the form
-	    clearForm(comment_div);
+	    $.clearForm(comment_div);
 	    // Check if all form fields have been cleared
 	    var author = comment_div.find("input[name='form.widgets.author']");
 	    var text = comment_div.find("input[name='form.widgets.text']");

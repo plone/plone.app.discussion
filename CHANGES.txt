@@ -4,6 +4,11 @@ Changelog
 1.0b8 (unreleased)
 ------------------
 
+- Use "(function($) { /* some code that uses $ */ })(jQuery)" instead of
+  "$(document).ready(function(){ /* some code that uses $ */ });" to invoke 
+  jQuery code.
+  [timo]
+
 - Finnish translation added.
   [saffe]
 
