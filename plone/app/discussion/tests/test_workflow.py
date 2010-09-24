@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 
 from zope.component import createObject
@@ -6,25 +7,47 @@ from zope.interface import alsoProvides
 
 from AccessControl import Unauthorized
 
+from Products.CMFCore.utils import _checkPermission as checkPerm
+from Products.CMFCore.permissions import View
+
 from Products.PloneTestCase.ptc import PloneTestCase
 
 from plone.app.discussion.tests.layer import DiscussionLayer
 from plone.app.discussion.interfaces import IConversation, IDiscussionLayer
 
-class WorkflowTest(PloneTestCase):
+
+class WorkflowSetupTest(PloneTestCase):
+    """Make sure workflow and permissions are set up properly.
+    """
 
     layer = DiscussionLayer
-
+    
     def afterSetUp(self):
+        """Create a document and allow discussion.
+        """
         self.portal.portal_types['Document'].allow_discussion = True
         self.portal_discussion = self.portal.portal_discussion
-
         self.folder.invokeFactory('Document', 'doc1')
+        self.doc = self.folder.doc1
+        
+    def test_workflows_installed(self):
+        """Make sure both comment workflows have been installed properly.
+        """
+        self.failUnless('one_state_workflow' in 
+                        self.portal.portal_workflow.objectIds())
+        self.failUnless('comment_review_workflow' in 
+                        self.portal.portal_workflow.objectIds())
 
-        self.setRoles(('Reviewer',))
-        #alsoProvides(self.portal.REQUEST, DiscussionLayer)
+    def test_default_workflow(self):
+        """Make sure one_state_workflow is the default workflow.
+        """
+        self.assertEquals(('one_state_workflow',),
+                          self.portal.portal_workflow.getChainForPortalType(
+                              'Discussion Item'))
+ 
+    def test_review_comments_permission(self):
+        #'Review comments' in self.portal.permissionsOfRole('Admin')
 
-    def test_permission(self):
         self.setRoles(('Reviewer',))
         self.failUnless(self.portal.portal_membership.checkPermission(
                         'Review comments', self.folder), self.folder)
@@ -32,19 +55,79 @@ class WorkflowTest(PloneTestCase):
         self.failIf(self.portal.portal_membership.checkPermission(
                     'Review comments', self.folder), self.folder)
 
-    def test_workflows_installed(self):
-        self.failUnless('comment_review_workflow' in 
-                        self.portal.portal_workflow.objectIds())
-        self.assertEquals(('one_state_workflow',),
-                self.portal.portal_workflow.getChainForPortalType(
-                'Discussion Item'))
+    def test_reply_to_item_permission(self):
+        pass
 
-class TestCommentOperations(PloneTestCase):
+
+class CommentOneStateWorkflowTest(PloneTestCase):
+    """Test the one_state_workflow that ships with plone.app.discussion.
+    """
 
     layer = DiscussionLayer
     
     def afterSetUp(self):
+        """Create a document with comments and enable the one.
+        """
+        self.catalog = self.portal.portal_catalog
+        self.workflow = self.portal.portal_workflow
+        self.workflow.setChainForPortalTypes(['Document'],
+                                             'one_state_workflow')
+        self.folder.invokeFactory('Document', 'doc1')
+        self.doc = self.folder.doc1
+        
+        # Add a comment
+        conversation = IConversation(self.folder.doc1)
+        comment = createObject('plone.Comment')
+        comment.title = 'Comment 1'
+        comment.text = 'Comment text'
+        cid = conversation.addComment(comment)
+        
+        self.comment = self.folder.doc1.restrictedTraverse(\
+                            '++conversation++default/%s' % cid)
+        
+        self.portal.acl_users._doAddUser('member', 'secret', ['Member'], [])
+        self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
+        self.portal.acl_users._doAddUser('manager', 'secret', ['Manager'], [])
+        self.portal.acl_users._doAddUser('editor' , ' secret', ['Editor'],[])
+        self.portal.acl_users._doAddUser('reader', 'secret', ['Reader'], [])
+        
+    def test_initial_workflow_state(self):
+        """Make sure the initial workflow state of a comment is 'published'.
+        """
+        self.assertEqual(self.workflow.getInfoFor(self.doc, 'review_state'), 
+                         'published')
+               
+    def test_view_comments(self):
+        """Make sure published comments can be viewed by everyone.
+        """ 
+        # Owner is allowed
+        #self.login(default_user)
+        #self.failUnless(checkPerm(View, self.doc))
+        # Member is allowed
+        self.login('member')
+        self.failUnless(checkPerm(View, self.comment))
+        # Reviewer is allowed
+        self.login('reviewer')
+        self.failUnless(checkPerm(View, self.comment))
+        # Anonymous is allowed
+        self.logout()
+        self.failUnless(checkPerm(View, self.comment))
+        # Editor is allowed
+        self.login('editor')
+        self.failUnless(checkPerm(View, self.comment))
+        # Reader is allowed
+        self.login('reader')
+        self.failUnless(checkPerm(View, self.comment))
+        
 
+class CommentReviewWorkflowTest(PloneTestCase):
+    """Test the comment_review_workflow that ships with plone.app.discussion.
+    """
+
+    layer = DiscussionLayer
+    
+    def afterSetUp(self):
+        # Allow discussion and
         self.loginAsPortalOwner()
 
         # Allow discussion on the Document content type
