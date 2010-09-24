@@ -1,0 +1,64 @@
+=================
+Comment Workflows
+=================
+
+This document describes the plone.app.discussion comment permissions and 
+workflows.
+
+
+Introduction
+============
+
+Workflow and permissions...
+
+
+Workflow
+========
+
+plone.app.discussion ships with a simple one-state workflow and a review 
+workflow for comments:
+
+1) **Comment Single State Workflow**: 
+
+   Essentially a workflow with no transitions, but it has a Published state, 
+   so portlets and applications that expect that state will continue to work.
+  
+  
+2) **Comment Review Workflow**: A simple review workflow for comments
+    
+    ...
+
+
+.. note:: For a general introduction to workflows in Plone see: 
+          http://plone.org/documentation/kb/creating-workflows-in-plone/
+
+
+Comment Single State Workflow
+-----------------------------
+
+...
+
+
+Comment Review Workflow
+-----------------------
+
+The comment review workflow comes with two states (pending and published) and
+one transition (publish).
+
+The 'pending' state is the initial state. 'published' is the state where the
+comment is visible to everyone and non-editable.
+
+The 'publish' transition is protected by the 'Review comments' permission.
+
+::
+
+  * --> [pending] -- {publish} --> [published]--> *
+
+           
+Permissions
+===========
+
+"Review comments" permission, by default "Manager" and "Reviewer"
+
+"Reply to item" permission, by default "Manager" and "Member"
+
