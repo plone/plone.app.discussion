@@ -3,7 +3,7 @@
              i18n:domain="plone"
              workflow_id="one_state_workflow"
              title="Comment Single State Workflow"
-             description="- Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
+             description="Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
              state_variable="review_state"
              initial_state="published"
              i18n:attributes="title; description">
@@ -43,47 +43,46 @@
   </permission-map>
  </state>
 
- <variable variable_id="action"         for_catalog="False"
+ <variable variable_id="action" for_catalog="False"
            for_status="True" update_always="True">
   <description i18n:translate="">Previous transition</description>
   <default>
-   
    <expression>transition/getId|nothing</expression>
   </default>
   <guard>
   </guard>
  </variable>
- <variable variable_id="actor"          for_catalog="False"
+ 
+ <variable variable_id="actor" for_catalog="False"
            for_status="True" update_always="True">
   <description i18n:translate="">
     The ID of the user who performed the previous transition
   </description>
   <default>
-   
    <expression>user/getId</expression>
   </default>
   <guard>
   </guard>
  </variable>
- <variable variable_id="comments"       for_catalog="False"
+ 
+ <variable variable_id="comments" for_catalog="False"
            for_status="True" update_always="True">
   <description i18n:translate="">
     Comment about the last transition
   </description>
   <default>
-   
    <expression>python:state_change.kwargs.get('comment', '')</expression>
   </default>
   <guard>
   </guard>
  </variable>
+ 
  <variable variable_id="review_history" for_catalog="False"
            for_status="False" update_always="False">
   <description i18n:translate="">
     Provides access to workflow history
   </description>
   <default>
-   
    <expression>state_change/getHistory</expression>
   </default>
   <guard>
@@ -91,13 +90,13 @@
    <guard-permission>Review portal content</guard-permission>
   </guard>
  </variable>
- <variable variable_id="time"           for_catalog="False"
+ 
+ <variable variable_id="time" for_catalog="False"
            for_status="True" update_always="True">
   <description i18n:translate="">
     When the previous transition was performed
   </description>
   <default>
-   
    <expression>state_change/getDateTime</expression>
   </default>
   <guard>
