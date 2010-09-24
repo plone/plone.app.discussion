@@ -4,7 +4,6 @@
  * 
  ******************************************************************************/
 
-     
 (function ($) {
 	// This unnamed function allows us to use $ inside of a block of code 
 	// without permanently overwriting $.
