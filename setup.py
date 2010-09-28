@@ -39,6 +39,12 @@ setup(name='plone.app.discussion',
           'zope.lifecycleevent',
           'zope.site',
       ],
+      extras_require = {
+          'test': [
+              'plone.app.testing',
+              'interlude',
+          ]
+      },      
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone

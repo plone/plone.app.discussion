@@ -1,0 +1,143 @@
+======================
+ plone.app.discussion
+======================
+
+This is a functional test for plone.app.discussion. 
+
+We use zope.testbrowser to simulate browser interaction in order to show
+how plone.app.discussion works.
+
+
+Setting up and logging in
+-------------------------
+
+First we have to set up some things and login.
+
+    >>> app = layer['app']
+    >>> from plone.testing.z2 import Browser
+    >>> browser = Browser(app)
+    >>> browser.handleErrors = False
+    >>> browser.addHeader('Authorization', 'Basic admin:secret')
+    >>> portal = layer['portal']    
+    >>> portal_url = 'http://nohost/plone'
+
+By default, only HTTP error codes (e.g. 500 Server Side Error) are shown when an 
+error occurs on the server. To see more details, set handleErrors to False:
+
+    >>> browser.handleErrors = False
+
+We also keep another testbrowser handy for testing how tiles are rendered if
+you're not logged in::
+
+    >>> unprivileged_browser = Browser(app)
+    
+Add a test user
+ 
+    >>> from Products.CMFCore.utils import getToolByName
+    >>> mtool = getToolByName(portal, 'portal_membership', None) 
+    >>> mtool.addMember('jim', 'Jim', ['Member'], []) 
+    >>> mtool.getMemberById('jim').setMemberProperties({"fullname": 'Jim Fulton'}) 
+
+Create a public page with comments allowed.
+
+    >>> browser.open(portal_url)
+    >>> browser.getLink(id='document').click()
+    >>> browser.getControl(name='title').value = "Doc1"
+    >>> browser.getControl(name='allowDiscussion:boolean').value = True
+    >>> browser.getControl(name='form.button.save').click()
+
+A>>> browser.open(portal_url + "/doc1")
+A>>> browser.getLink('Publish').click()
+    >>> urldoc1 = browser.url
+          
+
+Check that the form has been properly submitted
+
+    >>> browser.url
+    'http://nohost/plone/doc1'
+
+Comment Viewlet
+---------------
+        
+Check that the old comments viewlet does not show up
+    
+    >>> 'discussion_reply_form' in browser.contents
+    False
+        
+Check that the comment form/viewlet shows up
+
+    >>> 'formfield-form-widgets-in_reply_to' in browser.contents
+    True
+    
+    >>> 'formfield-form-widgets-text' in browser.contents
+    True
+
+
+Post a comment as admin
+-----------------------
+
+Login as admin.
+
+    >>> from plone.app.testing import setRoles
+    >>> from plone.app.testing import TEST_USER_NAME
+    >>> setRoles(portal, TEST_USER_NAME, ['Manager'])
+
+Post a comment as admin.
+
+    >>> browser.getControl(name='form.widgets.text').value = "Comment from admin" 
+    >>> submit = browser.getControl(name='form.buttons.comment')
+    >>> submit.click() 
+
+Check if comment has been added properly.
+    
+    >>> '<a href="http://nohost/plone/author/admin">admin</a>' in browser.contents
+    True
+    
+    >>> 'says' in browser.contents
+    True
+    
+    >>> "Comment from admin" in browser.contents
+    True
+    
+
+Post a comment as user
+----------------------
+        
+Login and post comment as Jim 
+
+A>>> self.failUnless("Jim says" in browser.contents)
+A>>> self.failUnless("Jim Lorem ipsum" in browser.contents)
+
+Post a comment as anonymous user
+--------------------------------
+        
+Login and post comment as Anonymous 
+    
+    >>> unprivileged_browser.open(urldoc1)
+    
+    >>> 'Log in to add comments' in unprivileged_browser.contents
+    True
+
+Enable anonymous comment 
+    
+    >>> browser.open(portal_url+'/@@discussion-settings') 
+    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True] 
+    >>> browser.getControl(name='form.buttons.save').click() 
+
+Now we can post an anonymous comment.
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> unprivileged_browser.getControl(name='form.widgets.text').value = "This is an anonymous comment"
+    >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
+ 
+    >>> '<span>Anonymous</span>' in unprivileged_browser.contents
+    True
+    
+    >>> 'says' in unprivileged_browser.contents
+    True
+    
+    >>> 'This is an anonymous comment' in unprivileged_browser.contents
+    True
+
+A>>> interact( locals() )
+A>>> open('/tmp/testbrowser.html', 'w').write(unprivileged_browser.contents)
