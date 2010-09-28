@@ -4,6 +4,9 @@ Changelog
 1.0b8 (unreleased)
 ------------------
 
+- Make sure the __parent__ pointer (the conversation) of a comment is not 
+  acquisition wrapped in conversation.addComment. This fixes Refs #11157.
+
 - Revert r35608 since this was breaking the comment moderation bulk actions. 
   The BulkActionsView expects the absolute path of the comments without the 
   portal url (e.g. '/plone/doc1/++conversation++default/1285346769126020'). 

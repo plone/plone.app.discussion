@@ -232,7 +232,7 @@ class Conversation(Traversable, Persistent, Explicit):
         notify(ObjectWillBeAddedEvent(comment, self, id))
         self._comments[id] = comment
 
-        comment.__parent__ = self
+        comment.__parent__ = aq_base(self)
 
         # Record unique users who've commented (for logged in users only)
         commentator = comment.author_username
