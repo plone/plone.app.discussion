@@ -93,7 +93,7 @@ class TestPostCommentsRegression(FunctionalTestCase):
         browser.getControl(name='text').value = "Lorem ipsum"
         browser.getControl(name='form.button.save').click()
         
-        self.failUnless('Lorem ipsum' in contents)
+        self.failUnless('Lorem ipsum' in browser.contents)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
