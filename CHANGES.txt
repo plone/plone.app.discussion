@@ -5,7 +5,9 @@ Changelog
 ------------------
 
 - Make sure the __parent__ pointer (the conversation) of a comment is not 
-  acquisition wrapped in conversation.addComment. This fixes Refs #11157.
+  acquisition wrapped in conversation.addComment. This fixes 
+  https://dev.plone.org/plone/ticket/11156.
+  [timo]
 
 - Revert r35608 since this was breaking the comment moderation bulk actions. 
   The BulkActionsView expects the absolute path of the comments without the 
