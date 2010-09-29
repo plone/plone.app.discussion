@@ -43,6 +43,7 @@ try:
 except ImportError: # pragma: no cover
     HAS_WRAPPED_FORM = False
 
+
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True # don't use context to get widget data
@@ -55,7 +56,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                          'creator',
                                          'creation_date',
                                          'modification_date',
-                                         'author_username')
+                                         'author_username',
+                                         'title')
 
     def updateFields(self):
         super(CommentForm, self).updateFields()
@@ -160,17 +162,24 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         if portal_membership.isAnonymousUser() and \
         settings.anonymous_comments:
-            comment.creator = None
+            # Anonymous Users
+            comment.creator = author_name
             comment.author_name = author_name
             comment.author_email = author_email
             #comment.author_notification = author_notification
             comment.creation_date = comment.modification_date = datetime.utcnow()
         elif not portal_membership.isAnonymousUser():
+            # Member
             member = portal_membership.getAuthenticatedMember()
-            comment.creator = member.id
-            comment.author_username = member.getUserName()
-            comment.author_name = member.getProperty('fullname')
-            comment.author_email = member.getProperty('email')
+            username = member.getUserName()
+            email = member.getProperty('email')
+            fullname = member.getProperty('fullname')
+            if not fullname or fullname == '':
+                fullname = member.getUserName()
+            comment.creator = fullname
+            comment.author_username = username
+            comment.author_name = fullname
+            comment.author_email = email
             #comment.author_notification = comment.author_notification
             comment.creation_date = comment.modification_date = datetime.utcnow()
         else:

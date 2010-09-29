@@ -14,8 +14,9 @@ class ToolTest(PloneTestCase):
     def afterSetUp(self):
         # First we need to create some content.
         self.loginAsPortalOwner()
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
+        self.portal.invokeFactory(id='doc1', 
+                                  title='Document 1', 
+                                  type_name='Document')
 
     def test_tool_indexing(self):
         # Create a conversation. In this case we doesn't assign it to an
@@ -25,6 +26,7 @@ class ToolTest(PloneTestCase):
         # Add a comment.
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
+        comment.creator = 'Jim'
         comment.text = 'Comment text'
 
         conversation.addComment(comment)
@@ -34,7 +36,7 @@ class ToolTest(PloneTestCase):
         comment = list(tool.searchResults())
         self.assert_(len(comment) == 1, "There is only one comment, but we got"
                      " %s results in the search" % len(comment))
-        self.assertEquals(comment[0].Title, 'Comment 1')
+        self.assertEquals(comment[0].Title, 'Jim on Document 1')
 
     def test_unindexing(self):
         pass

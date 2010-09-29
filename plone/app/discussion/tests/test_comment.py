@@ -25,10 +25,12 @@ class CommentTest(PloneTestCase):
     layer = DiscussionLayer
 
     def afterSetUp(self):
-        # First we need to create some content.
+        """Create a document.
+        """
         self.loginAsPortalOwner()
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
+        self.portal.invokeFactory(id='doc1', 
+                          title='Document 1', 
+                          type_name='Document')
 
     def test_factory(self):
         comment1 = createObject('plone.Comment')
@@ -58,10 +60,12 @@ class CommentTest(PloneTestCase):
         self.assertEquals(u'123', comment1.__name__)
 
     def test_title(self):
+        conversation = IConversation(self.portal.doc1)        
         comment1 = createObject('plone.Comment')
-        comment1.title = "New title"
-        self.assertEquals("New title", comment1.Title())
-
+        comment1.creator = "Jim Fulton"
+        conversation.addComment(comment1)
+        self.assertEquals("Jim Fulton on Document 1", comment1.Title())
+        
     def test_creator(self):
         comment1 = createObject('plone.Comment')
         comment1.creator = "Jim"
@@ -166,8 +170,9 @@ class RepliesTest(PloneTestCase):
     def afterSetUp(self):
         # First we need to create some content.
         self.loginAsPortalOwner()
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
+        self.portal.invokeFactory(id='doc1', 
+                          title='Document 1', 
+                          type_name='Document')
 
     def test_add_comment(self):
         # Add comments to a CommentReplies adapter

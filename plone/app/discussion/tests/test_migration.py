@@ -21,8 +21,9 @@ class MigrationTest(PloneTestCase):
     
     def afterSetUp(self):
         self.loginAsPortalOwner()
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc')
+        self.portal.invokeFactory(id='doc',
+                                  title='Document 1', 
+                                  type_name='Document')
         # Create a document
         self.discussion = getToolByName(self.portal, 'portal_discussion', None)
         self.discussion.overrideDiscussionFor(self.portal.doc, 1)
@@ -67,7 +68,7 @@ class MigrationTest(PloneTestCase):
         self.failUnless(conversation.getComments().next())
         comment1 = conversation.values()[0]
         self.assert_(IComment.providedBy(comment1))
-        self.assertEquals(comment1.Title(), 'My Title')
+        self.assertEquals(comment1.Title(), 'Jim on Document 1')
         self.assertEquals(comment1.text, 'My Text')
         self.assertEquals(comment1.Creator(), 'Jim')
         self.assertEquals(comment1.creation_date, 

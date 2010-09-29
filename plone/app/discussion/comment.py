@@ -11,7 +11,7 @@ from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import implements
 
-from Acquisition import aq_parent, Implicit
+from Acquisition import aq_parent, aq_base, Implicit
 
 from string import Template
 
@@ -46,6 +46,9 @@ except:
     from OFS.Traversable import Traversable as WorkflowAware
     PLONE_4 = False
 
+COMMENT_TITLE = _(u"comment_title",
+                  default=u"${creator} on ${content}")
+        
 MAIL_NOTIFICATION_MESSAGE = _(u"mail_notification_message",
     default=u"A comment with the title '${title}' "
              "has been posted here: ${link}")
@@ -103,26 +106,40 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         return self.comment_id and str(self.comment_id) or None
 
     def getId(self):
-        """The id of the comment, as a string
+        """The id of the comment, as a string.
         """
         return self.id
 
     def getText(self):
-        '''the text'''
+        """The body text of a comment.
+        """
         return self.text
 
     def Title(self):
-        """The title of the comment
+        """The title of the comment.
         """
-        return self.title
 
+        if not self.creator:
+            anonymous = _(u"label_anonymous",
+                          default=u"Anonymous")
+
+        # Fetch the content object (the parent of the comment is the 
+        # conversation, the parent of the conversation is the content object).
+        content = aq_base(self.__parent__.__parent__)
+        
+        title = translate(
+            Message(COMMENT_TITLE,
+                    mapping={'creator': self.creator,
+                             'content': content.Title()}))
+        return title
+    
     def Creator(self):
-        """The name of the person who wrote the comment
+        """The name of the person who wrote the comment.
         """
         return self.creator
 
     def Type(self):
-        """The Discussion Item content type
+        """The Discussion Item content type.
         """
         return self.fti_title
 

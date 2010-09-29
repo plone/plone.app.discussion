@@ -4,6 +4,14 @@ Changelog
 1.0b8 (unreleased)
 ------------------
 
+- Remove title field from the comment form and replace it with an auto-generated
+  title ("John Doe on Welcome to Plone").
+  [timo]
+  
+- Fix http://dev.plone.org/plone/ticket/11098: "Comment byline shows login 
+  name, not full name" 
+  [kiorky]
+
 - Make sure the __parent__ pointer (the conversation) of a comment is not 
   acquisition wrapped in conversation.addComment. This fixes 
   http://dev.plone.org/plone/ticket/11157.

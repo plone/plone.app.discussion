@@ -37,14 +37,14 @@ class ConversationIndexersTest(PloneTestCase):
     def afterSetUp(self):
         # First we need to create some content.
         self.loginAsPortalOwner()
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
+        self.portal.invokeFactory(id='doc1', 
+                  title='Document 1', 
+                  type_name='Document')
 
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
 
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment Text'
         comment1.creator = "Jim"
         comment1.author_username = "Jim"
@@ -53,7 +53,6 @@ class ConversationIndexersTest(PloneTestCase):
         self.new_id1 = conversation.addComment(comment1)
 
         comment2 = createObject('plone.Comment')
-        comment2.title = 'Comment 2'
         comment2.text = 'Comment Text'
         comment2.creator = "Emma"
         comment2.author_username = "Emma"
@@ -62,7 +61,6 @@ class ConversationIndexersTest(PloneTestCase):
         self.new_id2 = conversation.addComment(comment2)
 
         comment3 = createObject('plone.Comment')
-        comment3.title = 'Comment 3'
         comment3.text = 'Comment Text'
         comment3.creator = "Lukas"
         comment3.author_username = "Lukas"
@@ -108,8 +106,9 @@ class CommentIndexersTest(PloneTestCase):
     def afterSetUp(self):
         # First we need to create some content.
         self.loginAsPortalOwner()
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
+        self.portal.invokeFactory(id='doc1', 
+                          title='Document 1', 
+                          type_name='Document')        
 
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
@@ -119,7 +118,6 @@ class CommentIndexersTest(PloneTestCase):
         # factory to allow different factories to be swapped in
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Lorem ipsum dolor sit amet.'
         comment.creator = "Jim"
         comment.creation_date = datetime(2006, 9, 17, 14, 18, 12)
@@ -130,7 +128,7 @@ class CommentIndexersTest(PloneTestCase):
         self.conversation = conversation
 
     def test_title(self):
-        self.assertEquals(catalog.title(self.comment)(), 'Comment 1')
+        self.assertEquals(catalog.title(self.comment)(), 'Jim on Document 1')
         self.assert_(isinstance(catalog.title, DelegatingIndexerFactory))
 
     def test_description(self):
@@ -159,7 +157,7 @@ class CommentIndexersTest(PloneTestCase):
     def test_searchable_text(self):
         # Test if searchable text is a concatenation of title and comment text
         self.assertEquals(catalog.searchable_text(self.comment)(), 
-                          ('Comment 1', 'Lorem ipsum dolor sit amet.'))
+                          ('Lorem ipsum dolor sit amet.'))
         self.assert_(isinstance(catalog.searchable_text, 
                                 DelegatingIndexerFactory))
 
@@ -169,8 +167,6 @@ class CommentIndexersTest(PloneTestCase):
     def test_in_response_to(self):
         # make sure in_response_to returns the title or id of the content
         # object the comment was added to
-        self.assertEquals(catalog.in_response_to(self.comment)(), 'doc1')
-        self.portal.doc1.title = 'Document 1'
         self.assertEquals(catalog.in_response_to(self.comment)(), 'Document 1')
 
 def test_suite():

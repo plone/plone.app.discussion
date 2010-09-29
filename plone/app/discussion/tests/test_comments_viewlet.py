@@ -72,19 +72,8 @@ class TestCommentForm(PloneTestCase):
                        factory=CommentForm,
                        name=u"comment-form")
         
-        # The form should return errors if the two required fields are empty
-        request = make_request(form={})
-
-        commentForm = getMultiAdapter((self.context, request), 
-                                      name=u"comment-form")
-        commentForm.update()
-        data, errors = commentForm.extractData()
-        
-        self.assertEquals(len(errors), 2)
-        self.failIf(commentForm.handleComment(commentForm, "foo"))
-        
         # The form should return an error if the comment text field is empty
-        request = make_request(form={'form.widgets.text': u'foo'})
+        request = make_request(form={})
 
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
@@ -93,11 +82,10 @@ class TestCommentForm(PloneTestCase):
         
         self.assertEquals(len(errors), 1)
         self.failIf(commentForm.handleComment(commentForm, "foo"))
-                
-        # The form is submitted successfully, if all required fields are 
+        
+        # The form is submitted successfully, if the required text field is 
         # filled out
-        request = make_request(form={'form.widgets.title': u'foo',
-                                     'form.widgets.text': u'bar'})
+        request = make_request(form={'form.widgets.text': u'bar'})
 
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
@@ -177,53 +165,7 @@ class TestCommentForm(PloneTestCase):
                           commentForm,
                           "foo")
 
-
-class TestCommentsViewletIntegration(FunctionalTestCase):
-
-    layer = DiscussionLayer
-
-    def testCommentsViewlet(self):
-        # Fetch testbrowser
-        browser = Browser()
-        portal_url = self.portal.absolute_url()
-        browser.handleErrors = False
-
-        # Login
-        browser.open(portal_url + '/login_form')
-        browser.getControl(name='__ac_name').value = portal_owner
-        browser.getControl(name='__ac_password').value = default_password
-        browser.getControl(name='submit').click()
-
-        # Create page with comments allowed
-        browser.open(portal_url)
-        browser.getLink(id='document').click()
-        browser.getControl(name='title').value = "Doc1"
-        browser.getControl(name='allowDiscussion:boolean').value = True
-        browser.getControl(name='form.button.save').click()        
-
-        # Check that the form has been properly submitted
-        self.assertEquals(browser.url, 'http://nohost/plone/doc1')
-        
-        # Check that the old comments viewlet does not show up
-        self.failIf('discussion_reply_form' in browser.contents)
-        
-        # Check that the comment form/viewlet shows up
-        self.failUnless('formfield-form-widgets-in_reply_to' in 
-                        browser.contents)
-        self.failUnless('formfield-form-widgets-title' in browser.contents)
-        self.failUnless('formfield-form-widgets-text' in browser.contents)
-
-        # Submit the comment form
-        browser.getControl(name='form.widgets.title').value = "My Comment"
-        browser.getControl(name='form.widgets.text').value = "Lorem ipsum"
-        submit = browser.getControl(name='form.buttons.comment')
-        submit.click()
-        
-        # Check that the comment has been posted
-        self.failUnless("My Comment" in browser.contents)
-        self.failUnless("Lorem ipsum" in browser.contents)   
-        
-    
+   
 class TestCommentsViewlet(PloneTestCase):
 
     layer = DiscussionLayer

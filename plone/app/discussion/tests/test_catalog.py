@@ -44,8 +44,9 @@ class ConversationCatalogTest(PloneTestCase):
     def afterSetUp(self):
         # First we need to create some content.
         self.loginAsPortalOwner()
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
+        self.portal.invokeFactory(id='doc1', 
+                                  Title='Document 1', 
+                                  type_name='Document')
 
         self.catalog = getToolByName(self.portal, 'portal_catalog')
 
@@ -204,35 +205,33 @@ class CommentCatalogTest(PloneTestCase):
     layer = DiscussionLayer
 
     def afterSetUp(self):
-        # First we need to create some content.
+        """Create a document with a comment.
+        """
         self.loginAsPortalOwner()
-        self.typetool = typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
-
+        self.portal.invokeFactory(id='doc1', 
+                                  title='Document 1', 
+                                  type_name='Document')
         self.catalog = getToolByName(self.portal, 'portal_catalog')
 
         conversation = IConversation(self.portal.doc1)
-
         self.conversation = conversation
 
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
         comment1.creator = 'Jim'
-
         new_comment1_id = conversation.addComment(comment1)
         self.comment_id = new_comment1_id
 
+        # Comment brain
         self.comment = self.portal.doc1.restrictedTraverse(
             '++conversation++default/%s' % new_comment1_id)
-
         brains = self.catalog.searchResults(
                      path = {'query' : 
                              '/'.join(self.comment.getPhysicalPath()) })
         self.comment_brain = brains[0]
 
     def test_title(self):
-        self.assertEquals(self.comment_brain.Title, 'Comment 1')
+        self.assertEquals(self.comment_brain.Title, 'Jim on Document 1')
 
     def test_type(self):
         self.assertEquals(self.comment_brain.portal_type, 'Discussion Item')
@@ -246,9 +245,10 @@ class CommentCatalogTest(PloneTestCase):
         self.assertEquals(self.comment_brain.Creator, 'Jim')
 
     def test_in_response_to(self):
-        # make sure in_response_to returns the title or id of the content
-        # object the comment was added to
-        self.assertEquals(self.comment_brain.in_response_to, 'doc1')
+        """Make sure in_response_to returns the title or id of the content
+           object the comment was added to.
+        """
+        self.assertEquals(self.comment_brain.in_response_to, 'Document 1')
 
     def test_add_comment(self):
         self.failUnless(self.comment_brain)
@@ -275,7 +275,7 @@ class CommentCatalogTest(PloneTestCase):
         brains = self.catalog.searchResults(portal_type = 'Discussion Item')
         self.failUnless(brains)
         comment_brain = brains[0]
-        self.assertEquals(comment_brain.Title, 'Comment 1')
+        self.assertEquals(comment_brain.Title, u'Jim on Document 1')
 
     def test_clear_and_rebuild_catalog_for_nested_comments(self):
 
@@ -334,7 +334,7 @@ class CommentCatalogTest(PloneTestCase):
         self.assertEquals(len(brains), 6)
 
     def test_collection(self):
-        self.typetool.constructContent('Topic', self.portal, 'topic')
+        self.portal.invokeFactory(id='topic', type_name='Topic')        
         topic = self.portal.topic
         crit = topic.addCriterion('Type', 'ATSimpleStringCriterion')
         crit.setValue('Comment')

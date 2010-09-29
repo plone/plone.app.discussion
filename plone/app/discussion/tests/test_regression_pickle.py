@@ -74,7 +74,6 @@ class TestPostCommentsRegression(FunctionalTestCase):
                 browser.getControl(name='__ac_password').value = password
                 browser.getControl(name='submit').click()
             browser.open(url)
-            browser.getControl(name='form.widgets.title').value = "%s My Comment" % poster
             browser.getControl(name='form.widgets.text').value = "%s Lorem ipsum" % poster
             submit = browser.getControl(name='form.buttons.comment')
             submit.click()

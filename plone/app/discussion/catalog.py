@@ -63,7 +63,7 @@ def commentators(object):
 
 @indexer(IComment)
 def title(object):
-    return object.title
+    return object.Title()
 
 @indexer(IComment)
 def creator(object):
@@ -79,7 +79,7 @@ def description(object):
 
 @indexer(IComment)
 def searchable_text(object):
-    return object.title, object.text
+    return object.text
 
 @indexer(IComment)
 def in_response_to(object):
