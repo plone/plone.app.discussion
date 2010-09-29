@@ -4,6 +4,10 @@ Changelog
 1.0b8 (unreleased)
 ------------------
 
+- Apply the comment viewlet template and styles to the new title-less comments.
+  This might require integrators to apply their custom templates and styles.
+  [timo]
+
 - Remove title field from the comment form and replace it with an auto-generated
   title ("John Doe on Welcome to Plone").
   [timo]

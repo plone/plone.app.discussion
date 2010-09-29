@@ -17,13 +17,12 @@
 }
 
 .comment {
-    min-height: 100px;
 }
 
 .commentImage {
-    width: 90px;
     float: left;
-    margin-right: -90px;
+    width: 2.5em;
+    height: 3.5em;
 }
 
 .commentImage a:link {
@@ -32,24 +31,36 @@
 }
 
 .commentImage img {
-    margin-right: 1em;
+
+}
+
+.commentDate {
+    display: block;
+    font-size: 85%;
+    line-height: 1.5em;
+    padding-top: 0.5em;
+    color: #76797C;
 }
 
 .commentBody {
+    clear: both;
     margin: 1em 0;
+    overflow: auto;
 }
 
-.showCommenterImage h3,
-.showCommenterImage .documentByLine,
-.showCommenterImage .commentBody,
-.showCommenterImage .commentActions,
-.showCommenterImage .reply {
-    /* The showCommenterImage CSS class is only set if showing the
-     * commenters image is enabled.
-     */
-    margin-left: 90px;
+.commentBody p {
+    float: left;
+ }
+
+.discussion .documentByLine {
+    float: left;
+    margin-left: 0;
 }
 
+.commentActions {
+    float: right;
+    text-align: right;
+}
 
 /* Reply Form
    -------------------------------------------------------------------------- */
@@ -60,10 +71,10 @@
 }
 
 .reply .text-widget {
-	/* Make sure the input fields are always below the label. This sometimes
-	 * break when the reply form is copied from the main comment form. 
-	 */
-	display: block;
+    /* Make sure the input fields are always below the label. This sometimes
+     * break when the reply form is copied from the main comment form. 
+     */
+    display: block;
 }
 
 .reply-to-comment-button {
@@ -94,7 +105,7 @@
 
 .comment-publish-button {
     float: left;
-	margin-right: 0.5em;
+    margin-right: 0.5em;
 }
 
 .comment-delete-button {
