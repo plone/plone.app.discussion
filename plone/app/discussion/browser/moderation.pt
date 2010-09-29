@@ -81,7 +81,6 @@
                             <th class="nosort" i18n:translate="heading_commenter">Commenter</th>
                             <th class="nosort" i18n:translate="heading_date">Date</th>
                             <th class="nosort" i18n:translate="heading_in_reponse_to">In Response To</th>
-                            <th class="nosort" i18n:translate="heading_subject">Subject</th>
                             <th class="nosort" i18n:translate="heading_comment">Comment</th>
                             <th class="nosort" i18n:translate="heading_action">Action</th>
                         </tr>
@@ -110,11 +109,6 @@
                                     <a tal:attributes="href item/getURL"
                                        tal:content="item/in_response_to" />
                                 </td>
-                                <td>
-                                    <a tal:attributes="href item/getURL"
-                                       tal:content="item/Title" />
-                                </td>
-
                                 <td>
                                     <span tal:replace="structure python:view.cook(item.Description)" />
                                     <a href=""
