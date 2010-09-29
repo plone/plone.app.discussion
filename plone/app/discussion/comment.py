@@ -120,8 +120,10 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         """
 
         if not self.creator:
-            anonymous = _(u"label_anonymous",
-                          default=u"Anonymous")
+            creator = _(u"label_anonymous",
+                        default=u"Anonymous")
+        else:
+            creator = self.creator
 
         # Fetch the content object (the parent of the comment is the 
         # conversation, the parent of the conversation is the content object).
@@ -129,7 +131,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         
         title = translate(
             Message(COMMENT_TITLE,
-                    mapping={'creator': self.creator,
+                    mapping={'creator': creator,
                              'content': content.Title()}))
         return title
     

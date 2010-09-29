@@ -65,7 +65,13 @@ class CommentTest(PloneTestCase):
         comment1.creator = "Jim Fulton"
         conversation.addComment(comment1)
         self.assertEquals("Jim Fulton on Document 1", comment1.Title())
-        
+
+    def test_no_name_title(self):
+        conversation = IConversation(self.portal.doc1)        
+        comment1 = createObject('plone.Comment')
+        conversation.addComment(comment1)
+        self.assertEquals("Anonymous on Document 1", comment1.Title())
+
     def test_creator(self):
         comment1 = createObject('plone.Comment')
         comment1.creator = "Jim"

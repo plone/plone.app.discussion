@@ -232,6 +232,20 @@ class CommentCatalogTest(PloneTestCase):
 
     def test_title(self):
         self.assertEquals(self.comment_brain.Title, 'Jim on Document 1')
+        
+    def test_no_name_title(self):
+        comment = createObject('plone.Comment')
+        comment.text = 'Comment text'
+        cid = self.conversation.addComment(comment)
+
+        # Comment brain
+        comment = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/%s' % cid)
+        brains = self.catalog.searchResults(
+                     path = {'query' : 
+                             '/'.join(comment.getPhysicalPath()) })
+        comment_brain = brains[0]
+        self.assertEquals(comment_brain.Title, "Anonymous on Document 1")
 
     def test_type(self):
         self.assertEquals(self.comment_brain.portal_type, 'Discussion Item')
