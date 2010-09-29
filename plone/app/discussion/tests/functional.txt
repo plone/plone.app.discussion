@@ -45,9 +45,6 @@ Create a public page with comments allowed.
     >>> browser.getControl(name='title').value = "Doc1"
     >>> browser.getControl(name='allowDiscussion:boolean').value = True
     >>> browser.getControl(name='form.button.save').click()
-
-A>>> browser.open(portal_url + "/doc1")
-A>>> browser.getLink('Publish').click()
     >>> urldoc1 = browser.url
           
 
@@ -93,20 +90,39 @@ Check if comment has been added properly.
     >>> '<a href="http://nohost/plone/author/admin">admin</a>' in browser.contents
     True
     
-    >>> 'says' in browser.contents
-    True
-    
+    >>> browser.contents
+    '...<a href="http://nohost/plone/author/admin">admin</a>...says:...'
+     
     >>> "Comment from admin" in browser.contents
     True
     
 
 Post a comment as user
 ----------------------
-        
-Login and post comment as Jim 
 
-A>>> self.failUnless("Jim says" in browser.contents)
-A>>> self.failUnless("Jim Lorem ipsum" in browser.contents)
+Login as user 'jim'. 
+
+    >>> browser.open(portal_url + '/logout')
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = 'jim'
+    >>> browser.getControl(name='__ac_password').value = 'secret'
+    >>> browser.getControl(name='submit').click()
+
+Post a comment as user jim.
+
+    >>> browser.open(urldoc1)
+    >>> browser.getControl(name='form.widgets.text').value = "Comment from Jim" 
+    >>> submit = browser.getControl(name='form.buttons.comment')
+    >>> submit.click() 
+
+Check if the comment has been added properly.
+
+    >>> browser.contents
+    '...<a href="http://nohost/plone/author/jim">Jim Fulton</a>...says:...'
+
+    >>> "Comment from Jim" in browser.contents
+    True
+
 
 Post a comment as anonymous user
 --------------------------------
@@ -119,10 +135,16 @@ Login and post comment as Anonymous
     True
 
 Enable anonymous comment 
-    
+
+    >>> browser.open(portal_url + '/logout')
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = 'admin'
+    >>> browser.getControl(name='__ac_password').value = 'secret'
+    >>> browser.getControl(name='submit').click()    
     >>> browser.open(portal_url+'/@@discussion-settings') 
     >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True] 
     >>> browser.getControl(name='form.buttons.save').click() 
+    >>> browser.open(portal_url + '/logout')
 
 Now we can post an anonymous comment.
 
@@ -138,6 +160,3 @@ Now we can post an anonymous comment.
     
     >>> 'This is an anonymous comment' in unprivileged_browser.contents
     True
-
-A>>> interact( locals() )
-A>>> open('/tmp/testbrowser.html', 'w').write(unprivileged_browser.contents)
