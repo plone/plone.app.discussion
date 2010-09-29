@@ -6,7 +6,7 @@ Changelog
 
 - Make sure the __parent__ pointer (the conversation) of a comment is not 
   acquisition wrapped in conversation.addComment. This fixes 
-  http://dev.plone.org/plone/ticket/11156.
+  http://dev.plone.org/plone/ticket/11157.
   [timo]
 
 - Revert r35608 since this was breaking the comment moderation bulk actions. 
