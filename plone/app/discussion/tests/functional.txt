@@ -160,3 +160,30 @@ Now we can post an anonymous comment.
     
     >>> 'This is an anonymous comment' in unprivileged_browser.contents
     True
+
+
+Regression Test
+---------------
+
+Make sure we still can edit the content object after a comment has been posted.
+This is a regression test for http://dev.plone.org/plone/ticket/11157 
+(TypeError: Can't pickle objects in acquisition wrappers).
+
+Login as admin.
+
+    >>> browser.open(portal_url + '/logout')
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = 'admin'
+    >>> browser.getControl(name='__ac_password').value = 'secret'
+    >>> browser.getControl(name='submit').click()
+    
+Edit the content object.
+
+    >>> browser.open(urldoc1 + "/edit")
+    >>> browser.getControl(name='text').value = "Lorem ipsum"
+    >>> browser.getControl(name='form.button.save').click()
+
+Make sure the edit was successful.
+        
+    >>> 'Lorem ipsum' in browser.contents
+    True
