@@ -58,7 +58,7 @@ msgstr "Commenti aggiunti al contenuto"
 #: profiles/default/actionicons.xml
 #: profiles/default/controlpanel.xml
 msgid "Discussion"
-msgstr "Discussione"
+msgstr "Commenti"
 
 #: profiles/default/actions.xml
 msgid "Moderate comments"
