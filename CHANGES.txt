@@ -35,6 +35,8 @@ Changelog
 - Finnish translation added.
   [saffe]
 
+- Italian translation updated.
+  [keul]
 
 1.0b7 (2010-09-15)
 ------------------

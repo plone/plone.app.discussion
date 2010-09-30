@@ -17,7 +17,7 @@ msgstr ""
 
 #: ./comment.py:200
 msgid "A comment has been posted."
-msgstr ""
+msgstr "Un commento è stato inserito."
 
 #: ./interfaces.py:251
 msgid "A comment id unique to this conversation"
@@ -29,11 +29,11 @@ msgstr "Aggiungi un commento"
 
 #: ./browser/controlpanel.py:41
 msgid "Anonymous Comments"
-msgstr "Commenti da anonimi"
+msgstr "Commenti Anonimi"
 
 #: ./interfaces.py:276
 msgid "Author name (for display)"
-msgstr "Nome autore (da visualizzare)"
+msgstr "Nome autore (per visualizzazione)"
 
 #: ./browser/comments.py:205
 msgid "Cancel"
@@ -52,7 +52,7 @@ msgid "Commenter Image"
 msgstr "Immagine Commentatore"
 
 msgid "Commenting infrastructure for Plone"
-msgstr ""
+msgstr "Infrastruttura di commenti per Plone"
 
 #: ./interfaces.py:246
 msgid "Conversation"
@@ -72,7 +72,7 @@ msgstr "Disabilitato"
 
 #: ./browser/controlpanel.py:13
 msgid "Discussion settings"
-msgstr "Impostazioni delle discussioni"
+msgstr "Impostazioni dei commenti"
 
 #: ./interfaces.py:263
 msgid "Email"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: ./browser/controlpanel.py:44
 msgid "Moderator Email Notification"
-msgstr "Notifiche email"
+msgstr "Notifiche e-mail"
 
 #: ./interfaces.py:278
 msgid "Modification date"
@@ -104,7 +104,7 @@ msgstr "Nome"
 
 #: ./plone.app.discussion/plone/app/discussion/configure.zcml
 msgid "Plone Discussions"
-msgstr ""
+msgstr "Supporto ai commenti Plone"
 
 #: ./interfaces.py:241
 msgid "Portal type"
@@ -134,9 +134,8 @@ msgstr "Elimina"
 
 #. Default: "Approve"
 #: ./browser/moderation.pt:65
-#, fuzzy
 msgid "bulkactions_publish"
-msgstr "Pubblica"
+msgstr "Approva"
 
 #. Default: "Action"
 #: ./browser/moderation.pt:86
@@ -175,30 +174,26 @@ msgstr "Oggetto"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ./interfaces.py:38
-#, fuzzy
 msgid "help_anonymous_comments"
-msgstr "Se selezionato, gli utenti anonimi saranno in grado di inserire commenti senza autenticazione. E' altamente consigliato l'uso di captcha to prevenire spam se questa impostazione viene abilitata"
+msgstr "Se selezionato, gli utenti anonimi saranno in grado di inserire commenti senza autenticazione. E' altamente consigliato l'uso di captcha to prevenire spam se questa impostazione viene abilitata."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
 #: ./interfaces.py:58
-#, fuzzy
 msgid "help_captcha"
-msgstr "Usa questa impostazione per abilitato o disabilitare la validazione tramite captcha. Se nessuna opzione di captcha è disponibile, installa plone.formwidget.captcha o plone.formwidget.recaptcha."
+msgstr "Usa questa impostazione per abilitare o disabilitare la validazione tramite captcha. Se nessuna opzione di captcha è disponibile, installa plone.formwidget.captcha o plone.formwidget.recaptcha."
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:14
-#, fuzzy
 msgid "help_discussion_settings_editform"
 msgstr ""
-"Alcune impostazioni legate ai commenti non sono nel Pannello di controllo discussioni.\n"
+"Alcune impostazioni legate ai commenti non sono nel Pannello di controllo commenti.\n"
 "Per abilitare i commenti per uno specifico tipo di contenuto, vai al Pannello dei Tipi di Contenuto per il tipo specifico e scegli 'abilita moderazione'.\n"
 "Per abilitare il workflow per la moderazione dei commenti, vai al Pannello dei Tipi di Contenuto, scegli \"Comment\" e imposta il workflow \"Comment Review Workflow\"."
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
 #: ./interfaces.py:26
-#, fuzzy
 msgid "help_globally_enabled"
-msgstr "Se selezionato, gli utenti saranno in grado di inserire commenti nel sito."
+msgstr "Se selezionato, gli utenti saranno in grado di inserire commenti nel sito. Comunque, dovrai abilitare i commenti per specifici tipi di contenuto, cartelle o oggetti prima che gli utenti siano in grado di commentare."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
 #: ./interfaces.py:84
@@ -233,12 +228,12 @@ msgstr "Commento"
 #. Default: "Posted by"
 #: ./browser/comments.pt:66
 msgid "label_comment_by"
-msgstr ""
+msgstr "Inviato da"
 
 #. Default: "at"
 #: ./browser/comments.pt:79
 msgid "label_commented_at"
-msgstr ""
+msgstr "a"
 
 #. Default: "Delete"
 #: ./browser/moderation.pt:136
@@ -257,9 +252,8 @@ msgstr "Abilita le notifiche ai moderatori"
 
 #. Default: "Approve"
 #: ./browser/moderation.pt:127
-#, fuzzy
 msgid "label_publish"
-msgstr "Pubblica"
+msgstr "Approva"
 
 #. Default: "Show commenter image"
 #: ./interfaces.py:71
@@ -279,17 +273,17 @@ msgstr "Oggetto"
 #. Default: "Comment text transform"
 #: ./interfaces.py:48
 msgid "label_text_transform"
-msgstr ""
+msgstr "Transformazioni testo del commento"
 
 #. Default: "A comment with the title '${title}' has been posted here: ${link}"
 #: ./comment.py:49
 msgid "mail_notification_message"
-msgstr ""
+msgstr "Un commento con titolo '${title}' è stato inviato qui: ${link}"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ./browser/moderation.pt:33
 msgid "message_enable_comment_workflow"
-msgstr "abilitare il 'Comment Review Workflow' per il tipo di contenuto Comment"
+msgstr "abilitare il 'Comment Review Workflow' per il tipo di contenuto Commento"
 
 #. Default: "Moderation workflow is disabled. You have to ${enable_comment_workflow} before you can moderate comments here."
 #: ./browser/moderation.pt:33
