@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 
 import logging
@@ -72,6 +73,16 @@ class CommentTest(PloneTestCase):
         conversation.addComment(comment1)
         self.assertEquals("Anonymous on Document 1", comment1.Title())
 
+    def test_title_special_characters(self):
+        self.portal.invokeFactory(id='doc_sp_chars', 
+                          title='Document äüö',
+                          type_name='Document')        
+        conversation = IConversation(self.portal.doc_sp_chars)        
+        comment1 = createObject('plone.Comment')
+        comment1.creator = "Tarek Ziadé"
+        conversation.addComment(comment1)
+        self.assertEquals(u"Tarek Ziadé on Document äüö", comment1.Title())        
+        
     def test_creator(self):
         comment1 = createObject('plone.Comment')
         comment1.creator = "Jim"

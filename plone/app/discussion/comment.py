@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """The default comment class and factory.
 """
 from datetime import datetime
@@ -47,7 +48,7 @@ except:
     PLONE_4 = False
 
 COMMENT_TITLE = _(u"comment_title",
-                  default=u"${creator} on ${content}")
+    default=u"${creator} on ${content}")
         
 MAIL_NOTIFICATION_MESSAGE = _(u"mail_notification_message",
     default=u"A comment with the title '${title}' "
@@ -118,21 +119,20 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     def Title(self):
         """The title of the comment.
         """
-
         if not self.creator:
-            creator = _(u"label_anonymous",
-                        default=u"Anonymous")
+            creator = translate(Message(_(u"label_anonymous", 
+                                          default=u"Anonymous")))
         else:
             creator = self.creator
-
+            creator = creator.decode("utf-8")
+            
         # Fetch the content object (the parent of the comment is the 
         # conversation, the parent of the conversation is the content object).
         content = aq_base(self.__parent__.__parent__)
-        
         title = translate(
             Message(COMMENT_TITLE,
                     mapping={'creator': creator,
-                             'content': content.Title()}))
+                             'content': content.Title().decode("utf-8")}))
         return title
     
     def Creator(self):
