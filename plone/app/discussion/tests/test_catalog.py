@@ -277,10 +277,15 @@ class CommentCatalogTest(PloneTestCase):
         self.assertEquals(len(brains), 0)
 
     def test_remove_comments_when_content_object_is_removed(self):
-        # Make sure all comments are removed from the catalog, if the content
-        # object is removed.
-        pass
-    
+        """Make sure all comments are removed from the catalog, if the content
+           object is removed.
+        """
+        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        self.assertEquals(len(brains), 1)
+        self.portal.manage_delObjects(["doc1"])
+        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        self.assertEquals(len(brains), 0)
+            
     def test_clear_and_rebuild_catalog(self):
         # Clear and rebuild catalog
         self.catalog.clearFindAndRebuild()

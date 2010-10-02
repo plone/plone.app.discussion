@@ -39,7 +39,7 @@
 
       <subscriber
           for="Products.CMFCore.interfaces.IContentish
-               zope.lifecycleevent.interfaces.IObjectAddedEvent"
+               zope.lifecycleevent.interfaces.IObjectRemovedEvent"
           handler=".comment.notify_content_object_deleted"
           />
           
