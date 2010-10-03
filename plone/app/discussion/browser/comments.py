@@ -105,7 +105,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if errors:
             return
 
-        title = u""
         text = u""
         author_name = u""
         author_email = u""
@@ -129,8 +128,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             captcha.validate(data['captcha'])
 
         # Fetch data from request
-        if 'title' in data:
-            title = data['title']
         if 'text' in data:
             text = data['text']
         if 'author_name' in data:
@@ -155,7 +152,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Create the comment
         comment = createObject('plone.Comment')
-        comment.title = title
         comment.text = text
 
         portal_membership = getToolByName(self.context, 'portal_membership')
