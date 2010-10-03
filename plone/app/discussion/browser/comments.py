@@ -211,7 +211,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     def handleCancel(self, action):
         # This method should never be called, it's only there to show
         # a cancel button that is handled by a jQuery method.
-        pass
+        pass # pragma: no cover
 
 
 class CommentsViewlet(ViewletBase):
@@ -261,7 +261,7 @@ class CommentsViewlet(ViewletBase):
                 self.get_replies(workflow_actions).next()
                 return True
             except StopIteration:
-                pass
+                pass # pragma: no cover
         return False
 
     def get_replies(self, workflow_actions=False):
