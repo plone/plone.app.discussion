@@ -40,7 +40,7 @@ try:
     from Products.CMFCore.CMFCatalogAware import CatalogAware
     from Products.CMFCore.CMFCatalogAware import WorkflowAware
     PLONE_4 = True
-except:
+except: # pragma: no cover
     # Plone 3:
     # Dummy imports to make Comment class happy
     from OFS.Traversable import Traversable as CatalogAware
@@ -147,13 +147,13 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     # CMF's event handlers assume any IDynamicType has these :(
 
-    def opaqueItems(self):
+    def opaqueItems(self): # pragma: no cover
         return []
 
-    def opaqueIds(self):
+    def opaqueIds(self): # pragma: no cover
         return []
 
-    def opaqueValues(self):
+    def opaqueValues(self): # pragma: no cover
         return []
 
 CommentFactory = Factory(Comment)
@@ -181,8 +181,10 @@ def notify_content_object_deleted(obj, event):
         conversation = IConversation(obj)
         for comment in conversation.getComments():
             del conversation[comment.id]
-            
-def notify_user(obj, event):
+
+# XXX: This method is not enabled yet. Remove "pragma: no cover" as soon as the
+# commented out notify user code has been removed.
+def notify_user(obj, event): # pragma: no cover 
     """Tell users when a comment has been added.
     
        This method composes and sends emails to all users that have added a 
@@ -274,4 +276,8 @@ def notify_moderator(obj, event):
     if PLONE_4:
         mail_host.send(message, mto, sender, subject, charset='utf-8')
     else:
-        mail_host.secureSend(message, mto, sender, subject=subject, charset='utf-8')
+        mail_host.secureSend(message, 
+                             mto, 
+                             sender, 
+                             subject=subject, 
+                             charset='utf-8') # pragma: no cover
