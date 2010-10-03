@@ -47,11 +47,11 @@ Create a public page with comments allowed.
     >>> browser.getControl(name='form.button.save').click()
     >>> urldoc1 = browser.url
           
-
 Check that the form has been properly submitted
 
     >>> browser.url
     'http://nohost/plone/doc1'
+
 
 Comment Viewlet
 ---------------
@@ -140,7 +140,7 @@ Enable anonymous comment
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
-    >>> browser.getControl(name='submit').click()    
+    >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url+'/@@discussion-settings') 
     >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True] 
     >>> browser.getControl(name='form.buttons.save').click() 
@@ -190,7 +190,39 @@ Check that the reply has been posted properly.
     
     >>> 'replyTreeLevel1' in browser.contents
     True
+
+
+Post a comment with comment review workflow enabled
+---------------------------------------------------
+
+Enable the 'comment review workflow' for comments.
     
+    >>> portal.portal_workflow.setChainForPortalTypes(('Discussion Item',), ('comment_review_workflow'),)
+    >>> portal.portal_workflow.getChainForPortalType('Discussion Item')
+    ('comment_review_workflow',)
+
+We need to commit the transaction, otherwise setting the workflow will not work.
+
+    >>> import transaction
+    >>> transaction.commit()
+
+Post comment as anonymous user.
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> unprivileged_browser.getControl(name='form.widgets.text').value = "Comment review workflow comment"
+    >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
+
+Make sure the comment has not been published.
+
+    >>> 'Comment review workflow comment' not in unprivileged_browser.contents
+    True
+
+Make sure the user gets a notification that the comment awaits moderator 
+approval.    
+
+    >>> 'Your comment awaits moderator approval' in unprivileged_browser.contents
+    True
+
 
 Regression Test
 ---------------
