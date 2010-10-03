@@ -180,7 +180,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.creation_date = comment.modification_date = datetime.utcnow()
         else:
             raise Unauthorized, "Anonymous user tries to post a comment, but \
-                                 anonymous commenting is disabled."
+                                 anonymous commenting is disabled." # pragma: no cover
         
         # Check if the added comment is a reply to an existing comment
         # or just a regular reply to the content object.
@@ -260,8 +260,8 @@ class CommentsViewlet(ViewletBase):
             try:
                 self.get_replies(workflow_actions).next()
                 return True
-            except StopIteration:
-                pass # pragma: no cover
+            except StopIteration: # pragma: no cover
+                pass
         return False
 
     def get_replies(self, workflow_actions=False):

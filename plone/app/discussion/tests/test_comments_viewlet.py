@@ -114,8 +114,7 @@ class TestCommentForm(PloneTestCase):
                        factory=CommentForm,
                        name=u"comment-form")
         
-        request = make_request(form={'form.widgets.title': u'foo',
-                                     'form.widgets.text': u'bar'})
+        request = make_request(form={'form.widgets.text': u'bar'})
 
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
@@ -151,8 +150,7 @@ class TestCommentForm(PloneTestCase):
                        factory=CommentForm,
                        name=u"comment-form")
         
-        request = make_request(form={'form.widgets.title': u'foo',
-                                     'form.widgets.text': u'bar'})
+        request = make_request(form={'form.widgets.text': u'bar'})
 
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
@@ -231,7 +229,6 @@ class TestCommentsViewlet(PloneTestCase):
     def test_has_replies(self):
         self.assertEquals(self.viewlet.has_replies(), False)
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         conversation.addComment(comment)
@@ -240,7 +237,6 @@ class TestCommentsViewlet(PloneTestCase):
     def test_get_replies(self):
         self.failIf(self.viewlet.get_replies())
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         conversation.addComment(comment)
@@ -255,7 +251,6 @@ class TestCommentsViewlet(PloneTestCase):
     def test_get_replies_with_workflow_actions(self):
         self.failIf(self.viewlet.get_replies(workflow_actions=True))
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         c1 = conversation.addComment(comment)
@@ -277,7 +272,6 @@ class TestCommentsViewlet(PloneTestCase):
                 
     def test_get_commenter_home_url(self):
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         IConversation(self.portal.doc1)
         portal_membership = getToolByName(self.portal, 'portal_membership')
@@ -303,7 +297,6 @@ class TestCommentsViewlet(PloneTestCase):
         # Add a conversation with a comment
         conversation = IConversation(self.portal.doc1)
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         comment.Creator = 'Jim'
         comment.author_username = 'jim'
@@ -329,7 +322,6 @@ class TestCommentsViewlet(PloneTestCase):
         # Add a conversation with a comment
         conversation = IConversation(self.portal.doc1)
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         comment.Creator = 'Jim'
         comment.author_username = 'jim'
