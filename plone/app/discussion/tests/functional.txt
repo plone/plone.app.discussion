@@ -162,6 +162,36 @@ Now we can post an anonymous comment.
     True
 
 
+Reply to an existing comment
+----------------------------
+
+Check that there is no existing direct reply to a comment.
+
+    >>> 'replyTreeLevel1' in browser.contents
+    False
+
+Find a comment id to reply to.
+
+    >>> browser.open(urldoc1)
+    >>> import re
+    >>> comment_div = re.findall('<div.*?.class="comment.*?>', browser.contents)[0]
+    >>> id = re.findall('"([^"]*)"', comment_div)[2]
+
+Post a reply to an existing comment.
+    
+    >>> browser.getControl(name='form.widgets.in_reply_to').value = id
+    >>> browser.getControl(name='form.widgets.text').value = "Reply comment"
+    >>> browser.getControl(name='form.buttons.comment').click()
+
+Check that the reply has been posted properly.
+
+    >>> 'Reply comment' in browser.contents
+    True
+    
+    >>> 'replyTreeLevel1' in browser.contents
+    True
+    
+
 Regression Test
 ---------------
 
