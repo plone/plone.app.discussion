@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-09-23 11:02+0000\n"
+"POT-Creation-Date: 2010-10-04 18:50+0000\n"
 "PO-Revision-Date: 2010-09-01 10:23+0100\n"
 "Last-Translator: Radim Novotny <novotny.radim@gmail.com>\n"
 "Language-Team: DMS4U <info@dms4u.cz>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./comment.py:200
+#: ./comment.py:221
 msgid "A comment has been posted."
 msgstr "Komentář byl přidán."
 
@@ -22,7 +22,7 @@ msgstr "Komentář byl přidán."
 msgid "A comment id unique to this conversation"
 msgstr "Identifikátor komentáře v této konverzaci."
 
-#: ./browser/comments.py:49
+#: ./browser/comments.py:50
 msgid "Add a comment"
 msgstr "Přidat komentář"
 
@@ -34,15 +34,15 @@ msgstr "Anonymní komentáře"
 msgid "Author name (for display)"
 msgstr "Jméno autora (pro zobrazení)"
 
-#: ./browser/comments.py:205
+#: ./browser/comments.py:210
 msgid "Cancel"
 msgstr "Storno"
 
-#: ./browser/moderation.py:121
+#: ./browser/moderation.py:111
 msgid "Comment approved."
 msgstr "Komentář byl schválen."
 
-#: ./browser/moderation.py:100
+#: ./browser/moderation.py:90
 msgid "Comment deleted."
 msgstr "Komentář byl odebrán."
 
@@ -117,12 +117,12 @@ msgstr "Seznam komentujících"
 msgid "Total number of comments on this item"
 msgstr "Celkový počet komentářů k této položce"
 
-#: ./browser/comments.py:198
+#: ./browser/comments.py:203
 msgid "Your comment awaits moderator approval."
 msgstr "Váš komentář čeká na schválení."
 
 #. Default: "Comment"
-#: ./browser/comments.py:96
+#: ./browser/comments.py:98
 msgid "add_comment_button"
 msgstr "Přidat komentář"
 
@@ -136,13 +136,18 @@ msgstr "Odebrat"
 msgid "bulkactions_publish"
 msgstr "Schválit"
 
+#. Default: "${creator} on ${content}"
+#: ./comment.py:50
+msgid "comment_title"
+msgstr ""
+
 #. Default: "Action"
-#: ./browser/moderation.pt:86
+#: ./browser/moderation.pt:85
 msgid "heading_action"
 msgstr "Operace"
 
 #. Default: "Comment"
-#: ./browser/moderation.pt:85
+#: ./browser/moderation.pt:84
 msgid "heading_comment"
 msgstr "Komentář"
 
@@ -165,11 +170,6 @@ msgstr "Komentovaná položka"
 #: ./browser/moderation.pt:24
 msgid "heading_moderate_comments"
 msgstr "Správa komentářů"
-
-#. Default: "Subject"
-#: ./browser/moderation.pt:84
-msgid "heading_subject"
-msgstr "Předmět"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ./interfaces.py:38
@@ -206,6 +206,11 @@ msgstr "Je-li zaškrtnuto, moderátor je upozorněn na komentáře, které vyža
 msgid "help_show_commenter_image"
 msgstr "Je-li zaškrtnuto, je vedle komentáře zobrazen portrét autora komentáře."
 
+#. Default: "Anonymous"
+#: ./comment.py:123
+msgid "label_anonymous"
+msgstr ""
+
 #. Default: "Enable anonymous comments"
 #: ./interfaces.py:36
 msgid "label_anonymous_comments"
@@ -226,18 +231,8 @@ msgstr "Captcha"
 msgid "label_comment"
 msgstr "Komentář"
 
-#. Default: "Posted by"
-#: ./browser/comments.pt:66
-msgid "label_comment_by"
-msgstr "Autor"
-
-#. Default: "at"
-#: ./browser/comments.pt:79
-msgid "label_commented_at"
-msgstr "v"
-
 #. Default: "Delete"
-#: ./browser/moderation.pt:136
+#: ./browser/moderation.pt:130
 msgid "label_delete"
 msgstr "Odebrat"
 
@@ -252,9 +247,14 @@ msgid "label_moderator_notification_enabled"
 msgstr "Povolit emailovou notifikaci moderátorů"
 
 #. Default: "Approve"
-#: ./browser/moderation.pt:127
+#: ./browser/moderation.pt:121
 msgid "label_publish"
 msgstr "Schválit"
+
+#. Default: "says:"
+#: ./browser/comments.pt:74
+msgid "label_says"
+msgstr ""
 
 #. Default: "Show commenter image"
 #: ./interfaces.py:71
@@ -262,7 +262,7 @@ msgid "label_show_commenter_image"
 msgstr "Zobrazit portrét komentujícího"
 
 #. Default: "show full comment text"
-#: ./browser/moderation.pt:120
+#: ./browser/moderation.pt:114
 msgid "label_show_full_comment_text"
 msgstr "zobrazit celý text příspěvku"
 
@@ -277,7 +277,7 @@ msgid "label_text_transform"
 msgstr "Transformace textu"
 
 #. Default: "A comment with the title '${title}' has been posted here: ${link}"
-#: ./comment.py:49
+#: ./comment.py:53
 msgid "mail_notification_message"
 msgstr "Na adrese ${link}\" byl přidán komentář s předmětem '${title}'."
 

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-08-06 17:21+0000\n"
+"POT-Creation-Date: 2010-10-04 18:50+0000\n"
 "PO-Revision-Date: 2010-08-06 19:23+0100\n"
 "Last-Translator: Vincent Fretin <vincent.fretin@gmail.com>\n"
 "Language-Team: Vincent Fretin <vincent.fretin@gmail.com>\n"
@@ -14,13 +14,9 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone\n"
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
-msgid "- Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr "- Essentiellement un workflow sans transitions, mais il a un état Publié, comme ça les portlets et applications qui attendent cet état fonctionnent."
-
 #: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "A simple workflow for comments"
-msgstr "Un simple workflow pour les commentaires"
+msgid "A simple review workflow for comments"
+msgstr ""
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
@@ -59,6 +55,10 @@ msgstr "Commentaires ajoutés à un élément."
 #: profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Discussion"
+
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
+msgstr ""
 
 #: profiles/default/actions.xml
 msgid "Moderate comments"
