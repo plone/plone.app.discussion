@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.0b8dev'
+version = '1.0b8'
 
 setup(name='plone.app.discussion',
       version=version,

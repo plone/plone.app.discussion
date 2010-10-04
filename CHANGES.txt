@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b8 (unreleased)
+1.0b8 (2010-10-04)
 ------------------
 
 - Apply the comment viewlet template and styles to the new title-less comments.
@@ -37,6 +37,7 @@ Changelog
 
 - Italian translation updated.
   [keul]
+
 
 1.0b7 (2010-09-15)
 ------------------
