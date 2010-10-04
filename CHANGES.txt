@@ -33,8 +33,8 @@ Changelog
   This fixes http://dev.plone.org/plone/ticket/11156.
   [timo]
 
-- Use "(function($) { /* some code that uses $ */ })(jQuery)" instead of
-  "$(document).ready(function(){ /* some code that uses $ */ });" to invoke 
+- Use "(function($) { /* some code that uses $ \*/ })(jQuery)" instead of
+  "$(document).ready(function(){ /* some code that uses $ \*/ });" to invoke 
   jQuery code.
   [timo]
 
