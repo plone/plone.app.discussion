@@ -161,6 +161,22 @@ Now we can post an anonymous comment.
     >>> 'This is an anonymous comment' in unprivileged_browser.contents
     True
 
+Make sure special characters work as well.
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> unprivileged_browser.getControl(name='form.widgets.author_name').value = "Tarek Ziadé"
+    >>> unprivileged_browser.getControl(name='form.widgets.text').value = "This is an äüö comment"
+    >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
+
+    >>> 'Tarek Ziadé' in unprivileged_browser.contents
+    True
+    
+    >>> 'says' in unprivileged_browser.contents
+    True
+    
+    >>> 'This is an äüö comment' in unprivileged_browser.contents
+    True
+
 
 Reply to an existing comment
 ----------------------------

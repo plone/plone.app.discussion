@@ -75,11 +75,11 @@ class CommentTest(PloneTestCase):
 
     def test_title_special_characters(self):
         self.portal.invokeFactory(id='doc_sp_chars', 
-                          title='Document äüö',
+                          title=u'Document äüö',
                           type_name='Document')        
         conversation = IConversation(self.portal.doc_sp_chars)        
         comment1 = createObject('plone.Comment')
-        comment1.creator = "Tarek Ziadé"
+        comment1.creator = u"Tarek Ziadé"
         conversation.addComment(comment1)
         self.assertEquals(u"Tarek Ziadé on Document äüö", comment1.Title())        
         
