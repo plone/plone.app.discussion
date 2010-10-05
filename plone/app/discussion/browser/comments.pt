@@ -129,7 +129,7 @@
     </div>
 
     <div class="reply"
-         tal:condition="python:isDiscussionAllowed and (isAnon and not isAnonymousDiscussionAllowed)">
+         tal:condition="python:has_replies and (isAnon and not isAnonymousDiscussionAllowed)">
         <form tal:attributes="action view/login_action">
             <input class="standalone"
                    style="margin-bottom: 1.25em;"

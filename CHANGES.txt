@@ -4,7 +4,9 @@ Changelog
 1.0b9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Do not show two "login to add comments" buttons when there are no comments
+  yet. This fixes http://plone.org/products/plone.app.discussion/issues/12.
+  [timo]
 
 
 1.0b8 (2010-10-04)
