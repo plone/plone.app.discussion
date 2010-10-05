@@ -26,11 +26,7 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.tests import dummy
 
-from Products.Five.testbrowser import Browser
-
 from Products.PloneTestCase.ptc import PloneTestCase
-from Products.PloneTestCase.ptc import FunctionalTestCase
-from Products.PloneTestCase.setup import portal_owner, default_password
 
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
@@ -78,7 +74,7 @@ class TestCommentForm(PloneTestCase):
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
         commentForm.update()
-        data, errors = commentForm.extractData()
+        data, errors = commentForm.extractData() # pylint: disable-msgs=W0612
         
         self.assertEquals(len(errors), 1)
         self.failIf(commentForm.handleComment(commentForm, "foo"))
@@ -90,7 +86,7 @@ class TestCommentForm(PloneTestCase):
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
         commentForm.update()
-        data, errors = commentForm.extractData()
+        data, errors = commentForm.extractData() # pylint: disable-msgs=W0612
 
         self.assertEquals(len(errors), 0)
         self.failIf(commentForm.handleComment(commentForm, "foo"))
@@ -119,7 +115,7 @@ class TestCommentForm(PloneTestCase):
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
         commentForm.update()
-        data, errors = commentForm.extractData()
+        data, errors = commentForm.extractData() # pylint: disable-msgs=W0612
         
         # No form errors, but raise unauthorized because discussion is not
         # allowed
@@ -155,7 +151,7 @@ class TestCommentForm(PloneTestCase):
         commentForm = getMultiAdapter((self.context, request), 
                                       name=u"comment-form")
         commentForm.update()
-        data, errors = commentForm.extractData()
+        data, errors = commentForm.extractData() # pylint: disable-msgs=W0612
         
         self.assertEquals(len(errors), 0)
         self.assertRaises(Unauthorized,
@@ -242,7 +238,8 @@ class TestCommentsViewlet(PloneTestCase):
         conversation.addComment(comment)
         conversation.addComment(comment)
         replies = self.viewlet.get_replies()
-        self.assertEquals(sum(1 for w in replies), 2)
+        self.assertEquals(sum(1 for w in replies), # pylint: disable-msgs=W0612
+                          2) 
         replies = self.viewlet.get_replies()
         replies.next()
         replies.next()
@@ -254,9 +251,9 @@ class TestCommentsViewlet(PloneTestCase):
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         c1 = conversation.addComment(comment)
-        self.assertEquals(sum(1 for w in 
+        self.assertEquals(sum(1 for w in # pylint: disable-msgs=W0612
                               self.viewlet.get_replies(workflow_actions=True)), 
-                              1)
+                              1) 
         # Enable moderation workflow
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
