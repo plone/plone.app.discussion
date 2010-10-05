@@ -4,6 +4,10 @@ Changelog
 1.0b9 (unreleased)
 ------------------
 
+- Fix moderation actions (publish, delete) in the moderation view with virtual 
+  hosts. This is a replacement for http://dev.plone.org/plone/changeset/35608.
+  [timo]
+
 - Do not show two "login to add comments" buttons when there are no comments
   yet. This fixes http://plone.org/products/plone.app.discussion/issues/12.
   [timo]

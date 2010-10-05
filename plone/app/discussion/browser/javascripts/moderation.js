@@ -25,7 +25,7 @@
 	        var button = $(this);
 	        var row = $(this).parent().parent();
 	        var form = $(row).parents("form");
-	        var path = $(row).find("input:checkbox").attr("value");
+			var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
 	        var target = path + "/@@moderate-delete-comment";
 	        var comment_id = $(this).attr("id");
 	        $.ajax({
@@ -52,7 +52,7 @@
 	        var button = $(this);
 	        var row = $(this).parent().parent();
 	        var form = $(row).parents("form");
-	        var path = $(row).find("input:checkbox").attr("value");
+	        var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
 	        var target = path + "/@@moderate-publish-comment";
 	        $.ajax({
 	            type: "GET",
