@@ -2,7 +2,7 @@
 import unittest
 
 from zope.component import getMultiAdapter
-from zope.component import createObject, queryUtility
+from zope.component import queryUtility
 
 from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
