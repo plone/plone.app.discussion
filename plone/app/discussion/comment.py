@@ -14,8 +14,6 @@ from zope.interface import implements
 
 from Acquisition import aq_parent, aq_base, Implicit
 
-from string import Template
-
 from AccessControl.Role import RoleManager
 from AccessControl.Owned import Owned
 
@@ -37,14 +35,14 @@ try:
     # Plone 4:
     # Mixin CatalogAware and WorkflowAware into the Comment class
     # is necessary for comments to be indexed in Plone4.
-    from Products.CMFCore.CMFCatalogAware import CatalogAware
-    from Products.CMFCore.CMFCatalogAware import WorkflowAware
+    from Products.CMFCore.CMFCatalogAware import CatalogAware  # pylint: disable-msg=W0611
+    from Products.CMFCore.CMFCatalogAware import WorkflowAware  # pylint: disable-msg=W0611
     PLONE_4 = True
 except: # pragma: no cover
     # Plone 3:
     # Dummy imports to make Comment class happy
-    from OFS.Traversable import Traversable as CatalogAware
-    from OFS.Traversable import Traversable as WorkflowAware
+    from OFS.Traversable import Traversable as CatalogAware # pylint: disable-msg=W0611
+    from OFS.Traversable import Traversable as WorkflowAware # pylint: disable-msg=W0611
     PLONE_4 = False
 
 COMMENT_TITLE = _(u"comment_title",
