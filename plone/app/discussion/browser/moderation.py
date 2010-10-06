@@ -175,7 +175,7 @@ class BulkActionsView(BrowserView):
 
     def __call__(self):
 
-        if self.request.has_key('form.select.BulkAction'):
+        if 'form.select.BulkAction' in self.request:
 
             bulkaction = self.request.get('form.select.BulkAction')
 
