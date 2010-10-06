@@ -10,7 +10,8 @@ from plone.app.discussion.testing import \
 
 optionflags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_ONLY_FIRST_FAILURE)
 normal_testfiles = [
-    'functional.txt',
+    'functional_test_comments.txt',
+    'functional_test_comment_review_workflow.txt'
 ]
 
 def test_suite():
