@@ -241,13 +241,17 @@ class CommentsViewlet(ViewletBase):
                                     mimetype=mimetype).getData()
     
     def can_reply(self):
+        """Returns true if current user has the 'Reply to item' permission.
+        """        
         return getSecurityManager().checkPermission('Reply to item', 
                                                     aq_inner(self.context))
 
-    def can_manage(self):
-        return getSecurityManager().checkPermission('Manage portal', 
+    def can_review(self):
+        """Returns true if current user has the 'Review comments' permission.
+        """
+        return getSecurityManager().checkPermission('Review comments', 
                                                     aq_inner(self.context))
-
+        
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
         conversation = IConversation(context)

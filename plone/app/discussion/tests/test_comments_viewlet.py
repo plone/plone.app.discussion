@@ -206,13 +206,17 @@ class TestCommentsViewlet(PloneTestCase):
         # Anonymous users can not reply
         self.failIf(self.viewlet.can_reply())
 
-    def test_can_manage(self):
-        # Portal owner has manage rights
-        self.failUnless(self.viewlet.can_manage())
+    def test_can_review(self):
+        # Portal owner has 'can review' permission
+        self.failUnless(self.viewlet.can_review())
         self.logout()
-        # Anonymous has no manage rights
-        self.failIf(self.viewlet.can_manage())
-    
+        # Anonymous has no 'can review' permission
+        self.failIf(self.viewlet.can_review())
+        # The reviewer role has the 'Review comments' permission
+        self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
+        self.login('reviewer')
+        self.failUnless(self.viewlet.can_review())        
+            
     def test_is_discussion_allowed(self):
         # By default, discussion is disabled
         self.failIf(self.viewlet.is_discussion_allowed())
