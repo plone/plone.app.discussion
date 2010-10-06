@@ -4,6 +4,11 @@ Changelog
 1.0b9 (unreleased)
 ------------------
 
+- Replace the can_manage method with a can_review method that checks the 
+  'Review comments' permission. This fixes 
+  http://dev.plone.org/plone/ticket/11145.
+  [timo]
+
 - Fix moderation actions (publish, delete) in the moderation view with virtual 
   hosts. This is a replacement for http://dev.plone.org/plone/changeset/35608.
   [timo]
