@@ -368,7 +368,8 @@ class TestCommentsViewlet(PloneTestCase):
         # a correct utc time that can be used to make datetime set the utc
         # time of the local time given above. That way, the time for the
         # example below is correct within each time zone, independent of DST
-        python_time = datetime(*time.gmtime(time.mktime(python_time.timetuple()))[:7])
+        python_time = datetime(
+            *time.gmtime(time.mktime(python_time.timetuple()))[:7])
         localized_time = self.viewlet.format_time(python_time)
         self.assertEquals(localized_time, "Feb 01, 2009 11:32 PM")
 
