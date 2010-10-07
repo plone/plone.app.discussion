@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b9 (unreleased)
+1.0b9 (2010-10-07)
 ------------------
 
 - Replace the can_manage method with a can_review method that checks the 
