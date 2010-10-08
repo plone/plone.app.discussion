@@ -66,10 +66,17 @@ class ModerationViewTest(PloneTestCase):
                             '++conversation++default/%s' % new_id_3)
 
     def test_moderation_enabled(self):
-        self.assertEquals(self.view.moderation_enabled(), True)
+        """Make sure that moderation_enabled returns true if the comment 
+           workflow implements a 'pending' state.
+        """
+        # The one_state_workflow does not have a 'pending' state
         self.wf_tool.setChainForPortalTypes(('Discussion Item',),
-                                            ('simple_publication_workflow,'))
+                                            ('one_state_workflow,'))
         self.assertEquals(self.view.moderation_enabled(), False)
+        # The comment_review_workflow does have a 'pending' state
+        self.wf_tool.setChainForPortalTypes(('Discussion Item',),
+                                            ('comment_review_workflow,'))
+        self.assertEquals(self.view.moderation_enabled(), True)
 
     def test_old_comments_not_shown_in_moderation_view(self):
         # Create an old comment and make sure it is not shown
