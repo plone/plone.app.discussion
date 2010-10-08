@@ -239,7 +239,7 @@ class TestModeratorNotificationUnit(PloneTestCase):
         self.portal.portal_types['Document'].allow_discussion = True
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
-            ('simple_publication_workflow',))
+            ('one_state_workflow',))
  
         comment = createObject('plone.Comment')
         comment.title = 'Comment 1'
