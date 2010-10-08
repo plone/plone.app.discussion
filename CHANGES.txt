@@ -4,7 +4,10 @@ Changelog
 1.0b10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Check the review_state instead of the workflow after a comment has been 
+  posted to decide if a message is shown to the user. This allows integrators 
+  to use custom review workflows.
+  [timo]
 
 
 1.0b9 (2010-10-07)
