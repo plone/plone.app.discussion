@@ -115,9 +115,11 @@ class CommentTest(PloneTestCase):
                           str(new_comment1_id), comment.absolute_url())
 
     def test_workflow(self):
+        """Basic test for the 'comment_review_workflow'
+        """
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',), 
-            ('simple_publication_workflow,'))
+            ('comment_review_workflow,'))
 
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
@@ -125,17 +127,17 @@ class CommentTest(PloneTestCase):
 
         comment = conversation[new_comment1_id]
 
+        # Make sure comments use the 'comment_review_workflow'
         chain = self.portal.portal_workflow.getChainFor(comment)
-        self.assertEquals(('simple_publication_workflow',), chain)
+        self.assertEquals(('comment_review_workflow',), chain)
 
-        # ensure the initial state was entered and recorded
+        # Ensure the initial state was entered and recorded
         self.assertEquals(1, 
-            len(comment.workflow_history['simple_publication_workflow']))
+            len(comment.workflow_history['comment_review_workflow']))
         self.assertEquals(None, 
-            comment.workflow_history['simple_publication_workflow'][0]\
+            comment.workflow_history['comment_review_workflow'][0]\
             ['action'])
-
-        self.assertEquals('private', 
+        self.assertEquals('pending', 
             self.portal.portal_workflow.getInfoFor(comment, 'review_state'))
 
     def test_fti(self):

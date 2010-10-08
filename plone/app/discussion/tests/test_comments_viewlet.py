@@ -261,7 +261,7 @@ class TestCommentsViewlet(PloneTestCase):
         # Enable moderation workflow
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
-            ('simple_publication_workflow,'))
+            ('comment_review_workflow,'))
         # Check if workflow actions are available
         reply = self.viewlet.get_replies(workflow_actions=True).next()
         self.failUnless(reply.has_key('actions'))
