@@ -22,6 +22,11 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import IDiscussionLayer
 
 try:
+    from collective.z3cform.norobots.validator import WrongNorobotsAnswer
+except ImportError:
+    pass
+
+try:
     from plone.formwidget.captcha.validator import WrongCaptchaCode
 except ImportError:
     pass
@@ -30,7 +35,6 @@ try:
     from plone.formwidget.recaptcha.validator import WrongCaptchaCode
 except ImportError:
     pass
-
 
 class CaptchaValidator(validator.SimpleFieldValidator):
     implements(IValidator)
@@ -48,7 +52,10 @@ class CaptchaValidator(validator.SimpleFieldValidator):
             captcha = getMultiAdapter((aq_inner(self.context), self.request), 
                                       name=settings.captcha)
             if not captcha.verify(input=value):
-                raise WrongCaptchaCode
+                if settings.captcha == 'norobots':
+                    raise WrongNorobotsAnswer
+                else:
+                    raise WrongCaptchaCode
             else:
                 return True
 
