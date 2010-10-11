@@ -14,6 +14,9 @@ Changelog
   http://dev.plone.org/plone/ticket/11184.
   [timo]
 
+- fixed plone-it.po (improper language code ('en' instead of 'it'))
+  [ajung]
+
 
 1.0b9 (2010-10-07)
 ------------------
