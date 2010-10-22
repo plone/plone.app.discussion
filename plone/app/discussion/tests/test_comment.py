@@ -29,8 +29,8 @@ class CommentTest(PloneTestCase):
         """Create a document.
         """
         self.loginAsPortalOwner()
-        self.portal.invokeFactory(id='doc1', 
-                          title='Document 1', 
+        self.portal.invokeFactory(id='doc1',
+                          title='Document 1',
                           type_name='Document')
 
     def test_factory(self):
@@ -61,28 +61,28 @@ class CommentTest(PloneTestCase):
         self.assertEquals(u'123', comment1.__name__)
 
     def test_title(self):
-        conversation = IConversation(self.portal.doc1)        
+        conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
         comment1.creator = "Jim Fulton"
         conversation.addComment(comment1)
         self.assertEquals("Jim Fulton on Document 1", comment1.Title())
 
     def test_no_name_title(self):
-        conversation = IConversation(self.portal.doc1)        
+        conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
         conversation.addComment(comment1)
         self.assertEquals("Anonymous on Document 1", comment1.Title())
 
     def test_title_special_characters(self):
-        self.portal.invokeFactory(id='doc_sp_chars', 
+        self.portal.invokeFactory(id='doc_sp_chars',
                           title=u'Document äüö',
-                          type_name='Document')        
-        conversation = IConversation(self.portal.doc_sp_chars)        
+                          type_name='Document')
+        conversation = IConversation(self.portal.doc_sp_chars)
         comment1 = createObject('plone.Comment')
         comment1.creator = u"Tarek Ziadé"
         conversation.addComment(comment1)
-        self.assertEquals(u"Tarek Ziadé on Document äüö", comment1.Title())        
-        
+        self.assertEquals(u"Tarek Ziadé on Document äüö", comment1.Title())
+
     def test_creator(self):
         comment1 = createObject('plone.Comment')
         comment1.creator = "Jim"
@@ -93,7 +93,7 @@ class CommentTest(PloneTestCase):
         self.assertEquals(comment1.Type(), 'Comment')
 
     def test_traversal(self):
-        # make sure comments are traversable, have an id, absolute_url and 
+        # make sure comments are traversable, have an id, absolute_url and
         # physical path
 
         conversation = IConversation(self.portal.doc1)
@@ -109,16 +109,16 @@ class CommentTest(PloneTestCase):
         self.assert_(IComment.providedBy(comment))
         self.assertEquals('Comment 1', comment.title)
 
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default', 
+        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
                            str(new_comment1_id)), comment.getPhysicalPath())
-        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' + 
+        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_comment1_id), comment.absolute_url())
 
     def test_workflow(self):
         """Basic test for the 'comment_review_workflow'
         """
         self.portal.portal_workflow.setChainForPortalTypes(
-            ('Discussion Item',), 
+            ('Discussion Item',),
             ('comment_review_workflow,'))
 
         conversation = IConversation(self.portal.doc1)
@@ -132,12 +132,12 @@ class CommentTest(PloneTestCase):
         self.assertEquals(('comment_review_workflow',), chain)
 
         # Ensure the initial state was entered and recorded
-        self.assertEquals(1, 
+        self.assertEquals(1,
             len(comment.workflow_history['comment_review_workflow']))
-        self.assertEquals(None, 
+        self.assertEquals(None,
             comment.workflow_history['comment_review_workflow'][0]\
             ['action'])
-        self.assertEquals('pending', 
+        self.assertEquals('pending',
             self.portal.portal_workflow.getInfoFor(comment, 'review_state'))
 
     def test_fti(self):
@@ -151,7 +151,7 @@ class CommentTest(PloneTestCase):
         self.assertEquals('Discussion Item', fti.getTypeInfo(comment1).getId())
 
     def test_view(self):
-        # make sure that the comment view is there and redirects to the right 
+        # make sure that the comment view is there and redirects to the right
         # URL
 
         # Create a conversation. In this case we doesn't assign it to an
@@ -170,7 +170,7 @@ class CommentTest(PloneTestCase):
             '++conversation++default/%s' % new_comment1_id)
 
         # make sure the view is there
-        self.failUnless(getMultiAdapter((comment, self.app.REQUEST), 
+        self.failUnless(getMultiAdapter((comment, self.app.REQUEST),
                                         name='view'))
 
         # make sure the HTTP redirect (status code 302) works when a comment
@@ -189,8 +189,8 @@ class RepliesTest(PloneTestCase):
     def afterSetUp(self):
         # First we need to create some content.
         self.loginAsPortalOwner()
-        self.portal.invokeFactory(id='doc1', 
-                          title='Document 1', 
+        self.portal.invokeFactory(id='doc1',
+                          title='Document 1',
                           type_name='Document')
 
     def test_add_comment(self):
@@ -269,7 +269,7 @@ class RepliesTest(PloneTestCase):
     def test_traversal(self):
         # Create a nested structure of comment replies and check the traversal
 
-        # make sure comments are traversable, have an id, absolute_url and 
+        # make sure comments are traversable, have an id, absolute_url and
         # physical path
         conversation = IConversation(self.portal.doc1)
 
@@ -313,23 +313,23 @@ class RepliesTest(PloneTestCase):
         re_re_re_comment = self.portal.doc1.restrictedTraverse(
             '++conversation++default/%s' % new_re_re_re_id)
 
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default', 
+        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
                            str(new_id)), comment.getPhysicalPath())
-        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' + 
+        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_id), comment.absolute_url())
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default', 
+        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
                            str(new_re_id)), re_comment.getPhysicalPath())
-        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' + 
+        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_re_id), re_comment.absolute_url())
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default', 
+        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
                            str(new_re_re_id)), re_re_comment.getPhysicalPath())
         self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_re_re_id), re_re_comment.absolute_url())
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default', 
-                           str(new_re_re_re_id)), 
+        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
+                           str(new_re_re_re_id)),
                            re_re_re_comment.getPhysicalPath())
-        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' + 
-                          str(new_re_re_re_id), 
+        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
+                          str(new_re_re_re_id),
                           re_re_re_comment.absolute_url())
 
 def test_suite():
