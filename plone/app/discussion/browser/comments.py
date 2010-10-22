@@ -172,6 +172,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             fullname = member.getProperty('fullname')
             if not fullname or fullname == '':
                 fullname = member.getUserName()
+            # memberdata is stored as utf-8 encoded strings
+            elif isinstance(fullname, str):
+                fullname = unicode(fullname, 'utf-8')
+            if email and isinstance(email, str):
+                email = unicode(email, 'utf-8')
             comment.creator = fullname
             comment.author_username = username
             comment.author_name = fullname

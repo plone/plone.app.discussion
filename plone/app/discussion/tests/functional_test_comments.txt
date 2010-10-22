@@ -30,13 +30,13 @@ We also keep another testbrowser handy for testing how tiles are rendered if
 you're not logged in::
 
     >>> unprivileged_browser = Browser(app)
-    
-Add a test user
- 
+
+Make sure we have a test user from the layer and it uses fancy characters:
+
     >>> from Products.CMFCore.utils import getToolByName
-    >>> mtool = getToolByName(portal, 'portal_membership', None) 
-    >>> mtool.addMember('jim', 'Jim', ['Member'], []) 
-    >>> mtool.getMemberById('jim').setMemberProperties({"fullname": 'Jim Fulton'}) 
+    >>> mtool = getToolByName(portal, 'portal_membership', None)
+    >>> mtool.getMemberById('jim').getProperty('fullname')
+    'Jim Fult\xc3\xb8rn'
 
 Create a public page with comments allowed.
 
@@ -118,7 +118,7 @@ Post a comment as user jim.
 Check if the comment has been added properly.
 
     >>> browser.contents
-    '...<a href="http://nohost/plone/author/jim">Jim Fulton</a>...says:...'
+    '...<a href="http://nohost/plone/author/jim">Jim Fult\xc3\xb8rn</a>...says:...'
 
     >>> "Comment from Jim" in browser.contents
     True

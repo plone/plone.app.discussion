@@ -49,7 +49,7 @@ class PloneAppDiscussion(PloneSandboxLayer):
         )
         mtool = getToolByName(portal, 'portal_membership', None) 
         mtool.addMember('jim', 'Jim', ['Member'], []) 
-        mtool.getMemberById('jim').setMemberProperties({"fullname": 'Jim Fulton'})             
+        mtool.getMemberById('jim').setMemberProperties({"fullname": 'Jim Fult\xc3\xb8rn'})
 
         acl_users.userFolderAddUser(
             self.MANAGER_USER_NAME,

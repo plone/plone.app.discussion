@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0b11 (unreleased)
+-------------------
+
+- Fixed handling of non-ascii member data, like fullname and email.
+  [hannosch]
+
 1.0b10 (2010-10-15)
 -------------------
 

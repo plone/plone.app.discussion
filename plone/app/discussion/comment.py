@@ -123,7 +123,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         else:
             creator = self.creator
             creator = creator
-            
+
         # Fetch the content object (the parent of the comment is the 
         # conversation, the parent of the conversation is the content object).
         content = aq_base(self.__parent__.__parent__)
