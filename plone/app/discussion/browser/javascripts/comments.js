@@ -169,14 +169,15 @@
             var form = $(this).parents("form");
             var data = $(form).serialize();
             var form_url = $(form).attr("action");
+            var comment_div = form.parent().parent();
             $.ajax({
                 type:'POST',
                 url:form_url,
                 context: $(trigger).parents(".comment"),
                 success: function(data) { 
                     if($(".discussion .comment").length == 1) {
-                        $(".discussion").fadeOut('fast', function() {
-                            $(".discussion").remove();
+                        comment_div.fadeOut('fast', function() {
+                            comment_div.remove();
                         });
                     } 
                     else {
