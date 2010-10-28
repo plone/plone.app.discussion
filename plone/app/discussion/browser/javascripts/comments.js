@@ -141,6 +141,8 @@
 	
 	    });
 	
+
+
 	    /**********************************************************************
 	     * By default, hide the reply and the cancel button for the regular add
 	     * comment form.
@@ -157,100 +159,6 @@
 	     * enabled.
 	     **********************************************************************/
 	    $(".reply-to-comment-button").css("display" , "inline");
-
-        $("#form-buttons-comment").addClass("allowMultiSubmit");
-
-
-        /**********************************************************************
-         * 
-         **********************************************************************/
-        $("[name='form.button.DeleteComment']").live('click', function() {
-            var trigger = this;
-            var form = $(this).parents("form");
-            var data = $(form).serialize();
-            var form_url = $(form).attr("action");
-            var comment_div = form.parent().parent();
-            $.ajax({
-                type:'POST',
-                url:form_url,
-                context: $(trigger).parents(".comment"),
-                success: function(data) { 
-                    if($(".discussion .comment").length == 1) {
-                        comment_div.fadeOut('fast', function() {
-                            comment_div.remove();
-                        });
-                    } 
-                    else {
-                        $(this).fadeOut('fast', function() {
-                            $(this).remove();
-                        });
-                    }
-                },
-                error: function(req, error) {
-                    return true;
-                }
-            });
-            return false;
-        })
-        
-        $("[name='form.button.PublishComment']").live('click', function() {
-            alert("publish");
-            var trigger = this;
-            var form = $(this).parents("form");
-            var data = $(form).serialize();
-            var form_url = $(form).attr("action");
-            $.ajax({
-                type: "GET",
-                url: form_url,
-                data: "workflow_action=publish",
-                context: trigger,
-                success: function (msg) {
-                    // fade out row
-                    $(this).parents("li").fadeOut("normal", function () {
-                        $(this).parents("li").remove();
-                    });
-                },
-                error: function (msg) {
-                    return true;
-                }
-            });
-            return false;
-        });
-        
-        $("#comment-form").submit(function(){
-            var button = $("#comment-form .formControls input.submitting");
-            // disable the submit button
-            $(button).attr('disabled', 'disabled');
-            // we have to serialize the form data and append the name and value
-            // of the submit button, otherwise the form will not work.            
-            var data = $("#comment-form").serialize() + '&' + $(button).attr("name") + '=' + $(button).attr("value");
-            var form_url = $(this).attr("action");
-            $(this).get(0).reset();
-            $.ajax({
-                type: 'POST',
-                url: form_url,
-                data: data,
-                success: function(data) {
-                    var jqobj = $(data);
-                    var new_comment;
-                    if($(".discussion").length > 0) {
-                        new_comment = $(jqobj).find(".discussion .comment:last-child");
-                        $(new_comment).hide();
-                        $(".discussion").append(new_comment);                        
-                    } else {
-                        new_comment = $(jqobj).find(".discussion");
-                        $(new_comment).hide();                        
-                        $(new_comment).insertBefore("#commenting");
-                    }
-                    $(new_comment).fadeIn('slow');
-                    $(button).removeAttr('disabled');
-                },
-                error: function(req,error){
-                    return true
-                }
-            });
-            return false;
-        })
 	
 	});
 

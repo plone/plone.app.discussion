@@ -47,7 +47,6 @@ except ImportError: # pragma: no cover
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True # don't use context to get widget data
-    id = "comment-form"
     label = _(u"Add a comment")
     fields = field.Fields(IComment).omit('portal_type',
                                          '__parent__',
