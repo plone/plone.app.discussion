@@ -4,7 +4,7 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
-- Rename the id of the comment form from "form" to "comment-form".
+- Remove the too generic id attribute of the comment form.
   [timo]
 
 - Fixed handling of non-ascii member data, like fullname and email.
