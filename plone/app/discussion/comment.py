@@ -194,7 +194,7 @@ def notify_user(obj, event): # pragma: no cover
 
     # Check if user notification is enabled
     registry = queryUtility(IRegistry)
-    settings = registry.forInterface(IDiscussionSettings)
+    settings = registry.forInterface(IDiscussionSettings, check=False)
     if not settings.user_notification_enabled:
         return
 
@@ -238,7 +238,7 @@ def notify_moderator(obj, event):
     
     # Check if moderator notification is enabled
     registry = queryUtility(IRegistry)
-    settings = registry.forInterface(IDiscussionSettings)
+    settings = registry.forInterface(IDiscussionSettings, check=False)
     if not settings.moderator_notification_enabled:
         return
     

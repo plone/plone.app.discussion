@@ -52,7 +52,7 @@ class CaptchaExtender(extensible.FormExtender):
         self.form = form
 
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
         self.captcha = settings.captcha
         portal_membership = getToolByName(self.context, 'portal_membership')
         self.isAnon = portal_membership.isAnonymousUser()

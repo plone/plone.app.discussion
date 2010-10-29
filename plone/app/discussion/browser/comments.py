@@ -86,7 +86,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
          
         # XXX: Author notification code
         #registry = queryUtility(IRegistry)
-        #settings = registry.forInterface(IDiscussionSettings)
+        #settings = registry.forInterface(IDiscussionSettings, check=False)
         #if not settings.user_notification_enabled:
         #    self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE
         
@@ -114,7 +114,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Captcha check for anonymous users (if Captcha is enabled and 
         # anonymous commenting is allowed)
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
         portal_membership = getToolByName(self.context, 'portal_membership')
         if settings.captcha != 'disabled' and \
         settings.anonymous_comments and \
@@ -239,7 +239,7 @@ class CommentsViewlet(ViewletBase):
         transforms = getToolByName(self, 'portal_transforms')
         targetMimetype = 'text/html'
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
         mimetype = settings.text_transform        
         return transforms.convertTo(targetMimetype, 
                                     text, 
@@ -346,7 +346,7 @@ class CommentsViewlet(ViewletBase):
     def show_commenter_image(self):
         # Check if showing commenter image is enabled in the registry
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
         return settings.show_commenter_image
 
     def is_anonymous(self):
