@@ -208,8 +208,14 @@
             		var comment = $(this);
             		var clss = comment.attr('class');
             		// remove replies
-            		var treelevel = clss[clss.indexOf('replyTreeLevel')+'replyTreeLevel'.length];
-            		comment.nextUntil(".replyTreeLevel"+treelevel).each(function(){
+            		var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel')+'replyTreeLevel'.length])
+
+            		// selector for all the following elements of lower level
+            		var selector = ".replyTreeLevel" + treelevel;
+            		for(i=0;i<treelevel;i++){
+            			selector += ", .replyTreeLevel" + i;
+            		}
+            		comment.nextUntil(selector).each(function(){
             			$(this).fadeOut('fast', function() {
             				$(this).remove();
             			});
