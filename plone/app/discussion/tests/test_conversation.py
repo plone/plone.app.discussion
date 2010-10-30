@@ -54,7 +54,7 @@ class ConversationTest(PloneTestCase):
                           aq_base(conversation))
         self.assertEquals(new_id, comment.comment_id)
         self.assertEquals(len(list(conversation.getComments())), 1)
-        self.assertEquals(tuple(conversation.getThreads()), 1)
+        self.assertEquals(len(tuple(conversation.getThreads())), 1)
         self.assertEquals(conversation.total_comments, 1)
         self.assert_(conversation.last_comment_date - datetime.utcnow() < 
                      timedelta(seconds=1))
@@ -75,7 +75,7 @@ class ConversationTest(PloneTestCase):
 
         # make sure the comment has been added
         self.assertEquals(len(list(conversation.getComments())), 1)
-        self.assertEquals(tuple(conversation.getThreads()), 1)
+        self.assertEquals(len(tuple(conversation.getThreads())), 1)
         self.assertEquals(conversation.total_comments, 1)
 
         # delete the comment we just created
@@ -83,7 +83,7 @@ class ConversationTest(PloneTestCase):
 
         # make sure there is no comment left in the conversation
         self.assertEquals(len(list(conversation.getComments())), 0)
-        self.assertEquals(tuple(conversation.getThreads()), 0)
+        self.assertEquals(len(tuple(conversation.getThreads())), 0)
         self.assertEquals(conversation.total_comments, 0)
 
     def test_delete_recursive(self):
@@ -165,7 +165,7 @@ class ConversationTest(PloneTestCase):
         
         # Make sure the comment has been deleted as well
         self.assertEquals(len(list(conversation.getComments())), 0)
-        self.assertEquals(tuple(conversation.getThreads()), 0)
+        self.assertEquals(len(tuple(conversation.getThreads())), 0)
         self.assertEquals(conversation.total_comments, 0) 
 
     def test_allow_discussion(self):

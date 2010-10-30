@@ -242,7 +242,7 @@ class TestCommentsViewlet(PloneTestCase):
         conversation.addComment(comment)
         conversation.addComment(comment)
         replies = self.viewlet.get_replies()
-        self.assertEquals(tuple(replies), 2) 
+        self.assertEquals(len(tuple(replies)), 2) 
         replies = self.viewlet.get_replies()
         replies.next()
         replies.next()
@@ -255,7 +255,7 @@ class TestCommentsViewlet(PloneTestCase):
         conversation = IConversation(self.portal.doc1)
         c1 = conversation.addComment(comment)
         self.assertEquals(
-            tuple(self.viewlet.get_replies(workflow_actions=True)), 1) 
+            len(tuple(self.viewlet.get_replies(workflow_actions=True))), 1) 
         # Enable moderation workflow
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
