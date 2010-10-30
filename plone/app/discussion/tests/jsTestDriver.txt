@@ -1,0 +1,5 @@
+==============
+JS TEST DRIVER
+==============
+
+java -jar JsTestDriver.jar --port 9876 --config jsTestDriver.conf --browser /usr/bin/firefox --tests all
