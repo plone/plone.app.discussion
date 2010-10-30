@@ -242,8 +242,7 @@ class TestCommentsViewlet(PloneTestCase):
         conversation.addComment(comment)
         conversation.addComment(comment)
         replies = self.viewlet.get_replies()
-        self.assertEquals(sum(1 for w in replies), # pylint: disable-msg=W0612
-                          2) 
+        self.assertEquals(tuple(replies), 2) 
         replies = self.viewlet.get_replies()
         replies.next()
         replies.next()
@@ -255,9 +254,8 @@ class TestCommentsViewlet(PloneTestCase):
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         c1 = conversation.addComment(comment)
-        self.assertEquals(sum(1 for w in # pylint: disable-msg=W0612
-                              self.viewlet.get_replies(workflow_actions=True)), 
-                              1) 
+        self.assertEquals(
+            tuple(self.viewlet.get_replies(workflow_actions=True)), 1) 
         # Enable moderation workflow
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
