@@ -4,6 +4,9 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- Ajaxify comment deletion and approval.
+  [thomasdesvenain]
+  
 - New feature: As a logged-in user, I can enable/disable email notification of 
   additional comments on this content object.
   [timo]
