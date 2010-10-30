@@ -4,6 +4,9 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- Avoids page reload when reviewer click on 'approve' or 'delete' comment.
+  [thomasdesvenain]
+
 - Fixed handling of non-ascii member data, like fullname and email.
   [hannosch]
 
@@ -14,9 +17,9 @@ Changelog
   but no other validation package is installed.
   [naro]
 
-- Check if there is a 'pending' review state in the current workflow for 
-  comments instead of just checking for the 'comment_review_workflow'. This 
-  allows integrators to use a custom review workflow. This fixes 
+- Check if there is a 'pending' review state in the current workflow for
+  comments instead of just checking for the 'comment_review_workflow'. This
+  allows integrators to use a custom review workflow. This fixes
   http://dev.plone.org/plone/ticket/11184.
   [timo]
 
@@ -27,12 +30,12 @@ Changelog
 1.0b9 (2010-10-07)
 ------------------
 
-- Replace the can_manage method with a can_review method that checks the 
-  'Review comments' permission. This fixes 
+- Replace the can_manage method with a can_review method that checks the
+  'Review comments' permission. This fixes
   http://dev.plone.org/plone/ticket/11145.
   [timo]
 
-- Fix moderation actions (publish, delete) in the moderation view with virtual 
+- Fix moderation actions (publish, delete) in the moderation view with virtual
   hosts. This is a replacement for http://dev.plone.org/plone/changeset/35608.
   [timo]
 
@@ -51,24 +54,24 @@ Changelog
 - Remove title field from the comment form and replace it with an auto-generated
   title ("John Doe on Welcome to Plone").
   [timo]
-  
-- Fix http://dev.plone.org/plone/ticket/11098: "Comment byline shows login 
-  name, not full name" 
+
+- Fix http://dev.plone.org/plone/ticket/11098: "Comment byline shows login
+  name, not full name"
   [kiorky]
 
-- Make sure the __parent__ pointer (the conversation) of a comment is not 
-  acquisition wrapped in conversation.addComment. This fixes 
+- Make sure the __parent__ pointer (the conversation) of a comment is not
+  acquisition wrapped in conversation.addComment. This fixes
   http://dev.plone.org/plone/ticket/11157.
   [timo]
 
-- Revert r35608 since this was breaking the comment moderation bulk actions. 
-  The BulkActionsView expects the absolute path of the comments without the 
-  portal url (e.g. '/plone/doc1/++conversation++default/1285346769126020'). 
+- Revert r35608 since this was breaking the comment moderation bulk actions.
+  The BulkActionsView expects the absolute path of the comments without the
+  portal url (e.g. '/plone/doc1/++conversation++default/1285346769126020').
   This fixes http://dev.plone.org/plone/ticket/11156.
   [timo]
 
 - Use "(function($) { /* some code that uses $ \*/ })(jQuery)" instead of
-  "$(document).ready(function(){ /* some code that uses $ \*/ });" to invoke 
+  "$(document).ready(function(){ /* some code that uses $ \*/ });" to invoke
   jQuery code.
   [timo]
 
@@ -82,7 +85,7 @@ Changelog
 1.0b7 (2010-09-15)
 ------------------
 
-* Captcha plugin support for collective.z3cform.norobots (version >= 1.1) added. 
+* Captcha plugin support for collective.z3cform.norobots (version >= 1.1) added.
   [saffe]
 
 * Store dates in utc and not in local time. Display local time
@@ -90,12 +93,12 @@ Changelog
 
 * Fetch context for the comment view with "context = aq_inner(self.context)".
   [timo]
- 
+
 * Raise an unauthorized error when authenticated users try to post a comment
   on a content object that has discussion disabled. Thanks to vincentfrentin
   for reporting this.
   [timo]
-  
+
 * Czech translation added.
   [naro]
 
@@ -108,8 +111,8 @@ Changelog
 * Put email notification subscribers into their own zcml file so it is easier
   for integrators to override them.
   [timo]
-  
-* Plain text and intelligent text options for comment text added to preserve 
+
+* Plain text and intelligent text options for comment text added to preserve
   basic text structure and to make links clickable.
   [timo]
 
@@ -127,8 +130,8 @@ Changelog
   instead of True because of allow_discussion acquisition.
   [vincentfretin]
 
-* Redirect to the comment form action instead of the absolute URL when a 
-  comment is posted. This fixes the accidentally triggered file upload when a 
+* Redirect to the comment form action instead of the absolute URL when a
+  comment is posted. This fixes the accidentally triggered file upload when a
   comment is posted on a file content object.
   [timo]
 
@@ -145,7 +148,7 @@ Changelog
   plone domain.
   [vincentfretin]
 
-* label_comment_by and label_commented_at are not in Plone 4 translation 
+* label_comment_by and label_commented_at are not in Plone 4 translation
   anymore, so these two messages moved to plone.app.discussions i18n domain.
   [vincentfretin]
 
@@ -158,11 +161,11 @@ Changelog
 * Catch Type errors in indexers if object can not be adapted to IDiscussion
   [do3cc]
 
-* Call the CaptchaValidator even when no captcha data was submitted. This is 
-  necessary to ensure that the collective.akismet validator is called when 
-  installed. 
+* Call the CaptchaValidator even when no captcha data was submitted. This is
+  necessary to ensure that the collective.akismet validator is called when
+  installed.
   [timo]
-  
+
 * Spanish translation added. Thanks to Judith Sanleandro.
   [timo]
 
@@ -170,20 +173,20 @@ Changelog
 1.0b5 (2010-07-16)
 ------------------
 
-* Use self.form instead of CommentForm for the CommentsViewlet update method so 
-  integrators don't have to override the viewlet's update method. 
+* Use self.form instead of CommentForm for the CommentsViewlet update method so
+  integrators don't have to override the viewlet's update method.
   [matous]
 
-* Make sure the form fields in the reply form are always placed under the field 
-  labels. 
+* Make sure the form fields in the reply form are always placed under the field
+  labels.
   [timo]
-  
+
 * Fix CSS overflow bug that occurs with the new Plone 4.0b5 comment styles.
   [timo]
-  
+
 * Unnecessary imports and variables removed.
   [timo]
-  
+
 * Added norwegian translation.
   [ggozad]
 
@@ -193,7 +196,7 @@ Changelog
 * Documentation for Captcha plugin architecture and email notification added.
   See http://packages.python.org/plone.app.discussion.
   [timo]
-  
+
 * Use sphinx.plonetheme for plone.app.discussion documentation.
   [timo]
 

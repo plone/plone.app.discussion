@@ -3,13 +3,10 @@
  * jQuery functions for the plone.app.discussion comment viewlet and form.
  *
  ******************************************************************************/
-
 (function ($) {
 	// This unnamed function allows us to use $ inside of a block of code
 	// without permanently overwriting $.
 	// http://docs.jquery.com/Using_jQuery_with_Other_Libraries
-
-
     /**************************************************************************
      * Create a reply-to-comment form right beneath the form that is passed to
      * the function. We do this by copying the regular comment form and
@@ -161,6 +158,74 @@
 	    $(".reply-to-comment-button").css("display" , "inline");
 
 	});
+
+    /**********************************************************************
+     * Publish a single comment.
+     **********************************************************************/
+    $("input[name='form.button.PublishComment']").live('click',function() {
+        var trigger = this;
+        var form = $(this).parents("form");
+        var data = $(form).serialize();
+        var form_url = $(form).attr("action");
+        $.ajax({
+            type: "GET",
+            url: form_url,
+            data: "workflow_action=publish",
+            context: trigger,
+            success: function (msg) {
+                // remove button (trigger object can't be directly removed)
+                form.find("input[name='form.button.PublishComment']").remove();
+                form.parents(".state-pending").toggleClass('state-pending').toggleClass('state-published');
+            },
+            error: function (msg) {
+                return true;
+            }
+        });
+        return false;
+    });
+
+
+    /**********************************************************************
+     * Delete a comment and its answers.
+     **********************************************************************/
+
+    $("input[name='form.button.DeleteComment']").live('click', function() {
+        var trigger = this;
+        var form = $(this).parents("form");
+        var data = $(form).serialize();
+        var form_url = $(form).attr("action");
+        $.ajax({
+            type:'POST',
+            url:form_url,
+            context: $(trigger).parents(".comment"),
+            success: function(data) {
+                if($(".discussion .comment .replyTreeLevel0").length == 1) {
+                    $(".discussion").fadeOut('fast', function() {
+                        $(".discussion").remove();
+                    });
+                }
+                else {
+            		var comment = $(this);
+            		var clss = comment.attr('class');
+            		// remove replies
+            		var treelevel = clss[clss.indexOf('replyTreeLevel')+'replyTreeLevel'.length];
+            		comment.nextUntil(".replyTreeLevel"+treelevel).each(function(){
+            			$(this).fadeOut('fast', function() {
+            				$(this).remove();
+            			});
+            		});
+            		// remove comment
+        			$(this).fadeOut('fast', function() {
+        				$(this).remove();
+        			});
+                }
+            },
+            error: function(req, error) {
+                return true;
+            }
+        });
+        return false;
+    })
 
     //#JSCOVERAGE_ENDIF
 
