@@ -71,13 +71,12 @@ class IDiscussionSettings(Interface):
         title=_(u"label_show_commenter_image",
                 default=u"Show commenter image"),
         description=_(u"help_show_commenter_image",
-                default=u"If selected, an image "
-                         "of the user is shown "
-                         "next to the comment."),
+                default=u"If selected, an image of the user is shown next to "
+                         "the comment."),
         required=False,
         default=True,
         )
-
+     
     moderator_notification_enabled = schema.Bool(
         title=_(u"label_moderator_notification_enabled",
                 default=u"Enable moderator email notification"),
@@ -88,16 +87,14 @@ class IDiscussionSettings(Interface):
         default=False,
         )
 
-    #user_notification_enabled = schema.Bool(
-    #                           title=_(u"label_user_notification_enabled",
-    #                           default=u"Enable user email notification"),
-    #                           description=_(u"help_user_notification_enabled",
-    #                                         default=u"If selected, users can "
-    #                                                  "choose to be notified "
-    #                                                  "of new comments by "
-    #                                                  "email."),
-    #                           required=False,
-    #                           default=False)
+    user_notification_enabled = schema.Bool(
+        title=_(u"label_user_notification_enabled",
+        default=u"Enable user email notification"),
+        description=_(u"help_user_notification_enabled",
+                      default=u"If selected, users can choose to be notified "
+                               "of new comments by email."),
+        required=False,
+        default=False)
 
 
 class IConversation(IIterableMapping):
@@ -269,9 +266,9 @@ class IComment(Interface):
     text = schema.Text(title=_(u"label_comment",
                                default=u"Comment"))
 
-    #author_notification = schema.Bool(title=_(u"Notify me of new comments via "
-    #                                         "email."),
-    #                                 required=False)
+    user_notification = schema.Bool(title=_(u"Notify me of new comments via "
+                                             "email."),
+                                     required=False)
 
     creator = schema.TextLine(title=_(u"Author name (for display)"))
     creation_date = schema.Date(title=_(u"Creation date"))

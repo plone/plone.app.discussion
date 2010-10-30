@@ -49,7 +49,7 @@ COMMENT_TITLE = _(u"comment_title",
     default=u"${creator} on ${content}")
         
 MAIL_NOTIFICATION_MESSAGE = _(u"mail_notification_message",
-    default=u"A comment with the title '${title}' "
+    default=u"A comment on '${title}' "
              "has been posted here: ${link}")
 
 
@@ -87,7 +87,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     author_name = None
     author_email = None
     
-    author_notification = None
+    user_notification = None
 
     # Note: we want to use zope.component.createObject() to instantiate
     # comments as far as possible. comment_id and __parent__ are set via
@@ -180,9 +180,7 @@ def notify_content_object_deleted(obj, event):
         for comment in conversation.getComments():
             del conversation[comment.id]
 
-# XXX: This method is not enabled yet. Remove "pragma: no cover" as soon as the
-# commented out notify user code has been removed.
-def notify_user(obj, event): # pragma: no cover 
+def notify_user(obj, event): 
     """Tell users when a comment has been added.
     
        This method composes and sends emails to all users that have added a 
@@ -209,17 +207,17 @@ def notify_user(obj, event): # pragma: no cover
         return
 
     # Compose and send emails to all users that have add a comment to this
-    # conversation and enabled author_notification.
+    # conversation and enabled user_notification.
     conversation = aq_parent(obj)
     content_object = aq_parent(conversation)
     
     for comment in conversation.getComments():
         if obj != comment and \
-        comment.author_notification and comment.author_email:
+        comment.user_notification and comment.author_email:
             subject = translate(_(u"A comment has been posted."),
                 context=obj.REQUEST)
             message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
-                mapping={'title': obj.title,
+                mapping={'title': content_object.title,
                          'link': content_object.absolute_url()}),
                 context=obj.REQUEST)
             mail_host.send(message, comment.author_email, sender, subject)
@@ -267,7 +265,7 @@ def notify_moderator(obj, event):
     #comment = conversation.getComments().next()
     subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
     message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
-        mapping={'title': obj.title,
+        mapping={'title': content_object.title,
                  'link': content_object.absolute_url()}),
         context=obj.REQUEST)
 

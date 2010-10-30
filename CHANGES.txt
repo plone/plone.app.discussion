@@ -4,6 +4,10 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- New feature: As a logged-in user, I can enable/disable email notification of 
+  additional comments on this content object.
+  [timo]
+
 - Disable the plone.app.registry check on schema elements, so no error is
   raised on upgrades. This fixes https://dev.plone.org/plone/ticket/11195.
   [timo]

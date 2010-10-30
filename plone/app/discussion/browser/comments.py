@@ -15,6 +15,7 @@ from zope.interface import alsoProvides
 
 from z3c.form import form, field, button, interfaces
 from z3c.form.interfaces import IFormLayer
+from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
@@ -34,6 +35,7 @@ from plone.app.discussion.interfaces import ICaptcha
 from plone.app.discussion.browser.validator import CaptchaValidator
 
 from plone.z3cform import z2
+from plone.z3cform.widget import SingleCheckBoxWidget
 from plone.z3cform.fieldsets import extensible
 
 # starting from 0.6.0 version plone.z3cform has IWrappedForm interface 
@@ -62,8 +64,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     def updateFields(self):
         super(CommentForm, self).updateFields()
-        #self.fields['author_notification'].widgetFactory = 
-        #    SingleCheckBoxFieldWidget
+        self.fields['user_notification'].widgetFactory = \
+            SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
         super(CommentForm, self).updateWidgets()
@@ -71,7 +73,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Widgets
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
         self.widgets['text'].addClass("autoresize")
-        #self.widgets['author_notification'].label = _(u"")   
+        self.widgets['user_notification'].label = _(u"")   
         
         # Anonymous / Logged-in
         portal_membership = getToolByName(self.context, 'portal_membership')
@@ -83,12 +85,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # current state, we hide it by default. But we keep the field for 
         # integrators or later use. 
         self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
-         
-        # XXX: Author notification code
-        #registry = queryUtility(IRegistry)
-        #settings = registry.forInterface(IDiscussionSettings, check=False)
-        #if not settings.user_notification_enabled:
-        #    self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE
+
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        portal_membership = getToolByName(self.context, 'portal_membership')
+        
+        if not settings.user_notification_enabled or portal_membership.isAnonymousUser():
+            self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
         
     def updateActions(self):
         super(CommentForm, self).updateActions()        
@@ -105,11 +108,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         data, errors = self.extractData()
         if errors:
             return
-
+            
         text = u""
         author_name = u""
         author_email = u""
-        #author_notification = None
+        user_notification = None
 
         # Captcha check for anonymous users (if Captcha is enabled and 
         # anonymous commenting is allowed)
@@ -135,8 +138,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             author_name = data['author_name']
         if 'author_email' in data:
             author_email = data['author_email']
-        #if 'author_notification' in data:
-        #    author_notification = data['author_notification']
+        if 'user_notification' in data:
+            user_notification = data['user_notification']
             
         # The add-comment view is called on the conversation object
         conversation = IConversation(self.__parent__)
@@ -163,7 +166,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.creator = author_name
             comment.author_name = author_name
             comment.author_email = author_email
-            #comment.author_notification = author_notification
+            comment.user_notification = user_notification
             comment.creation_date = comment.modification_date = datetime.utcnow()
         elif not portal_membership.isAnonymousUser():
             # Member
@@ -182,7 +185,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_username = username
             comment.author_name = fullname
             comment.author_email = email
-            #comment.author_notification = comment.author_notification
+            comment.user_notification = user_notification
             comment.creation_date = comment.modification_date = datetime.utcnow()
         else:
             raise Unauthorized, "Anonymous user tries to post a comment, but \
@@ -340,7 +343,7 @@ class CommentsViewlet(ViewletBase):
     def anonymous_discussion_allowed(self):
         # Check if anonymous comments are allowed in the registry
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
         return settings.anonymous_comments
 
     def show_commenter_image(self):

@@ -32,8 +32,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             SingleCheckBoxFieldWidget
         self.fields['moderator_notification_enabled'].widgetFactory = \
             SingleCheckBoxFieldWidget
-        #self.fields['user_notification_enabled'].widgetFactory = \
-        #    SingleCheckBoxFieldWidget
+        self.fields['user_notification_enabled'].widgetFactory = \
+            SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
         super(DiscussionSettingsEditForm, self).updateWidgets()
@@ -42,8 +42,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.widgets['show_commenter_image'].label = _(u"Commenter Image")
         self.widgets['moderator_notification_enabled'].label = \
             _(u"Moderator Email Notification")
-        #self.widgets['user_notification_enabled'].label = \
-        #    _(u"User Email Notification")
+        self.widgets['user_notification_enabled'].label = \
+            _(u"User Email Notification")
 
 
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
