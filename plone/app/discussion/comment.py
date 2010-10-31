@@ -220,8 +220,21 @@ def notify_user(obj, event):
                 mapping={'title': content_object.title,
                          'link': content_object.absolute_url()}),
                 context=obj.REQUEST)
-            mail_host.send(message, comment.author_email, sender, subject)
-            
+        
+            # Send email
+            if PLONE_4:
+                mail_host.send(message, 
+                               comment.author_email, 
+                               sender, 
+                               subject, 
+                               charset='utf-8')
+            else:
+                mail_host.secureSend(message, 
+                                     comment.author_email, 
+                                     sender, 
+                                     subject=subject, 
+                                     charset='utf-8') # pragma: no cover
+
 def notify_moderator(obj, event):
     """Tell the moderator when a comment needs attention.
     
