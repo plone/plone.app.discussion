@@ -10,17 +10,6 @@
                    showCommenterImage view/show_commenter_image;
                    errors options/state/getErrors|nothing;
                    wtool context/@@plone_tools/workflow;">
-    <div class="reply"
-         tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
-        <form tal:attributes="action view/login_action">
-            <input class="standalone"
-                   style="margin-bottom: 1.25em;"
-                   type="submit"
-                   value="Log in to add comments"
-                   i18n:attributes="value label_login_to_add_comments;"
-                   />
-        </form>
-    </div>
 
     <div class="discussion"
          tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage' or 'discussion';"
@@ -29,19 +18,6 @@
             <metal:reply use-macro="view/comment/macros/comment" />
         </tal:getreplies>
     </div>
-
-    <div class="reply"
-         tal:condition="python:has_replies and (isAnon and not isAnonymousDiscussionAllowed)">
-        <form tal:attributes="action view/login_action">
-            <input class="standalone"
-                   style="margin-bottom: 1.25em;"
-                   type="submit"
-                   value="Log in to add comments"
-                   i18n:attributes="value label_login_to_add_comments;"
-                   />
-        </form>
-    </div>
-
 
 </tal:block>
 </tal:block>

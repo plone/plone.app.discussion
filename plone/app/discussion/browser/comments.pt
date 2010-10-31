@@ -24,11 +24,19 @@
     </div>
 
     <div class="discussion"
+         id="plone-app-discussion-comments"
          tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage' or 'discussion';"
          tal:condition="has_replies">
-        <tal:getreplies repeat="reply_dict replies">
-            <metal:reply use-macro="view/comment/macros/comment" />
-        </tal:getreplies>
+        <tal:link condition="python:not 'display-comments' in request">
+            <a id="plone-app-discussion-display-comments-link"
+               tal:attributes="href string:${context/absolute_url}?display-comments=1"
+               i18n:translate="nojs_display_comments">
+               Click here to display comments
+            </a>
+        </tal:link>
+        <tal:comments condition="python:'display-comments' in request">
+            <tal:comments content="structure here/@@ajax-load-comments" />
+        </tal:comments>
     </div>
 
     <div class="reply"

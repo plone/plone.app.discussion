@@ -87,7 +87,7 @@
      * Window Load Function: Executes when complete page is fully loaded,
      * including all frames,
      **************************************************************************/
-    $(window).load(function () {
+    afterCommentsLoad = function () {
 
 	    /**********************************************************************
 	     * If the user has hit the reply button of a reply-to-comment form
@@ -156,8 +156,6 @@
 	     * enabled.
 	     **********************************************************************/
 	    $(".reply-to-comment-button").css("display" , "inline");
-
-	});
 
     /**********************************************************************
      * Publish a single comment.
@@ -233,6 +231,17 @@
         return false;
     })
 
+    }
+
     //#JSCOVERAGE_ENDIF
+    $(window).load(function(){
+    	var displaycommentslink = $('#plone-app-discussion-display-comments-link');
+    	var url = displaycommentslink.attr('href').split('?')[0] + '/@@ajax-load-comments';
+    	$.get(url, function(html){
+    		displaycommentslink.parent().html(html);
+    		afterCommentsLoad();
+    	})
+    })
+
 
 }(jQuery));
