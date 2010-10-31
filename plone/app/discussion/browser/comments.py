@@ -223,6 +223,7 @@ class CommentsViewlet(ViewletBase):
 
     form = CommentForm
     index = ViewPageTemplateFile('comments.pt')
+    comment = ViewPageTemplateFile('comment.pt')
 
     def update(self):
         super(CommentsViewlet, self).update()
