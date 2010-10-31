@@ -4,6 +4,10 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- Fixed 'start' argument on comments getting.
+  Added tests on batching argument.
+  [thomasdesvenain]
+
 - Avoids page reload when reviewer click on 'approve' or 'delete' comment.
   [thomasdesvenain]
 
