@@ -87,7 +87,7 @@
      * Window Load Function: Executes when complete page is fully loaded,
      * including all frames,
      **************************************************************************/
-    afterCommentsLoad = function () {
+    var afterCommentsLoad = function () {
 
 	    /**********************************************************************
 	     * If the user has hit the reply button of a reply-to-comment form
@@ -206,8 +206,8 @@
 	            		var comment = $(this);
 	            		var clss = comment.attr('class');
 	            		// remove replies
-	            		var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel')+'replyTreeLevel'.length])
-
+	            		var levelchar = clss.indexOf('replyTreeLevel')+'replyTreeLevel'.length;
+	            		var treelevel = parseInt(clss.substr(levelchar, levelchar+1))
 	            		// selector for all the following elements of lower level
 	            		var selector = ".replyTreeLevel" + treelevel;
 	            		for(i=0;i<treelevel;i++){
@@ -247,8 +247,7 @@
     	$('#commenting form input[type=submit]').unbind('click').click(function(){
     		var form = $(this).parents('form:first');
     		var textarea = form.find('textarea');
-    		if(textarea.attr('value').trim()=='') return false;
-    		$('#kss-spinner').show();
+    		if($.trim(textarea.attr('value'))=='') return false;
     		var data = form.serialize();
     		data += '&form.buttons.comment=1';
     		var url = $('#here_url').attr('value') + '/@@plone-app-discussion-comments';
@@ -260,7 +259,6 @@
     			});
     			$('#plone-app-discussion-comments').html(html);
         		afterCommentsLoad();
-        		$('#kss-spinner').hide();
     		});
     		textarea.attr('value', '')
     		return false;

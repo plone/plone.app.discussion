@@ -380,6 +380,8 @@ class AjaxCommentLoad(CommentsBase, BrowserView):
     form = CommentForm
 
     def update(self):
+        self.request.RESPONSE.setHeader('Pragma', 'no-cache')
+        self.request.RESPONSE.setHeader('Cache-control', 'no-cache')
         z2.switch_on(self, request_layer=IFormLayer)
         self.form = self.form(aq_inner(self.context), self.request)
         if HAS_WRAPPED_FORM:
