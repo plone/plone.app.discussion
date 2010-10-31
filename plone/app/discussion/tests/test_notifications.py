@@ -69,7 +69,7 @@ class TestUserNotificationUnit(PloneTestCase):
         self.conversation.addComment(comment)
         self.assertEquals(len(self.mailhost.messages), 1)
         self.failUnless(self.mailhost.messages[0])
-        msg = self.mailhost.messages[0]
+        msg = str(self.mailhost.messages[0])
         self.failUnless('To: john@plone.test' in msg)
         self.failUnless('From: portal@plone.test' in msg)
 
