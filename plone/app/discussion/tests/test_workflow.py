@@ -78,7 +78,6 @@ class CommentOneStateWorkflowTest(PloneTestCase):
         # Add a comment
         conversation = IConversation(self.folder.doc1)
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         cid = conversation.addComment(comment)
         
@@ -146,7 +145,6 @@ class CommentReviewWorkflowTest(PloneTestCase):
 
         # Add a comment.
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         comment_id = conversation.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(

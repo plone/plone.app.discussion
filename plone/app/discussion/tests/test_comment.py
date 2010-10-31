@@ -99,7 +99,6 @@ class CommentTest(PloneTestCase):
         conversation = IConversation(self.portal.doc1)
 
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
 
         new_comment1_id = conversation.addComment(comment1)
@@ -107,7 +106,6 @@ class CommentTest(PloneTestCase):
         comment = self.portal.doc1.restrictedTraverse(
             '++conversation++default/%s' % new_comment1_id)
         self.assert_(IComment.providedBy(comment))
-        self.assertEquals('Comment 1', comment.title)
 
         self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
                            str(new_comment1_id)), comment.getPhysicalPath())
@@ -160,7 +158,6 @@ class CommentTest(PloneTestCase):
 
         # Create a comment
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
 
         # Add comment to the conversation
@@ -204,7 +201,6 @@ class RepliesTest(PloneTestCase):
         replies = IReplies(conversation)
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
@@ -212,7 +208,6 @@ class RepliesTest(PloneTestCase):
 
         # Add a reply to the CommentReplies adapter of the first comment
         re_comment = createObject('plone.Comment')
-        re_comment.title = 'Re: Comment 1'
         re_comment.text = 'Comment text'
 
         replies = IReplies(comment)
@@ -242,7 +237,6 @@ class RepliesTest(PloneTestCase):
         replies = IReplies(conversation)
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
@@ -250,7 +244,6 @@ class RepliesTest(PloneTestCase):
 
         # Add a reply to the CommentReplies adapter of the first comment
         re_comment = createObject('plone.Comment')
-        re_comment.title = 'Re: Comment 1'
         re_comment.text = 'Comment text'
 
         replies = IReplies(comment)
@@ -274,13 +267,11 @@ class RepliesTest(PloneTestCase):
         conversation = IConversation(self.portal.doc1)
 
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
 
         conversation.addComment(comment1)
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         new_id = conversation.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
@@ -288,7 +279,6 @@ class RepliesTest(PloneTestCase):
 
         # Add a reply to the CommentReplies adapter of the first comment
         re_comment = createObject('plone.Comment')
-        re_comment.title = 'Re: Comment 1'
         re_comment.text = 'Comment text'
         replies = IReplies(comment)
         new_re_id = replies.addComment(re_comment)
@@ -297,7 +287,6 @@ class RepliesTest(PloneTestCase):
 
         # Add a reply to the reply
         re_re_comment = createObject('plone.Comment')
-        re_re_comment.title = 'Re: Re: Comment 1'
         re_re_comment.text = 'Comment text'
         replies = IReplies(re_comment)
         new_re_re_id = replies.addComment(re_re_comment)
@@ -306,7 +295,6 @@ class RepliesTest(PloneTestCase):
 
         # Add a reply to the replies reply
         re_re_re_comment = createObject('plone.Comment')
-        re_re_re_comment.title = 'Re: Re: Comment 1'
         re_re_re_comment.text = 'Comment text'
         replies = IReplies(re_re_comment)
         new_re_re_re_id = replies.addComment(re_re_re_comment)

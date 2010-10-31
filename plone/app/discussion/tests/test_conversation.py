@@ -42,7 +42,6 @@ class ConversationTest(PloneTestCase):
         # factory to allow different factories to be swapped in
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
 
         new_id = conversation.addComment(comment)
@@ -68,7 +67,6 @@ class ConversationTest(PloneTestCase):
         # factory to allow different factories to be swapped in
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
 
         new_id = conversation.addComment(comment)
@@ -105,27 +103,21 @@ class ConversationTest(PloneTestCase):
 
         # Create all comments
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
 
         comment1_1 = createObject('plone.Comment')
-        comment1_1.title = 'Re: Comment 1'
         comment1_1.text = 'Comment text'
 
         comment1_1_1 = createObject('plone.Comment')
-        comment1_1_1.title = 'Re: Re: Comment 1'
         comment1_1_1.text = 'Comment text'
 
         comment1_2 = createObject('plone.Comment')
-        comment1_2.title = 'Re: Comment 1 (2)'
         comment1_2.text = 'Comment text'
 
         comment2 = createObject('plone.Comment')
-        comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
 
         comment2_1 = createObject('plone.Comment')
-        comment2_1.title = 'Re: Comment 2'
         comment2_1.text = 'Comment text'
 
         # Create the nested comment structure
@@ -156,7 +148,6 @@ class ConversationTest(PloneTestCase):
         # object itself is deleted.
         conversation = IConversation(self.portal.doc1)
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         conversation.addComment(comment)
 
@@ -418,13 +409,11 @@ class ConversationTest(PloneTestCase):
         # factory to allow different factories to be swapped in
 
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
 
         new_id1 = conversation.addComment(comment1)
 
         comment2 = createObject('plone.Comment')
-        comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
 
         new_id2 = conversation.addComment(comment2)
@@ -477,15 +466,12 @@ class ConversationTest(PloneTestCase):
         # swapped in
 
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
 
         comment2 = createObject('plone.Comment')
-        comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
 
         comment3 = createObject('plone.Comment')
-        comment3.title = 'Comment 3'
         comment3.text = 'Comment text'
 
         conversation.addComment(comment1)
@@ -509,25 +495,21 @@ class ConversationTest(PloneTestCase):
         # comments via the factory to allow different factories to be
         # swapped in
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
         comment1.author_username = "Jim"
         conversation.addComment(comment1)
 
         comment2 = createObject('plone.Comment')
-        comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
         comment2.author_username = "Joe"
         conversation.addComment(comment2)
 
         comment3 = createObject('plone.Comment')
-        comment3.title = 'Comment 3'
         comment3.text = 'Comment text'
         comment3.author_username = "Jack"
         new_comment3_id = conversation.addComment(comment3)
 
         comment4 = createObject('plone.Comment')
-        comment4.title = 'Comment 3'
         comment4.text = 'Comment text'
         comment4.author_username = "Jack"
         new_comment4_id = conversation.addComment(comment4)
@@ -570,19 +552,16 @@ class ConversationTest(PloneTestCase):
         # comments via the factory to allow different factories to be
         # swapped in
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
         comment1.creation_date = datetime.utcnow() - timedelta(4)
         conversation.addComment(comment1)
 
         comment2 = createObject('plone.Comment')
-        comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
         comment2.creation_date = datetime.utcnow() - timedelta(2)
         new_comment2_id = conversation.addComment(comment2)
 
         comment3 = createObject('plone.Comment')
-        comment3.title = 'Comment 3'
         comment3.text = 'Comment text'
         comment3.creation_date = datetime.utcnow() - timedelta(1)
         new_comment3_id = conversation.addComment(comment3)
@@ -639,27 +618,21 @@ class ConversationTest(PloneTestCase):
 
         # Create all comments
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
 
         comment1_1 = createObject('plone.Comment')
-        comment1_1.title = 'Re: Comment 1'
         comment1_1.text = 'Comment text'
 
         comment1_1_1 = createObject('plone.Comment')
-        comment1_1_1.title = 'Re: Re: Comment 1'
         comment1_1_1.text = 'Comment text'
 
         comment1_2 = createObject('plone.Comment')
-        comment1_2.title = 'Re: Comment 1 (2)'
         comment1_2.text = 'Comment text'
 
         comment2 = createObject('plone.Comment')
-        comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
 
         comment2_1 = createObject('plone.Comment')
-        comment2_1.title = 'Re: Comment 2'
         comment2_1.text = 'Comment text'
 
         # Create the nested comment structure
@@ -751,7 +724,6 @@ class RepliesTest(PloneTestCase):
         replies = IReplies(conversation)
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
 
         new_id = replies.addComment(comment)
@@ -779,7 +751,6 @@ class RepliesTest(PloneTestCase):
 
         # Add a comment.
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
 
         new_id = replies.addComment(comment)
@@ -819,27 +790,21 @@ class RepliesTest(PloneTestCase):
 
         # Create all comments
         comment1 = createObject('plone.Comment')
-        comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
 
         comment1_1 = createObject('plone.Comment')
-        comment1_1.title = 'Re: Comment 1'
         comment1_1.text = 'Comment text'
 
         comment1_1_1 = createObject('plone.Comment')
-        comment1_1_1.title = 'Re: Re: Comment 1'
         comment1_1_1.text = 'Comment text'
 
         comment1_2 = createObject('plone.Comment')
-        comment1_2.title = 'Re: Comment 1 (2)'
         comment1_2.text = 'Comment text'
 
         comment2 = createObject('plone.Comment')
-        comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
 
         comment2_1 = createObject('plone.Comment')
-        comment2_1.title = 'Re: Comment 2'
         comment2_1.text = 'Comment text'
 
         # Create the nested comment structure

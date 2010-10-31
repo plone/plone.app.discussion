@@ -57,14 +57,12 @@ class TestUserNotificationUnit(PloneTestCase):
         # Add a comment with user notification enabled. Add another comment
         # and make sure an email is send to the user of the first comment.
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         comment.user_notification = True
         comment.author_email = "john@plone.test"
         self.conversation.addComment(comment)
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 2'
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         self.assertEquals(len(self.mailhost.messages), 1)
@@ -91,14 +89,12 @@ class TestUserNotificationUnit(PloneTestCase):
                   'user_notification_enabled'] = False
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         comment.user_notification = True
         comment.author_email = "john@plone.test"
         self.conversation.addComment(comment)
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 2'
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         
@@ -106,13 +102,11 @@ class TestUserNotificationUnit(PloneTestCase):
             
     def test_do_not_notify_user_when_email_address_is_given(self):
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         comment.user_notification = True
         self.conversation.addComment(comment)
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 2'
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         
@@ -124,14 +118,12 @@ class TestUserNotificationUnit(PloneTestCase):
         self.portal.email_from_address = None
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         comment.user_notification = True
         comment.author_email = "john@plone.test"
         self.conversation.addComment(comment)
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 2'
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         
@@ -181,7 +173,6 @@ class TestModeratorNotificationUnit(PloneTestCase):
     def test_notify_moderator(self):
         # Add a comment and make sure an email is send to the moderator.
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
 
@@ -215,7 +206,6 @@ class TestModeratorNotificationUnit(PloneTestCase):
         self.portal.email_from_address = None
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         self.assertEquals(len(self.mailhost.messages), 0)
@@ -228,7 +218,6 @@ class TestModeratorNotificationUnit(PloneTestCase):
                  'moderator_notification_enabled'] = False
 
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         self.assertEquals(len(self.mailhost.messages), 0)
@@ -242,7 +231,6 @@ class TestModeratorNotificationUnit(PloneTestCase):
             ('one_state_workflow',))
  
         comment = createObject('plone.Comment')
-        comment.title = 'Comment 1'
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         self.assertEquals(len(self.mailhost.messages), 0)

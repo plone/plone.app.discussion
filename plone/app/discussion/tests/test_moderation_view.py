@@ -216,7 +216,7 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.assertEquals(self.conversation.total_comments, 1)
         comment = self.conversation.getComments().next()
         self.failUnless(comment)
-        self.assertEquals(comment.title, 'Comment 2')
+        self.assertEquals(comment, self.comment2)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
