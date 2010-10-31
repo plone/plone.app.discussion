@@ -157,90 +157,115 @@
 	     **********************************************************************/
 	    $(".reply-to-comment-button").css("display" , "inline");
 
-    /**********************************************************************
-     * Publish a single comment.
-     **********************************************************************/
-    $("input[name='form.button.PublishComment']").live('click',function() {
-        var trigger = this;
-        var form = $(this).parents("form");
-        var data = $(form).serialize();
-        var form_url = $(form).attr("action");
-        $.ajax({
-            type: "GET",
-            url: form_url,
-            data: "workflow_action=publish",
-            context: trigger,
-            success: function (msg) {
-                // remove button (trigger object can't be directly removed)
-                form.find("input[name='form.button.PublishComment']").remove();
-                form.parents(".state-pending").toggleClass('state-pending').toggleClass('state-published');
-            },
-            error: function (msg) {
-                return true;
-            }
-        });
-        return false;
-    });
+	    /**********************************************************************
+	     * Publish a single comment.
+	     **********************************************************************/
+	    $("input[name='form.button.PublishComment']").live('click',function() {
+	        var trigger = this;
+	        var form = $(this).parents("form");
+	        var data = $(form).serialize();
+	        var form_url = $(form).attr("action");
+	        $.ajax({
+	            type: "GET",
+	            url: form_url,
+	            data: "workflow_action=publish",
+	            context: trigger,
+	            success: function (msg) {
+	                // remove button (trigger object can't be directly removed)
+	                form.find("input[name='form.button.PublishComment']").remove();
+	                form.parents(".state-pending").toggleClass('state-pending').toggleClass('state-published');
+	            },
+	            error: function (msg) {
+	                return true;
+	            }
+	        });
+	        return false;
+	    });
 
 
-    /**********************************************************************
-     * Delete a comment and its answers.
-     **********************************************************************/
+	    /**********************************************************************
+	     * Delete a comment and its answers.
+	     **********************************************************************/
 
-    $("input[name='form.button.DeleteComment']").live('click', function() {
-        var trigger = this;
-        var form = $(this).parents("form");
-        var data = $(form).serialize();
-        var form_url = $(form).attr("action");
-        $.ajax({
-            type:'POST',
-            url:form_url,
-            context: $(trigger).parents(".comment"),
-            success: function(data) {
-                if($(".discussion .comment .replyTreeLevel0").length == 1) {
-                    $(".discussion").fadeOut('fast', function() {
-                        $(".discussion").remove();
-                    });
-                }
-                else {
-            		var comment = $(this);
-            		var clss = comment.attr('class');
-            		// remove replies
-            		var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel')+'replyTreeLevel'.length])
+	    $("input[name='form.button.DeleteComment']").live('click', function() {
+	        var trigger = this;
+	        var form = $(this).parents("form");
+	        var data = $(form).serialize();
+	        var form_url = $(form).attr("action");
+	        $.ajax({
+	            type:'POST',
+	            url:form_url,
+	            context: $(trigger).parents(".comment"),
+	            success: function(data) {
+	                if($(".discussion .comment .replyTreeLevel0").length == 1) {
+	                    $(".discussion").fadeOut('fast', function() {
+	                        $(".discussion").remove();
+	                    });
+	                }
+	                else {
+	            		var comment = $(this);
+	            		var clss = comment.attr('class');
+	            		// remove replies
+	            		var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel')+'replyTreeLevel'.length])
 
-            		// selector for all the following elements of lower level
-            		var selector = ".replyTreeLevel" + treelevel;
-            		for(i=0;i<treelevel;i++){
-            			selector += ", .replyTreeLevel" + i;
-            		}
-            		comment.nextUntil(selector).each(function(){
-            			$(this).fadeOut('fast', function() {
-            				$(this).remove();
-            			});
-            		});
-            		// remove comment
-        			$(this).fadeOut('fast', function() {
-        				$(this).remove();
-        			});
-                }
-            },
-            error: function(req, error) {
-                return true;
-            }
-        });
-        return false;
-    })
-
+	            		// selector for all the following elements of lower level
+	            		var selector = ".replyTreeLevel" + treelevel;
+	            		for(i=0;i<treelevel;i++){
+	            			selector += ", .replyTreeLevel" + i;
+	            		}
+	            		comment.nextUntil(selector).each(function(){
+	            			$(this).fadeOut('fast', function() {
+	            				$(this).remove();
+	            			});
+	            		});
+	            		// remove comment
+	        			$(this).fadeOut('fast', function() {
+	        				$(this).remove();
+	        			});
+	                }
+	            },
+	            error: function(req, error) {
+	                return true;
+	            }
+	        });
+	        return false;
+	    });
     }
 
     //#JSCOVERAGE_ENDIF
+
+
     $(window).load(function(){
-    	var displaycommentslink = $('#plone-app-discussion-display-comments-link');
-    	var url = displaycommentslink.attr('href').split('?')[0] + '/@@plone-app-discussion-comments';
-    	$.get(url, function(html){
-    		displaycommentslink.parent().html(html);
-    		afterCommentsLoad();
+    	$('#plone-app-discussion-display-comments-link').each(function(){
+        	var url = $('#here_url').attr('value') + '/@@plone-app-discussion-comments';
+        	$.get(url, function(html){
+    			$('#plone-app-discussion-comments').html(html);
+        		afterCommentsLoad();
+        	});
     	})
+
+    	$('#commenting form input[type=submit]').unbind('click').click(function(){
+    		var form = $(this).parents('form:first');
+    		var textarea = form.find('textarea');
+    		if(textarea.attr('value').trim()=='') return false;
+    		$('#kss-spinner').show();
+    		var data = form.serialize();
+    		data += '&form.buttons.comment=1';
+    		var url = $('#here_url').attr('value') + '/@@plone-app-discussion-comments';
+    		$.post(url, data, function(html){
+    			/* Displays an info message (only one) if it exists */
+    			$(html).find('#info-message').each(function(){
+    				$('#kssPortalMessage').find('dd').html($(this).text());
+    				$('#kssPortalMessage').show();
+    			});
+    			$('#plone-app-discussion-comments').html(html);
+        		afterCommentsLoad();
+        		$('#kss-spinner').hide();
+    		});
+    		textarea.attr('value', '')
+    		return false;
+    	});
+
     })
 
 

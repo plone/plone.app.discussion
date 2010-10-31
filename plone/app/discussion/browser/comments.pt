@@ -1,6 +1,7 @@
 <tal:block tal:define="isDiscussionAllowed view/is_discussion_allowed"
            tal:condition="isDiscussionAllowed"
            i18n:domain="plone">
+
 <tal:block define="userHasReplyPermission view/can_reply;
                    isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
                    isAnon view/is_anonymous;
@@ -10,6 +11,7 @@
                    showCommenterImage view/show_commenter_image;
                    errors options/state/getErrors|nothing;
                    wtool context/@@plone_tools/workflow;">
+    <input type="hidden" id="here_url" tal:attributes="value here/absolute_url" />
 
     <div class="reply"
          tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
@@ -23,22 +25,22 @@
         </form>
     </div>
 
-    <div class="discussion"
-         id="plone-app-discussion-comments"
-         tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage' or 'discussion';"
-         tal:condition="has_replies">
-        <tal:link condition="python:not 'display-comments' in request">
-            <a id="plone-app-discussion-display-comments-link"
-               tal:attributes="href string:${context/absolute_url}?display-comments=1"
-               i18n:translate="nojs_display_comments">
-               Click here to display comments
-            </a>
-        </tal:link>
-        <tal:comments condition="python:'display-comments' in request">
-            <tal:comments content="structure here/@@plone-app-discussion-comments" />
-        </tal:comments>
+    <div id="plone-app-discussion-comments">
+	    <div class="discussion"
+	         tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage' or 'discussion';"
+	         tal:condition="has_replies">
+	        <tal:link condition="python:not 'display-comments' in request">
+	            <a id="plone-app-discussion-display-comments-link"
+	               tal:attributes="href string:${context/absolute_url}?display-comments=1"
+	               i18n:translate="nojs_display_comments">
+	               Click here to display comments
+	            </a>
+	        </tal:link>
+	        <tal:comments condition="python:'display-comments' in request">
+	            <tal:comments content="structure here/@@plone-app-discussion-comments" />
+	        </tal:comments>
+	    </div>
     </div>
-
     <div class="reply"
          tal:condition="python:has_replies and (isAnon and not isAnonymousDiscussionAllowed)">
         <form tal:attributes="action view/login_action">

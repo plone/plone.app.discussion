@@ -4,6 +4,9 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- Avoids page reload when user adds a comment.
+  [thomasdesvenain]
+
 - Comments are loaded in ajax after document page load.
   [silviot, thomasdesvenain]
 

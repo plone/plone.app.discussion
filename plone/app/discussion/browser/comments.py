@@ -204,13 +204,15 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         can_manage = getSecurityManager().checkPermission('Manage portal',
                                                           context)
         comment_review_state = wf.getInfoFor(comment, 'review_state')
+
+        is_ajax = self.request.get('HTTP_X_REQUESTED_WITH', '') == 'XMLHttpRequest'
         if comment_review_state == 'pending' and not can_manage:
             # Show info message when comment moderation is enabled
             IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _("Your comment awaits moderator approval."),
-                type="info")
-            self.request.response.redirect(self.action)
-        else:
+                _("Your comment awaits moderator approval."), type="info")
+            if not is_ajax:
+                self.request.response.redirect(self.action)
+        elif not is_ajax:
             # Redirect to comment (inside a content object page)
             self.request.response.redirect(self.action + '#' + str(comment_id))
 
@@ -375,8 +377,26 @@ class CommentsViewlet(CommentsBase, ViewletBase):
 class AjaxCommentLoad(CommentsBase, BrowserView):
     "View for ajax-loaded comments"
     template = ViewPageTemplateFile('ajax-comments.pt')
+    form = CommentForm
+
+    def update(self):
+        z2.switch_on(self, request_layer=IFormLayer)
+        self.form = self.form(aq_inner(self.context), self.request)
+        if HAS_WRAPPED_FORM:
+            alsoProvides(self.form, IWrappedForm)
+        self.form.update()
+
     def render(self):
-        return self.template()
+        self.update()
+        # manage moderation status message
+        messages = IStatusMessage(self.context.REQUEST).showStatusMessages()
+        if messages:
+            self.message = messages[0].message
+        else:
+            self.message = u""
+        render = self.template()
+        return render
+
     __call__ = render
 
     def get_replies(self, workflow_actions=False, start=0, size=None):
