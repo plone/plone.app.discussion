@@ -35,7 +35,7 @@
             </a>
         </tal:link>
         <tal:comments condition="python:'display-comments' in request">
-            <tal:comments content="structure here/@@ajax-load-comments" />
+            <tal:comments content="structure here/@@plone-app-discussion-comments" />
         </tal:comments>
     </div>
 

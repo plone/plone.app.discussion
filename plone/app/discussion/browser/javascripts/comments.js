@@ -236,7 +236,7 @@
     //#JSCOVERAGE_ENDIF
     $(window).load(function(){
     	var displaycommentslink = $('#plone-app-discussion-display-comments-link');
-    	var url = displaycommentslink.attr('href').split('?')[0] + '/@@ajax-load-comments';
+    	var url = displaycommentslink.attr('href').split('?')[0] + '/@@plone-app-discussion-comments';
     	$.get(url, function(html){
     		displaycommentslink.parent().html(html);
     		afterCommentsLoad();

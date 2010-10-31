@@ -95,7 +95,7 @@
     <!-- Ajax comment load view -->
     <browser:page
         for="Products.CMFCore.interfaces.IContentish"
-        name="ajax-load-comments"
+        name="plone-app-discussion-comments"
         layer="..interfaces.IDiscussionLayer"
         class=".comments.AjaxCommentLoad"
         permission="zope2.View"
