@@ -4,6 +4,9 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- Added ajax view for comments.
+  [silviot, thomasdesvenain]
+
 - Fixed 'start' argument on comments getting.
   Added tests on batching argument.
   [thomasdesvenain]

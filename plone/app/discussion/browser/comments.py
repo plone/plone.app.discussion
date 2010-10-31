@@ -17,6 +17,7 @@ from z3c.form import form, field, button, interfaces
 from z3c.form.interfaces import IFormLayer
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 
@@ -47,6 +48,7 @@ except ImportError: # pragma: no cover
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True # don't use context to get widget data
+    id = None
     label = _(u"Add a comment")
     fields = field.Fields(IComment).omit('portal_type',
                                          '__parent__',
@@ -85,7 +87,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # XXX: Author notification code
         #registry = queryUtility(IRegistry)
-        #settings = registry.forInterface(IDiscussionSettings)
+        #settings = registry.forInterface(IDiscussionSettings, check=False)
         #if not settings.user_notification_enabled:
         #    self.widgets['author_notification'].mode = interfaces.HIDDEN_MODE
 
@@ -113,7 +115,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Captcha check for anonymous users (if Captcha is enabled and
         # anonymous commenting is allowed)
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
         portal_membership = getToolByName(self.context, 'portal_membership')
         if settings.captcha != 'disabled' and \
         settings.anonymous_comments and \
@@ -219,19 +221,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         pass # pragma: no cover
 
 
-class CommentsViewlet(ViewletBase):
+class CommentsBase(object):
 
-    form = CommentForm
-    index = ViewPageTemplateFile('comments.pt')
     comment = ViewPageTemplateFile('comment.pt')
-
-    def update(self):
-        super(CommentsViewlet, self).update()
-        z2.switch_on(self, request_layer=IFormLayer)
-        self.form = self.form(aq_inner(self.context), self.request)
-        if HAS_WRAPPED_FORM:
-            alsoProvides(self.form, IWrappedForm)
-        self.form.update()
 
     # view methods
 
@@ -239,7 +231,7 @@ class CommentsViewlet(ViewletBase):
         transforms = getToolByName(self, 'portal_transforms')
         targetMimetype = 'text/html'
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
         mimetype = settings.text_transform
         return transforms.convertTo(targetMimetype,
                                     text,
@@ -274,7 +266,7 @@ class CommentsViewlet(ViewletBase):
                 pass
         return False
 
-    def get_replies(self, workflow_actions=False):
+    def get_replies(self, workflow_actions=False, start=0, size=None):
         """Returns all replies to a content object.
 
         If workflow_actions is false, only published
@@ -290,10 +282,9 @@ class CommentsViewlet(ViewletBase):
 
         # workflow_actions is only true when user
         # has 'Manage portal' permission
-
         def replies_with_workflow_actions():
             # Generator that returns replies dict with workflow actions
-            for r in conversation.getThreads():
+            for r in conversation.getThreads(start=start, size=size):
                 comment_obj = r['comment']
                 # list all possible workflow actions
                 actions = [a for a in wf.listActionInfos(object=comment_obj)
@@ -304,7 +295,7 @@ class CommentsViewlet(ViewletBase):
 
         def published_replies():
             # Generator that returns replies dict with workflow status.
-            for r in conversation.getThreads():
+            for r in conversation.getThreads(start=start, size=size):
                 comment_obj = r['comment']
                 workflow_status = wf.getInfoFor(comment_obj, 'review_state')
                 if workflow_status == 'published':
@@ -346,7 +337,7 @@ class CommentsViewlet(ViewletBase):
     def show_commenter_image(self):
         # Check if showing commenter image is enabled in the registry
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
         return settings.show_commenter_image
 
     def is_anonymous(self):
@@ -366,3 +357,35 @@ class CommentsViewlet(ViewletBase):
         util = getToolByName(self.context, 'translation_service')
         zope_time = DateTime(time.isoformat())
         return util.toLocalizedTime(zope_time, long_format=True)
+
+class CommentsViewlet(CommentsBase, ViewletBase):
+    "Viewlet for comments shown in page"
+    form = CommentForm
+    index = ViewPageTemplateFile('comments.pt')
+
+    def update(self):
+        super(CommentsViewlet, self).update()
+        z2.switch_on(self, request_layer=IFormLayer)
+        self.form = self.form(aq_inner(self.context), self.request)
+        if HAS_WRAPPED_FORM:
+            alsoProvides(self.form, IWrappedForm)
+        self.form.update()
+
+
+class AjaxCommentLoad(CommentsBase, BrowserView):
+    "View for ajax-loaded comments"
+    template = ViewPageTemplateFile('ajax-comments.pt')
+    def render(self):
+        return self.template()
+    __call__ = render
+
+    def get_replies(self, workflow_actions=False, start=0, size=None):
+        # Values in the request override the ones provided to this method
+        # XXX is this a good idea?
+        start = int(self.request.form.get('start', start))
+        size = self.request.form.get('size', size)
+        if size is not None:
+            size = int(size)
+        return super(AjaxCommentLoad, self).get_replies(
+            workflow_actions=workflow_actions, start=start, size=size)
+

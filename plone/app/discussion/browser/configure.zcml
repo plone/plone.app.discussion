@@ -92,6 +92,15 @@
         permission="zope2.View"
         />
 
+    <!-- Ajax comment load view -->
+    <browser:page
+        for="Products.CMFCore.interfaces.IContentish"
+        name="ajax-load-comments"
+        layer="..interfaces.IDiscussionLayer"
+        class=".comments.AjaxCommentLoad"
+        permission="zope2.View"
+        />
+
     <!-- Resource directory for javascripts -->
     <browser:resourceDirectory
         name="plone.app.discussion.javascripts"
