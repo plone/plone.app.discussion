@@ -37,7 +37,9 @@ setup(name='plone.app.discussion',
           'zope.event',
           'zope.container',
           'zope.lifecycleevent',
+          'zope.schema>=3.6.0',
           'zope.site',
+          'z3c.form>=2.3.3',
       ],
       extras_require = {
           'test': [

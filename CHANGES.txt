@@ -4,6 +4,10 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- Declare z3c.form and zope.schema as minimum version dependencies in setup.py
+  in case people use a different KGS.
+  [timo]
+
 - Add and update es and eu l10ns.
   [dukebody, on behalf of erral]
 
