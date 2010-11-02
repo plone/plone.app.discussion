@@ -1,123 +1,123 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-10-04 18:50+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
 "Language-Team: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: es\n"
-"Language-Name: Spanish\n"
-"Preferred-Encodings: utf-8 latin1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: eu\n"
+"Language-Name: Basque\n"
+"Preferred-Encodings: utf-8\n"
 "Domain: plone\n"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
-msgstr "Workflow simple de moderación de comentarios"
+msgstr "Erantzunentzako moderazio workflowa"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
-msgstr "Aprobar"
+msgstr "Onartu"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
-msgstr "Aprobar el comentario significa que se publicará para todos los usuarios"
+msgstr "Erantzuna onartzean erabiltzaile guztientzat argitaratu egingo da"
 
 #: profiles/default/types/Discussion_Item.xml
 msgid "Comment"
-msgstr "Comentario"
+msgstr "Erantzuna"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
-msgstr "Worfklow de moderación de comentarios"
+msgstr "Erantzunen Moderazio Workflowa"
 
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment Single State Workflow"
-msgstr "Workflow de estado único para comentarios"
+msgstr "Erantzunen Egoera Bakarreko Workflowa"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
-msgstr "Comentario sobre la última transición"
+msgstr "Azken trantsizioari buruzko iruzkina"
 
 #: profiles/default/portal_atct.xml
 msgid "Commentators"
-msgstr "Autores"
+msgstr "Egileak"
 
 #: profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
-msgstr "Comentarios añadidos"
+msgstr "Elementuari gehitutako erantzunak"
 
 #: profiles/default/actionicons.xml
 #: profiles/default/controlpanel.xml
 msgid "Discussion"
-msgstr "Discusión"
+msgstr "Eztabaida"
 
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr "Esencialmente un workflow sin transiciones, pero tiene un estado Publicado, por lo que los portlets u otras aplicaciones que esperan ese estado seguirán funcionando"
+msgstr "Trantsiziorik ez duen workflowa, hala ere Argitaratuta egoera bat du, beraz hori espero duten portlet edo gainontzeko aplikazioek funtzionatzen jarraituko dute"
 
 #: profiles/default/actions.xml
 msgid "Moderate comments"
-msgstr "Moderar comentarios"
+msgstr "Erantzunak moderatu"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
-msgstr "Pendiente"
+msgstr "Moderazio kolan"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
-msgstr "Transición anterior"
+msgstr "Aurreko trantsizioa"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
-msgstr "Acceso a la historia del workflow"
+msgstr "Workflowaren historia ikus dezakezu"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
-msgstr "Publicado"
+msgstr "Argitaratuta"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
-msgstr "El revisor aprueba el comentario"
+msgstr "Moderatzaileak erantzuna onartu"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
-msgstr "Enviado, pendiente de moderación"
+msgstr "Bidalita, moderazio kolan zain."
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
-msgstr "El ID del usuario que ejecutó la transición anterior"
+msgstr "Azken trantsizioa egin zuen erabiltzailearen IDa"
 
 #: profiles/default/portal_atct.xml
 msgid "Total number of comments"
-msgstr "Número total de comentarios"
+msgstr "Erantzun kopurua"
 
 #: profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
-msgstr "Número de comentarios de este elemento"
+msgstr "Elementu honen erantzun kopurua"
 
 #: profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
-msgstr "Usuarios que han comentado el elemento"
+msgstr "Elementuaren inguruan erantzuna eman duten erabiltzaileak"
 
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Visible to everyone, editable by the owner."
-msgstr "Visible para todos, editable por el autor"
+msgstr "Guztiek ikusteko, jabeak aldatzeko."
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
-msgstr "Visible para todos, no-editable"
+msgstr "Guztiek ikusteko, ez da editagarria."
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
-msgstr "Cuándo se ejecutó la transición anterior"
+msgstr "Aurreko trantsizioa noiz exekutatu zen."
 
