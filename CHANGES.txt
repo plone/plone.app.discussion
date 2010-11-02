@@ -4,6 +4,9 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- Add and update es and eu l10ns.
+  [dukebody, on behalf of erral]
+
 - Ajaxify comment deletion and approval.
   [thomasdesvenain]
   
