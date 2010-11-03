@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2010-11-03 13:43+0000\n"
-"PO-Revision-Date: 2010-09-01 10:01+0100\n"
+"PO-Revision-Date: 2010-11-03 14:51+0100\n"
 "Last-Translator: Radim Novotny <novotny.radim@gmail.com>\n"
 "Language-Team: DMS4U <info@dms4u.cz>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
-msgstr ""
+msgstr "Jednoduché workflow pro komentáře"
 
 #: profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
@@ -58,7 +58,7 @@ msgstr "Komentáře"
 
 #: profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr ""
+msgstr "Jednoduché workflow bez žádných přechodů mezi stavy, pouze se stavem Zveřejněno."
 
 #: profiles/default/actions.xml
 msgid "Moderate comments"
