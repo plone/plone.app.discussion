@@ -29,7 +29,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     ...
     extends =
         ...
-        http://good-py.appspot.com/release/plone.app.discussion/1.0b10
+        http://good-py.appspot.com/release/plone.app.discussion/1.0b11
 
     ...
 
@@ -54,7 +54,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     versions = versions
     
     [versions]
-    zope.schema = 3.6.0
+    zope.schema = 3.6.4
     
     ...
     
