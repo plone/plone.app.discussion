@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-10-04 18:50+0000\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "PO-Revision-Date: 2010-09-01 10:23+0100\n"
 "Last-Translator: Radim Novotny <novotny.radim@gmail.com>\n"
 "Language-Team: DMS4U <info@dms4u.cz>\n"
@@ -14,15 +14,15 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ./comment.py:221
+#: ./comment.py:217
 msgid "A comment has been posted."
 msgstr "Komentář byl přidán."
 
-#: ./interfaces.py:251
+#: ./interfaces.py:248
 msgid "A comment id unique to this conversation"
 msgstr "Identifikátor komentáře v této konverzaci."
 
-#: ./browser/comments.py:50
+#: ./browser/comments.py:53
 msgid "Add a comment"
 msgstr "Přidat komentář"
 
@@ -30,19 +30,19 @@ msgstr "Přidat komentář"
 msgid "Anonymous Comments"
 msgstr "Anonymní komentáře"
 
-#: ./interfaces.py:276
+#: ./interfaces.py:273
 msgid "Author name (for display)"
 msgstr "Jméno autora (pro zobrazení)"
 
-#: ./browser/comments.py:210
+#: ./browser/comments.py:219
 msgid "Cancel"
 msgstr "Storno"
 
-#: ./browser/moderation.py:111
+#: ./browser/moderation.py:148
 msgid "Comment approved."
 msgstr "Komentář byl schválen."
 
-#: ./browser/moderation.py:90
+#: ./browser/moderation.py:109
 msgid "Comment deleted."
 msgstr "Komentář byl odebrán."
 
@@ -53,15 +53,15 @@ msgstr "Portét komentujícího"
 msgid "Commenting infrastructure for Plone"
 msgstr "Komentářový systém pro Plone"
 
-#: ./interfaces.py:246
+#: ./interfaces.py:243
 msgid "Conversation"
 msgstr "Konverzace"
 
-#: ./interfaces.py:277
+#: ./interfaces.py:274
 msgid "Creation date"
 msgstr "Datum vytvoření"
 
-#: ./interfaces.py:131
+#: ./interfaces.py:128
 msgid "Date of the most recent comment"
 msgstr "Datum nejnovějšícho komentáře"
 
@@ -73,7 +73,7 @@ msgstr "Zakázáno"
 msgid "Discussion settings"
 msgstr "Nastavení komentářů"
 
-#: ./interfaces.py:263
+#: ./interfaces.py:260
 msgid "Email"
 msgstr "Email"
 
@@ -81,11 +81,11 @@ msgstr "Email"
 msgid "Enable Comments"
 msgstr "Povolit komentáře"
 
-#: ./interfaces.py:254
+#: ./interfaces.py:251
 msgid "Id of comment this comment is in reply to"
 msgstr "Id předchozího komentáře, na který je tento odpovědí"
 
-#: ./interfaces.py:268
+#: ./interfaces.py:265
 msgid "MIME type"
 msgstr "MIME typ"
 
@@ -93,36 +93,44 @@ msgstr "MIME typ"
 msgid "Moderator Email Notification"
 msgstr "Notifikace moderátorů emailem"
 
-#: ./interfaces.py:278
+#: ./interfaces.py:275
 msgid "Modification date"
 msgstr "Datum změny"
 
-#: ./interfaces.py:248
+#: ./interfaces.py:245
 msgid "Name"
 msgstr "Jméno"
+
+#: ./interfaces.py:269
+msgid "Notify me of new comments via email."
+msgstr ""
 
 #: ./plone.app.discussion/plone/app/discussion/configure.zcml
 msgid "Plone Discussions"
 msgstr "Komentáře"
 
-#: ./interfaces.py:241
+#: ./interfaces.py:238
 msgid "Portal type"
 msgstr "Typ položky"
 
-#: ./interfaces.py:136
+#: ./interfaces.py:133
 msgid "The set of unique commentators (usernames)"
 msgstr "Seznam komentujících"
 
-#: ./interfaces.py:125
+#: ./interfaces.py:122
 msgid "Total number of comments on this item"
 msgstr "Celkový počet komentářů k této položce"
 
-#: ./browser/comments.py:203
+#: ./browser/controlpanel.py:46
+msgid "User Email Notification"
+msgstr ""
+
+#: ./browser/comments.py:212
 msgid "Your comment awaits moderator approval."
 msgstr "Váš komentář čeká na schválení."
 
 #. Default: "Comment"
-#: ./browser/comments.py:98
+#: ./browser/comments.py:102
 msgid "add_comment_button"
 msgstr "Přidat komentář"
 
@@ -137,7 +145,7 @@ msgid "bulkactions_publish"
 msgstr "Schválit"
 
 #. Default: "${creator} on ${content}"
-#: ./comment.py:50
+#: ./comment.py:48
 msgid "comment_title"
 msgstr ""
 
@@ -197,7 +205,7 @@ msgid "help_globally_enabled"
 msgstr "Je-li zaškrtnuto, uživatelé mohou přidávat komentáře. Navíc však musíte ověřit, že je povoleno přidávání komentářů k příslušným typům položek."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
-#: ./interfaces.py:84
+#: ./interfaces.py:83
 msgid "help_moderator_notification_enabled"
 msgstr "Je-li zaškrtnuto, moderátor je upozorněn na komentáře, které vyžadují jeho zásah."
 
@@ -206,8 +214,13 @@ msgstr "Je-li zaškrtnuto, moderátor je upozorněn na komentáře, které vyža
 msgid "help_show_commenter_image"
 msgstr "Je-li zaškrtnuto, je vedle komentáře zobrazen portrét autora komentáře."
 
+#. Default: "If selected, users can choose to be notified of new comments by email."
+#: ./interfaces.py:93
+msgid "help_user_notification_enabled"
+msgstr ""
+
 #. Default: "Anonymous"
-#: ./comment.py:123
+#: ./comment.py:121
 msgid "label_anonymous"
 msgstr ""
 
@@ -227,7 +240,7 @@ msgid "label_captcha"
 msgstr "Captcha"
 
 #. Default: "Comment"
-#: ./interfaces.py:269
+#: ./interfaces.py:266
 msgid "label_comment"
 msgstr "Komentář"
 
@@ -242,7 +255,7 @@ msgid "label_globally_enabled"
 msgstr "Globální povolení komentářů"
 
 #. Default: "Enable moderator email notification"
-#: ./interfaces.py:82
+#: ./interfaces.py:81
 msgid "label_moderator_notification_enabled"
 msgstr "Povolit emailovou notifikaci moderátorů"
 
@@ -267,7 +280,7 @@ msgid "label_show_full_comment_text"
 msgstr "zobrazit celý text příspěvku"
 
 #. Default: "Subject"
-#: ./interfaces.py:265
+#: ./interfaces.py:262
 msgid "label_subject"
 msgstr "Předmět"
 
@@ -276,8 +289,14 @@ msgstr "Předmět"
 msgid "label_text_transform"
 msgstr "Transformace textu"
 
-#. Default: "A comment with the title '${title}' has been posted here: ${link}"
-#: ./comment.py:53
+#. Default: "Enable user email notification"
+#: ./interfaces.py:91
+msgid "label_user_notification_enabled"
+msgstr ""
+
+#. Default: "A comment on '${title}' has been posted here: ${link}"
+#: ./comment.py:51
+#, fuzzy
 msgid "mail_notification_message"
 msgstr "Na adrese ${link}\" byl přidán komentář s předmětem '${title}'."
 

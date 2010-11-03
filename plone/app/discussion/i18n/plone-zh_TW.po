@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-10-04 18:50+0000\n"
+"POT-Creation-Date: 2010-11-03 13:43+0000\n"
 "PO-Revision-Date: 2010-08-07 23:11+0800\n"
 "Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
 "Language-Team: Taiwan Python User Group <plone-i18n@lists.sourceforge.net>\n"
