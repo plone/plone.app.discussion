@@ -4,6 +4,9 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- Fix Dutch language code and name.
+  [timo]
+
 - Re-add the CommentsViewlet can_manage method. This method has been removed
   in version 1.0b9 and added again in 1.0b11 because we don't want to change
   the API in beta releases.
