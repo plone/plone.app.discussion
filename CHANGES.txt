@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b11 (unreleased)
+1.0b11 (2010-11-03)
 -------------------
 
 - Fix Dutch and Czech language code and name.
