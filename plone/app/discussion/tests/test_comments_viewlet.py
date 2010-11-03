@@ -216,7 +216,22 @@ class TestCommentsViewlet(PloneTestCase):
         self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
         self.login('reviewer')
         self.failUnless(self.viewlet.can_review())        
-            
+
+    def test_can_manage(self):
+        """We keep this method for backward compatibility. This method has been
+           removed in version 1.0b9 and added again in 1.0b11 because we don't
+           do API changes in beta releases.
+        """
+        # Portal owner has 'can review' permission
+        self.failUnless(self.viewlet.can_manage())
+        self.logout()
+        # Anonymous has no 'can review' permission
+        self.failIf(self.viewlet.can_manage())
+        # The reviewer role has the 'Review comments' permission
+        self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
+        self.login('reviewer')
+        self.failUnless(self.viewlet.can_manage())        
+        
     def test_is_discussion_allowed(self):
         # By default, discussion is disabled
         self.failIf(self.viewlet.is_discussion_allowed())

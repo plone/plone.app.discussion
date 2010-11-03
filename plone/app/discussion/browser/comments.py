@@ -255,6 +255,12 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission('Reply to item', 
                                                     aq_inner(self.context))
 
+    def can_manage(self):
+        """We keep this method for <= 1.0b9 backward compatibility. Since we do
+           not want any API changes in beta releases.
+        """
+        return self.can_review()
+        
     def can_review(self):
         """Returns true if current user has the 'Review comments' permission.
         """

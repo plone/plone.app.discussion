@@ -4,6 +4,11 @@ Changelog
 1.0b11 (unreleased)
 -------------------
 
+- Re-add the CommentsViewlet can_manage method. This method has been removed
+  in version 1.0b9 and added again in 1.0b11 because we don't want to change
+  the API in beta releases.
+  [timo]
+
 - Declare z3c.form and zope.schema as minimum version dependencies in setup.py
   in case people use a different KGS.
   [timo]
