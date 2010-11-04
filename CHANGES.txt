@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.0b12 (2010-11-04)
+-------------------
+
+- Remove AJAX comment deletion binding. This function relies on the nextUntil() 
+  selector introduced by jQuery 1.4 and therefore breaks in Plone 3 
+  (that currently uses jQuery 1.3.2).
+  [timo]
+
+
 1.0b11 (2010-11-03)
 -------------------
 
