@@ -179,7 +179,7 @@
                 url: form_url,
                 context: $(trigger).parents(".comment"),
                 success: function (data) {
-                    if ($(".discussion .comment .replyTreeLevel0").length === 1) {
+                    if ($(".discussion .replyTreeLevel0").length === 1) {
                         $(".discussion").fadeOut('fast', function () {
                             $(".discussion").remove();
                         });
