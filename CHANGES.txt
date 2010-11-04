@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0RC1 (unreleased)
+-------------------
+
+- Catch SMTP exceptions when sending email notifications.
+  [timo]
+
+
 1.0b12 (2010-11-04)
 -------------------
 

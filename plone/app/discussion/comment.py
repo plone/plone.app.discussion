@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 """The default comment class and factory.
 """
+
+import logging
+
 from datetime import datetime
+
+from smtplib import SMTPException
 
 from zope.annotation.interfaces import IAnnotatable
 
@@ -51,6 +56,8 @@ COMMENT_TITLE = _(u"comment_title",
 MAIL_NOTIFICATION_MESSAGE = _(u"mail_notification_message",
     default=u"A comment on '${title}' "
              "has been posted here: ${link}")
+
+logger = logging.getLogger("plone.app.discussion")
 
 
 class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
@@ -223,17 +230,29 @@ def notify_user(obj, event):
         
             # Send email
             if PLONE_4:
-                mail_host.send(message, 
-                               comment.author_email, 
-                               sender, 
-                               subject, 
-                               charset='utf-8')
-            else:
-                mail_host.secureSend(message, 
-                                     comment.author_email, 
-                                     sender, 
-                                     subject=subject, 
-                                     charset='utf-8') # pragma: no cover
+                try:
+                    mail_host.send(message, 
+                                   comment.author_email, 
+                                   sender, 
+                                   subject, 
+                                   charset='utf-8')
+                except SMTPException:
+                    logger.error('SMTP exception while trying to send an ' +
+                                 'email from %s to %s',
+                                 sender,
+                                 comment.author_email)
+            else: # pragma: no cover
+                try:
+                    mail_host.secureSend(message, 
+                                         comment.author_email,
+                                         sender,
+                                         subject=subject,
+                                         charset='utf-8')
+                except SMTPException:
+                    logger.error('SMTP exception while trying to send an ' +
+                                 'email from %s to %s',
+                                 sender,
+                                 comment.author_email)
 
 def notify_moderator(obj, event):
     """Tell the moderator when a comment needs attention.
@@ -284,10 +303,22 @@ def notify_moderator(obj, event):
 
     # Send email
     if PLONE_4:
-        mail_host.send(message, mto, sender, subject, charset='utf-8')
-    else:
-        mail_host.secureSend(message, 
-                             mto, 
-                             sender, 
-                             subject=subject, 
-                             charset='utf-8') # pragma: no cover
+        try:
+            mail_host.send(message, mto, sender, subject, charset='utf-8')
+        except SMTPException:
+            logger.error('SMTP exception while trying to send an ' +
+                         'email from %s to %s',
+                         sender,
+                         comment.author_email)
+    else: # pragma: no cover
+        try:
+            mail_host.secureSend(message, 
+                                 mto, 
+                                 sender, 
+                                 subject=subject, 
+                                 charset='utf-8')
+        except SMTPException:
+            logger.error('SMTP exception while trying to send an ' +
+                         'email from %s to %s',
+                         sender,
+                         comment.author_email)
