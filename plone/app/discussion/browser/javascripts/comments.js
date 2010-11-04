@@ -187,7 +187,7 @@
                         var comment = $(this);
                         var clss = comment.attr('class');
                         // remove replies
-                        var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel') + 'replyTreeLevel'.length]);
+                        var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel') + 'replyTreeLevel'.length], 10);
                         // selector for all the following elements of lower level
                         var selector = ".replyTreeLevel" + treelevel;
                         for (var i = 0; i < treelevel; i++) {
