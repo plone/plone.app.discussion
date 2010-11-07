@@ -1,0 +1,123 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plone.app.discussion\n"
+"POT-Creation-Date: 2010-11-03 13:43+0000\n"
+"PO-Revision-Date: 2010-01-28 15:00+0000\n"
+"Last-Translator: Anton Stonor <anton@headnet.dk>\n"
+"Language-Team: Anton Stonor <anton@headnet.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: da\n"
+"Language-Name: Danish\n"
+"Preferred-Encodings: utf-8\n"
+"Domain: plone\n"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "A simple review workflow for comments"
+msgstr "Simpelt godkendelses-workflow for kommentarer"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approve"
+msgstr "Godkend"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approving the comment makes it visible to other users."
+msgstr "Når en kommentarer bliver godkendt, kan andre se den."
+
+#: profiles/default/types/Discussion_Item.xml
+msgid "Comment"
+msgstr "Kommentar"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Comment Review Workflow"
+msgstr "Godkendelses-workflow for kommentarer"
+
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Comment Single State Workflow"
+msgstr "Et-trinsworkflow for kommentarer"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Comment about the last transition"
+msgstr "Kommentar om seneste workflow"
+
+#: profiles/default/portal_atct.xml
+msgid "Commentators"
+msgstr "Kommentatorer"
+
+#: profiles/default/types/Discussion_Item.xml
+msgid "Comments added to a content item."
+msgstr "Kommentarer tilføjet til indholdet"
+
+#: profiles/default/actionicons.xml
+#: profiles/default/controlpanel.xml
+msgid "Discussion"
+msgstr "Kommentering"
+
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
+msgstr "Et workflow med kun 1 tilstand, nemlig publiceret."
+
+#: profiles/default/actions.xml
+msgid "Moderate comments"
+msgstr "Moderér kommentarer"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Pending"
+msgstr "Afventer"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Previous transition"
+msgstr "Foregående workflow-ændringer"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Provides access to workflow history"
+msgstr "Giver adgang til workflow-historikken"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Published"
+msgstr "Publiceret"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Reviewer approves content"
+msgstr "En godkender kontrollerer indholdet"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Submitted, pending review."
+msgstr "Gemt, afventer godkendelse"
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "The ID of the user who performed the previous transition"
+msgstr "Brugernavnet på den, der gennemført det seneste workflow-trin"
+
+#: profiles/default/portal_atct.xml
+msgid "Total number of comments"
+msgstr "Kommentarer i alt"
+
+#: profiles/default/portal_atct.xml
+msgid "Total number of comments on this item."
+msgstr "Antal kommentarer på denne side."
+
+#: profiles/default/portal_atct.xml
+msgid "Users who have commented on the item"
+msgstr "Brugere, der har kommenteret på denne side"
+
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Visible to everyone, editable by the owner."
+msgstr "Synlig for alle, kan redigeres af ejeren."
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Visible to everyone, non-editable."
+msgstr "Synligt for alle, kan ikke redigeres."
+
+#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: profiles/default/workflows/one_state_workflow/definition.xml
+msgid "When the previous transition was performed"
+msgstr "Tidspunktet for det seneste workflow-trin"
+
