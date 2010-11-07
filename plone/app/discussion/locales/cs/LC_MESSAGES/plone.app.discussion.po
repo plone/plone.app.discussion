@@ -215,7 +215,7 @@ msgstr "Je-li zaškrtnuto, je vedle komentáře zobrazen portrét autora koment�
 #. Default: "If selected, users can choose to be notified of new comments by email."
 #: ./interfaces.py:93
 msgid "help_user_notification_enabled"
-msgstr "Je-li zaškrtnuto, uživatelé se mohou rozhodnout zda si přejí být upozorněni na nevé komentáře emailem."
+msgstr "Je-li zaškrtnuto, uživatelé se mohou rozhodnout zda si přejí být upozorněni na nové komentáře emailem."
 
 #. Default: "Anonymous"
 #: ./comment.py:121
