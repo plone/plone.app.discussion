@@ -136,6 +136,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             text = data['text']
         if 'author_name' in data:
             author_name = data['author_name']
+            if isinstance(author_name, str):
+                author_name = unicode(author_name, 'utf-8')
         if 'author_email' in data:
             author_email = data['author_email']
         if 'user_notification' in data:
