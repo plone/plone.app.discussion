@@ -19,6 +19,7 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 
 from zope.interface import Interface
 from zope.component import getMultiAdapter
+from zope.component import createObject, queryUtility
 
 from plone.registry.interfaces import IRegistry
 
@@ -32,6 +33,7 @@ from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.interfaces import IConversation 
 from plone.app.discussion.tests.layer import DiscussionLayer
+from plone.app.discussion.interfaces import IDiscussionSettings
 
 
 class TestCommentForm(PloneTestCase):
@@ -52,6 +54,9 @@ class TestCommentForm(PloneTestCase):
         self.context = getattr(self.portal, 'doc1')
         
     def test_add_comment(self):
+        """Post a comment as logged-in user.
+        """
+        
         # Allow discussion
         self.dtool.overrideDiscussionFor(self.portal.doc1, True)
         self.viewlet = CommentsViewlet(self.context, self.request, None, None)
@@ -92,6 +97,45 @@ class TestCommentForm(PloneTestCase):
         self.failIf(commentForm.handleComment(commentForm, "foo"))
         
 
+    def test_add_anonymous_comment(self):
+        """Add a comment as anonymous.
+        """
+         
+        # Allow discussion
+        self.dtool.overrideDiscussionFor(self.portal.doc1, True)
+        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
+        
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        settings.anonymous_comments = True
+
+        # Logout
+        self.logout()
+                
+        def make_request(form={}):
+            request = TestRequest()
+            request.form.update(form)
+            alsoProvides(request, IFormLayer)
+            alsoProvides(request, IAttributeAnnotatable)
+            return request
+        
+        provideAdapter(adapts=(Interface, IBrowserRequest),
+                       provides=Interface,
+                       factory=CommentForm,
+                       name=u"comment-form")
+        
+        # Post an anonymous comment and provide a name
+        request = make_request(form={'form.widgets.name': u'john doe',
+                                     'form.widgets.text': u'bar'})
+
+        commentForm = getMultiAdapter((self.context, request), 
+                                      name=u"comment-form")
+        commentForm.update()
+        data, errors = commentForm.extractData() # pylint: disable-msg=W0612
+
+        self.assertEquals(len(errors), 0)
+        self.failIf(commentForm.handleComment(commentForm, "action"))
+        
     def test_can_not_add_comments_if_discussion_is_not_allowed(self):
         """Make sure that comments can't be posted if discussion is disabled.
         """
@@ -125,7 +169,7 @@ class TestCommentForm(PloneTestCase):
                           commentForm,
                           "foo")
                                 
-    def test_add_comment_as_anonymous(self):
+    def test_anonymous_can_not_add_comments_if_discussion_is_not_allowed(self):
         """Make sure that anonymous users can't post comments if anonymous
            comments are disabled.
         """
