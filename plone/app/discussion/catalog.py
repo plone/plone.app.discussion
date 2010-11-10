@@ -67,7 +67,7 @@ def title(object):
 
 @indexer(IComment)
 def creator(object):
-    return object.creator
+    return object.creator.encode('utf-8')
 
 @indexer(IComment)
 def description(object):
