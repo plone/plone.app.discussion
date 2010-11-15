@@ -10,6 +10,8 @@ Changelog
 - Catch SMTP exceptions when sending email notifications.
   [timo]
 
+- Updated italian translation.
+  [keul]
 
 1.0b12 (2010-11-04)
 -------------------
