@@ -191,9 +191,7 @@ msgstr "Utilitzeu aquesta opció per activar o desactivar una eina de captcha pe
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:14
 msgid "help_discussion_settings_editform"
-msgstr "Algunes de les configuracions dels comentaris no estan en la element de configuració 'Comentaris' del panell de control de l'espai.\n
-Per activar els comentaris per un tipus de contingut específic, dirigiu-vos al element de configuració 'Tipus' i activeu la opció 'Permetre comentaris'.\n
-Per activar el circuit de treball (workflow) de moderació de comentaris, dirigiu-vos al element de configuració de 'Tipus', seleccioneu 'Comentari' i escolliu el 'Workflow de moderació de comentaris'."
+msgstr "Algunes de les configuracions dels comentaris no estan en la element de configuració 'Comentaris' del panell de control de l'espai. Per activar els comentaris per un tipus de contingut específic, dirigiu-vos al element de configuració 'Tipus' i activeu la opció 'Permetre comentaris'. Per activar el circuit de treball (workflow) de moderació de comentaris, dirigiu-vos al element de configuració de 'Tipus', seleccioneu 'Comentari' i escolliu el 'Workflow de moderació de comentaris'."
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
 #: ./interfaces.py:26
