@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Catalan translation added.
+  [sneridagh]
+
 - Convert anonymous-supplied name to unicode as done for authenticated members.
   [ggozad]
 
