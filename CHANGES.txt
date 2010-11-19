@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Spanish translation updated.
+  [dukebody]
+
 - Catalan translation added.
   [sneridagh]
 
