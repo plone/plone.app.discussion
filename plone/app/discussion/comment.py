@@ -27,6 +27,8 @@ from persistent import Persistent
 from Products.CMFCore.DynamicType import DynamicType
 from Products.CMFCore.utils import getToolByName
 
+from Products.CMFPlone.utils import safe_unicode
+
 from OFS.Traversable import Traversable
 
 from plone.registry.interfaces import IRegistry
@@ -137,7 +139,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         title = translate(
             Message(COMMENT_TITLE,
                     mapping={'creator': creator,
-                             'content': content.Title().decode("utf-8")}))
+                             'content': safe_unicode(content.Title())}))
         return title
     
     def Creator(self):
