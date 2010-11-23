@@ -108,7 +108,7 @@
 	     * Check or uncheck all checkboxes from the batch moderation page.
 	     **********************************************************************/
 	    $("input[name='check_all']").click(function () {
-	        if ($(this).val() === 0) {
+	        if ($(this).val() === '0') {
 	            $(this).parents("table")
 	                   .find("input:checkbox")
 	                   .attr("checked", "checked");

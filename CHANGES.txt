@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Fix 'check all' on batch moderation page.
+  [davisagli]
+
 - Use safe_unicode to decode the title of the content. encode("utf-9") caused 
   Dexterity based content types to raise a unicode decode error. This fixes 
   http://dev.plone.org/plone/ticket/11292
