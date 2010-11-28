@@ -38,10 +38,11 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot, INonStructuralFolder
 
 from zope.container.contained import ContainerModifiedEvent
 
+from zope.lifecycleevent import ObjectCreatedEvent
+
 try:
     # Plone 4
     from zope.lifecycleevent import ObjectAddedEvent
-    from zope.lifecycleevent import ObjectCreatedEvent
     from zope.lifecycleevent import ObjectRemovedEvent
 except ImportError: # pragma: no cover
     # Plone 3.x
