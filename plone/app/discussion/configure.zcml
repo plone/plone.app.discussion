@@ -10,13 +10,10 @@
     <five:registerPackage package="." />
 
     <include package="plone.indexer" />
-    <include package="plone.uuid" />
-    <include package="plone.app.uuid" />
-	
+
     <include file="permissions.zcml" />
     <include file="notifications.zcml" />
     <include file="subscribers.zcml" />
-    
     <include package=".browser" />
 
     <i18n:registerTranslations directory="locales" />
@@ -46,7 +43,6 @@
     <!-- Comments -->
 
     <class class=".comment.Comment">
-        <implements interface="plone.uuid.interfaces.IAttributeUUID" />
         <require interface=".interfaces.IComment" permission="zope2.View" />
         <require attributes="Title Creator getId getText" permission="zope2.View" />
     </class>
