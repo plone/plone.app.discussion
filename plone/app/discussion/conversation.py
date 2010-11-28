@@ -41,6 +41,7 @@ from zope.container.contained import ContainerModifiedEvent
 try:
     # Plone 4
     from zope.lifecycleevent import ObjectAddedEvent
+    from zope.lifecycleevent import ObjectCreatedEvent
     from zope.lifecycleevent import ObjectRemovedEvent
 except ImportError: # pragma: no cover
     # Plone 3.x
@@ -252,6 +253,7 @@ class Conversation(Traversable, Persistent, Explicit):
 
         # Notify that the object is added. The object must here be
         # acquisition wrapped or the indexing will fail.
+        notify(ObjectCreatedEvent(comment))
         notify(ObjectAddedEvent(comment.__of__(self), self, id))
         notify(ContainerModifiedEvent(self))
 
