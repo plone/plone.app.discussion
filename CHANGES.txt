@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Make sure comment UIDs in the catalog are always unique. This fixes 
+  http://dev.plone.org/plone/ticket/10652.
+  [timo]
+
 - Fix 'check all' on batch moderation page.
   [davisagli]
 
