@@ -47,6 +47,14 @@ class IDiscussionSettings(Interface):
     text_transform = schema.Choice(
         title=_(u"label_text_transform",
                 default="Comment text transform"),
+        description=_(u"help_text_transform",
+                default=u"Use this setting to choose if the comment text " +
+                         "should be transformed in any way. You can choose "
+                         "between 'Plain text' and 'Intelligent text'. " +
+                         "'Intelligent text' converts plain text into HTML " +
+                         "where line breaks and indentation is preserved, " +
+                         "and web and email addresses are made into " +
+                         "clickable links."),                
         required=True,
         default='text/plain',
         vocabulary='plone.app.discussion.vocabularies.TextTransformVocabulary',

@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Description for text transform added to the discussion control panel.
+  [timo]
+
 - Move the discussion control panel to the core Plone configuration.
   [timo]
 
