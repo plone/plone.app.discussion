@@ -307,11 +307,14 @@ def notify_moderator(obj, event):
     if PLONE_4:
         try:
             mail_host.send(message, mto, sender, subject, charset='utf-8')
-        except SMTPException:
-            logger.error('SMTP exception while trying to send an ' +
-                         'email from %s to %s',
+        except SMTPException, e:
+            logger.error('SMTP exception (%s) while trying to send an ' +
+                         'email notification to the comment moderator ' +
+                         '(from %s to %s, message: %s)',
+                         e,
                          sender,
-                         comment.author_email)
+                         mto,
+                         message)
     else: # pragma: no cover
         try:
             mail_host.secureSend(message, 
@@ -319,8 +322,11 @@ def notify_moderator(obj, event):
                                  sender, 
                                  subject=subject, 
                                  charset='utf-8')
-        except SMTPException:
-            logger.error('SMTP exception while trying to send an ' +
-                         'email from %s to %s',
+        except SMTPException, e:
+            logger.error('SMTP exception (%s) while trying to send an ' +
+                         'email notification to the comment moderator ' +
+                         '(from %s to %s, message: %s)',
+                         e,
                          sender,
-                         comment.author_email)
+                         mto,
+                         message)

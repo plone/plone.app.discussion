@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Fix SMTP exception when an email is send to the moderator.
+  [timo]
+
 - Make sure comment UIDs in the catalog are always unique. This fixes  
   http://dev.plone.org/plone/ticket/10652. 
   [timo] 
