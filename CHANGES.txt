@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Move the discussion control panel to the core Plone configuration.
+  [timo]
+
 - Always set the effective date of a comment to the same value as the creation
   date. 
   [timo]

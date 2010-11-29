@@ -9,7 +9,7 @@
         title="Discussion"
         action_id="discussion"
         appId="plone.app.discussion"
-        category="Products"
+        category="Plone"
         condition_expr=""
         icon_expr="string:${portal_url}/discussionitem_icon.gif"
         url_expr="string:${portal_url}/@@discussion-settings"
