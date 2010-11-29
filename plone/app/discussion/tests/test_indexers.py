@@ -151,6 +151,8 @@ class CommentIndexersTest(PloneTestCase):
         # Test if created, modified, effective etc. are set correctly
         self.assertEquals(catalog.created(self.comment)(), 
                           DateTime(2006, 9, 17, 14, 18, 12))
+        self.assertEquals(catalog.effective(self.comment)(), 
+                          DateTime(2006, 9, 17, 14, 18, 12))
         self.assertEquals(catalog.modified(self.comment)(), 
                           DateTime(2008, 3, 12, 7, 32, 52))
 

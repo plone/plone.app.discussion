@@ -90,8 +90,12 @@ def in_response_to(object):
 @indexer(IComment)
 def effective(object):
     # the catalog index needs Zope DateTime instead of Python datetime
-    # Todo!!!
-    return DateTime
+    return DateTime(object.creation_date.year,
+                    object.creation_date.month,
+                    object.creation_date.day,
+                    object.creation_date.hour,
+                    object.creation_date.minute,
+                    object.creation_date.second)
 
 @indexer(IComment)
 def created(object):
