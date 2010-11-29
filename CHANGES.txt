@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Dynamically show the comment formatting message dependent on the text
+  transform setting.
+  [timo]
+
 - Description for text transform added to the discussion control panel.
   [timo]
 

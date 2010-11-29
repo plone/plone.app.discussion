@@ -284,6 +284,27 @@ class TestCommentsViewlet(PloneTestCase):
         portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
         # Test if discussion has been enabled
         self.failUnless(self.viewlet.is_discussion_allowed())
+
+    def test_comment_transform_message(self):
+        # Default transform is plain/text
+        self.failUnless(self.viewlet.comment_transform_message())
+        self.assertEquals(
+            self.viewlet.comment_transform_message(),
+            "You can add a comment by filling out the form below. Plain text " +
+            "formatting.")
+
+        # Set text transform to intelligent text
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        settings.text_transform = "text/x-web-intelligent"
+
+        # Make sure the comment description is changes accordingly
+        self.assertEquals(
+            self.viewlet.comment_transform_message(),        
+            "You can add a comment by filling out the form below. " +
+            "Plain text formatting. Web and email addresses are transformed " +
+             "into clickable links.")
+        
     
     def test_has_replies(self):
         self.assertEquals(self.viewlet.has_replies(), False)

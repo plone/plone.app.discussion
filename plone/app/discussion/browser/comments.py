@@ -9,6 +9,9 @@ from DateTime import DateTime
 
 from urllib import quote as url_quote
 
+from zope.i18n import translate
+from zope.i18nmessageid import Message
+
 from zope.component import createObject, queryUtility
 
 from zope.interface import alsoProvides
@@ -44,6 +47,17 @@ try:
     HAS_WRAPPED_FORM = True 
 except ImportError: # pragma: no cover
     HAS_WRAPPED_FORM = False
+
+COMMENT_DESCRIPTION_PLAIN_TEXT = _(
+    u"comment_description_plain_text",
+    default=u"You can add a comment by filling out the form below. " +
+             "Plain text formatting.")
+
+COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
+    u"comment_description_intelligent_text",
+    default=u"You can add a comment by filling out the form below. " +
+             "Plain text formatting. Web and email addresses are transformed " +
+             "into clickable links.")
 
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
@@ -273,6 +287,20 @@ class CommentsViewlet(ViewletBase):
         context = aq_inner(self.context)
         conversation = IConversation(context)
         return conversation.enabled()
+
+    def comment_transform_message(self):
+        """Returns the description that shows up above the comment text,
+           dependent on the text_transform setting of the discussion control
+           panel.
+        """
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        
+        if settings.text_transform == "text/x-web-intelligent":
+            message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT))
+        else:
+            message = translate(Message(COMMENT_DESCRIPTION_PLAIN_TEXT))
+        return message
 
     def has_replies(self, workflow_actions=False):
         """Returns true if there are replies.
