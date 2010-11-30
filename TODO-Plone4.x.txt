@@ -1,0 +1,12 @@
+===============================================================
+TODO LIST FOR THE PLONE 4.x INTEGRATION OF PLONE.APP.DISCUSSION
+===============================================================
+
+1) Install pad by default, don't show it as add-on Product.
+
+2) Set "globally enable comments" to false by default.
+
+3) Remove the "comment"-type from plone.app.vocabularies.types.BAD_TYPES and 
+   remove the monkey patch in __init__.py.
+   
+4) Remove all Plone3 related code.
