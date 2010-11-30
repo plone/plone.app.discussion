@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Fix document_byline bottom margin if commenter images are disabled.
+  [timo]
+
 - Dynamically show the comment formatting message dependent on the text
   transform setting.
   [timo]

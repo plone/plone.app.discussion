@@ -55,6 +55,7 @@
 .discussion .documentByLine {
     float: left;
     margin-left: 0;
+	margin-bottom: 0.5em;
 }
 
 .commentActions {
