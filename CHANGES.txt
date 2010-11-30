@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Move "moderate comments" site action above the logout action.
+  [timo]
+
 - Moderator notification description updated.
   [timo]
    
