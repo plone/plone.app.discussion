@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Redirect back to the discussion control panel when the discussion control
+  panel form is submitted.
+  [timo]   
+
 - Fix document_byline bottom margin if commenter images are disabled.
   [timo]
 

@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from Products.statusmessages.interfaces import IStatusMessage
+
 from plone.app.registry.browser import controlpanel
 
 from plone.app.discussion.interfaces import IDiscussionSettings, _
 
+from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
 
@@ -45,6 +48,24 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.widgets['user_notification_enabled'].label = \
             _(u"User Email Notification")
 
+    @button.buttonAndHandler(_('Save'), name='save')
+    def handleSave(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        changes = self.applyChanges(data)
+        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"), 
+                                                      "info")
+        self.context.REQUEST.RESPONSE.redirect("@@discussion-settings")
+
+    @button.buttonAndHandler(_('Cancel'), name='cancel')
+    def handleCancel(self, action):
+        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"), 
+                                                      "info")
+        self.request.response.redirect("%s/%s" % (self.context.absolute_url(), 
+                                                  self.control_panel_view))
+        
 
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     form = DiscussionSettingsEditForm
