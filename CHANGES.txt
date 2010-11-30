@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Moderator notification description updated.
+  [timo]
+   
 - Redirect back to the discussion control panel when the discussion control
   panel form is submitted.
   [timo]   
