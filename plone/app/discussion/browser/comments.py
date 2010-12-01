@@ -218,11 +218,12 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # If a user posts a comment and moderation is enabled, a message is 
         # shown to the user that his/her comment awaits moderation. If the user 
-        # has manage right, he/she is redirected directly to the comment.
-        can_manage = getSecurityManager().checkPermission('Manage portal', 
+        # has 'review comments' permission, he/she is redirected directly 
+        # to the comment.
+        can_review = getSecurityManager().checkPermission('Review comments', 
                                                           context)
         comment_review_state = wf.getInfoFor(comment, 'review_state')
-        if comment_review_state == 'pending' and not can_manage:
+        if comment_review_state == 'pending' and not can_review:
             # Show info message when comment moderation is enabled
             IStatusMessage(self.context.REQUEST).addStatusMessage(
                 _("Your comment awaits moderator approval."),

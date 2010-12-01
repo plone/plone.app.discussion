@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Check for the 'review comments' permission instead of 'manage' to decide
+  if the user should see a 'this comment is pending' message.
+  [timo]
+
 - Move "moderate comments" site action above the logout action.
   [timo]
 
