@@ -8,7 +8,7 @@ from plone.app.registry.browser import controlpanel
 
 from plone.registry.interfaces import IRegistry
 
-from zope.component import getMultiAdapter
+from zope.component import getMultiAdapter, queryUtility
 
 from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
@@ -77,17 +77,23 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     form = DiscussionSettingsEditForm
     index = ViewPageTemplateFile('controlpanel.pt')
 
-    def anonymous_discussion_allowed(self):
-        """Return true if anonymous comments are allowed in the registry.
+    def settings(self):
+        """Compose a string that contains all registry settings that are
+           needed for the discussion control panel.
         """
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
-        return settings.anonymous_comments
-
-    def invalid_mail_setup(self):
-        """Return true if the Plone site has a valid mail setup.
-        """
+     
+        output = []
+        if settings.globally_enabled:
+            output.append("globally_enabled")
+        
+        if settings.anonymous_comments:
+            output.append("anonymous_comments")
+        
         ctrlOverview = getMultiAdapter((self.context, self.request),
                                        name='overview-controlpanel')
-        return ctrlOverview.mailhost_warning()
-        
+        if ctrlOverview.mailhost_warning():
+            output.append("invalid_mail_setup")
+
+        return ' '.join(output)

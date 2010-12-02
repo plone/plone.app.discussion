@@ -4,7 +4,11 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
-- Disable all commenting options in the discussion control panel when comments
+- Do not allow to change the mail settings in the discussion control panel, if 
+  there is no valid mail setup.
+  [timo]
+  
+- Disable all commenting options in the discussion control panel if comments
   are disabled globally.
   
 - Check for the 'review comments' permission instead of 'manage' to decide

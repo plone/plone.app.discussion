@@ -18,7 +18,7 @@
 
 <body>
 <div id="content" 
-     tal:attributes="class python: view.invalid_mail_setup and 'invalid_mail_setup'"
+     tal:attributes="class view/settings"
      metal:fill-slot="prefs_configlet_content">
 
     <script type="text/javascript"
