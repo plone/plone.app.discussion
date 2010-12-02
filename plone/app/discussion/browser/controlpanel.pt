@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+      
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<metal:javascript_head_slot fill-slot="javascript_head_slot">
+    <script type="text/javascript"
+        tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
+    </script>
+</metal:javascript_head_slot>
+
+
+<body>
+<div id="content" metal:fill-slot="prefs_configlet_content">
+
+    <script type="text/javascript"
+        tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
+    </script>
+    
+    <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+      Portal status message
+    </div>
+    
+    <a href=""
+       id="setup-link"
+       tal:attributes="href string:$portal_url/plone_control_panel"
+       i18n:translate="">
+        Site Setup
+    </a> &rsaquo;
+                
+    <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
+    
+    <div id="layout-contents">
+        <span tal:replace="structure view/contents" />
+    </div>
+    
+</div>
+</body>
+</html>

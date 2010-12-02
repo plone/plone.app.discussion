@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Disable all commenting options in the discussion control panel when comments
+  are disabled globally.
+  
 - Check for the 'review comments' permission instead of 'manage' to decide
   if the user should see a 'this comment is pending' message.
   [timo]

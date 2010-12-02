@@ -121,7 +121,14 @@
     padding: 2em 1em;
 }
 
+/* Discussion Control Panel
+   -------------------------------------------------------------------------- */
 
+.template-discussion-settings .unclickable {
+    background: #f2f2f2;
+    opacity:0.6;
+    filter: alpha(opacity = 50);
+}
 
 /* Plone 4 Styles
    -------------------------------------------------------------------------- */

@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.app.registry.browser import controlpanel
 
-from plone.app.discussion.interfaces import IDiscussionSettings, _
+from plone.registry.interfaces import IRegistry
 
 from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
+
+from plone.app.discussion.interfaces import IDiscussionSettings, _
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
@@ -65,7 +69,12 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
                                                       "info")
         self.request.response.redirect("%s/%s" % (self.context.absolute_url(), 
                                                   self.control_panel_view))
-        
+    def anonymous_discussion_allowed(self):
+        # Check if anonymous comments are allowed in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.anonymous_comments
 
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     form = DiscussionSettingsEditForm
+    index = ViewPageTemplateFile('controlpanel.pt')
