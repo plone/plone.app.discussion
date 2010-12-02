@@ -17,7 +17,9 @@
 
 
 <body>
-<div id="content" metal:fill-slot="prefs_configlet_content">
+<div id="content" 
+     tal:attributes="class python: view.invalid_mail_setup and 'invalid_mail_setup'"
+     metal:fill-slot="prefs_configlet_content">
 
     <script type="text/javascript"
         tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">

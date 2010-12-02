@@ -36,6 +36,21 @@
      **************************************************************************/
     $(window).load(function () {
 
+        /**********************************************************************
+         * Do not allow to change the mail settings if there is no valid mail
+         * setup.
+         **********************************************************************/
+        var invalid_mail_setup = $("#content").hasClass("invalid_mail_setup");
+        if (invalid_mail_setup === true) {
+            $.disableSettings([
+                $('#formfield-form-widgets-moderator_notification_enabled'),
+                $('#formfield-form-widgets-user_notification_enabled')
+            ]);
+        };
+        
+        /**********************************************************************
+         * If commenting is disabled globally, disable all commenting options.
+         **********************************************************************/
         var commenting_enabled_globally = $("#form-widgets-globally_enabled-0").attr("checked");
         if (commenting_enabled_globally === false) {
             $.disableSettings([
@@ -46,11 +61,7 @@
                 $('#formfield-form-widgets-moderator_notification_enabled'),
                 $('#formfield-form-widgets-user_notification_enabled')
             ]);
-        }
-        
-        /**********************************************************************
-         * If commenting is disabled globally, disable all commenting options.
-         **********************************************************************/
+        };
         $("input[name='form.widgets.globally_enabled:list']").live("click", function (e) {
             if ($(this).attr("checked")) {
                 // commenting globally enabled
@@ -75,11 +86,11 @@
             }
         });
 
-        /*
+        /**********************************************************************
          * Remove the disabled attribute from all form elements before 
          * submitting the form. Otherwise the z3c.form will raise errors on
          * the required attributes.
-         */
+         **********************************************************************/
         $("input[name='form.buttons.save']").live("click", function (e) {
             e.preventDefault();
             $('#formfield-form-widgets-anonymous_comments').removeAttr('disabled');
