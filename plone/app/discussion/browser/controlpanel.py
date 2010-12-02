@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from Products.CMFCore.utils import getToolByName
+
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.statusmessages.interfaces import IStatusMessage
@@ -85,15 +87,26 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         settings = registry.forInterface(IDiscussionSettings, check=False)
      
         output = []
+        
+        # Globally enabled
         if settings.globally_enabled:
             output.append("globally_enabled")
         
+        # Anonymous comments
         if settings.anonymous_comments:
             output.append("anonymous_comments")
         
+        # Invalid mail setting
         ctrlOverview = getMultiAdapter((self.context, self.request),
                                        name='overview-controlpanel')
         if ctrlOverview.mailhost_warning():
             output.append("invalid_mail_setup")
 
+        # Workflow
+        wftool = getToolByName(self.context, 'portal_workflow', None)
+        discussion_workflow = wftool.getChainForPortalType('Discussion Item')[0]
+        if discussion_workflow:
+            output.append(discussion_workflow)
+            
+        # Merge all settings into one string
         return ' '.join(output)
