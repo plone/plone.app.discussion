@@ -14,15 +14,19 @@
      **************************************************************************/
     $.disableSettings = function (settings) {
         $.each(settings,
-               function(intIndex, objValue){
-                   objValue.removeClass('unclickable');
+               function(intIndex, setting){
+                   setting.addClass('unclickable');
+                   setting_field = $(setting).find("input,select");
+                   setting_field.attr('disabled', 'disabled');
                });          
     };
     
     $.enableSettings = function (settings) {
         $.each(settings,
-               function(intIndex, objValue){
-                   objValue.addClass('unclickable');
+               function(intIndex, setting){
+                   setting.removeClass('unclickable');
+                   setting_field = $(setting).find("input,select");
+                   setting_field.removeAttr('disabled');
                });    
     };
     	    
@@ -35,12 +39,12 @@
     $(window).load(function () {
 
         /**********************************************************************
-         * If commenting is globally disabled, disable all commenting options.
+         * If commenting is disabled globally, disable all commenting options.
          **********************************************************************/
         $("input[name='form.widgets.globally_enabled:list']").bind("change", function (e) {
             if ($(this).attr("checked")) {
-                // commenting globally enable
-                $.disableSettings([
+                // commenting globally enabled
+                $.enableSettings([
                     $('#formfield-form-widgets-anonymous_comments'),
                     $('#formfield-form-widgets-text_transform'),
                     $('#formfield-form-widgets-captcha'),
@@ -50,7 +54,7 @@
                     ]);
             } else {
                 // commenting globally disabled
-                $.enableSettings([
+                $.disableSettings([
                     $('#formfield-form-widgets-anonymous_comments'),
                     $('#formfield-form-widgets-text_transform'),
                     $('#formfield-form-widgets-captcha'),
