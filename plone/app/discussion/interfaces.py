@@ -29,7 +29,9 @@ class IDiscussionSettings(Interface):
                          "specific content types, folders or content objects "
                          "before users will be able to post comments."),
         required=False,
-        default=True,
+        default=False,
+        # XXX: pad is disabled by default if shipped with Plone. If shipped as
+        # add-on product, commenting should be enabled by default.
         )
 
     anonymous_comments = schema.Bool(
