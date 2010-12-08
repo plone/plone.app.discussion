@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Link directly to the "Discussion Item" types control panel in the moderation
+  view.
+  [timo]
+
 - Show "moderate comments" link in the admin panel only if a moderation 
   workflow is enabled for comments.
   [timo]
