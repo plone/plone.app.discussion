@@ -75,6 +75,23 @@ class View(BrowserView):
             return False
 
 
+class ModerateCommentsEnabled(BrowserView):
+
+    def __call__(self):
+        """Returns true if a 'review workflow' is enabled on 'Discussion Item' 
+           content type. A 'review workflow' is characterized by implementing
+           a 'pending' workflow state.
+        """
+        context = aq_inner(self.context)
+        wf_tool = getToolByName(context, 'portal_workflow', None)
+        comment_workflow = wf_tool.getChainForPortalType('Discussion Item')[0]
+        comment_workflow = wf_tool[comment_workflow]
+        if 'pending' in comment_workflow.states:
+            return True
+        else:
+            return
+
+        
 class DeleteComment(BrowserView):
     """Delete a comment from a conversation.
     

@@ -7,7 +7,7 @@
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:${globals_view/navigationRootUrl}/@@moderate-comments</property>
    <property name="icon_expr"></property>
-   <property name="available_expr"></property>
+   <property name="available_expr">portal/@@moderate-comments-enabled|nothing</property>
    <property name="permissions">
     <element value="Review comments"/>
    </property>

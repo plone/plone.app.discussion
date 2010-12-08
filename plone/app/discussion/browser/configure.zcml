@@ -54,6 +54,23 @@
         permission="plone.app.discussion.ReviewComments"
         />
 
+    <!-- Moderate comments enabled view -->
+    <browser:page
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        name="moderate-comments-enabled"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.ModerateCommentsEnabled"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        name="moderate-comments-enabled"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.ModerateCommentsEnabled"
+        permission="zope2.View"
+        />
+		
     <!-- Delete comment view -->
     <browser:page
         for="plone.app.discussion.interfaces.IComment"
