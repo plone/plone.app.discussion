@@ -1,6 +1,6 @@
-=================================
-Comment Permissions and Workflows
-=================================
+=========================
+Permissions and Workflows
+=========================
 
 This document describes how plone.app.discussion handles permissions and 
 workflows.
