@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_base, aq_inner
+
 from Products.CMFCore.utils import getToolByName
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -19,7 +21,8 @@ from plone.app.discussion.interfaces import IDiscussionSettings, _
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
-
+    """Discussion settings form.
+    """
     schema = IDiscussionSettings
     label = _(u"Discussion settings")
     description = _(u"help_discussion_settings_editform",
@@ -76,6 +79,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
 
         
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
+    """Discussion settings control panel.
+    """
     form = DiscussionSettingsEditForm
     index = ViewPageTemplateFile('controlpanel.pt')
 
@@ -110,3 +115,16 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             
         # Merge all settings into one string
         return ' '.join(output)
+
+    def mailhost_warning(self):
+        """Returns true if mailhost is not configured properly.
+        """
+        # Copied from plone.app.controlpanel/plone/app/controlpanel/overview.py
+        mailhost = getToolByName(aq_inner(self.context), 'MailHost', None)
+        if mailhost is None:
+            return True
+        mailhost = getattr(aq_base(mailhost), 'smtp_host', None)
+        email = getattr(aq_inner(self.context), 'email_from_address', None)
+        if mailhost and email:
+            return False
+        return True

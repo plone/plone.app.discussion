@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Make the mail-setting warning message show up in the discussion control panel.
+  [timo]
+  
 - Link directly to the "Discussion Item" types control panel in the moderation
   view.
   [timo]
