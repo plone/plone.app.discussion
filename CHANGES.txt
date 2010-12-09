@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Make sure the handleComment method checks for the 'Reply to item' permission 
+  when adding a comment.
+  [timo]
+
 - Make the mail-setting warning message show up in the discussion control panel.
   [timo]
   

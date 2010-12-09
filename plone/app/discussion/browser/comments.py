@@ -175,7 +175,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         comment.text = text
 
         portal_membership = getToolByName(self.context, 'portal_membership')
-
+        
+        can_reply = getSecurityManager().checkPermission('Reply to item',
+                                                         context)
+        
         if portal_membership.isAnonymousUser() and \
         settings.anonymous_comments:
             # Anonymous Users
@@ -184,7 +187,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_email = author_email
             comment.user_notification = user_notification
             comment.creation_date = comment.modification_date = datetime.utcnow()
-        elif not portal_membership.isAnonymousUser():
+        elif not portal_membership.isAnonymousUser() and can_reply:
             # Member
             member = portal_membership.getAuthenticatedMember()
             username = member.getUserName()
@@ -204,8 +207,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.user_notification = user_notification
             comment.creation_date = comment.modification_date = datetime.utcnow()
         else:
-            raise Unauthorized, "Anonymous user tries to post a comment, but \
-                                 anonymous commenting is disabled." # pragma: no cover
+            raise Unauthorized, \
+                  """Anonymous user tries to post a comment, but
+                     anonymous commenting is disabled. Or user
+                     does not have the 'reply to item' permission.""" # pragma: no cover
         
         # Check if the added comment is a reply to an existing comment
         # or just a regular reply to the content object.
@@ -268,7 +273,7 @@ class CommentsViewlet(ViewletBase):
     
     def can_reply(self):
         """Returns true if current user has the 'Reply to item' permission.
-        """        
+        """
         return getSecurityManager().checkPermission('Reply to item', 
                                                     aq_inner(self.context))
 
