@@ -90,4 +90,4 @@ Plone 4 Event Subscribers
 
 .. literalinclude:: ../../plone/app/discussion/notifications.zcml
    :encoding: utf-8
-   :lines: 27-45
+   :lines: 25-41
