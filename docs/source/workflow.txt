@@ -1,16 +1,64 @@
-=================
-Comment Workflows
-=================
+=================================
+Comment Permissions and Workflows
+=================================
 
-This document describes the plone.app.discussion comment permissions and 
+This document describes how plone.app.discussion handles permissions and 
 workflows.
 
 
 Introduction
 ============
 
-plone.app.discussion tries to use the default Plone permission and workflow
-engine as much as possible. plone.app.discussion ships with a simple one-state 
+plone.app.discussion uses permissions and workflows to control what a user is 
+allowed to do. It tries to use the default Plone permissions and workflow
+engine as much as possible.
+
+
+Permissions
+===========
+
+plone.app.discussion knows two permissions to control what a user is allowed to 
+do. The 'Reply to item' permission to control who is allowed to post a comment 
+on a content object and the 'Review comments' permission to control who is 
+allowed to review comments.
+
+1) **Permission to post a comment**:
+
+   The permission to post a comment is controlled by the 'Reply to item'
+   permission. By default, this permission is granted to the 'Member', 
+   'Reviewer', and 'Manager' role.
+
+2) **Permission to review comments**:
+
+   The permission to review comments is controlled by the 'Review comments' 
+   permission. By default, this permission is granted to the 'Reviewer' and
+   'Manager' role.
+
+Changing permissions
+--------------------
+
+If you want to change the way plone.app.discussion allows users to post or 
+review comments you can do that by changing which permissions are granted to
+which rules. In Plone permissions are always granted to roles, not to users
+directly.
+
+For instance, if you want to allow users without the 'Member' role to post 
+comments, you have to grant the 'Reply to item' permission to the 
+'Authenticated' role.
+
+Or, if you don't want to allow 'Reviewers' to review comments anymore, you 
+can just remove the 'Review comments' permission from the 'Reviewer' role.
+
+.. note:: For a general introduction to permissions and roles in Plone see:
+
+          http://plone.org/documentation/kb/understanding-permissions/permissions-and-roles
+    
+          http://plone.org/products/dexterity/documentation/manual/developer-manual/advanced/permissions
+
+Workflows
+=========
+
+plone.app.discussion ships with a simple one-state 
 workflow and a review workflow for comments:
 
 1) **Comment Single State Workflow**: 
@@ -37,7 +85,7 @@ workflow and a review workflow for comments:
 
 
 Custom comment workflow
-=======================
+-----------------------
 
 You can create and enable any custom workflow on the "comment" content type. 
 Though, there are some special hooks in plone.app.discussion that check if the
@@ -56,9 +104,3 @@ order to do the following things:
      state. 
 
           
-Permissions
-===========
-
-"Review comments" permission, by default "Manager" and "Reviewer"
-
-"Reply to item" permission, by default "Manager" and "Member"

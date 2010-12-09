@@ -16,6 +16,7 @@ Contents:
 
    architecture.txt
    design.txt
+   workflow.txt
    captcha.txt
    email-notification.txt
    api.txt
