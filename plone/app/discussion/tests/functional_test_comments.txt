@@ -95,10 +95,32 @@ Check if comment has been added properly.
      
     >>> "Comment from admin" in browser.contents
     True
-    
+
 
 Post a comment as user
 ----------------------
+
+Login as user (without the 'Member' role).
+
+    >>> browser.open(portal_url + '/logout')
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = 'johndoe'
+    >>> browser.getControl(name='__ac_password').value = 'secret'
+    >>> browser.getControl(name='submit').click()
+    
+Users without the 'Reply to item' permission will not see the comment form,
+because they don't have the 'Reply to item' permission. By default, this
+permission is only granted to the 'Member' role.
+
+    >>> 'form.widgets.text' in browser.contents
+    False
+    
+    >>> 'form.buttons.comment' in browser.contents
+    False
+
+
+Post a comment as member
+------------------------
 
 Login as user 'jim'. 
 

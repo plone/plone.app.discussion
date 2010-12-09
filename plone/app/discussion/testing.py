@@ -16,6 +16,8 @@ class PloneAppDiscussion(PloneSandboxLayer):
 
     USER_NAME = 'johndoe'
     USER_PASSWORD = 'secret'
+    MEMBER_NAME = 'janedoe'
+    MEMBER_PASSWORD = 'secret'
     USER_WITH_FULLNAME_NAME = 'jim'
     USER_WITH_FULLNAME_FULLNAME = 'Jim Fulton'
     USER_WITH_FULLNAME_PASSWORD = 'secret'
@@ -38,6 +40,12 @@ class PloneAppDiscussion(PloneSandboxLayer):
         acl_users.userFolderAddUser(
             self.USER_NAME,
             self.USER_PASSWORD,
+            [],
+            [],
+        )
+        acl_users.userFolderAddUser(
+            self.MEMBER_NAME,
+            self.MEMBER_PASSWORD,
             ['Member'],
             [],
         )
