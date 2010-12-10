@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Test plone.app.discussion workflow and permissions.
+"""
 import unittest
 
 from zope.component import createObject
@@ -17,7 +19,7 @@ from plone.app.discussion.interfaces import IConversation, IDiscussionLayer
 
 
 class WorkflowSetupTest(PloneTestCase):
-    """Make sure workflow and permissions are set up properly.
+    """Make sure the workflows are set up properly.
     """
 
     layer = DiscussionLayer
@@ -57,6 +59,36 @@ class WorkflowSetupTest(PloneTestCase):
 
     def test_reply_to_item_permission(self):
         pass
+
+class PermissionsSetupTest(PloneTestCase):
+    """Make sure the permissions are set up properly.
+    """
+
+    layer = DiscussionLayer
+    
+    def afterSetUp(self):
+        portal = self.portal
+        mtool = self.portal.portal_membership
+        self.checkPermission = mtool.checkPermission
+        
+    def test_reply_to_item_permission_assigned(self):
+        """Make sure the 'Reply to item' permission is properly assigned.
+           By default this permission is assigned to 'Member' and 'Manager'.
+           plone.app.discussion assigns this permission to 'Authenticated' as
+           well to emulate the behavior of the old commenting system.
+        """
+        ReplyToItemPerm = "Reply to item"
+        # should be allowed as Member
+        self.failUnless(self.checkPermission(ReplyToItemPerm, self.portal))
+        # should be allowed as Authenticated
+        self.setRoles(['Authenticated'])
+        self.failUnless(self.checkPermission(ReplyToItemPerm, self.portal))
+        # should be allowed as Manager
+        self.setRoles(['Manager'])
+        self.failUnless(self.checkPermission(ReplyToItemPerm, self.portal))
+        # should not be allowed as anonymous
+        self.logout()
+        self.failIf(self.checkPermission(ReplyToItemPerm, self.portal))
 
 
 class CommentOneStateWorkflowTest(PloneTestCase):

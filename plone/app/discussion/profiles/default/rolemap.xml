@@ -5,5 +5,8 @@
             <role name="Manager"/>
             <role name="Reviewer"/>
         </permission>
+        <permission name="Reply to item" acquire="False">
+            <role name="Authenticated"/>
+        </permission>
     </permissions>
 </rolemap>
