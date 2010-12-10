@@ -4,6 +4,11 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Assigning the 'Reply to item' permission to the 'Authenticated' role. The old
+  commenting system allowed 'Authenticated' users to post comments. Also, OpenID
+  users do not possess the 'Authenticated' role.
+  [timo]
+
 - Make sure the handleComment method checks for the 'Reply to item' permission 
   when adding a comment.
   [timo]
