@@ -31,7 +31,7 @@ class IDiscussionSettings(Interface):
         required=False,
         default=True,
         )
-
+    
     anonymous_comments = schema.Bool(
         title=_(u"label_anonymous_comments",
                 default="Enable anonymous comments"),
@@ -43,6 +43,22 @@ class IDiscussionSettings(Interface):
         required=False,
         default=False,
         )
+    
+    moderation_enabled = schema.Bool(
+        title=_(u"label_moderation_enabled",
+                default="Enable comment moderation"),
+        description=_(u"help_moderation_enabled",
+                default=u"If selected, comments will enter a 'Pending' state "
+                         "in which they are invisible to the public. A user "
+                         "with the 'Review comments' permission ('Reviewer' or "
+                         "'Manager') can approve comments to make them visible "
+                         "to the public. If you want to enable a custom "
+                         "comment workflow, you have to go to the types "
+                         "control panel."),
+        required=False,
+        default=False,
+        )
+
 
     text_transform = schema.Choice(
         title=_(u"label_text_transform",

@@ -40,6 +40,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         super(DiscussionSettingsEditForm, self).updateFields()
         self.fields['globally_enabled'].widgetFactory = \
             SingleCheckBoxFieldWidget
+        self.fields['moderation_enabled'].widgetFactory = \
+            SingleCheckBoxFieldWidget
         self.fields['anonymous_comments'].widgetFactory = \
             SingleCheckBoxFieldWidget
         self.fields['show_commenter_image'].widgetFactory = \
@@ -97,6 +99,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         if settings.globally_enabled:
             output.append("globally_enabled")
         
+        # Comment moderation
+        
         # Anonymous comments
         if settings.anonymous_comments:
             output.append("anonymous_comments")
@@ -128,3 +132,30 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         if mailhost and email:
             return False
         return True
+
+def notify_configuration_changed(event):
+    """Event subscriber that is called every time the configuration changed.
+    """
+    from zope.app.component.hooks import getSite
+    portal = getSite()
+    wftool = getToolByName(portal, 'portal_workflow', None)
+    from plone.registry.interfaces import IRecordModifiedEvent
+    if IRecordModifiedEvent.providedBy(event):
+        # Discussion control panel setting changed
+        if event.record.fieldName == 'moderation_enabled':
+            # Moderation enabled has changed
+            if event.record.value == True:
+                # Enable moderation workflow
+                wftool.setChainForPortalTypes(('Discussion Item',), 
+                                              'comment_review_workflow')                
+            else:
+                # Disable moderation workflow
+                wftool.setChainForPortalTypes(('Discussion Item',), 
+                                              'one_state_workflow')
+            
+    from plone.app.controlpanel.interfaces import IConfigurationChangedEvent
+    if IConfigurationChangedEvent.providedBy(event):
+        # Types control panel setting changed
+        # XXX: Todo!!!
+        pass
+

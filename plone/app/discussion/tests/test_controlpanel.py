@@ -90,5 +90,21 @@ class RegistryTest(PloneTestCase):
     #    self.assertEquals(self.registry['plone.app.discussion.interfaces.' +
     #        'IDiscussionSettings.user_notification_enabled'], False)
 
+
+class ConfigurationChangedSubscriberTest(PloneTestCase):
+
+    layer = DiscussionLayer
+
+    def afterSetUp(self):
+        self.loginAsPortalOwner()
+        # Set up the registry
+        self.registry = Registry()
+        self.registry.registerInterface(IDiscussionSettings)
+    
+    def todo(self):
+        # XXX: Todo!!!
+        pass
+
+        
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
