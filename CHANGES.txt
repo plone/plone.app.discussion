@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Fix cancel button on edit view when using Dexterity types. This fixes 
+  http://dev.plone.org/plone/ticket/11338.
+  [EpeliJYU]
+  
 - Assigning the 'Reply to item' permission to the 'Authenticated' role. The old
   commenting system allowed 'Authenticated' users to post comments. Also, OpenID
   users do not possess the 'Authenticated' role.

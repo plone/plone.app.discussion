@@ -120,7 +120,7 @@
 	     * If the user hits the "clear" button of an open reply-to-comment form,
 	     * remove the form and show the "reply" button again.
 	     **********************************************************************/
-	    $("#form-buttons-cancel").bind("click", function (e) {
+        $("#commenting #form-buttons-cancel").bind("click", function (e) {
 	        e.preventDefault();
 	        var reply_to_comment_button = $(this).
 			                                  parents().
