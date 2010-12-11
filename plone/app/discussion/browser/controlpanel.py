@@ -8,15 +8,20 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.statusmessages.interfaces import IStatusMessage
 
+from plone.app.controlpanel.interfaces import IConfigurationChangedEvent
+
 from plone.app.registry.browser import controlpanel
 
 from plone.registry.interfaces import IRegistry
+from plone.registry.interfaces import IRecordModifiedEvent
+
+from zope.app.component.hooks import getSite
 
 from zope.component import getMultiAdapter, queryUtility
 
 from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
-
+    
 from plone.app.discussion.interfaces import IDiscussionSettings, _
 
 
@@ -92,7 +97,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         """
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
-     
+        wftool = getToolByName(self.context, "portal_workflow", None)
+        wf = wftool.getChainForPortalType('Discussion Item')
         output = []
         
         # Globally enabled
@@ -100,6 +106,11 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             output.append("globally_enabled")
         
         # Comment moderation
+        if 'one_state_workflow' not in wf and \
+        'comment_review_workflow' not in wf:
+            output.append("moderation_custom")          
+        elif settings.moderation_enabled:
+            output.append("moderation_enabled")
         
         # Anonymous comments
         if settings.anonymous_comments:
@@ -133,13 +144,22 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             return False
         return True
 
+    def custom_comment_workflow_warning(self):
+        """Returns a warning string if a custom comment workflow is enabled.
+        """
+        wftool = getToolByName(self.context, "portal_workflow", None)
+        wf = wftool.getChainForPortalType('Discussion Item')
+        if 'one_state_workflow' in wf or 'comment_review_workflow' in wf:
+            return
+        return True
+              
+    
 def notify_configuration_changed(event):
     """Event subscriber that is called every time the configuration changed.
     """
-    from zope.app.component.hooks import getSite
     portal = getSite()
     wftool = getToolByName(portal, 'portal_workflow', None)
-    from plone.registry.interfaces import IRecordModifiedEvent
+    
     if IRecordModifiedEvent.providedBy(event):
         # Discussion control panel setting changed
         if event.record.fieldName == 'moderation_enabled':
@@ -153,9 +173,16 @@ def notify_configuration_changed(event):
                 wftool.setChainForPortalTypes(('Discussion Item',), 
                                               'one_state_workflow')
             
-    from plone.app.controlpanel.interfaces import IConfigurationChangedEvent
     if IConfigurationChangedEvent.providedBy(event):
         # Types control panel setting changed
-        # XXX: Todo!!!
-        pass
-
+        if 'workflow' in event.data:
+            registry = queryUtility(IRegistry)
+            settings = registry.forInterface(IDiscussionSettings, check=False)
+            wf = wftool.getChainForPortalType('Discussion Item')[0]
+            if wf == 'one_state_workflow':
+                settings.moderation_enabled = False
+            elif wf == 'comment_review_workflow':
+                settings.moderation_enabled = True
+            else:
+                # Custom workflow
+                pass

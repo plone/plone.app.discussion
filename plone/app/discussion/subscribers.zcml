@@ -88,6 +88,8 @@
 		  
     </configure>
 
+    <!-- Control panel event subscribers -->
+    
     <subscriber
         for="plone.app.controlpanel.interfaces.IConfigurationChangedEvent"
         handler=".browser.controlpanel.notify_configuration_changed"

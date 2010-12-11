@@ -43,6 +43,27 @@
             to fix this.
         </dd>
     </dl>
+
+    <dl class="portalMessage warning"
+        tal:condition="view/custom_comment_workflow_warning">
+        <dt i18n:translate="">
+            Warning
+        </dt>
+        <dd i18n:translate="text_custom_comment_workflow">
+            You have configured a custom workflow for the 'Discussion Item'
+            content type. You can enable/disable the comment moderation
+            in this control panel only if you use one of the default
+            'Discussion Item' workflows. Go to the
+            <tal:link i18n:name="label_discussion_control_panel_link">
+                <a href=""
+                   i18n:translate="text_discussion_type_control_panel_link"
+                   tal:attributes="href string:${portal_url}/@@types-controlpanel?type_id=Discussion Item"
+                >Types control panel</a>
+            </tal:link>
+            to choose a workflow for the 'Discussion Item' type.
+        </dd>
+    </dl>
+        
     <div metal:use-macro="context/global_statusmessage/macros/portal_message">
       Portal status message
     </div>
