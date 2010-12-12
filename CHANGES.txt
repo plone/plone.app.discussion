@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Move discussion action item from actionicons.xml to actions.xml to avoid 
+  deprecation warning.
+  [timo]
+  
 - Fix cancel button on edit view when using Dexterity types. This fixes 
   http://dev.plone.org/plone/ticket/11338.
   [EpeliJYU]
