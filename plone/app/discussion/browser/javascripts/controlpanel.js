@@ -27,7 +27,7 @@
     };
     
     /* Update settings */
-    $.updateSettings = function(){
+    $.updateSettings = function () {
     
         var globally_enabled = $("#content").hasClass("globally_enabled");
         var anonymous_comments = $("#content").hasClass("anonymous_comments");
@@ -37,10 +37,26 @@
         
         /* If commenting is globally disabled, disable all settings. */
         if (globally_enabled === true) {
-            $.enableSettings([$('#formfield-form-widgets-anonymous_comments'), $('#formfield-form-widgets-moderation_enabled'), $('#formfield-form-widgets-text_transform'), $('#formfield-form-widgets-captcha'), $('#formfield-form-widgets-show_commenter_image'), $('#formfield-form-widgets-moderator_notification_enabled'), $('#formfield-form-widgets-user_notification_enabled')]);
+            $.enableSettings([
+                $('#formfield-form-widgets-anonymous_comments'),
+                $('#formfield-form-widgets-moderation_enabled'),
+                $('#formfield-form-widgets-text_transform'),
+                $('#formfield-form-widgets-captcha'),
+                $('#formfield-form-widgets-show_commenter_image'),
+                $('#formfield-form-widgets-moderator_notification_enabled'), 
+                $('#formfield-form-widgets-user_notification_enabled')
+            ]);
         }
         else {
-            $.disableSettings([$('#formfield-form-widgets-anonymous_comments'), $('#formfield-form-widgets-moderation_enabled'), $('#formfield-form-widgets-text_transform'), $('#formfield-form-widgets-captcha'), $('#formfield-form-widgets-show_commenter_image'), $('#formfield-form-widgets-moderator_notification_enabled'), $('#formfield-form-widgets-user_notification_enabled')]);
+            $.disableSettings([
+                $('#formfield-form-widgets-anonymous_comments'),
+                $('#formfield-form-widgets-moderation_enabled'),
+                $('#formfield-form-widgets-text_transform'),
+                $('#formfield-form-widgets-captcha'),
+                $('#formfield-form-widgets-show_commenter_image'),
+                $('#formfield-form-widgets-moderator_notification_enabled'),
+                $('#formfield-form-widgets-user_notification_enabled')
+            ]);
         }
         
         /* If the mail setup is invalid, disable the mail settings. */
@@ -54,9 +70,9 @@
         /* If a custom workflow for comments is enabled, disable the moderation 
            switch. */
         if (moderation_custom === true) {
-            $.disableSettings([$('#formfield-form-widgets-moderation_enabled'), ]);
+            $.disableSettings([$('#formfield-form-widgets-moderation_enabled')]);
         }
-    }
+    };
     //#JSCOVERAGE_IF 0
 
     /**************************************************************************
