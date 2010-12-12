@@ -289,10 +289,6 @@ class Conversation(Traversable, Persistent, Explicit):
             # avoid sending ContainerModifiedEvent multiple times
             self.__delitem__(child_id, suppress_container_modified=True)
 
-            # XXX: During the events sent from the recursive deletion, the
-            # _children data structure may be in an inconsistent state. We may
-            # need to delay sending the events until it is fixed up.
-
         # Remove the comment from _comments
         self._comments.pop(key)
 
