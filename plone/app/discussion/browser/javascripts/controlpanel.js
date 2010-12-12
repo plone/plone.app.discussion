@@ -56,9 +56,6 @@
         if (moderation_custom === true) {
             $.disableSettings([$('#formfield-form-widgets-moderation_enabled'), ]);
         }
-        else {
-            $.enableSettings([$('#formfield-form-widgets-moderation_enabled'), ]);
-        }
     }
     //#JSCOVERAGE_IF 0
 
