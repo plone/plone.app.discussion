@@ -95,7 +95,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
-        # XXX: Since we are not using the author_email field in the 
+        # Todo: Since we are not using the author_email field in the 
         # current state, we hide it by default. But we keep the field for 
         # integrators or later use. 
         self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
