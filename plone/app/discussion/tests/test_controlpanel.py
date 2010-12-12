@@ -48,6 +48,20 @@ class RegistryTest(PloneTestCase):
                           'IDiscussionSettings.globally_enabled'], 
             True)
 
+    def test_anonymous_comments(self):
+        # Check anonymous_comments record
+        self.failUnless('anonymous_comments' in IDiscussionSettings)
+        self.assertEquals(self.registry['plone.app.discussion.interfaces.' +
+            'IDiscussionSettings.anonymous_comments'], False)
+
+    def test_moderation_enabled(self):
+        # Check globally_enabled record
+        self.failUnless('moderation_enabled' in IDiscussionSettings)
+        self.assertEquals(
+            self.registry['plone.app.discussion.interfaces.' +
+                          'IDiscussionSettings.moderation_enabled'], 
+            False)
+        
     def test_text_transform(self):
         self.failUnless('text_transform' in IDiscussionSettings)
         self.assertEquals(
@@ -61,12 +75,6 @@ class RegistryTest(PloneTestCase):
         self.assertEquals(self.registry['plone.app.discussion.interfaces.' +
                                         'IDiscussionSettings.captcha'],
                           'disabled')
-
-    def test_anonymous_comments(self):
-        # Check anonymous_comments record
-        self.failUnless('anonymous_comments' in IDiscussionSettings)
-        self.assertEquals(self.registry['plone.app.discussion.interfaces.' +
-            'IDiscussionSettings.anonymous_comments'], False)
 
     def test_show_commenter_image(self):
         # Check show_commenter_image record
@@ -98,13 +106,64 @@ class ConfigurationChangedSubscriberTest(PloneTestCase):
     def afterSetUp(self):
         self.loginAsPortalOwner()
         # Set up the registry
-        self.registry = Registry()
-        self.registry.registerInterface(IDiscussionSettings)
-    
-    def todo(self):
-        # XXX: Todo!!!
-        pass
+        registry = queryUtility(IRegistry)
+        self.settings = registry.forInterface(IDiscussionSettings, check=False)
+        
+    def test_moderation_enabled_in_discussion_control_panel_changed(self):
+        """Make sure the 'Discussion Item' workflow is changed properly, when 
+           the 'comment_moderation' setting in the discussion control panel 
+           changes.
+        """
+        # By default the one_state_workflow without moderation is enabled
+        self.assertEquals(('one_state_workflow',),
+                          self.portal.portal_workflow.getChainForPortalType(
+                              'Discussion Item'))        
+        
+        # Enable moderation in the discussion control panel
+        self.settings.moderation_enabled = True 
+        
+        # Make sure the comment_review_workflow with moderation enabled is
+        # enabled
+        self.assertEquals(('comment_review_workflow',),
+                          self.portal.portal_workflow.getChainForPortalType(
+                              'Discussion Item')) 
+        # And back
+        self.settings.moderation_enabled = False
+        self.assertEquals(('one_state_workflow',),
+                          self.portal.portal_workflow.getChainForPortalType(
+                              'Discussion Item'))        
+        
+    def test_change_workflow_in_types_control_panel(self):
+        """Make sure the setting in the discussion control panel is changed
+           accordingly, when the workflow for the 'Discussion Item' changed in 
+           the types control panel. 
+        """
+        # By default, moderation is disabled
+        self.settings.moderation_enabled = False
+        
+        # Enable the 'comment_review_workflow' with moderation enabled
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ('Discussion Item',),
+            ('comment_review_workflow',))
 
+        # Make sure the moderation_enabled settings has changed
+        self.settings.moderation_enabled = True
+
+        # Enable the 'comment_review_workflow' with moderation enabled
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ('Discussion Item',),
+            ('one_state_workflow',))
+        self.settings.moderation_enabled = True
+
+        # Enable a 'custom' discussion workflow
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ('Discussion Item',),
+            ('intranet_workflow',))
+        
+        # Setting has not changed. A Custom workflow disables the 
+        # enable_moderation checkbox in the discussion control panel. The
+        # setting itself remains unchanged.
+        self.settings.moderation_enabled = True
         
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
