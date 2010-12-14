@@ -32,7 +32,11 @@ class ConversationTest(PloneTestCase):
         self.portal_discussion = getToolByName(self.portal, 
                                                'portal_discussion', 
                                                None)
-
+        # Allow discussion
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = True
+        
     def test_add_comment(self):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.

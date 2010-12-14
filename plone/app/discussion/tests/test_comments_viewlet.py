@@ -52,7 +52,12 @@ class TestCommentForm(PloneTestCase):
         self.memberdata = self.portal.portal_memberdata
         self.request = self.app.REQUEST
         self.context = getattr(self.portal, 'doc1')
-        
+
+        # Allow discussion
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = True
+                
     def test_add_comment(self):
         """Post a comment as logged-in user.
         """
@@ -220,6 +225,11 @@ class TestCommentsViewlet(PloneTestCase):
         context = getattr(self.portal, 'doc1')
         self.viewlet = CommentsViewlet(context, request, None, None)
 
+        # Allow discussion
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = True
+        
     def test_cook(self):
         text = """First paragraph
         

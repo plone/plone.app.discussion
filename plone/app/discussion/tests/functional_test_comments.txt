@@ -38,6 +38,18 @@ Make sure we have a test user from the layer and it uses fancy characters:
     >>> mtool.getMemberById('jim').getProperty('fullname')
     'Jim Fult\xc3\xb8rn'
 
+Enable commenting.
+
+    >>> from zope.component import queryUtility
+    >>> from plone.registry.interfaces import IRegistry
+    >>> from plone.app.discussion.interfaces import IDiscussionSettings
+    >>> registry = queryUtility(IRegistry)
+    >>> settings = registry.forInterface(IDiscussionSettings)
+    >>> settings.globally_enabled = True
+    
+    >>> import transaction
+    >>> transaction.commit()    
+    
 Create a public page with comments allowed.
 
     >>> browser.open(portal_url)

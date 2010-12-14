@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Disable discussion by default.
+  [timo]
+  
 - Move discussion action item from actionicons.xml to actions.xml to avoid 
   deprecation warning.
   [timo]
