@@ -89,7 +89,7 @@ Login as admin.
 
     >>> from plone.app.testing import setRoles
     >>> from plone.app.testing import TEST_USER_NAME
-    >>> setRoles(portal, TEST_USER_NAME, ['Manager'])
+    >>> setRoles(portal, 'manager', ['Manager'])
 
 Post a comment as admin.
 
