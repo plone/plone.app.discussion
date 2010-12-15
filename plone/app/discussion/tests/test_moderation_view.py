@@ -22,7 +22,7 @@ class ModerationViewTest(PloneTestCase):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        
+
         self.portal_discussion = getToolByName(self.portal,
                                                'portal_discussion',
                                                None)
@@ -66,7 +66,7 @@ class ModerationViewTest(PloneTestCase):
                             '++conversation++default/%s' % new_id_3)
 
     def test_moderation_enabled(self):
-        """Make sure that moderation_enabled returns true if the comment 
+        """Make sure that moderation_enabled returns true if the comment
            workflow implements a 'pending' state.
         """
         # The one_state_workflow does not have a 'pending' state
@@ -81,10 +81,10 @@ class ModerationViewTest(PloneTestCase):
     def test_old_comments_not_shown_in_moderation_view(self):
         # Create an old comment and make sure it is not shown
         # in the moderation view.
-        
+
         # Create old comment
         discussion = getToolByName(self.portal, 'portal_discussion', None)
-        discussion.overrideDiscussionFor(self.portal.doc1, 1)        
+        discussion.overrideDiscussionFor(self.portal.doc1, 1)
         talkback = discussion.getDiscussionFor(self.portal.doc1)
         self.portal.doc1.talkback.createReply('My Title', 'My Text', Creator='Jim')
         reply = talkback.getReplies()[0]
@@ -96,7 +96,7 @@ class ModerationViewTest(PloneTestCase):
         self.failUnless('Jim' in reply.listCreators())
         self.assertEquals(talkback.replyCount(self.portal.doc1), 1)
         self.assertEquals(reply.inReplyTo(), self.portal.doc1)
-        
+
         # Make sure only the two new comments are shown
         self.view()
         self.assertEquals(len(self.view.comments), 3)
@@ -110,10 +110,10 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        self.wf = getToolByName(self.portal, 
+        self.wf = getToolByName(self.portal,
                                 'portal_workflow',
                                 None)
-        
+
         self.request = self.app.REQUEST
         self.context = self.portal
         self.portal.portal_workflow.setChainForPortalTypes(
@@ -149,7 +149,7 @@ class ModerationBulkActionsViewTest(PloneTestCase):
                             '++conversation++default/%s' % new_id_3)
 
         self.conversation = conversation
-    
+
     def test_default_bulkaction(self):
         # Make sure no error is raised when no bulk actions has been supplied
         self.request = self.app.REQUEST
@@ -158,14 +158,14 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
         view = BulkActionsView(self.context, self.request)
         self.failIf(view())
-    
+
     def test_retract(self):
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', 'retract')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
         view = BulkActionsView(self.context, self.request)
-        
+
         self.assertRaises(NotImplementedError,
                           view)
 
@@ -173,10 +173,10 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', 'publish')
-        self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())]) 
+        self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
         view = BulkActionsView(self.context, self.request)
         view()
-        
+
         # Count published comments
         published_comments = 0
         for r in self.conversation.getThreads():
@@ -184,17 +184,17 @@ class ModerationBulkActionsViewTest(PloneTestCase):
             workflow_status = self.wf.getInfoFor(comment_obj, 'review_state')
             if workflow_status == 'published':
                 published_comments += 1
-        
+
         # Make sure the comment has been published
         self.assertEquals(published_comments, 1)
-        
+
     def test_mark_as_spam(self):
         self.request = self.app.REQUEST
         self.context = self.portal
         self.request.set('form.select.BulkAction', 'mark_as_spam')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
         view = BulkActionsView(self.context, self.request)
-        
+
         self.assertRaises(NotImplementedError,
                           view)
 
@@ -204,14 +204,14 @@ class ModerationBulkActionsViewTest(PloneTestCase):
 
         # Initially we have three comments
         self.assertEquals(self.conversation.total_comments, 3)
-        
+
         # Delete two comments with bulk actions
         self.request.set('form.select.BulkAction', 'delete')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath()),
-                                   '/'.join(self.comment3.getPhysicalPath())])        
+                                   '/'.join(self.comment3.getPhysicalPath())])
         view = BulkActionsView(self.context, self.request)
         view()
-        
+
         # Make sure that the two comments have been deleted
         self.assertEquals(self.conversation.total_comments, 1)
         comment = self.conversation.getComments().next()

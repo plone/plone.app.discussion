@@ -2,7 +2,7 @@
 
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
-from plone.app.discussion.interfaces import _ 
+from plone.app.discussion.interfaces import _
 
 HAS_CAPTCHA = False
 try:
@@ -55,17 +55,17 @@ def captcha_vocabulary(context):
             SimpleTerm(
                 value='recaptcha',
                 token='recaptcha',
-                title='ReCaptcha')) 
-    
+                title='ReCaptcha'))
+
     if HAS_AKISMET: # pragma: no cover
         terms.append(
             SimpleTerm(
                 value='akismet',
                 token='akismet',
                 title='Akismet'))
-        
+
     if HAS_NOROBOTS: # pragma: no cover
-        terms.append( 
+        terms.append(
             SimpleTerm(
                 value='norobots',
                 token='norobots',

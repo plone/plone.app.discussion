@@ -15,7 +15,7 @@ def patchedClearFindAndRebuild(self):
        with an indexObject method), and reindexes them.
        This may take a long time.
     """
-    
+
     def indexObject(obj, path):
 
         if (base_hasattr(obj, 'indexObject') and

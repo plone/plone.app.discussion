@@ -42,12 +42,12 @@
                zope.lifecycleevent.interfaces.IObjectRemovedEvent"
           handler=".comment.notify_content_object_deleted"
           />
-          
+
     </configure>
 
-    
+
     <!-- Plone 4 Event Subscribers -->
-    
+
     <configure zcml:condition="installed zope.app.container">
 
       <subscriber
@@ -88,7 +88,7 @@
     </configure>
 
     <!-- Control panel event subscribers -->
-    
+
     <subscriber
         for="plone.app.controlpanel.interfaces.IConfigurationChangedEvent"
         handler=".browser.controlpanel.notify_configuration_changed"
@@ -97,6 +97,6 @@
     <subscriber
         for="plone.registry.interfaces.IRecordModifiedEvent"
         handler=".browser.controlpanel.notify_configuration_changed"
-        />        
+        />
 
 </configure>

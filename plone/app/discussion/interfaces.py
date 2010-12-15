@@ -31,7 +31,7 @@ class IDiscussionSettings(Interface):
         required=False,
         default=False,
         )
-    
+
     anonymous_comments = schema.Bool(
         title=_(u"label_anonymous_comments",
                 default="Enable anonymous comments"),
@@ -43,7 +43,7 @@ class IDiscussionSettings(Interface):
         required=False,
         default=False,
         )
-    
+
     moderation_enabled = schema.Bool(
         title=_(u"label_moderation_enabled",
                 default="Enable comment moderation"),
@@ -70,7 +70,7 @@ class IDiscussionSettings(Interface):
                          "'Intelligent text' converts plain text into HTML " +
                          "where line breaks and indentation is preserved, " +
                          "and web and email addresses are made into " +
-                         "clickable links."),                
+                         "clickable links."),
         required=True,
         default='text/plain',
         vocabulary='plone.app.discussion.vocabularies.TextTransformVocabulary',
@@ -100,7 +100,7 @@ class IDiscussionSettings(Interface):
         required=False,
         default=True,
         )
-     
+
     moderator_notification_enabled = schema.Bool(
         title=_(u"label_moderator_notification_enabled",
                 default=u"Enable moderator email notification"),

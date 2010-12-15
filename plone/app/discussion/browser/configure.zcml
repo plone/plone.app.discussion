@@ -70,7 +70,7 @@
         class=".moderation.ModerateCommentsEnabled"
         permission="zope2.View"
         />
-        
+
     <!-- Delete comment view -->
     <browser:page
         for="plone.app.discussion.interfaces.IComment"

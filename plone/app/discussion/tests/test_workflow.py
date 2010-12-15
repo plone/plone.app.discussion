@@ -23,7 +23,7 @@ class WorkflowSetupTest(PloneTestCase):
     """
 
     layer = DiscussionLayer
-    
+
     def afterSetUp(self):
         """Create a document and allow discussion.
         """
@@ -31,13 +31,13 @@ class WorkflowSetupTest(PloneTestCase):
         self.portal_discussion = self.portal.portal_discussion
         self.folder.invokeFactory('Document', 'doc1')
         self.doc = self.folder.doc1
-        
+
     def test_workflows_installed(self):
         """Make sure both comment workflows have been installed properly.
         """
-        self.failUnless('one_state_workflow' in 
+        self.failUnless('one_state_workflow' in
                         self.portal.portal_workflow.objectIds())
-        self.failUnless('comment_review_workflow' in 
+        self.failUnless('comment_review_workflow' in
                         self.portal.portal_workflow.objectIds())
 
     def test_default_workflow(self):
@@ -46,7 +46,7 @@ class WorkflowSetupTest(PloneTestCase):
         self.assertEquals(('one_state_workflow',),
                           self.portal.portal_workflow.getChainForPortalType(
                               'Discussion Item'))
- 
+
     def test_review_comments_permission(self):
         #'Review comments' in self.portal.permissionsOfRole('Admin')
 
@@ -65,12 +65,12 @@ class PermissionsSetupTest(PloneTestCase):
     """
 
     layer = DiscussionLayer
-    
+
     def afterSetUp(self):
         portal = self.portal
         mtool = self.portal.portal_membership
         self.checkPermission = mtool.checkPermission
-        
+
     def test_reply_to_item_permission_assigned(self):
         """Make sure the 'Reply to item' permission is properly assigned.
            By default this permission is assigned to 'Member' and 'Manager'.
@@ -96,7 +96,7 @@ class CommentOneStateWorkflowTest(PloneTestCase):
     """
 
     layer = DiscussionLayer
-    
+
     def afterSetUp(self):
         """Create a document with comments and enable the one.
         """
@@ -106,31 +106,31 @@ class CommentOneStateWorkflowTest(PloneTestCase):
                                              'one_state_workflow')
         self.folder.invokeFactory('Document', 'doc1')
         self.doc = self.folder.doc1
-        
+
         # Add a comment
         conversation = IConversation(self.folder.doc1)
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         cid = conversation.addComment(comment)
-        
+
         self.comment = self.folder.doc1.restrictedTraverse(\
                             '++conversation++default/%s' % cid)
-        
+
         self.portal.acl_users._doAddUser('member', 'secret', ['Member'], [])
         self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
         self.portal.acl_users._doAddUser('manager', 'secret', ['Manager'], [])
         self.portal.acl_users._doAddUser('editor' , ' secret', ['Editor'],[])
         self.portal.acl_users._doAddUser('reader', 'secret', ['Reader'], [])
-        
+
     def test_initial_workflow_state(self):
         """Make sure the initial workflow state of a comment is 'published'.
         """
-        self.assertEqual(self.workflow.getInfoFor(self.doc, 'review_state'), 
+        self.assertEqual(self.workflow.getInfoFor(self.doc, 'review_state'),
                          'published')
-               
+
     def test_view_comments(self):
         """Make sure published comments can be viewed by everyone.
-        """ 
+        """
         # Owner is allowed
         #self.login(default_user)
         #self.failUnless(checkPerm(View, self.doc))
@@ -149,14 +149,14 @@ class CommentOneStateWorkflowTest(PloneTestCase):
         # Reader is allowed
         self.login('reader')
         self.failUnless(checkPerm(View, self.comment))
-        
+
 
 class CommentReviewWorkflowTest(PloneTestCase):
     """Test the comment_review_workflow that ships with plone.app.discussion.
     """
 
     layer = DiscussionLayer
-    
+
     def afterSetUp(self):
         # Allow discussion and
         self.loginAsPortalOwner()
@@ -217,7 +217,7 @@ class CommentReviewWorkflowTest(PloneTestCase):
     def test_publish(self):
         self.portal.REQUEST.form['comment_id'] = self.comment_id
         self.portal.REQUEST.form['workflow_action'] = 'publish'
-        self.assertEquals('pending', 
+        self.assertEquals('pending',
                           self.portal.portal_workflow.getInfoFor(
                               self.comment, 'review_state'))
         view = self.comment.restrictedTraverse('@@moderate-publish-comment')

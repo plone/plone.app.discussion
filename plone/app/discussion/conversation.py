@@ -484,6 +484,6 @@ class CommentReplies(ConversationReplies):
         comment.in_reply_to = self.comment_id
         return self.conversation.addComment(comment)
 
-    # Dict API is inherited, written in terms of self.conversation and 
+    # Dict API is inherited, written in terms of self.conversation and
     # self.children
 

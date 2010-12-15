@@ -58,7 +58,7 @@
                          tal:attributes="src portrait_url;
                                          alt reply/Creator" />
                 </div>
-                     
+
                 <div class="documentByLine" i18n:domain="plone.app.discussion">
                     <tal:name>
                         <a href=""
@@ -72,16 +72,16 @@
                         <span tal:condition="not: reply/Creator">Anonymous</span>
                     </tal:name>
                     <tal:posted i18n:translate="label_says">says:</tal:posted>
-                    <div class="commentDate" 
+                    <div class="commentDate"
                          tal:content="python:view.format_time(reply.modification_date)">
                          8/23/2001 12:40:44 PM
                     </div>
                 </div>
-                
+
                 <div class="commentBody">
-                
+
                     <span tal:replace="structure python:view.cook(reply.getText())" />
-                
+
                     <div class="commentActions">
                         <form name="delete"
                               action=""
@@ -96,7 +96,7 @@
                                    i18n:attributes="value label_delete;"
                                    />
                         </form>
-    
+
                         <!-- Workflow actions (e.g. 'publish') -->
                         <form name=""
                               action=""
@@ -115,7 +115,7 @@
                                    />
                         </form>
                     </div>
-                     
+
 
                 </div>
                 <button class="context reply-to-comment-button hide allowMultiSubmit"

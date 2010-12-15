@@ -54,7 +54,7 @@ except: # pragma: no cover
 
 COMMENT_TITLE = _(u"comment_title",
     default=u"${creator} on ${content}")
-        
+
 MAIL_NOTIFICATION_MESSAGE = _(u"mail_notification_message",
     default=u"A comment on '${title}' "
              "has been posted here: ${link}")
@@ -95,7 +95,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     author_name = None
     author_email = None
-    
+
     user_notification = None
 
     # Note: we want to use zope.component.createObject() to instantiate
@@ -127,13 +127,13 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         """The title of the comment.
         """
         if not self.creator:
-            creator = translate(Message(_(u"label_anonymous", 
+            creator = translate(Message(_(u"label_anonymous",
                                           default=u"Anonymous")))
         else:
             creator = self.creator
             creator = creator
 
-        # Fetch the content object (the parent of the comment is the 
+        # Fetch the content object (the parent of the comment is the
         # conversation, the parent of the conversation is the content object).
         content = aq_base(self.__parent__.__parent__)
         title = translate(
@@ -141,7 +141,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
                     mapping={'creator': creator,
                              'content': safe_unicode(content.Title())}))
         return title
-    
+
     def Creator(self):
         """The name of the person who wrote the comment.
         """
@@ -176,8 +176,8 @@ def notify_content_object(obj, event):
     """Tell the content object when a comment is added
     """
     content_obj = aq_parent(aq_parent(obj))
-    content_obj.reindexObject(idxs=('total_comments', 
-                                    'last_comment_date', 
+    content_obj.reindexObject(idxs=('total_comments',
+                                    'last_comment_date',
                                     'commentators',))
 
 def notify_content_object_deleted(obj, event):
@@ -189,14 +189,14 @@ def notify_content_object_deleted(obj, event):
         for comment in conversation.getComments():
             del conversation[comment.id]
 
-def notify_user(obj, event): 
+def notify_user(obj, event):
     """Tell users when a comment has been added.
-    
-       This method composes and sends emails to all users that have added a 
+
+       This method composes and sends emails to all users that have added a
        comment to this conversation and enabled user notification.
-       
-       This requires the user_notification setting to be enabled in the 
-       discussion control panel. 
+
+       This requires the user_notification setting to be enabled in the
+       discussion control panel.
     """
 
     # Check if user notification is enabled
@@ -268,36 +268,36 @@ def notify_user(obj, event):
 
 def notify_moderator(obj, event):
     """Tell the moderator when a comment needs attention.
-    
+
        This method sends an email to the site admin (mail control panel setting)
        if comment moderation is enabled and a new comment has been added that
-       needs to be approved.   
-    
-       This requires the moderator_notification to be enabled in the discussion 
-       control panel and the comment_review_workflow enabled for the comment 
+       needs to be approved.
+
+       This requires the moderator_notification to be enabled in the discussion
+       control panel and the comment_review_workflow enabled for the comment
        content type.
     """
-    
+
     # Check if moderator notification is enabled
     registry = queryUtility(IRegistry)
     settings = registry.forInterface(IDiscussionSettings, check=False)
     if not settings.moderator_notification_enabled:
         return
-    
+
     # Check if the current workflow implements a pending state.
     wf_tool = getToolByName(obj, 'portal_workflow')
     comment_workflow = wf_tool.getChainForPortalType('Discussion Item')[0]
     comment_workflow = wf_tool[comment_workflow]
     if 'pending' not in comment_workflow.states:
         return
-    
+
     # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
     portal_url = getToolByName(obj, 'portal_url')
     portal = portal_url.getPortalObject()
     sender = portal.getProperty('email_from_address')
     mto = portal.getProperty('email_from_address')
-    
+
     # Check if a sender address is available
     if not sender:
         return
@@ -305,7 +305,7 @@ def notify_moderator(obj, event):
     conversation = aq_parent(obj)
     content_object = aq_parent(conversation)
 
-    # Compose email        
+    # Compose email
     #comment = conversation.getComments().next()
     subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
     message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
@@ -327,10 +327,10 @@ def notify_moderator(obj, event):
                          message)
     else: # pragma: no cover
         try:
-            mail_host.secureSend(message, 
-                                 mto, 
-                                 sender, 
-                                 subject=subject, 
+            mail_host.secureSend(message,
+                                 mto,
+                                 sender,
+                                 subject=subject,
                                  charset='utf-8')
         except SMTPException, e:
             logger.error('SMTP exception (%s) while trying to send an ' +

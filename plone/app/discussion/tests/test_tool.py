@@ -14,8 +14,8 @@ class ToolTest(PloneTestCase):
     def afterSetUp(self):
         # First we need to create some content.
         self.loginAsPortalOwner()
-        self.portal.invokeFactory(id='doc1', 
-                                  title='Document 1', 
+        self.portal.invokeFactory(id='doc1',
+                                  title='Document 1',
                                   type_name='Document')
 
     def test_tool_indexing(self):

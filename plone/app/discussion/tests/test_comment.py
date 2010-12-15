@@ -37,7 +37,7 @@ class CommentTest(PloneTestCase):
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         self.document_brain = self.catalog.searchResults(
             portal_type = 'Document')[0]
-    
+
     def test_factory(self):
         comment1 = createObject('plone.Comment')
         self.assert_(IComment.providedBy(comment1))
@@ -71,7 +71,7 @@ class CommentTest(PloneTestCase):
         conversation.addComment(comment1)
         comment_brain = self.catalog.searchResults(
                             portal_type = 'Discussion Item')[0]
-        
+
         # comment should only have a UID if plone.uuid is present
         try:
             from plone.uuid.interfaces import IUUID
@@ -80,7 +80,7 @@ class CommentTest(PloneTestCase):
             self.failIf(comment_brain.UID)
         else:
             self.failUnless(comment_brain.UID)
-        
+
     def test_uid_is_unique(self):
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
@@ -89,12 +89,12 @@ class CommentTest(PloneTestCase):
         conversation.addComment(comment2)
         brains = self.catalog.searchResults(
                      portal_type = 'Discussion Item')
-        
+
         # make sure uids are either both None (i.e. without plone.uuid),
         # or not equal
         if brains[0].UID != None or brains[1].UID != None:
             self.assertNotEquals(brains[0].UID, brains[1].UID)
-    
+
     def test_comment_uid_differs_from_content_uid(self):
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')

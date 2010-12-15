@@ -33,11 +33,11 @@
                 <a i18n:name="enable_comment_workflow"
                    i18n:translate="message_enable_comment_workflow" href=""
                    tal:attributes="href string:${context/portal_url}/@@types-controlpanel?type_id=Discussion Item">
-                enable the 'Comment Review Workflow' for the Comment content 
+                enable the 'Comment Review Workflow' for the Comment content
                 type</a> before you can moderate comments here.
             </dd>
         </dl>
-        
+
         <form tal:condition="not:items">
             <fieldset id="fieldset-moderate-comments" class="formPanel">
                 <p id="no-comments-message" i18n:translate="message_nothing_to_moderate">
@@ -114,7 +114,7 @@
                                     <a href=""
                                        tal:attributes="href string:${item/getURL}/getText"
                                        tal:condition="python:item.Description.endswith('[...]')"
-                                       i18n:translate="label_show_full_comment_text"                                       
+                                       i18n:translate="label_show_full_comment_text"
                                        class="show-full-comment-text">show full comment text</a>
                                 </td>
                                 <td class="actions">

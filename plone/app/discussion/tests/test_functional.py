@@ -9,9 +9,9 @@ try:
     import unittest2 as unittest
     import pprint
     import interlude
-    
+
     from plone.testing import layered
-    
+
     from plone.app.discussion.testing import \
         PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING
     PLONE4 = True
@@ -26,7 +26,7 @@ normal_testfiles = [
 ]
 
 if PLONE4:
-        
+
     def test_suite():
         suite = unittest.TestSuite()
         suite.addTests([
@@ -41,9 +41,9 @@ if PLONE4:
         return suite
 
 else:
-    
+
     def test_suite():
         return unittest.TestSuite([])
-    
+
     if __name__ == '__main__':
         unittest.main(defaultTest='test_suite')

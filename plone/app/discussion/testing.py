@@ -23,12 +23,12 @@ class PloneAppDiscussion(PloneSandboxLayer):
     USER_WITH_FULLNAME_PASSWORD = 'secret'
     MANAGER_USER_NAME = 'manager'
     MANAGER_USER_PASSWORD = 'secret'
-    
+
     def setUpZope(self, app, configurationContext):
         # Load ZCML
         import plone.app.discussion
-        xmlconfig.file('configure.zcml', 
-                       plone.app.discussion, 
+        xmlconfig.file('configure.zcml',
+                       plone.app.discussion,
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
@@ -55,8 +55,8 @@ class PloneAppDiscussion(PloneSandboxLayer):
             ['Member'],
             [],
         )
-        mtool = getToolByName(portal, 'portal_membership', None) 
-        mtool.addMember('jim', 'Jim', ['Member'], []) 
+        mtool = getToolByName(portal, 'portal_membership', None)
+        mtool.addMember('jim', 'Jim', ['Member'], [])
         mtool.getMemberById('jim').setMemberProperties({"fullname": 'Jim Fult\xc3\xb8rn'})
 
         acl_users.userFolderAddUser(
@@ -68,8 +68,8 @@ class PloneAppDiscussion(PloneSandboxLayer):
 
 PLONE_APP_DISCUSSION_FIXTURE = PloneAppDiscussion()
 PLONE_APP_DISCUSSION_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(PLONE_APP_DISCUSSION_FIXTURE,), 
+    bases=(PLONE_APP_DISCUSSION_FIXTURE,),
     name="PloneAppDiscussion:Integration")
 PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(PLONE_APP_DISCUSSION_FIXTURE,), 
+    bases=(PLONE_APP_DISCUSSION_FIXTURE,),
     name="PloneAppDiscussion:Functional")

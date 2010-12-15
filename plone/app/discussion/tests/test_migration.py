@@ -18,11 +18,11 @@ from plone.app.discussion.interfaces import IConversation, IComment
 class MigrationTest(PloneTestCase):
 
     layer = DiscussionLayer
-    
+
     def afterSetUp(self):
         self.loginAsPortalOwner()
         self.portal.invokeFactory(id='doc',
-                                  title='Document 1', 
+                                  title='Document 1',
                                   type_name='Document')
         # Create a document
         self.discussion = getToolByName(self.portal, 'portal_discussion', None)
@@ -35,7 +35,7 @@ class MigrationTest(PloneTestCase):
         request.set("test", True)
         context = getattr(self.portal, 'doc')
         self.view = View(context, request)
-        self.workflow.setChainForPortalTypes(('Discussion Item',), 
+        self.workflow.setChainForPortalTypes(('Discussion Item',),
                                              'comment_review_workflow')
 
         self.doc = self.portal.doc
@@ -59,7 +59,7 @@ class MigrationTest(PloneTestCase):
         self.view()
 
         # Make sure a conversation has been created
-        self.failUnless('plone.app.discussion:conversation' in 
+        self.failUnless('plone.app.discussion:conversation' in
                         IAnnotations(self.doc))
         conversation = IConversation(self.doc)
 
@@ -71,9 +71,9 @@ class MigrationTest(PloneTestCase):
         self.assertEquals(comment1.Title(), 'Jim on Document 1')
         self.assertEquals(comment1.text, 'My Text')
         self.assertEquals(comment1.Creator(), 'Jim')
-        self.assertEquals(comment1.creation_date, 
+        self.assertEquals(comment1.creation_date,
                           datetime(2003, 3, 11, 9, 28, 6))
-        self.assertEquals(comment1.modification_date, 
+        self.assertEquals(comment1.modification_date,
                           datetime(2009, 7, 12, 19, 38, 7))
         self.assertEquals(
             [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},]

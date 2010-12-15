@@ -41,10 +41,10 @@ from plone.z3cform import z2
 from plone.z3cform.widget import SingleCheckBoxWidget
 from plone.z3cform.fieldsets import extensible
 
-# starting from 0.6.0 version plone.z3cform has IWrappedForm interface 
+# starting from 0.6.0 version plone.z3cform has IWrappedForm interface
 try:
-    from plone.z3cform.interfaces import IWrappedForm 
-    HAS_WRAPPED_FORM = True 
+    from plone.z3cform.interfaces import IWrappedForm
+    HAS_WRAPPED_FORM = True
 except ImportError: # pragma: no cover
     HAS_WRAPPED_FORM = False
 
@@ -87,48 +87,48 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Widgets
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
         self.widgets['text'].addClass("autoresize")
-        self.widgets['user_notification'].label = _(u"")   
-        
+        self.widgets['user_notification'].label = _(u"")
+
         # Anonymous / Logged-in
         portal_membership = getToolByName(self.context, 'portal_membership')
         if not portal_membership.isAnonymousUser():
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
-        # Todo: Since we are not using the author_email field in the 
-        # current state, we hide it by default. But we keep the field for 
-        # integrators or later use. 
+        # Todo: Since we are not using the author_email field in the
+        # current state, we hide it by default. But we keep the field for
+        # integrators or later use.
         self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         portal_membership = getToolByName(self.context, 'portal_membership')
-        
+
         if not settings.user_notification_enabled or portal_membership.isAnonymousUser():
             self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
-        
+
     def updateActions(self):
-        super(CommentForm, self).updateActions()        
+        super(CommentForm, self).updateActions()
         self.actions['cancel'].addClass("standalone")
-        self.actions['cancel'].addClass("hide")  
-        self.actions['comment'].addClass("context")  
-        
-    @button.buttonAndHandler(_(u"add_comment_button", default=u"Comment"), 
+        self.actions['cancel'].addClass("hide")
+        self.actions['comment'].addClass("context")
+
+    @button.buttonAndHandler(_(u"add_comment_button", default=u"Comment"),
                              name='comment')
     def handleComment(self, action):
         context = aq_inner(self.context)
         wf = getToolByName(context, 'portal_workflow')
-        
+
         data, errors = self.extractData()
         if errors:
             return
-            
+
         text = u""
         author_name = u""
         author_email = u""
         user_notification = None
 
-        # Captcha check for anonymous users (if Captcha is enabled and 
+        # Captcha check for anonymous users (if Captcha is enabled and
         # anonymous commenting is allowed)
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
@@ -138,10 +138,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         portal_membership.isAnonymousUser():
             if not 'captcha' in data:
                 data['captcha'] = u""
-            captcha = CaptchaValidator(self.context, 
-                                       self.request, 
-                                       None, 
-                                       ICaptcha['captcha'], 
+            captcha = CaptchaValidator(self.context,
+                                       self.request,
+                                       None,
+                                       ICaptcha['captcha'],
                                        None)
             captcha.validate(data['captcha'])
 
@@ -156,10 +156,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             author_email = data['author_email']
         if 'user_notification' in data:
             user_notification = data['user_notification']
-            
+
         # The add-comment view is called on the conversation object
         conversation = IConversation(self.__parent__)
-        
+
         # Check if conversation is enabled on this content object
         if not conversation.enabled():
             raise Unauthorized, "Discussion is not enabled for this content\
@@ -175,10 +175,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         comment.text = text
 
         portal_membership = getToolByName(self.context, 'portal_membership')
-        
+
         can_reply = getSecurityManager().checkPermission('Reply to item',
                                                          context)
-        
+
         if portal_membership.isAnonymousUser() and \
         settings.anonymous_comments:
             # Anonymous Users
@@ -211,7 +211,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                   """Anonymous user tries to post a comment, but
                      anonymous commenting is disabled. Or user
                      does not have the 'reply to item' permission.""" # pragma: no cover
-        
+
         # Check if the added comment is a reply to an existing comment
         # or just a regular reply to the content object.
         if data['in_reply_to']:
@@ -221,11 +221,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # Add a comment to the conversation
             comment_id = conversation.addComment(comment)
 
-        # If a user posts a comment and moderation is enabled, a message is 
-        # shown to the user that his/her comment awaits moderation. If the user 
-        # has 'review comments' permission, he/she is redirected directly 
+        # If a user posts a comment and moderation is enabled, a message is
+        # shown to the user that his/her comment awaits moderation. If the user
+        # has 'review comments' permission, he/she is redirected directly
         # to the comment.
-        can_review = getSecurityManager().checkPermission('Review comments', 
+        can_review = getSecurityManager().checkPermission('Review comments',
                                                           context)
         comment_review_state = wf.getInfoFor(comment, 'review_state')
         if comment_review_state == 'pending' and not can_review:
@@ -254,8 +254,8 @@ class CommentsViewlet(ViewletBase):
         super(CommentsViewlet, self).update()
         z2.switch_on(self, request_layer=IFormLayer)
         self.form = self.form(aq_inner(self.context), self.request)
-        if HAS_WRAPPED_FORM: 
-            alsoProvides(self.form, IWrappedForm) 
+        if HAS_WRAPPED_FORM:
+            alsoProvides(self.form, IWrappedForm)
         self.form.update()
 
     # view methods
@@ -265,16 +265,16 @@ class CommentsViewlet(ViewletBase):
         targetMimetype = 'text/html'
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
-        mimetype = settings.text_transform        
-        return transforms.convertTo(targetMimetype, 
-                                    text, 
-                                    context=self, 
+        mimetype = settings.text_transform
+        return transforms.convertTo(targetMimetype,
+                                    text,
+                                    context=self,
                                     mimetype=mimetype).getData()
-    
+
     def can_reply(self):
         """Returns true if current user has the 'Reply to item' permission.
         """
-        return getSecurityManager().checkPermission('Reply to item', 
+        return getSecurityManager().checkPermission('Reply to item',
                                                     aq_inner(self.context))
 
     def can_manage(self):
@@ -282,13 +282,13 @@ class CommentsViewlet(ViewletBase):
            not want any API changes in beta releases.
         """
         return self.can_review()
-        
+
     def can_review(self):
         """Returns true if current user has the 'Review comments' permission.
         """
-        return getSecurityManager().checkPermission('Review comments', 
+        return getSecurityManager().checkPermission('Review comments',
                                                     aq_inner(self.context))
-        
+
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
         conversation = IConversation(context)
@@ -301,7 +301,7 @@ class CommentsViewlet(ViewletBase):
         """
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
-        
+
         if settings.text_transform == "text/x-web-intelligent":
             message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT))
         else:
@@ -356,7 +356,7 @@ class CommentsViewlet(ViewletBase):
                     r = r.copy()
                     r['workflow_status'] = workflow_status
                     yield r
-        
+
         # Return all direct replies
         if conversation.total_comments > 0:
             if workflow_actions:
@@ -395,11 +395,11 @@ class CommentsViewlet(ViewletBase):
         return settings.show_commenter_image
 
     def is_anonymous(self):
-        portal_membership = getToolByName(self.context, 
-                                          'portal_membership', 
+        portal_membership = getToolByName(self.context,
+                                          'portal_membership',
                                           None)
         return portal_membership.isAnonymousUser()
-    
+
     def login_action(self):
         return '%s/login_form?came_from=%s' % \
             (self.navigation_root_url,

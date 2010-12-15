@@ -18,21 +18,21 @@ class ConversationNamespace(object):
     (unnamed) adapter. This is to work around a bug in OFS.Traversable which
     does not allow traversal to namespaces with an empty string name.
     """
-    
+
     implements(ITraversable)
     adapts(Interface, IBrowserRequest)
-    
+
     def __init__(self, context, request=None):
         self.context = context
         self.request = request
-        
+
     def traverse(self, name, ignore):
-        
+
         if name == "default":
             name = u""
-        
+
         conversation = queryAdapter(self.context, IConversation, name=name)
         if conversation is None:
             raise TraversalError(name) # pragma: no cover
-        
+
         return conversation

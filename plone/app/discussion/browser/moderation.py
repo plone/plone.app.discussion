@@ -11,14 +11,14 @@ from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 
-# Begin ugly hack. It works around a ContentProviderLookupError: 
+# Begin ugly hack. It works around a ContentProviderLookupError:
 # plone.htmlhead error caused by Zope 2 permissions.
 # This error occured on Plone 3.3.x only!
 #
-# Source: 
+# Source:
 # http://athenageek.wordpress.com/2008/01/08/
 # contentproviderlookuperror-plonehtmlhead/
-# 
+#
 # Bug report: https://bugs.launchpad.net/zope2/+bug/176566
 #
 
@@ -27,7 +27,7 @@ def _getContext(self): # pragma: no cover
     while getattr(self, '_is_wrapperish', None):
         self = self.aq_parent
     return self
-            
+
 ZopeTwoPageTemplateFile._getContext = _getContext # pragma: no cover
 # End ugly hack.
 
@@ -61,7 +61,7 @@ class View(BrowserView):
         return text
 
     def moderation_enabled(self):
-        """Returns true if a 'review workflow' is enabled on 'Discussion Item' 
+        """Returns true if a 'review workflow' is enabled on 'Discussion Item'
            content type. A 'review workflow' is characterized by implementing
            a 'pending' workflow state.
         """
@@ -78,7 +78,7 @@ class View(BrowserView):
 class ModerateCommentsEnabled(BrowserView):
 
     def __call__(self):
-        """Returns true if a 'review workflow' is enabled on 'Discussion Item' 
+        """Returns true if a 'review workflow' is enabled on 'Discussion Item'
            content type. A 'review workflow' is characterized by implementing
            a 'pending' workflow state.
         """
@@ -91,26 +91,26 @@ class ModerateCommentsEnabled(BrowserView):
         else:
             return
 
-        
+
 class DeleteComment(BrowserView):
     """Delete a comment from a conversation.
-    
+
        This view is always called directly on the comment object:
-       
+
          http://nohost/front-page/++conversation++default/1286289644723317/\
          @@moderate-delete-comment
 
        Each table row (comment) in the moderation view contains a hidden input
        field with the absolute URL of the content object:
-       
-         <input type="hidden" 
+
+         <input type="hidden"
                 value="http://nohost/front-page/++conversation++default/\
-                       1286289644723317" 
+                       1286289644723317"
                 name="selected_obj_paths:list">
-        
+
        This absolute URL is called from a jQuery method that is bind to the
        'delete' button of the table row. See javascripts/moderation.js for more
-       details.       
+       details.
     """
 
     def __call__(self):
@@ -132,23 +132,23 @@ class DeleteComment(BrowserView):
 
 class PublishComment(BrowserView):
     """Publish a comment.
-    
+
        This view is always called directly on the comment object:
-       
+
            http://nohost/front-page/++conversation++default/1286289644723317/\
            @@moderate-publish-comment
 
        Each table row (comment) in the moderation view contains a hidden input
        field with the absolute URL of the content object:
-       
-         <input type="hidden" 
+
+         <input type="hidden"
                 value="http://nohost/front-page/++conversation++default/\
-                       1286289644723317" 
+                       1286289644723317"
                 name="selected_obj_paths:list">
-        
+
        This absolute URL is called from a jQuery method that is bind to the
        'delete' button of the table row. See javascripts/moderation.js for more
-       details.               
+       details.
     """
 
     def __call__(self):
@@ -171,24 +171,24 @@ class PublishComment(BrowserView):
 
 class BulkActionsView(BrowserView):
     """Bulk actions (unapprove, approve, delete, mark as spam).
-    
-       Each table row of the moderation view has a checkbox with the absolute 
+
+       Each table row of the moderation view has a checkbox with the absolute
        path (without host and port) of the comment objects:
-       
+
          <input type="checkbox"
                 name="paths:list"
                 value="/plone/front-page/++conversation++default/\
-                       1286289644723317" 
+                       1286289644723317"
                 id="cb_1286289644723317" />
-       
-       If checked, the comment path will occur in the 'paths' variable of 
-       the request when the bulk actions view is called. The bulk action 
-       (delete, publish, etc.) will be applied to all comments that are 
+
+       If checked, the comment path will occur in the 'paths' variable of
+       the request when the bulk actions view is called. The bulk action
+       (delete, publish, etc.) will be applied to all comments that are
        included.
-       
+
        The paths have to be 'traversable':
-       
-         /plone/front-page/++conversation++default/1286289644723317                
+
+         /plone/front-page/++conversation++default/1286289644723317
 
     """
 
@@ -219,11 +219,11 @@ class BulkActionsView(BrowserView):
 
     def publish(self):
         """Publishes all comments in the paths variable.
-        
+
            Expects a list of absolute paths (without host and port):
-        
+
              /Plone/startseite/++conversation++default/1286200010610352
-           
+
         """
         context = aq_inner(self.context)
         for path in self.paths:
@@ -240,12 +240,12 @@ class BulkActionsView(BrowserView):
 
     def delete(self):
         """Deletes all comments in the paths variable.
-        
+
            Expects a list of absolute paths (without host and port):
-        
+
              /Plone/startseite/++conversation++default/1286200010610352
-           
-        """        
+
+        """
         context = aq_inner(self.context)
         for path in self.paths:
             comment = context.restrictedTraverse(path)

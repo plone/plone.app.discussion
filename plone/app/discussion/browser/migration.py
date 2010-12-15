@@ -25,22 +25,22 @@ class View(BrowserView):
         out = []
         self.total_comments_migrated = 0
         self.total_comments_deleted = 0
-        
+
         dry_run = self.request.has_key("dry_run")
-        
+
         # This is for testing only.
         # Do not use transactions during a test.
-        test = self.request.has_key("test") 
-        
+        test = self.request.has_key("test")
+
         if not test:
             transaction.begin() # pragma: no cover
-        
+
         catalog = getToolByName(context, 'portal_catalog')
-        
+
         def log(msg):
-            # encode string before sending it to external world 
-            if isinstance(msg, unicode): 
-                msg = msg.encode('utf-8') # pragma: no cover          
+            # encode string before sending it to external world
+            if isinstance(msg, unicode):
+                msg = msg.encode('utf-8') # pragma: no cover
             context.plone_log(msg)
             out.append(msg)
 
@@ -85,9 +85,9 @@ class View(BrowserView):
 
                 # migrate all talkbacks of the reply
                 talkback = getattr( reply, 'talkback', None )
-                no_replies_left = migrate_replies(context, 
-                                                  new_in_reply_to, 
-                                                  talkback.getReplies(), 
+                no_replies_left = migrate_replies(context,
+                                                  new_in_reply_to,
+                                                  talkback.getReplies(),
                                                   depth=depth+1)
                 if no_replies_left:
                     # remove reply and talkback
@@ -97,7 +97,7 @@ class View(BrowserView):
                     log("%sremove %s" % (indent, reply.id))
                     self.total_comments_deleted += 1
 
-            # Return True when all comments on a certain level have been 
+            # Return True when all comments on a certain level have been
             # migrated.
             return True
 
@@ -113,14 +113,14 @@ class View(BrowserView):
         count_comments_old = len(catalog.searchResults(
                                      object_provides=IDiscussionResponse.\
                                          __identifier__))
-        
+
         log("Found %s Discussion Item objects." % count_discussion_items)
         log("Found %s old discussion items." % count_comments_old)
         log("Found %s plone.app.discussion comments." % count_comments_pad)
 
         log("\n")
         log("Start comment migration.")
-        
+
         # This loop is necessary to get all contentish objects, but not
         # the Discussion Items. This wouldn't be necessary if the
         # zcatalog would support NOT expressions.
@@ -138,7 +138,7 @@ class View(BrowserView):
                 if replies:
                     conversation = IConversation(obj)
                 log("\n")
-                log("Migrate '%s' (%s)" % (obj.Title(), 
+                log("Migrate '%s' (%s)" % (obj.Title(),
                                            obj.absolute_url(relative=1)))
                 migrate_replies(context, 0, replies)
                 obj = aq_parent(talkback)
@@ -152,23 +152,23 @@ class View(BrowserView):
             if not test:  # pragma: no cover
                 transaction.abort() # pragma: no cover
             log("Abort transaction")  # pragma: no cover
-        
+
         log("\n")
         log("Comment migration finished.")
         log("\n")
-        
+
         log("%s of %s comments migrated."
             % (self.total_comments_migrated, count_comments_old))
-        
+
         if self.total_comments_migrated != count_comments_old:
-            log("%s comments could not be migrated." 
+            log("%s comments could not be migrated."
                 % (count_comments_old - self.total_comments_migrated)) # pragma: no cover
             log("Please make sure your portal catalog is up-to-date.") # pragma: no cover
-        
+
         if dry_run and not test:
             transaction.abort() # pragma: no cover
             log("Dry run") # pragma: no cover
             log("Abort transaction") # pragma: no cover
         if not test:
-            transaction.commit() # pragma: no cover        
+            transaction.commit() # pragma: no cover
         return '\n'.join(out)

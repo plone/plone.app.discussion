@@ -29,20 +29,20 @@ class ConversationTest(PloneTestCase):
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
         self.typetool = typetool
-        self.portal_discussion = getToolByName(self.portal, 
-                                               'portal_discussion', 
+        self.portal_discussion = getToolByName(self.portal,
+                                               'portal_discussion',
                                                None)
         # Allow discussion
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = True
-        
+
     def test_add_comment(self):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        # Add a comment. Note: in real life, we always create comments via the 
+        # Add a comment. Note: in real life, we always create comments via the
         # factory to allow different factories to be swapped in
 
         comment = createObject('plone.Comment')
@@ -59,7 +59,7 @@ class ConversationTest(PloneTestCase):
         self.assertEquals(len(list(conversation.getComments())), 1)
         self.assertEquals(len(tuple(conversation.getThreads())), 1)
         self.assertEquals(conversation.total_comments, 1)
-        self.assert_(conversation.last_comment_date - datetime.utcnow() < 
+        self.assert_(conversation.last_comment_date - datetime.utcnow() <
                      timedelta(seconds=1))
 
     def test_delete_comment(self):
@@ -67,7 +67,7 @@ class ConversationTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        # Add a comment. Note: in real life, we always create comments via the 
+        # Add a comment. Note: in real life, we always create comments via the
         # factory to allow different factories to be swapped in
 
         comment = createObject('plone.Comment')
@@ -148,7 +148,7 @@ class ConversationTest(PloneTestCase):
             ], list(conversation.getThreads()))
 
     def test_delete_comment_when_content_object_is_deleted(self):
-        # Make sure all comments of a content object are deleted when the 
+        # Make sure all comments of a content object are deleted when the
         # object itself is deleted.
         conversation = IConversation(self.portal.doc1)
         comment = createObject('plone.Comment')
@@ -157,11 +157,11 @@ class ConversationTest(PloneTestCase):
 
         # Delete the content object
         self.portal.manage_delObjects(['doc1'])
-        
+
         # Make sure the comment has been deleted as well
         self.assertEquals(len(list(conversation.getComments())), 0)
         self.assertEquals(len(tuple(conversation.getThreads())), 0)
-        self.assertEquals(conversation.total_comments, 0) 
+        self.assertEquals(conversation.total_comments, 0)
 
     def test_allow_discussion(self):
         # This is not a real test! It's only there to understand the
@@ -188,20 +188,20 @@ class ConversationTest(PloneTestCase):
         portal_discussion = getToolByName(self.portal, 'portal_discussion')
         self.assertEquals(portal_discussion.isDiscussionAllowedFor(
                           self.portal.doc1), False)
-        self.assertEquals(self.portal.doc1.getTypeInfo().allowDiscussion(), 
+        self.assertEquals(self.portal.doc1.getTypeInfo().allowDiscussion(),
                           False)
 
         # The allow discussion flag is None by default
         self.failIf(getattr(self.portal.doc1, 'allow_discussion', None))
 
-        # But isDiscussionAllowedFor, also checks if discussion is allowed on 
-        # the content type. So we allow discussion on the Document content 
+        # But isDiscussionAllowedFor, also checks if discussion is allowed on
+        # the content type. So we allow discussion on the Document content
         # type and check if the Document object allows discussion now.
         document_fti = getattr(portal_types, 'Document')
         document_fti.manage_changeProperties(allow_discussion = True)
         self.assertEquals(portal_discussion.isDiscussionAllowedFor(
             self.portal.doc1), True)
-        self.assertEquals(self.portal.doc1.getTypeInfo().allowDiscussion(), 
+        self.assertEquals(self.portal.doc1.getTypeInfo().allowDiscussion(),
                           True)
 
         # We can also override the allow_discussion locally
@@ -209,16 +209,16 @@ class ConversationTest(PloneTestCase):
         # Check if the Document discussion is disabled
         self.assertEquals(portal_discussion.isDiscussionAllowedFor(
             self.portal.doc1), False)
-        # Check that the local allow_discussion flag is now explicitly set to 
+        # Check that the local allow_discussion flag is now explicitly set to
         # False
-        self.assertEquals(getattr(self.portal.doc1, 'allow_discussion', None), 
+        self.assertEquals(getattr(self.portal.doc1, 'allow_discussion', None),
                           False)
 
         # Disallow discussion on the Document content type again
         document_fti.manage_changeProperties(allow_discussion = False)
         self.assertEquals(portal_discussion.isDiscussionAllowedFor(
             self.portal.doc1), False)
-        self.assertEquals(self.portal.doc1.getTypeInfo().allowDiscussion(), 
+        self.assertEquals(self.portal.doc1.getTypeInfo().allowDiscussion(),
             False)
 
         # Now we override allow_discussion again (True) for the Document
@@ -226,14 +226,14 @@ class ConversationTest(PloneTestCase):
         self.portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
         self.assertEquals(portal_discussion.isDiscussionAllowedFor(
             self.portal.doc1), True)
-        self.assertEquals(getattr(self.portal.doc1, 'allow_discussion', None), 
+        self.assertEquals(getattr(self.portal.doc1, 'allow_discussion', None),
                           True)
 
     def test_comments_enabled_on_doc_in_subfolder(self):
         typetool = self.portal.portal_types
         typetool.constructContent('Folder', self.portal, 'folder1')
         typetool.constructContent('Document', self.portal.folder1, 'doc2')
-        
+
         folder = self.portal.folder1
         folder.allowDiscussion(False)
         self.assertFalse(hasattr(aq_base(folder), 'allow_discussion'))
@@ -241,11 +241,11 @@ class ConversationTest(PloneTestCase):
         self.assertTrue(aq_base(folder).allow_discussion)
         folder.allowDiscussion(False)
         self.assertFalse(aq_base(folder).allow_discussion)
-        
+
         doc = self.portal.folder1.doc2
         conversation = IConversation(doc)
         self.assertEquals(conversation.enabled(), False)
-        
+
         # We have to allow discussion on Document content type, since
         # otherwise allow_discussion will always return False
         portal_types = getToolByName(self.portal, 'portal_types')
@@ -409,7 +409,7 @@ class ConversationTest(PloneTestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        # Add a comment. Note: in real life, we always create comments via the 
+        # Add a comment. Note: in real life, we always create comments via the
         # factory to allow different factories to be swapped in
 
         comment1 = createObject('plone.Comment')
@@ -571,9 +571,9 @@ class ConversationTest(PloneTestCase):
         new_comment3_id = conversation.addComment(comment3)
 
         # check if the latest comment is exactly one day old
-        self.assert_(conversation.last_comment_date < datetime.utcnow() - 
+        self.assert_(conversation.last_comment_date < datetime.utcnow() -
                      timedelta(hours=23, minutes=59, seconds=59))
-        self.assert_(conversation.last_comment_date > 
+        self.assert_(conversation.last_comment_date >
                      datetime.utcnow() - timedelta(days=1, seconds=1))
 
         # remove the latest comment
@@ -581,9 +581,9 @@ class ConversationTest(PloneTestCase):
 
         # check if the latest comment has been updated
         # the latest comment should be exactly two days old
-        self.assert_(conversation.last_comment_date < datetime.utcnow() - 
+        self.assert_(conversation.last_comment_date < datetime.utcnow() -
                      timedelta(days=1, hours=23, minutes=59, seconds=59))
-        self.assert_(conversation.last_comment_date > datetime.utcnow() - 
+        self.assert_(conversation.last_comment_date > datetime.utcnow() -
                      timedelta(days=2, seconds=1))
 
         # remove the latest comment again
@@ -591,9 +591,9 @@ class ConversationTest(PloneTestCase):
 
         # check if the latest comment has been updated
         # the latest comment should be exactly four days old
-        self.assert_(conversation.last_comment_date < datetime.utcnow() - 
+        self.assert_(conversation.last_comment_date < datetime.utcnow() -
                      timedelta(days=3, hours=23, minutes=59, seconds=59))
-        self.assert_(conversation.last_comment_date > datetime.utcnow() - 
+        self.assert_(conversation.last_comment_date > datetime.utcnow() -
                      timedelta(days=4, seconds=2))
 
     def test_get_comments_full(self):
@@ -678,15 +678,15 @@ class ConversationTest(PloneTestCase):
             '++conversation++default')
         self.assert_(IConversation.providedBy(conversation))
 
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default'), 
+        self.assertEquals(('', 'plone', 'doc1', '++conversation++default'),
                           conversation.getPhysicalPath())
         # XXX: conversation.absolute_url() returns different values dependent
         # on the Plone version used.
         # Plone 3.3:
-        #self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault', 
+        #self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault',
         #conversation.absolute_url())
         # Plone 4:
-        #self.assertEquals('http://nohost/plone/doc1/++conversation++default', 
+        #self.assertEquals('http://nohost/plone/doc1/++conversation++default',
         #conversation.absolute_url())
 
     def test_parent(self):

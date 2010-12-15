@@ -49,7 +49,7 @@ class CaptchaValidator(validator.SimpleFieldValidator):
         settings = registry.forInterface(IDiscussionSettings, check=False)
 
         if settings.captcha in ('captcha', 'recaptcha', 'norobots'):
-            captcha = getMultiAdapter((aq_inner(self.context), self.request), 
+            captcha = getMultiAdapter((aq_inner(self.context), self.request),
                                       name=settings.captcha)
             if not captcha.verify(input=value):
                 if settings.captcha == 'norobots':
@@ -61,6 +61,6 @@ class CaptchaValidator(validator.SimpleFieldValidator):
 
 
 # Register Captcha validator for the Captcha field in the ICaptcha Form
-validator.WidgetValidatorDiscriminators(CaptchaValidator, 
+validator.WidgetValidatorDiscriminators(CaptchaValidator,
                                         field=ICaptcha['captcha'])
 

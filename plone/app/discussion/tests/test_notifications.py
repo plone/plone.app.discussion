@@ -50,9 +50,9 @@ class TestUserNotificationUnit(PloneTestCase):
         self.portal.MailHost = self.portal._original_MailHost
         sm = getSiteManager(context=self.portal)
         sm.unregisterUtility(provided=IMailHost)
-        sm.registerUtility(aq_base(self.portal._original_MailHost), 
+        sm.registerUtility(aq_base(self.portal._original_MailHost),
                            provided=IMailHost)
-    
+
     def test_notify_user(self):
         # Add a comment with user notification enabled. Add another comment
         # and make sure an email is send to the user of the first comment.
@@ -74,7 +74,7 @@ class TestUserNotificationUnit(PloneTestCase):
         # We expect the headers to be properly header encoded (7-bit):
         #>>> 'Subject: =?utf-8?q?Some_t=C3=A4st_subject=2E?=' in msg
         #True
-#        # The output should be encoded in a reasonable manner 
+#        # The output should be encoded in a reasonable manner
         # (in this case quoted-printable):
         #>>> msg
         #'...Another t=C3=A4st message...You are receiving this mail \
@@ -97,9 +97,9 @@ class TestUserNotificationUnit(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
-        
+
         self.assertEquals(len(self.mailhost.messages), 0)
-            
+
     def test_do_not_notify_user_when_email_address_is_given(self):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
@@ -109,7 +109,7 @@ class TestUserNotificationUnit(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
-        
+
         self.assertEquals(len(self.mailhost.messages), 0)
 
     def test_do_not_notify_user_when_no_sender_is_available(self):
@@ -126,7 +126,7 @@ class TestUserNotificationUnit(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
-        
+
         self.assertEquals(len(self.mailhost.messages), 0)
 
     def test_notify_only_once(self):
@@ -179,13 +179,13 @@ class TestModeratorNotificationUnit(PloneTestCase):
         # We need to fake a valid mail setup
         self.portal.email_from_address = "portal@plone.test"
         self.mailhost = self.portal.MailHost
-  
+
         # Enable comment moderation
         self.portal.portal_types['Document'].allow_discussion = True
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
             ('comment_review_workflow',))
-        
+
         # Enable moderator notification setting
         registry = queryUtility(IRegistry)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
@@ -201,9 +201,9 @@ class TestModeratorNotificationUnit(PloneTestCase):
         self.portal.MailHost = self.portal._original_MailHost
         sm = getSiteManager(context=self.portal)
         sm.unregisterUtility(provided=IMailHost)
-        sm.registerUtility(aq_base(self.portal._original_MailHost), 
+        sm.registerUtility(aq_base(self.portal._original_MailHost),
                            provided=IMailHost)
-    
+
     def test_notify_moderator(self):
         # Add a comment and make sure an email is send to the moderator.
         comment = createObject('plone.Comment')
@@ -213,7 +213,7 @@ class TestModeratorNotificationUnit(PloneTestCase):
         self.assertEquals(len(self.mailhost.messages), 1)
         self.failUnless(self.mailhost.messages[0])
         msg = self.mailhost.messages[0]
-        
+
         if not isinstance(msg, str):
             # Plone 3
             self.failUnless('portal@plone.test' in msg.mfrom)
@@ -221,17 +221,17 @@ class TestModeratorNotificationUnit(PloneTestCase):
         else:
             #Plone 4
             self.failUnless('To: portal@plone.test' in msg)
-            self.failUnless('From: portal@plone.test' in msg)        
+            self.failUnless('From: portal@plone.test' in msg)
 
         #We expect the headers to be properly header encoded (7-bit):
         #>>> 'Subject: =?utf-8?q?Some_t=C3=A4st_subject=2E?=' in msg
         #True
 
-        #The output should be encoded in a reasonable manner (in this case 
+        #The output should be encoded in a reasonable manner (in this case
         # quoted-printable):
         #>>> msg
-        #'...Another t=C3=A4st message...You are receiving this mail because 
-        # T=C3=A4st user\ntest@plone.test...is sending feedback about the site 
+        #'...Another t=C3=A4st message...You are receiving this mail because
+        # T=C3=A4st user\ntest@plone.test...is sending feedback about the site
         # you administer at...
 
     def test_do_not_notify_moderator_when_no_sender_is_available(self):
@@ -243,9 +243,9 @@ class TestModeratorNotificationUnit(PloneTestCase):
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         self.assertEquals(len(self.mailhost.messages), 0)
-        
+
     def test_do_not_notify_moderator_when_notification_is_disabled(self):
-        # Disable moderator notification setting and make sure no email is send 
+        # Disable moderator notification setting and make sure no email is send
         # to the moderator.
         registry = queryUtility(IRegistry)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
@@ -263,7 +263,7 @@ class TestModeratorNotificationUnit(PloneTestCase):
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
             ('one_state_workflow',))
- 
+
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         self.conversation.addComment(comment)

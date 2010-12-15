@@ -39,7 +39,7 @@ Captcha = factory(Captcha)
 
 class CaptchaExtender(extensible.FormExtender):
     """Extends the comment form with a Captcha. This Captcha extender is only
-    registered when a plugin is installed that provides the 
+    registered when a plugin is installed that provides the
     "plone.app.discussion-captcha" feature.
     """
     adapts(Interface, IDefaultBrowserLayer, CommentForm) # context, request, form
@@ -72,4 +72,4 @@ class CaptchaExtender(extensible.FormExtender):
                 self.form.fields['captcha'].widgetFactory = NorobotsFieldWidget
             else:
                 self.form.fields['captcha'].mode = interfaces.HIDDEN_MODE
-                
+

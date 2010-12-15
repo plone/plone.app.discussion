@@ -21,7 +21,7 @@ from zope.component import getMultiAdapter, queryUtility
 
 from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
-    
+
 from plone.app.discussion.interfaces import IDiscussionSettings, _
 
 
@@ -33,7 +33,7 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
     description = _(u"help_discussion_settings_editform",
                     default=u"Some discussion related settings are not located "
                              "in the Discussion Control Panel.\n"
-                             "To enable comments for a specific content type, " 
+                             "To enable comments for a specific content type, "
                              "go to the Types Control Panel of this type and "
                              "choose \"Allow comments\".\n"
                              "To enable the moderation workflow for comments, "
@@ -73,18 +73,18 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             self.status = self.formErrorsMessage
             return
         changes = self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"), 
+        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
                                                       "info")
         self.context.REQUEST.RESPONSE.redirect("@@discussion-settings")
 
     @button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"), 
+        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"),
                                                       "info")
-        self.request.response.redirect("%s/%s" % (self.context.absolute_url(), 
+        self.request.response.redirect("%s/%s" % (self.context.absolute_url(),
                                                   self.control_panel_view))
 
-        
+
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     """Discussion settings control panel.
     """
@@ -100,22 +100,22 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         wftool = getToolByName(self.context, "portal_workflow", None)
         wf = wftool.getChainForPortalType('Discussion Item')
         output = []
-        
+
         # Globally enabled
         if settings.globally_enabled:
             output.append("globally_enabled")
-        
+
         # Comment moderation
         if 'one_state_workflow' not in wf and \
         'comment_review_workflow' not in wf:
-            output.append("moderation_custom")          
+            output.append("moderation_custom")
         elif settings.moderation_enabled:
             output.append("moderation_enabled")
-        
+
         # Anonymous comments
         if settings.anonymous_comments:
             output.append("anonymous_comments")
-        
+
         # Invalid mail setting
         ctrlOverview = getMultiAdapter((self.context, self.request),
                                        name='overview-controlpanel')
@@ -127,7 +127,7 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         discussion_workflow = wftool.getChainForPortalType('Discussion Item')[0]
         if discussion_workflow:
             output.append(discussion_workflow)
-            
+
         # Merge all settings into one string
         return ' '.join(output)
 
@@ -152,27 +152,27 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         if 'one_state_workflow' in wf or 'comment_review_workflow' in wf:
             return
         return True
-              
-    
+
+
 def notify_configuration_changed(event):
     """Event subscriber that is called every time the configuration changed.
     """
     portal = getSite()
     wftool = getToolByName(portal, 'portal_workflow', None)
-    
+
     if IRecordModifiedEvent.providedBy(event):
         # Discussion control panel setting changed
         if event.record.fieldName == 'moderation_enabled':
             # Moderation enabled has changed
             if event.record.value == True:
                 # Enable moderation workflow
-                wftool.setChainForPortalTypes(('Discussion Item',), 
-                                              'comment_review_workflow')                
+                wftool.setChainForPortalTypes(('Discussion Item',),
+                                              'comment_review_workflow')
             else:
                 # Disable moderation workflow
-                wftool.setChainForPortalTypes(('Discussion Item',), 
+                wftool.setChainForPortalTypes(('Discussion Item',),
                                               'one_state_workflow')
-            
+
     if IConfigurationChangedEvent.providedBy(event):
         # Types control panel setting changed
         if 'workflow' in event.data:

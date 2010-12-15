@@ -5,7 +5,7 @@
       lang="en"
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="plone">
-      
+
 <metal:block fill-slot="top_slot"
              tal:define="dummy python:request.set('disable_border',1)" />
 
@@ -17,14 +17,14 @@
 
 
 <body>
-<div id="content" 
+<div id="content"
      tal:attributes="class view/settings"
      metal:fill-slot="prefs_configlet_content">
 
     <script type="text/javascript"
         tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
     </script>
-    
+
     <dl class="portalMessage warning"
         tal:condition="view/mailhost_warning">
         <dt i18n:translate="">
@@ -63,24 +63,24 @@
             to choose a workflow for the 'Discussion Item' type.
         </dd>
     </dl>
-        
+
     <div metal:use-macro="context/global_statusmessage/macros/portal_message">
       Portal status message
     </div>
-    
+
     <a href=""
        id="setup-link"
        tal:attributes="href string:$portal_url/plone_control_panel"
        i18n:translate="">
         Site Setup
     </a> &rsaquo;
-                
+
     <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
-    
+
     <div id="layout-contents">
         <span tal:replace="structure view/contents" />
     </div>
-    
+
 </div>
 </body>
 </html>

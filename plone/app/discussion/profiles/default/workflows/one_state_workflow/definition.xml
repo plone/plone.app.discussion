@@ -52,7 +52,7 @@
   <guard>
   </guard>
  </variable>
- 
+
  <variable variable_id="actor" for_catalog="False"
            for_status="True" update_always="True">
   <description i18n:translate="">
@@ -64,7 +64,7 @@
   <guard>
   </guard>
  </variable>
- 
+
  <variable variable_id="comments" for_catalog="False"
            for_status="True" update_always="True">
   <description i18n:translate="">
@@ -76,7 +76,7 @@
   <guard>
   </guard>
  </variable>
- 
+
  <variable variable_id="review_history" for_catalog="False"
            for_status="False" update_always="False">
   <description i18n:translate="">
@@ -90,7 +90,7 @@
    <guard-permission>Review portal content</guard-permission>
   </guard>
  </variable>
- 
+
  <variable variable_id="time" for_catalog="False"
            for_status="True" update_always="True">
   <description i18n:translate="">
