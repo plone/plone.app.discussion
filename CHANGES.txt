@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Avoid sending multiple notification emails to the same person when
+  he has commented multiple times.
+  [maurits]
+
 - Disable discussion by default.
   [timo]
   

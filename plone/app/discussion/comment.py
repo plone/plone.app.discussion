@@ -219,42 +219,52 @@ def notify_user(obj, event):
     # conversation and enabled user_notification.
     conversation = aq_parent(obj)
     content_object = aq_parent(conversation)
-    
+
+    # Avoid sending multiple notification emails to the same person
+    # when he has commented multiple times.
+    emails = set()
     for comment in conversation.getComments():
-        if obj != comment and \
-        comment.user_notification and comment.author_email:
-            subject = translate(_(u"A comment has been posted."),
-                context=obj.REQUEST)
-            message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
-                mapping={'title': content_object.title,
-                         'link': content_object.absolute_url()}),
-                context=obj.REQUEST)
-        
-            # Send email
-            if PLONE_4:
-                try:
-                    mail_host.send(message, 
-                                   comment.author_email, 
-                                   sender, 
-                                   subject, 
-                                   charset='utf-8')
-                except SMTPException:
-                    logger.error('SMTP exception while trying to send an ' +
-                                 'email from %s to %s',
-                                 sender,
-                                 comment.author_email)
-            else: # pragma: no cover
-                try:
-                    mail_host.secureSend(message, 
-                                         comment.author_email,
-                                         sender,
-                                         subject=subject,
-                                         charset='utf-8')
-                except SMTPException:
-                    logger.error('SMTP exception while trying to send an ' +
-                                 'email from %s to %s',
-                                 sender,
-                                 comment.author_email)
+        if (obj != comment and
+            comment.user_notification and comment.author_email):
+            emails.add(comment.author_email)
+
+    if not emails:
+        return
+
+    subject = translate(_(u"A comment has been posted."),
+                        context=obj.REQUEST)
+    message = translate(Message(
+            MAIL_NOTIFICATION_MESSAGE,
+            mapping={'title': content_object.title,
+                     'link': content_object.absolute_url()}),
+                        context=obj.REQUEST)
+    for email in emails:
+        # Send email
+        if PLONE_4:
+            try:
+                mail_host.send(message,
+                               email,
+                               sender,
+                               subject,
+                               charset='utf-8')
+            except SMTPException:
+                logger.error('SMTP exception while trying to send an ' +
+                             'email from %s to %s',
+                             sender,
+                             email)
+        else:  # pragma: no cover
+            try:
+                mail_host.secureSend(message,
+                                     email,
+                                     sender,
+                                     subject=subject,
+                                     charset='utf-8')
+            except SMTPException:
+                logger.error('SMTP exception while trying to send an ' +
+                             'email from %s to %s',
+                             sender,
+                             email)
+
 
 def notify_moderator(obj, event):
     """Tell the moderator when a comment needs attention.

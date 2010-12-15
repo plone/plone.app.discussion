@@ -129,6 +129,40 @@ class TestUserNotificationUnit(PloneTestCase):
         
         self.assertEquals(len(self.mailhost.messages), 0)
 
+    def test_notify_only_once(self):
+        # When a user has added two comments in a conversation and has
+        # both times requested email notification, do not send him two
+        # emails when another comment has been added.
+
+        # Comment 1
+        comment = createObject('plone.Comment')
+        comment.text = 'Comment text'
+        comment.user_notification = True
+        comment.author_email = "john@plone.test"
+        self.conversation.addComment(comment)
+
+        # Comment 2
+        comment = createObject('plone.Comment')
+        comment.text = 'Comment text'
+        comment.user_notification = True
+        comment.author_email = "john@plone.test"
+        self.conversation.addComment(comment)
+        # Note that we might want to get rid of this message, as the
+        # new comment is added by the same user.
+        self.assertEquals(len(self.mailhost.messages), 1)
+        self.mailhost.reset()
+        self.assertEquals(len(self.mailhost.messages), 0)
+
+        # Comment 3
+        comment = createObject('plone.Comment')
+        comment.text = 'Comment text'
+        self.conversation.addComment(comment)
+        self.assertEquals(len(self.mailhost.messages), 1)
+        self.failUnless(self.mailhost.messages[0])
+        msg = str(self.mailhost.messages[0])
+        self.failUnless('To: john@plone.test' in msg)
+        self.failUnless('From: portal@plone.test' in msg)
+
 
 class TestModeratorNotificationUnit(PloneTestCase):
 
