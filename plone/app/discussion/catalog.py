@@ -16,6 +16,11 @@ from plone.app.discussion.interfaces import IConversation, IComment
 
 from plone.indexer import indexer
 
+try:
+    from plone.uuid.interfaces import IUUID
+except ImportError:
+    IUUID = None
+
 MAX_DESCRIPTION = 25
 
 # Conversation Indexers
@@ -130,3 +135,9 @@ def comments_last_comment_date(object):
 @indexer(IComment)
 def comments_commentators(object):
     return None
+
+# Make sure comments don't inherit their container's UID
+@indexer(IComment)
+def UID(object):
+    if IUUID:
+        return IUUID(object, None)

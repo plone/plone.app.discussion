@@ -1,6 +1,32 @@
+import sys
 from setuptools import setup, find_packages
 
 version = '1.0bRC1'
+
+install_requires = [
+    'setuptools',
+    'collective.autopermission',
+    'collective.monkeypatcher',
+    'plone.app.layout',
+    'plone.app.registry',
+    'plone.app.z3cform',
+    'plone.indexer',
+    'plone.registry',
+    'plone.z3cform',
+    'ZODB3',
+    'zope.interface',
+    'zope.component',
+    'zope.annotation',
+    'zope.event',
+    'zope.container',
+    'zope.lifecycleevent',
+    'zope.site',
+    'z3c.form>=2.3.3',
+    ]
+
+# On Python 2.6 (implying Plone 4), require plone.app.uuid
+if sys.version_info >= (2,6):
+    install_requires.append('plone.app.uuid')
 
 setup(name='plone.app.discussion',
       version=version,
@@ -20,27 +46,7 @@ setup(name='plone.app.discussion',
       namespace_packages=['plone', 'plone.app'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=[
-          'setuptools',
-          'collective.autopermission',
-          'collective.monkeypatcher',
-          'plone.app.layout',
-          'plone.app.registry',
-          'plone.app.uuid',          
-          'plone.app.z3cform',
-          'plone.indexer',
-          'plone.registry',
-          'plone.z3cform',
-          'ZODB3',
-          'zope.interface',
-          'zope.component',
-          'zope.annotation',
-          'zope.event',
-          'zope.container',
-          'zope.lifecycleevent',
-          'zope.site',
-          'z3c.form>=2.3.3',
-      ],
+      install_requires=install_requires,
       extras_require = {
           'test': [
               'plone.app.testing',

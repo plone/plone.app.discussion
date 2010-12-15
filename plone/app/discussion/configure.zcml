@@ -101,6 +101,7 @@
     <adapter name="in_response_to" factory=".catalog.in_response_to" />
 
     <!-- Comment indexes -->
+    <adapter name="UID" factory=".catalog.UID" />
     <adapter name="Title" factory=".catalog.title" />
     <adapter name="Creator" factory=".catalog.creator" />
     <adapter name="Description" factory=".catalog.description" />
