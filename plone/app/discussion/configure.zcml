@@ -55,10 +55,18 @@
     <!-- Comments -->
 
     <class class=".comment.Comment">
-        <implements interface="plone.uuid.interfaces.IAttributeUUID" />
         <require interface=".interfaces.IComment" permission="zope2.View" />
         <require attributes="Title Creator getId getText" permission="zope2.View" />
     </class>
+
+ 
+	<!-- XXX: Excluding plone.uuid for Plone 3 is only a temporary 'fix'.
+         See the comment above -->
+    <configure zcml:condition="have plone-4">
+    <class class=".comment.Comment">
+        <implements interface="plone.uuid.interfaces.IAttributeUUID" />
+    </class>
+    </configure>
 
     <utility
         component=".comment.CommentFactory"
