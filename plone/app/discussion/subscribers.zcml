@@ -85,7 +85,6 @@
                zope.app.container.interfaces.IObjectRemovedEvent"
           handler=".comment.notify_content_object_deleted"
           />
-		  
     </configure>
 
     <!-- Control panel event subscribers -->

@@ -10,18 +10,18 @@
     <five:registerPackage package="." />
 
     <include package="plone.indexer" />
-	
-	<!-- XXX: Excluding plone.app.uuid for Plone 3 is only a temporary 'fix'. 
-	     plone.app.uuid causes the IObjectAddedEvent to be fired twice on 
-		 Plone 3. This causes the email notifications to be send twice.
-		 
-		 This means that https://dev.plone.org/plone/ticket/10652 is fixed only
-		 for Plone 4.
+    
+    <!-- XXX: Excluding plone.app.uuid for Plone 3 is only a temporary 'fix'. 
+         plone.app.uuid causes the IObjectAddedEvent to be fired twice on 
+         Plone 3. This causes the email notifications to be send twice.
+         
+         This means that https://dev.plone.org/plone/ticket/10652 is fixed only
+         for Plone 4.
     -->
     <configure zcml:condition="have plone-4">
         <include package="plone.uuid" />
         <include package="plone.app.uuid" />
-	</configure>
+    </configure>
 
     <include file="permissions.zcml" />
     <include file="notifications.zcml" />
@@ -60,7 +60,7 @@
     </class>
 
  
-	<!-- XXX: Excluding plone.uuid for Plone 3 is only a temporary 'fix'.
+    <!-- XXX: Excluding plone.uuid for Plone 3 is only a temporary 'fix'.
          See the comment above -->
     <configure zcml:condition="have plone-4">
     <class class=".comment.Comment">
