@@ -3,41 +3,16 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone.app.discussion">
 
-    <!-- Plone 3 Event Subscribers -->
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.app.container.interfaces.IObjectAddedEvent"
+      handler=".comment.notify_user"
+      />
 
-    <configure zcml:condition="not-installed zope.app.container">
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.lifecycleevent.interfaces.IObjectAddedEvent"
-          handler=".comment.notify_user"
-          />
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.lifecycleevent.interfaces.IObjectAddedEvent"
-          handler=".comment.notify_moderator"
-          />
-
-    </configure>
-
-
-    <!-- Plone 4 Event Subscribers -->
-
-    <configure zcml:condition="installed zope.app.container">
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.app.container.interfaces.IObjectAddedEvent"
-          handler=".comment.notify_user"
-          />
-
-      <subscriber
-          for="plone.app.discussion.interfaces.IComment
-               zope.app.container.interfaces.IObjectAddedEvent"
-          handler=".comment.notify_moderator"
-          />
-
-    </configure>
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.app.container.interfaces.IObjectAddedEvent"
+      handler=".comment.notify_moderator"
+      />
 
 </configure>
