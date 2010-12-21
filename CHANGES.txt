@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Make sure plone.app.registry's ZCML is loaded, so that its import step will run
+  when plone.app.discussion is installed.
+  [davisagli]
+
 - Avoid sending multiple notification emails to the same person when
   he has commented multiple times.
   [maurits]
