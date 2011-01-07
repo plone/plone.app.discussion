@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Fix CSS for commenter images with a width of more than 2.5em. This fixes 
+  http://dev.plone.org/plone/ticket/11391.
+  [timo]
+
 - Show a 'Comments are moderated.' message next to the comment form if comments
   are moderated. 
   [timo]
