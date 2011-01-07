@@ -2,11 +2,23 @@
 TODO LIST FOR THE PLONE 4.x INTEGRATION OF PLONE.APP.DISCUSSION
 ===============================================================
 
-1) Install pad by default, don't show it as add-on Product.
+DONE 1) Install pad by default, don't show it as add-on Product.
 
-2) Set "globally enable comments" to false by default.
+DONE 2) Set "globally enable comments" to false by default.
 
 3) Remove the "comment"-type from plone.app.vocabularies.types.BAD_TYPES and 
    remove the monkey patch in __init__.py.
    
 4) Remove all Plone3 related code.
+
+
+Additional
+----------
+
+- p.a.discussion trunk requires plone.app.controlpanel >= 2.1b1 to make the
+  comment moderation switch in the discussion control panel work. 
+
+  http://pypi.python.org/pypi/plone.app.controlpanel#b1-2011-01-03
+  
+  (Make sure the ConfigurationChangedEvent is fired when the types control panel
+  setting changed. [timo])
