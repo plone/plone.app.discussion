@@ -295,7 +295,8 @@ class TestCommentsViewlet(PloneTestCase):
         self.failUnless(self.viewlet.is_discussion_allowed())
 
     def test_comment_transform_message(self):
-        # Default transform is plain/text
+        
+        # Default transform is plain/text and comment moderation disabled
         self.failUnless(self.viewlet.comment_transform_message())
         self.assertEquals(
             self.viewlet.comment_transform_message(),
@@ -307,12 +308,24 @@ class TestCommentsViewlet(PloneTestCase):
         settings = registry.forInterface(IDiscussionSettings, check=False)
         settings.text_transform = "text/x-web-intelligent"
 
-        # Make sure the comment description is changes accordingly
+        # Make sure the comment description changes accordingly
         self.assertEquals(
             self.viewlet.comment_transform_message(),
             "You can add a comment by filling out the form below. " +
             "Plain text formatting. Web and email addresses are transformed " +
              "into clickable links.")
+        
+        # Enable moderation workflow
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ('Discussion Item',),
+            ('comment_review_workflow,'))
+        
+        # Make sure the comment description shows that comments are moderated        
+        self.assertEquals(
+            self.viewlet.comment_transform_message(),
+            "You can add a comment by filling out the form below. " +
+            "Plain text formatting. Web and email addresses are transformed " +
+            "into clickable links. Comments are moderated.")
 
     def test_has_replies(self):
         self.assertEquals(self.viewlet.has_replies(), False)

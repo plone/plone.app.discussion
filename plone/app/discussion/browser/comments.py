@@ -59,6 +59,10 @@ COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
              "Plain text formatting. Web and email addresses are transformed " +
              "into clickable links.")
 
+COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
+    u"comment_description_moderation_enabled",
+    default=u"Comments are moderated.")
+
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
@@ -296,16 +300,29 @@ class CommentsViewlet(ViewletBase):
 
     def comment_transform_message(self):
         """Returns the description that shows up above the comment text,
-           dependent on the text_transform setting of the discussion control
-           panel.
+           dependent on the text_transform setting and the comment moderation
+           workflow in the discussion control panel.
         """
+        context = aq_inner(self.context)
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
 
+        # text transform setting
         if settings.text_transform == "text/x-web-intelligent":
             message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT))
         else:
             message = translate(Message(COMMENT_DESCRIPTION_PLAIN_TEXT))
+        
+        # comment workflow
+        wftool = getToolByName(context, "portal_workflow", None)
+        comment_workflow = wftool.getChainForPortalType('Discussion Item')[0]
+        comment_workflow = wftool[comment_workflow]
+        # check if the current workflow implements a pending state. If this is
+        # true comments are moderated
+        if 'pending' in comment_workflow.states:
+            message = message + " " + \
+                translate(Message(COMMENT_DESCRIPTION_MODERATION_ENABLED))
+        
         return message
 
     def has_replies(self, workflow_actions=False):

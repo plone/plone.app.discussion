@@ -4,6 +4,10 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Show a 'Comments are moderated.' message next to the comment form if comments
+  are moderated. 
+  [timo]
+  
 - Make sure plone.app.registry's ZCML is loaded, so that its import step will run
   when plone.app.discussion is installed.
   [davisagli]
