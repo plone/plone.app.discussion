@@ -1,15 +1,15 @@
-<tal:block tal:define="isDiscussionAllowed view/is_discussion_allowed"
-           tal:condition="isDiscussionAllowed"
+<tal:block tal:define="userHasReplyPermission view/can_reply;
+                       isDiscussionAllowed view/is_discussion_allowed;
+                       isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
+                       isAnon view/is_anonymous;
+                       canReview view/can_review;
+                       replies python:view.get_replies(canReview);
+                       has_replies python:view.has_replies(canReview);
+                       showCommenterImage view/show_commenter_image;
+                       errors options/state/getErrors|nothing;
+                       wtool context/@@plone_tools/workflow;"
+           tal:condition="python:isDiscussionAllowed or has_replies"
            i18n:domain="plone">
-<tal:block define="userHasReplyPermission view/can_reply;
-                   isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
-                   isAnon view/is_anonymous;
-                   canReview view/can_review;
-                   replies python:view.get_replies(canReview);
-                   has_replies python:view.has_replies(canReview);
-                   showCommenterImage view/show_commenter_image;
-                   errors options/state/getErrors|nothing;
-                   wtool context/@@plone_tools/workflow;">
 
     <div class="reply"
          tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
@@ -126,6 +126,13 @@
             </div>
 
         </tal:getreplies>
+        
+        <div tal:condition="python: has_replies and not isDiscussionAllowed"
+             class="discreet"
+             i18n:translate="label_commenting_disabled">
+            Commenting has been disabled.
+        </div>
+    
     </div>
 
     <div class="reply"
@@ -139,7 +146,7 @@
                    />
         </form>
     </div>
-
+    
     <div id="commenting" class="reply" tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)">
 
         <fieldset>
@@ -155,5 +162,4 @@
         </fieldset>
     </div>
 
-</tal:block>
 </tal:block>

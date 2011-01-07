@@ -4,6 +4,9 @@ Changelog
 1.0RC1 (unreleased)
 -------------------
 
+- Always show existing comments, even if commenting is disabled. 
+  [timo]
+  
 - Fix CSS for commenter images with a width of more than 2.5em. This fixes 
   http://dev.plone.org/plone/ticket/11391.
   [timo]

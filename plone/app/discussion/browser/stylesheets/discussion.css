@@ -63,6 +63,11 @@
     text-align: right;
 }
 
+.discussion .discreet {
+    color: #666666;
+    font-size: 85%;    
+}
+
 /* Reply Form
    -------------------------------------------------------------------------- */
 
@@ -141,6 +146,10 @@
 
 .row #commenting {
     font-size: 80%;
+}
+
+.row #commenting .formControls {
+    margin: 0;
 }
 
 .row #commenting textarea,
