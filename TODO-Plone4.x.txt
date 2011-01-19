@@ -12,13 +12,28 @@ DONE 2) Set "globally enable comments" to false by default.
 4) Remove all Plone3 related code.
 
 
-Additional
-----------
+Plone 4 only features
+---------------------
+
+- AJAX comment deletion binding (jQuery 1.4) 
+  http://dev.plone.org/plone/changeset/45188 
+
+
+Plone 4.1 only features
+-----------------------
 
 - p.a.discussion trunk requires plone.app.controlpanel >= 2.1b1 to make the
   comment moderation switch in the discussion control panel work. 
 
   http://pypi.python.org/pypi/plone.app.controlpanel#b1-2011-01-03
+  http://dev.plone.org/plone/changeset/46270/plone.app.controlpanel/trunk
   
   (Make sure the ConfigurationChangedEvent is fired when the types control panel
   setting changed. [timo])
+
+
+Plone core only features
+------------------------
+
+- Disable discussion by default.
+  http://dev.plone.org/plone/changeset/46143
