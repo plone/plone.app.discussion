@@ -22,9 +22,6 @@ Changelog
 - Avoid sending multiple notification emails to the same person when
   he has commented multiple times.
   [maurits]
-
-- Disable discussion by default.
-  [timo]
   
 - Move discussion action item from actionicons.xml to actions.xml to avoid 
   deprecation warning.

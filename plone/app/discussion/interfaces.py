@@ -29,7 +29,7 @@ class IDiscussionSettings(Interface):
                          "specific content types, folders or content objects "
                          "before users will be able to post comments."),
         required=False,
-        default=False,
+        default=True,
         )
 
     anonymous_comments = schema.Bool(
