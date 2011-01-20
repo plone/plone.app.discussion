@@ -46,7 +46,7 @@ class RegistryTest(PloneTestCase):
         self.assertEquals(
             self.registry['plone.app.discussion.interfaces.' +
                           'IDiscussionSettings.globally_enabled'],
-            False)
+            True)
 
     def test_anonymous_comments(self):
         # Check anonymous_comments record
