@@ -4,9 +4,9 @@
  *
  ******************************************************************************/
 (function ($) {
-	// This unnamed function allows us to use $ inside of a block of code
-	// without permanently overwriting $.
-	// http://docs.jquery.com/Using_jQuery_with_Other_Libraries
+    // This unnamed function allows us to use $ inside of a block of code
+    // without permanently overwriting $.
+    // http://docs.jquery.com/Using_jQuery_with_Other_Libraries
     /**************************************************************************
      * Create a reply-to-comment form right beneath the form that is passed to
      * the function. We do this by copying the regular comment form and
@@ -89,54 +89,54 @@
      **************************************************************************/
     $(window).load(function () {
 
-	    /**********************************************************************
-	     * If the user has hit the reply button of a reply-to-comment form
-	     * (form was submitted with a value for the "in_reply_to" field in the
-	     * request), create a reply-to-comment form right under this comment.
-	     **********************************************************************/
-	    var post_comment_div = $("#commenting");
-	    var in_reply_to_field =
-	        post_comment_div.find("input[name='form.widgets.in_reply_to']");
-	    if (in_reply_to_field.val() !== "") {
-	        var current_reply_id = "#" + in_reply_to_field.val();
-	        var current_reply_to_div = $(".discussion").find(current_reply_id);
-	        $.createReplyForm(current_reply_to_div);
-	        $.clearForm(post_comment_div);
-	    }
+        /**********************************************************************
+         * If the user has hit the reply button of a reply-to-comment form
+         * (form was submitted with a value for the "in_reply_to" field in the
+         * request), create a reply-to-comment form right under this comment.
+         **********************************************************************/
+        var post_comment_div = $("#commenting");
+        var in_reply_to_field =
+            post_comment_div.find("input[name='form.widgets.in_reply_to']");
+        if (in_reply_to_field.val() !== "") {
+            var current_reply_id = "#" + in_reply_to_field.val();
+            var current_reply_to_div = $(".discussion").find(current_reply_id);
+            $.createReplyForm(current_reply_to_div);
+            $.clearForm(post_comment_div);
+        }
 
 
-		/**********************************************************************
-	     * If the user hits the "reply" button of an existing comment, create a
-	     * reply form right beneath this comment.
-	     **********************************************************************/
-	    $(".reply-to-comment-button").bind("click", function (e) {
-	        var comment_div = $(this).parents().filter(".comment");
-	        $.createReplyForm(comment_div);
-	        $.clearForm(comment_div);
-	    });
+    /**********************************************************************
+         * If the user hits the "reply" button of an existing comment, create a
+         * reply form right beneath this comment.
+         **********************************************************************/
+        $(".reply-to-comment-button").bind("click", function (e) {
+            var comment_div = $(this).parents().filter(".comment");
+            $.createReplyForm(comment_div);
+            $.clearForm(comment_div);
+        });
 
 
-	    /**********************************************************************
-	     * If the user hits the "clear" button of an open reply-to-comment form,
-	     * remove the form and show the "reply" button again.
-	     **********************************************************************/
+        /**********************************************************************
+         * If the user hits the "clear" button of an open reply-to-comment form,
+         * remove the form and show the "reply" button again.
+         **********************************************************************/
         $("#commenting #form-buttons-cancel").bind("click", function (e) {
-	        e.preventDefault();
-	        var reply_to_comment_button = $(this).
-			                                  parents().
-									          filter(".comment").
-										      find(".reply-to-comment-button");
+            e.preventDefault();
+            var reply_to_comment_button = $(this).
+                                              parents().
+                                              filter(".comment").
+                                              find(".reply-to-comment-button");
 
-	        /* Find the reply-to-comment form and hide and remove it again. */
-	        $.reply_to_comment_form = $(this).parents().filter(".reply");
-	        $.reply_to_comment_form.slideUp("slow", function () {
-	            $(this).remove();
-	        });
+            /* Find the reply-to-comment form and hide and remove it again. */
+            $.reply_to_comment_form = $(this).parents().filter(".reply");
+            $.reply_to_comment_form.slideUp("slow", function () {
+                $(this).remove();
+            });
 
-	        /* Show the reply-to-comment button again. */
-	        reply_to_comment_button.css("display", "inline");
+            /* Show the reply-to-comment button again. */
+            reply_to_comment_button.css("display", "inline");
 
-	    });
+        });
 
 
         /**********************************************************************
@@ -168,7 +168,7 @@
         /**********************************************************************
          * Delete a comment and its answers.
          **********************************************************************/
-		$("input[name='form.button.DeleteComment']").live('click', function () {
+        $("input[name='form.button.DeleteComment']").live('click', function () {
             var trigger = this;
             var form = $(this).parents("form");
             var data = $(form).serialize();
@@ -211,24 +211,24 @@
             return false;
         });
 
-	    /**********************************************************************
-	     * By default, hide the reply and the cancel button for the regular add
-	     * comment form.
-	     **********************************************************************/
-	    $(".reply").find("input[name='form.buttons.reply']")
-	                .css("display", "none");
-	    $(".reply").find("input[name='form.buttons.cancel']")
-	                .css("display", "none");
+        /**********************************************************************
+         * By default, hide the reply and the cancel button for the regular add
+         * comment form.
+         **********************************************************************/
+        $(".reply").find("input[name='form.buttons.reply']")
+                    .css("display", "none");
+        $(".reply").find("input[name='form.buttons.cancel']")
+                    .css("display", "none");
 
 
-	    /**********************************************************************
-	     * By default, show the reply button only when Javascript is enabled.
-	     * Otherwise hide it, since the reply functions only work with JS
-	     * enabled.
-	     **********************************************************************/
-	    $(".reply-to-comment-button").css("display" , "inline");
+        /**********************************************************************
+         * By default, show the reply button only when Javascript is enabled.
+         * Otherwise hide it, since the reply functions only work with JS
+         * enabled.
+         **********************************************************************/
+        $(".reply-to-comment-button").css("display" , "inline");
 
-	});
+    });
 
 
     //#JSCOVERAGE_ENDIF
