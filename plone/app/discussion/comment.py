@@ -20,7 +20,7 @@ from zope.interface import implements
 from Acquisition import aq_parent, aq_base, Implicit
 
 from AccessControl.Role import RoleManager
-from AccessControl.Owned import Owned
+from OFS.owner import Owned
 
 from persistent import Persistent
 

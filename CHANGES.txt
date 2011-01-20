@@ -4,9 +4,12 @@ Changelog
 2.0RC1 (unreleased)
 -------------------
 
+- Import Owned from OFS.owner to avoid deprecation warnings.
+  [timo]
+  
 - Disable discussion by default.
   [timo]
-
+  
 - Enable ajaxify comment deletion again ([thomasdesvenain]). This has been 
   disabled in 1.0b12 because of problems with Plone 3.
   [timo]
