@@ -4,6 +4,10 @@ Changelog
 2.0RC1 (unreleased)
 -------------------
 
+- Enable ajaxify comment deletion again ([thomasdesvenain]). This has been 
+  disabled in 1.0b12 because of problems with Plone 3.
+  [timo]
+  
 - Remove collective.autopermission dependency that has become unnecessary in
   Plone 4.1.
   [timo]

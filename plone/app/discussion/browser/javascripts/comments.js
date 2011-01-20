@@ -168,7 +168,6 @@
         /**********************************************************************
          * Delete a comment and its answers.
          **********************************************************************/
-        /*
 		$("input[name='form.button.DeleteComment']").live('click', function () {
             var trigger = this;
             var form = $(this).parents("form");
@@ -210,7 +209,7 @@
                 }
             });
             return false;
-        });*/
+        });
 
 	    /**********************************************************************
 	     * By default, hide the reply and the cancel button for the regular add
