@@ -1,28 +1,14 @@
-===============================================================
-TODO LIST FOR THE PLONE 4.x INTEGRATION OF PLONE.APP.DISCUSSION
-===============================================================
 
-DONE 1) Install pad by default, don't show it as add-on Product.
-
-DONE 2) Set "globally enable comments" to false by default.
-
-3) Remove the "comment"-type from plone.app.vocabularies.types.BAD_TYPES and 
-   remove the monkey patch in __init__.py.
-   
-4) Remove all Plone3 related code.
-
-
-Plone 4 only features
----------------------
+plone.app.discussion 2.x features only
+======================================
 
 - AJAX comment deletion binding (jQuery 1.4) 
   http://dev.plone.org/plone/changeset/45188 
 
+- Disable discussion by default.
+  http://dev.plone.org/plone/changeset/46143
 
-Plone 4.1 only features
------------------------
-
-- p.a.discussion trunk requires plone.app.controlpanel >= 2.1b1 to make the
+- p.a.discussion 2.x requires plone.app.controlpanel >= 2.1b1 to make the
   comment moderation switch in the discussion control panel work. 
 
   http://pypi.python.org/pypi/plone.app.controlpanel#b1-2011-01-03
@@ -31,9 +17,16 @@ Plone 4.1 only features
   (Make sure the ConfigurationChangedEvent is fired when the types control panel
   setting changed. [timo])
 
+===============================================================
+TODO LIST FOR THE PLONE 4.x INTEGRATION OF PLONE.APP.DISCUSSION
+===============================================================
 
-Plone core only features
-------------------------
+DONE 1) Install pad by default, don't show it as add-on Product.
 
-- Disable discussion by default.
-  http://dev.plone.org/plone/changeset/46143
+DONE 2) Set "globally enable comments" to false by default.
+
+DONE 3) Remove the "comment"-type from plone.app.vocabularies.types.BAD_TYPES and 
+   remove the monkey patch in __init__.py.
+   
+4) Remove all Plone3 related code.
+  
