@@ -2,8 +2,6 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="plone.app.discussion">
 
-    <include package="collective.autopermission" />
-
     <!-- custom permissions are defined here -->
 
     <permission

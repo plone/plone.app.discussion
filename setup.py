@@ -5,7 +5,6 @@ version = '2.0RC1'
 
 install_requires = [
     'setuptools',
-    'collective.autopermission',
     'collective.monkeypatcher',
     'plone.app.layout',
     'plone.app.registry',

@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.0RC1 (unreleased)
+-------------------
+
+- Remove collective.autopermission dependency that has become unnecessary in
+  Plone 4.1.
+  [timo]
+
 1.0RC1 (unreleased)
 -------------------
 
