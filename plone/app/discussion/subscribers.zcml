@@ -40,7 +40,12 @@
         />
 
     <!-- Control panel event subscribers -->
-
+    <!-- Disable the control panel event subscribers since we need 
+	     plone.app.controlpanel > 2.1b1 in order to make sure that the proper 
+		 events are fired when the workflow for discussion items is changed in 
+		 the types control panel. Though, Plone 3 and 4.0 ship with an older 
+		 version of p.a.controlpanel that do not fire this event properly.
+         http://dev.plone.org/plone/changeset/46270/plone.app.controlpanel/trunk
     <subscriber
         for="plone.app.controlpanel.interfaces.IConfigurationChangedEvent"
         handler=".browser.controlpanel.notify_configuration_changed"
@@ -50,5 +55,6 @@
         for="plone.registry.interfaces.IRecordModifiedEvent"
         handler=".browser.controlpanel.notify_configuration_changed"
         />
-
+    -->
+	
 </configure>
