@@ -19,7 +19,7 @@ from zope.app.component.hooks import getSite
 
 from zope.component import getMultiAdapter, queryUtility
 
-from z3c.form import button
+from z3c.form import button, interfaces
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
 from plone.app.discussion.interfaces import IDiscussionSettings, _
@@ -66,6 +66,14 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.widgets['user_notification_enabled'].label = \
             _(u"User Email Notification")
 
+        # Hide the moderation_enabled widget. We need plone.app.controlpanel
+        # > 2.1b1 in order to make sure that the proper events are fired when
+        # the workflow for discussion items is changed in the types control
+        # panel. Though, Plone 3 and 4.0 ship with an older version of 
+        # p.a.controlpanel that do not fire this event properly.
+        # http://dev.plone.org/plone/changeset/46270/plone.app.controlpanel/trunk
+        self.widgets['moderation_enabled'].mode = interfaces.HIDDEN_MODE
+            
     @button.buttonAndHandler(_('Save'), name='save')
     def handleSave(self, action):
         data, errors = self.extractData()
