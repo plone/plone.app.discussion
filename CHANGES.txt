@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.0RC2 (2011-01-24)
+-------------------
+
+- Remove moderation_enabled setting from registry to avoid migration problems
+  to 1.0RC1. This fixes http://dev.plone.org/plone/ticket/11419.
+  [timo]
+
+
 1.0RC1 (2011-01-22)
 -------------------
 

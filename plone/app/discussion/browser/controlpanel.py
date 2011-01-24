@@ -45,8 +45,9 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         super(DiscussionSettingsEditForm, self).updateFields()
         self.fields['globally_enabled'].widgetFactory = \
             SingleCheckBoxFieldWidget
-        self.fields['moderation_enabled'].widgetFactory = \
-            SingleCheckBoxFieldWidget
+        # p.a.discussion > 2.0 only
+        #self.fields['moderation_enabled'].widgetFactory = \
+        #    SingleCheckBoxFieldWidget
         self.fields['anonymous_comments'].widgetFactory = \
             SingleCheckBoxFieldWidget
         self.fields['show_commenter_image'].widgetFactory = \
@@ -65,14 +66,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             _(u"Moderator Email Notification")
         self.widgets['user_notification_enabled'].label = \
             _(u"User Email Notification")
-
-        # Hide the moderation_enabled widget. We need plone.app.controlpanel
-        # > 2.1b1 in order to make sure that the proper events are fired when
-        # the workflow for discussion items is changed in the types control
-        # panel. Though, Plone 3 and 4.0 ship with an older version of 
-        # p.a.controlpanel that do not fire this event properly.
-        # http://dev.plone.org/plone/changeset/46270/plone.app.controlpanel/trunk
-        self.widgets['moderation_enabled'].mode = interfaces.HIDDEN_MODE
+        # p.a.discussion > 2.0 only
+        #self.widgets['moderation_enabled'].mode = interfaces.HIDDEN_MODE
             
     @button.buttonAndHandler(_('Save'), name='save')
     def handleSave(self, action):
@@ -117,8 +112,9 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         if 'one_state_workflow' not in wf and \
         'comment_review_workflow' not in wf:
             output.append("moderation_custom")
-        elif settings.moderation_enabled:
-            output.append("moderation_enabled")
+        # p.a.discussion > 2.0 only
+        #elif settings.moderation_enabled:
+        #    output.append("moderation_enabled")
 
         # Anonymous comments
         if settings.anonymous_comments:

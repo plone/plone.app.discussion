@@ -54,13 +54,14 @@ class RegistryTest(PloneTestCase):
         self.assertEquals(self.registry['plone.app.discussion.interfaces.' +
             'IDiscussionSettings.anonymous_comments'], False)
 
-    def test_moderation_enabled(self):
-        # Check globally_enabled record
-        self.failUnless('moderation_enabled' in IDiscussionSettings)
-        self.assertEquals(
-            self.registry['plone.app.discussion.interfaces.' +
-                          'IDiscussionSettings.moderation_enabled'],
-            False)
+# p.a.discussion > 2.0 only
+#    def test_moderation_enabled(self):
+#        # Check globally_enabled record
+#        self.failUnless('moderation_enabled' in IDiscussionSettings)
+#        self.assertEquals(
+#            self.registry['plone.app.discussion.interfaces.' +
+#                          'IDiscussionSettings.moderation_enabled'],
+#            False)
 
     def test_text_transform(self):
         self.failUnless('text_transform' in IDiscussionSettings)
