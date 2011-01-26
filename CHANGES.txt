@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.0 (2011-01-24)
+----------------
+
+- Check if the current user has configured an e-mail address for the email 
+  notification option. This fixes http://dev.plone.org/plone/ticket/11428.
+  [timo]  
+
+
 1.0RC2 (2011-01-24)
 -------------------
 

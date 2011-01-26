@@ -106,10 +106,17 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
-        portal_membership = getToolByName(self.context, 'portal_membership')
+        mtool = getToolByName(self.context, 'portal_membership')
+        member = mtool.getAuthenticatedMember()
+        member_email = member.getProperty('email')
 
-        if not settings.user_notification_enabled or portal_membership.isAnonymousUser():
-            self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
+        # Hide the user_notification checkbox if user notification is disabled 
+        # or the user is not logged in. Also check if the user has a valid email
+        # address
+        if member_email == '' or \
+           not settings.user_notification_enabled or \
+           mtool.isAnonymousUser():
+                self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
 
     def updateActions(self):
         super(CommentForm, self).updateActions()
