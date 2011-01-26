@@ -4,6 +4,10 @@ Changelog
 2.0RC1 (unreleased)
 -------------------
 
+- Check if the current user has configured an e-mail address for the email 
+  notification option. This fixes http://dev.plone.org/plone/ticket/11428.
+  [timo]
+  
 - Import Owned from OFS.owner to avoid deprecation warnings.
   [timo]
   
@@ -17,6 +21,7 @@ Changelog
 - Remove collective.autopermission dependency that has become unnecessary in
   Plone 4.1.
   [timo]
+
 
 1.0RC1 (unreleased)
 -------------------
