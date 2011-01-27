@@ -72,22 +72,7 @@ comment has been added to a page.
 To create custom email notifications, register a new event subscriber or 
 override an existing one.
 
-
-Plone 3 Event Subscribers
--------------------------
-
-*plone/app/discussion/subscribers.zcml*
+*plone/app/discussion/notifications.zcml*
 
 .. literalinclude:: ../../plone/app/discussion/notifications.zcml
    :encoding: utf-8
-   :lines: 6-24
-
-
-Plone 4 Event Subscribers
--------------------------
-
-*plone/app/discussion/subscribers.zcml*
-
-.. literalinclude:: ../../plone/app/discussion/notifications.zcml
-   :encoding: utf-8
-   :lines: 25-41
