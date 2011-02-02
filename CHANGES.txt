@@ -4,6 +4,10 @@ Changelog
 1.0 (2011-01-24)
 ----------------
 
+- Do not check for a comment review workflow when sending out a moderator email
+  notification. This fixes http://dev.plone.org/plone/ticket/11444.
+  [timo]
+  
 - Check if the current user has configured an e-mail address for the email 
   notification option. This fixes http://dev.plone.org/plone/ticket/11428.
   [timo]  

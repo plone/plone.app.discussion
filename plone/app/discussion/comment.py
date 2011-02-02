@@ -284,13 +284,6 @@ def notify_moderator(obj, event):
     if not settings.moderator_notification_enabled:
         return
 
-    # Check if the current workflow implements a pending state.
-    wf_tool = getToolByName(obj, 'portal_workflow')
-    comment_workflow = wf_tool.getChainForPortalType('Discussion Item')[0]
-    comment_workflow = wf_tool[comment_workflow]
-    if 'pending' not in comment_workflow.states:
-        return
-
     # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
     portal_url = getToolByName(obj, 'portal_url')
