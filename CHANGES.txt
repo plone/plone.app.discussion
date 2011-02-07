@@ -1,13 +1,13 @@
 Changelog
 =========
 
-2.0RC1 (unreleased)
--------------------
+2.0a1 (2011-02-07)
+------------------
 
-- Check if the current user has configured an e-mail address for the email 
-  notification option. This fixes http://dev.plone.org/plone/ticket/11428.
+- Split up development into two branches. The 1.x branch will be for Plone 3.x 
+  and Plone 4.0.x and the 2.x branch will be for Plone 4.1 and beyond.
   [timo]
-  
+
 - Import Owned from OFS.owner to avoid deprecation warnings.
   [timo]
   
@@ -22,11 +22,28 @@ Changelog
   Plone 4.1.
   [timo]
 
-- Do not check for a comment review workflow when sending out a moderator email 
-  notification. This fixes  http://dev.plone.org/plone/ticket/11444.
+
+1.0 (2011-02-07)
+----------------
+
+- Do not check for a comment review workflow when sending out a moderator email
+  notification. This fixes http://dev.plone.org/plone/ticket/11444.
+  [timo]
+  
+- Check if the current user has configured an e-mail address for the email 
+  notification option. This fixes http://dev.plone.org/plone/ticket/11428.
+  [timo]  
 
 
-1.0RC1 (unreleased)
+1.0RC2 (2011-01-24)
+-------------------
+
+- Remove moderation_enabled setting from registry to avoid migration problems
+  to 1.0RC1. This fixes http://dev.plone.org/plone/ticket/11419.
+  [timo]
+
+
+1.0RC1 (2011-01-22)
 -------------------
 
 - Always show existing comments, even if commenting is disabled. 

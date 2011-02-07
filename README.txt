@@ -5,13 +5,19 @@ plone.app.discussion aims to be the new commenting system for Plone. It was
 initially developed as part of the Google Summer of Code 2009 by Timo 
 Stollenwerk (student) and Martin Aspeli (mentor).
 
-For the roadmap of the project see our `Pivotal Tracker`_.
-
-.. _`Pivotal Tracker`: http://www.pivotaltracker.com/projects/15135
+plone.app.discussion is an add-on product for Plone 3.3.x and 4.0.x and will be
+shipped as part of Plone 4.1. Make sure you pin down plone.app.discussion to
+version < 2.0 if installed as an add-on product (see install instructions below 
+for more details).
 
 Please report bugs to the `Plone bug tracker`_.
 
 .. _`Plone bug tracker`: http://dev.plone.org/plone/
+
+
+For the roadmap of the project see our `Pivotal Tracker`_.
+
+.. _`Pivotal Tracker`: http://www.pivotaltracker.com/projects/15135
 
 
 Requirements
@@ -29,10 +35,15 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     ...
     extends =
         ...
-        http://good-py.appspot.com/release/plone.app.discussion/1.0b12
+        http://good-py.appspot.com/release/plone.app.discussion/1.0
 
     ...
 
+    [versions]
+    plone.app.discussion < 2.0
+    
+    ...
+    
     [instance]
     ...
     eggs =
@@ -54,6 +65,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     versions = versions
     
     [versions]
+    plone.app.discussion < 2.0
     zope.schema = 3.6.4
     
     ...
