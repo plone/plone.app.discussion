@@ -7,8 +7,8 @@ Stollenwerk (student) and Martin Aspeli (mentor).
 
 plone.app.discussion is an add-on product for Plone 3.3.x and 4.0.x and will be
 shipped as part of Plone 4.1. Make sure you pin down plone.app.discussion to
-version < 2.0 if installed as an add-on product (see install instructions below 
-for more details).
+versions < 2.0 if installed as an add-on product (see install instructions 
+below for more details).
 
 Please report bugs to the `Plone bug tracker`_.
 
