@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0 (2011-01-24)
+1.0 (2011-02-07)
 ----------------
 
 - Do not check for a comment review workflow when sending out a moderator email
