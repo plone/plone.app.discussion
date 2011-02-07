@@ -256,18 +256,5 @@ class TestModeratorNotificationUnit(PloneTestCase):
         self.conversation.addComment(comment)
         self.assertEquals(len(self.mailhost.messages), 0)
 
-    def test_do_not_notify_moderator_when_moderation_workflow_is_disabled(self):
-        # Disable comment moderation and make sure no email is send to the
-        # moderator.
-        self.portal.portal_types['Document'].allow_discussion = True
-        self.portal.portal_workflow.setChainForPortalTypes(
-            ('Discussion Item',),
-            ('one_state_workflow',))
-
-        comment = createObject('plone.Comment')
-        comment.text = 'Comment text'
-        self.conversation.addComment(comment)
-        self.assertEquals(len(self.mailhost.messages), 0)
-
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

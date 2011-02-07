@@ -22,6 +22,9 @@ Changelog
   Plone 4.1.
   [timo]
 
+- Do not check for a comment review workflow when sending out a moderator email 
+  notification. This fixes  http://dev.plone.org/plone/ticket/11444.
+
 
 1.0RC1 (unreleased)
 -------------------
