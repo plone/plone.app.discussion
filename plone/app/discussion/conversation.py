@@ -40,24 +40,13 @@ from zope.container.contained import ContainerModifiedEvent
 
 from zope.lifecycleevent import ObjectCreatedEvent
 
-try:
-    # Plone 4
-    from zope.lifecycleevent import ObjectAddedEvent
-    from zope.lifecycleevent import ObjectRemovedEvent
-except ImportError: # pragma: no cover
-    # Plone 3.x
-    from zope.app.container.contained import ObjectAddedEvent # pragma: no cover
-    from zope.app.container.contained import ObjectRemovedEvent # pragma: no cover
+from zope.lifecycleevent import ObjectAddedEvent
+from zope.lifecycleevent import ObjectRemovedEvent
 
 from BTrees.OIBTree import OIBTree
 
-try:
-    # These exist in new versions, but not in the one that comes with Zope 2.10.
-    from BTrees.LOBTree import LOBTree
-    from BTrees.LLBTree import LLSet
-except ImportError: # pragma: no cover
-    from BTrees.OOBTree import OOBTree as LOBTree # pragma: no cover
-    from BTrees.OOBTree import OOSet as LLSet # pragma: no cover
+from BTrees.LOBTree import LOBTree
+from BTrees.LLBTree import LLSet
 
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings

@@ -4,21 +4,6 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone.app.discussion">
 
-    <!--
-      Plone 3 fixes
-
-      Plone 3 / Zope 2.10 does not recognize the meta:provides feature.
-      Therefore we claim to provide this feature when a suitable package is
-      installed.
-    -->
-    <configure zcml:condition="installed plone.formwidget.captcha">
-        <meta:provides feature="plone.app.discussion-captcha" />
-    </configure>
-
-    <configure zcml:condition="installed plone.formwidget.recaptcha">
-        <meta:provides feature="plone.app.discussion-captcha" />
-    </configure>
-
     <!-- Captcha comment form extender -->
     <configure zcml:condition="have plone.app.discussion-captcha">
         <!--

@@ -38,19 +38,9 @@ from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
 
-try:
-    # Plone 4:
-    # Mixin CatalogAware and WorkflowAware into the Comment class
-    # is necessary for comments to be indexed in Plone4.
-    from Products.CMFCore.CMFCatalogAware import CatalogAware  # pylint: disable-msg=W0611
-    from Products.CMFCore.CMFCatalogAware import WorkflowAware  # pylint: disable-msg=W0611
-    PLONE_4 = True
-except: # pragma: no cover
-    # Plone 3:
-    # Dummy imports to make Comment class happy
-    from OFS.Traversable import Traversable as CatalogAware # pylint: disable-msg=W0611
-    from OFS.Traversable import Traversable as WorkflowAware # pylint: disable-msg=W0611
-    PLONE_4 = False
+from Products.CMFCore.CMFCatalogAware import CatalogAware
+from Products.CMFCore.CMFCatalogAware import WorkflowAware
+
 
 COMMENT_TITLE = _(u"comment_title",
     default=u"${creator} on ${content}")
@@ -240,30 +230,17 @@ def notify_user(obj, event):
                         context=obj.REQUEST)
     for email in emails:
         # Send email
-        if PLONE_4:
-            try:
-                mail_host.send(message,
-                               email,
-                               sender,
-                               subject,
-                               charset='utf-8')
-            except SMTPException:
-                logger.error('SMTP exception while trying to send an ' +
-                             'email from %s to %s',
-                             sender,
-                             email)
-        else:  # pragma: no cover
-            try:
-                mail_host.secureSend(message,
-                                     email,
-                                     sender,
-                                     subject=subject,
-                                     charset='utf-8')
-            except SMTPException:
-                logger.error('SMTP exception while trying to send an ' +
-                             'email from %s to %s',
-                             sender,
-                             email)
+        try:
+            mail_host.send(message,
+                           email,
+                           sender,
+                           subject,
+                           charset='utf-8')
+        except SMTPException:
+            logger.error('SMTP exception while trying to send an ' +
+                         'email from %s to %s',
+                         sender,
+                         email)
 
 
 def notify_moderator(obj, event):
@@ -307,29 +284,13 @@ def notify_moderator(obj, event):
         context=obj.REQUEST)
 
     # Send email
-    if PLONE_4:
-        try:
-            mail_host.send(message, mto, sender, subject, charset='utf-8')
-        except SMTPException, e:
-            logger.error('SMTP exception (%s) while trying to send an ' +
-                         'email notification to the comment moderator ' +
-                         '(from %s to %s, message: %s)',
-                         e,
-                         sender,
-                         mto,
-                         message)
-    else: # pragma: no cover
-        try:
-            mail_host.secureSend(message,
-                                 mto,
-                                 sender,
-                                 subject=subject,
-                                 charset='utf-8')
-        except SMTPException, e:
-            logger.error('SMTP exception (%s) while trying to send an ' +
-                         'email notification to the comment moderator ' +
-                         '(from %s to %s, message: %s)',
-                         e,
-                         sender,
-                         mto,
-                         message)
+    try:
+        mail_host.send(message, mto, sender, subject, charset='utf-8')
+    except SMTPException, e:
+        logger.error('SMTP exception (%s) while trying to send an ' +
+                     'email notification to the comment moderator ' +
+                     '(from %s to %s, message: %s)',
+                     e,
+                     sender,
+                     mto,
+                     message)

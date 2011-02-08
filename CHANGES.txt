@@ -1,6 +1,17 @@
 Changelog
 =========
 
+2.0a1 (unreleased)
+------------------
+
+- Remove "Plone 3 only" code.
+  [timo]
+  
+- Do not monkey patch the BAD_TYPES vocabulary or plone.app.vocabularies
+  anymore.
+  [timo]
+
+
 2.0a1 (2011-02-07)
 ------------------
 

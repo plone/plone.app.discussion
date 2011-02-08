@@ -680,14 +680,8 @@ class ConversationTest(PloneTestCase):
 
         self.assertEquals(('', 'plone', 'doc1', '++conversation++default'),
                           conversation.getPhysicalPath())
-        # XXX: conversation.absolute_url() returns different values dependent
-        # on the Plone version used.
-        # Plone 3.3:
-        #self.assertEquals('plone/doc1/%2B%2Bconversation%2B%2Bdefault',
-        #conversation.absolute_url())
-        # Plone 4:
-        #self.assertEquals('http://nohost/plone/doc1/++conversation++default',
-        #conversation.absolute_url())
+        self.assertEquals('http://nohost/plone/doc1/++conversation++default',
+                          conversation.absolute_url())
 
     def test_parent(self):
         # Check that conversation has a content object as parent
@@ -700,7 +694,6 @@ class ConversationTest(PloneTestCase):
         self.failUnless(aq_parent(conversation))
 
         self.assertEquals(conversation.__parent__.getId(), 'doc1')
-
 
     def test_discussion_item_not_in_bad_types(self):
         self.failIf('Discussion Item' in BAD_TYPES)

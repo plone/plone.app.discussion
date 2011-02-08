@@ -214,14 +214,8 @@ class TestModeratorNotificationUnit(PloneTestCase):
         self.failUnless(self.mailhost.messages[0])
         msg = self.mailhost.messages[0]
 
-        if not isinstance(msg, str):
-            # Plone 3
-            self.failUnless('portal@plone.test' in msg.mfrom)
-            self.failUnless('portal@plone.test' in msg.mto)
-        else:
-            #Plone 4
-            self.failUnless('To: portal@plone.test' in msg)
-            self.failUnless('From: portal@plone.test' in msg)
+        self.failUnless('To: portal@plone.test' in msg)
+        self.failUnless('From: portal@plone.test' in msg)
 
         #We expect the headers to be properly header encoded (7-bit):
         #>>> 'Subject: =?utf-8?q?Some_t=C3=A4st_subject=2E?=' in msg
