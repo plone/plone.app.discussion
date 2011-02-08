@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0a1 (unreleased)
+2.0a2 (2011-02-08)
 ------------------
 
 - Remove "Plone 3 only" code.
