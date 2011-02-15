@@ -5,8 +5,6 @@ from datetime import datetime
 
 from AccessControl import Unauthorized
 
-from zope.component import createObject, queryUtility
-
 from OFS.Image import Image
 
 from zope.interface import alsoProvides
@@ -295,7 +293,7 @@ class TestCommentsViewlet(PloneTestCase):
         self.failUnless(self.viewlet.is_discussion_allowed())
 
     def test_comment_transform_message(self):
-        
+
         # Default transform is plain/text and comment moderation disabled
         self.failUnless(self.viewlet.comment_transform_message())
         self.assertEquals(
@@ -314,13 +312,13 @@ class TestCommentsViewlet(PloneTestCase):
             "You can add a comment by filling out the form below. " +
             "Plain text formatting. Web and email addresses are transformed " +
              "into clickable links.")
-        
+
         # Enable moderation workflow
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
             ('comment_review_workflow,'))
-        
-        # Make sure the comment description shows that comments are moderated        
+
+        # Make sure the comment description shows that comments are moderated
         self.assertEquals(
             self.viewlet.comment_transform_message(),
             "You can add a comment by filling out the form below. " +
