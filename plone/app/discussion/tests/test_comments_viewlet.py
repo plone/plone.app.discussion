@@ -431,8 +431,12 @@ class TestCommentsViewlet(PloneTestCase):
         self.viewlet.update()
         portrait_url = self.viewlet.get_commenter_portrait('jim')
 
-        # Check if the correct default member image URL is returned
-        self.assertEquals(portrait_url, 'http://nohost/plone/defaultUser.gif')
+        # Check if the correct default member image URL is returned.
+        # Note that Products.PlonePAS 4.0.5 and later have .png and
+        # earlier versions have .gif.
+        self.failUnless(portrait_url in
+                        ('http://nohost/plone/defaultUser.png',
+                         'http://nohost/plone/defaultUser.gif'))
 
     def test_anonymous_discussion_allowed(self):
         # Anonymous discussion is not allowed by default
