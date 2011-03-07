@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.1 (Unreleased)
+------------------
+
+- Added Afrikaans translations 
+  [jcbrand]
+
 1.0 (2011-02-07)
 ----------------
 
