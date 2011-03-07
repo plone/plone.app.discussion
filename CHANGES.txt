@@ -4,6 +4,9 @@ Changelog
 2.0b1 (Unreleased)
 ------------------
 
+- Added Afrikaans translations 
+  [jcbrand]
+
 2.0a3 (2011-03-02)
 ------------------
 - Fixed test failure for the default user portrait, which changed from
