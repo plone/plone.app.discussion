@@ -46,6 +46,9 @@ class TestUserNotificationUnit(PloneTestCase):
         self.loginAsPortalOwner()
         self.portal.invokeFactory('Document', 'doc1')
         self.portal_discussion = self.portal.portal_discussion
+        # Archetypes content types store data as utf-8 encoded strings
+        # The missing u in front of a string is therefor not missing
+        self.portal.doc1.title = 'Kölle Alaaf' # What is "Fasching"?
         self.conversation = IConversation(self.portal.doc1)
 
     def beforeTearDown(self):
