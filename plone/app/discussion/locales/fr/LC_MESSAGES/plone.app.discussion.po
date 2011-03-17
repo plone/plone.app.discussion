@@ -41,7 +41,7 @@ msgstr "Annuler"
 
 #: ../browser/controlpanel.py:76
 msgid "Changes saved"
-msgstr ""
+msgstr "Modifications enregistrées"
 
 #: ../browser/moderation.py:145
 msgid "Comment approved."
@@ -82,7 +82,7 @@ msgstr "Paramètres des discussions"
 
 #: ../browser/controlpanel.py:82
 msgid "Edit cancelled"
-msgstr ""
+msgstr "Édition annulée"
 
 #: ../interfaces.py:286
 msgid "Email"
@@ -126,7 +126,7 @@ msgstr "Portal type"
 
 #: ../browser/controlpanel.py:69
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 #: ../interfaces.py:159
 msgid "The set of unique commentators (usernames)"
@@ -162,17 +162,17 @@ msgstr "Approuver"
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
 #: ../browser/comments.py:56
 msgid "comment_description_intelligent_text"
-msgstr ""
+msgstr "Vous pouvez ajouter un commentaire en complétant le formulaire ci-dessous. Le format doit être plain text. Les url et les courriels sont transformés en liens cliquables."
 
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:62
 msgid "comment_description_moderation_enabled"
-msgstr ""
+msgstr "Les commentaires sont modérés."
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
 #: ../browser/comments.py:51
 msgid "comment_description_plain_text"
-msgstr ""
+msgstr "Vous pouvez ajouter un commentaire en complétant le formulaire ci-dessous. Le format doit être plain text."
 
 #. Default: "${creator} on ${content}"
 #: ../comment.py:45
@@ -234,13 +234,12 @@ msgstr "Si vous cochez cette case, les utilisateurs pourront poster des commenta
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
 #: ../interfaces.py:50
 msgid "help_moderation_enabled"
-msgstr ""
+msgstr "Si cette case est cochée, les commentaires ajoutés seront mis 'en attente' et seront invisibles pour les visiteurs. Un utilisateur ayant la permission 'Review comments' (Modérateur ou Administrateur) peut approuver les commentaires pour les rendre visibles. Vous pouvez choisir un workflow spécifique pour les commentaires depuis le menu de configuration des types de contenu."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
 #: ../interfaces.py:107
-#, fuzzy
 msgid "help_moderator_notification_enabled"
-msgstr "Si activé, le modérateur est notifié si un commentaire requiert une attention particulière."
+msgstr "Si activé, le modérateur est notifié si un commentaire requiert une attention particulière. Le courriel du modérateur est défini sur la page 'Envoi de courriels' de la configuration du site (Adresse d'expéditeur des courriels)."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ../interfaces.py:97
@@ -250,7 +249,7 @@ msgstr "Si activé, le portrait de l'utilisateur apparait à côté du commentai
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
 #: ../interfaces.py:66
 msgid "help_text_transform"
-msgstr ""
+msgstr "Choisissez si le texte des commentaires doit être éventuellement transformé. Vous pouvez choisir entre 'Plain text' et 'Intelligent text'. Ce dernier convertit le texte en HTML, en préservant notamment les retours chariots et l'indentation, et en transformant les url et les addresses courriel en liens cliquables."
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
 #: ../interfaces.py:119
@@ -295,7 +294,7 @@ msgstr "Activer globalement les commentaires"
 #. Default: "Enable comment moderation"
 #: ../interfaces.py:48
 msgid "label_moderation_enabled"
-msgstr ""
+msgstr "Activer la modération des commentaires"
 
 #. Default: "Enable moderator email notification"
 #: ../interfaces.py:105
@@ -310,7 +309,7 @@ msgstr "Approuver"
 #. Default: "says:"
 #: ../browser/comments.pt:74
 msgid "label_says"
-msgstr ""
+msgstr "a écrit :"
 
 #. Default: "Show commenter image"
 #: ../interfaces.py:95

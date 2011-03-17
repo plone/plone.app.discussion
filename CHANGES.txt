@@ -4,6 +4,9 @@ Changelog
 2.0b1 (Unreleased)
 ------------------
 
+- French translations.
+  [thomasdesvenain]
+
 - Fixed internationalization issues.
   [thomasdesvenain]
 
