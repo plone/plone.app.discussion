@@ -110,7 +110,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         member = mtool.getAuthenticatedMember()
         member_email = member.getProperty('email')
 
-        # Hide the user_notification checkbox if user notification is disabled 
+        # Hide the user_notification checkbox if user notification is disabled
         # or the user is not logged in. Also check if the user has a valid email
         # address
         if member_email == '' or \
@@ -316,10 +316,12 @@ class CommentsViewlet(ViewletBase):
 
         # text transform setting
         if settings.text_transform == "text/x-web-intelligent":
-            message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT))
+            message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT),
+                                context=self.request)
         else:
-            message = translate(Message(COMMENT_DESCRIPTION_PLAIN_TEXT))
-        
+            message = translate(Message(COMMENT_DESCRIPTION_PLAIN_TEXT,
+                                context=self.request))
+
         # comment workflow
         wftool = getToolByName(context, "portal_workflow", None)
         comment_workflow = wftool.getChainForPortalType('Discussion Item')[0]
@@ -328,8 +330,9 @@ class CommentsViewlet(ViewletBase):
         # true comments are moderated
         if 'pending' in comment_workflow.states:
             message = message + " " + \
-                translate(Message(COMMENT_DESCRIPTION_MODERATION_ENABLED))
-        
+                translate(Message(COMMENT_DESCRIPTION_MODERATION_ENABLED),
+                          context=self.request)
+
         return message
 
     def has_replies(self, workflow_actions=False):

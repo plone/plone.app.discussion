@@ -4,7 +4,10 @@ Changelog
 2.0b1 (Unreleased)
 ------------------
 
-- Added Afrikaans translations 
+- Fixed internationalization issues.
+  [thomasdesvenain]
+
+- Added Afrikaans translations
   [jcbrand]
 
 2.0a3 (2011-03-02)
@@ -12,7 +15,7 @@ Changelog
 - Fixed test failure for the default user portrait, which changed from
   defaultUser.gif to defaultUser.png in Products.PlonePAS 4.0.5
   [maurits]
-  
+
 2.0a2 (2011-02-08)
 ------------------
 
@@ -22,7 +25,7 @@ Changelog
 
 - Remove "Plone 3 only" code.
   [timo]
-  
+
 - Do not monkey patch the BAD_TYPES vocabulary or plone.app.vocabularies
   anymore.
   [timo]
@@ -31,20 +34,20 @@ Changelog
 2.0a1 (2011-02-07)
 ------------------
 
-- Split up development into two branches. The 1.x branch will be for Plone 3.x 
+- Split up development into two branches. The 1.x branch will be for Plone 3.x
   and Plone 4.0.x and the 2.x branch will be for Plone 4.1 and beyond.
   [timo]
 
 - Import Owned from OFS.owner to avoid deprecation warnings.
   [timo]
-  
+
 - Disable discussion by default.
   [timo]
-  
-- Enable ajaxify comment deletion again ([thomasdesvenain]). This has been 
+
+- Enable ajaxify comment deletion again ([thomasdesvenain]). This has been
   disabled in 1.0b12 because of problems with Plone 3.
   [timo]
-  
+
 - Remove collective.autopermission dependency that has become unnecessary in
   Plone 4.1.
   [timo]
@@ -56,10 +59,10 @@ Changelog
 - Do not check for a comment review workflow when sending out a moderator email
   notification. This fixes http://dev.plone.org/plone/ticket/11444.
   [timo]
-  
-- Check if the current user has configured an e-mail address for the email 
+
+- Check if the current user has configured an e-mail address for the email
   notification option. This fixes http://dev.plone.org/plone/ticket/11428.
-  [timo]  
+  [timo]
 
 
 1.0RC2 (2011-01-24)
@@ -73,17 +76,17 @@ Changelog
 1.0RC1 (2011-01-22)
 -------------------
 
-- Always show existing comments, even if commenting is disabled. 
+- Always show existing comments, even if commenting is disabled.
   [timo]
-  
-- Fix CSS for commenter images with a width of more than 2.5em. This fixes 
+
+- Fix CSS for commenter images with a width of more than 2.5em. This fixes
   http://dev.plone.org/plone/ticket/11391.
   [timo]
 
 - Show a 'Comments are moderated.' message next to the comment form if comments
-  are moderated. 
+  are moderated.
   [timo]
-  
+
 - Make sure plone.app.registry's ZCML is loaded, so that its import step will run
   when plone.app.discussion is installed.
   [davisagli]
@@ -91,42 +94,42 @@ Changelog
 - Avoid sending multiple notification emails to the same person when
   he has commented multiple times.
   [maurits]
-  
-- Move discussion action item from actionicons.xml to actions.xml to avoid 
+
+- Move discussion action item from actionicons.xml to actions.xml to avoid
   deprecation warning.
   [timo]
-  
-- Fix cancel button on edit view when using Dexterity types. This fixes 
+
+- Fix cancel button on edit view when using Dexterity types. This fixes
   http://dev.plone.org/plone/ticket/11338.
   [EpeliJYU]
-  
+
 - Assigning the 'Reply to item' permission to the 'Authenticated' role. The old
   commenting system allowed 'Authenticated' users to post comments. Also, OpenID
   users do not possess the 'Authenticated' role.
   [timo]
 
-- Make sure the handleComment method checks for the 'Reply to item' permission 
+- Make sure the handleComment method checks for the 'Reply to item' permission
   when adding a comment.
   [timo]
 
 - Make the mail-setting warning message show up in the discussion control panel.
   [timo]
-  
+
 - Link directly to the "Discussion Item" types control panel in the moderation
   view.
   [timo]
 
-- Show "moderate comments" link in the admin panel only if a moderation 
+- Show "moderate comments" link in the admin panel only if a moderation
   workflow is enabled for comments.
   [timo]
 
-- Do not allow to change the mail settings in the discussion control panel, if 
+- Do not allow to change the mail settings in the discussion control panel, if
   there is no valid mail setup.
   [timo]
-  
+
 - Disable all commenting options in the discussion control panel if comments
   are disabled globally.
-  
+
 - Check for the 'review comments' permission instead of 'manage' to decide
   if the user should see a 'this comment is pending' message.
   [timo]
@@ -136,10 +139,10 @@ Changelog
 
 - Moderator notification description updated.
   [timo]
-   
+
 - Redirect back to the discussion control panel when the discussion control
   panel form is submitted.
-  [timo]   
+  [timo]
 
 - Fix document_byline bottom margin if commenter images are disabled.
   [timo]
@@ -155,23 +158,23 @@ Changelog
   [timo]
 
 - Always set the effective date of a comment to the same value as the creation
-  date. 
+  date.
   [timo]
 
 - Fix SMTP exception when an email is send to the moderator.
   [timo]
 
-- Make sure comment UIDs in the catalog are always unique. This fixes  
-  http://dev.plone.org/plone/ticket/10652. 
-  [timo] 
+- Make sure comment UIDs in the catalog are always unique. This fixes
+  http://dev.plone.org/plone/ticket/10652.
+  [timo]
 
 - Fix 'check all' on batch moderation page.
   [davisagli]
 
-- Use safe_unicode to decode the title of the content. encode("utf-9") caused 
-  Dexterity based content types to raise a unicode decode error. This fixes 
+- Use safe_unicode to decode the title of the content. encode("utf-9") caused
+  Dexterity based content types to raise a unicode decode error. This fixes
   http://dev.plone.org/plone/ticket/11292
-  [dukebody] 
+  [dukebody]
 
 - Spanish translation updated.
   [dukebody]
@@ -192,8 +195,8 @@ Changelog
 1.0b12 (2010-11-04)
 -------------------
 
-- Remove AJAX comment deletion binding. This function relies on the nextUntil() 
-  selector introduced by jQuery 1.4 and therefore breaks in Plone 3 
+- Remove AJAX comment deletion binding. This function relies on the nextUntil()
+  selector introduced by jQuery 1.4 and therefore breaks in Plone 3
   (that currently uses jQuery 1.3.2).
   [timo]
 
@@ -218,8 +221,8 @@ Changelog
 
 - Ajaxify comment deletion and approval.
   [thomasdesvenain]
-  
-- New feature: As a logged-in user, I can enable/disable email notification of 
+
+- New feature: As a logged-in user, I can enable/disable email notification of
   additional comments on this content object.
   [timo]
 
@@ -241,9 +244,9 @@ Changelog
   but no other validation package is installed.
   [naro]
 
-- Check if there is a 'pending' review state in the current workflow for 
-  comments instead of just checking for the 'comment_review_workflow'. This 
-  allows integrators to use a custom review workflow. This fixes 
+- Check if there is a 'pending' review state in the current workflow for
+  comments instead of just checking for the 'comment_review_workflow'. This
+  allows integrators to use a custom review workflow. This fixes
   http://dev.plone.org/plone/ticket/11184.
   [timo]
 
@@ -254,12 +257,12 @@ Changelog
 1.0b9 (2010-10-07)
 ------------------
 
-- Replace the can_manage method with a can_review method that checks the 
-  'Review comments' permission. This fixes 
+- Replace the can_manage method with a can_review method that checks the
+  'Review comments' permission. This fixes
   http://dev.plone.org/plone/ticket/11145.
   [timo]
 
-- Fix moderation actions (publish, delete) in the moderation view with virtual 
+- Fix moderation actions (publish, delete) in the moderation view with virtual
   hosts. This is a replacement for http://dev.plone.org/plone/changeset/35608.
   [timo]
 
@@ -278,24 +281,24 @@ Changelog
 - Remove title field from the comment form and replace it with an auto-generated
   title ("John Doe on Welcome to Plone").
   [timo]
-  
-- Fix http://dev.plone.org/plone/ticket/11098: "Comment byline shows login 
-  name, not full name" 
+
+- Fix http://dev.plone.org/plone/ticket/11098: "Comment byline shows login
+  name, not full name"
   [kiorky]
 
-- Make sure the __parent__ pointer (the conversation) of a comment is not 
-  acquisition wrapped in conversation.addComment. This fixes 
+- Make sure the __parent__ pointer (the conversation) of a comment is not
+  acquisition wrapped in conversation.addComment. This fixes
   http://dev.plone.org/plone/ticket/11157.
   [timo]
 
-- Revert r35608 since this was breaking the comment moderation bulk actions. 
-  The BulkActionsView expects the absolute path of the comments without the 
-  portal url (e.g. '/plone/doc1/++conversation++default/1285346769126020'). 
+- Revert r35608 since this was breaking the comment moderation bulk actions.
+  The BulkActionsView expects the absolute path of the comments without the
+  portal url (e.g. '/plone/doc1/++conversation++default/1285346769126020').
   This fixes http://dev.plone.org/plone/ticket/11156.
   [timo]
 
 - Use "(function($) { /* some code that uses $ \*/ })(jQuery)" instead of
-  "$(document).ready(function(){ /* some code that uses $ \*/ });" to invoke 
+  "$(document).ready(function(){ /* some code that uses $ \*/ });" to invoke
   jQuery code.
   [timo]
 
@@ -309,7 +312,7 @@ Changelog
 1.0b7 (2010-09-15)
 ------------------
 
-* Captcha plugin support for collective.z3cform.norobots (version >= 1.1) added. 
+* Captcha plugin support for collective.z3cform.norobots (version >= 1.1) added.
   [saffe]
 
 * Store dates in utc and not in local time. Display local time
@@ -317,12 +320,12 @@ Changelog
 
 * Fetch context for the comment view with "context = aq_inner(self.context)".
   [timo]
- 
+
 * Raise an unauthorized error when authenticated users try to post a comment
   on a content object that has discussion disabled. Thanks to vincentfrentin
   for reporting this.
   [timo]
-  
+
 * Czech translation added.
   [naro]
 
@@ -335,8 +338,8 @@ Changelog
 * Put email notification subscribers into their own zcml file so it is easier
   for integrators to override them.
   [timo]
-  
-* Plain text and intelligent text options for comment text added to preserve 
+
+* Plain text and intelligent text options for comment text added to preserve
   basic text structure and to make links clickable.
   [timo]
 
@@ -354,8 +357,8 @@ Changelog
   instead of True because of allow_discussion acquisition.
   [vincentfretin]
 
-* Redirect to the comment form action instead of the absolute URL when a 
-  comment is posted. This fixes the accidentally triggered file upload when a 
+* Redirect to the comment form action instead of the absolute URL when a
+  comment is posted. This fixes the accidentally triggered file upload when a
   comment is posted on a file content object.
   [timo]
 
@@ -372,7 +375,7 @@ Changelog
   plone domain.
   [vincentfretin]
 
-* label_comment_by and label_commented_at are not in Plone 4 translation 
+* label_comment_by and label_commented_at are not in Plone 4 translation
   anymore, so these two messages moved to plone.app.discussions i18n domain.
   [vincentfretin]
 
@@ -385,11 +388,11 @@ Changelog
 * Catch Type errors in indexers if object can not be adapted to IDiscussion
   [do3cc]
 
-* Call the CaptchaValidator even when no captcha data was submitted. This is 
-  necessary to ensure that the collective.akismet validator is called when 
-  installed. 
+* Call the CaptchaValidator even when no captcha data was submitted. This is
+  necessary to ensure that the collective.akismet validator is called when
+  installed.
   [timo]
-  
+
 * Spanish translation added. Thanks to Judith Sanleandro.
   [timo]
 
@@ -397,20 +400,20 @@ Changelog
 1.0b5 (2010-07-16)
 ------------------
 
-* Use self.form instead of CommentForm for the CommentsViewlet update method so 
-  integrators don't have to override the viewlet's update method. 
+* Use self.form instead of CommentForm for the CommentsViewlet update method so
+  integrators don't have to override the viewlet's update method.
   [matous]
 
-* Make sure the form fields in the reply form are always placed under the field 
-  labels. 
+* Make sure the form fields in the reply form are always placed under the field
+  labels.
   [timo]
-  
+
 * Fix CSS overflow bug that occurs with the new Plone 4.0b5 comment styles.
   [timo]
-  
+
 * Unnecessary imports and variables removed.
   [timo]
-  
+
 * Added norwegian translation.
   [ggozad]
 
@@ -420,7 +423,7 @@ Changelog
 * Documentation for Captcha plugin architecture and email notification added.
   See http://packages.python.org/plone.app.discussion.
   [timo]
-  
+
 * Use sphinx.plonetheme for plone.app.discussion documentation.
   [timo]
 
