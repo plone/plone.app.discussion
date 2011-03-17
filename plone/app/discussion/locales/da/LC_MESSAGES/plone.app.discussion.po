@@ -55,6 +55,9 @@ msgstr "Kommentar slettet."
 msgid "Commenter Image"
 msgstr "Kommentar-billede"
 
+msgid "Commenting infrastructure for Plone"
+msgstr "Kommentar-funktionalitet til Plone"
+
 #: ../interfaces.py:269
 msgid "Conversation"
 msgstr "Dialog"
@@ -110,6 +113,10 @@ msgstr "Navn"
 #: ../interfaces.py:295
 msgid "Notify me of new comments via email."
 msgstr "Send besked om nye kommentarer pr. email."
+
+#: ./plone.app.discussion/plone/app/discussion/configure.zcml
+msgid "Plone Discussions"
+msgstr "Plone diskussioner"
 
 #: ../interfaces.py:264
 msgid "Portal type"

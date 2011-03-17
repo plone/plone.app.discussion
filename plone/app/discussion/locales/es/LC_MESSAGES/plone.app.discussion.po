@@ -56,6 +56,9 @@ msgstr "Comentario eliminado"
 msgid "Commenter Image"
 msgstr "Imagen del autor"
 
+msgid "Commenting infrastructure for Plone"
+msgstr "Infraestructura de comentarios para Plone"
+
 #: ../interfaces.py:269
 msgid "Conversation"
 msgstr "Conversación"
@@ -111,6 +114,10 @@ msgstr "Nombre"
 #: ../interfaces.py:295
 msgid "Notify me of new comments via email."
 msgstr "Recibir avisos por correo cuando haya nuevos comentarios"
+
+#: ./plone.app.discussion/plone/app/discussion/configure.zcml
+msgid "Plone Discussions"
+msgstr "Plone Discussions"
 
 #: ../interfaces.py:264
 msgid "Portal type"

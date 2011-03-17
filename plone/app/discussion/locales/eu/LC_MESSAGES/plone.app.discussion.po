@@ -56,6 +56,9 @@ msgstr "Erantzuna ezabatuta."
 msgid "Commenter Image"
 msgstr "Erantzuna eman duenaren irudia."
 
+msgid "Commenting infrastructure for Plone"
+msgstr "Ploneren Erantzunen Azpiegitura"
+
 #: ../interfaces.py:269
 msgid "Conversation"
 msgstr "Eztabaida"
@@ -111,6 +114,10 @@ msgstr "Izena"
 #: ../interfaces.py:295
 msgid "Notify me of new comments via email."
 msgstr ""
+
+#: ./plone.app.discussion/plone/app/discussion/configure.zcml
+msgid "Plone Discussions"
+msgstr "Plone Eztabaidak"
 
 #: ../interfaces.py:264
 msgid "Portal type"
