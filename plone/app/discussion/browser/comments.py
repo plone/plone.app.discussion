@@ -319,8 +319,8 @@ class CommentsViewlet(ViewletBase):
             message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT),
                                 context=self.request)
         else:
-            message = translate(Message(COMMENT_DESCRIPTION_PLAIN_TEXT,
-                                context=self.request))
+            message = translate(Message(COMMENT_DESCRIPTION_PLAIN_TEXT),
+                                context=self.request)
 
         # comment workflow
         wftool = getToolByName(context, "portal_workflow", None)
