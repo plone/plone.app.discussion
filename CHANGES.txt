@@ -4,6 +4,9 @@ Changelog
 2.0b1 (Unreleased)
 ------------------
 
+- Fixed RoleManager import to avoid deprecation warning on Zope 2.13.
+  [davisagli]
+
 - French translations.
   [thomasdesvenain]
 
@@ -15,6 +18,7 @@ Changelog
 
 2.0a3 (2011-03-02)
 ------------------
+
 - Fixed test failure for the default user portrait, which changed from
   defaultUser.gif to defaultUser.png in Products.PlonePAS 4.0.5
   [maurits]

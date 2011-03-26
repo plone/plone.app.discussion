@@ -19,7 +19,6 @@ from zope.interface import implements
 
 from Acquisition import aq_parent, aq_base, Implicit
 
-from AccessControl.Role import RoleManager
 from OFS.owner import Owned
 
 from persistent import Persistent
@@ -40,6 +39,12 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 
 from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
+
+try:
+    from OFS.role import RoleManager
+except ImportError:
+    # Zope <=2.12
+    from AccessControl.Role import RoleManager
 
 
 COMMENT_TITLE = _(u"comment_title",
