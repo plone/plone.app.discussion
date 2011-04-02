@@ -47,8 +47,8 @@ class MigrationTest(PloneTestCase):
         self.doc.talkback.createReply('My Title', 'My Text', Creator='Jim')
         reply = talkback.getReplies()[0]
         reply.setReplyTo(self.doc)
-        reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6)
-        reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7)
+        reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6, 'GMT')
+        reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7, 'GMT')
         self.assertEquals(reply.Title(), 'My Title')
         self.assertEquals(reply.EditableBody(), 'My Text')
         self.failUnless('Jim' in reply.listCreators())

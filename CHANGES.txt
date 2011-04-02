@@ -4,6 +4,14 @@ Changelog
 2.0b1 (Unreleased)
 ------------------
 
+- Fix issue where GMT datetimes were converted into local timezone DateTimes
+  during indexing.
+  [davisagli]
+
+- Handle timezones correctly while converting dates during the migration of
+  legacy comments.
+  [davisagli]
+
 - When returning a comment's title, give preference to its title attribute
   if set.
   [davisagli]

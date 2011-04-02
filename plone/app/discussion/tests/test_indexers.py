@@ -151,11 +151,11 @@ class CommentIndexersTest(PloneTestCase):
     def test_dates(self):
         # Test if created, modified, effective etc. are set correctly
         self.assertEquals(catalog.created(self.comment)(),
-                          DateTime(2006, 9, 17, 14, 18, 12))
+                          DateTime(2006, 9, 17, 14, 18, 12, 'GMT'))
         self.assertEquals(catalog.effective(self.comment)(),
-                          DateTime(2006, 9, 17, 14, 18, 12))
+                          DateTime(2006, 9, 17, 14, 18, 12, 'GMT'))
         self.assertEquals(catalog.modified(self.comment)(),
-                          DateTime(2008, 3, 12, 7, 32, 52))
+                          DateTime(2008, 3, 12, 7, 32, 52, 'GMT'))
 
     def test_searchable_text(self):
         # Test if searchable text is a concatenation of title and comment text

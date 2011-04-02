@@ -15,6 +15,12 @@ from plone.app.discussion.comment import CommentFactory
 from plone.app.discussion.interfaces import IConversation, IReplies, IComment
 
 
+def DT2dt(DT):
+    """Convert a Zope DateTime (with timezone) into a Python datetime (GMT)."""
+    DT = DT.toZone('GMT')
+    return datetime(DT.year(), DT.month(), DT.day(), DT.hour(), DT.minute(), int(DT.second()))
+
+
 class View(BrowserView):
     """Migration View
     """
@@ -78,10 +84,8 @@ class View(BrowserView):
                     if email:
                         comment.author_email = email
 
-                    comment.creation_date = datetime.fromtimestamp(
-                        reply.creation_date)
-                    comment.modification_date = datetime.fromtimestamp(
-                        reply.modification_date)
+                    comment.creation_date = DT2dt(reply.creation_date)
+                    comment.modification_date = DT2dt(reply.modification_date)
 
                     comment.reply_to = in_reply_to
 

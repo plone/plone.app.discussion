@@ -100,7 +100,8 @@ def effective(object):
                     object.creation_date.day,
                     object.creation_date.hour,
                     object.creation_date.minute,
-                    object.creation_date.second)
+                    object.creation_date.second,
+                    'GMT')
 
 @indexer(IComment)
 def created(object):
@@ -110,7 +111,8 @@ def created(object):
                     object.creation_date.day,
                     object.creation_date.hour,
                     object.creation_date.minute,
-                    object.creation_date.second)
+                    object.creation_date.second,
+                    'GMT')
 
 @indexer(IComment)
 def modified(object):
@@ -120,7 +122,8 @@ def modified(object):
                     object.modification_date.day,
                     object.modification_date.hour,
                     object.modification_date.minute,
-                    object.modification_date.second)
+                    object.modification_date.second,
+                    'GMT')
 
 # Override the conversation indexers for comments
 
