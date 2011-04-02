@@ -77,14 +77,14 @@ def creator(object):
 @indexer(IComment)
 def description(object):
     # Return the first 25 words of the comment text and append ' [...]'
-    text = join(object.text.split()[:MAX_DESCRIPTION])
-    if len(object.text.split()) > 25:
+    text = join(object.getText(targetMimetype='text/plain').split()[:MAX_DESCRIPTION])
+    if len(object.getText().split()) > 25:
         text += " [...]"
     return text
 
 @indexer(IComment)
 def searchable_text(object):
-    return object.text
+    return object.getText(targetMimetype='text/plain')
 
 @indexer(IComment)
 def in_response_to(object):

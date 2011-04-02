@@ -4,6 +4,19 @@ Changelog
 2.0b1 (Unreleased)
 ------------------
 
+- Use the cooked text of legacy comments when migrating.
+  [davisagli]
+
+- Make sure that comment text is transformed to plain text when indexing.
+  [davisagli]
+
+- Move logic for transforming comment text to the Comment class's getText
+  method. Use a comment instance's mime_type attribute in preference to the
+  global setting for the source mimetype. Use text/x-html-safe as the target
+  mimetype to make sure the safe HTML filter is applied, in case the source is
+  untrusted HTML.
+  [davisagli]
+
 - Provide a filter_callback option to the migration view, so that a custom
   policy for which comments get migrated can be implemented.
   [davisagli]

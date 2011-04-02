@@ -80,7 +80,7 @@
 
                 <div class="commentBody">
 
-                    <span tal:replace="structure python:view.cook(reply.getText())" />
+                    <span tal:replace="structure reply/getText" />
 
                     <div class="commentActions">
                         <form name="delete"

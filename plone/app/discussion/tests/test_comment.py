@@ -123,6 +123,44 @@ class CommentTest(PloneTestCase):
         comment1 = createObject('plone.Comment')
         self.assertEquals(comment1.Type(), 'Comment')
 
+    def test_getText(self):
+        comment1 = createObject('plone.Comment')
+        comment1.text = """First paragraph
+
+        Second paragraph"""
+        self.assertEquals(comment1.getText(),
+            "<p>First paragraph<br /><br />        Second paragraph</p>")
+    
+    def test_getText_escapes_HTML(self):
+        comment1 = createObject('plone.Comment')
+        comment1.text = """<b>Got HTML?</b>"""
+        self.assertEquals(comment1.getText(),
+            "<p>&lt;b&gt;Got HTML?&lt;/b&gt;</p>")
+    
+    def test_getText_with_non_ascii_characters(self):
+        comment1 = createObject('plone.Comment')
+        comment1.text = u"""Umlaute sind ä, ö und ü."""
+        self.assertEquals(comment1.getText(),
+            '<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>')
+
+    def test_getText_doesnt_link(self):
+        comment1 = createObject('plone.Comment')
+        comment1.text = "Go to http://www.plone.org"
+        self.assertEquals(comment1.getText(),
+                          "<p>Go to http://www.plone.org</p>")
+    
+    def test_getText_uses_comment_mime_type(self):
+        comment1 = createObject('plone.Comment')
+        comment1.text = "Go to http://www.plone.org"
+        comment1.mime_type = 'text/x-web-intelligent'
+        self.assertEquals(comment1.getText(),
+                          'Go to <a href="http://www.plone.org" rel="nofollow">http://www.plone.org</a>')
+
+    def test_getText_w_custom_targetMimetype(self):
+        comment1 = createObject('plone.Comment')
+        comment1.text = 'para'
+        self.assertEquals(comment1.getText(targetMimetype='text/plain'), 'para')
+
     def test_traversal(self):
         # make sure comments are traversable, have an id, absolute_url and
         # physical path

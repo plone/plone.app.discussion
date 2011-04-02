@@ -228,28 +228,6 @@ class TestCommentsViewlet(PloneTestCase):
         settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = True
 
-    def test_cook(self):
-        text = """First paragraph
-
-        Second paragraph"""
-        self.assertEquals(self.viewlet.cook(text),
-        "<p>First paragraph<br /><br />        Second paragraph</p>")
-
-    def test_cook_no_html(self):
-        text = """<b>Got HTML?</b>"""
-        self.assertEquals(self.viewlet.cook(text),
-                          "<p>&lt;b&gt;Got HTML?&lt;/b&gt;</p>")
-
-    def test_cook_with_no_ascii_characters(self):
-        text = """Umlaute sind ä, ö und ü."""
-        self.assertEquals(self.viewlet.cook(text),
-            "<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>")
-
-    def test_cook_links(self):
-        text = "Go to http://www.plone.org"
-        self.assertEquals(self.viewlet.cook(text),
-                          "<p>Go to http://www.plone.org</p>")
-
     def test_can_reply(self):
         # Portal owner can reply
         self.failUnless(self.viewlet.can_reply())

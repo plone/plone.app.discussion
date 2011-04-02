@@ -70,7 +70,8 @@ class View(BrowserView):
                     # create a reply object
                     comment = CommentFactory()
                     comment.title = reply.Title()
-                    comment.text = reply.text
+                    comment.text = reply.cooked_text
+                    comment.mime_type = 'text/html'
                     comment.creator = reply.Creator()
                 
                     email = reply.getProperty('email', None)

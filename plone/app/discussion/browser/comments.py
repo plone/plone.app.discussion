@@ -271,17 +271,6 @@ class CommentsViewlet(ViewletBase):
 
     # view methods
 
-    def cook(self, text):
-        transforms = getToolByName(self, 'portal_transforms')
-        targetMimetype = 'text/html'
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings, check=False)
-        mimetype = settings.text_transform
-        return transforms.convertTo(targetMimetype,
-                                    text,
-                                    context=self,
-                                    mimetype=mimetype).getData()
-
     def can_reply(self):
         """Returns true if current user has the 'Reply to item' permission.
         """

@@ -2,7 +2,6 @@ from Acquisition import aq_inner, aq_parent
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from Products.CMFCore.utils import getToolByName
 
@@ -36,9 +35,6 @@ class View(BrowserView):
                                 sort_on='created',
                                 sort_order='reverse')
         return self.template()
-
-    def cook(self, text):
-        return text
 
     def moderation_enabled(self):
         """Returns true if a 'review workflow' is enabled on 'Discussion Item'

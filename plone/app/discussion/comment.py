@@ -79,7 +79,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     title = u""
 
-    mime_type = "text/plain"
+    mime_type = None
     text = u""
 
     creator = None
@@ -113,10 +113,26 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         """
         return self.id
 
-    def getText(self):
+    def getText(self, targetMimetype=None):
         """The body text of a comment.
         """
-        return self.text
+        transforms = getToolByName(self, 'portal_transforms')
+
+        if targetMimetype is None:
+            targetMimetype = 'text/x-html-safe'
+
+        sourceMimetype = getattr(self, 'mime_type', None)
+        if sourceMimetype is None:
+            registry = queryUtility(IRegistry)
+            settings = registry.forInterface(IDiscussionSettings, check=False)
+            sourceMimetype = settings.text_transform
+        text = self.text
+        if isinstance(text, unicode):
+            text = text.encode('utf8')
+        return transforms.convertTo(targetMimetype,
+                                    text,
+                                    context=self,
+                                    mimetype=sourceMimetype).getData()
 
     def Title(self):
         """The title of the comment.

@@ -69,7 +69,8 @@ class MigrationTest(PloneTestCase):
         comment1 = conversation.values()[0]
         self.assert_(IComment.providedBy(comment1))
         self.assertEquals(comment1.Title(), 'Jim on Document 1')
-        self.assertEquals(comment1.text, 'My Text')
+        self.assertEquals(comment1.text, '<p>My Text</p>\n')
+        self.assertEquals(comment1.mime_type, 'text/html')
         self.assertEquals(comment1.Creator(), 'Jim')
         self.assertEquals(comment1.creation_date,
                           datetime(2003, 3, 11, 9, 28, 6))
