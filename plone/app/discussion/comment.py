@@ -137,6 +137,10 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     def Title(self):
         """The title of the comment.
         """
+        
+        if self.title:
+            return self.title
+        
         if not self.creator:
             creator = translate(Message(_(u"label_anonymous",
                                           default=u"Anonymous")))

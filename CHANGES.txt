@@ -4,6 +4,10 @@ Changelog
 2.0b1 (Unreleased)
 ------------------
 
+- When returning a comment's title, give preference to its title attribute
+  if set.
+  [davisagli]
+
 - Use the cooked text of legacy comments when migrating.
   [davisagli]
 
