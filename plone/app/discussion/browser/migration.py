@@ -19,7 +19,7 @@ class View(BrowserView):
     """Migration View
     """
 
-    def __call__(self):
+    def __call__(self, filter_callback=None):
 
         context = aq_inner(self.context)
         out = []
@@ -44,7 +44,7 @@ class View(BrowserView):
             context.plone_log(msg)
             out.append(msg)
 
-        def migrate_replies(context, in_reply_to, replies, depth=0):
+        def migrate_replies(context, in_reply_to, replies, depth=0, just_delete=0):
             # Recursive function to migrate all direct replies
             # of a comment. Returns True if there are no replies to
             # this comment left, and therefore the comment can be removed.
@@ -52,34 +52,46 @@ class View(BrowserView):
                 return True
 
             for reply in replies:
-
+                
                 # log
                 indent = "  "
                 for i in range(depth):
                     indent += "  "
                 log("%smigrate_reply: '%s'." % (indent, reply.title))
 
-                # create a reply object
-                comment = CommentFactory()
-                comment.title = reply.Title()
-                comment.text = reply.text
-                comment.creator = reply.Creator()
+                should_migrate = True
+                if filter_callback and not filter_callback(reply):
+                    should_migrate = False
+                if just_delete:
+                    should_migrate = False
 
-                comment.creation_date = datetime.fromtimestamp(
-                    reply.creation_date)
-                comment.modification_date = datetime.fromtimestamp(
-                    reply.modification_date)
+                new_in_reply_to = None
+                if should_migrate:
+                    # create a reply object
+                    comment = CommentFactory()
+                    comment.title = reply.Title()
+                    comment.text = reply.text
+                    comment.creator = reply.Creator()
+                
+                    email = reply.getProperty('email', None)
+                    if email:
+                        comment.author_email = email
 
-                comment.reply_to = in_reply_to
+                    comment.creation_date = datetime.fromtimestamp(
+                        reply.creation_date)
+                    comment.modification_date = datetime.fromtimestamp(
+                        reply.modification_date)
 
-                if in_reply_to == 0:
-                    # Direct reply to a content object
-                    new_in_reply_to = conversation.addComment(comment)
-                else:
-                    # Reply to another comment
-                    comment_to_reply_to = conversation.get(in_reply_to)
-                    replies = IReplies(comment_to_reply_to)
-                    new_in_reply_to = replies.addComment(comment)
+                    comment.reply_to = in_reply_to
+
+                    if in_reply_to == 0:
+                        # Direct reply to a content object
+                        new_in_reply_to = conversation.addComment(comment)
+                    else:
+                        # Reply to another comment
+                        comment_to_reply_to = conversation.get(in_reply_to)
+                        replies = IReplies(comment_to_reply_to)
+                        new_in_reply_to = replies.addComment(comment)
 
                 self.total_comments_migrated += 1
 
@@ -88,7 +100,9 @@ class View(BrowserView):
                 no_replies_left = migrate_replies(context,
                                                   new_in_reply_to,
                                                   talkback.getReplies(),
-                                                  depth=depth+1)
+                                                  depth=depth+1,
+                                                  just_delete=not should_migrate)
+
                 if no_replies_left:
                     # remove reply and talkback
                     talkback.deleteReply(reply.id)

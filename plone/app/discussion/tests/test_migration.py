@@ -167,6 +167,44 @@ class MigrationTest(PloneTestCase):
         talkback = self.discussion.getDiscussionFor(self.doc)
         self.assertEquals(len(talkback.getReplies()), 0)
 
+    def test_migrate_nested_comments_with_filter(self):
+        # Create some nested comments and migrate them.
+        # But use a filter that filters the top-level comment.
+        # All the comments should be removed, but not migrated.
+        #
+        # self.doc
+        # +- First comment
+        #    +- Re: First comment
+
+        talkback = self.discussion.getDiscussionFor(self.doc)
+
+        # First comment
+        talkback.createReply(title='First comment',
+                             text='This is my first comment.')
+        comment1 = talkback.getReplies()[0]
+        talkback_comment1 = self.discussion.getDiscussionFor(comment1)
+
+        # Re: First comment
+        talkback_comment1.createReply(title='Re: First comment',
+                                      text='This is my first reply.')
+        comment1_1 = talkback_comment1.getReplies()[0]
+        talkback_comment1_1 = self.discussion.getDiscussionFor(comment1_1)
+
+        self.assertEquals(len(talkback.getReplies()), 1)
+        self.assertEquals(len(talkback_comment1.getReplies()), 1)
+        self.assertEquals(len(talkback_comment1_1.getReplies()), 0)
+
+        def deny_comments(reply):
+            return False
+
+        # Call migration script
+        self.view(filter_callback=deny_comments)
+
+        # Check migration
+        conversation = IConversation(self.doc)
+        self.assertEquals(conversation.total_comments, 0)
+        talkback = self.discussion.getDiscussionFor(self.doc)
+        self.assertEquals(len(talkback.getReplies()), 0)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

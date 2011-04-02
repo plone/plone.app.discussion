@@ -4,6 +4,10 @@ Changelog
 2.0b1 (Unreleased)
 ------------------
 
+- Provide a filter_callback option to the migration view, so that a custom
+  policy for which comments get migrated can be implemented.
+  [davisagli]
+
 - Fixed RoleManager import to avoid deprecation warning on Zope 2.13.
   [davisagli]
 
