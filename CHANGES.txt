@@ -4,6 +4,9 @@ Changelog
 2.0b1 (Unreleased)
 ------------------
 
+- Make discussion.css cacheable when registering it.
+  [davisagli]
+
 - Fix issue where GMT datetimes were converted into local timezone DateTimes
   during indexing.
   [davisagli]
