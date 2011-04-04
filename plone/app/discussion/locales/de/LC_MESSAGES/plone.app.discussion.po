@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "PO-Revision-Date: 2010-10-04 20:56+0100\n"
-"Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
+"Last-Translator: Pavel Bogdanovic <pb@prontonet.eu>\n"
 "Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -41,7 +41,7 @@ msgstr "Abbrechen"
 
 #: ../browser/controlpanel.py:76
 msgid "Changes saved"
-msgstr ""
+msgstr "Änderungen gespeichert"
 
 #: ../browser/moderation.py:145
 msgid "Comment approved."
@@ -112,7 +112,7 @@ msgstr "Name"
 
 #: ../interfaces.py:295
 msgid "Notify me of new comments via email."
-msgstr ""
+msgstr "E-Mail-Benachrichtigung bei neuen Kommentaren"
 
 #: ./plone.app.discussion/plone/app/discussion/configure.zcml
 msgid "Plone Discussions"
@@ -124,7 +124,7 @@ msgstr "Artikeltyp"
 
 #: ../browser/controlpanel.py:69
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: ../interfaces.py:159
 msgid "The set of unique commentators (usernames)"
@@ -136,7 +136,7 @@ msgstr "Anzahl der Kommentare zu diesem Artikel"
 
 #: ../browser/controlpanel.py:67
 msgid "User Email Notification"
-msgstr ""
+msgstr "E-Mail-Benachrichtigungen für Benutzer"
 
 #: ../browser/comments.py:245
 msgid "Your comment awaits moderator approval."
@@ -165,7 +165,7 @@ msgstr ""
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:62
 msgid "comment_description_moderation_enabled"
-msgstr ""
+msgstr "Kommentare werden moderiert."
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
 #: ../browser/comments.py:51
@@ -301,7 +301,7 @@ msgstr ""
 #. Default: "Enable moderator email notification"
 #: ../interfaces.py:105
 msgid "label_moderator_notification_enabled"
-msgstr ""
+msgstr "Email-Benachrichtigungen für Moderatoren aktivieren"
 
 #. Default: "Approve"
 #: ../browser/moderation.pt:121
@@ -316,7 +316,7 @@ msgstr "sagt"
 #. Default: "Show commenter image"
 #: ../interfaces.py:95
 msgid "label_show_commenter_image"
-msgstr ""
+msgstr "Zeige das Portrait des Kommentators"
 
 #. Default: "show full comment text"
 #: ../browser/moderation.pt:114
@@ -336,7 +336,7 @@ msgstr "Text transformationen"
 #. Default: "Enable user email notification"
 #: ../interfaces.py:117
 msgid "label_user_notification_enabled"
-msgstr ""
+msgstr "E-Mail-Benachrichtigungen für Benutzer aktivieren"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}"
 #: ../comment.py:48
