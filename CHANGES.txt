@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0b1 (Unreleased)
+2.0b1 (2011-04-06)
 ------------------
 
 - Make discussion.css cacheable when registering it.
