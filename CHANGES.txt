@@ -4,6 +4,10 @@ Changelog
 1.1 (Unreleased)
 ----------------
 
+- Add a moderator_email setting to control where moderator notifications are
+  sent.
+  [davisagli]
+
 - Added Afrikaans translations
   [jcbrand]
 
