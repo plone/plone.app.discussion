@@ -16,7 +16,6 @@ from Products.CMFPlone.tests.utils import MockMailHost
 from plone.registry.interfaces import IRegistry
 
 from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.tests.layer import DiscussionLayer
 
 
@@ -38,7 +37,6 @@ class TestUserNotificationUnit(PloneTestCase):
 
         # Enable user notification setting
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings' +
                  '.user_notification_enabled'] = True
 
@@ -89,7 +87,6 @@ class TestUserNotificationUnit(PloneTestCase):
     def test_do_not_notify_user_when_notification_is_disabled(self):
         # Disable user notification and make sure no email is send to the user.
         registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
                   'user_notification_enabled'] = False
 
@@ -235,6 +232,23 @@ class TestModeratorNotificationUnit(PloneTestCase):
         #'...Another t=C3=A4st message...You are receiving this mail because
         # T=C3=A4st user\ntest@plone.test...is sending feedback about the site
         # you administer at...
+    
+    def test_notify_moderator_specific_address(self):
+        # A moderator email address can be specified in the control panel.
+        registry = queryUtility(IRegistry)
+        registry['plone.app.discussion.interfaces.IDiscussionSettings' +
+                 '.moderator_email'] = 'test@example.com'
+
+        comment = createObject('plone.Comment')
+        comment.text = 'Comment text'
+        self.conversation.addComment(comment)
+        
+        self.assertEquals(len(self.mailhost.messages), 1)
+        msg = self.mailhost.messages[0]
+        if not isinstance(msg, str):
+            self.failUnless('test@example.com' in msg.mto)
+        else:
+            self.failUnless('To: test@example.com' in msg)
 
     def test_do_not_notify_moderator_when_no_sender_is_available(self):
         # Set sender mail address to nonw and make sure no email is send to the

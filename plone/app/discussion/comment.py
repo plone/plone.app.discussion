@@ -271,9 +271,12 @@ def notify_user(obj, event):
 def notify_moderator(obj, event):
     """Tell the moderator when a comment needs attention.
 
-       This method sends an email to the site admin (mail control panel setting)
-       if comment moderation is enabled and a new comment has been added that
-       needs to be approved.
+       This method sends an email to the moderator if comment moderation is
+       enabled and a new comment has been added that needs to be approved.
+       
+       Configure the moderator e-mail address in the discussion control panel.
+       If no moderator is configured but moderator notifications are turned on,
+       the site admin email (from the mail control panel) will be used.
 
        This requires the moderator_notification to be enabled in the discussion
        control panel and the comment_review_workflow enabled for the comment
@@ -291,7 +294,11 @@ def notify_moderator(obj, event):
     portal_url = getToolByName(obj, 'portal_url')
     portal = portal_url.getPortalObject()
     sender = portal.getProperty('email_from_address')
-    mto = portal.getProperty('email_from_address')
+    
+    if settings.moderator_email:
+        mto = settings.moderator_email
+    else:
+        mto = sender
 
     # Check if a sender address is available
     if not sender:
