@@ -113,6 +113,16 @@ class IDiscussionSettings(Interface):
         required=False,
         default=False,
         )
+    
+    moderator_email = schema.ASCIILine(
+        title = _(u'label_moderator_email', default=u'Moderator Email Address'),
+        description = _(u'help_moderator_email',
+                        default=u"Address to which moderator notifications "
+                                u"will be sent. If not specified, the Site "
+                                u"'From' Address from the mail control panel "
+                                u"will be used."),
+        required = False,
+        )
 
     user_notification_enabled = schema.Bool(
         title=_(u"label_user_notification_enabled",
