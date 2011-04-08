@@ -27,6 +27,7 @@
     <include file="permissions.zcml" />
     <include file="notifications.zcml" />
     <include file="subscribers.zcml" />
+    <include file="upgrades.zcml" />
     <include package=".browser" />
 
     <i18n:registerTranslations directory="locales" />

@@ -1,5 +1,5 @@
 <metadata>
- <version>1</version>
+ <version>100</version>
  <dependencies>
   <dependency>profile-plone.app.registry:default</dependency>
  </dependencies>
