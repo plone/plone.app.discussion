@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+  
+  <genericsetup:upgradeStep
+      source="*"
+      destination="2"
+      title="Update plone.app.discussion setting registry"
+      description=""
+      profile="plone.app.discussion:default"
+      handler=".upgrades.update_registry"
+      />
+  
+</configure>
