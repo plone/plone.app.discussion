@@ -1,9 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-11-03 13:43+0000\n"
+"POT-Creation-Date: 2011-04-10 20:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Victor Fernandez de Alba <sneridagh@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,110 +14,109 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone\n"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
 msgstr "Workflow simple de moderació de comentaris"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
 msgstr "Aprova"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
 msgstr "Aprovar el comentari significa que es publicarà per a tots els usuaris"
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comment"
 msgstr "Comentari"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
 msgstr "Worfklow de moderació de comentaris"
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment Single State Workflow"
 msgstr "Workflow d'estat únic per comentaris"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Comentari sobre la última transició"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Commentators"
 msgstr "Autors"
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr "Comentaris afegits"
 
-#: profiles/default/actionicons.xml
-#: profiles/default/controlpanel.xml
+#: ../profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Comentaris"
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
 msgstr "Essencialment un workflow sense transicions i amb un sol estat 'Publicat' per permetre que portlets i altres aplicacions que esperen la existència d'aquest estat contiuin funcionant."
 
-#: profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Modera comentaris"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
 msgstr "Pendent"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Transició anterior"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Accés a la història del workflow"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "Publicat"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
 msgstr "El revisor aprova el comentari"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
 msgstr "Enviat, pendent de moderació"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "L'identificador únic de l'usuari que va executar la transició anterior"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments"
 msgstr "Número total de comentaris"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
 msgstr "Número de comentaris d'aquest contingut."
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
 msgstr "Usuaris que han comentat el contingut."
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Visible to everyone, editable by the owner."
 msgstr "Visible per a tots, editable per l'autor."
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Visible per a tots, no editable."
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Quan es va executar la transició anterior"
 

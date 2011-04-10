@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-11-03 13:43+0000\n"
+"POT-Creation-Date: 2011-04-10 20:32+0000\n"
 "PO-Revision-Date: 2010-11-03 14:51+0100\n"
 "Last-Translator: Radim Novotny <novotny.radim@gmail.com>\n"
 "Language-Team: DMS4U <info@dms4u.cz>\n"
@@ -14,110 +14,109 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone\n"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
 msgstr "Jednoduché workflow pro komentáře"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
 msgstr "Schválit"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
 msgstr "Schválením komentáře se tento stane viditelným pro ostatní uživatele."
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comment"
 msgstr "Komentář"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
 msgstr "Schvalovací workflow pro komentáře"
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment Single State Workflow"
 msgstr "Jednoduché workflow pro komentáře"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Poznámka k poslední transakci"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Commentators"
 msgstr "Komentující"
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr "Komentář byl přidán."
 
-#: profiles/default/actionicons.xml
-#: profiles/default/controlpanel.xml
+#: ../profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Komentáře"
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
 msgstr "Jednoduché workflow bez žádných přechodů mezi stavy, pouze se stavem Zveřejněno."
 
-#: profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Moderovat komentáře"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
 msgstr "Čekající"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Předchozí přechod stavu"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Zpřístupní historii workflow"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "Zveřejněno"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
 msgstr "Schalovatel schvaluje komentář"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
 msgstr "Předáno k posouzení."
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "ID uživatele, který způsobil předchozí změnu stavu"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments"
 msgstr "Celkový počet komentářů"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
 msgstr "Celkový počet komentářů k této položce."
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
 msgstr "Uživatelé, kteří komentovali tuto položku"
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Visible to everyone, editable by the owner."
 msgstr "Viditelné pro všechny, editovatelné vlastníkem položky."
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Viditelné všem, nelze editovat."
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Kdy byla provedena poslední změna stavu"
 

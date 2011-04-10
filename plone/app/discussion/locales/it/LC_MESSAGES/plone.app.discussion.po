@@ -15,11 +15,11 @@ msgstr ""
 "Domain: plone.app.discussion\n"
 "X-Is-Fallback-For: it-it it-ch it-sm it-hr it-si\n"
 
-#: ../comment.py:224
+#: ../comment.py:249
 msgid "A comment has been posted."
 msgstr "Un commento è stato inserito."
 
-#: ../interfaces.py:274
+#: ../interfaces.py:282
 msgid "A comment id unique to this conversation"
 msgstr "Un id del commento unico per questa conversazione"
 
@@ -31,7 +31,7 @@ msgstr "Aggiungi un commento"
 msgid "Anonymous Comments"
 msgstr "Commenti Anonimi"
 
-#: ../interfaces.py:299
+#: ../interfaces.py:307
 msgid "Author name (for display)"
 msgstr "Nome autore (per visualizzazione)"
 
@@ -44,11 +44,11 @@ msgstr "Annulla"
 msgid "Changes saved"
 msgstr ""
 
-#: ../browser/moderation.py:145
+#: ../browser/moderation.py:141
 msgid "Comment approved."
 msgstr "Commento approvato."
 
-#: ../browser/moderation.py:106
+#: ../browser/moderation.py:102
 msgid "Comment deleted."
 msgstr "Commento eliminato."
 
@@ -59,15 +59,15 @@ msgstr "Immagine Commentatore"
 msgid "Commenting infrastructure for Plone"
 msgstr "Infrastruttura di commenti per Plone"
 
-#: ../interfaces.py:269
+#: ../interfaces.py:277
 msgid "Conversation"
 msgstr "Conversazione"
 
-#: ../interfaces.py:300
+#: ../interfaces.py:308
 msgid "Creation date"
 msgstr "Data di creazione"
 
-#: ../interfaces.py:154
+#: ../interfaces.py:162
 msgid "Date of the most recent comment"
 msgstr "Data del commento più recente"
 
@@ -83,7 +83,7 @@ msgstr "Impostazioni dei commenti"
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../interfaces.py:286
+#: ../interfaces.py:294
 msgid "Email"
 msgstr "E-mail"
 
@@ -91,11 +91,11 @@ msgstr "E-mail"
 msgid "Enable Comments"
 msgstr "Abilita commenti"
 
-#: ../interfaces.py:277
+#: ../interfaces.py:285
 msgid "Id of comment this comment is in reply to"
 msgstr "Id del commento a cui si risponde"
 
-#: ../interfaces.py:291
+#: ../interfaces.py:299
 msgid "MIME type"
 msgstr ""
 
@@ -103,15 +103,15 @@ msgstr ""
 msgid "Moderator Email Notification"
 msgstr "Notifiche e-mail"
 
-#: ../interfaces.py:301
+#: ../interfaces.py:309
 msgid "Modification date"
 msgstr "Data di modifica"
 
-#: ../interfaces.py:271
+#: ../interfaces.py:279
 msgid "Name"
 msgstr "Nome"
 
-#: ../interfaces.py:295
+#: ../interfaces.py:303
 msgid "Notify me of new comments via email."
 msgstr "Notificami nuovi commenti via e-mail"
 
@@ -119,7 +119,7 @@ msgstr "Notificami nuovi commenti via e-mail"
 msgid "Plone Discussions"
 msgstr "Supporto ai commenti Plone"
 
-#: ../interfaces.py:264
+#: ../interfaces.py:272
 msgid "Portal type"
 msgstr "Tipo di contenuto"
 
@@ -127,11 +127,11 @@ msgstr "Tipo di contenuto"
 msgid "Save"
 msgstr ""
 
-#: ../interfaces.py:159
+#: ../interfaces.py:167
 msgid "The set of unique commentators (usernames)"
 msgstr "L'insieme unico dei commentatori (username)"
 
-#: ../interfaces.py:148
+#: ../interfaces.py:156
 msgid "Total number of comments on this item"
 msgstr "Totale dei commenti per questo contenuto"
 
@@ -174,7 +174,7 @@ msgid "comment_description_plain_text"
 msgstr ""
 
 #. Default: "${creator} on ${content}"
-#: ../comment.py:45
+#: ../comment.py:50
 msgid "comment_title"
 msgstr ""
 
@@ -236,6 +236,11 @@ msgstr "Se selezionato, gli utenti saranno in grado di inserire commenti nel sit
 msgid "help_moderation_enabled"
 msgstr ""
 
+#. Default: "Address to which moderator notifications will be sent."
+#: ../interfaces.py:118
+msgid "help_moderator_email"
+msgstr ""
+
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
 #: ../interfaces.py:107
 #, fuzzy
@@ -253,12 +258,12 @@ msgid "help_text_transform"
 msgstr ""
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
-#: ../interfaces.py:119
+#: ../interfaces.py:127
 msgid "help_user_notification_enabled"
 msgstr "Se selezionato, gli utenti possono scegliere di essere notificati ad ogni nuovo commenti via e-mail."
 
 #. Default: "Anonymous"
-#: ../comment.py:120
+#: ../comment.py:145
 msgid "label_anonymous"
 msgstr "Anonimo"
 
@@ -278,9 +283,14 @@ msgid "label_captcha"
 msgstr ""
 
 #. Default: "Comment"
-#: ../interfaces.py:292
+#: ../interfaces.py:300
 msgid "label_comment"
 msgstr "Commento"
+
+#. Default: "Commenting has been disabled."
+#: ../browser/comments.pt:130
+msgid "label_commenting_disabled"
+msgstr ""
 
 #. Default: "Delete"
 #: ../browser/moderation.pt:130
@@ -295,6 +305,11 @@ msgstr "Abilita globalmente i commenti"
 #. Default: "Enable comment moderation"
 #: ../interfaces.py:48
 msgid "label_moderation_enabled"
+msgstr ""
+
+#. Default: "Moderator Email Address"
+#: ../interfaces.py:117
+msgid "label_moderator_email"
 msgstr ""
 
 #. Default: "Enable moderator email notification"
@@ -323,7 +338,7 @@ msgid "label_show_full_comment_text"
 msgstr "mostra testo completo del commento"
 
 #. Default: "Subject"
-#: ../interfaces.py:288
+#: ../interfaces.py:296
 msgid "label_subject"
 msgstr "Oggetto"
 
@@ -333,12 +348,12 @@ msgid "label_text_transform"
 msgstr "Transformazioni testo del commento"
 
 #. Default: "Enable user email notification"
-#: ../interfaces.py:117
+#: ../interfaces.py:125
 msgid "label_user_notification_enabled"
 msgstr "Abilita notifica via e-mail"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}"
-#: ../comment.py:48
+#: ../comment.py:53
 msgid "mail_notification_message"
 msgstr "Un commento a '${title}' è stato inserito qui: ${link}"
 

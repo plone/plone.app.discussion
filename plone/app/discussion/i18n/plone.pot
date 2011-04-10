@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-11-03 13:43+0000\n"
+"POT-Creation-Date: 2011-04-10 20:32+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Hanno Schlichting <hannosch@plone.org>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
@@ -14,110 +14,109 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: plone\n"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
 msgstr ""
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comment"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
 msgstr ""
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment Single State Workflow"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr ""
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Commentators"
 msgstr ""
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr ""
 
-#: profiles/default/actionicons.xml
-#: profiles/default/controlpanel.xml
+#: ../profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr ""
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
 msgstr ""
 
-#: profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr ""
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments"
 msgstr ""
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
 msgstr ""
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
 msgstr ""
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Visible to everyone, editable by the owner."
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr ""
 

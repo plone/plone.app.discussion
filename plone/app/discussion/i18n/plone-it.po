@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-11-03 13:43+0000\n"
+"POT-Creation-Date: 2011-04-10 20:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,110 +14,109 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone\n"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
 msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
 msgstr "Approva"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
 msgstr "Approvare il commento lo rende visibile agli utenti."
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comment"
 msgstr "Commento"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
 msgstr "Workflow per revisione del commento"
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment Single State Workflow"
 msgstr "Workflow per commento a stato singolo"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Commento"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Commentators"
 msgstr "Commentatori"
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr "Commenti aggiunti al contenuto"
 
-#: profiles/default/actionicons.xml
-#: profiles/default/controlpanel.xml
+#: ../profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Commenti"
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
 msgstr ""
 
-#: profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Moderazione commenti"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
 msgstr "In attesa"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Transizione precedente"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Fornisce accesso alla storia del workflow"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "Pubblicato"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
 msgstr "Il revisore approva il commento"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
 msgstr "Inviato, in attesa di revisione"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "L'ID dell'utente che ha eseguito l'ultima transizione"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments"
 msgstr "Numero totale di commenti"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
 msgstr "Numero totale di commenti per questo elemento"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
 msgstr "Utenti che hanno commentato l'elemento"
 
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Visible to everyone, editable by the owner."
 msgstr "Visibile a tutti, modificabile dal proprietario"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Visibile a tutti, non modificabile"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-#: profiles/default/workflows/one_state_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Quando l'ultima transizione è stata eseguita"
 

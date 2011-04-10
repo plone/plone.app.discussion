@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-01-28 14:59+0000\n"
+"POT-Creation-Date: 2011-04-10 20:32+0000\n"
 "PO-Revision-Date: 2010-02-23 10:26+0100\n"
 "Last-Translator: Yiorgis Gozadinos <ggozad@jarn.com>\n"
 "Language-Team: Greek <plone-i18n@lists.sourceforge.net>\n"
@@ -14,92 +14,109 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone\n"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "A simple workflow for comments"
-msgstr "Μία απλή ροή εργασίας για σχόλια"
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "A simple review workflow for comments"
+msgstr ""
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approve"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approving the comment makes it visible to other users."
+msgstr ""
+
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comment"
 msgstr "Σχόλιο"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
 msgstr "Ροή εργασίας σχολίων"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Comment Single State Workflow"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Σχόλιο για την τελευταία μετάβαση"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Commentators"
 msgstr "Σχολιαστές"
 
-#: profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr "Σχόλια που προστέθηκαν σε ένα αντικείμενο"
 
-#: profiles/default/actionicons.xml
-#: profiles/default/controlpanel.xml
+#: ../profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Συζήτηση"
 
-#: profiles/default/actions.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
+msgstr ""
+
+#: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Επιθεώρηση σχολίων"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
 msgstr "Σε αναμονή"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Προηγούμενη μετάβαση"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Δίνει πρόσβαση στο ιστορικό της ροής εργασίας"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "Publish"
-msgstr "Δημοσίευση"
-
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "Δημοσιευμένο"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "Publishing the comment makes it visible to other users."
-msgstr "Δημοσιεύοντας το αντικείμενο γίνεται προσπελάσιμο από άλλους χρήστες."
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Reviewer approves content"
+msgstr ""
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
-msgid "Reviewer publishes content"
-msgstr "Ο επιθεωρητής δημοσιεύει το περιεχόμενο"
-
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
 msgstr "Υποβλήθηκε, σε αναμονή επιθεώρησης"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "Η ταυτότητα του χρήστη που εφάρμοσε την τελευταία μετάβαση"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments"
 msgstr "Συνολικός αριθμός σχολίων"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
 msgstr "Σύνολικός αριθμός σχολίων για το αντικείμενο"
 
-#: profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
 msgstr "Χρήστες που έχουν σχολιάσει το αντικείμενο"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Visible to everyone, editable by the owner."
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Ορατό από όλους, μη επεξεργάσιμο"
 
-#: profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Πότε εφαρμόστηκε η τελευταία μετάβαση"
 
