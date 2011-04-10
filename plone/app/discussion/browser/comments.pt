@@ -129,6 +129,7 @@
         
         <div tal:condition="python: has_replies and not isDiscussionAllowed"
              class="discreet"
+             i18n:domain="plone.app.discussion"
              i18n:translate="label_commenting_disabled">
             Commenting has been disabled.
         </div>

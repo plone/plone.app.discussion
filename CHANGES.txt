@@ -4,6 +4,9 @@ Changelog
 2.0b2 (Unreleased)
 ------------------
 
+- Fixed i18n of the "Commenting has been disabled." message.
+  [vincentfretin]
+
 - Add a moderator_email setting to control where moderator notifications are
   sent.
   [davisagli]
