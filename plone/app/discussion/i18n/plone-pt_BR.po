@@ -1,0 +1,122 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2011-04-10 20:32+0000\n"
+"PO-Revision-Date: 2011-04-14 17:38-0300\n"
+"Last-Translator: Andre Nogueira <andre@simplesconsultoria.com.br>\n"
+"Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: pt_BR\n"
+"Language-Name: Portugês do Brasil\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "A simple review workflow for comments"
+msgstr "Workflow de moderação simples para comentários"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approve"
+msgstr "Aprovar"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approving the comment makes it visible to other users."
+msgstr "Aprovar um comentário torna-o visível para todos os usuários"
+
+#: ../profiles/default/types/Discussion_Item.xml
+msgid "Comment"
+msgstr "Comentário"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Comment Review Workflow"
+msgstr "Worfklow de Moderação de Comentários"
+
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Comment Single State Workflow"
+msgstr "Workflow de estado único para comentários"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Comment about the last transition"
+msgstr "Comentário sobre a última transição"
+
+#: ../profiles/default/portal_atct.xml
+msgid "Commentators"
+msgstr "Autores"
+
+#: ../profiles/default/types/Discussion_Item.xml
+msgid "Comments added to a content item."
+msgstr "Comentários adicionados a um conteúdo."
+
+#: ../profiles/default/controlpanel.xml
+msgid "Discussion"
+msgstr "Discussão"
+
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
+msgstr "Essencialmente um fluxo de trabalho sem transições, mas possui um estado Publicado, para que portlets e aplicativos que esperam este estado funcionem."
+
+#: ../profiles/default/actions.xml
+msgid "Moderate comments"
+msgstr "Moderar comentários"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Pending"
+msgstr "Pendente"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Previous transition"
+msgstr "Transição anterior"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Provides access to workflow history"
+msgstr "Fornece acesso ao histórico do Workflow"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Published"
+msgstr "Publicado"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Reviewer approves content"
+msgstr "Revisor aprova o conteúdo"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Submitted, pending review."
+msgstr "Enviado, pendente de moderação."
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "The ID of the user who performed the previous transition"
+msgstr "O ID do usuário que realizou a transição anterior"
+
+#: ../profiles/default/portal_atct.xml
+msgid "Total number of comments"
+msgstr "Número total de comentários"
+
+#: ../profiles/default/portal_atct.xml
+msgid "Total number of comments on this item."
+msgstr "Número total de comentários deste item."
+
+#: ../profiles/default/portal_atct.xml
+msgid "Users who have commented on the item"
+msgstr "Usuários que comentáram este item"
+
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "Visible to everyone, editable by the owner."
+msgstr "Visível para todos, editável pelo autor."
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Visible to everyone, non-editable."
+msgstr "Visível para todos, não editável."
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/one_state_workflow/definition.xml
+msgid "When the previous transition was performed"
+msgstr "Quando a transição anterior foi realizada"
+
