@@ -124,7 +124,7 @@ msgstr "type"
 
 #: ../browser/controlpanel.py:69
 msgid "Save"
-msgstr ""
+msgstr "Bewaren"
 
 #: ../interfaces.py:167
 msgid "The set of unique commentators (usernames)"
@@ -165,7 +165,7 @@ msgstr ""
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:62
 msgid "comment_description_moderation_enabled"
-msgstr ""
+msgstr "Commentaren zijn gemodereerd."
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
 #: ../browser/comments.py:51
@@ -175,7 +175,7 @@ msgstr ""
 #. Default: "${creator} on ${content}"
 #: ../comment.py:50
 msgid "comment_title"
-msgstr ""
+msgstr "${creator} op ${content}"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -238,7 +238,7 @@ msgstr ""
 #. Default: "Address to which moderator notifications will be sent."
 #: ../interfaces.py:118
 msgid "help_moderator_email"
-msgstr ""
+msgstr "Emailadres van de moderator naar wie een notificatie zal worden gestuurd."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
 #: ../interfaces.py:107
@@ -264,12 +264,12 @@ msgstr ""
 #. Default: "Anonymous"
 #: ../comment.py:145
 msgid "label_anonymous"
-msgstr ""
+msgstr "Anoniem"
 
 #. Default: "Enable anonymous comments"
 #: ../interfaces.py:36
 msgid "label_anonymous_comments"
-msgstr ""
+msgstr "Anoniem commentariëren inschakelen"
 
 #. Default: "Apply"
 #: ../browser/moderation.pt:71
@@ -279,17 +279,17 @@ msgstr "Toepassen"
 #. Default: "Captcha"
 #: ../interfaces.py:80
 msgid "label_captcha"
-msgstr ""
+msgstr "Captcha"
 
 #. Default: "Comment"
 #: ../interfaces.py:300
 msgid "label_comment"
-msgstr ""
+msgstr "Commentaar"
 
 #. Default: "Commenting has been disabled."
 #: ../browser/comments.pt:130
 msgid "label_commenting_disabled"
-msgstr ""
+msgstr "Commentaar is uitgeschakeld"
 
 #. Default: "Delete"
 #: ../browser/moderation.pt:130
@@ -304,17 +304,17 @@ msgstr "Commentaar globaal toestaan"
 #. Default: "Enable comment moderation"
 #: ../interfaces.py:48
 msgid "label_moderation_enabled"
-msgstr ""
+msgstr "Moderatie is ingeschakeld"
 
 #. Default: "Moderator Email Address"
 #: ../interfaces.py:117
 msgid "label_moderator_email"
-msgstr ""
+msgstr "Moderator emailadres"
 
 #. Default: "Enable moderator email notification"
 #: ../interfaces.py:105
 msgid "label_moderator_notification_enabled"
-msgstr "Notificatie voor moderator  inschakelen"
+msgstr "Notificatie voor moderator inschakelen"
 
 #. Default: "Approve"
 #: ../browser/moderation.pt:121
@@ -324,12 +324,12 @@ msgstr "Publiceren"
 #. Default: "says:"
 #: ../browser/comments.pt:74
 msgid "label_says"
-msgstr ""
+msgstr "zegt"
 
 #. Default: "Show commenter image"
 #: ../interfaces.py:95
 msgid "label_show_commenter_image"
-msgstr ""
+msgstr "Toon portret commentator"
 
 #. Default: "show full comment text"
 #: ../browser/moderation.pt:114
@@ -349,12 +349,12 @@ msgstr ""
 #. Default: "Enable user email notification"
 #: ../interfaces.py:125
 msgid "label_user_notification_enabled"
-msgstr ""
+msgstr "Gebruikers-notificatie ingeschakeld"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}"
 #: ../comment.py:53
 msgid "mail_notification_message"
-msgstr ""
+msgstr "Een commentaar op '${title}' is geplaatst: ${link}"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ../browser/moderation.pt:33
