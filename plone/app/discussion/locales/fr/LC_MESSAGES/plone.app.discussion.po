@@ -175,7 +175,7 @@ msgstr "Vous pouvez ajouter un commentaire en complétant le formulaire ci-desso
 #. Default: "${creator} on ${content}"
 #: ../comment.py:50
 msgid "comment_title"
-msgstr ""
+msgstr "${creator} sur ${content}"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -237,7 +237,7 @@ msgstr "Si cette case est cochée, les commentaires ajoutés seront mis 'en atte
 #. Default: "Address to which moderator notifications will be sent."
 #: ../interfaces.py:118
 msgid "help_moderator_email"
-msgstr ""
+msgstr "Addresse à laquelle les notifications de modération seront envoyées."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
 #: ../interfaces.py:107
@@ -287,7 +287,7 @@ msgstr "Commentaire"
 #. Default: "Commenting has been disabled."
 #: ../browser/comments.pt:130
 msgid "label_commenting_disabled"
-msgstr ""
+msgstr "Les commentaires ont été désactivés."
 
 #. Default: "Delete"
 #: ../browser/moderation.pt:130
@@ -307,7 +307,7 @@ msgstr "Activer la modération des commentaires"
 #. Default: "Moderator Email Address"
 #: ../interfaces.py:117
 msgid "label_moderator_email"
-msgstr ""
+msgstr "Addresse courriel du modérateur"
 
 #. Default: "Enable moderator email notification"
 #: ../interfaces.py:105
