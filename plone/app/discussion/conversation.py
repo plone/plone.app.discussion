@@ -244,7 +244,7 @@ class Conversation(Traversable, Persistent, Explicit):
         # Add the annotation if not already done
         annotions = IAnnotations(self.__parent__)
         if not ANNOTATION_KEY in annotions:
-            annotions[ANNOTATION_KEY] = self
+            annotions[ANNOTATION_KEY] = aq_base(self)
 
         # Notify that the object is added. The object must here be
         # acquisition wrapped or the indexing will fail.
