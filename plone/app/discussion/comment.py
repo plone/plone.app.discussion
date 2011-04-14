@@ -195,14 +195,16 @@ def notify_content_object(obj, event):
                                     'last_comment_date',
                                     'commentators',))
 
+
 def notify_content_object_deleted(obj, event):
     """Remove all comments of a content object when the content object has been
        deleted.
     """
     if IAnnotatable.providedBy(obj):
         conversation = IConversation(obj)
-        for comment in conversation.getComments():
-            del conversation[comment.id]
+        while conversation:
+            del conversation[conversation.keys()[0]]
+
 
 def notify_user(obj, event):
     """Tell users when a comment has been added.

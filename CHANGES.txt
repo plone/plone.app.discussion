@@ -4,6 +4,10 @@ Changelog
 2.0b2 (Unreleased)
 ------------------
 
+- Fix unindexing of comments when deleting content resulting from
+  iterating over a BTree while modifying it. Fixes #11402.
+  [rossp]
+
 - Fix Missing.Value for Creator in the catalog. Fixes #11634.
   [rossp]
 
