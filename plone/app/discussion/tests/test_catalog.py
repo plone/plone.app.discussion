@@ -5,6 +5,7 @@ import unittest
 from datetime import datetime
 
 from zope.component import createObject
+from zope.annotation.interfaces import IAnnotations
 
 from Products.CMFCore.utils import getToolByName
 
@@ -363,6 +364,40 @@ class CommentCatalogTest(PloneTestCase):
         self.assertEquals(len(query), 1)
         self.assertEquals(query['Type'], 'Comment')
         self.assertEquals(len(topic.queryCatalog()), 1)
+
+
+class NoConversationCatalogTest(PloneTestCase):
+
+    layer = DiscussionLayer
+
+    def afterSetUp(self):
+        # First we need to create some content.
+        self.loginAsPortalOwner()
+        self.portal.invokeFactory(id='doc1',
+                                  Title='Document 1',
+                                  type_name='Document')
+
+        self.catalog = getToolByName(self.portal, 'portal_catalog')
+
+        conversation = IConversation(self.portal.doc1)
+
+        brains = self.catalog.searchResults(
+                     path = {'query' :
+                             '/'.join(self.portal.doc1.getPhysicalPath()) },
+                     portal_type = "Document"
+                     )
+        self.conversation = conversation
+        self.brains = brains
+        self.doc1_brain = brains[0]
+
+    def test_total_comments(self):
+        self.failUnless(self.doc1_brain.has_key('total_comments'))
+        self.assertEquals(self.doc1_brain.total_comments, 0)
+
+        # Make sure no conversation has been created
+        self.assert_('plone.app.discussion:conversation' not in
+                     IAnnotations(self.portal.doc1))
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

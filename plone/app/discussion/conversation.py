@@ -241,6 +241,11 @@ class Conversation(Traversable, Persistent, Explicit):
             self._children[reply_to] = LLSet()
         self._children[reply_to].insert(id)
 
+        # Add the annotation if not already done
+        annotions = IAnnotations(self.__parent__)
+        if not ANNOTATION_KEY in annotions:
+            annotions[ANNOTATION_KEY] = self
+
         # Notify that the object is added. The object must here be
         # acquisition wrapped or the indexing will fail.
         notify(ObjectCreatedEvent(comment))
@@ -334,14 +339,13 @@ class Conversation(Traversable, Persistent, Explicit):
 @implementer(IConversation)
 @adapter(IAnnotatable)
 def conversationAdapterFactory(content):
-    """Adapter factory to fetch the default conversation from annotations.
-    Will create the conversation if it does not exist.
+    """
+    Adapter factory to fetch the default conversation from annotations.
     """
     annotions = IAnnotations(content)
     if not ANNOTATION_KEY in annotions:
         conversation = Conversation()
         conversation.__parent__ = aq_base(content)
-        annotions[ANNOTATION_KEY] = conversation
     else:
         conversation = annotions[ANNOTATION_KEY]
     return conversation.__of__(content)

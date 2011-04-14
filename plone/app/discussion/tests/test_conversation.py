@@ -2,6 +2,7 @@ import unittest
 from datetime import datetime, timedelta
 
 from zope.component import createObject, queryUtility
+from zope.annotation.interfaces import IAnnotations
 
 from Acquisition import aq_base, aq_parent
 
@@ -697,6 +698,13 @@ class ConversationTest(PloneTestCase):
 
     def test_discussion_item_not_in_bad_types(self):
         self.failIf('Discussion Item' in BAD_TYPES)
+
+    def test_no_comment(self):
+        conversation = IConversation(self.portal.doc1)
+
+        # Make sure no conversation has been created
+        self.assert_('plone.app.discussion:conversation' not in
+                     IAnnotations(self.portal.doc1))
 
 
 class RepliesTest(PloneTestCase):

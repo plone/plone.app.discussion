@@ -207,5 +207,15 @@ class MigrationTest(PloneTestCase):
         talkback = self.discussion.getDiscussionFor(self.doc)
         self.assertEquals(len(talkback.getReplies()), 0)
 
+    def test_migrate_no_comment(self):
+
+        # Call migration script
+        self.view()
+
+        # Make sure no conversation has been created
+        self.assert_('plone.app.discussion:conversation' not in
+                     IAnnotations(self.doc))
+
+
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
