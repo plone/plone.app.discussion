@@ -299,3 +299,47 @@ Make sure the edit was successful.
         
     >>> 'Lorem ipsum' in browser.contents
     True
+
+
+List comments in a collection
+-----------------------------
+
+Create a collection.
+
+    >>> browser.open(portal.absolute_url())
+    >>> browser.getLink(url='createObject?type_name=Topic').click()
+    >>> browser.getControl('Title', index=0
+    ...                    ).value = 'Foo Comment Collection'
+    >>> browser.getControl('Save').click()
+    >>> print browser.contents
+    <...Changes saved...
+
+Set the collection criteria.
+
+    >>> browser.getLink('Criteria').click()
+    >>> browser.getControl('Item Type', index=0).selected = True
+    >>> browser.getControl('Select content types').selected = True
+    >>> browser.getControl('Add criteria').click()
+    >>> print browser.contents
+    <...Added criterion ATPortalTypeCriterion for field Type...
+
+    >>> browser.getControl('Comment').selected = True
+    >>> browser.getControl('Save', index=0).click()
+    >>> print browser.contents
+    <...Changes saved...
+
+View the collection listing.
+
+    >>> browser.getLink('View').click()
+    >>> browser.getLink('admin on Doc1', index=0)
+    <Link text='admin on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
+    >>> browser.getLink('admin on Doc1', index=1)
+    <Link text='admin on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
+    >>> browser.getLink('Anonymous on Doc1', index=0)
+    <Link text='Anonymous on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
+    >>> browser.getLink('Anonymous on Doc1', index=1)
+    <Link text='Anonymous on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
+    >>> browser.getLink('Tarek Ziadé on Doc1')
+    <Link text='Tarek Ziad\xc3\xa9 on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
+    >>> browser.getLink('Jim Fultørn on Doc1')
+    <Link text='Jim Fult\xc3\xb8rn on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>

@@ -4,6 +4,9 @@ Changelog
 2.0b2 (Unreleased)
 ------------------
 
+- Fax Missing.Value for Creator in the catalog. Fixes #11634.
+  [rossp]
+
 - Don't add the annotation unless a comment is actually being added.
   Fixes #11370.
   [rossp]
