@@ -15,6 +15,7 @@ from plone.app.discussion.tests.layer import DiscussionLayer
 
 from plone.app.discussion.interfaces import IConversation
 
+
 class CatalogSetupTest(PloneTestCase):
 
     layer = DiscussionLayer
@@ -65,9 +66,9 @@ class ConversationCatalogTest(PloneTestCase):
         self.comment_id = new_comment1_id
 
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Document"
+                     portal_type="Document"
                      )
         self.conversation = conversation
         self.brains = brains
@@ -76,7 +77,7 @@ class ConversationCatalogTest(PloneTestCase):
         self.new_comment1_id = new_comment1_id
 
     def test_total_comments(self):
-        self.failUnless(self.doc1_brain.has_key('total_comments'))
+        self.failUnless('total_comments' in self.doc1_brain)
         self.assertEquals(self.doc1_brain.total_comments, 1)
 
         comment2 = createObject('plone.Comment')
@@ -89,15 +90,15 @@ class ConversationCatalogTest(PloneTestCase):
             '++conversation++default/%s' % new_comment2_id)
         comment2.reindexObject()
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Document"
+                     portal_type="Document"
                      )
         doc1_brain = brains[0]
         self.assertEquals(doc1_brain.total_comments, 2)
 
     def test_last_comment_date(self):
-        self.failUnless(self.doc1_brain.has_key('last_comment_date'))
+        self.failUnless('last_comment_date' in self.doc1_brain)
         self.assertEquals(self.doc1_brain.last_comment_date,
                           datetime(2006, 9, 17, 14, 18, 12))
 
@@ -114,9 +115,9 @@ class ConversationCatalogTest(PloneTestCase):
             '++conversation++default/%s' % new_comment2_id)
         comment2.reindexObject()
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Document"
+                     portal_type="Document"
                      )
         doc1_brain = brains[0]
         self.assertEquals(doc1_brain.last_comment_date,
@@ -126,9 +127,9 @@ class ConversationCatalogTest(PloneTestCase):
         del self.conversation[new_comment2_id]
 
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Document"
+                     portal_type="Document"
                      )
         doc1_brain = brains[0]
 
@@ -138,15 +139,15 @@ class ConversationCatalogTest(PloneTestCase):
         # remove all comments
         del self.conversation[self.new_comment1_id]
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Document"
+                     portal_type="Document"
                      )
         doc1_brain = brains[0]
         self.assertEquals(doc1_brain.last_comment_date, None)
 
     def test_commentators(self):
-        self.failUnless(self.doc1_brain.has_key('commentators'))
+        self.failUnless('commentators' in self.doc1_brain)
         self.assertEquals(self.doc1_brain.commentators, ('Jim',))
 
         # add another comment with another author
@@ -162,9 +163,9 @@ class ConversationCatalogTest(PloneTestCase):
         comment2.reindexObject()
 
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Document"
+                     portal_type="Document"
                      )
         doc1_brain = brains[0]
 
@@ -173,9 +174,9 @@ class ConversationCatalogTest(PloneTestCase):
         # remove one comments
         del self.conversation[new_comment2_id]
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Document"
+                     portal_type="Document"
                      )
         doc1_brain = brains[0]
         self.assertEquals(doc1_brain.commentators, ('Jim',))
@@ -183,23 +184,24 @@ class ConversationCatalogTest(PloneTestCase):
         # remove all comments
         del self.conversation[self.new_comment1_id]
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Document"
+                     portal_type="Document"
                      )
         doc1_brain = brains[0]
         self.assertEquals(doc1_brain.commentators, ())
 
     def test_conversation_indexes_not_in_comments(self):
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Discussion Item"
+                     portal_type="Discussion Item"
                      )
         comment1_brain = brains[0]
         self.assertEquals(comment1_brain.commentators, None)
         self.assertEquals(comment1_brain.last_comment_date, None)
         self.assertEquals(comment1_brain.total_comments, None)
+
 
 class CommentCatalogTest(PloneTestCase):
 
@@ -227,7 +229,7 @@ class CommentCatalogTest(PloneTestCase):
         self.comment = self.portal.doc1.restrictedTraverse(
             '++conversation++default/%s' % new_comment1_id)
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.comment.getPhysicalPath()) })
         self.comment_brain = brains[0]
 
@@ -243,7 +245,7 @@ class CommentCatalogTest(PloneTestCase):
         comment = self.portal.doc1.restrictedTraverse(
             '++conversation++default/%s' % cid)
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(comment.getPhysicalPath()) })
         comment_brain = brains[0]
         self.assertEquals(comment_brain.Title, "Anonymous on Document 1")
@@ -273,7 +275,7 @@ class CommentCatalogTest(PloneTestCase):
         # deleted.
         del self.conversation[self.comment_id]
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.comment.getPhysicalPath()) })
         self.assertEquals(len(brains), 0)
 
@@ -281,10 +283,10 @@ class CommentCatalogTest(PloneTestCase):
         """Make sure all comments are removed from the catalog, if the content
            object is removed.
         """
-        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        brains = self.catalog.searchResults(portal_type='Discussion Item')
         self.assertEquals(len(brains), 1)
         self.portal.manage_delObjects(["doc1"])
-        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        brains = self.catalog.searchResults(portal_type='Discussion Item')
         self.assertEquals(len(brains), 0)
 
     def test_clear_and_rebuild_catalog(self):
@@ -292,7 +294,7 @@ class CommentCatalogTest(PloneTestCase):
         self.catalog.clearFindAndRebuild()
 
         # Check if comment is still there
-        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        brains = self.catalog.searchResults(portal_type='Discussion Item')
         self.failUnless(brains)
         comment_brain = brains[0]
         self.assertEquals(comment_brain.Title, u'Jim on Document 1')
@@ -349,7 +351,7 @@ class CommentCatalogTest(PloneTestCase):
         self.catalog.clearFindAndRebuild()
 
         # Check if comments are still there
-        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        brains = self.catalog.searchResults(portal_type='Discussion Item')
         self.failUnless(brains)
         self.assertEquals(len(brains), 6)
 
@@ -382,16 +384,16 @@ class NoConversationCatalogTest(PloneTestCase):
         conversation = IConversation(self.portal.doc1)
 
         brains = self.catalog.searchResults(
-                     path = {'query' :
+                     path={'query':
                              '/'.join(self.portal.doc1.getPhysicalPath()) },
-                     portal_type = "Document"
+                     portal_type="Document"
                      )
         self.conversation = conversation
         self.brains = brains
         self.doc1_brain = brains[0]
 
     def test_total_comments(self):
-        self.failUnless(self.doc1_brain.has_key('total_comments'))
+        self.failUnless('total_comments' in self.doc1_brain)
         self.assertEquals(self.doc1_brain.total_comments, 0)
 
         # Make sure no conversation has been created
