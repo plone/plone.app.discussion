@@ -274,8 +274,8 @@ approval.
     True
 
 
-Regression Test
----------------
+Edit the content object after a comment has been posted
+-------------------------------------------------------
 
 Make sure we still can edit the content object after a comment has been posted.
 This is a regression test for http://dev.plone.org/plone/ticket/11157 
