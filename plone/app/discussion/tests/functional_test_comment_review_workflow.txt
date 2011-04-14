@@ -163,9 +163,6 @@ flaw? Though, the comment is published properly.
     >>> browser.handleErrors = True
     >>> browser.raiseHttpErrors = False
     >>> browser.getControl('Approve', index=0).click()
-    Traceback (most recent call last):
-    ...
-    HTTPError: HTTP Error 404: Not Found
     
     >>> 'Comment approved' in browser.contents
     True
@@ -195,9 +192,6 @@ flaw? Though, the comment is deleted properly.
     >>> browser.handleErrors = True
     >>> browser.raiseHttpErrors = False
     >>> browser.getControl('Delete', index=1).click()
-    Traceback (most recent call last):
-    ...
-    HTTPError: HTTP Error 404: Not Found
     
     >>> browser.handleErrors = False
     >>> browser.raiseHttpErrors = True
