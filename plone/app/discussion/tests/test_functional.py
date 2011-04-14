@@ -8,14 +8,13 @@ import doctest
 try:
     import unittest2 as unittest
     import pprint
-    import interlude
 
     from plone.testing import layered
 
     from plone.app.discussion.testing import \
         PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING
     PLONE4 = True
-except:
+except ImportError:
     import unittest
     PLONE4 = False
 
@@ -32,8 +31,7 @@ if PLONE4:
         suite.addTests([
             layered(doctest.DocFileSuite(test ,
                                          optionflags=optionflags,
-                                         globs={'interact': interlude.interact,
-                                                'pprint': pprint.pprint,
+                                         globs={'pprint': pprint.pprint,
                                                 }
                                          ),
                     layer=PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING)
