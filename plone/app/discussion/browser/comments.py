@@ -171,8 +171,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Check if conversation is enabled on this content object
         if not self.__parent__.restrictedTraverse(
             '@@conversation_view').enabled():
-            raise Unauthorized, "Discussion is not enabled for this content\
-                                 object."
+            raise Unauthorized("Discussion is not enabled for this content "
+                               "object.")
 
         # The add-comment view is called on the conversation object
         conversation = IConversation(self.__parent__)
@@ -218,11 +218,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_email = email
             comment.user_notification = user_notification
             comment.creation_date = comment.modification_date = datetime.utcnow()
-        else:
-            raise Unauthorized, \
-                  """Anonymous user tries to post a comment, but
-                     anonymous commenting is disabled. Or user
-                     does not have the 'reply to item' permission.""" # pragma: no cover
+        else: # pragma: no cover
+            raise Unauthorized("Anonymous user tries to post a comment, but "
+                "anonymous commenting is disabled. Or user does not have the "
+                "'reply to item' permission.")
 
         # Check if the added comment is a reply to an existing comment
         # or just a regular reply to the content object.
