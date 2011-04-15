@@ -33,9 +33,9 @@ class ToolTest(PloneTestCase):
         # Check that the comment got indexed in the tool:
         tool = queryUtility(ICommentingTool)
         comment = list(tool.searchResults())
-        self.assert_(len(comment) == 1, "There is only one comment, but we got"
+        self.assertTrue(len(comment) == 1, "There is only one comment, but we got"
                      " %s results in the search" % len(comment))
-        self.assertEquals(comment[0].Title, 'Jim on Document 1')
+        self.assertEqual(comment[0].Title, 'Jim on Document 1')
 
     def test_unindexing(self):
         pass

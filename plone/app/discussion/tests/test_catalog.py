@@ -21,13 +21,13 @@ class CatalogSetupTest(PloneTestCase):
     layer = DiscussionLayer
 
     def test_catalog_installed(self):
-        self.failUnless('total_comments' in
+        self.assertTrue('total_comments' in
                         self.portal.portal_catalog.indexes())
-        self.failUnless('commentators' in
+        self.assertTrue('commentators' in
                         self.portal.portal_catalog.indexes())
-        self.failUnless('total_comments' in
+        self.assertTrue('total_comments' in
                         self.portal.portal_catalog.schema())
-        self.failUnless('in_response_to' in
+        self.assertTrue('in_response_to' in
                         self.portal.portal_catalog.schema())
 
     def test_collection_criteria_installed(self):
@@ -77,8 +77,8 @@ class ConversationCatalogTest(PloneTestCase):
         self.new_comment1_id = new_comment1_id
 
     def test_total_comments(self):
-        self.failUnless('total_comments' in self.doc1_brain)
-        self.assertEquals(self.doc1_brain.total_comments, 1)
+        self.assertTrue('total_comments' in self.doc1_brain)
+        self.assertEqual(self.doc1_brain.total_comments, 1)
 
         comment2 = createObject('plone.Comment')
         comment2.title = 'Comment 2'
@@ -95,11 +95,11 @@ class ConversationCatalogTest(PloneTestCase):
                      portal_type="Document"
                      ))
         doc1_brain = brains[0]
-        self.assertEquals(doc1_brain.total_comments, 2)
+        self.assertEqual(doc1_brain.total_comments, 2)
 
     def test_last_comment_date(self):
-        self.failUnless('last_comment_date' in self.doc1_brain)
-        self.assertEquals(self.doc1_brain.last_comment_date,
+        self.assertTrue('last_comment_date' in self.doc1_brain)
+        self.assertEqual(self.doc1_brain.last_comment_date,
                           datetime(2006, 9, 17, 14, 18, 12))
 
         # Add another comment and check if last comment date is updated.
@@ -120,7 +120,7 @@ class ConversationCatalogTest(PloneTestCase):
                      portal_type="Document"
                      ))
         doc1_brain = brains[0]
-        self.assertEquals(doc1_brain.last_comment_date,
+        self.assertEqual(doc1_brain.last_comment_date,
                           datetime(2009, 9, 17, 14, 18, 12))
 
         # Remove the comment again
@@ -133,7 +133,7 @@ class ConversationCatalogTest(PloneTestCase):
                      ))
         doc1_brain = brains[0]
 
-        self.assertEquals(doc1_brain.last_comment_date,
+        self.assertEqual(doc1_brain.last_comment_date,
                           datetime(2006, 9, 17, 14, 18, 12))
 
         # remove all comments
@@ -144,11 +144,11 @@ class ConversationCatalogTest(PloneTestCase):
                      portal_type="Document"
                      ))
         doc1_brain = brains[0]
-        self.assertEquals(doc1_brain.last_comment_date, None)
+        self.assertEqual(doc1_brain.last_comment_date, None)
 
     def test_commentators(self):
-        self.failUnless('commentators' in self.doc1_brain)
-        self.assertEquals(self.doc1_brain.commentators, ('Jim',))
+        self.assertTrue('commentators' in self.doc1_brain)
+        self.assertEqual(self.doc1_brain.commentators, ('Jim',))
 
         # add another comment with another author
         comment2 = createObject('plone.Comment')
@@ -169,7 +169,7 @@ class ConversationCatalogTest(PloneTestCase):
                      ))
         doc1_brain = brains[0]
 
-        self.assertEquals(doc1_brain.commentators, ('Emma', 'Jim'))
+        self.assertEqual(doc1_brain.commentators, ('Emma', 'Jim'))
 
         # remove one comments
         del self.conversation[new_comment2_id]
@@ -179,7 +179,7 @@ class ConversationCatalogTest(PloneTestCase):
                      portal_type="Document"
                      ))
         doc1_brain = brains[0]
-        self.assertEquals(doc1_brain.commentators, ('Jim',))
+        self.assertEqual(doc1_brain.commentators, ('Jim',))
 
         # remove all comments
         del self.conversation[self.new_comment1_id]
@@ -189,7 +189,7 @@ class ConversationCatalogTest(PloneTestCase):
                      portal_type="Document"
                      ))
         doc1_brain = brains[0]
-        self.assertEquals(doc1_brain.commentators, ())
+        self.assertEqual(doc1_brain.commentators, ())
 
     def test_conversation_indexes_not_in_comments(self):
         brains = self.catalog.searchResults(dict(
@@ -198,9 +198,9 @@ class ConversationCatalogTest(PloneTestCase):
                      portal_type="Discussion Item"
                      ))
         comment1_brain = brains[0]
-        self.assertEquals(comment1_brain.commentators, None)
-        self.assertEquals(comment1_brain.last_comment_date, None)
-        self.assertEquals(comment1_brain.total_comments, None)
+        self.assertEqual(comment1_brain.commentators, None)
+        self.assertEqual(comment1_brain.last_comment_date, None)
+        self.assertEqual(comment1_brain.total_comments, None)
 
 
 class CommentCatalogTest(PloneTestCase):
@@ -234,7 +234,7 @@ class CommentCatalogTest(PloneTestCase):
         self.comment_brain = brains[0]
 
     def test_title(self):
-        self.assertEquals(self.comment_brain.Title, 'Jim on Document 1')
+        self.assertEqual(self.comment_brain.Title, 'Jim on Document 1')
 
     def test_no_name_title(self):
         comment = createObject('plone.Comment')
@@ -248,27 +248,27 @@ class CommentCatalogTest(PloneTestCase):
                      path={'query':
                              '/'.join(comment.getPhysicalPath())}))
         comment_brain = brains[0]
-        self.assertEquals(comment_brain.Title, "Anonymous on Document 1")
+        self.assertEqual(comment_brain.Title, "Anonymous on Document 1")
 
     def test_type(self):
-        self.assertEquals(self.comment_brain.portal_type, 'Discussion Item')
-        self.assertEquals(self.comment_brain.meta_type, 'Discussion Item')
-        self.assertEquals(self.comment_brain.Type, 'Comment')
+        self.assertEqual(self.comment_brain.portal_type, 'Discussion Item')
+        self.assertEqual(self.comment_brain.meta_type, 'Discussion Item')
+        self.assertEqual(self.comment_brain.Type, 'Comment')
 
     def test_review_state(self):
-        self.assertEquals(self.comment_brain.review_state, 'published')
+        self.assertEqual(self.comment_brain.review_state, 'published')
 
     def test_creator(self):
-        self.assertEquals(self.comment_brain.Creator, 'Jim')
+        self.assertEqual(self.comment_brain.Creator, 'Jim')
 
     def test_in_response_to(self):
         """Make sure in_response_to returns the title or id of the content
            object the comment was added to.
         """
-        self.assertEquals(self.comment_brain.in_response_to, 'Document 1')
+        self.assertEqual(self.comment_brain.in_response_to, 'Document 1')
 
     def test_add_comment(self):
-        self.failUnless(self.comment_brain)
+        self.assertTrue(self.comment_brain)
 
     def test_delete_comment(self):
         # Make sure a comment is removed from the catalog as well when it is
@@ -277,17 +277,17 @@ class CommentCatalogTest(PloneTestCase):
         brains = self.catalog.searchResults(dict(
                      path={'query':
                              '/'.join(self.comment.getPhysicalPath())}))
-        self.assertEquals(len(brains), 0)
+        self.assertEqual(len(brains), 0)
 
     def test_remove_comments_when_content_object_is_removed(self):
         """Make sure all comments are removed from the catalog, if the content
            object is removed.
         """
         brains = self.catalog.searchResults({'portal_type': 'Discussion Item'})
-        self.assertEquals(len(brains), 1)
+        self.assertEqual(len(brains), 1)
         self.portal.manage_delObjects(["doc1"])
         brains = self.catalog.searchResults({'portal_type': 'Discussion Item'})
-        self.assertEquals(len(brains), 0)
+        self.assertEqual(len(brains), 0)
 
     def test_clear_and_rebuild_catalog(self):
         # Clear and rebuild catalog
@@ -295,9 +295,9 @@ class CommentCatalogTest(PloneTestCase):
 
         # Check if comment is still there
         brains = self.catalog.searchResults({'portal_type': 'Discussion Item'})
-        self.failUnless(brains)
+        self.assertTrue(brains)
         comment_brain = brains[0]
-        self.assertEquals(comment_brain.Title, u'Jim on Document 1')
+        self.assertEqual(comment_brain.Title, u'Jim on Document 1')
 
     def test_clear_and_rebuild_catalog_for_nested_comments(self):
 
@@ -352,8 +352,8 @@ class CommentCatalogTest(PloneTestCase):
 
         # Check if comments are still there
         brains = self.catalog.searchResults({'portal_type': 'Discussion Item'})
-        self.failUnless(brains)
-        self.assertEquals(len(brains), 6)
+        self.assertTrue(brains)
+        self.assertEqual(len(brains), 6)
 
     def test_collection(self):
         self.portal.invokeFactory(id='topic', type_name='Topic')
@@ -363,9 +363,9 @@ class CommentCatalogTest(PloneTestCase):
         query = topic.buildQuery()
 
         # Make sure the comment we just added is returned by the collection
-        self.assertEquals(len(query), 1)
-        self.assertEquals(query['Type'], 'Comment')
-        self.assertEquals(len(topic.queryCatalog()), 1)
+        self.assertEqual(len(query), 1)
+        self.assertEqual(query['Type'], 'Comment')
+        self.assertEqual(len(topic.queryCatalog()), 1)
 
 
 class NoConversationCatalogTest(PloneTestCase):
@@ -393,11 +393,11 @@ class NoConversationCatalogTest(PloneTestCase):
         self.doc1_brain = brains[0]
 
     def test_total_comments(self):
-        self.failUnless('total_comments' in self.doc1_brain)
-        self.assertEquals(self.doc1_brain.total_comments, 0)
+        self.assertTrue('total_comments' in self.doc1_brain)
+        self.assertEqual(self.doc1_brain.total_comments, 0)
 
         # Make sure no conversation has been created
-        self.assert_('plone.app.discussion:conversation' not in
+        self.assertTrue('plone.app.discussion:conversation' not in
                      IAnnotations(self.portal.doc1))
 
 

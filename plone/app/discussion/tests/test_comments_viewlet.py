@@ -89,8 +89,8 @@ class TestCommentForm(PloneTestCase):
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
-        self.assertEquals(len(errors), 1)
-        self.failIf(commentForm.handleComment(commentForm, "foo"))
+        self.assertEqual(len(errors), 1)
+        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
 
         # The form is submitted successfully, if the required text field is
         # filled out
@@ -101,8 +101,8 @@ class TestCommentForm(PloneTestCase):
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
-        self.assertEquals(len(errors), 0)
-        self.failIf(commentForm.handleComment(commentForm, "foo"))
+        self.assertEqual(len(errors), 0)
+        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
 
     def test_add_anonymous_comment(self):
         """Add a comment as anonymous.
@@ -142,8 +142,8 @@ class TestCommentForm(PloneTestCase):
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
-        self.assertEquals(len(errors), 0)
-        self.failIf(commentForm.handleComment(commentForm, "action"))
+        self.assertEqual(len(errors), 0)
+        self.assertFalse(commentForm.handleComment(commentForm, "action"))
 
     def test_can_not_add_comments_if_discussion_is_not_allowed(self):
         """Make sure that comments can't be posted if discussion is disabled.
@@ -172,7 +172,7 @@ class TestCommentForm(PloneTestCase):
 
         # No form errors, but raise unauthorized because discussion is not
         # allowed
-        self.assertEquals(len(errors), 0)
+        self.assertEqual(len(errors), 0)
         self.assertRaises(Unauthorized,
                           commentForm.handleComment,
                           commentForm,
@@ -206,7 +206,7 @@ class TestCommentForm(PloneTestCase):
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
-        self.assertEquals(len(errors), 0)
+        self.assertEqual(len(errors), 0)
         self.assertRaises(Unauthorized,
                           commentForm.handleComment,
                           commentForm,
@@ -240,21 +240,21 @@ class TestCommentsViewlet(PloneTestCase):
 
     def test_can_reply(self):
         # Portal owner can reply
-        self.failUnless(self.viewlet.can_reply())
+        self.assertTrue(self.viewlet.can_reply())
         self.logout()
         # Anonymous users can not reply
-        self.failIf(self.viewlet.can_reply())
+        self.assertFalse(self.viewlet.can_reply())
 
     def test_can_review(self):
         # Portal owner has 'can review' permission
-        self.failUnless(self.viewlet.can_review())
+        self.assertTrue(self.viewlet.can_review())
         self.logout()
         # Anonymous has no 'can review' permission
-        self.failIf(self.viewlet.can_review())
+        self.assertFalse(self.viewlet.can_review())
         # The reviewer role has the 'Review comments' permission
         self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
         self.login('reviewer')
-        self.failUnless(self.viewlet.can_review())
+        self.assertTrue(self.viewlet.can_review())
 
     def test_can_manage(self):
         """We keep this method for backward compatibility. This method has been
@@ -262,29 +262,29 @@ class TestCommentsViewlet(PloneTestCase):
            do API changes in beta releases.
         """
         # Portal owner has 'can review' permission
-        self.failUnless(self.viewlet.can_manage())
+        self.assertTrue(self.viewlet.can_manage())
         self.logout()
         # Anonymous has no 'can review' permission
-        self.failIf(self.viewlet.can_manage())
+        self.assertFalse(self.viewlet.can_manage())
         # The reviewer role has the 'Review comments' permission
         self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
         self.login('reviewer')
-        self.failUnless(self.viewlet.can_manage())
+        self.assertTrue(self.viewlet.can_manage())
 
     def test_is_discussion_allowed(self):
         # By default, discussion is disabled
-        self.failIf(self.viewlet.is_discussion_allowed())
+        self.assertFalse(self.viewlet.is_discussion_allowed())
         # Enable discussion
         portal_discussion = getToolByName(self.portal, 'portal_discussion')
         portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
         # Test if discussion has been enabled
-        self.failUnless(self.viewlet.is_discussion_allowed())
+        self.assertTrue(self.viewlet.is_discussion_allowed())
 
     def test_comment_transform_message(self):
 
         # Default transform is plain/text and comment moderation disabled
-        self.failUnless(self.viewlet.comment_transform_message())
-        self.assertEquals(
+        self.assertTrue(self.viewlet.comment_transform_message())
+        self.assertEqual(
             self.viewlet.comment_transform_message(),
             "You can add a comment by filling out the form below. Plain text " +
             "formatting.")
@@ -295,7 +295,7 @@ class TestCommentsViewlet(PloneTestCase):
         settings.text_transform = "text/x-web-intelligent"
 
         # Make sure the comment description changes accordingly
-        self.assertEquals(
+        self.assertEqual(
             self.viewlet.comment_transform_message(),
             "You can add a comment by filling out the form below. " +
             "Plain text formatting. Web and email addresses are transformed " +
@@ -307,41 +307,41 @@ class TestCommentsViewlet(PloneTestCase):
             ('comment_review_workflow,'))
 
         # Make sure the comment description shows that comments are moderated
-        self.assertEquals(
+        self.assertEqual(
             self.viewlet.comment_transform_message(),
             "You can add a comment by filling out the form below. " +
             "Plain text formatting. Web and email addresses are transformed " +
             "into clickable links. Comments are moderated.")
 
     def test_has_replies(self):
-        self.assertEquals(self.viewlet.has_replies(), False)
+        self.assertEqual(self.viewlet.has_replies(), False)
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         conversation.addComment(comment)
-        self.assertEquals(self.viewlet.has_replies(), True)
+        self.assertEqual(self.viewlet.has_replies(), True)
 
     def test_get_replies(self):
-        self.failIf(self.viewlet.get_replies())
+        self.assertFalse(self.viewlet.get_replies())
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         conversation.addComment(comment)
         conversation.addComment(comment)
         replies = self.viewlet.get_replies()
-        self.assertEquals(len(tuple(replies)), 2)
+        self.assertEqual(len(tuple(replies)), 2)
         replies = self.viewlet.get_replies()
         replies.next()
         replies.next()
         self.assertRaises(StopIteration, replies.next)
 
     def test_get_replies_with_workflow_actions(self):
-        self.failIf(self.viewlet.get_replies(workflow_actions=True))
+        self.assertFalse(self.viewlet.get_replies(workflow_actions=True))
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         conversation = IConversation(self.portal.doc1)
         c1 = conversation.addComment(comment)
-        self.assertEquals(
+        self.assertEqual(
             len(tuple(self.viewlet.get_replies(workflow_actions=True))), 1)
         # Enable moderation workflow
         self.portal.portal_workflow.setChainForPortalTypes(
@@ -349,10 +349,10 @@ class TestCommentsViewlet(PloneTestCase):
             ('comment_review_workflow,'))
         # Check if workflow actions are available
         reply = self.viewlet.get_replies(workflow_actions=True).next()
-        self.failUnless(reply.has_key('actions'))
-        self.assertEquals(reply['actions'][0]['id'],
+        self.assertTrue(reply.has_key('actions'))
+        self.assertEqual(reply['actions'][0]['id'],
                           'publish')
-        self.assertEquals(reply['actions'][0]['url'],
+        self.assertEqual(reply['actions'][0]['url'],
             'http://nohost/plone/doc1/++conversation++default/%s' % int(c1) +
             '/content_status_modify?workflow_action=publish')
 
@@ -362,11 +362,11 @@ class TestCommentsViewlet(PloneTestCase):
         IConversation(self.portal.doc1)
         portal_membership = getToolByName(self.portal, 'portal_membership')
         m = portal_membership.getAuthenticatedMember()
-        self.assertEquals(self.viewlet.get_commenter_home_url(m.getUserName()),
+        self.assertEqual(self.viewlet.get_commenter_home_url(m.getUserName()),
                           'http://nohost/plone/author/portal_owner')
 
     def test_get_commenter_home_url_is_none(self):
-        self.failIf(self.viewlet.get_commenter_home_url())
+        self.assertFalse(self.viewlet.get_commenter_home_url())
 
     def test_get_commenter_portrait(self):
 
@@ -393,11 +393,11 @@ class TestCommentsViewlet(PloneTestCase):
         portrait_url = self.viewlet.get_commenter_portrait('jim')
 
         # Check if the correct member image URL is returned
-        self.assertEquals(portrait_url,
+        self.assertEqual(portrait_url,
             'http://nohost/plone/portal_memberdata/portraits/jim')
 
     def test_get_commenter_portrait_is_none(self):
-        self.assertEquals(self.viewlet.get_commenter_portrait(),
+        self.assertEqual(self.viewlet.get_commenter_portrait(),
                           'defaultUser.gif')
 
     def test_get_commenter_portrait_without_userimage(self):
@@ -420,35 +420,35 @@ class TestCommentsViewlet(PloneTestCase):
         # Check if the correct default member image URL is returned.
         # Note that Products.PlonePAS 4.0.5 and later have .png and
         # earlier versions have .gif.
-        self.failUnless(portrait_url in
+        self.assertTrue(portrait_url in
                         ('http://nohost/plone/defaultUser.png',
                          'http://nohost/plone/defaultUser.gif'))
 
     def test_anonymous_discussion_allowed(self):
         # Anonymous discussion is not allowed by default
-        self.failIf(self.viewlet.anonymous_discussion_allowed())
+        self.assertFalse(self.viewlet.anonymous_discussion_allowed())
         # Allow anonymous discussion
         registry = queryUtility(IRegistry)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
                   'anonymous_comments'] = True
         # Test if anonymous discussion is allowed for the viewlet
-        self.failUnless(self.viewlet.anonymous_discussion_allowed())
+        self.assertTrue(self.viewlet.anonymous_discussion_allowed())
 
     def test_show_commenter_image(self):
-        self.failUnless(self.viewlet.show_commenter_image())
+        self.assertTrue(self.viewlet.show_commenter_image())
         registry = queryUtility(IRegistry)
         registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
                  'show_commenter_image'] = False
-        self.failIf(self.viewlet.show_commenter_image())
+        self.assertFalse(self.viewlet.show_commenter_image())
 
     def test_is_anonymous(self):
-        self.failIf(self.viewlet.is_anonymous())
+        self.assertFalse(self.viewlet.is_anonymous())
         self.logout()
-        self.failUnless(self.viewlet.is_anonymous())
+        self.assertTrue(self.viewlet.is_anonymous())
 
     def test_login_action(self):
         self.viewlet.update()
-        self.assertEquals(self.viewlet.login_action(),
+        self.assertEqual(self.viewlet.login_action(),
             'http://nohost/plone/login_form?came_from=http%3A//nohost')
 
     def test_format_time(self):
@@ -464,7 +464,7 @@ class TestCommentsViewlet(PloneTestCase):
         python_time = datetime(
             *time.gmtime(time.mktime(python_time.timetuple()))[:7])
         localized_time = self.viewlet.format_time(python_time)
-        self.assertEquals(localized_time, "Feb 01, 2009 11:32 PM")
+        self.assertEqual(localized_time, "Feb 01, 2009 11:32 PM")
 
 
 def test_suite():

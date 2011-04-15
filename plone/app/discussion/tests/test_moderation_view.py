@@ -72,11 +72,11 @@ class ModerationViewTest(PloneTestCase):
         # The one_state_workflow does not have a 'pending' state
         self.wf_tool.setChainForPortalTypes(('Discussion Item',),
                                             ('one_state_workflow,'))
-        self.assertEquals(self.view.moderation_enabled(), False)
+        self.assertEqual(self.view.moderation_enabled(), False)
         # The comment_review_workflow does have a 'pending' state
         self.wf_tool.setChainForPortalTypes(('Discussion Item',),
                                             ('comment_review_workflow,'))
-        self.assertEquals(self.view.moderation_enabled(), True)
+        self.assertEqual(self.view.moderation_enabled(), True)
 
     def test_old_comments_not_shown_in_moderation_view(self):
         # Create an old comment and make sure it is not shown
@@ -91,15 +91,15 @@ class ModerationViewTest(PloneTestCase):
         reply.setReplyTo(self.portal.doc1)
         reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6)
         reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7)
-        self.assertEquals(reply.Title(), 'My Title')
-        self.assertEquals(reply.EditableBody(), 'My Text')
-        self.failUnless('Jim' in reply.listCreators())
-        self.assertEquals(talkback.replyCount(self.portal.doc1), 1)
-        self.assertEquals(reply.inReplyTo(), self.portal.doc1)
+        self.assertEqual(reply.Title(), 'My Title')
+        self.assertEqual(reply.EditableBody(), 'My Text')
+        self.assertTrue('Jim' in reply.listCreators())
+        self.assertEqual(talkback.replyCount(self.portal.doc1), 1)
+        self.assertEqual(reply.inReplyTo(), self.portal.doc1)
 
         # Make sure only the two new comments are shown
         self.view()
-        self.assertEquals(len(self.view.comments), 3)
+        self.assertEqual(len(self.view.comments), 3)
 
 
 class ModerationBulkActionsViewTest(PloneTestCase):
@@ -157,7 +157,7 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.request.set('form.select.BulkAction', '-1')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
         view = BulkActionsView(self.context, self.request)
-        self.failIf(view())
+        self.assertFalse(view())
 
     def test_retract(self):
         self.request = self.app.REQUEST
@@ -186,7 +186,7 @@ class ModerationBulkActionsViewTest(PloneTestCase):
                 published_comments += 1
 
         # Make sure the comment has been published
-        self.assertEquals(published_comments, 1)
+        self.assertEqual(published_comments, 1)
 
     def test_mark_as_spam(self):
         self.request = self.app.REQUEST
@@ -203,7 +203,7 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         self.context = self.app
 
         # Initially we have three comments
-        self.assertEquals(self.conversation.total_comments, 3)
+        self.assertEqual(self.conversation.total_comments, 3)
 
         # Delete two comments with bulk actions
         self.request.set('form.select.BulkAction', 'delete')
@@ -213,10 +213,10 @@ class ModerationBulkActionsViewTest(PloneTestCase):
         view()
 
         # Make sure that the two comments have been deleted
-        self.assertEquals(self.conversation.total_comments, 1)
+        self.assertEqual(self.conversation.total_comments, 1)
         comment = self.conversation.getComments().next()
-        self.failUnless(comment)
-        self.assertEquals(comment, self.comment2)
+        self.assertTrue(comment)
+        self.assertEqual(comment, self.comment2)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

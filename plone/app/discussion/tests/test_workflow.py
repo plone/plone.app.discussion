@@ -35,15 +35,15 @@ class WorkflowSetupTest(PloneTestCase):
     def test_workflows_installed(self):
         """Make sure both comment workflows have been installed properly.
         """
-        self.failUnless('one_state_workflow' in
+        self.assertTrue('one_state_workflow' in
                         self.portal.portal_workflow.objectIds())
-        self.failUnless('comment_review_workflow' in
+        self.assertTrue('comment_review_workflow' in
                         self.portal.portal_workflow.objectIds())
 
     def test_default_workflow(self):
         """Make sure one_state_workflow is the default workflow.
         """
-        self.assertEquals(('one_state_workflow',),
+        self.assertEqual(('one_state_workflow',),
                           self.portal.portal_workflow.getChainForPortalType(
                               'Discussion Item'))
 
@@ -51,10 +51,10 @@ class WorkflowSetupTest(PloneTestCase):
         #'Review comments' in self.portal.permissionsOfRole('Admin')
 
         self.setRoles(('Reviewer',))
-        self.failUnless(self.portal.portal_membership.checkPermission(
+        self.assertTrue(self.portal.portal_membership.checkPermission(
                         'Review comments', self.folder), self.folder)
         self.setRoles(('Member',))
-        self.failIf(self.portal.portal_membership.checkPermission(
+        self.assertFalse(self.portal.portal_membership.checkPermission(
                     'Review comments', self.folder), self.folder)
 
     def test_reply_to_item_permission(self):
@@ -79,16 +79,16 @@ class PermissionsSetupTest(PloneTestCase):
         """
         ReplyToItemPerm = "Reply to item"
         # should be allowed as Member
-        self.failUnless(self.checkPermission(ReplyToItemPerm, self.portal))
+        self.assertTrue(self.checkPermission(ReplyToItemPerm, self.portal))
         # should be allowed as Authenticated
         self.setRoles(['Authenticated'])
-        self.failUnless(self.checkPermission(ReplyToItemPerm, self.portal))
+        self.assertTrue(self.checkPermission(ReplyToItemPerm, self.portal))
         # should be allowed as Manager
         self.setRoles(['Manager'])
-        self.failUnless(self.checkPermission(ReplyToItemPerm, self.portal))
+        self.assertTrue(self.checkPermission(ReplyToItemPerm, self.portal))
         # should not be allowed as anonymous
         self.logout()
-        self.failIf(self.checkPermission(ReplyToItemPerm, self.portal))
+        self.assertFalse(self.checkPermission(ReplyToItemPerm, self.portal))
 
 
 class CommentOneStateWorkflowTest(PloneTestCase):
@@ -133,22 +133,22 @@ class CommentOneStateWorkflowTest(PloneTestCase):
         """
         # Owner is allowed
         #self.login(default_user)
-        #self.failUnless(checkPerm(View, self.doc))
+        #self.assertTrue(checkPerm(View, self.doc))
         # Member is allowed
         self.login('member')
-        self.failUnless(checkPerm(View, self.comment))
+        self.assertTrue(checkPerm(View, self.comment))
         # Reviewer is allowed
         self.login('reviewer')
-        self.failUnless(checkPerm(View, self.comment))
+        self.assertTrue(checkPerm(View, self.comment))
         # Anonymous is allowed
         self.logout()
-        self.failUnless(checkPerm(View, self.comment))
+        self.assertTrue(checkPerm(View, self.comment))
         # Editor is allowed
         self.login('editor')
-        self.failUnless(checkPerm(View, self.comment))
+        self.assertTrue(checkPerm(View, self.comment))
         # Reader is allowed
         self.login('reader')
-        self.failUnless(checkPerm(View, self.comment))
+        self.assertTrue(checkPerm(View, self.comment))
 
 
 class CommentReviewWorkflowTest(PloneTestCase):
@@ -193,7 +193,7 @@ class CommentReviewWorkflowTest(PloneTestCase):
         self.portal.REQUEST.form['comment_id'] = self.comment_id
         view = self.comment.restrictedTraverse('@@moderate-delete-comment')
         view()
-        self.failIf(self.comment_id in self.conversation.objectIds())
+        self.assertFalse(self.comment_id in self.conversation.objectIds())
 
     def test_delete_as_anonymous(self):
         # Make sure that anonymous users can not delete comments
@@ -202,7 +202,7 @@ class CommentReviewWorkflowTest(PloneTestCase):
         self.assertRaises(Unauthorized,
                           self.comment.restrictedTraverse,
                           '@@moderate-delete-comment')
-        self.failUnless(self.comment_id in self.conversation.objectIds())
+        self.assertTrue(self.comment_id in self.conversation.objectIds())
 
     def test_delete_as_user(self):
         # Make sure that members can not delete comments
@@ -212,29 +212,29 @@ class CommentReviewWorkflowTest(PloneTestCase):
         self.assertRaises(Unauthorized,
                           self.comment.restrictedTraverse,
                           '@@moderate-delete-comment')
-        self.failUnless(self.comment_id in self.conversation.objectIds())
+        self.assertTrue(self.comment_id in self.conversation.objectIds())
 
     def test_publish(self):
         self.portal.REQUEST.form['comment_id'] = self.comment_id
         self.portal.REQUEST.form['workflow_action'] = 'publish'
-        self.assertEquals('pending',
+        self.assertEqual('pending',
                           self.portal.portal_workflow.getInfoFor(
                               self.comment, 'review_state'))
         view = self.comment.restrictedTraverse('@@moderate-publish-comment')
         view()
-        self.assertEquals('published', self.portal.portal_workflow.\
+        self.assertEqual('published', self.portal.portal_workflow.\
                           getInfoFor(self.comment, 'review_state'))
 
     def test_publish_as_anonymous(self):
         self.logout()
         self.portal.REQUEST.form['comment_id'] = self.comment_id
         self.portal.REQUEST.form['workflow_action'] = 'publish'
-        self.assertEquals('pending', self.portal.portal_workflow.\
+        self.assertEqual('pending', self.portal.portal_workflow.\
                           getInfoFor(self.comment, 'review_state'))
         self.assertRaises(Unauthorized,
                           self.comment.restrictedTraverse,
                           '@@moderate-publish-comment')
-        self.assertEquals('pending', self.portal.portal_workflow.\
+        self.assertEqual('pending', self.portal.portal_workflow.\
                           getInfoFor(self.comment, 'review_state'))
 
 def test_suite():

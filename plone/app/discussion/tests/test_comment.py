@@ -40,7 +40,7 @@ class CommentTest(PloneTestCase):
 
     def test_factory(self):
         comment1 = createObject('plone.Comment')
-        self.assert_(IComment.providedBy(comment1))
+        self.assertTrue(IComment.providedBy(comment1))
 
     def test_UTCDates(self):
         utc_to_local_diff = datetime.datetime.now() - datetime.datetime.utcnow()
@@ -61,9 +61,9 @@ class CommentTest(PloneTestCase):
     def test_id(self):
         comment1 = createObject('plone.Comment')
         comment1.comment_id = 123
-        self.assertEquals('123', comment1.id)
-        self.assertEquals('123', comment1.getId())
-        self.assertEquals(u'123', comment1.__name__)
+        self.assertEqual('123', comment1.id)
+        self.assertEqual('123', comment1.getId())
+        self.assertEqual(u'123', comment1.__name__)
 
     def test_uid(self):
         conversation = IConversation(self.portal.doc1)
@@ -71,7 +71,7 @@ class CommentTest(PloneTestCase):
         conversation.addComment(comment1)
         comment_brain = self.catalog.searchResults(
                             portal_type = 'Discussion Item')[0]
-        self.failUnless(comment_brain.UID)
+        self.assertTrue(comment_brain.UID)
 
     def test_uid_is_unique(self):
         conversation = IConversation(self.portal.doc1)
@@ -81,7 +81,7 @@ class CommentTest(PloneTestCase):
         conversation.addComment(comment2)
         brains = self.catalog.searchResults(
                      portal_type = 'Discussion Item')
-        self.assertNotEquals(brains[0].UID, brains[1].UID)
+        self.assertNotEqual(brains[0].UID, brains[1].UID)
 
     def test_comment_uid_differs_from_content_uid(self):
         conversation = IConversation(self.portal.doc1)
@@ -89,20 +89,20 @@ class CommentTest(PloneTestCase):
         conversation.addComment(comment1)
         comment_brain = self.catalog.searchResults(
                             portal_type = 'Discussion Item')[0]
-        self.assertNotEquals(self.document_brain.UID, comment_brain.UID)
+        self.assertNotEqual(self.document_brain.UID, comment_brain.UID)
 
     def test_title(self):
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
         comment1.creator = "Jim Fulton"
         conversation.addComment(comment1)
-        self.assertEquals("Jim Fulton on Document 1", comment1.Title())
+        self.assertEqual("Jim Fulton on Document 1", comment1.Title())
 
     def test_no_name_title(self):
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
         conversation.addComment(comment1)
-        self.assertEquals("Anonymous on Document 1", comment1.Title())
+        self.assertEqual("Anonymous on Document 1", comment1.Title())
 
     def test_title_special_characters(self):
         self.portal.invokeFactory(id='doc_sp_chars',
@@ -112,54 +112,54 @@ class CommentTest(PloneTestCase):
         comment1 = createObject('plone.Comment')
         comment1.creator = u"Tarek Ziadé"
         conversation.addComment(comment1)
-        self.assertEquals(u"Tarek Ziadé on Document äüö", comment1.Title())
+        self.assertEqual(u"Tarek Ziadé on Document äüö", comment1.Title())
 
     def test_creator(self):
         comment1 = createObject('plone.Comment')
         comment1.creator = "Jim"
-        self.assertEquals("Jim", comment1.Creator())
+        self.assertEqual("Jim", comment1.Creator())
 
     def test_type(self):
         comment1 = createObject('plone.Comment')
-        self.assertEquals(comment1.Type(), 'Comment')
+        self.assertEqual(comment1.Type(), 'Comment')
 
     def test_getText(self):
         comment1 = createObject('plone.Comment')
         comment1.text = """First paragraph
 
         Second paragraph"""
-        self.assertEquals(comment1.getText(),
+        self.assertEqual(comment1.getText(),
             "<p>First paragraph<br /><br />        Second paragraph</p>")
     
     def test_getText_escapes_HTML(self):
         comment1 = createObject('plone.Comment')
         comment1.text = """<b>Got HTML?</b>"""
-        self.assertEquals(comment1.getText(),
+        self.assertEqual(comment1.getText(),
             "<p>&lt;b&gt;Got HTML?&lt;/b&gt;</p>")
     
     def test_getText_with_non_ascii_characters(self):
         comment1 = createObject('plone.Comment')
         comment1.text = u"""Umlaute sind ä, ö und ü."""
-        self.assertEquals(comment1.getText(),
+        self.assertEqual(comment1.getText(),
             '<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>')
 
     def test_getText_doesnt_link(self):
         comment1 = createObject('plone.Comment')
         comment1.text = "Go to http://www.plone.org"
-        self.assertEquals(comment1.getText(),
+        self.assertEqual(comment1.getText(),
                           "<p>Go to http://www.plone.org</p>")
     
     def test_getText_uses_comment_mime_type(self):
         comment1 = createObject('plone.Comment')
         comment1.text = "Go to http://www.plone.org"
         comment1.mime_type = 'text/x-web-intelligent'
-        self.assertEquals(comment1.getText(),
+        self.assertEqual(comment1.getText(),
                           'Go to <a href="http://www.plone.org" rel="nofollow">http://www.plone.org</a>')
 
     def test_getText_w_custom_targetMimetype(self):
         comment1 = createObject('plone.Comment')
         comment1.text = 'para'
-        self.assertEquals(comment1.getText(targetMimetype='text/plain'), 'para')
+        self.assertEqual(comment1.getText(targetMimetype='text/plain'), 'para')
 
     def test_traversal(self):
         # make sure comments are traversable, have an id, absolute_url and
@@ -174,11 +174,11 @@ class CommentTest(PloneTestCase):
 
         comment = self.portal.doc1.restrictedTraverse(
             '++conversation++default/%s' % new_comment1_id)
-        self.assert_(IComment.providedBy(comment))
+        self.assertTrue(IComment.providedBy(comment))
 
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
+        self.assertEqual(('', 'plone', 'doc1', '++conversation++default',
                            str(new_comment1_id)), comment.getPhysicalPath())
-        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
+        self.assertEqual('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_comment1_id), comment.absolute_url())
 
     def test_workflow(self):
@@ -196,26 +196,26 @@ class CommentTest(PloneTestCase):
 
         # Make sure comments use the 'comment_review_workflow'
         chain = self.portal.portal_workflow.getChainFor(comment)
-        self.assertEquals(('comment_review_workflow',), chain)
+        self.assertEqual(('comment_review_workflow',), chain)
 
         # Ensure the initial state was entered and recorded
-        self.assertEquals(1,
+        self.assertEqual(1,
             len(comment.workflow_history['comment_review_workflow']))
-        self.assertEquals(None,
+        self.assertEqual(None,
             comment.workflow_history['comment_review_workflow'][0]\
             ['action'])
-        self.assertEquals('pending',
+        self.assertEqual('pending',
             self.portal.portal_workflow.getInfoFor(comment, 'review_state'))
 
     def test_fti(self):
         # test that we can look up an FTI for Discussion Item
 
-        self.assert_("Discussion Item" in self.portal.portal_types.objectIds())
+        self.assertTrue("Discussion Item" in self.portal.portal_types.objectIds())
 
         comment1 = createObject('plone.Comment')
 
         fti = self.portal.portal_types.getTypeInfo(comment1)
-        self.assertEquals('Discussion Item', fti.getTypeInfo(comment1).getId())
+        self.assertEqual('Discussion Item', fti.getTypeInfo(comment1).getId())
 
     def test_view(self):
         # make sure that the comment view is there and redirects to the right
@@ -236,14 +236,14 @@ class CommentTest(PloneTestCase):
             '++conversation++default/%s' % new_comment1_id)
 
         # make sure the view is there
-        self.failUnless(getMultiAdapter((comment, self.app.REQUEST),
+        self.assertTrue(getMultiAdapter((comment, self.app.REQUEST),
                                         name='view'))
 
         # make sure the HTTP redirect (status code 302) works when a comment
         # is called directly
         view = View(comment, self.app.REQUEST)
         View.__call__(view)
-        self.assertEquals(self.app.REQUEST.response.status, 302)
+        self.assertEqual(self.app.REQUEST.response.status, 302)
 
 
 class RepliesTest(PloneTestCase):
@@ -284,16 +284,16 @@ class RepliesTest(PloneTestCase):
         new_re_id = replies.addComment(re_comment)
 
         # check that replies provides the IReplies interface
-        self.assert_(IReplies.providedBy(replies))
+        self.assertTrue(IReplies.providedBy(replies))
 
         # Make sure our comment was added
-        self.failUnless(new_re_id in replies)
+        self.assertTrue(new_re_id in replies)
 
         # Make sure it is also reflected in the conversation
-        self.failUnless(new_re_id in conversation)
+        self.assertTrue(new_re_id in conversation)
 
         # Make sure the conversation has the correct comment id
-        self.assertEquals(conversation[new_re_id].comment_id, new_re_id)
+        self.assertEqual(conversation[new_re_id].comment_id, new_re_id)
 
     def test_delete_comment(self):
         # Add and remove a comment to a CommentReplies adapter
@@ -323,10 +323,10 @@ class RepliesTest(PloneTestCase):
         del replies[new_re_id]
 
         # Make sure there is no comment left in CommentReplies
-        self.assertEquals(len(replies), 0)
+        self.assertEqual(len(replies), 0)
 
         # Make sure the first comment is still in the conversation
-        self.assertEquals(conversation.total_comments, 1)
+        self.assertEqual(conversation.total_comments, 1)
 
     def test_traversal(self):
         # Create a nested structure of comment replies and check the traversal
@@ -370,22 +370,22 @@ class RepliesTest(PloneTestCase):
         re_re_re_comment = self.portal.doc1.restrictedTraverse(
             '++conversation++default/%s' % new_re_re_re_id)
 
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
+        self.assertEqual(('', 'plone', 'doc1', '++conversation++default',
                            str(new_id)), comment.getPhysicalPath())
-        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
+        self.assertEqual('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_id), comment.absolute_url())
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
+        self.assertEqual(('', 'plone', 'doc1', '++conversation++default',
                            str(new_re_id)), re_comment.getPhysicalPath())
-        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
+        self.assertEqual('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_re_id), re_comment.absolute_url())
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
+        self.assertEqual(('', 'plone', 'doc1', '++conversation++default',
                            str(new_re_re_id)), re_re_comment.getPhysicalPath())
-        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
+        self.assertEqual('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_re_re_id), re_re_comment.absolute_url())
-        self.assertEquals(('', 'plone', 'doc1', '++conversation++default',
+        self.assertEqual(('', 'plone', 'doc1', '++conversation++default',
                            str(new_re_re_re_id)),
                            re_re_re_comment.getPhysicalPath())
-        self.assertEquals('http://nohost/plone/doc1/++conversation++default/' +
+        self.assertEqual('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_re_re_re_id),
                           re_re_re_comment.absolute_url())
 

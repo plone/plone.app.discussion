@@ -49,37 +49,37 @@ class MigrationTest(PloneTestCase):
         reply.setReplyTo(self.doc)
         reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6, 'GMT')
         reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7, 'GMT')
-        self.assertEquals(reply.Title(), 'My Title')
-        self.assertEquals(reply.EditableBody(), 'My Text')
-        self.failUnless('Jim' in reply.listCreators())
-        self.assertEquals(talkback.replyCount(self.doc), 1)
-        self.assertEquals(reply.inReplyTo(), self.doc)
+        self.assertEqual(reply.Title(), 'My Title')
+        self.assertEqual(reply.EditableBody(), 'My Text')
+        self.assertTrue('Jim' in reply.listCreators())
+        self.assertEqual(talkback.replyCount(self.doc), 1)
+        self.assertEqual(reply.inReplyTo(), self.doc)
 
         # Call migration script
         self.view()
 
         # Make sure a conversation has been created
-        self.failUnless('plone.app.discussion:conversation' in
+        self.assertTrue('plone.app.discussion:conversation' in
                         IAnnotations(self.doc))
         conversation = IConversation(self.doc)
 
         # Check migration
-        self.assertEquals(conversation.total_comments, 1)
-        self.failUnless(conversation.getComments().next())
+        self.assertEqual(conversation.total_comments, 1)
+        self.assertTrue(conversation.getComments().next())
         comment1 = conversation.values()[0]
-        self.assert_(IComment.providedBy(comment1))
-        self.assertEquals(comment1.Title(), 'My Title')
-        self.assertEquals(comment1.text, '<p>My Text</p>\n')
-        self.assertEquals(comment1.mime_type, 'text/html')
-        self.assertEquals(comment1.Creator(), 'Jim')
-        self.assertEquals(comment1.creation_date,
+        self.assertTrue(IComment.providedBy(comment1))
+        self.assertEqual(comment1.Title(), 'My Title')
+        self.assertEqual(comment1.text, '<p>My Text</p>\n')
+        self.assertEqual(comment1.mime_type, 'text/html')
+        self.assertEqual(comment1.Creator(), 'Jim')
+        self.assertEqual(comment1.creation_date,
                           datetime(2003, 3, 11, 9, 28, 6))
-        self.assertEquals(comment1.modification_date,
+        self.assertEqual(comment1.modification_date,
                           datetime(2009, 7, 12, 19, 38, 7))
-        self.assertEquals(
+        self.assertEqual(
             [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},]
             , list(conversation.getThreads()))
-        self.failIf(self.doc.talkback)
+        self.assertFalse(self.doc.talkback)
 
     def test_migrate_nested_comments(self):
         # Create some nested comments and migrate them
@@ -108,9 +108,9 @@ class MigrationTest(PloneTestCase):
         comment1_1 = talkback_comment1.getReplies()[0]
         talkback_comment1_1 = self.discussion.getDiscussionFor(comment1_1)
 
-        self.assertEquals(len(talkback.getReplies()), 1)
-        self.assertEquals(len(talkback_comment1.getReplies()), 1)
-        self.assertEquals(len(talkback_comment1_1.getReplies()), 0)
+        self.assertEqual(len(talkback.getReplies()), 1)
+        self.assertEqual(len(talkback_comment1.getReplies()), 1)
+        self.assertEqual(len(talkback_comment1_1.getReplies()), 0)
 
         #Re: Re: First comment
         talkback_comment1_1.createReply(title='Re: Re: First comment',
@@ -143,7 +143,7 @@ class MigrationTest(PloneTestCase):
 
         # Check migration
         conversation = IConversation(self.doc)
-        self.assertEquals(conversation.total_comments, 8)
+        self.assertEqual(conversation.total_comments, 8)
 
         comment1 = conversation.values()[0]
         comment1_1 = conversation.values()[1]
@@ -154,7 +154,7 @@ class MigrationTest(PloneTestCase):
         comment1_4 = conversation.values()[6]
         comment2 = conversation.values()[7]
 
-        self.assertEquals(
+        self.assertEqual(
         [{'comment': comment1,       'depth': 0, 'id': long(comment1.id)},
          {'comment': comment1_1,     'depth': 1, 'id': long(comment1_1.id)},
          {'comment': comment1_1_1,   'depth': 2, 'id': long(comment1_1_1.id)},
@@ -166,7 +166,7 @@ class MigrationTest(PloneTestCase):
         ], list(conversation.getThreads()))
 
         talkback = self.discussion.getDiscussionFor(self.doc)
-        self.assertEquals(len(talkback.getReplies()), 0)
+        self.assertEqual(len(talkback.getReplies()), 0)
 
     def test_migrate_nested_comments_with_filter(self):
         # Create some nested comments and migrate them.
@@ -191,9 +191,9 @@ class MigrationTest(PloneTestCase):
         comment1_1 = talkback_comment1.getReplies()[0]
         talkback_comment1_1 = self.discussion.getDiscussionFor(comment1_1)
 
-        self.assertEquals(len(talkback.getReplies()), 1)
-        self.assertEquals(len(talkback_comment1.getReplies()), 1)
-        self.assertEquals(len(talkback_comment1_1.getReplies()), 0)
+        self.assertEqual(len(talkback.getReplies()), 1)
+        self.assertEqual(len(talkback_comment1.getReplies()), 1)
+        self.assertEqual(len(talkback_comment1_1.getReplies()), 0)
 
         def deny_comments(reply):
             return False
@@ -203,9 +203,9 @@ class MigrationTest(PloneTestCase):
 
         # Check migration
         conversation = IConversation(self.doc)
-        self.assertEquals(conversation.total_comments, 0)
+        self.assertEqual(conversation.total_comments, 0)
         talkback = self.discussion.getDiscussionFor(self.doc)
-        self.assertEquals(len(talkback.getReplies()), 0)
+        self.assertEqual(len(talkback.getReplies()), 0)
 
     def test_migrate_no_comment(self):
 
@@ -213,7 +213,7 @@ class MigrationTest(PloneTestCase):
         self.view()
 
         # Make sure no conversation has been created
-        self.assert_('plone.app.discussion:conversation' not in
+        self.assertTrue('plone.app.discussion:conversation' not in
                      IAnnotations(self.doc))
 
 

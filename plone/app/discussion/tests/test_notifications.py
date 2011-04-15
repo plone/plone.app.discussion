@@ -68,11 +68,11 @@ class TestUserNotificationUnit(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
-        self.assertEquals(len(self.mailhost.messages), 1)
-        self.failUnless(self.mailhost.messages[0])
+        self.assertEqual(len(self.mailhost.messages), 1)
+        self.assertTrue(self.mailhost.messages[0])
         msg = str(self.mailhost.messages[0])
-        self.failUnless('To: john@plone.test' in msg)
-        self.failUnless('From: portal@plone.test' in msg)
+        self.assertTrue('To: john@plone.test' in msg)
+        self.assertTrue('From: portal@plone.test' in msg)
 
         # We expect the headers to be properly header encoded (7-bit):
         #>>> 'Subject: =?utf-8?q?Some_t=C3=A4st_subject=2E?=' in msg
@@ -100,7 +100,7 @@ class TestUserNotificationUnit(PloneTestCase):
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
 
-        self.assertEquals(len(self.mailhost.messages), 0)
+        self.assertEqual(len(self.mailhost.messages), 0)
 
     def test_do_not_notify_user_when_email_address_is_given(self):
         comment = createObject('plone.Comment')
@@ -112,7 +112,7 @@ class TestUserNotificationUnit(PloneTestCase):
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
 
-        self.assertEquals(len(self.mailhost.messages), 0)
+        self.assertEqual(len(self.mailhost.messages), 0)
 
     def test_do_not_notify_user_when_no_sender_is_available(self):
         # Set sender mail address to none and make sure no email is send to
@@ -129,7 +129,7 @@ class TestUserNotificationUnit(PloneTestCase):
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
 
-        self.assertEquals(len(self.mailhost.messages), 0)
+        self.assertEqual(len(self.mailhost.messages), 0)
 
     def test_notify_only_once(self):
         # When a user has added two comments in a conversation and has
@@ -151,19 +151,19 @@ class TestUserNotificationUnit(PloneTestCase):
         self.conversation.addComment(comment)
         # Note that we might want to get rid of this message, as the
         # new comment is added by the same user.
-        self.assertEquals(len(self.mailhost.messages), 1)
+        self.assertEqual(len(self.mailhost.messages), 1)
         self.mailhost.reset()
-        self.assertEquals(len(self.mailhost.messages), 0)
+        self.assertEqual(len(self.mailhost.messages), 0)
 
         # Comment 3
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
-        self.assertEquals(len(self.mailhost.messages), 1)
-        self.failUnless(self.mailhost.messages[0])
+        self.assertEqual(len(self.mailhost.messages), 1)
+        self.assertTrue(self.mailhost.messages[0])
         msg = str(self.mailhost.messages[0])
-        self.failUnless('To: john@plone.test' in msg)
-        self.failUnless('From: portal@plone.test' in msg)
+        self.assertTrue('To: john@plone.test' in msg)
+        self.assertTrue('From: portal@plone.test' in msg)
 
 
 class TestModeratorNotificationUnit(PloneTestCase):
@@ -215,12 +215,12 @@ class TestModeratorNotificationUnit(PloneTestCase):
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
 
-        self.assertEquals(len(self.mailhost.messages), 1)
-        self.failUnless(self.mailhost.messages[0])
+        self.assertEqual(len(self.mailhost.messages), 1)
+        self.assertTrue(self.mailhost.messages[0])
         msg = self.mailhost.messages[0]
 
-        self.failUnless('To: portal@plone.test' in msg)
-        self.failUnless('From: portal@plone.test' in msg)
+        self.assertTrue('To: portal@plone.test' in msg)
+        self.assertTrue('From: portal@plone.test' in msg)
 
         #We expect the headers to be properly header encoded (7-bit):
         #>>> 'Subject: =?utf-8?q?Some_t=C3=A4st_subject=2E?=' in msg
@@ -243,12 +243,12 @@ class TestModeratorNotificationUnit(PloneTestCase):
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
         
-        self.assertEquals(len(self.mailhost.messages), 1)
+        self.assertEqual(len(self.mailhost.messages), 1)
         msg = self.mailhost.messages[0]
         if not isinstance(msg, str):
-            self.failUnless('test@example.com' in msg.mto)
+            self.assertTrue('test@example.com' in msg.mto)
         else:
-            self.failUnless('To: test@example.com' in msg)
+            self.assertTrue('To: test@example.com' in msg)
 
     def test_do_not_notify_moderator_when_no_sender_is_available(self):
         # Set sender mail address to nonw and make sure no email is send to the
@@ -258,7 +258,7 @@ class TestModeratorNotificationUnit(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
-        self.assertEquals(len(self.mailhost.messages), 0)
+        self.assertEqual(len(self.mailhost.messages), 0)
 
     def test_do_not_notify_moderator_when_notification_is_disabled(self):
         # Disable moderator notification setting and make sure no email is send
@@ -270,7 +270,7 @@ class TestModeratorNotificationUnit(PloneTestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         self.conversation.addComment(comment)
-        self.assertEquals(len(self.mailhost.messages), 0)
+        self.assertEqual(len(self.mailhost.messages), 0)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

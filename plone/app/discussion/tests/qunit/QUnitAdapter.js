@@ -54,7 +54,7 @@ you need to set it up and tear it down in each test.
     };
 
     window.equals = function(a, b, msg) {
-        assertEquals(msg ? msg : '', b, a);
+        assertEqual(msg ? msg : '', b, a);
     };
 
     window.start = window.stop = function() {
