@@ -168,13 +168,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if 'user_notification' in data:
             user_notification = data['user_notification']
 
-        # The add-comment view is called on the conversation object
-        conversation = IConversation(self.__parent__)
-
         # Check if conversation is enabled on this content object
-        if not conversation.enabled():
+        if not self.__parent__.restrictedTraverse(
+            '@@conversation_view').enabled():
             raise Unauthorized, "Discussion is not enabled for this content\
                                  object."
+
+        # The add-comment view is called on the conversation object
+        conversation = IConversation(self.__parent__)
 
         if data['in_reply_to']:
             # Fetch the comment we want to reply to
@@ -291,8 +292,7 @@ class CommentsViewlet(ViewletBase):
 
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
-        conversation = IConversation(context)
-        return conversation.enabled()
+        return context.restrictedTraverse('@@conversation_view').enabled()
 
     def comment_transform_message(self):
         """Returns the description that shows up above the comment text,

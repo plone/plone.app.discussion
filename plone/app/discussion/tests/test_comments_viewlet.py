@@ -7,6 +7,7 @@ from AccessControl import Unauthorized
 
 from OFS.Image import Image
 
+from zope import interface
 from zope.interface import alsoProvides
 from zope.publisher.browser import TestRequest
 from zope.annotation.interfaces import IAttributeAnnotatable
@@ -29,6 +30,7 @@ from Products.PloneTestCase.ptc import PloneTestCase
 
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
+from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.tests.layer import DiscussionLayer
 from plone.app.discussion.interfaces import IDiscussionSettings
@@ -39,6 +41,9 @@ class TestCommentForm(PloneTestCase):
     layer = DiscussionLayer
 
     def afterSetUp(self):
+        interface.alsoProvides(
+            self.portal.REQUEST, interfaces.IDiscussionLayer)
+
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
@@ -110,6 +115,8 @@ class TestCommentForm(PloneTestCase):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         settings.anonymous_comments = True
+
+        self.portal.portal_workflow.doActionFor(self.context, 'publish')
 
         # Logout
         self.logout()
@@ -211,6 +218,9 @@ class TestCommentsViewlet(PloneTestCase):
     layer = DiscussionLayer
 
     def afterSetUp(self):
+        interface.alsoProvides(
+            self.portal.REQUEST, interfaces.IDiscussionLayer)
+
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')

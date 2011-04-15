@@ -1,6 +1,7 @@
 import unittest
 from datetime import datetime, timedelta
 
+from zope import interface
 from zope.component import createObject, queryUtility
 from zope.annotation.interfaces import IAnnotations
 
@@ -14,6 +15,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.PloneTestCase.ptc import PloneTestCase
 from plone.app.discussion.tests.layer import DiscussionLayer
 
+from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
@@ -25,6 +27,9 @@ class ConversationTest(PloneTestCase):
     layer = DiscussionLayer
 
     def afterSetUp(self):
+        interface.alsoProvides(
+            self.portal.REQUEST, interfaces.IDiscussionLayer)
+
         # First we need to create some content.
         self.loginAsPortalOwner()
         typetool = self.portal.portal_types
@@ -244,7 +249,7 @@ class ConversationTest(PloneTestCase):
         self.assertFalse(aq_base(folder).allow_discussion)
 
         doc = self.portal.folder1.doc2
-        conversation = IConversation(doc)
+        conversation = doc.restrictedTraverse('@@conversation_view')
         self.assertEquals(conversation.enabled(), False)
 
         # We have to allow discussion on Document content type, since
@@ -258,7 +263,8 @@ class ConversationTest(PloneTestCase):
     def test_disable_commenting_globally(self):
 
         # Create a conversation.
-        conversation = IConversation(self.portal.doc1)
+        conversation = self.portal.doc1.restrictedTraverse(
+            '@@conversation_view')
 
         # We have to allow discussion on Document content type, since
         # otherwise allow_discussion will always return False
@@ -286,7 +292,7 @@ class ConversationTest(PloneTestCase):
 
         self.typetool.constructContent('News Item', self.portal, 'newsitem')
         newsitem = self.portal.newsitem
-        conversation = IConversation(newsitem)
+        conversation = newsitem.restrictedTraverse('@@conversation_view')
 
         # We have to allow discussion on Document content type, since
         # otherwise allow_discussion will always return False
@@ -312,7 +318,8 @@ class ConversationTest(PloneTestCase):
     def test_disable_commenting_for_content_type(self):
 
         # Create a conversation.
-        conversation = IConversation(self.portal.doc1)
+        conversation = self.portal.doc1.restrictedTraverse(
+            '@@conversation_view')
 
         # The Document content type is disabled by default
         self.assertEquals(conversation.enabled(), False)
@@ -337,11 +344,11 @@ class ConversationTest(PloneTestCase):
         # The enabled method should always return False for the folder
         # itself.
 
-        # Create a folder
+        # Create a folderp
         self.typetool.constructContent('Folder', self.portal, 'f1')
         f1 = self.portal.f1
         # Usually we don't create a conversation on a folder
-        conversation = IConversation(self.portal.f1)
+        conversation = self.portal.f1.restrictedTraverse('@@conversation_view')
 
         # Allow discussion for the folder
         self.portal_discussion.overrideDiscussionFor(f1, True)
@@ -369,7 +376,7 @@ class ConversationTest(PloneTestCase):
         # Create a document inside the folder
         self.typetool.constructContent('Document', f1, 'doc1')
         doc1 = self.portal.f1.doc1
-        doc1_conversation = IConversation(doc1)
+        doc1_conversation = doc1.restrictedTraverse('@@conversation_view')
 
         self.assertEquals(doc1_conversation.enabled(), False)
 
@@ -389,7 +396,8 @@ class ConversationTest(PloneTestCase):
         # Allow discussion on a single content object
 
         # Create a conversation.
-        conversation = IConversation(self.portal.doc1)
+        conversation = self.portal.doc1.restrictedTraverse(
+            '@@conversation_view')
 
         # Discussion is disallowed by default
         self.assertEquals(conversation.enabled(), False)

@@ -4,6 +4,13 @@ Changelog
 2.0b2 (Unreleased)
 ------------------
 
+- Move some policy out of the conversation storage adapter into a
+  view, specifically "enabled()".  Prevents having to replace/migrate
+  persistent objects to change policy which really only concerns the
+  context and possibly the request, not the conversation storage.
+  Fixes #11372.
+  [rossp]
+
 - Fix unindexing of comments when deleting content resulting from
   iterating over a BTree while modifying it. Fixes #11402.
   [rossp]
