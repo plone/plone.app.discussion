@@ -2,8 +2,9 @@ from zope.component import queryUtility
 
 from plone.registry.interfaces import IRegistry
 
-from Acquisition import aq_inner
 from Acquisition import aq_base
+from Acquisition import aq_chain
+from Acquisition import aq_inner
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IFolderish
@@ -58,7 +59,7 @@ class ConversationView(object):
         def traverse_parents(context):
             # Run through the aq_chain of obj and check if discussion is
             # enabled in a parent folder.
-            for obj in context.aq_chain:
+            for obj in aq_chain(context):
                 if not IPloneSiteRoot.providedBy(obj):
                     if (IFolderish.providedBy(obj) and
                         not INonStructuralFolder.providedBy(obj)):
@@ -76,10 +77,10 @@ class ConversationView(object):
         # to True or False.
         folder_allow_discussion = traverse_parents(context)
 
-        if folder_allow_discussion is True:
+        if folder_allow_discussion:
             if not getattr(self, 'allow_discussion', None):
                 return True
-        elif folder_allow_discussion is False:
+        elif not folder_allow_discussion:
             if obj_flag:
                 return True
 
