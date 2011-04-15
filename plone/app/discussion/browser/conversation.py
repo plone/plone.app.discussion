@@ -80,7 +80,7 @@ class ConversationView(object):
         if folder_allow_discussion:
             if not getattr(self, 'allow_discussion', None):
                 return True
-        elif not folder_allow_discussion:
+        else:
             if obj_flag:
                 return True
 
