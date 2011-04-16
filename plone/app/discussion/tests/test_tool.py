@@ -1,19 +1,20 @@
-import unittest
+import unittest2 as unittest
 
 from zope.component import queryUtility, createObject
 
-from Products.PloneTestCase.ptc import PloneTestCase
-from plone.app.discussion.tests.layer import DiscussionLayer
+from plone.app.testing import TEST_USER_ID, setRoles
+
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 from plone.app.discussion.interfaces import ICommentingTool, IConversation
 
-class ToolTest(PloneTestCase):
+class ToolTest(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        # First we need to create some content.
-        self.loginAsPortalOwner()
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory(id='doc1',
                                   title='Document 1',
                                   type_name='Document')
