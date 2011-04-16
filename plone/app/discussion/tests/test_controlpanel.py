@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import unittest
+import unittest2 as unittest
 
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
@@ -8,19 +8,20 @@ from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
 
 from Products.CMFCore.utils import getToolByName
-from Products.PloneTestCase.ptc import PloneTestCase
+
+from plone.app.testing import TEST_USER_ID, setRoles
 
 from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.tests.layer import DiscussionLayer
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 
-class RegistryTest(PloneTestCase):
+class RegistryTest(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        self.loginAsPortalOwner()
-        # Set up the registry
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.registry = Registry()
         self.registry.registerInterface(IDiscussionSettings)
 
@@ -99,13 +100,13 @@ class RegistryTest(PloneTestCase):
     #        'IDiscussionSettings.user_notification_enabled'], False)
 
 
-class ConfigurationChangedSubscriberTest(PloneTestCase):
+class ConfigurationChangedSubscriberTest(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        self.loginAsPortalOwner()
-        # Set up the registry
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         registry = queryUtility(IRegistry)
         self.settings = registry.forInterface(IDiscussionSettings, check=False)
 
