@@ -3,7 +3,7 @@ import datetime
 
 import logging
 
-import unittest
+import unittest2 as unittest
 
 from zope.component import createObject
 
@@ -11,9 +11,9 @@ from zope.component import getMultiAdapter
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.PloneTestCase.ptc import PloneTestCase
+from plone.app.testing import TEST_USER_ID, setRoles
 
-from plone.app.discussion.tests.layer import DiscussionLayer
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 from plone.app.discussion.interfaces import IComment, IConversation, IReplies
 
@@ -23,14 +23,15 @@ from plone.app.discussion.browser.comment import View
 logger = logging.getLogger('plone.app.discussion.tests')
 logger.addHandler(logging.StreamHandler())
 
-class CommentTest(PloneTestCase):
+class CommentTest(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        """Create a document.
-        """
-        self.loginAsPortalOwner()
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory(id='doc1',
                           title='Document 1',
                           type_name='Document')
@@ -236,25 +237,25 @@ class CommentTest(PloneTestCase):
             '++conversation++default/%s' % new_comment1_id)
 
         # make sure the view is there
-        self.assertTrue(getMultiAdapter((comment, self.app.REQUEST),
+        self.assertTrue(getMultiAdapter((comment, self.request),
                                         name='view'))
 
         # make sure the HTTP redirect (status code 302) works when a comment
         # is called directly
-        view = View(comment, self.app.REQUEST)
+        view = View(comment, self.request)
         View.__call__(view)
-        self.assertEqual(self.app.REQUEST.response.status, 302)
+        self.assertEqual(self.request.response.status, 302)
 
 
-class RepliesTest(PloneTestCase):
+class RepliesTest(unittest.TestCase):
 
     # test the IReplies adapter on a comment
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        # First we need to create some content.
-        self.loginAsPortalOwner()
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory(id='doc1',
                           title='Document 1',
                           type_name='Document')
