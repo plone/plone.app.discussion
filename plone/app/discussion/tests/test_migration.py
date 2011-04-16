@@ -1,26 +1,30 @@
 from datetime import datetime
 from DateTime import DateTime
 
-import unittest
+import unittest2 as unittest
 
 from zope.annotation.interfaces import IAnnotations
 
 from Products.CMFCore.utils import getToolByName
 
-from Products.PloneTestCase.ptc import PloneTestCase
+from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import logout, login
 
-from plone.app.discussion.tests.layer import DiscussionLayer
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 from plone.app.discussion.browser.migration import View
 
 from plone.app.discussion.interfaces import IConversation, IComment
 
-class MigrationTest(PloneTestCase):
+class MigrationTest(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        self.loginAsPortalOwner()
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
         self.portal.invokeFactory(id='doc',
                                   title='Document 1',
                                   type_name='Document')
@@ -28,14 +32,14 @@ class MigrationTest(PloneTestCase):
         self.discussion = getToolByName(self.portal, 'portal_discussion', None)
         self.discussion.overrideDiscussionFor(self.portal.doc, 1)
         # Publish it
-        self.workflow = self.portal.portal_workflow
-        self.workflow.doActionFor(self.portal.doc, 'publish')
+        self.workflowTool = getToolByName(self.portal, 'portal_workflow')
+        self.workflowTool.setDefaultChain('simple_publication_workflow')
+        self.workflowTool.doActionFor(self.portal.doc, 'publish')
 
-        request = self.app.REQUEST
-        request.set("test", True)
+        self.request.set("test", True)
         context = getattr(self.portal, 'doc')
-        self.view = View(context, request)
-        self.workflow.setChainForPortalTypes(('Discussion Item',),
+        self.view = View(self.portal, self.request)
+        self.workflowTool.setChainForPortalTypes(('Discussion Item',),
                                              'comment_review_workflow')
 
         self.doc = self.portal.doc
