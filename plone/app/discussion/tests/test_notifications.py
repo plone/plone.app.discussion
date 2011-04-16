@@ -1,6 +1,6 @@
 # coding=utf-8
 
-import unittest
+import unittest2 as unittest
 
 from Acquisition import aq_base
 
@@ -8,7 +8,8 @@ from zope.component import createObject
 from zope.component import getSiteManager
 from zope.component import queryUtility
 
-from Products.PloneTestCase.ptc import PloneTestCase
+from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import logout, login
 
 from Products.MailHost.interfaces import IMailHost
 from Products.CMFPlone.tests.utils import MockMailHost
@@ -16,14 +17,17 @@ from Products.CMFPlone.tests.utils import MockMailHost
 from plone.registry.interfaces import IRegistry
 
 from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.tests.layer import DiscussionLayer
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 
-class TestUserNotificationUnit(PloneTestCase):
+class TestUserNotificationUnit(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         # Set up a mock mailhost
         self.portal._original_MailHost = self.portal.MailHost
         self.portal.MailHost = mailhost = MockMailHost('MailHost')
@@ -41,7 +45,6 @@ class TestUserNotificationUnit(PloneTestCase):
                  '.user_notification_enabled'] = True
 
         # Create test content
-        self.loginAsPortalOwner()
         self.portal.invokeFactory('Document', 'doc1')
         self.portal_discussion = self.portal.portal_discussion
         # Archetypes content types store data as utf-8 encoded strings
@@ -166,11 +169,15 @@ class TestUserNotificationUnit(PloneTestCase):
         self.assertTrue('From: portal@plone.test' in msg)
 
 
-class TestModeratorNotificationUnit(PloneTestCase):
+class TestModeratorNotificationUnit(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
         # Set up a mock mailhost
         self.portal._original_MailHost = self.portal.MailHost
         self.portal.MailHost = mailhost = MockMailHost('MailHost')
@@ -194,7 +201,6 @@ class TestModeratorNotificationUnit(PloneTestCase):
                 'moderator_notification_enabled'] = True
 
         # Create test content
-        self.loginAsPortalOwner()
         self.portal.invokeFactory('Document', 'doc1')
         self.portal_discussion = self.portal.portal_discussion
         # Archetypes content types store data as utf-8 encoded strings
