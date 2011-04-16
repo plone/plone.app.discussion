@@ -1,4 +1,4 @@
-import unittest
+import unittest2 as unittest
 from datetime import datetime, timedelta
 
 from zope import interface
@@ -12,8 +12,10 @@ from plone.app.vocabularies.types import BAD_TYPES
 from plone.registry.interfaces import IRegistry
 
 from Products.CMFCore.utils import getToolByName
-from Products.PloneTestCase.ptc import PloneTestCase
-from plone.app.discussion.tests.layer import DiscussionLayer
+
+from plone.app.testing import TEST_USER_ID, setRoles
+
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
@@ -22,16 +24,16 @@ from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.interfaces import IDiscussionSettings
 
 
-class ConversationTest(PloneTestCase):
+class ConversationTest(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         interface.alsoProvides(
             self.portal.REQUEST, interfaces.IDiscussionLayer)
 
-        # First we need to create some content.
-        self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
         self.typetool = typetool
@@ -715,15 +717,15 @@ class ConversationTest(PloneTestCase):
                      IAnnotations(self.portal.doc1))
 
 
-class RepliesTest(PloneTestCase):
+class RepliesTest(unittest.TestCase):
 
     # test the IReplies adapter on a conversation
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        # First we need to create some content.
-        self.loginAsPortalOwner()
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
 
