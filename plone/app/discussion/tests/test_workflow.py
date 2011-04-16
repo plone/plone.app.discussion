@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test plone.app.discussion workflow and permissions.
 """
-import unittest
+import unittest2 as unittest
 
 from zope.component import createObject
 
@@ -12,21 +12,24 @@ from AccessControl import Unauthorized
 from Products.CMFCore.utils import _checkPermission as checkPerm
 from Products.CMFCore.permissions import View
 
-from Products.PloneTestCase.ptc import PloneTestCase
+from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import logout, login
 
-from plone.app.discussion.tests.layer import DiscussionLayer
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.discussion.interfaces import IConversation, IDiscussionLayer
 
 
-class WorkflowSetupTest(PloneTestCase):
+class WorkflowSetupTest(unittest.TestCase):
     """Make sure the workflows are set up properly.
     """
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        """Create a document and allow discussion.
-        """
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal.invokeFactory('Folder', 'test-folder')
+        self.folder = self.portal['test-folder']
         self.portal.portal_types['Document'].allow_discussion = True
         self.portal_discussion = self.portal.portal_discussion
         self.folder.invokeFactory('Document', 'doc1')
@@ -50,24 +53,25 @@ class WorkflowSetupTest(PloneTestCase):
     def test_review_comments_permission(self):
         #'Review comments' in self.portal.permissionsOfRole('Admin')
 
-        self.setRoles(('Reviewer',))
+        setRoles(self.portal, TEST_USER_ID, ['Reviewer'])
         self.assertTrue(self.portal.portal_membership.checkPermission(
                         'Review comments', self.folder), self.folder)
-        self.setRoles(('Member',))
+        setRoles(self.portal, TEST_USER_ID, ['Member'])
         self.assertFalse(self.portal.portal_membership.checkPermission(
                     'Review comments', self.folder), self.folder)
 
     def test_reply_to_item_permission(self):
         pass
 
-class PermissionsSetupTest(PloneTestCase):
+class PermissionsSetupTest(unittest.TestCase):
     """Make sure the permissions are set up properly.
     """
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        portal = self.portal
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         mtool = self.portal.portal_membership
         self.checkPermission = mtool.checkPermission
 
@@ -81,25 +85,27 @@ class PermissionsSetupTest(PloneTestCase):
         # should be allowed as Member
         self.assertTrue(self.checkPermission(ReplyToItemPerm, self.portal))
         # should be allowed as Authenticated
-        self.setRoles(['Authenticated'])
+        setRoles(self.portal, TEST_USER_ID, ['Authenticated'])
         self.assertTrue(self.checkPermission(ReplyToItemPerm, self.portal))
         # should be allowed as Manager
-        self.setRoles(['Manager'])
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.assertTrue(self.checkPermission(ReplyToItemPerm, self.portal))
         # should not be allowed as anonymous
-        self.logout()
+        logout()
         self.assertFalse(self.checkPermission(ReplyToItemPerm, self.portal))
 
 
-class CommentOneStateWorkflowTest(PloneTestCase):
+class CommentOneStateWorkflowTest(unittest.TestCase):
     """Test the one_state_workflow that ships with plone.app.discussion.
     """
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        """Create a document with comments and enable the one.
-        """
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal.invokeFactory('Folder', 'test-folder')
+        self.folder = self.portal['test-folder']        
         self.catalog = self.portal.portal_catalog
         self.workflow = self.portal.portal_workflow
         self.workflow.setChainForPortalTypes(['Document'],
@@ -135,31 +141,34 @@ class CommentOneStateWorkflowTest(PloneTestCase):
         #self.login(default_user)
         #self.assertTrue(checkPerm(View, self.doc))
         # Member is allowed
-        self.login('member')
+        login(self.portal, 'member')
         self.assertTrue(checkPerm(View, self.comment))
         # Reviewer is allowed
-        self.login('reviewer')
+        login(self.portal, 'reviewer')
         self.assertTrue(checkPerm(View, self.comment))
         # Anonymous is allowed
-        self.logout()
+        logout()
         self.assertTrue(checkPerm(View, self.comment))
         # Editor is allowed
-        self.login('editor')
+        login(self.portal, 'editor')
         self.assertTrue(checkPerm(View, self.comment))
         # Reader is allowed
-        self.login('reader')
+        login(self.portal, 'reader')
         self.assertTrue(checkPerm(View, self.comment))
 
 
-class CommentReviewWorkflowTest(PloneTestCase):
+class CommentReviewWorkflowTest(unittest.TestCase):
     """Test the comment_review_workflow that ships with plone.app.discussion.
     """
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
-        # Allow discussion and
-        self.loginAsPortalOwner()
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal.invokeFactory('Folder', 'test-folder')
+        self.folder = self.portal['test-folder']        
 
         # Allow discussion on the Document content type
         self.portal.portal_types['Document'].allow_discussion = True
@@ -186,7 +195,7 @@ class CommentReviewWorkflowTest(PloneTestCase):
         self.comment_id = comment_id
         self.comment = comment
 
-        self.setRoles(('Reviewer',))
+        setRoles(self.portal, TEST_USER_ID, ['Reviewer'])
         alsoProvides(self.portal.REQUEST, IDiscussionLayer)
 
     def test_delete(self):
@@ -197,7 +206,7 @@ class CommentReviewWorkflowTest(PloneTestCase):
 
     def test_delete_as_anonymous(self):
         # Make sure that anonymous users can not delete comments
-        self.logout()
+        logout()
         self.portal.REQUEST.form['comment_id'] = self.comment_id
         self.assertRaises(Unauthorized,
                           self.comment.restrictedTraverse,
@@ -206,8 +215,8 @@ class CommentReviewWorkflowTest(PloneTestCase):
 
     def test_delete_as_user(self):
         # Make sure that members can not delete comments
-        self.logout()
-        self.setRoles(('Member',))
+        logout()
+        setRoles(self.portal, TEST_USER_ID, ['Member'])
         self.portal.REQUEST.form['comment_id'] = self.comment_id
         self.assertRaises(Unauthorized,
                           self.comment.restrictedTraverse,
@@ -226,7 +235,7 @@ class CommentReviewWorkflowTest(PloneTestCase):
                           getInfoFor(self.comment, 'review_state'))
 
     def test_publish_as_anonymous(self):
-        self.logout()
+        logout()
         self.portal.REQUEST.form['comment_id'] = self.comment_id
         self.portal.REQUEST.form['workflow_action'] = 'publish'
         self.assertEqual('pending', self.portal.portal_workflow.\
