@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import unittest
+import unittest2 as unittest
 import time
 from datetime import datetime
 
@@ -26,34 +26,41 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.tests import dummy
 
-from Products.PloneTestCase.ptc import PloneTestCase
+from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import logout
+from plone.app.testing import login
+
 
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.tests.layer import DiscussionLayer
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.discussion.interfaces import IDiscussionSettings
 
 
-class TestCommentForm(PloneTestCase):
+class TestCommentForm(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal.invokeFactory('Folder', 'test-folder')
+        self.folder = self.portal['test-folder']
+        
         interface.alsoProvides(
             self.portal.REQUEST, interfaces.IDiscussionLayer)
 
-        self.loginAsPortalOwner()
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        self.dtool = getToolByName(self.portal,
+        self.discussionTool = getToolByName(self.portal,
                                    'portal_discussion',
                                     None)
-        self.dtool.overrideDiscussionFor(self.portal.doc1, False)
-        self.mtool = getToolByName(self.folder, 'portal_membership', None)
+        self.discussionTool.overrideDiscussionFor(self.portal.doc1, False)
+        self.membershipTool = getToolByName(self.folder, 'portal_membership', None)
         self.memberdata = self.portal.portal_memberdata
-        self.request = self.app.REQUEST
         self.context = getattr(self.portal, 'doc1')
 
         # Allow discussion
@@ -66,7 +73,7 @@ class TestCommentForm(PloneTestCase):
         """
 
         # Allow discussion
-        self.dtool.overrideDiscussionFor(self.portal.doc1, True)
+        self.discussionTool.overrideDiscussionFor(self.portal.doc1, True)
         self.viewlet = CommentsViewlet(self.context, self.request, None, None)
 
         def make_request(form={}):
@@ -105,21 +112,16 @@ class TestCommentForm(PloneTestCase):
         self.assertFalse(commentForm.handleComment(commentForm, "foo"))
 
     def test_add_anonymous_comment(self):
-        """Add a comment as anonymous.
-        """
+        self.discussionTool.overrideDiscussionFor(self.portal.doc1, True)
 
-        # Allow discussion
-        self.dtool.overrideDiscussionFor(self.portal.doc1, True)
         self.viewlet = CommentsViewlet(self.context, self.request, None, None)
 
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         settings.anonymous_comments = True
 
-        self.portal.portal_workflow.doActionFor(self.context, 'publish')
-
         # Logout
-        self.logout()
+        logout()
 
         def make_request(form={}):
             request = TestRequest()
@@ -185,7 +187,7 @@ class TestCommentForm(PloneTestCase):
 
         # Anonymous comments are disabled by default
 
-        self.logout()
+        logout()
 
         def make_request(form={}):
             request = TestRequest()
@@ -213,25 +215,31 @@ class TestCommentForm(PloneTestCase):
                           "foo")
 
 
-class TestCommentsViewlet(PloneTestCase):
+class TestCommentsViewlet(unittest.TestCase):
 
-    layer = DiscussionLayer
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-    def afterSetUp(self):
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal.invokeFactory('Folder', 'test-folder')
+        self.folder = self.portal['test-folder']
         interface.alsoProvides(
-            self.portal.REQUEST, interfaces.IDiscussionLayer)
-
-        self.loginAsPortalOwner()
+            self.request, interfaces.IDiscussionLayer)
+        
+        self.workflowTool = getToolByName(self.portal, 'portal_workflow')
+        self.workflowTool.setDefaultChain('one_state_workflow')
+        
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
         self.portal_discussion = getToolByName(self.portal,
                                                'portal_discussion',
                                                None)
-        self.mtool = getToolByName(self.folder, 'portal_membership')
+        self.membershipTool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
-        request = self.app.REQUEST
         context = getattr(self.portal, 'doc1')
-        self.viewlet = CommentsViewlet(context, request, None, None)
+        self.viewlet = CommentsViewlet(context, self.request, None, None)
 
         # Allow discussion
         registry = queryUtility(IRegistry)
@@ -241,19 +249,19 @@ class TestCommentsViewlet(PloneTestCase):
     def test_can_reply(self):
         # Portal owner can reply
         self.assertTrue(self.viewlet.can_reply())
-        self.logout()
+        logout()
         # Anonymous users can not reply
         self.assertFalse(self.viewlet.can_reply())
 
     def test_can_review(self):
         # Portal owner has 'can review' permission
         self.assertTrue(self.viewlet.can_review())
-        self.logout()
+        logout()
         # Anonymous has no 'can review' permission
         self.assertFalse(self.viewlet.can_review())
         # The reviewer role has the 'Review comments' permission
         self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
-        self.login('reviewer')
+        login(self.portal, 'reviewer')
         self.assertTrue(self.viewlet.can_review())
 
     def test_can_manage(self):
@@ -263,12 +271,12 @@ class TestCommentsViewlet(PloneTestCase):
         """
         # Portal owner has 'can review' permission
         self.assertTrue(self.viewlet.can_manage())
-        self.logout()
+        logout()
         # Anonymous has no 'can review' permission
         self.assertFalse(self.viewlet.can_manage())
         # The reviewer role has the 'Review comments' permission
         self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
-        self.login('reviewer')
+        login(self.portal, 'reviewer')
         self.assertTrue(self.viewlet.can_manage())
 
     def test_is_discussion_allowed(self):
@@ -302,7 +310,7 @@ class TestCommentsViewlet(PloneTestCase):
              "into clickable links.")
 
         # Enable moderation workflow
-        self.portal.portal_workflow.setChainForPortalTypes(
+        self.workflowTool.setChainForPortalTypes(
             ('Discussion Item',),
             ('comment_review_workflow,'))
 
@@ -344,7 +352,7 @@ class TestCommentsViewlet(PloneTestCase):
         self.assertEqual(
             len(tuple(self.viewlet.get_replies(workflow_actions=True))), 1)
         # Enable moderation workflow
-        self.portal.portal_workflow.setChainForPortalTypes(
+        self.workflowTool.setChainForPortalTypes(
             ('Discussion Item',),
             ('comment_review_workflow,'))
         # Check if workflow actions are available
@@ -363,7 +371,7 @@ class TestCommentsViewlet(PloneTestCase):
         portal_membership = getToolByName(self.portal, 'portal_membership')
         m = portal_membership.getAuthenticatedMember()
         self.assertEqual(self.viewlet.get_commenter_home_url(m.getUserName()),
-                          'http://nohost/plone/author/portal_owner')
+                          'http://nohost/plone/author/test-user')
 
     def test_get_commenter_home_url_is_none(self):
         self.assertFalse(self.viewlet.get_commenter_home_url())
@@ -371,7 +379,7 @@ class TestCommentsViewlet(PloneTestCase):
     def test_get_commenter_portrait(self):
 
         # Add a user with a member image
-        self.mtool.addMember('jim', 'Jim', ['Member'], [])
+        self.membershipTool.addMember('jim', 'Jim', ['Member'], [])
         self.memberdata._setPortrait(Image(id='jim',
                                            file=dummy.File(),
                                            title=''), 'jim')
@@ -403,7 +411,7 @@ class TestCommentsViewlet(PloneTestCase):
     def test_get_commenter_portrait_without_userimage(self):
 
         # Create a user without a user image
-        self.mtool.addMember('jim', 'Jim', ['Member'], [])
+        self.membershipTool.addMember('jim', 'Jim', ['Member'], [])
 
         # Add a conversation with a comment
         conversation = IConversation(self.portal.doc1)
@@ -443,7 +451,7 @@ class TestCommentsViewlet(PloneTestCase):
 
     def test_is_anonymous(self):
         self.assertFalse(self.viewlet.is_anonymous())
-        self.logout()
+        logout()
         self.assertTrue(self.viewlet.is_anonymous())
 
     def test_login_action(self):
