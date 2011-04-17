@@ -4,6 +4,9 @@ Changelog
 2.0b2 (Unreleased)
 ------------------
 
+- Move all tests from testing layer to plone.app.testing.
+  [timo]
+
 - Move some policy out of the conversation storage adapter into a
   view, specifically "enabled()".  Prevents having to replace/migrate
   persistent objects to change policy which really only concerns the
@@ -28,6 +31,7 @@ Changelog
 - Add a moderator_email setting to control where moderator notifications are
   sent.
   [davisagli]
+
 
 2.0b1 (2011-04-06)
 ------------------
@@ -76,12 +80,14 @@ Changelog
 - Added Afrikaans translations
   [jcbrand]
 
+
 2.0a3 (2011-03-02)
 ------------------
 
 - Fixed test failure for the default user portrait, which changed from
   defaultUser.gif to defaultUser.png in Products.PlonePAS 4.0.5
   [maurits]
+
 
 2.0a2 (2011-02-08)
 ------------------
