@@ -4,6 +4,9 @@ Changelog
 2.0b2 (Unreleased)
 ------------------
 
+- Added Japanese translation.
+  [tyam]
+
 - Move all tests from testing layer to plone.app.testing.
   [timo]
 
