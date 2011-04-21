@@ -6,9 +6,13 @@ initially developed as part of the Google Summer of Code 2009 by Timo
 Stollenwerk (student) and Martin Aspeli (mentor).
 
 plone.app.discussion is an add-on product for Plone 3.3.x and 4.0.x and will be
-shipped as part of Plone 4.1. Make sure you pin down plone.app.discussion to
-versions < 2.0 if installed as an add-on product (see install instructions 
-below for more details).
+shipped as part of Plone 4.1. 
+
+.. note::
+
+  Make sure you pin down plone.app.discussion to versions < 2.0 if you want to
+  install it as an add-on product (see install instructions below for more 
+  details).
 
 Please report bugs to the `Plone bug tracker`_.
 
