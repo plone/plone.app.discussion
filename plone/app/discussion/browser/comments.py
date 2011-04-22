@@ -41,12 +41,8 @@ from plone.z3cform import z2
 from plone.z3cform.widget import SingleCheckBoxWidget
 from plone.z3cform.fieldsets import extensible
 
-# starting from 0.6.0 version plone.z3cform has IWrappedForm interface
-try:
-    from plone.z3cform.interfaces import IWrappedForm
-    HAS_WRAPPED_FORM = True
-except ImportError: # pragma: no cover
-    HAS_WRAPPED_FORM = False
+
+from plone.z3cform.interfaces import IWrappedForm
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     u"comment_description_plain_text",
@@ -265,8 +261,7 @@ class CommentsViewlet(ViewletBase):
         super(CommentsViewlet, self).update()
         z2.switch_on(self, request_layer=IFormLayer)
         self.form = self.form(aq_inner(self.context), self.request)
-        if HAS_WRAPPED_FORM:
-            alsoProvides(self.form, IWrappedForm)
+        alsoProvides(self.form, IWrappedForm)
         self.form.update()
 
     # view methods

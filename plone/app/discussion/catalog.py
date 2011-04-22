@@ -16,10 +16,8 @@ from plone.app.discussion.interfaces import IConversation, IComment
 
 from plone.indexer import indexer
 
-try:
-    from plone.uuid.interfaces import IUUID
-except ImportError:
-    IUUID = None
+from plone.uuid.interfaces import IUUID
+
 
 MAX_DESCRIPTION = 25
 

@@ -40,11 +40,7 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
 
-try:
-    from OFS.role import RoleManager
-except ImportError:
-    # Zope <=2.12
-    from AccessControl.Role import RoleManager
+from OFS.role import RoleManager
 
 
 COMMENT_TITLE = _(u"comment_title",
