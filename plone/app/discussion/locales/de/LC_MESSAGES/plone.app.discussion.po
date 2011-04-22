@@ -358,7 +358,7 @@ msgstr "Ein Kommentar zu '${title}' wurde hier abgegeben: ${link}\n\n---\n${text
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
 #: ../comment.py:58
 msgid "mail_notification_message_moderator"
-msgstr "Ein Kommentar zu '${title} wurde hier abgegeben: ${link}\n\n---\n${text}\n---\n\nKommentar freischalten:\n${link_approve}\n\nKommentar löschen:\n${link_delete}\n"
+msgstr "Ein Kommentar zu '${title} wurde hier abgegeben: ${link}\n\n---\n${text}\n---\n\nKommentar zur Veröffentlichung freigeben:\n${link_approve}\n\nKommentar löschen:\n${link_delete}\n"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ../browser/moderation.pt:33
