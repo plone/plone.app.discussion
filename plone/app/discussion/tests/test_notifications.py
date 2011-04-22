@@ -84,7 +84,7 @@ class TestUserNotificationUnit(unittest.TestCase):
             "A comment on \'K=C3=B6lle Alaaf\' has been posted here:"
             in msg)
         self.assertTrue(
-            "http://nohost/plone/d=\noc1/++conversation++default/%s" 
+            "http://nohost/plone/d=\noc1/view#%s" 
             % comment_id
             in msg)
     
@@ -217,7 +217,7 @@ class TestModeratorNotificationUnit(unittest.TestCase):
             "A comment on \'K=C3=B6lle Alaaf\' has been posted here:"
             in msg)
         self.assertTrue(
-            "http://nohost/plone/d=\noc1/++conversation++default/%s" 
+            "http://nohost/plone/d=\noc1/view#%s" 
             % comment_id
             in msg)
     

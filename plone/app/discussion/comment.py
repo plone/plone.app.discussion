@@ -253,8 +253,9 @@ def notify_user(obj, event):
     message = translate(Message(
             MAIL_NOTIFICATION_MESSAGE,
             mapping={'title': safe_unicode(content_object.title),
-                     'link': obj.absolute_url()}),
-                        context=obj.REQUEST)
+                     'link': content_object.absolute_url() + 
+                             '/view#' + obj.id}),
+            context=obj.REQUEST)
     for email in emails:
         # Send email
         try:
@@ -313,7 +314,8 @@ def notify_moderator(obj, event):
     subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
     message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
         mapping={'title': safe_unicode(content_object.title),
-                 'link': obj.absolute_url()}),
+                 'link': content_object.absolute_url() + 
+                         '/view#' + obj.id}),
         context=obj.REQUEST)
 
     # Send email
