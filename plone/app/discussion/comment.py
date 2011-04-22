@@ -253,7 +253,7 @@ def notify_user(obj, event):
     message = translate(Message(
             MAIL_NOTIFICATION_MESSAGE,
             mapping={'title': safe_unicode(content_object.title),
-                     'link': content_object.absolute_url()}),
+                     'link': obj.absolute_url()}),
                         context=obj.REQUEST)
     for email in emails:
         # Send email
@@ -284,7 +284,6 @@ def notify_moderator(obj, event):
        control panel and the comment_review_workflow enabled for the comment
        content type.
     """
-
     # Check if moderator notification is enabled
     registry = queryUtility(IRegistry)
     settings = registry.forInterface(IDiscussionSettings, check=False)
@@ -314,7 +313,7 @@ def notify_moderator(obj, event):
     subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
     message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
         mapping={'title': safe_unicode(content_object.title),
-                 'link': content_object.absolute_url()}),
+                 'link': obj.absolute_url()}),
         context=obj.REQUEST)
 
     # Send email
