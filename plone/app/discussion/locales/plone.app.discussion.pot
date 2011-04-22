@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2011-04-10 20:32+0000\n"
+"POT-Creation-Date: 2011-04-22 17:12+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Hanno Schlichting <hannosch@plone.org>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
@@ -14,19 +14,19 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../browser/comments.py:94
+#: ../browser/comments.py:90
 msgid ""
 msgstr ""
 
-#: ../comment.py:249
+#: ../comment.py:264
 msgid "A comment has been posted."
 msgstr ""
 
-#: ../interfaces.py:282
+#: ../interfaces.py:257
 msgid "A comment id unique to this conversation"
 msgstr ""
 
-#: ../browser/comments.py:71
+#: ../browser/comments.py:67
 msgid "Add a comment"
 msgstr ""
 
@@ -34,11 +34,11 @@ msgstr ""
 msgid "Anonymous Comments"
 msgstr ""
 
-#: ../interfaces.py:307
+#: ../interfaces.py:282
 msgid "Author name (for display)"
 msgstr ""
 
-#: ../browser/comments.py:252
+#: ../browser/comments.py:248
 #: ../browser/controlpanel.py:80
 msgid "Cancel"
 msgstr ""
@@ -47,11 +47,11 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
-#: ../browser/moderation.py:141
+#: ../browser/moderation.py:133
 msgid "Comment approved."
 msgstr ""
 
-#: ../browser/moderation.py:102
+#: ../browser/moderation.py:94
 msgid "Comment deleted."
 msgstr ""
 
@@ -62,11 +62,11 @@ msgstr ""
 msgid "Commenting infrastructure for Plone"
 msgstr ""
 
-#: ../interfaces.py:277
+#: ../interfaces.py:252
 msgid "Conversation"
 msgstr ""
 
-#: ../interfaces.py:308
+#: ../interfaces.py:283
 msgid "Creation date"
 msgstr ""
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Edit cancelled"
 msgstr ""
 
-#: ../interfaces.py:294
+#: ../interfaces.py:269
 msgid "Email"
 msgstr ""
 
@@ -94,11 +94,11 @@ msgstr ""
 msgid "Enable Comments"
 msgstr ""
 
-#: ../interfaces.py:285
+#: ../interfaces.py:260
 msgid "Id of comment this comment is in reply to"
 msgstr ""
 
-#: ../interfaces.py:299
+#: ../interfaces.py:274
 msgid "MIME type"
 msgstr ""
 
@@ -106,15 +106,15 @@ msgstr ""
 msgid "Moderator Email Notification"
 msgstr ""
 
-#: ../interfaces.py:309
+#: ../interfaces.py:284
 msgid "Modification date"
 msgstr ""
 
-#: ../interfaces.py:279
+#: ../interfaces.py:254
 msgid "Name"
 msgstr ""
 
-#: ../interfaces.py:303
+#: ../interfaces.py:278
 msgid "Notify me of new comments via email."
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Plone Discussions"
 msgstr ""
 
-#: ../interfaces.py:272
+#: ../interfaces.py:247
 msgid "Portal type"
 msgstr ""
 
@@ -142,12 +142,12 @@ msgstr ""
 msgid "User Email Notification"
 msgstr ""
 
-#: ../browser/comments.py:245
+#: ../browser/comments.py:241
 msgid "Your comment awaits moderator approval."
 msgstr ""
 
 #. Default: "Comment"
-#: ../browser/comments.py:127
+#: ../browser/comments.py:123
 msgid "add_comment_button"
 msgstr ""
 
@@ -162,22 +162,22 @@ msgid "bulkactions_publish"
 msgstr ""
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
-#: ../browser/comments.py:56
+#: ../browser/comments.py:52
 msgid "comment_description_intelligent_text"
 msgstr ""
 
 #. Default: "Comments are moderated."
-#: ../browser/comments.py:62
+#: ../browser/comments.py:58
 msgid "comment_description_moderation_enabled"
 msgstr ""
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
-#: ../browser/comments.py:51
+#: ../browser/comments.py:47
 msgid "comment_description_plain_text"
 msgstr ""
 
 #. Default: "${creator} on ${content}"
-#: ../comment.py:50
+#: ../comment.py:46
 msgid "comment_title"
 msgstr ""
 
@@ -262,7 +262,7 @@ msgid "help_user_notification_enabled"
 msgstr ""
 
 #. Default: "Anonymous"
-#: ../comment.py:145
+#: ../comment.py:156
 msgid "label_anonymous"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgid "label_captcha"
 msgstr ""
 
 #. Default: "Comment"
-#: ../interfaces.py:300
+#: ../interfaces.py:275
 msgid "label_comment"
 msgstr ""
 
@@ -337,7 +337,7 @@ msgid "label_show_full_comment_text"
 msgstr ""
 
 #. Default: "Subject"
-#: ../interfaces.py:296
+#: ../interfaces.py:271
 msgid "label_subject"
 msgstr ""
 
@@ -351,9 +351,14 @@ msgstr ""
 msgid "label_user_notification_enabled"
 msgstr ""
 
-#. Default: "A comment on '${title}' has been posted here: ${link}"
-#: ../comment.py:53
+#. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
+#: ../comment.py:50
 msgid "mail_notification_message"
+msgstr ""
+
+#. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
+#: ../comment.py:58
+msgid "mail_notification_message_moderator"
 msgstr ""
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"

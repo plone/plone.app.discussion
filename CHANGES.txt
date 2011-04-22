@@ -4,6 +4,9 @@ Changelog
 2.0.1 (2011-04-22)
 ------------------
 
+- Translations updated. German translations for notifications added.
+  [timo]
+
 - Add links to delete/approve a comment in the moderator notification email.
   [timo]
 
