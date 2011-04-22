@@ -88,6 +88,8 @@ class TestUserNotificationUnit(unittest.TestCase):
             % comment_id
             in msg)
         self.assertTrue('Comment text' in msg)
+        self.assertFalse('Approve comment' in msg)
+        self.assertFalse('Delete comment' in msg)
     
     def test_do_not_notify_user_when_notification_is_disabled(self):
         registry = queryUtility(IRegistry)
@@ -222,6 +224,12 @@ class TestModeratorNotificationUnit(unittest.TestCase):
             % comment_id
             in msg)
         self.assertTrue('Comment text' in msg)
+        self.assertTrue(
+            'Approve comment:\nhttp://nohost/plone/doc1/++conversation++default/%s/@@moderat=\ne-publish-comment'
+            % comment_id in msg)
+        self.assertTrue(
+            'Delete comment:\nhttp://nohost/plone/doc1/++conversation++default/%s/@@moderat=\ne-delete-comment'
+            % comment_id in msg)
     
     def test_notify_moderator_specific_address(self):
         # A moderator email address can be specified in the control panel.

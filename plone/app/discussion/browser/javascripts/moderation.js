@@ -57,7 +57,6 @@
             $.ajax({
                 type: "GET",
                 url: target,
-                data: "workflow_action=publish",
                 success: function (msg) {
                     // fade out row
                     $(row).fadeOut("normal", function () {
