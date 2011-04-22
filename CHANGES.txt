@@ -4,6 +4,9 @@ Changelog
 2.0.1 (2011-04-22)
 ------------------
 
+- Remove ImportError exceptions for Plone < 4.1 code and plone.z3cform < 0.6.0.
+  [timo]
+
 - Provide the comment body text in the email notification.
   [timo]
 
