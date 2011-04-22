@@ -52,7 +52,10 @@ COMMENT_TITLE = _(u"comment_title",
 
 MAIL_NOTIFICATION_MESSAGE = _(u"mail_notification_message",
     default=u"A comment on '${title}' "
-             "has been posted here: ${link}")
+             "has been posted here: ${link}\n\n"
+             "---\n\n"
+             "${text}"
+             "---\n")
 
 logger = logging.getLogger("plone.app.discussion")
 
@@ -244,17 +247,18 @@ def notify_user(obj, event):
         if (obj != comment and
             comment.user_notification and comment.author_email):
             emails.add(comment.author_email)
-
+    
     if not emails:
         return
-
+    
     subject = translate(_(u"A comment has been posted."),
                         context=obj.REQUEST)
     message = translate(Message(
             MAIL_NOTIFICATION_MESSAGE,
             mapping={'title': safe_unicode(content_object.title),
                      'link': content_object.absolute_url() + 
-                             '/view#' + obj.id}),
+                             '/view#' + obj.id,
+                     'text': obj.text}),
             context=obj.REQUEST)
     for email in emails:
         # Send email
@@ -315,7 +319,8 @@ def notify_moderator(obj, event):
     message = translate(Message(MAIL_NOTIFICATION_MESSAGE,
         mapping={'title': safe_unicode(content_object.title),
                  'link': content_object.absolute_url() + 
-                         '/view#' + obj.id}),
+                         '/view#' + obj.id,
+                 'text': obj.text}),
         context=obj.REQUEST)
 
     # Send email

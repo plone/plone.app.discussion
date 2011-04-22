@@ -87,6 +87,7 @@ class TestUserNotificationUnit(unittest.TestCase):
             "http://nohost/plone/d=\noc1/view#%s" 
             % comment_id
             in msg)
+        self.assertTrue('Comment text' in msg)
     
     def test_do_not_notify_user_when_notification_is_disabled(self):
         registry = queryUtility(IRegistry)
@@ -220,6 +221,7 @@ class TestModeratorNotificationUnit(unittest.TestCase):
             "http://nohost/plone/d=\noc1/view#%s" 
             % comment_id
             in msg)
+        self.assertTrue('Comment text' in msg)
     
     def test_notify_moderator_specific_address(self):
         # A moderator email address can be specified in the control panel.

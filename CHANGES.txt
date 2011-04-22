@@ -4,6 +4,9 @@ Changelog
 2.0.1 (2011-04-22)
 ------------------
 
+- Provide the comment body text in the email notification.
+  [timo]
+
 - Fix comment link in email notification. This fixes 
   http://dev.plone.org/plone/ticket/11413.
   [timo]
