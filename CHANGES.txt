@@ -4,6 +4,14 @@ Changelog
 2.0.1 (2011-04-22)
 ------------------
 
+- Make sure the email settings in the control panel are disabled when commenting
+  is disabled globally.
+  [timo]
+
+- Enable/disable moderator_email setting dynamically as mail settings or
+  discussion settings change.
+  [timo]
+
 - Remove ImportError exceptions for Plone < 4.1 code and plone.z3cform < 0.6.0.
   [timo]
 
