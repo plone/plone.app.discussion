@@ -8,6 +8,7 @@ install_requires = [
     'collective.monkeypatcher',
     'plone.app.layout',
     'plone.app.registry',
+    'plone.app.uuid',
     'plone.app.z3cform',
     'plone.indexer',
     'plone.registry',
@@ -22,10 +23,6 @@ install_requires = [
     'zope.site',
     'z3c.form>=2.3.3',
     ]
-
-# On Python 2.6 (implying Plone 4), require plone.app.uuid
-if sys.version_info >= (2,6):
-    install_requires.append('plone.app.uuid')
 
 setup(name='plone.app.discussion',
       version=version,
