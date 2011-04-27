@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.0.2 (unreleased)
+------------------
+
+- Moderation should be enabled only if there is a workflow set for Discussion 
+  Item.
+  [erico_andrei]
+
 2.0.1 (2011-04-22)
 ------------------
 
