@@ -39,12 +39,14 @@ class View(BrowserView):
         """
         context = aq_inner(self.context)
         workflowTool = getToolByName(context, 'portal_workflow')
-        comment_workflow = workflowTool.getChainForPortalType('Discussion Item')[0]
-        comment_workflow = workflowTool[comment_workflow]
-        if 'pending' in comment_workflow.states:
-            return True
-        else:
-            return False
+        comment_workflow = workflowTool.getChainForPortalType('Discussion Item')
+        if comment_workflow:
+            comment_workflow = comment_workflow[0]
+            comment_workflow = workflowTool[comment_workflow]
+            if 'pending' in comment_workflow.states:
+                return True
+            else:
+                return
 
 
 class ModerateCommentsEnabled(BrowserView):
@@ -56,12 +58,14 @@ class ModerateCommentsEnabled(BrowserView):
         """
         context = aq_inner(self.context)
         workflowTool = getToolByName(context, 'portal_workflow', None)
-        comment_workflow = workflowTool.getChainForPortalType('Discussion Item')[0]
-        comment_workflow = workflowTool[comment_workflow]
-        if 'pending' in comment_workflow.states:
-            return True
-        else:
-            return
+        comment_workflow = workflowTool.getChainForPortalType('Discussion Item')
+        if comment_workflow:
+            comment_workflow = comment_workflow[0]
+            comment_workflow = workflowTool[comment_workflow]
+            if 'pending' in comment_workflow.states:
+                return True
+            else:
+                return
 
 
 class DeleteComment(BrowserView):
