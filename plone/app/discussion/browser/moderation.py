@@ -45,8 +45,7 @@ class View(BrowserView):
             comment_workflow = workflowTool[comment_workflow]
             if 'pending' in comment_workflow.states:
                 return True
-            else:
-                return
+        return False
 
 
 class ModerateCommentsEnabled(BrowserView):
@@ -64,8 +63,8 @@ class ModerateCommentsEnabled(BrowserView):
             comment_workflow = workflowTool[comment_workflow]
             if 'pending' in comment_workflow.states:
                 return True
-            else:
-                return
+        
+        return False
 
 
 class DeleteComment(BrowserView):
