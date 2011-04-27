@@ -210,7 +210,7 @@ msgstr "Modération des commentaires"
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ../interfaces.py:38
 msgid "help_anonymous_comments"
-msgstr "Si activé, les utilisateurs anonymes peuvent poster des commentaires sans se connecter. Il est fortement recommandé d'utiliser un captcha pour prévenir du spam si cette option est activé."
+msgstr "Si activé, les utilisateurs anonymes peuvent poster des commentaires sans se connecter. Il est fortement recommandé d'utiliser un captcha pour prévenir du spam si cette option est activée."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
 #: ../interfaces.py:82
