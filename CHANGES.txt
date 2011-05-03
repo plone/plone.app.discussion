@@ -1,9 +1,16 @@
 Changelog
 =========
 
-1.1 (Unreleased)
+1.1 (2011-05-03)
 ----------------
 
+- Fix missing translations for comment formatting. This fixes 
+  http://dev.plone.org/plone/ticket/11671.
+  [timo]
+
+- Translations updated.
+  [timo]
+    
 - Add a moderator_email setting to control where moderator notifications are
   sent.
   [davisagli]
@@ -14,6 +21,7 @@ Changelog
 - Fixed test failure for the default user portrait, which changed from
   defaultUser.gif to defaultUser.png in Products.PlonePAS 4.0.5.
   [maurits]
+
 
 1.0 (2011-02-07)
 ----------------

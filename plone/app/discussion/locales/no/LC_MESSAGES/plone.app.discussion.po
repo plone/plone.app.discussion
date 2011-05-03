@@ -14,54 +14,59 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.discussion\n"
 
-#: ./comment.py:217
+#: ./comment.py:234
 msgid "A comment has been posted."
 msgstr ""
 
-#: ./interfaces.py:248
+#: ./interfaces.py:283
 msgid "A comment id unique to this conversation"
 msgstr "En kommentar-id unik for denne kommentaren"
 
-#: ./browser/comments.py:53
+#: ./browser/comments.py:71
 msgid "Add a comment"
 msgstr "Legg til en kommentar"
 
-#: ./browser/controlpanel.py:41
+#: ./browser/controlpanel.py:63
 msgid "Anonymous Comments"
 msgstr "Anonym kommentar"
 
-#: ./interfaces.py:273
+#: ./interfaces.py:308
 msgid "Author name (for display)"
 msgstr "Forfatternavn (synlig)"
 
-#: ./browser/comments.py:219
+#: ./browser/comments.py:252
+#: ./browser/controlpanel.py:83
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ./browser/moderation.py:148
+#: ./browser/controlpanel.py:79
+msgid "Changes saved"
+msgstr ""
+
+#: ./browser/moderation.py:165
 msgid "Comment approved."
 msgstr "Kommentaren er godkjent"
 
-#: ./browser/moderation.py:109
+#: ./browser/moderation.py:126
 msgid "Comment deleted."
 msgstr "Kommentaren er slettet"
 
-#: ./browser/controlpanel.py:42
+#: ./browser/controlpanel.py:64
 msgid "Commenter Image"
 msgstr "Forfatterbilde"
 
 msgid "Commenting infrastructure for Plone"
 msgstr ""
 
-#: ./interfaces.py:243
+#: ./interfaces.py:278
 msgid "Conversation"
 msgstr "Diskusjon"
 
-#: ./interfaces.py:274
+#: ./interfaces.py:309
 msgid "Creation date"
 msgstr "Dato opprettet"
 
-#: ./interfaces.py:128
+#: ./interfaces.py:163
 msgid "Date of the most recent comment"
 msgstr "Dato for den nyeste kommentaren"
 
@@ -69,39 +74,43 @@ msgstr "Dato for den nyeste kommentaren"
 msgid "Disabled"
 msgstr "Slått av"
 
-#: ./browser/controlpanel.py:13
+#: ./browser/controlpanel.py:32
 msgid "Discussion settings"
 msgstr "Innstillinger for kommentarer"
 
-#: ./interfaces.py:260
+#: ./browser/controlpanel.py:85
+msgid "Edit cancelled"
+msgstr ""
+
+#: ./interfaces.py:295
 msgid "Email"
 msgstr "E-post"
 
-#: ./browser/controlpanel.py:40
+#: ./browser/controlpanel.py:62
 msgid "Enable Comments"
 msgstr "Slå på kommentarer"
 
-#: ./interfaces.py:251
+#: ./interfaces.py:286
 msgid "Id of comment this comment is in reply to"
 msgstr "Id til kommentar som denne kommentaren er en kommentar til"
 
-#: ./interfaces.py:265
+#: ./interfaces.py:300
 msgid "MIME type"
 msgstr "MIME-type"
 
-#: ./browser/controlpanel.py:44
+#: ./browser/controlpanel.py:66
 msgid "Moderator Email Notification"
 msgstr "Varsling av moderator på epost"
 
-#: ./interfaces.py:275
+#: ./interfaces.py:310
 msgid "Modification date"
 msgstr "Endringsdato"
 
-#: ./interfaces.py:245
+#: ./interfaces.py:280
 msgid "Name"
 msgstr "Navn"
 
-#: ./interfaces.py:269
+#: ./interfaces.py:304
 msgid "Notify me of new comments via email."
 msgstr ""
 
@@ -109,28 +118,32 @@ msgstr ""
 msgid "Plone Discussions"
 msgstr ""
 
-#: ./interfaces.py:238
+#: ./interfaces.py:273
 msgid "Portal type"
 msgstr "Portaltype"
 
-#: ./interfaces.py:133
+#: ./browser/controlpanel.py:72
+msgid "Save"
+msgstr ""
+
+#: ./interfaces.py:168
 msgid "The set of unique commentators (usernames)"
 msgstr "Listen over forfattere (brukernavn)"
 
-#: ./interfaces.py:122
+#: ./interfaces.py:157
 msgid "Total number of comments on this item"
 msgstr "Antall kommentarer på denne artikkelen"
 
-#: ./browser/controlpanel.py:46
+#: ./browser/controlpanel.py:68
 msgid "User Email Notification"
 msgstr ""
 
-#: ./browser/comments.py:212
+#: ./browser/comments.py:245
 msgid "Your comment awaits moderator approval."
 msgstr "Kommentaren venter på godkjenning av moderator."
 
 #. Default: "Comment"
-#: ./browser/comments.py:102
+#: ./browser/comments.py:127
 msgid "add_comment_button"
 msgstr "Kommentér"
 
@@ -144,8 +157,23 @@ msgstr "Slett"
 msgid "bulkactions_publish"
 msgstr "Godkjenn"
 
+#. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
+#: ./browser/comments.py:56
+msgid "comment_description_intelligent_text"
+msgstr ""
+
+#. Default: "Comments are moderated."
+#: ./browser/comments.py:62
+msgid "comment_description_moderation_enabled"
+msgstr ""
+
+#. Default: "You can add a comment by filling out the form below. Plain text formatting."
+#: ./browser/comments.py:51
+msgid "comment_description_plain_text"
+msgstr ""
+
 #. Default: "${creator} on ${content}"
-#: ./comment.py:48
+#: ./comment.py:55
 msgid "comment_title"
 msgstr ""
 
@@ -185,13 +213,13 @@ msgid "help_anonymous_comments"
 msgstr "Dersom innstillingen er valgt kan anonyme brukere kommentere uten å logge inn. Det er anbefalt å bruke en captcha-løsning for å forhindre nettsøppel dersom denne innstillingen er valgt"
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
-#: ./interfaces.py:58
+#: ./interfaces.py:83
 #, fuzzy
 msgid "help_captcha"
 msgstr "Bruk denne innstillingen for å aktivere eller deaktivere captcha-validering av kommentarer. Installér plone.formwidget.captcha eller plone.formwidget.recaptcha dersom det mangler valg her."
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
-#: ./browser/controlpanel.py:14
+#: ./browser/controlpanel.py:33
 #, fuzzy
 msgid "help_discussion_settings_editform"
 msgstr ""
@@ -204,23 +232,33 @@ msgstr ""
 msgid "help_globally_enabled"
 msgstr "Dersom denne instillingen er valgt kan brukerene legge til kommentarer på nettstedet. Men du må likevel aktivere kommentarer for spesifikke innholdstyper, mapper eller innholdsobjekter før brukerene får lov til å legge til kommentarer."
 
+#. Default: "Address to which moderator notifications will be sent. If not specified, the Site 'From' Address from the mail control panel will be used."
+#: ./interfaces.py:117
+msgid "help_moderator_email"
+msgstr ""
+
 #. Default: "If selected, the moderator is notified if a comment needs attention."
-#: ./interfaces.py:83
+#: ./interfaces.py:108
 msgid "help_moderator_notification_enabled"
 msgstr "Dersom innstillingen er valgt vil moderatoren bli varslet når en kommentar er lagt til."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ./interfaces.py:73
+#: ./interfaces.py:98
 msgid "help_show_commenter_image"
 msgstr "Dersom denne er valgt vil bildet av brukeren vise ved siden av kommentaren."
 
+#. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
+#: ./interfaces.py:67
+msgid "help_text_transform"
+msgstr ""
+
 #. Default: "If selected, users can choose to be notified of new comments by email."
-#: ./interfaces.py:93
+#: ./interfaces.py:128
 msgid "help_user_notification_enabled"
 msgstr ""
 
 #. Default: "Anonymous"
-#: ./comment.py:121
+#: ./comment.py:130
 msgid "label_anonymous"
 msgstr ""
 
@@ -235,12 +273,12 @@ msgid "label_apply"
 msgstr "Bruk"
 
 #. Default: "Captcha"
-#: ./interfaces.py:56
+#: ./interfaces.py:81
 msgid "label_captcha"
 msgstr ""
 
 #. Default: "Comment"
-#: ./interfaces.py:266
+#: ./interfaces.py:301
 msgid "label_comment"
 msgstr ""
 
@@ -254,8 +292,13 @@ msgstr "Slett"
 msgid "label_globally_enabled"
 msgstr "Aktiver kommentarer globalt"
 
+#. Default: "Moderator Email Address"
+#: ./interfaces.py:116
+msgid "label_moderator_email"
+msgstr ""
+
 #. Default: "Enable moderator email notification"
-#: ./interfaces.py:81
+#: ./interfaces.py:106
 msgid "label_moderator_notification_enabled"
 msgstr "Slå på e-postvarsling av moderator"
 
@@ -270,7 +313,7 @@ msgid "label_says"
 msgstr ""
 
 #. Default: "Show commenter image"
-#: ./interfaces.py:71
+#: ./interfaces.py:96
 msgid "label_show_commenter_image"
 msgstr ""
 
@@ -280,22 +323,22 @@ msgid "label_show_full_comment_text"
 msgstr "Vis hele kommentaren"
 
 #. Default: "Subject"
-#: ./interfaces.py:262
+#: ./interfaces.py:297
 msgid "label_subject"
 msgstr ""
 
 #. Default: "Comment text transform"
-#: ./interfaces.py:48
+#: ./interfaces.py:65
 msgid "label_text_transform"
 msgstr ""
 
 #. Default: "Enable user email notification"
-#: ./interfaces.py:91
+#: ./interfaces.py:126
 msgid "label_user_notification_enabled"
 msgstr ""
 
 #. Default: "A comment on '${title}' has been posted here: ${link}"
-#: ./comment.py:51
+#: ./comment.py:58
 msgid "mail_notification_message"
 msgstr ""
 

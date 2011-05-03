@@ -50,14 +50,11 @@ except ImportError: # pragma: no cover
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     u"comment_description_plain_text",
-    default=u"You can add a comment by filling out the form below. " +
-             "Plain text formatting.")
+    default=u"You can add a comment by filling out the form below. Plain text formatting.")
 
 COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
     u"comment_description_intelligent_text",
-    default=u"You can add a comment by filling out the form below. " +
-             "Plain text formatting. Web and email addresses are transformed " +
-             "into clickable links.")
+    default=u"You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links.")
 
 COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
     u"comment_description_moderation_enabled",
@@ -316,10 +313,12 @@ class CommentsViewlet(ViewletBase):
 
         # text transform setting
         if settings.text_transform == "text/x-web-intelligent":
-            message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT))
+            message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT),
+                                context=self.request)
         else:
-            message = translate(Message(COMMENT_DESCRIPTION_PLAIN_TEXT))
-        
+            message = translate(Message(COMMENT_DESCRIPTION_PLAIN_TEXT),
+                                context=self.request)
+
         # comment workflow
         wftool = getToolByName(context, "portal_workflow", None)
         comment_workflow = wftool.getChainForPortalType('Discussion Item')[0]
