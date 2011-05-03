@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-11-03 13:43+0000\n"
+"POT-Creation-Date: 2011-05-03 13:55+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Hanno Schlichting <hannosch@plone.org>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
@@ -51,7 +51,6 @@ msgstr ""
 msgid "Comments added to a content item."
 msgstr ""
 
-#: profiles/default/actionicons.xml
 #: profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr ""

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2010-11-03 13:43+0000\n"
+"POT-Creation-Date: 2011-05-03 13:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
 "Language-Team: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
@@ -51,7 +51,6 @@ msgstr "Autores"
 msgid "Comments added to a content item."
 msgstr "Comentarios añadidos"
 
-#: profiles/default/actionicons.xml
 #: profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Discusión"

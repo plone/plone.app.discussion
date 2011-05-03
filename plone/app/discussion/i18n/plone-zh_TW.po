@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-11-03 13:43+0000\n"
+"POT-Creation-Date: 2011-05-03 13:55+0000\n"
 "PO-Revision-Date: 2010-08-07 23:11+0800\n"
 "Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
 "Language-Team: Taiwan Python User Group <plone-i18n@lists.sourceforge.net>\n"
@@ -51,7 +51,6 @@ msgstr "留言者"
 msgid "Comments added to a content item."
 msgstr "新增到內容項目的留言"
 
-#: profiles/default/actionicons.xml
 #: profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "討論"

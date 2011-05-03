@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2010-11-03 13:43+0000\n"
+"POT-Creation-Date: 2011-05-03 13:55+0000\n"
 "PO-Revision-Date: 2010-11-03 14:51+0100\n"
 "Last-Translator: Radim Novotny <novotny.radim@gmail.com>\n"
 "Language-Team: DMS4U <info@dms4u.cz>\n"
@@ -51,7 +51,6 @@ msgstr "Komentující"
 msgid "Comments added to a content item."
 msgstr "Komentář byl přidán."
 
-#: profiles/default/actionicons.xml
 #: profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Komentáře"
