@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2011-05-03 17:44+0100\n"
+"PO-Revision-Date: 2011-05-04 19:22+0100\n"
 "Last-Translator: Karl Johan Kleist <karl.johan@kleist-it-consulting.de>\n"
 "Language-Team: Svenska <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -45,11 +45,11 @@ msgstr "Ändringar sparade"
 
 #: ../browser/moderation.py:133
 msgid "Comment approved."
-msgstr "Kommentaren är godkänd."
+msgstr "Kommentaren har nu godkänts."
 
 #: ../browser/moderation.py:94
 msgid "Comment deleted."
-msgstr "Kommentaren är borttagen."
+msgstr "Kommentaren har nu raderats."
 
 #: ../browser/controlpanel.py:63
 msgid "Commenter Image"
@@ -241,11 +241,11 @@ msgstr ""
 msgid "help_moderator_email"
 msgstr "E-postadress för aviseringar till moderatorn."
 
+# " The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)" is FALSE!
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
 #: ../interfaces.py:107
-#, fuzzy
 msgid "help_moderator_notification_enabled"
-msgstr "Dersom innstillingen er valgt vil moderatoren bli varslet når en kommentar er lagt til."
+msgstr "Avisera moderatorn med e-post när en ny kommentar behöver åtgärdas."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ../interfaces.py:97
@@ -260,7 +260,7 @@ msgstr ""
 #. Default: "If selected, users can choose to be notified of new comments by email."
 #: ../interfaces.py:127
 msgid "help_user_notification_enabled"
-msgstr ""
+msgstr "Ge inloggade användare möjlighet att välja att bli aviserade med e-post om nya kommentarer."
 
 #. Default: "Anonymous"
 #: ../comment.py:156
