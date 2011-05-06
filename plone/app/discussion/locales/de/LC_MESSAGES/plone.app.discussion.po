@@ -157,7 +157,7 @@ msgstr "Veröffentlichen"
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
 #: ../browser/comments.py:52
 msgid "comment_description_intelligent_text"
-msgstr "Sie können einen Kommentar abgeben, indem sie das untenstehende Formular ausfüllen. Nur Text. Web- und E-Mailadressen werden in anklickbare Links umgewandelt."
+msgstr "Sie können einen Kommentar abgeben, indem Sie das untenstehende Formular ausfüllen. Nur Text. Web- und E-Mailadressen werden in anklickbare Links umgewandelt."
 
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:58
@@ -167,7 +167,7 @@ msgstr "Kommentare werden moderiert."
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
 #: ../browser/comments.py:47
 msgid "comment_description_plain_text"
-msgstr "Sie können einen Kommentar abgeben, indem sie das untenstehende Formular ausfüllen. Nur Text."
+msgstr "Sie können einen Kommentar abgeben, indem Sie das untenstehende Formular ausfüllen. Nur Text."
 
 #. Default: "${creator} on ${content}"
 #: ../comment.py:46
