@@ -1,10 +1,10 @@
 Changelog
 =========
 
-2.0.2 (unreleased)
+2.0.2 (2011-05-12)
 ------------------
 
-- Moderation should be enabled only if there is a workflow set for Discussion 
+- Moderation should be enabled only if there is a workflow set for Discussion
   Item.
   [erico_andrei]
 
@@ -17,7 +17,7 @@ Changelog
 - Add links to delete/approve a comment in the moderator notification email.
   [timo]
 
-- Remove the unnecessary workflow_action parameter from the PublishComments 
+- Remove the unnecessary workflow_action parameter from the PublishComments
   request.
   [timo]
 
@@ -35,7 +35,7 @@ Changelog
 - Provide the comment body text in the email notification.
   [timo]
 
-- Fix comment link in email notification. This fixes 
+- Fix comment link in email notification. This fixes
   http://dev.plone.org/plone/ticket/11413.
   [timo]
 
