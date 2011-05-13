@@ -1,10 +1,13 @@
+# Translation of plone.app.discussion.pot to Italian 
+# Luca Fabbri <luca.fabbri@redturtle.net>, 2010
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2010-02-26 09:15+0000\n"
-"Last-Translator: Luca Fabbri <luca.fabbri@redturtle.net>\n"
-"Language-Team: RedTurtle Technology <sviluppoplone@redturtle.net>\n"
+"POT-Creation-Date: 2011-04-22 17:12+0000\n"
+"PO-Revision-Date: 2011-05-13 18:10+0100\n"
+"Last-Translator: Giorgio Borelli <giorgio@giorgioborelli.it>\n"
+"Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,7 +24,7 @@ msgstr "Un commento è stato inserito."
 
 #: ../interfaces.py:257
 msgid "A comment id unique to this conversation"
-msgstr "Un id del commento unico per questa conversazione"
+msgstr "Id univoco del commento per questa conversazione"
 
 #: ../browser/comments.py:67
 msgid "Add a comment"
@@ -42,7 +45,7 @@ msgstr "Annulla"
 
 #: ../browser/controlpanel.py:76
 msgid "Changes saved"
-msgstr ""
+msgstr "Modifiche salvate"
 
 #: ../browser/moderation.py:133
 msgid "Comment approved."
@@ -57,7 +60,7 @@ msgid "Commenter Image"
 msgstr "Immagine Commentatore"
 
 msgid "Commenting infrastructure for Plone"
-msgstr "Infrastruttura di commenti per Plone"
+msgstr "Infrastruttura dei commenti per Plone"
 
 #: ../interfaces.py:252
 msgid "Conversation"
@@ -81,7 +84,7 @@ msgstr "Impostazioni dei commenti"
 
 #: ../browser/controlpanel.py:82
 msgid "Edit cancelled"
-msgstr ""
+msgstr "Modifiche annullate"
 
 #: ../interfaces.py:269
 msgid "Email"
@@ -97,7 +100,7 @@ msgstr "Id del commento a cui si risponde"
 
 #: ../interfaces.py:274
 msgid "MIME type"
-msgstr ""
+msgstr "MIME type"
 
 #: ../browser/controlpanel.py:65
 msgid "Moderator Email Notification"
@@ -125,7 +128,7 @@ msgstr "Tipo di contenuto"
 
 #: ../browser/controlpanel.py:69
 msgid "Save"
-msgstr ""
+msgstr "Salva"
 
 #: ../interfaces.py:167
 msgid "The set of unique commentators (usernames)"
@@ -158,25 +161,25 @@ msgstr "Elimina"
 msgid "bulkactions_publish"
 msgstr "Approva"
 
-#. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
+#. Default: "You can add a comment by filling out the form below. Web and email addresses are transformed into clickable links."
 #: ../browser/comments.py:52
 msgid "comment_description_intelligent_text"
-msgstr ""
+msgstr "Puoi aggiungere un commento compilando la form qui sotto. Utilizza testo semplice. Indirizzi web ed email saranno trasformati in collegamenti cliccabili."
 
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:58
 msgid "comment_description_moderation_enabled"
-msgstr ""
+msgstr "I commenti vengono moderati."
 
-#. Default: "You can add a comment by filling out the form below. Plain text formatting."
+#. Default: "You can add a comment by filling out the form below."
 #: ../browser/comments.py:47
 msgid "comment_description_plain_text"
-msgstr ""
+msgstr "Puoi aggiungere un commento compilando la form sotto. Utilizza il testo semplice."
 
 #. Default: "${creator} on ${content}"
 #: ../comment.py:46
 msgid "comment_title"
-msgstr ""
+msgstr "${creator} su ${content}"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -234,18 +237,17 @@ msgstr "Se selezionato, gli utenti saranno in grado di inserire commenti nel sit
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
 #: ../interfaces.py:50
 msgid "help_moderation_enabled"
-msgstr ""
+msgstr "Se selezionato, i commenti verranno creati in stato 'In attesa' in cui sono non sono visibili pubblicamente. Un utento con il permesso 'Revisiona i commenti' ('Revisore' o 'Manager') possono approvare i commenti per renderli pubblici. Se si vuole abilitare un workflow personalizzato per i commenti, bisogna andare nel pannello di controllo dei tipi."
 
 #. Default: "Address to which moderator notifications will be sent."
 #: ../interfaces.py:118
 msgid "help_moderator_email"
-msgstr ""
+msgstr "Indirizzo a cui verranno spedite le notifiche per la moderazione."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
 #: ../interfaces.py:107
-#, fuzzy
 msgid "help_moderator_notification_enabled"
-msgstr "Se selezionato il moderatore riceverà una notifica se il commento dovrà necessita della sua attenzione."
+msgstr "Se selezionato il moderatore riceverà una notifica se il commento dovrà necessita della sua attenzione. L'indirizzo email del moderatore può essere impostato nel pannello di controllo nella sezione 'Posta' (Indirizzo 'mittente' del sito)"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ../interfaces.py:97
@@ -255,7 +257,7 @@ msgstr "Se selezionato, un'immagine dell'utente verrà mostrata a fianco dei com
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
 #: ../interfaces.py:66
 msgid "help_text_transform"
-msgstr ""
+msgstr "Utilizzare questa impostazione per scegliere se il testo del commento deve essere trasformato in qualche modo. E' possibile scegliere tra 'Plain text' e 'Testo intelligente'. 'Testo intelligente' converte il testo in HTML dove le interruzioni di linea e le indentazioni vengono preservate, e gli indirizzi web o email vengono trasformati in collegamenti cliccabili."
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
 #: ../interfaces.py:127
@@ -280,7 +282,7 @@ msgstr "Applica"
 #. Default: "Captcha"
 #: ../interfaces.py:80
 msgid "label_captcha"
-msgstr ""
+msgstr "Captcha"
 
 #. Default: "Comment"
 #: ../interfaces.py:275
@@ -290,7 +292,7 @@ msgstr "Commento"
 #. Default: "Commenting has been disabled."
 #: ../browser/comments.pt:130
 msgid "label_commenting_disabled"
-msgstr ""
+msgstr "I commenti sono stati disabilitati."
 
 #. Default: "Delete"
 #: ../browser/moderation.pt:130
@@ -305,12 +307,12 @@ msgstr "Abilita globalmente i commenti"
 #. Default: "Enable comment moderation"
 #: ../interfaces.py:48
 msgid "label_moderation_enabled"
-msgstr ""
+msgstr "Abilita la moderazione dei commenti"
 
 #. Default: "Moderator Email Address"
 #: ../interfaces.py:117
 msgid "label_moderator_email"
-msgstr ""
+msgstr "Indirizzo email del moderatore"
 
 #. Default: "Enable moderator email notification"
 #: ../interfaces.py:105
@@ -325,7 +327,7 @@ msgstr "Approva"
 #. Default: "says:"
 #: ../browser/comments.pt:74
 msgid "label_says"
-msgstr "dice:"
+msgstr ":"
 
 #. Default: "Show commenter image"
 #: ../interfaces.py:95
@@ -354,14 +356,13 @@ msgstr "Abilita notifica via e-mail"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
 #: ../comment.py:50
-#, fuzzy
 msgid "mail_notification_message"
-msgstr "Un commento a '${title}' è stato inserito qui: ${link}"
+msgstr "Un commento a '${title}' è stato inserito qui: ${link}\n\n---\n${text}\n---"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
 #: ../comment.py:58
 msgid "mail_notification_message_moderator"
-msgstr ""
+msgstr "Un commento su '${title}' è stato aggiunto qui: ${link}\n\n---\n${text}\n---\n\nApprova commento:\n${link_approve}\n\nElimina commento:\n${link_delete}"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ../browser/moderation.pt:33
