@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2011-04-22 17:12+0000\n"
-"PO-Revision-Date: 2011-05-15 09:21+0800\n"
+"PO-Revision-Date: 2011-05-16 07:41+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: plone <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,6 @@ msgid "Comment deleted."
 msgstr "评论已删除。"
 
 #: ../browser/controlpanel.py:63
-#, fuzzy
 msgid "Commenter Image"
 msgstr "评论者肖像"
 
@@ -167,7 +166,7 @@ msgstr "您可以通过填写以下表单发表评论，使用纯文本格式。
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:58
 msgid "comment_description_moderation_enabled"
-msgstr ""
+msgstr "评论已审核。"
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
 #: ../browser/comments.py:47
@@ -201,7 +200,6 @@ msgstr "日期"
 
 #. Default: "In Response To"
 #: ../browser/moderation.pt:83
-#, fuzzy
 msgid "heading_in_reponse_to"
 msgstr "回复到"
 
@@ -241,145 +239,145 @@ msgstr "如果选中，评论将进入'待审核'状态，它们对用户是看�
 #. Default: "Address to which moderator notifications will be sent."
 #: ../interfaces.py:118
 msgid "help_moderator_email"
-msgstr ""
+msgstr "审核通知发送地址。"
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
 #: ../interfaces.py:107
 msgid "help_moderator_notification_enabled"
-msgstr ""
+msgstr "如果选中，如评论需要注意，审核者将被通知。审核者的Email地址，可以在'邮件设置'控制面板（网站'发件人'地址）中找到。"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ../interfaces.py:97
 msgid "help_show_commenter_image"
-msgstr ""
+msgstr "如果选中，一个用户的肖像显示在评论旁边。"
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
 #: ../interfaces.py:66
 msgid "help_text_transform"
-msgstr ""
+msgstr "使用此设置选择评论文本的转换方式，你可以选择'纯文本'和'智能文本。'智能文本'转换纯文本成HTML格式，其中换行和缩进保留，Web和Email地址都转换为可点击链接。"
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
 #: ../interfaces.py:127
 msgid "help_user_notification_enabled"
-msgstr ""
+msgstr "如果选中，用户可以选择通过Email通知新的评论。"
 
 #. Default: "Anonymous"
 #: ../comment.py:156
 msgid "label_anonymous"
-msgstr ""
+msgstr "匿名"
 
 #. Default: "Enable anonymous comments"
 #: ../interfaces.py:36
 msgid "label_anonymous_comments"
-msgstr ""
+msgstr "启用匿名评论"
 
 #. Default: "Apply"
 #: ../browser/moderation.pt:71
 msgid "label_apply"
-msgstr ""
+msgstr "应用"
 
 #. Default: "Captcha"
 #: ../interfaces.py:80
 msgid "label_captcha"
-msgstr ""
+msgstr "验证码"
 
 #. Default: "Comment"
 #: ../interfaces.py:275
 msgid "label_comment"
-msgstr ""
+msgstr "评论"
 
 #. Default: "Commenting has been disabled."
 #: ../browser/comments.pt:130
 msgid "label_commenting_disabled"
-msgstr ""
+msgstr "评论已被禁用。"
 
 #. Default: "Delete"
 #: ../browser/moderation.pt:130
 msgid "label_delete"
-msgstr ""
+msgstr "删除"
 
 #. Default: "Globally enable comments"
 #: ../interfaces.py:24
 msgid "label_globally_enabled"
-msgstr ""
+msgstr "全局启用评论"
 
 #. Default: "Enable comment moderation"
 #: ../interfaces.py:48
 msgid "label_moderation_enabled"
-msgstr ""
+msgstr "启用评论审核"
 
 #. Default: "Moderator Email Address"
 #: ../interfaces.py:117
 msgid "label_moderator_email"
-msgstr ""
+msgstr "审核者Email地址"
 
 #. Default: "Enable moderator email notification"
 #: ../interfaces.py:105
 msgid "label_moderator_notification_enabled"
-msgstr ""
+msgstr "启用审核者Email通知"
 
 #. Default: "Approve"
 #: ../browser/moderation.pt:121
 msgid "label_publish"
-msgstr ""
+msgstr "批准"
 
 #. Default: "says:"
 #: ../browser/comments.pt:74
 msgid "label_says"
-msgstr ""
+msgstr "说："
 
 #. Default: "Show commenter image"
 #: ../interfaces.py:95
 msgid "label_show_commenter_image"
-msgstr ""
+msgstr "显示评论者的肖象"
 
 #. Default: "show full comment text"
 #: ../browser/moderation.pt:114
 msgid "label_show_full_comment_text"
-msgstr ""
+msgstr "显示完整的评论文本"
 
 #. Default: "Subject"
 #: ../interfaces.py:271
 msgid "label_subject"
-msgstr ""
+msgstr "标题"
 
 #. Default: "Comment text transform"
 #: ../interfaces.py:64
 msgid "label_text_transform"
-msgstr ""
+msgstr "评论文本转换"
 
 #. Default: "Enable user email notification"
 #: ../interfaces.py:125
 msgid "label_user_notification_enabled"
-msgstr ""
+msgstr "启用用户Email通知"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
 #: ../comment.py:50
 msgid "mail_notification_message"
-msgstr ""
+msgstr "一条评论 '${title}' 已发布在: ${link}\n\n---\n${text}\n---\n"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
 #: ../comment.py:58
 msgid "mail_notification_message_moderator"
-msgstr ""
+msgstr "一条评论 '${title}' 已发布在: ${link}\n\n---\n${text}\n---\n\n批准评论：\n${link_approve}\n\n删除评论：\n${link_delete}\n\n删除评论：\n${link_delete}\n"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ../browser/moderation.pt:33
 msgid "message_enable_comment_workflow"
-msgstr ""
+msgstr "为这评论内容类型 启用'评论审核工作流'"
 
 #. Default: "Moderation workflow is disabled. You have to ${enable_comment_workflow} before you can moderate comments here."
 #: ../browser/moderation.pt:33
 msgid "message_moderation_disabled"
-msgstr ""
+msgstr "评论审核工作流已禁用。 你必须启用 ${enable_comment_workflow} 才能审核评论。"
 
 #. Default: "No comments to moderate."
 #: ../browser/moderation.pt:43
 msgid "message_nothing_to_moderate"
-msgstr ""
+msgstr "没有评论等待审核。"
 
 #. Default: "Bulk Actions"
 #: ../browser/moderation.pt:64
 msgid "title_bulkactions"
-msgstr ""
+msgstr "批量操作"
 
