@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2011-04-22 17:12+0000\n"
-"PO-Revision-Date: 2011-05-16 07:41+0800\n"
+"PO-Revision-Date: 2011-05-19 09:38+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: plone <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "评论已删除。"
 
 #: ../browser/controlpanel.py:63
 msgid "Commenter Image"
-msgstr "评论者肖像"
+msgstr "评论者头像"
 
 msgid "Commenting infrastructure for Plone"
 msgstr "Plone 的评论功能"
@@ -113,7 +113,7 @@ msgstr "名称"
 
 #: ../interfaces.py:278
 msgid "Notify me of new comments via email."
-msgstr "有的新的评论，通过 Email 通知我"
+msgstr "有新的评论，通过 Email 通知我"
 
 #: ./plone.app.discussion/plone/app/discussion/configure.zcml
 msgid "Plone Discussions"
@@ -249,7 +249,7 @@ msgstr "如果选中，如评论需要注意，审核者将被通知。审核者
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ../interfaces.py:97
 msgid "help_show_commenter_image"
-msgstr "如果选中，一个用户的肖像显示在评论旁边。"
+msgstr "如果选中，用户的头像显示在评论旁边。"
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
 #: ../interfaces.py:66
@@ -329,7 +329,7 @@ msgstr "说："
 #. Default: "Show commenter image"
 #: ../interfaces.py:95
 msgid "label_show_commenter_image"
-msgstr "显示评论者的肖象"
+msgstr "显示评论者的头像"
 
 #. Default: "show full comment text"
 #: ../browser/moderation.pt:114
