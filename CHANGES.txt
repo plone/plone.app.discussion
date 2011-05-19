@@ -1,9 +1,14 @@
 Changelog
 =========
 
-2.0.3 (unreleased)
+2.0.3 (2011-06-19)
 ------------------
 
+- Updated Simplified Chinese translation
+  [jianaijun]
+
+- Italian translation review.
+  [gborelli]
 
 2.0.2 (2011-05-12)
 ------------------
