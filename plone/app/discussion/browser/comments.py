@@ -151,7 +151,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                        ICaptcha['captcha'],
                                        None)
             captcha.validate(data['captcha'])
-
+        
+        # Create a comment
+        comment = createObject('plone.Comment')
+        comment.text = text
+        
+        for attribute in self.fields.keys():
+            setattr(comment, attribute, data[attribute])
+        
         # Fetch data from request
         if 'text' in data:
             text = data['text']
@@ -163,30 +170,26 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             author_email = data['author_email']
         if 'user_notification' in data:
             user_notification = data['user_notification']
-
+        
         # Check if conversation is enabled on this content object
         if not self.__parent__.restrictedTraverse(
             '@@conversation_view').enabled():
             raise Unauthorized("Discussion is not enabled for this content "
                                "object.")
-
+        
         # The add-comment view is called on the conversation object
         conversation = IConversation(self.__parent__)
-
+        
         if data['in_reply_to']:
             # Fetch the comment we want to reply to
             conversation_to_reply_to = conversation.get(data['in_reply_to'])
             replies = IReplies(conversation_to_reply_to)
-
-        # Create the comment
-        comment = createObject('plone.Comment')
-        comment.text = text
-
+        
         portal_membership = getToolByName(self.context, 'portal_membership')
-
+        
         can_reply = getSecurityManager().checkPermission('Reply to item',
                                                          context)
-
+        
         if portal_membership.isAnonymousUser() and \
         settings.anonymous_comments:
             # Anonymous Users
