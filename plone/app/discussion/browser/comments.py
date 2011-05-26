@@ -125,17 +125,16 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                              name='comment')
     def handleComment(self, action):
         context = aq_inner(self.context)
-        wf = getToolByName(context, 'portal_workflow')
-
+        
         data, errors = self.extractData()
         if errors:
             return
-
+        
         text = u""
         author_name = u""
         author_email = u""
         user_notification = None
-
+        
         # Captcha check for anonymous users (if Captcha is enabled and
         # anonymous commenting is allowed)
         registry = queryUtility(IRegistry)
@@ -152,7 +151,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                        ICaptcha['captcha'],
                                        None)
             captcha.validate(data['captcha'])
-
+        
+        # Create a comment
+        comment = createObject('plone.Comment')
+        comment.text = text
+        
+        for attribute in self.fields.keys():
+            setattr(comment, attribute, data[attribute])
+        
         # Fetch data from request
         if 'text' in data:
             text = data['text']
@@ -177,11 +183,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # Fetch the comment we want to reply to
             conversation_to_reply_to = conversation.get(data['in_reply_to'])
             replies = IReplies(conversation_to_reply_to)
-
-        # Create the comment
-        comment = createObject('plone.Comment')
-        comment.text = text
-
+        
         portal_membership = getToolByName(self.context, 'portal_membership')
 
         can_reply = getSecurityManager().checkPermission('Reply to item',
@@ -235,7 +237,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # to the comment.
         can_review = getSecurityManager().checkPermission('Review comments',
                                                           context)
-        comment_review_state = wf.getInfoFor(comment, 'review_state')
+        workflowTool = getToolByName(context, 'portal_workflow')
+        comment_review_state = workflowTool.getInfoFor(comment, 'review_state')
         if comment_review_state == 'pending' and not can_review:
             # Show info message when comment moderation is enabled
             IStatusMessage(self.context.REQUEST).addStatusMessage(

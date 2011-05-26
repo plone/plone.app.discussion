@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.1.1 (unreleased)
+------------------
+
+- Make handleComment method store comment attributes form extenders. This allows
+  us to extend the comment form with external add-ons.
+  [timo]
+
+
 1.1 (2011-05-03)
 ----------------
 
