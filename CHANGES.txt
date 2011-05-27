@@ -4,6 +4,9 @@ Changelog
 2.0.4 (Unreleased)
 ------------------
 
+- Refactor/clean up the handleComment method.
+  [timo]
+  
 - Make handleComment method store comment attributes from form extenders. This 
   allows us to extend the comment form with external add-ons.
   [timo]
@@ -18,12 +21,14 @@ Changelog
 - Italian translation review.
   [gborelli]
 
+
 2.0.2 (2011-05-12)
 ------------------
 
 - Moderation should be enabled only if there is a workflow set for Discussion
   Item.
   [erico_andrei]
+
 
 2.0.1 (2011-04-22)
 ------------------
