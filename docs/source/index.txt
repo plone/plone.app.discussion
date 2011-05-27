@@ -22,8 +22,8 @@ Contents:
    email-notification.txt
    howtos/index.txt
    api.txt
-   
-.. include:: ../../CHANGES.txt
+   changes.txt
+
 
 
 Indices and tables
