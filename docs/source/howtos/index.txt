@@ -1,7 +1,8 @@
+======
 Howtos
 ======
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    howto_extend_the_comment_form.txt
