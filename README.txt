@@ -1,12 +1,10 @@
 Introduction
 ============
 
-plone.app.discussion aims to be the new commenting system for Plone. It was 
-initially developed as part of the Google Summer of Code 2009 by Timo 
-Stollenwerk (student) and Martin Aspeli (mentor).
-
-plone.app.discussion is an add-on product for Plone 3.3.x and 4.0.x and will be
-shipped as part of Plone 4.1. 
+plone.app.discussion replaces the old commenting system in Plone 4.1 and is also
+available as an add-on product for Plone 3 and 4. It was initially developed as 
+part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin 
+Aspeli (mentor).
 
 .. note::
 
@@ -117,6 +115,18 @@ Documentation
 - For integrator/end-user documentation see 
   `http://plone.org/products/plone.app.discussion/documentation
   <http://plone.org/products/plone.app.discussion/documentation>`_.
+
+
+Known Issues
+============
+
+- **ImportError: No module named owner**: You are trying to install 
+  plone.app.discussion 2.x on Plone < 4.1. Pin plone.app.discussion to a version
+  < 2.0.
+  
+- **KeyError: 'Interface `plone.app.discussion.interfaces.IDiscussionSettings` 
+  defines a field `moderator_email`, for which there is no record.'**: An
+  upgrade step was unsuccessful. Reinstall plone.app.discussion to fix this.
 
 
 Credits

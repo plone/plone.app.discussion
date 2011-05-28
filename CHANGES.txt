@@ -1,14 +1,16 @@
 Changelog
 =========
 
-2.0.4 (Unreleased)
+2.0.4 (2011-05-28)
 ------------------
 
 - Refactor/clean up the handleComment method.
   [timo]
   
 - Make handleComment method store comment attributes from form extenders. This 
-  allows us to extend the comment form with external add-ons.
+  allows us to extend the comment form with external add-ons. See
+  http://packages.python.org/plone.app.discussion/howtos/howto_extend_the_comment_form.html
+  for details.
   [timo]
 
 
