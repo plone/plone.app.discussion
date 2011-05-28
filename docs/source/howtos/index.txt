@@ -1,3 +1,6 @@
+Howtos
+======
+
 .. toctree::
    :maxdepth: 2
 

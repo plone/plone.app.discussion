@@ -1,10 +1,11 @@
-Comment Form
-============
+Howto extend the comment form with additional fields
+====================================================
 
 This document explains how to extend the plone.app.discussion comment form with
 additional fields in an add-on product.
 
 .. seealso::
+
     * See the github collective for the source code of this howto:
       https://github.com/collective/collective.example.commentextender/
 
