@@ -6,9 +6,6 @@
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="plone">
 
-<metal:block fill-slot="top_slot"
-             tal:define="dummy python:request.set('disable_border',1)" />
-
 <metal:javascript_head_slot fill-slot="javascript_head_slot">
     <script type="text/javascript"
         tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
