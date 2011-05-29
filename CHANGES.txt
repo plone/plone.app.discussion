@@ -1,6 +1,17 @@
 Changelog
 =========
 
+1.1.2 (2011-05-29)
+------------------
+
+- Revert handleComment method clean up (r50082), since this broke the comment form.
+  [timo]
+  
+- Fix missing handleComment method. This fixes 
+  http://dev.plone.org/plone/ticket/11861.
+  [timo]
+
+
 1.1.1 (2011-05-28)
 ------------------
 

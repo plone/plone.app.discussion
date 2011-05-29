@@ -123,20 +123,20 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     @button.buttonAndHandler(_(u"add_comment_button", default=u"Comment"),
                              name='comment')
+    def handleComment(self, action):
         context = aq_inner(self.context)
         
-        # Check if conversation is enabled on this content object
-        if not self.__parent__.restrictedTraverse(
-            '@@conversation_view').enabled():
-            raise Unauthorized("Discussion is not enabled for this content "
-                               "object.")
-        
-        # Validation form
         data, errors = self.extractData()
         if errors:
             return
         
-        # Validate Captcha
+        text = u""
+        author_name = u""
+        author_email = u""
+        user_notification = None
+        
+        # Captcha check for anonymous users (if Captcha is enabled and
+        # anonymous commenting is allowed)
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         portal_membership = getToolByName(self.context, 'portal_membership')
@@ -152,28 +152,45 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                        None)
             captcha.validate(data['captcha'])
         
-        # some attributes are not always set
-        author_name = u""
-        author_email = u""
-        user_notification = None
-        
-        # Create comment
+        # Create a comment
         comment = createObject('plone.Comment')
-        # Set comment attributes (including extended comment form attributes)
+        comment.text = text
+        
         for attribute in self.fields.keys():
             setattr(comment, attribute, data[attribute])
-        # Make sure author_name is properly encoded
+        
+        # Fetch data from request
+        if 'text' in data:
+            text = data['text']
         if 'author_name' in data:
             author_name = data['author_name']
             if isinstance(author_name, str):
                 author_name = unicode(author_name, 'utf-8')
+        if 'author_email' in data:
+            author_email = data['author_email']
+        if 'user_notification' in data:
+            user_notification = data['user_notification']
+
+        # The add-comment view is called on the conversation object
+        conversation = IConversation(self.__parent__)
+
+        # Check if conversation is enabled on this content object
+        if not conversation.enabled():
+            raise Unauthorized, "Discussion is not enabled for this content\
+                                 object."
+
+        if data['in_reply_to']:
+            # Fetch the comment we want to reply to
+            conversation_to_reply_to = conversation.get(data['in_reply_to'])
+            replies = IReplies(conversation_to_reply_to)
         
-        # Set comment author properties for anonymous users or members
+        portal_membership = getToolByName(self.context, 'portal_membership')
+
         can_reply = getSecurityManager().checkPermission('Reply to item',
                                                          context)
-        portal_membership = getToolByName(self.context, 'portal_membership')
+
         if portal_membership.isAnonymousUser() and \
-           settings.anonymous_comments:
+        settings.anonymous_comments:
             # Anonymous Users
             comment.creator = author_name
             comment.author_name = author_name
@@ -199,23 +216,21 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_email = email
             comment.user_notification = user_notification
             comment.creation_date = comment.modification_date = datetime.utcnow()
-        else: # pragma: no cover
-            raise Unauthorized("Anonymous user tries to post a comment, but "
-                "anonymous commenting is disabled. Or user does not have the "
-                "'reply to item' permission.")
+        else:
+            raise Unauthorized, \
+                  """Anonymous user tries to post a comment, but
+                     anonymous commenting is disabled. Or user
+                     does not have the 'reply to item' permission.""" # pragma: no cover
 
-        # Add comment to conversation
-        conversation = IConversation(self.__parent__)
+        # Check if the added comment is a reply to an existing comment
+        # or just a regular reply to the content object.
         if data['in_reply_to']:
             # Add a reply to an existing comment
-            conversation_to_reply_to = conversation.get(data['in_reply_to'])
-            replies = IReplies(conversation_to_reply_to)
             comment_id = replies.addComment(comment)
         else:
             # Add a comment to the conversation
             comment_id = conversation.addComment(comment)
 
-        # Redirect after form submit:
         # If a user posts a comment and moderation is enabled, a message is
         # shown to the user that his/her comment awaits moderation. If the user
         # has 'review comments' permission, he/she is redirected directly
