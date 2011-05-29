@@ -13,7 +13,7 @@ way that they are grouped and ordered.
 
 .. note::
 
-  This howto applies only to plone.app.discussion >= 2.0.4 and >= 1.1.2 Prior
+  This howto applies only to plone.app.discussion >= 2.0.4 and >= 1.1.2. Prior
   versions will not store the extended fields on the comment.
 
 .. seealso::
