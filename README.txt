@@ -44,7 +44,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     ...
 
     [versions]
-    plone.app.discussion = 1.1.1
+    plone.app.discussion = 1.1.2
     
     ...
     
@@ -69,7 +69,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     versions = versions
     
     [versions]
-    plone.app.discussion = 1.1.1
+    plone.app.discussion = 1.1.2
     zope.schema = 3.6.4
     
     ...
