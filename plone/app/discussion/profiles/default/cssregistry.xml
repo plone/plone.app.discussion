@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_css">
- <stylesheet id="++resource++plone.app.discussion.stylesheets/discussion.css"/>
+ <stylesheet
+     id="++resource++plone.app.discussion.stylesheets/discussion.css"
+     insert-after="forms.css"
+     />
 </object>
