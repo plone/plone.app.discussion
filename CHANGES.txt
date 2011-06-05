@@ -5,6 +5,10 @@ Changelog
 2.0.5 (Unreleased)
 ------------------
 
+- Simplify CSS and JS registrations. CSS will now be imported using the
+  standard link and so can be merged.
+  [elro]
+
 - Enable the left-menu on the configlet, to be more consistent with all other configlets.
   Related to https://dev.plone.org/plone/ticket/11737
   [WouterVH]
