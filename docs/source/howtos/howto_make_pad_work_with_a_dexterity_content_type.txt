@@ -1,0 +1,30 @@
+configure.zcml::
+
+    <browser:page
+        name="conversation_view"
+        for=".mydexteritycontenttype.MyDexterityContentType"
+        layer="plone.app.discussion.interfaces.IDiscussionLayer"
+        class=".classified.ConversationView"
+        permission="zope2.View"
+        />
+
+Define an interface IMyDexterityContentType groked schema, I added:
+
+        allowDiscussion  = schema.Bool(
+            title=_(u"Allow Users to Comment"),
+            description=_(u"Allow users to commemt on you.  Comments
+are shown at the end of each page"),
+            required=True,
+            default=True,
+        )
+
+and added this class:
+
+from plone.app.discussion.browser.comments import CommentsViewlet
+class ConversationView(object):
+    """ Ability to either allow / disallow comments based on schema
+option
+    """
+    def enabled(self):
+        return getattr(self.context, 'allowDiscussion', False)
+
