@@ -248,10 +248,13 @@ class CommentsViewlet(ViewletBase):
 
     def update(self):
         super(CommentsViewlet, self).update()
-        z2.switch_on(self, request_layer=IFormLayer)
-        self.form = self.form(aq_inner(self.context), self.request)
-        alsoProvides(self.form, IWrappedForm)
-        self.form.update()
+        if self.is_discussion_allowed() and \
+           (self.is_anonymous() and self.anonymous_discussion_allowed() \
+            or self.can_reply()):
+            z2.switch_on(self, request_layer=IFormLayer)
+            self.form = self.form(aq_inner(self.context), self.request)
+            alsoProvides(self.form, IWrappedForm)
+            self.form.update()
 
     # view methods
 
