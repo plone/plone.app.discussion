@@ -1,8 +1,7 @@
 Changelog
 =========
 
-
-2.0.5 (Unreleased)
+2.0.5 (2011-05-28)
 ------------------
 
 - Simplify CSS and JS registrations. CSS will now be imported using the
