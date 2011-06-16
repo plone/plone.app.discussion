@@ -5,7 +5,8 @@ Changelog
 ------------------
 
 - Do not render/update the comment form in CommentViewlets if commenting is
-  disabled, since this slows down the page rendering.
+  disabled, since this slows down the page rendering. This fixes
+  http://dev.plone.org/plone/ticket/11930
   [fafhrd]
 
 
