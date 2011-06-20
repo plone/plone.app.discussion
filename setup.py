@@ -1,7 +1,7 @@
 import sys
 from setuptools import setup, find_packages
 
-version = '1.1.3'
+version = '1.1.3.1'
 
 install_requires = [
     'setuptools',
@@ -52,7 +52,7 @@ setup(name='plone.app.discussion',
               'plone.app.testing',
               'interlude',
           ]
-      },      
+      },
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone
