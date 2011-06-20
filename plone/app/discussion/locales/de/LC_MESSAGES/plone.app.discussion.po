@@ -1,18 +1,21 @@
+# Harald Friessnegger <harald@webmeisterei.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2010-10-04 20:56+0100\n"
-"Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
-"Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
+"PO-Revision-Date: 2011-06-20 13:24+0200\n"
+"Last-Translator: Harald Friessnegger <harald@webmeisterei.com>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 "Language-Code: de\n"
 "Language-Name: Deutsch\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.discussion\n"
+"Language: de\n"
+"X-Generator: Lokalize 1.2\n"
 
 #: ./comment.py:234
 msgid "A comment has been posted."
@@ -160,17 +163,22 @@ msgstr "Veröffentlichen"
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
 #: ./browser/comments.py:56
 msgid "comment_description_intelligent_text"
-msgstr "Sie können einen Kommentar abgeben, indem Sie das untenstehende Formular ausfüllen. Nur Text. Web- und E-Mailadressen werden in anklickbare Links umgewandelt."
+msgstr ""
+"Sie können einen Kommentar abgeben, indem Sie das untenstehende Formular "
+"ausfüllen. Nur Text. Web- und E-Mailadressen werden in anklickbare Links "
+"umgewandelt."
 
 #. Default: "Comments are moderated."
 #: ./browser/comments.py:62
 msgid "comment_description_moderation_enabled"
-msgstr ""
+msgstr "Kommentare werden moderiert."
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
 #: ./browser/comments.py:51
 msgid "comment_description_plain_text"
-msgstr "Sie können einen Kommentar abgeben, indem Sie das untenstehende Formular ausfüllen. Nur Text."
+msgstr ""
+"Sie können einen Kommentar abgeben, indem Sie das untenstehende Formular "
+"ausfüllen. Nur Text."
 
 #. Default: "${creator} on ${content}"
 #: ./comment.py:55
@@ -210,33 +218,49 @@ msgstr "Kommentare moderieren"
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ./interfaces.py:38
 msgid "help_anonymous_comments"
-msgstr "Wenn Sie diese Einstellung aktivieren, können anonyme Benutzer Kommentare abgeben. Es ist empfehlenswert, dann auch Captchas zu aktivieren."
+msgstr ""
+"Wenn Sie diese Einstellung aktivieren, können anonyme Benutzer Kommentare "
+"abgeben. Es ist empfehlenswert, dann auch Captchas zu aktivieren."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
 #: ./interfaces.py:83
 #, fuzzy
 msgid "help_captcha"
-msgstr "Wenn Sie diese Einstellung aktivieren, wird mit Hilfe der Captcha-Validierung überprüft, ob die Kommentare von einem echten Benutzer oder von einem automatisierten Skript stammen. Falls Sie die Option nicht einschalten können, fehlt evtl. ein benötigtes Programmmodul. Stellen Sie sicher, dass entweder plone.formwidget.captcha oder plone.formwidget.recaptcha installiert ist."
+msgstr ""
+"Wenn Sie diese Einstellung aktivieren, wird mit Hilfe der Captcha-Validierung "
+"überprüft, ob die Kommentare von einem echten Benutzer oder von einem "
+"automatisierten Skript stammen. Falls Sie die Option nicht einschalten "
+"können, fehlt evtl. ein benötigtes Programmmodul. Stellen Sie sicher, dass "
+"entweder plone.formwidget.captcha oder plone.formwidget.recaptcha installiert "
+"ist."
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ./browser/controlpanel.py:33
 #, fuzzy
 msgid "help_discussion_settings_editform"
 msgstr ""
-"Einige Kommentierungseinstellungen müssen an anderer Stelle vorgenommen werden. Um die Kommentierung einzelner Artikeltypen einzuschalten, gehen Sie in der 'Plone-Konfiguration' zu 'Artikeltypen', wählen Sie den gewünschten Artikeltyp aus und schalten Sie die Option 'Kommentieren erlauben' ein.\n"
+"Einige Kommentierungseinstellungen müssen an anderer Stelle vorgenommen "
+"werden. Um die Kommentierung einzelner Artikeltypen einzuschalten, gehen Sie "
+"in der 'Plone-Konfiguration' zu 'Artikeltypen', wählen Sie den gewünschten "
+"Artikeltyp aus und schalten Sie die Option 'Kommentieren erlauben' ein.\n"
 "\n"
-"Um die Moderation von Kommentaren zu aktivieren, wählen Sie den Artikeltyp 'Kommentar' aus und wählen Sie als neuen Arbeitsablauf 'Arbeitsablauf für moderierte Kommentare'."
+"Um die Moderation von Kommentaren zu aktivieren, wählen Sie den Artikeltyp "
+"'Kommentar' aus und wählen Sie als neuen Arbeitsablauf 'Arbeitsablauf für "
+"moderierte Kommentare'."
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
 #: ./interfaces.py:26
 #, fuzzy
 msgid "help_globally_enabled"
-msgstr "Wenn Sie diese Einstellung aktivieren, können Artikel generell kommentiert werden."
+msgstr ""
+"Wenn Sie diese Einstellung aktivieren, können Artikel generell kommentiert "
+"werden."
 
 #. Default: "Address to which moderator notifications will be sent. If not specified, the Site 'From' Address from the mail control panel will be used."
 #: ./interfaces.py:117
 msgid "help_moderator_email"
 msgstr ""
+"E-Mail Adresse an welche die Moderatoren-Benachrichtigungen gesendet werden."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention."
 #: ./interfaces.py:108
@@ -246,7 +270,9 @@ msgstr ""
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ./interfaces.py:98
 msgid "help_show_commenter_image"
-msgstr "Wenn Sie diese Einstellung aktivieren, wird das Porträt des kommentierenden Benutzers neben dem Kommentar angezeigt."
+msgstr ""
+"Wenn Sie diese Einstellung aktivieren, wird das Porträt des kommentierenden "
+"Benutzers neben dem Kommentar angezeigt."
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
 #: ./interfaces.py:67
@@ -301,7 +327,7 @@ msgstr ""
 #. Default: "Enable moderator email notification"
 #: ./interfaces.py:106
 msgid "label_moderator_notification_enabled"
-msgstr ""
+msgstr "Email-Benachrichtigungen für Moderatoren aktivieren"
 
 #. Default: "Approve"
 #: ./browser/moderation.pt:121
@@ -316,7 +342,7 @@ msgstr "sagt"
 #. Default: "Show commenter image"
 #: ./interfaces.py:96
 msgid "label_show_commenter_image"
-msgstr ""
+msgstr "Zeige das Portrait des Kommentators"
 
 #. Default: "show full comment text"
 #: ./browser/moderation.pt:114
@@ -336,12 +362,14 @@ msgstr "Text transformationen"
 #. Default: "Enable user email notification"
 #: ./interfaces.py:126
 msgid "label_user_notification_enabled"
-msgstr ""
+msgstr "E-Mail-Benachrichtigungen für Benutzer aktivieren"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}"
 #: ./comment.py:58
 msgid "mail_notification_message"
 msgstr ""
+"Ein Kommentar zu '${title}' wurde hier abgegeben: "
+"${link}\n\n---\n${text}\n---\n"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ./browser/moderation.pt:33
@@ -362,4 +390,5 @@ msgstr "Es müssen keine Kommentare moderiert werden."
 #: ./browser/moderation.pt:64
 msgid "title_bulkactions"
 msgstr "Sammelbearbeitung"
+
 

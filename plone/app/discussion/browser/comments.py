@@ -107,7 +107,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         member = mtool.getAuthenticatedMember()
         member_email = member.getProperty('email')
 
-        # Hide the user_notification checkbox if user notification is disabled 
+        # Hide the user_notification checkbox if user notification is disabled
         # or the user is not logged in. Also check if the user has a valid email
         # address
         if member_email == '' or \
@@ -125,16 +125,16 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                              name='comment')
     def handleComment(self, action):
         context = aq_inner(self.context)
-        
+
         data, errors = self.extractData()
         if errors:
             return
-        
+
         text = u""
         author_name = u""
         author_email = u""
         user_notification = None
-        
+
         # Captcha check for anonymous users (if Captcha is enabled and
         # anonymous commenting is allowed)
         registry = queryUtility(IRegistry)
@@ -151,14 +151,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                        ICaptcha['captcha'],
                                        None)
             captcha.validate(data['captcha'])
-        
+
         # Create a comment
         comment = createObject('plone.Comment')
         comment.text = text
-        
+
         for attribute in self.fields.keys():
             setattr(comment, attribute, data[attribute])
-        
+
         # Fetch data from request
         if 'text' in data:
             text = data['text']
@@ -183,7 +183,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # Fetch the comment we want to reply to
             conversation_to_reply_to = conversation.get(data['in_reply_to'])
             replies = IReplies(conversation_to_reply_to)
-        
+
         portal_membership = getToolByName(self.context, 'portal_membership')
 
         can_reply = getSecurityManager().checkPermission('Reply to item',
@@ -333,8 +333,9 @@ class CommentsViewlet(ViewletBase):
         # true comments are moderated
         if 'pending' in comment_workflow.states:
             message = message + " " + \
-                translate(Message(COMMENT_DESCRIPTION_MODERATION_ENABLED))
-        
+                translate(Message(COMMENT_DESCRIPTION_MODERATION_ENABLED),
+                          context = self.request)
+
         return message
 
     def has_replies(self, workflow_actions=False):
