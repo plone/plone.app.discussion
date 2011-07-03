@@ -39,6 +39,12 @@
         handler=".comment.notify_content_object_deleted"
         />
 
+    <subscriber
+        for="Products.CMFCore.interfaces.IContentish
+             zope.app.container.interfaces.IObjectMovedEvent"
+        handler=".comment.notify_content_object_moved"
+        />
+
     <!-- Control panel event subscribers -->
 
     <subscriber

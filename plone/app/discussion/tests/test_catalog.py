@@ -2,6 +2,8 @@
 """
 import unittest2 as unittest
 
+import transaction
+
 from datetime import datetime
 
 from zope.component import createObject
@@ -231,10 +233,34 @@ class CommentCatalogTest(unittest.TestCase):
                      path={'query':
                              '/'.join(self.comment.getPhysicalPath())}))
         self.comment_brain = brains[0]
-
+        
+    def test_move_comments_when_content_object_is_moved(self):
+        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        self.assertEquals(len(brains), 1)
+        self.assertEquals(brains[0].getPath(), 
+                          '/plone/doc1/++conversation++default/' + 
+                          str(self.comment_id))
+        
+        # Create new folder
+        self.portal.invokeFactory(id='folder1',
+                                  title='Folder 1',
+                                  type_name='Folder')
+        transaction.savepoint(1)
+        
+        # Move doc1 to folder1
+        cp = self.portal.manage_cutObjects(ids=('doc1',))
+        self.portal.folder1.manage_pasteObjects(cp)
+        
+        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        
+        self.assertEquals(len(brains), 1)
+        self.assertEquals(brains[0].getPath(), 
+                          '/plone/folder1/doc1/++conversation++default/' + 
+                          str(self.comment_id))
+    
     def test_title(self):
         self.assertEqual(self.comment_brain.Title, 'Jim on Document 1')
-
+    
     def test_no_name_title(self):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'

@@ -219,6 +219,29 @@ def notify_content_object_deleted(obj, event):
             del conversation[conversation.keys()[0]]
 
 
+def notify_content_object_moved(obj, event):
+    if event.oldParent is None or event.newParent is None \
+       or event.oldName is None or event.newName is None \
+       or event.oldParent == event.newParent:
+        return
+
+    old_path = "%s/%s" % ('/'.join(event.oldParent.getPhysicalPath()), 
+                          event.oldName, )
+    new_path = '/'.join(obj.getPhysicalPath())
+    obj.__of__(event.newParent)
+    conversation = IConversation(obj)
+    catalog = getToolByName(obj, 'portal_catalog')
+    from Acquisition import *
+    for brain in catalog.searchResults(portal_type = 'Discussion Item'):
+        catalog.uncatalog_object(brain.getPath())
+    for comment in conversation.getComments():
+        comment.__parent__.__parent__.__of__(event.newParent)
+        comment.__parent__.__parent__.__parent__ = event.newParent
+        catalog.reindexObject(aq_base(comment))
+        catalog.catalog_object(aq_base(comment))
+    
+    
+
 def notify_user(obj, event):
     """Tell users when a comment has been added.
        

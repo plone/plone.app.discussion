@@ -4,6 +4,10 @@ Changelog
 2.0.6 (unreleased)
 ------------------
 
+- Update comment brains in zcatalog when moving a content object with comments.
+  This fixes http://dev.plone.org/plone/ticket/11331.
+  [timo]
+  
 - Plone 3 specific exclusion of plone.app.uuid removed.
   [timo]
 
