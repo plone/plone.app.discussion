@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.7 (unreleased)
+------------------
+
+- Fix discussion control panel submit. This fixes ttps://dev.plone.org/plone/ticket/11486.
+
+
 2.0.6 (2011-07-04)
 ------------------
 

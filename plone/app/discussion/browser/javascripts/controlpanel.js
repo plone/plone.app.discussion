@@ -119,7 +119,7 @@
          * the required attributes.
          **********************************************************************/
         $("input[name='form.buttons.save']").bind("click", function (e) {
-            //e.preventDefault();
+            e.preventDefault();
             var form = $(this).parents("form");
             $(form).find("input,select").removeAttr('disabled');
             $(form).submit();
