@@ -44,7 +44,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     ...
 
     [versions]
-    plone.app.discussion = 1.1.3
+    plone.app.discussion = 1.1.4
     
     ...
     
@@ -69,8 +69,8 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     versions = versions
     
     [versions]
-    plone.app.discussion = 1.1.3
-    zope.schema = 3.6.4
+    plone.app.discussion = 1.1.4
+    zope.schema = 3.6.5
     
     ...
     
@@ -117,6 +117,18 @@ Documentation
 - For integrator/end-user documentation see 
   `http://plone.org/products/plone.app.discussion/documentation
   <http://plone.org/products/plone.app.discussion/documentation>`_.
+
+
+Known Issues
+============
+
+- **ImportError: No module named owner**: You are trying to install 
+  plone.app.discussion 2.x on Plone < 4.1. Pin plone.app.discussion to a version
+  < 2.0.
+  
+- **KeyError: 'Interface `plone.app.discussion.interfaces.IDiscussionSettings` 
+  defines a field `moderator_email`, for which there is no record.'**: An
+  upgrade step was unsuccessful. Reinstall plone.app.discussion to fix this.
 
 
 Credits
