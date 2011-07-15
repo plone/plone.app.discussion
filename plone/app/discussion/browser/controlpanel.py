@@ -69,7 +69,6 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         
     @button.buttonAndHandler(_('Save'), name=None)
     def handleSave(self, action):
-        print "handleSave"
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
