@@ -29,6 +29,7 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
     """Discussion settings form.
     """
     schema = IDiscussionSettings
+    id = "DiscussionSettingsEditForm"
     label = _(u"Discussion settings")
     description = _(u"help_discussion_settings_editform",
                     default=u"Some discussion related settings are not located "

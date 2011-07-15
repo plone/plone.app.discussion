@@ -103,12 +103,10 @@
          * submitting the form. Otherwise the z3c.form will raise errors on
          * the required attributes.
          **********************************************************************/
-        $("input[name='form.buttons.save']").bind("click", function (e) {
-            //e.preventDefault();
-            var form = $(this).parents("form");
-            $(form).find("input,select").removeAttr('disabled');
-            $(form).submit();
-        });           
+        $("form#DiscussionSettingsEditForm").bind("submit", function (e) {
+            $(this).find("input,select").removeAttr('disabled');
+            $(this).submit();
+        });
 
 	});
 
