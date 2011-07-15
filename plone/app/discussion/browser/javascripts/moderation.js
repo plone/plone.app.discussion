@@ -36,6 +36,11 @@
                     $(row).fadeOut("normal", function () {
                         $(this).remove();
                     });
+                    // reload page if all comments have been removed
+                    var comments = $("table#review-comments > tbody > tr");
+                    if (comments.length === 1) {
+                        location.reload();
+                    }
                 },
                 error: function (msg) {
                     alert("Error sending AJAX request:" + target);
@@ -62,6 +67,11 @@
                     $(row).fadeOut("normal", function () {
                         $(this).remove();
                     });
+                    // reload page if all comments have been removed
+                    var comments = $("table#review-comments > tbody > tr");
+                    if (comments.length === 1) {
+                        location.reload();
+                    }
                 },
                 error: function (msg) {
                     alert("Error sending AJAX request:" + target);
@@ -96,6 +106,11 @@
                             row.remove();
                         });
                     });
+                    // reload page if all comments have been removed
+                    var comments = $("table#review-comments > tbody > tr");
+                    if (comments.length <= valArray.length) {
+                        location.reload();
+                    }
                 });
                 // reset the bulkaction select
                 selectField.find("option[value='-1']").attr('selected', 'selected');
@@ -139,7 +154,7 @@
                 error: function (msg) {
                     alert("Error getting full comment text:" + target);
                 }
-            });        
+            });
         });
     
     });

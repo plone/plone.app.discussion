@@ -4,6 +4,10 @@ Changelog
 2.0.8 (unreleased)
 ------------------
 
+- Automatically reload batch moderation page if no comments are left. This
+  fixes http://dev.plone.org/plone/ticket/11298.
+  [timo]
+
 
 2.0.7 (2011-07-15)
 ------------------
