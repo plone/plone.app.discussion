@@ -29,6 +29,7 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
     """Discussion settings form.
     """
     schema = IDiscussionSettings
+    id = "DiscussionSettingsEditForm"
     label = _(u"Discussion settings")
     description = _(u"help_discussion_settings_editform",
                     default=u"Some discussion related settings are not located "
@@ -65,9 +66,10 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             _(u"Moderator Email Notification")
         self.widgets['user_notification_enabled'].label = \
             _(u"User Email Notification")
-
-    @button.buttonAndHandler(_('Save'), name='save')
+        
+    @button.buttonAndHandler(_('Save'), name=None)
     def handleSave(self, action):
+        print "handleSave"
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
