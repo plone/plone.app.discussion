@@ -72,7 +72,7 @@ def title(object):
 
 @indexer(IComment)
 def creator(object):
-    return object.creator and safe_unicode(object.creator)
+    return object.creator and safe_unicode(object.creator).encode('utf-8')
 
 @indexer(IComment)
 def description(object):
