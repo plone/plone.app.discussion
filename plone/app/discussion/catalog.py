@@ -10,6 +10,8 @@ from DateTime import DateTime
 
 from Products.CMFCore.interfaces import IContentish
 
+from Products.CMFPlone.utils import safe_unicode
+
 from Products.ZCatalog.interfaces import IZCatalog
 
 from plone.app.discussion.interfaces import IConversation, IComment
@@ -70,7 +72,7 @@ def title(object):
 
 @indexer(IComment)
 def creator(object):
-    return object.creator and object.creator.encode('utf-8')
+    return object.creator and safe_unicode(object.creator)
 
 @indexer(IComment)
 def description(object):

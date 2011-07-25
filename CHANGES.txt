@@ -8,6 +8,10 @@ Changelog
   fixes http://dev.plone.org/plone/ticket/11298.
   [timo]
 
+- Use Plone's safe_encode method instead of encode() to make sure unicode 
+  encoded strings can be indexed too.
+  [timo]
+
 
 2.0.7 (2011-07-15)
 ------------------
