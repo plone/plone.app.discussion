@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.8 (unreleased)
+2.0.8 (2011-07-25)
 ------------------
 
 - Automatically reload batch moderation page if no comments are left. This
