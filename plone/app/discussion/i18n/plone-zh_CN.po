@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2011-04-22 17:12+0000\n"
-"PO-Revision-Date: 2011-07-25 23:42+0800\n"
+"PO-Revision-Date: 2011-07-26 13:57+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: plone <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr "评论单一状态工作流"
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 #: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
-msgstr "最后状态转换的评论"
+msgstr "状态转换注释"
 
 #: ../profiles/default/portal_atct.xml
 msgid "Commentators"
@@ -49,7 +49,7 @@ msgstr "评论者"
 
 #: ../profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
-msgstr "评论已添加到内容条目的评论。"
+msgstr "评论已添加到内容条目。"
 
 #: ../profiles/default/controlpanel.xml
 msgid "Discussion"
@@ -57,7 +57,7 @@ msgstr "评论"
 
 #: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr "实际上的工作流没有转换，但有发布状态，所以面板和应用程序按期望的状态将正常工作。"
+msgstr "没有状态转换的基本工作流，只有一个发布状态，所以依赖该状态的面板和应用可以继续正常工作。"
 
 #: ../profiles/default/actions.xml
 msgid "Moderate comments"
@@ -70,7 +70,7 @@ msgstr "待审查"
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 #: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
-msgstr "上一步转换"
+msgstr "上一步状态转换"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 #: ../profiles/default/workflows/one_state_workflow/definition.xml
@@ -118,5 +118,5 @@ msgstr "对任何人可见，不可编辑。"
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 #: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
-msgstr "当执行上一步状态转换时"
+msgstr "当上一步状态转换被执行"
 
