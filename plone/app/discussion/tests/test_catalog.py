@@ -313,7 +313,19 @@ class CommentCatalogTest(unittest.TestCase):
         self.assertEquals(brains[0].getPath(), 
                           '/plone/folder1/doc1/++conversation++default/' + 
                           str(self.comment_id))
-    
+
+    def test_update_comments_when_content_object_is_renamed(self):
+        # We need to commit here so that _p_jar isn't None and move will work
+        transaction.savepoint(optimistic=True)        
+        
+        self.portal.manage_renameObject("doc1", "doc2")
+        
+        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
+        self.assertEquals(len(brains), 1)
+        self.assertEquals(brains[0].getPath(), 
+                          '/plone/doc2/++conversation++default/' + 
+                          str(self.comment_id))
+
     def test_clear_and_rebuild_catalog(self):
         # Clear and rebuild catalog
         self.catalog.clearFindAndRebuild()

@@ -223,8 +223,7 @@ def notify_content_object_moved(obj, event):
     """Update all comments of a content object that has been moved.
     """
     if event.oldParent is None or event.newParent is None \
-       or event.oldName is None or event.newName is None \
-       or event.oldParent == event.newParent:
+       or event.oldName is None or event.newName is None:
         return
     # Remove comments at the old location from catalog
     catalog = getToolByName(obj, 'portal_catalog')
