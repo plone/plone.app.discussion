@@ -227,7 +227,11 @@ def notify_content_object_moved(obj, event):
         return
     # Remove comments at the old location from catalog
     catalog = getToolByName(obj, 'portal_catalog')
-    for brain in catalog.searchResults(portal_type = 'Discussion Item'):
+    brains = catalog.searchResults(dict(
+                 path={'query': '/'.join(event.oldParent.getPhysicalPath())},
+                 portal_type="Discussion Item"
+                 ))
+    for brain in brains:
         catalog.uncatalog_object(brain.getPath())
     # Reindex comment at the new location
     conversation = IConversation(obj)

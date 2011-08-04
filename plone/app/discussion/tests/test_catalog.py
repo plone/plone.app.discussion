@@ -291,28 +291,41 @@ class CommentCatalogTest(unittest.TestCase):
         self.assertEqual(len(brains), 0)
         
     def test_move_comments_when_content_object_is_moved(self):
-        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
-        self.assertEquals(len(brains), 1)
-        self.assertEquals(brains[0].getPath(), 
-                          '/plone/doc1/++conversation++default/' + 
-                          str(self.comment_id))
-        
-        # Create new folder
+        # Create two folders and a content object with a comment
         self.portal.invokeFactory(id='folder1',
                                   title='Folder 1',
                                   type_name='Folder')
-        transaction.savepoint(1)
+        self.portal.invokeFactory(id='folder2',
+                                  title='Folder 2',
+                                  type_name='Folder')
+        self.portal.folder1.invokeFactory(id='moveme',
+                                  title='Move Me',
+                                  type_name='Document')        
+        conversation = IConversation(self.portal.folder1.moveme)
+        comment = createObject('plone.Comment')
+        comment_id = conversation.addComment(comment)
+        # We need to commit here so that _p_jar isn't None and move will work
+        transaction.savepoint(optimistic=True)
         
-        # Move doc1 to folder1
-        cp = self.portal.manage_cutObjects(ids=('doc1',))
-        self.portal.folder1.manage_pasteObjects(cp)
+        # Move moveme from folder1 to folder2
+        cp = self.portal.folder1.manage_cutObjects(ids=('moveme',))
+        self.portal.folder2.manage_pasteObjects(cp)
         
-        brains = self.catalog.searchResults(portal_type = 'Discussion Item')
-        
-        self.assertEquals(len(brains), 1)
+        # Make sure no old comment brains are 
+        brains = self.catalog.searchResults(dict(
+                 portal_type="Discussion Item",
+                 path={'query': '/'.join(self.portal.folder1.getPhysicalPath())}
+                 ))
+        self.assertEquals(len(brains), 0)
+
+        brains = self.catalog.searchResults(dict(
+                 portal_type="Discussion Item",
+                 path={'query': '/'.join(self.portal.folder2.getPhysicalPath())}
+                 ))
+        self.assertEquals(len(brains), 1)        
         self.assertEquals(brains[0].getPath(), 
-                          '/plone/folder1/doc1/++conversation++default/' + 
-                          str(self.comment_id))
+                          '/plone/folder2/moveme/++conversation++default/' + 
+                          str(comment_id))
 
     def test_update_comments_when_content_object_is_renamed(self):
         # We need to commit here so that _p_jar isn't None and move will work
