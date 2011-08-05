@@ -49,6 +49,12 @@ COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     default=u"You can add a comment by filling out the form below. " +
              "Plain text formatting.")
 
+COMMENT_DESCRIPTION_MARKDOWN = _(
+    u"comment_description_markdown",
+    default=u"You can add a comment by filling out the form below. " +
+             "Plain text formatting. You can use the Markdown syntax for " +
+             "links and images.")
+
 COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
     u"comment_description_intelligent_text",
     default=u"You can add a comment by filling out the form below. " +
@@ -292,6 +298,9 @@ class CommentsViewlet(ViewletBase):
         # text transform setting
         if settings.text_transform == "text/x-web-intelligent":
             message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT),
+                                context=self.request)
+        elif settings.text_transform == "text/x-web-markdown":
+            message = translate(Message(COMMENT_DESCRIPTION_MARKDOWN),
                                 context=self.request)
         else:
             message = translate(Message(COMMENT_DESCRIPTION_PLAIN_TEXT),

@@ -4,6 +4,9 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
+- New feature: Markdown syntax added to possible comment text transforms.
+  [timo]
+
 - Make sure the comment brains are updated properly when the content object is 
   renamed.
   [hannosch, timo]
