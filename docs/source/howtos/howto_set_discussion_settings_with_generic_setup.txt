@@ -1,0 +1,94 @@
+=================================================
+How to set discussion settings with generic setup
+=================================================
+
+This document explains how to set plone.app.discussion's settings with a
+generic setup profile. 
+
+plone.app.discussion uses plone.app.registry ...
+
+registry.xml::
+
+    <registry>
+      <record field="anonymous_comments" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments">
+        <field type="plone.registry.field.Bool">
+          <default>False</default>
+          <description>help_anonymous_comments</description>
+          <required>False</required>
+          <title>label_anonymous_comments</title>
+        </field>
+        <value>False</value>
+      </record>
+      <record field="captcha" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.captcha">
+        <field type="plone.registry.field.Choice">
+          <default>disabled</default>
+          <description>help_captcha</description>
+          <title>label_captcha</title>
+          <vocabulary>plone.app.discussion.vocabularies.CaptchaVocabulary</vocabulary>
+        </field>
+        <value>disabled</value>
+      </record>
+      <record field="globally_enabled" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled">
+        <field type="plone.registry.field.Bool">
+          <default>False</default>
+          <description>help_globally_enabled</description>
+          <required>False</required>
+          <title>label_globally_enabled</title>
+        </field>
+        <value>False</value>
+      </record>
+      <record field="moderation_enabled" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.moderation_enabled">
+        <field type="plone.registry.field.Bool">
+          <default>False</default>
+          <description>help_moderation_enabled</description>
+          <required>False</required>
+          <title>label_moderation_enabled</title>
+        </field>
+        <value>False</value>
+      </record>
+      <record field="moderator_email" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.moderator_email">
+        <field type="plone.registry.field.ASCIILine">
+          <description>help_moderator_email</description>
+          <required>False</required>
+          <title>label_moderator_email</title>
+        </field>
+        <value />
+      </record>
+      <record field="moderator_notification_enabled" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled">
+        <field type="plone.registry.field.Bool">
+          <default>False</default>
+          <description>help_moderator_notification_enabled</description>
+          <required>False</required>
+          <title>label_moderator_notification_enabled</title>
+        </field>
+        <value>False</value>
+      </record>
+      <record field="show_commenter_image" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image">
+        <field type="plone.registry.field.Bool">
+          <default>True</default>
+          <description>help_show_commenter_image</description>
+          <required>False</required>
+          <title>label_show_commenter_image</title>
+        </field>
+        <value>True</value>
+      </record>
+      <record field="text_transform" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.text_transform">
+        <field type="plone.registry.field.Choice">
+          <default>text/plain</default>
+          <description>help_text_transform</description>
+          <title>label_text_transform</title>
+          <vocabulary>plone.app.discussion.vocabularies.TextTransformVocabulary</vocabulary>
+        </field>
+        <value>text/plain</value>
+      </record>
+      <record field="user_notification_enabled" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled">
+        <field type="plone.registry.field.Bool">
+          <default>False</default>
+          <description>help_user_notification_enabled</description>
+          <required>False</required>
+          <title>label_user_notification_enabled</title>
+        </field>
+        <value>False</value>
+      </record>
+    </registry>
+
