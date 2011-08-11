@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2011-04-22 17:12+0000\n"
-"PO-Revision-Date: 2011-07-26 13:57+0800\n"
+"PO-Revision-Date: 2011-08-11 14:03+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: plone <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
-msgstr "评论简单审查工作流"
+msgstr "评论简单审核工作流"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
@@ -32,7 +32,7 @@ msgstr "评论"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
-msgstr "评论审查工作流"
+msgstr "评论审核工作流"
 
 #: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment Single State Workflow"
@@ -41,7 +41,7 @@ msgstr "评论单一状态工作流"
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 #: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
-msgstr "状态转换注释"
+msgstr "最后状态转换的注释"
 
 #: ../profiles/default/portal_atct.xml
 msgid "Commentators"
@@ -61,11 +61,11 @@ msgstr "没有状态转换的基本工作流，只有一个发布状态，所以
 
 #: ../profiles/default/actions.xml
 msgid "Moderate comments"
-msgstr "审查评论"
+msgstr "审核评论"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
-msgstr "待审查"
+msgstr "待审核"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 #: ../profiles/default/workflows/one_state_workflow/definition.xml
@@ -84,11 +84,11 @@ msgstr "已发布"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
-msgstr "审查者批准内容"
+msgstr "审核者批准内容"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
-msgstr "已提交，等待审查。"
+msgstr "已提交，等待审核。"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 #: ../profiles/default/workflows/one_state_workflow/definition.xml
