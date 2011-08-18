@@ -1,0 +1,86 @@
+================================================================================
+How to override plone.app.discussion's comments viewlet
+================================================================================
+
+Override the comments template through-the web
+----------------------------------------------
+
+    * go to the ZMI
+    * click on portal_view_customizations
+    * customize plone.comments (plone.app.discussion.interfaces.IDiscussionLayer)
+
+
+Override the comments template with z3c.jbot on the file system
+---------------------------------------------------------------
+
+http://pypi.python.org/pypi/z3c.jbot
+
+setup.py::
+
+    install_requires=[
+        ...
+        'z3c.jbot',
+    ],
+
+configure.zcml::
+
+    <include package="z3c.jbot" file="meta.zcml" />
+
+    <browser:jbot
+        directory="overrides"
+        layer="<layer>" />
+
+Replace <layer> with a custom browserlayer of your package.
+
+Create template directory::
+
+    $ mkdir overrides
+
+Copy comments viewlet template to overrides directory::
+    
+    $ cp ../parts/omelette/plone/app/discussion/browser/comments.pt overrides/plone.app.discussion.browser.comments.pt
+
+Restart your Plone instance and you can start to customize your copy of the comments viewlet.
+
+
+Override the comments viewlet class on the file system
+------------------------------------------------------
+
+interfaces.py::
+
+    from plone.app.discussion.interfaces import IDiscussionLayer
+
+    class IMyDiscussionLayer(IDiscussionLayer):
+        """Marker interface for browser layer
+        """
+
+profiles/default/browserlayer.xml::
+
+    <?xml version="1.0"?>
+    <layers>
+      <layer name="my.discussion"
+             interface="my.discussion.interfaces.IMyDiscussionLayer" />
+    </layers>
+
+
+configure.zcml::
+
+  <!-- Override plone.app.discussion's comments viewlet -->
+  <browser:viewlet
+    name="plone.comments"
+    for="Products.CMFCore.interfaces.IContentish"
+    layer="plone.app.discussion.interfaces.IDiscussionLayer"
+    manager="plone.app.layout.viewlets.interfaces.IBelowContent"
+    view="plone.app.layout.globals.interfaces.IViewView"
+    class=".comments.CommentsViewlet"
+    permission="zope2.View"
+    />
+
+comments.py::
+
+    ...
+
+comment.pt::
+
+    ...
+
