@@ -106,7 +106,8 @@ class Conversation(Traversable, Persistent, Explicit):
         """
         count = 0l
         for comment in self._comments.values(min=start):
-            yield comment
+            # Yield the acquisition wrapped comment
+            yield self[comment.id]
 
             count += 1
             if size and count > size:
