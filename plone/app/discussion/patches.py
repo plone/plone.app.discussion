@@ -1,4 +1,4 @@
-from Acquisition import aq_inner, aq_parent
+from Acquisition import aq_inner, aq_base, aq_parent
 
 from zope.annotation.interfaces import IAnnotations
 
@@ -31,9 +31,8 @@ def patchedClearFindAndRebuild(self):
                     conversation = conversation.__of__(obj)
                     for comment in conversation.getComments():
                         try:
-                            comment = comment.__of__(conversation)
                             if catalog:
-                                catalog.indexObject(comment)
+                                catalog.indexObject(aq_base(comment))
                         except StopIteration: # pragma: no cover
                             pass
 

@@ -236,7 +236,7 @@ def notify_content_object_moved(obj, event):
     # Reindex comment at the new location
     conversation = IConversation(obj)
     for comment in conversation.getComments():
-        comment.__parent__.__parent__.__parent__ = event.newParent
+        aq_base(comment).__parent__.__parent__.__parent__ = event.newParent
         catalog.reindexObject(aq_base(comment))
     
 
