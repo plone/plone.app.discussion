@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2011-04-22 17:12+0000\n"
-"PO-Revision-Date: 2011-08-11 14:03+0800\n"
+"PO-Revision-Date: 2011-08-19 12:23+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: plone <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -181,7 +181,7 @@ msgstr "${creator} 在 ${content}"
 #. Default: "Action"
 #: ../browser/moderation.pt:85
 msgid "heading_action"
-msgstr "动作"
+msgstr "操作"
 
 #. Default: "Comment"
 #: ../browser/moderation.pt:84

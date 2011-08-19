@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2011-04-22 17:12+0000\n"
-"PO-Revision-Date: 2011-08-11 14:03+0800\n"
+"PO-Revision-Date: 2011-08-19 12:23+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: plone <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "没有状态转换的基本工作流，只有一个发布状态，所以
 
 #: ../profiles/default/actions.xml
 msgid "Moderate comments"
-msgstr "审核评论"
+msgstr "评论审核"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
