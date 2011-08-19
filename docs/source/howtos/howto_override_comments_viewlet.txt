@@ -78,7 +78,23 @@ configure.zcml::
 
 comments.py::
 
-    ...
+    from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+    
+    from plone.app.discussion.browser.comments import CommentsViewlet as PloneAppDiscussionCommentsViewlet
+    from plone.app.discussion.browser.comments import CommentForm
+    
+    
+    class CommentsViewlet(PloneAppDiscussionCommentsViewlet):
+    
+        form = CommentForm
+        index = ViewPageTemplateFile('comments.pt')
+        
+        def get_commenter_home_url(self, username=None):
+            if username is None:
+                return None
+            else:
+                return "%s/memberhome/%s" % (self.context.portal_url(), username)
+
 
 comment.pt::
 
