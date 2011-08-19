@@ -234,10 +234,11 @@ def notify_content_object_moved(obj, event):
     for brain in brains:
         catalog.uncatalog_object(brain.getPath())
     # Reindex comment at the new location
-    conversation = IConversation(obj)
-    for comment in conversation.getComments():
-        aq_base(comment).__parent__.__parent__.__parent__ = event.newParent
-        catalog.reindexObject(aq_base(comment))
+    conversation = IConversation(obj, None)
+    if conversation is not None:
+        for comment in conversation.getComments():
+            aq_base(comment).__parent__.__parent__.__parent__ = event.newParent
+            catalog.reindexObject(aq_base(comment))
     
 
 def notify_user(obj, event):

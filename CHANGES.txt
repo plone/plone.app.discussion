@@ -4,6 +4,9 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
+- Avoid error when moving objects that are contentish but not annotatable.
+  [davisagli]
+
 - New feature: Markdown syntax added to possible comment text transforms.
   [timo]
 
