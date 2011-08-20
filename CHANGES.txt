@@ -16,7 +16,7 @@ Changelog
 
 - Make sure only comments to the content object are removed from the catalog
   when the content object is moved.
-  [hannosch, timo]
+  [hannosch, timo, davisagli]
   
 - Make sure the conversation.getComments method returns acquisition wrapped 
   comments.

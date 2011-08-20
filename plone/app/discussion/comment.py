@@ -227,8 +227,9 @@ def notify_content_object_moved(obj, event):
         return
     # Remove comments at the old location from catalog
     catalog = getToolByName(obj, 'portal_catalog')
+    old_path = '/'.join(event.oldParent.getPhysicalPath() + (event.oldName,))
     brains = catalog.searchResults(dict(
-                 path={'query': '/'.join(event.oldParent.getPhysicalPath())},
+                 path={'query': old_path},
                  portal_type="Discussion Item"
                  ))
     for brain in brains:
