@@ -1,0 +1,6 @@
+================================================================================
+Howto write a custom email notification
+================================================================================
+
+This document explains how to write a custom email notification for
+plone.app.discussion. 
