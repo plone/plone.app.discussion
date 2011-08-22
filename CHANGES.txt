@@ -23,7 +23,11 @@ Changelog
   [timo]
 
 - Ukrainian translation added.
-	[chervol]
+  [chervol]
+
+- Remove one_state_workflow customizations.
+  [timo]
+
 
 2.0.9 (2011-07-25)
 ------------------
