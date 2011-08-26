@@ -100,3 +100,27 @@ comment.pt::
 
     ...
 
+
+Override the comments viewlet Javascript
+----------------------------------------
+
+profiles/default/jsregistry.xml::
+
+    <?xml version="1.0"?>
+    <object name="portal_javascripts">
+     <javascript
+         id="++resource++plone.app.discussion.javascripts/comments.js"
+         remove="True"
+         />
+     <javascript
+         id="++resource++example.myaddonproduct.javascripts/comments.js" />
+    </object>
+
+browser/configure.zcml::
+
+    <!-- Resource directory for javascripts -->
+    <browser:resourceDirectory
+      name="example.myaddonproduct.javascripts"
+      directory="javascripts"
+      layer="example.myaddonprocuts.interfaces.IBrowserLayer"
+      />
