@@ -89,6 +89,7 @@
      **************************************************************************/
     $(window).load(function () {
 
+
         /**********************************************************************
          * If the user has hit the reply button of a reply-to-comment form
          * (form was submitted with a value for the "in_reply_to" field in the
@@ -105,7 +106,7 @@
         }
 
 
-    /**********************************************************************
+         /**********************************************************************
          * If the user hits the "reply" button of an existing comment, create a
          * reply form right beneath this comment.
          **********************************************************************/
@@ -126,16 +127,16 @@
                                               parents().
                                               filter(".comment").
                                               find(".reply-to-comment-button");
-
+            
             /* Find the reply-to-comment form and hide and remove it again. */
             $.reply_to_comment_form = $(this).parents().filter(".reply");
             $.reply_to_comment_form.slideUp("slow", function () {
                 $(this).remove();
             });
-
+            
             /* Show the reply-to-comment button again. */
             reply_to_comment_button.css("display", "inline");
-
+        
         });
 
 
@@ -163,8 +164,8 @@
             });
             return false;
         });
-    
-    
+
+
         /**********************************************************************
          * Delete a comment and its answers.
          **********************************************************************/
@@ -210,6 +211,7 @@
             });
             return false;
         });
+
 
         /**********************************************************************
          * By default, hide the reply and the cancel button for the regular add
