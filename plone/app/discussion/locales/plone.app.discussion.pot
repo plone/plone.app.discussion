@@ -211,7 +211,7 @@ msgstr ""
 msgid "heading_moderate_comments"
 msgstr ""
 
-#. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
+#. Default: "If selected, anonymous users are able to post comments without logging in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ../interfaces.py:38
 msgid "help_anonymous_comments"
 msgstr ""
@@ -226,7 +226,7 @@ msgstr ""
 msgid "help_discussion_settings_editform"
 msgstr ""
 
-#. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
+#. Default: "If selected, users are able to post comments on the site. However, you must enable comments for specific content types, folders or content objects before users will be able to post comments."
 #: ../interfaces.py:26
 msgid "help_globally_enabled"
 msgstr ""
