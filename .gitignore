@@ -10,7 +10,7 @@
 /local.cfg
 /*.egg-info
 /.installed.cfg
-/*.pyc
+*.pyc
 /.Python
 /include
 /lib
