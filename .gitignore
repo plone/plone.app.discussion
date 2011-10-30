@@ -16,6 +16,7 @@
 /lib
 /.project
 /.pydevproject
+/.mr.developer.cfg
 /src/*
 *.mo
 docs/Makefile
