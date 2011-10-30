@@ -37,7 +37,7 @@ class IDiscussionSettings(Interface):
                 default="Enable anonymous comments"),
         description=_(u"help_anonymous_comments",
                 default=u"If selected, anonymous users are able to post "
-                         "comments without logging in. It is highly "
+                         "comments without loggin in. It is highly "
                          "recommended to use a captcha solution to prevent "
                          "spam if this setting is enabled."),
         required=False,

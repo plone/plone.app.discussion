@@ -211,7 +211,7 @@ msgstr ""
 msgid "heading_moderate_comments"
 msgstr ""
 
-#. Default: "If selected, anonymous users are able to post comments without logging in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
+#. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ../interfaces.py:38
 msgid "help_anonymous_comments"
 msgstr ""

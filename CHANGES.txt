@@ -4,7 +4,10 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Fix control panel help text typos
+- Fix various text typos.
+  [timo]
+
+- Fix control panel help text typos.
   [jonstahl]
 
 - Documentation about overriding the comments viewlet js added.
@@ -12,6 +15,7 @@ Changelog
 
 - Corrected location of Japanese po file.
   [tyam]
+
 
 2.1.0 (2011-08-22)
 ------------------
