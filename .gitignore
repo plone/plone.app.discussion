@@ -18,3 +18,5 @@
 /.pydevproject
 /src/*
 *.mo
+docs/Makefile
+docs/make.bat
