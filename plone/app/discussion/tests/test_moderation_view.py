@@ -6,7 +6,6 @@ from DateTime import DateTime
 from zope.component import createObject
 
 from Products.CMFCore.utils import getToolByName
-from Products.PloneTestCase.ptc import PloneTestCase
 
 from plone.app.testing import TEST_USER_ID, setRoles
 
