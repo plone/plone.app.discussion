@@ -4,6 +4,9 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
+- Include mo files in the distribution.
+  [vincentfretin]
+
 - Fix various text typos.
   [timo]
 
