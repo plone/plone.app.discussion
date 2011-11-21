@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Language-Code: uk\n"
-"Language-Name: Ukranian\n"
+"Language-Name: Ukrainian\n"
 "Preferred-Encodings: utf-8\n"
 "Domain: plone\n"
 
