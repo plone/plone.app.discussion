@@ -485,7 +485,7 @@ Changelog
   [timo]
 
 - Disable the plone.app.registry check on schema elements, so no error is
-  raised on upgrades. This fixes https://dev.plone.org/plone/ticket/11195.
+  raised on upgrades. This fixes http://dev.plone.org/plone/ticket/11195.
   [timo]
 
 - Remove the too generic id attribute of the comment form.
