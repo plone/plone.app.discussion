@@ -4,6 +4,10 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
+- Fixed language code error in Ukrainian translation. The message
+  catalog was erroneously set to "English".
+  [chervol]
+
 - Do not raise an error if the comment text is None.
   [timo]
 
