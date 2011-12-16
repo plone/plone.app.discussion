@@ -11,6 +11,8 @@ Changelog
 - Do not raise an error if the comment text is None.
   [timo]
 
+- Updated Spanish translation.
+  [hvelarde]
 
 2.1.1 (2011-11-24)
 ------------------
