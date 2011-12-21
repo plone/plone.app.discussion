@@ -348,6 +348,9 @@ class CommentCatalogTest(unittest.TestCase):
         self.assertTrue(brains)
         comment_brain = brains[0]
         self.assertEqual(comment_brain.Title, u'Jim on Document 1')
+        self.assertEqual(comment_brain.getPath(),
+            '/plone/doc1/++conversation++default/' +
+            str(self.comment_id))
 
     def test_clear_and_rebuild_catalog_for_nested_comments(self):
 
