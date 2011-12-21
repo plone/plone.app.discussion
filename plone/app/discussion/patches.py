@@ -26,14 +26,14 @@ def patchedClearFindAndRebuild(self):
                 obj.indexObject()
 
                 annotions = IAnnotations(obj)
-                discussion = queryUtility(ICommentingTool)
+                ctool = queryUtility(ICommentingTool)
                 if ANNOTATION_KEY in annotions:
                     conversation = annotions[ANNOTATION_KEY]
                     conversation = conversation.__of__(obj)
                     for comment in conversation.getComments():
                         try:
-                            if discussion:
-                                discussion.indexObject(comment)
+                            if ctool:
+                                ctool.indexObject(comment)
                         except StopIteration: # pragma: no cover
                             pass
 
