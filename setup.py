@@ -26,7 +26,7 @@ install_requires = [
 setup(name='plone.app.discussion',
       version=version,
       description="Enhanced discussion support for Plone",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open("CHANGES.txt").read(),
       classifiers=[
         "Framework :: Plone",
