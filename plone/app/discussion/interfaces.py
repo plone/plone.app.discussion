@@ -112,7 +112,7 @@ class IDiscussionSettings(Interface):
         required=False,
         default=False,
         )
-    
+
     moderator_email = schema.ASCIILine(
         title = _(u'label_moderator_email', default=u'Moderator Email Address'),
         description = _(u'help_moderator_email',

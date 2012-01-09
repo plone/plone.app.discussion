@@ -71,67 +71,67 @@ logger = logging.getLogger("plone.app.discussion")
 class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
               RoleManager, Owned, Implicit, Persistent):
     """A comment.
-    
+
     This object attempts to be as lightweight as possible. We implement a
     number of standard methods instead of subclassing, to have total control
     over what goes into the object.
     """
-    
+
     implements(IComment)
-    
+
     meta_type = portal_type = 'Discussion Item'
     # This needs to be kept in sync with types/Discussion_Item.xml title
     fti_title = 'Comment'
-    
+
     __parent__ = None
-    
-    comment_id = None # long
-    in_reply_to = None # long
-    
+
+    comment_id = None  # long
+    in_reply_to = None  # long
+
     title = u""
-    
+
     mime_type = None
     text = u""
-    
+
     creator = None
     creation_date = None
     modification_date = None
-    
+
     author_username = None
-    
+
     author_name = None
     author_email = None
-    
+
     user_notification = None
-    
+
     # Note: we want to use zope.component.createObject() to instantiate
     # comments as far as possible. comment_id and __parent__ are set via
     # IConversation.addComment().
-    
+
     def __init__(self):
         self.creation_date = self.modification_date = datetime.utcnow()
-    
+
     @property
     def __name__(self):
         return self.comment_id and unicode(self.comment_id) or None
-    
+
     @property
     def id(self):
         return self.comment_id and str(self.comment_id) or None
-    
+
     def getId(self):
         """The id of the comment, as a string.
         """
         return self.id
-    
+
     def getText(self, targetMimetype=None):
         """The body text of a comment.
         """
         transforms = getToolByName(self, 'portal_transforms')
-        
+
         if targetMimetype is None:
             targetMimetype = 'text/x-html-safe'
-        
+
         sourceMimetype = getattr(self, 'mime_type', None)
         if sourceMimetype is None:
             registry = queryUtility(IRegistry)
@@ -146,21 +146,21 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
                                     text,
                                     context=self,
                                     mimetype=sourceMimetype).getData()
-    
+
     def Title(self):
         """The title of the comment.
         """
-        
+
         if self.title:
             return self.title
-        
+
         if not self.creator:
             creator = translate(Message(_(u"label_anonymous",
                                           default=u"Anonymous")))
         else:
             creator = self.creator
             creator = creator
-        
+
         # Fetch the content object (the parent of the comment is the
         # conversation, the parent of the conversation is the content object).
         content = aq_base(self.__parent__.__parent__)
@@ -169,26 +169,26 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
                     mapping={'creator': creator,
                              'content': safe_unicode(content.Title())}))
         return title
-    
+
     def Creator(self):
         """The name of the person who wrote the comment.
         """
         return self.creator
-    
+
     def Type(self):
         """The Discussion Item content type.
         """
         return self.fti_title
-    
+
     # CMF's event handlers assume any IDynamicType has these :(
-    
-    def opaqueItems(self): # pragma: no cover
+
+    def opaqueItems(self):  # pragma: no cover
         return []
-    
-    def opaqueIds(self): # pragma: no cover
+
+    def opaqueIds(self):  # pragma: no cover
         return []
-    
-    def opaqueValues(self): # pragma: no cover
+
+    def opaqueValues(self):  # pragma: no cover
         return []
 
 CommentFactory = Factory(Comment)
@@ -242,24 +242,24 @@ def notify_content_object_moved(obj, event):
         for comment in conversation.getComments():
             aq_base(comment).__parent__.__parent__.__parent__ = event.newParent
             catalog.reindexObject(aq_base(comment))
-    
+
 
 def notify_user(obj, event):
     """Tell users when a comment has been added.
-       
+
        This method composes and sends emails to all users that have added a
        comment to this conversation and enabled user notification.
-       
+
        This requires the user_notification setting to be enabled in the
        discussion control panel.
     """
-    
+
     # Check if user notification is enabled
     registry = queryUtility(IRegistry)
     settings = registry.forInterface(IDiscussionSettings, check=False)
     if not settings.user_notification_enabled:
         return
-    
+
     # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
     portal_url = getToolByName(obj, 'portal_url')
@@ -282,16 +282,16 @@ def notify_user(obj, event):
         if (obj != comment and
             comment.user_notification and comment.author_email):
             emails.add(comment.author_email)
-    
+
     if not emails:
         return
-    
+
     subject = translate(_(u"A comment has been posted."),
                         context=obj.REQUEST)
     message = translate(Message(
             MAIL_NOTIFICATION_MESSAGE,
             mapping={'title': safe_unicode(content_object.title),
-                     'link': content_object.absolute_url() + 
+                     'link': content_object.absolute_url() +
                              '/view#' + obj.id,
                      'text': obj.text}),
             context=obj.REQUEST)
@@ -312,13 +312,13 @@ def notify_user(obj, event):
 
 def notify_moderator(obj, event):
     """Tell the moderator when a comment needs attention.
-       
-       This method sends an email to the moderator if comment moderation a new 
+
+       This method sends an email to the moderator if comment moderation a new
        comment has been added that needs to be approved.
-       
+
        The moderator_notification setting has to be enabled in the discussion
        control panel.
-       
+
        Configure the moderator e-mail address in the discussion control panel.
        If no moderator is configured but moderator notifications are turned on,
        the site admin email (from the mail control panel) will be used.
@@ -328,25 +328,25 @@ def notify_moderator(obj, event):
     settings = registry.forInterface(IDiscussionSettings, check=False)
     if not settings.moderator_notification_enabled:
         return
-    
+
     # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
     portal_url = getToolByName(obj, 'portal_url')
     portal = portal_url.getPortalObject()
     sender = portal.getProperty('email_from_address')
-    
+
     if settings.moderator_email:
         mto = settings.moderator_email
     else:
         mto = sender
-    
+
     # Check if a sender address is available
     if not sender:
         return
-    
+
     conversation = aq_parent(obj)
     content_object = aq_parent(conversation)
-    
+
     # Compose email
     subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
     message = translate(Message(MAIL_NOTIFICATION_MESSAGE_MODERATOR,
@@ -358,7 +358,7 @@ def notify_moderator(obj, event):
             'link_delete': obj.absolute_url() + '/@@moderate-delete-comment',
             }),
         context=obj.REQUEST)
-    
+
     # Send email
     try:
         mail_host.send(message, mto, sender, subject, charset='utf-8')
