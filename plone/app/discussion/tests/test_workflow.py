@@ -15,7 +15,8 @@ from Products.CMFCore.permissions import View
 from plone.app.testing import TEST_USER_ID, setRoles
 from plone.app.testing import logout, login
 
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import \
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.discussion.interfaces import IConversation, IDiscussionLayer
 
 
@@ -105,7 +106,7 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory('Folder', 'test-folder')
-        self.folder = self.portal['test-folder']        
+        self.folder = self.portal['test-folder']
         self.catalog = self.portal.portal_catalog
         self.workflow = self.portal.portal_workflow
         self.workflow.setChainForPortalTypes(['Document'],
@@ -125,7 +126,7 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         self.portal.acl_users._doAddUser('member', 'secret', ['Member'], [])
         self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
         self.portal.acl_users._doAddUser('manager', 'secret', ['Manager'], [])
-        self.portal.acl_users._doAddUser('editor' , ' secret', ['Editor'],[])
+        self.portal.acl_users._doAddUser('editor', ' secret', ['Editor'], [])
         self.portal.acl_users._doAddUser('reader', 'secret', ['Reader'], [])
 
     def test_initial_workflow_state(self):
@@ -163,12 +164,11 @@ class CommentReviewWorkflowTest(unittest.TestCase):
 
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory('Folder', 'test-folder')
-        self.folder = self.portal['test-folder']        
+        self.folder = self.portal['test-folder']
 
         # Allow discussion on the Document content type
         self.portal.portal_types['Document'].allow_discussion = True

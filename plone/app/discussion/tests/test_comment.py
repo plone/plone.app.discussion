@@ -13,7 +13,8 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.testing import TEST_USER_ID, setRoles
 
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import \
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 from plone.app.discussion.interfaces import IComment, IConversation, IReplies
 
@@ -22,6 +23,7 @@ from plone.app.discussion.browser.comment import View
 
 logger = logging.getLogger('plone.app.discussion.tests')
 logger.addHandler(logging.StreamHandler())
+
 
 class CommentTest(unittest.TestCase):
 
@@ -37,14 +39,15 @@ class CommentTest(unittest.TestCase):
                           type_name='Document')
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         self.document_brain = self.catalog.searchResults(
-            portal_type = 'Document')[0]
+            portal_type='Document')[0]
 
     def test_factory(self):
         comment1 = createObject('plone.Comment')
         self.assertTrue(IComment.providedBy(comment1))
 
     def test_UTCDates(self):
-        utc_to_local_diff = datetime.datetime.now() - datetime.datetime.utcnow()
+        utc_to_local_diff = \
+            datetime.datetime.now() - datetime.datetime.utcnow()
         utc_to_local_diff = abs(utc_to_local_diff.seconds)
         if utc_to_local_diff < 60:
             logger.warning("Your computer is living in a timezone where local "
@@ -71,7 +74,7 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject('plone.Comment')
         conversation.addComment(comment1)
         comment_brain = self.catalog.searchResults(
-                            portal_type = 'Discussion Item')[0]
+                            portal_type='Discussion Item')[0]
         self.assertTrue(comment_brain.UID)
 
     def test_uid_is_unique(self):
@@ -81,7 +84,7 @@ class CommentTest(unittest.TestCase):
         comment2 = createObject('plone.Comment')
         conversation.addComment(comment2)
         brains = self.catalog.searchResults(
-                     portal_type = 'Discussion Item')
+                     portal_type='Discussion Item')
         self.assertNotEqual(brains[0].UID, brains[1].UID)
 
     def test_comment_uid_differs_from_content_uid(self):
@@ -89,7 +92,7 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject('plone.Comment')
         conversation.addComment(comment1)
         comment_brain = self.catalog.searchResults(
-                            portal_type = 'Discussion Item')[0]
+                            portal_type='Discussion Item')[0]
         self.assertNotEqual(self.document_brain.UID, comment_brain.UID)
 
     def test_title(self):
@@ -131,13 +134,13 @@ class CommentTest(unittest.TestCase):
         Second paragraph"""
         self.assertEqual(comment1.getText(),
             "<p>First paragraph<br /><br />        Second paragraph</p>")
-    
+
     def test_getText_escapes_HTML(self):
         comment1 = createObject('plone.Comment')
         comment1.text = """<b>Got HTML?</b>"""
         self.assertEqual(comment1.getText(),
             "<p>&lt;b&gt;Got HTML?&lt;/b&gt;</p>")
-    
+
     def test_getText_with_non_ascii_characters(self):
         comment1 = createObject('plone.Comment')
         comment1.text = u"""Umlaute sind ä, ö und ü."""
@@ -149,13 +152,13 @@ class CommentTest(unittest.TestCase):
         comment1.text = "Go to http://www.plone.org"
         self.assertEqual(comment1.getText(),
                           "<p>Go to http://www.plone.org</p>")
-    
+
     def test_getText_uses_comment_mime_type(self):
         comment1 = createObject('plone.Comment')
         comment1.text = "Go to http://www.plone.org"
         comment1.mime_type = 'text/x-web-intelligent'
         self.assertEqual(comment1.getText(),
-                          'Go to <a href="http://www.plone.org" rel="nofollow">http://www.plone.org</a>')
+            'Go to <a href="http://www.plone.org" rel="nofollow">http://www.plone.org</a>')
 
     def test_getText_w_custom_targetMimetype(self):
         comment1 = createObject('plone.Comment')

@@ -2,7 +2,7 @@
  plone.app.discussion
 ======================
 
-This is a functional test for the plone.app.discussion comments viewlet. 
+This is a functional test for the plone.app.discussion comments viewlet.
 
 We use zope.testbrowser to simulate browser interaction in order to show how
 the plone.app.discussion commenting works.
@@ -18,10 +18,10 @@ First we have to set up some things and login.
     >>> browser = Browser(app)
     >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization', 'Basic admin:secret')
-    >>> portal = layer['portal']    
+    >>> portal = layer['portal']
     >>> portal_url = 'http://nohost/plone'
 
-By default, only HTTP error codes (e.g. 500 Server Side Error) are shown when an 
+By default, only HTTP error codes (e.g. 500 Server Side Error) are shown when an
 error occurs on the server. To see more details, set handleErrors to False:
 
     >>> browser.handleErrors = False
@@ -47,10 +47,10 @@ Enable commenting.
     >>> registry = queryUtility(IRegistry)
     >>> settings = registry.forInterface(IDiscussionSettings)
     >>> settings.globally_enabled = True
-    
+
     >>> import transaction
-    >>> transaction.commit()    
-    
+    >>> transaction.commit()
+
 Create a public page with comments allowed.
 
     >>> browser.open(portal_url)
@@ -59,7 +59,7 @@ Create a public page with comments allowed.
     >>> browser.getControl(name='allowDiscussion:boolean').value = True
     >>> browser.getControl(name='form.button.save').click()
     >>> urldoc1 = browser.url
-          
+
 Check that the form has been properly submitted
 
     >>> browser.url
@@ -68,17 +68,17 @@ Check that the form has been properly submitted
 
 Comment Viewlet
 ---------------
-        
+
 Check that the old comments viewlet does not show up
-    
+
     >>> 'discussion_reply_form' in browser.contents
     False
-        
+
 Check that the comment form/viewlet shows up
 
     >>> 'formfield-form-widgets-in_reply_to' in browser.contents
     True
-    
+
     >>> 'formfield-form-widgets-text' in browser.contents
     True
 
@@ -94,18 +94,18 @@ Login as admin.
 
 Post a comment as admin.
 
-    >>> browser.getControl(name='form.widgets.text').value = "Comment from admin" 
+    >>> browser.getControl(name='form.widgets.text').value = "Comment from admin"
     >>> submit = browser.getControl(name='form.buttons.comment')
-    >>> submit.click() 
+    >>> submit.click()
 
 Check if comment has been added properly.
-    
+
     >>> '<a href="http://nohost/plone/author/admin">admin</a>' in browser.contents
     True
-    
+
     >>> browser.contents
     '...<a href="http://nohost/plone/author/admin">admin</a>...says:...'
-     
+
     >>> "Comment from admin" in browser.contents
     True
 
@@ -120,14 +120,14 @@ Login as user (without the 'Member' role).
     >>> browser.getControl(name='__ac_name').value = 'johndoe'
     >>> browser.getControl(name='__ac_password').value = 'secret'
     >>> browser.getControl(name='submit').click()
-    
+
 Users without the 'Reply to item' permission will not see the comment form,
 because they don't have the 'Reply to item' permission. By default, this
 permission is only granted to the 'Member' role.
 
     >>> 'form.widgets.text' in browser.contents
     False
-    
+
     >>> 'form.buttons.comment' in browser.contents
     False
 
@@ -135,7 +135,7 @@ permission is only granted to the 'Member' role.
 Post a comment as member
 ------------------------
 
-Login as user 'jim'. 
+Login as user 'jim'.
 
     >>> browser.open(portal_url + '/logout')
     >>> browser.open(portal_url + '/login_form')
@@ -146,9 +146,9 @@ Login as user 'jim'.
 Post a comment as user jim.
 
     >>> browser.open(urldoc1)
-    >>> browser.getControl(name='form.widgets.text').value = "Comment from Jim" 
+    >>> browser.getControl(name='form.widgets.text').value = "Comment from Jim"
     >>> submit = browser.getControl(name='form.buttons.comment')
-    >>> submit.click() 
+    >>> submit.click()
 
 Check if the comment has been added properly.
 
@@ -161,24 +161,24 @@ Check if the comment has been added properly.
 
 Post a comment as anonymous user
 --------------------------------
-        
-Login and post comment as Anonymous 
-    
+
+Login and post comment as Anonymous
+
     >>> unprivileged_browser.open(urldoc1)
-    
+
     >>> 'Log in to add comments' in unprivileged_browser.contents
     True
 
-Enable anonymous comment 
+Enable anonymous comment
 
     >>> browser.open(portal_url + '/logout')
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
     >>> browser.getControl(name='submit').click()
-    >>> browser.open(portal_url+'/@@discussion-settings') 
-    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True] 
-    >>> browser.getControl(name='form.buttons.save').click() 
+    >>> browser.open(portal_url+'/@@discussion-settings')
+    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True]
+    >>> browser.getControl(name='form.buttons.save').click()
     >>> browser.open(portal_url + '/logout')
 
 Now we can post an anonymous comment.
@@ -186,13 +186,13 @@ Now we can post an anonymous comment.
     >>> unprivileged_browser.open(urldoc1)
     >>> unprivileged_browser.getControl(name='form.widgets.text').value = "This is an anonymous comment"
     >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
- 
+
     >>> '<span>Anonymous</span>' in unprivileged_browser.contents
     True
-    
+
     >>> 'says' in unprivileged_browser.contents
     True
-    
+
     >>> 'This is an anonymous comment' in unprivileged_browser.contents
     True
 
@@ -206,10 +206,10 @@ Make sure special characters work as well.
 
     >>> tarek_fullname in unprivileged_browser.contents
     True
-    
+
     >>> 'says' in unprivileged_browser.contents
     True
-    
+
     >>> 'This is an äüö comment' in unprivileged_browser.contents
     True
 
@@ -230,7 +230,7 @@ Find a comment id to reply to.
     >>> id = re.findall('"([^"]*)"', comment_div)[2]
 
 Post a reply to an existing comment.
-    
+
     >>> browser.getControl(name='form.widgets.in_reply_to').value = id
     >>> browser.getControl(name='form.widgets.text').value = "Reply comment"
     >>> browser.getControl(name='form.buttons.comment').click()
@@ -239,7 +239,7 @@ Check that the reply has been posted properly.
 
     >>> 'Reply comment' in browser.contents
     True
-    
+
     >>> 'replyTreeLevel1' in browser.contents
     True
 
@@ -248,7 +248,7 @@ Post a comment with comment review workflow enabled
 ---------------------------------------------------
 
 Enable the 'comment review workflow' for comments.
-    
+
     >>> portal.portal_workflow.setChainForPortalTypes(('Discussion Item',), ('comment_review_workflow'),)
     >>> portal.portal_workflow.getChainForPortalType('Discussion Item')
     ('comment_review_workflow',)
@@ -269,8 +269,8 @@ Make sure the comment has not been published.
     >>> 'Comment review workflow comment' not in unprivileged_browser.contents
     True
 
-Make sure the user gets a notification that the comment awaits moderator 
-approval.    
+Make sure the user gets a notification that the comment awaits moderator
+approval.
 
     >>> 'Your comment awaits moderator approval' in unprivileged_browser.contents
     True
@@ -280,7 +280,7 @@ Edit the content object after a comment has been posted
 -------------------------------------------------------
 
 Make sure we still can edit the content object after a comment has been posted.
-This is a regression test for http://dev.plone.org/plone/ticket/11157 
+This is a regression test for http://dev.plone.org/plone/ticket/11157
 (TypeError: Can't pickle objects in acquisition wrappers).
 
 Login as admin.
@@ -290,7 +290,7 @@ Login as admin.
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
     >>> browser.getControl(name='submit').click()
-    
+
 Edit the content object.
 
     >>> browser.open(urldoc1 + "/edit")
@@ -298,7 +298,7 @@ Edit the content object.
     >>> browser.getControl(name='form.button.save').click()
 
 Make sure the edit was successful.
-        
+
     >>> 'Lorem ipsum' in browser.contents
     True
 

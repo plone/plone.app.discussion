@@ -35,7 +35,8 @@ from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import \
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.discussion.interfaces import IDiscussionSettings
 
 
@@ -49,7 +50,7 @@ class TestCommentForm(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.portal.invokeFactory('Folder', 'test-folder')
         self.folder = self.portal['test-folder']
-        
+
         interface.alsoProvides(
             self.portal.REQUEST, interfaces.IDiscussionLayer)
 
@@ -227,10 +228,10 @@ class TestCommentsViewlet(unittest.TestCase):
         self.folder = self.portal['test-folder']
         interface.alsoProvides(
             self.request, interfaces.IDiscussionLayer)
-        
+
         self.workflowTool = getToolByName(self.portal, 'portal_workflow')
         self.workflowTool.setDefaultChain('one_state_workflow')
-        
+
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
         self.portal_discussion = getToolByName(self.portal,

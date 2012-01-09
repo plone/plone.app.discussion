@@ -21,10 +21,10 @@ First we have to set up some things and login.
     >>> browser = Browser(app)
     >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization', 'Basic admin:secret')
-    >>> portal = layer['portal']    
+    >>> portal = layer['portal']
     >>> portal_url = 'http://nohost/plone'
 
-By default, only HTTP error codes (e.g. 500 Server Side Error) are shown when an 
+By default, only HTTP error codes (e.g. 500 Server Side Error) are shown when an
 error occurs on the server. To see more details, set handleErrors to False:
 
     >>> browser.handleErrors = False
@@ -46,9 +46,9 @@ Enable commenting.
 
 Enable comment review workflow
 ------------------------------
-    
+
 Enable the 'comment review workflow' for comments.
-    
+
     >>> portal.portal_workflow.setChainForPortalTypes(('Discussion Item',), ('comment_review_workflow'),)
     >>> portal.portal_workflow.getChainForPortalType('Discussion Item')
     ('comment_review_workflow',)
@@ -58,12 +58,12 @@ We need to commit the transaction, otherwise setting the workflow will not work.
     >>> import transaction
     >>> transaction.commit()
 
-Enable anonymous comments 
+Enable anonymous comments
 
-    >>> browser.open(portal_url+'/@@discussion-settings') 
-    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True] 
-    >>> browser.getControl(name='form.buttons.save').click() 
-    
+    >>> browser.open(portal_url+'/@@discussion-settings')
+    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True]
+    >>> browser.getControl(name='form.buttons.save').click()
+
 Create a public page with comments allowed.
 
     >>> browser.open(portal_url)
@@ -72,7 +72,7 @@ Create a public page with comments allowed.
     >>> browser.getControl(name='allowDiscussion:boolean').value = True
     >>> browser.getControl(name='form.button.save').click()
     >>> urldoc = browser.url
-          
+
 Check that the form has been properly submitted
 
     >>> browser.url
@@ -86,25 +86,25 @@ Post some comments as anonymous user:
     >>> unprivileged_browser.getControl(name='form.widgets.text').value = "Second anonymous comment"
     >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
 
-Make sure the user gets a notification that the comment awaits moderator 
-approval.    
+Make sure the user gets a notification that the comment awaits moderator
+approval.
 
     >>> 'Your comment awaits moderator approval' in unprivileged_browser.contents
     True
-    
+
 Administrators can see all posts and comment actions
 
     >>> browser.open(urldoc)
-    
+
     >>> 'Moderate comments' in browser.contents
     True
-    
+
     >>> 'First anonymous comment' in browser.contents
     True
 
     >>> 'form.button.DeleteComment' in browser.contents
     True
-    
+
     >>> 'form.button.PublishComment' in browser.contents
     True
 
@@ -114,18 +114,18 @@ Anonymous user can not see any posts or comment actions
 
     >>> 'Moderate comments' in unprivileged_browser.contents
     False
-        
+
     >>> 'First anonymous comment' in unprivileged_browser.contents
     False
 
     >>> 'form.button.DeleteComment' in unprivileged_browser.contents
     False
-    
+
     >>> 'form.button.PublishComment' in unprivileged_browser.contents
     False
-       
+
 Users with 'Review comment' permission can see unapproved comments and comment
-actions. 
+actions.
 
     >>> browser.open(portal_url + '/logout')
     >>> browser.open(portal_url + '/login_form')
@@ -137,13 +137,13 @@ actions.
 
     >>> 'Moderate comments' in browser.contents
     True
-    
+
     >>> 'First anonymous comment' in browser.contents
     True
-    
+
     >>> 'form.button.DeleteComment' in browser.contents
     True
-    
+
     >>> 'form.button.PublishComment' in browser.contents
     True
 
@@ -151,19 +151,19 @@ actions.
 Publish a comment in the comments view
 --------------------------------------
 
-Publish the first anonymous comment in the main comments view. The publish call 
-on the comment currently raises an 404 error, because of a zope.testbrowser 
+Publish the first anonymous comment in the main comments view. The publish call
+on the comment currently raises an 404 error, because of a zope.testbrowser
 flaw? Though, the comment is published properly.
 
     >>> browser.open(urldoc)
     >>> 'First anonymous comment' in unprivileged_browser.contents
     False
-    
+
     >>> browser.open(urldoc)
     >>> browser.handleErrors = True
     >>> browser.raiseHttpErrors = False
     >>> browser.getControl('Approve', index=0).click()
-    
+
     >>> 'Comment approved' in browser.contents
     True
 
@@ -180,8 +180,8 @@ Make sure anonyous users see the approved comment, but not the unapproved ones.
 Delete a comment in the comments view
 -------------------------------------
 
-Delete the second anonymous comment in the main comments view. The delete call 
-on the comment currently raises an 404 error, because of a zope.testbrowser 
+Delete the second anonymous comment in the main comments view. The delete call
+on the comment currently raises an 404 error, because of a zope.testbrowser
 flaw? Though, the comment is deleted properly.
 
     >>> browser.open(urldoc)
@@ -192,7 +192,7 @@ flaw? Though, the comment is deleted properly.
     >>> browser.handleErrors = True
     >>> browser.raiseHttpErrors = False
     >>> browser.getControl('Delete', index=1).click()
-    
+
     >>> browser.handleErrors = False
     >>> browser.raiseHttpErrors = True
 
@@ -205,4 +205,4 @@ Make sure the second comment has been deleted.
     >>> 'Second anonymous comment' in browser.contents
     False
 
-           
+

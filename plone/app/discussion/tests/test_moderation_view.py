@@ -18,9 +18,9 @@ from plone.app.discussion.interfaces import IConversation
 
 
 class ModerationViewTest(unittest.TestCase):
-    
+
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
-    
+
     def setUp(self):
         self.app = self.layer['app']
         self.portal = self.layer['portal']
@@ -41,13 +41,13 @@ class ModerationViewTest(unittest.TestCase):
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',), 'comment_review_workflow')
         self.wf_tool = self.portal.portal_workflow
-        
+
     def test_moderation_enabled(self):
         """Make sure that moderation_enabled returns true if the comment
            workflow implements a 'pending' state.
         """
         # If workflow is not set, enabled must return False
-        self.wf_tool.setChainForPortalTypes(('Discussion Item',),())
+        self.wf_tool.setChainForPortalTypes(('Discussion Item',), ())
         self.assertEqual(self.view.moderation_enabled(), False)
         # The one_state_workflow does not have a 'pending' state
         self.wf_tool.setChainForPortalTypes(('Discussion Item',),
@@ -57,13 +57,15 @@ class ModerationViewTest(unittest.TestCase):
         self.wf_tool.setChainForPortalTypes(('Discussion Item',),
                                             ('comment_review_workflow,'))
         self.assertEqual(self.view.moderation_enabled(), True)
-    
+
     def test_old_comments_not_shown_in_moderation_view(self):
         # Create old comment
         discussion = getToolByName(self.portal, 'portal_discussion', None)
         discussion.overrideDiscussionFor(self.portal.doc1, 1)
         talkback = discussion.getDiscussionFor(self.portal.doc1)
-        self.portal.doc1.talkback.createReply('My Title', 'My Text', Creator='Jim')
+        self.portal.doc1.talkback.createReply('My Title',
+                                              'My Text',
+                                              Creator='Jim')
         reply = talkback.getReplies()[0]
         reply.setReplyTo(self.portal.doc1)
         reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6)
@@ -73,11 +75,12 @@ class ModerationViewTest(unittest.TestCase):
         self.assertTrue('Jim' in reply.listCreators())
         self.assertEqual(talkback.replyCount(self.portal.doc1), 1)
         self.assertEqual(reply.inReplyTo(), self.portal.doc1)
-        
+
         view = self.view()
-        
+
         self.assertTrue('No comments to moderate' in view)
         self.assertEqual(len(self.view.comments), 0)
+
 
 class ModerationBulkActionsViewTest(unittest.TestCase):
 
@@ -126,17 +129,17 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         # Make sure no error is raised when no bulk actions has been supplied
         self.request.set('form.select.BulkAction', '-1')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
-        
+
         view = BulkActionsView(self.portal, self.request)
-        
+
         self.assertFalse(view())
-    
+
     def test_retract(self):
         self.request.set('form.select.BulkAction', 'retract')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
-        
+
         view = BulkActionsView(self.portal, self.request)
-        
+
         self.assertRaises(NotImplementedError,
                           view)
 
@@ -144,9 +147,9 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         self.request.set('form.select.BulkAction', 'publish')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
         view = BulkActionsView(self.portal, self.request)
-        
+
         view()
-        
+
         # Count published comments
         published_comments = 0
         for r in self.conversation.getThreads():
@@ -156,16 +159,16 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
                 published_comments += 1
         # Make sure the comment has been published
         self.assertEqual(published_comments, 1)
-    
+
     def test_mark_as_spam(self):
         self.request.set('form.select.BulkAction', 'mark_as_spam')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath())])
-        
+
         view = BulkActionsView(self.portal, self.request)
-        
+
         self.assertRaises(NotImplementedError,
                           view)
-    
+
     def test_delete(self):
         # Initially we have three comments
         self.assertEqual(self.conversation.total_comments, 3)
@@ -174,14 +177,15 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath()),
                                    '/'.join(self.comment3.getPhysicalPath())])
         view = BulkActionsView(self.app, self.request)
-        
+
         view()
-        
+
         # Make sure that the two comments have been deleted
         self.assertEqual(self.conversation.total_comments, 1)
         comment = self.conversation.getComments().next()
         self.assertTrue(comment)
         self.assertEqual(comment, self.comment2)
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

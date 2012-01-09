@@ -8,13 +8,14 @@ from zope.annotation.interfaces import IAnnotations
 from Products.CMFCore.utils import getToolByName
 
 from plone.app.testing import TEST_USER_ID, setRoles
-from plone.app.testing import logout, login
 
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import  \
+        PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 from plone.app.discussion.browser.migration import View
 
 from plone.app.discussion.interfaces import IConversation, IComment
+
 
 class MigrationTest(unittest.TestCase):
 
@@ -37,7 +38,6 @@ class MigrationTest(unittest.TestCase):
         self.workflowTool.doActionFor(self.portal.doc, 'publish')
 
         self.request.set("test", True)
-        context = getattr(self.portal, 'doc')
         self.view = View(self.portal, self.request)
         self.workflowTool.setChainForPortalTypes(('Discussion Item',),
                                              'comment_review_workflow')
@@ -80,9 +80,9 @@ class MigrationTest(unittest.TestCase):
                           datetime(2003, 3, 11, 9, 28, 6))
         self.assertEqual(comment1.modification_date,
                           datetime(2009, 7, 12, 19, 38, 7))
-        self.assertEqual(
-            [{'comment': comment1,     'depth': 0, 'id': long(comment1.id)},]
-            , list(conversation.getThreads()))
+        self.assertEqual([
+            {'comment': comment1, 'depth': 0, 'id': long(comment1.id)}
+            ], list(conversation.getThreads()))
         self.assertFalse(self.doc.talkback)
 
     def test_migrate_nested_comments(self):
