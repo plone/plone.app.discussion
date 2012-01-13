@@ -18,7 +18,13 @@ from plone.app.discussion.interfaces import IConversation, IReplies, IComment
 def DT2dt(DT):
     """Convert a Zope DateTime (with timezone) into a Python datetime (GMT)."""
     DT = DT.toZone('GMT')
-    return datetime(DT.year(), DT.month(), DT.day(), DT.hour(), DT.minute(), int(DT.second()))
+    return datetime(
+        DT.year(),
+        DT.month(),
+        DT.day(),
+        DT.hour(),
+        DT.minute(),
+        int(DT.second()))
 
 
 class View(BrowserView):
@@ -32,25 +38,26 @@ class View(BrowserView):
         self.total_comments_migrated = 0
         self.total_comments_deleted = 0
 
-        dry_run = self.request.has_key("dry_run")
+        dry_run = "dry_run" in self.request
 
         # This is for testing only.
         # Do not use transactions during a test.
-        test = self.request.has_key("test")
+        test = "test" in self.request
 
         if not test:
-            transaction.begin() # pragma: no cover
+            transaction.begin()  # pragma: no cover
 
         catalog = getToolByName(context, 'portal_catalog')
 
         def log(msg):
             # encode string before sending it to external world
             if isinstance(msg, unicode):
-                msg = msg.encode('utf-8') # pragma: no cover
+                msg = msg.encode('utf-8')  # pragma: no cover
             context.plone_log(msg)
             out.append(msg)
 
-        def migrate_replies(context, in_reply_to, replies, depth=0, just_delete=0):
+        def migrate_replies(context, in_reply_to, replies,
+                            depth=0, just_delete=0):
             # Recursive function to migrate all direct replies
             # of a comment. Returns True if there are no replies to
             # this comment left, and therefore the comment can be removed.
@@ -58,7 +65,7 @@ class View(BrowserView):
                 return True
 
             for reply in replies:
-                
+
                 # log
                 indent = "  "
                 for i in range(depth):
@@ -79,7 +86,7 @@ class View(BrowserView):
                     comment.text = reply.cooked_text
                     comment.mime_type = 'text/html'
                     comment.creator = reply.Creator()
-                
+
                     email = reply.getProperty('email', None)
                     if email:
                         comment.author_email = email
@@ -101,12 +108,13 @@ class View(BrowserView):
                 self.total_comments_migrated += 1
 
                 # migrate all talkbacks of the reply
-                talkback = getattr( reply, 'talkback', None )
-                no_replies_left = migrate_replies(context,
-                                                  new_in_reply_to,
-                                                  talkback.getReplies(),
-                                                  depth=depth+1,
-                                                  just_delete=not should_migrate)
+                talkback = getattr(reply, 'talkback', None)
+                no_replies_left = migrate_replies(
+                    context,
+                    new_in_reply_to,
+                    talkback.getReplies(),
+                    depth=depth + 1,
+                    just_delete=not should_migrate)
 
                 if no_replies_left:
                     # remove reply and talkback
@@ -151,7 +159,7 @@ class View(BrowserView):
         # Recursively run through the comment tree and migrate all comments.
         for brain in new_brains:
             obj = brain.getObject()
-            talkback = getattr( obj, 'talkback', None )
+            talkback = getattr(obj, 'talkback', None)
             if talkback:
                 replies = talkback.getReplies()
                 if replies:
@@ -166,10 +174,10 @@ class View(BrowserView):
         if self.total_comments_deleted != self.total_comments_migrated:
             log("Something went wrong during migration. The number of \
                 migrated comments (%s) differs from the number of deleted \
-                comments (%s)." # pragma: no cover
+                comments (%s)."  # pragma: no cover
                  % (self.total_comments_migrated, self.total_comments_deleted))
             if not test:  # pragma: no cover
-                transaction.abort() # pragma: no cover
+                transaction.abort()  # pragma: no cover
             log("Abort transaction")  # pragma: no cover
 
         log("\n")
@@ -180,14 +188,16 @@ class View(BrowserView):
             % (self.total_comments_migrated, count_comments_old))
 
         if self.total_comments_migrated != count_comments_old:
-            log("%s comments could not be migrated."
-                % (count_comments_old - self.total_comments_migrated)) # pragma: no cover
-            log("Please make sure your portal catalog is up-to-date.") # pragma: no cover
+            log("%s comments could not be migrated." %
+                (count_comments_old - \
+                self.total_comments_migrated))  # pragma: no cover
+            log("Please make sure your " +
+                "portal catalog is up-to-date.")  # pragma: no cover
 
         if dry_run and not test:
-            transaction.abort() # pragma: no cover
-            log("Dry run") # pragma: no cover
-            log("Abort transaction") # pragma: no cover
+            transaction.abort()  # pragma: no cover
+            log("Dry run")  # pragma: no cover
+            log("Abort transaction")  # pragma: no cover
         if not test:
-            transaction.commit() # pragma: no cover
+            transaction.commit()  # pragma: no cover
         return '\n'.join(out)
