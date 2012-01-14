@@ -10,7 +10,7 @@ from Products.CMFPlone.utils import safe_callable
 from plone.app.discussion.conversation import ANNOTATION_KEY
 from plone.app.discussion.interfaces import ICommentingTool
 
-# security.declareProtected(ManageZCatalogEntries, 'clearFindAndRebuild')
+
 def patchedClearFindAndRebuild(self):
     """Empties catalog, then finds all contentish objects (i.e. objects
        with an indexObject method), and reindexes them.
@@ -34,7 +34,7 @@ def patchedClearFindAndRebuild(self):
                         try:
                             if ctool:
                                 ctool.indexObject(comment)
-                        except StopIteration: # pragma: no cover
+                        except StopIteration:  # pragma: no cover
                             pass
 
             except TypeError:
