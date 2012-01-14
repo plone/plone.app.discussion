@@ -214,7 +214,8 @@ class CommentTest(unittest.TestCase):
     def test_fti(self):
         # test that we can look up an FTI for Discussion Item
 
-        self.assertTrue("Discussion Item" in self.portal.portal_types.objectIds())
+        self.assertTrue("Discussion Item" in
+            self.portal.portal_types.objectIds())
 
         comment1 = createObject('plone.Comment')
 

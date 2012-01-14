@@ -6,9 +6,8 @@ from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
 
-from plone.testing import z2
-
 from zope.configuration import xmlconfig
+
 
 class PloneAppDiscussion(PloneSandboxLayer):
 
@@ -57,7 +56,8 @@ class PloneAppDiscussion(PloneSandboxLayer):
         )
         mtool = getToolByName(portal, 'portal_membership', None)
         mtool.addMember('jim', 'Jim', ['Member'], [])
-        mtool.getMemberById('jim').setMemberProperties({"fullname": 'Jim Fult\xc3\xb8rn'})
+        mtool.getMemberById('jim').setMemberProperties(
+            {"fullname": 'Jim Fult\xc3\xb8rn'})
 
         acl_users.userFolderAddUser(
             self.MANAGER_USER_NAME,
