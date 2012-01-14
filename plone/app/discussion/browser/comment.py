@@ -2,6 +2,7 @@ from Acquisition import aq_inner, aq_parent
 
 from Products.Five.browser import BrowserView
 
+
 class View(BrowserView):
     """Comment View.
 
