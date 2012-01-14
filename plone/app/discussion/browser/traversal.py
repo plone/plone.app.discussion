@@ -11,6 +11,7 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 
 from plone.app.discussion.interfaces import IConversation
 
+
 class ConversationNamespace(object):
     """Allow traversal into a conversation via a ++conversation++name
     namespace. The name is the name of an adapter from context to
@@ -33,6 +34,6 @@ class ConversationNamespace(object):
 
         conversation = queryAdapter(self.context, IConversation, name=name)
         if conversation is None:
-            raise TraversalError(name) # pragma: no cover
+            raise TraversalError(name)  # pragma: no cover
 
         return conversation

@@ -64,6 +64,7 @@ class WorkflowSetupTest(unittest.TestCase):
     def test_reply_to_item_permission(self):
         pass
 
+
 class PermissionsSetupTest(unittest.TestCase):
     """Make sure the permissions are set up properly.
     """
@@ -124,7 +125,8 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
                             '++conversation++default/%s' % cid)
 
         self.portal.acl_users._doAddUser('member', 'secret', ['Member'], [])
-        self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
+        self.portal.acl_users._doAddUser(
+            'reviewer', 'secret', ['Reviewer'], [])
         self.portal.acl_users._doAddUser('manager', 'secret', ['Manager'], [])
         self.portal.acl_users._doAddUser('editor', ' secret', ['Editor'], [])
         self.portal.acl_users._doAddUser('reader', 'secret', ['Reader'], [])
@@ -245,6 +247,7 @@ class CommentReviewWorkflowTest(unittest.TestCase):
                           '@@moderate-publish-comment')
         self.assertEqual('pending', self.portal.portal_workflow.\
                           getInfoFor(self.comment, 'review_state'))
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
