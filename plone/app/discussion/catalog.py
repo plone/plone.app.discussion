@@ -25,6 +25,7 @@ MAX_DESCRIPTION = 25
 
 # Conversation Indexers
 
+
 @indexer(IContentish, IZCatalog)
 def total_comments(object):
     # Total number of comments on a conversation
@@ -33,10 +34,11 @@ def total_comments(object):
         try:
             conversation = IConversation(object)
             return conversation.total_comments
-        except TypeError: # pragma: no cover
+        except TypeError:  # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it
             pass
+
 
 @indexer(IContentish, IZCatalog)
 def last_comment_date(object):
@@ -46,10 +48,11 @@ def last_comment_date(object):
         try:
             conversation = IConversation(object)
             return conversation.last_comment_date
-        except TypeError: # pragma: no cover
+        except TypeError:  # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it
             pass
+
 
 @indexer(IContentish, IZCatalog)
 def commentators(object):
@@ -59,38 +62,45 @@ def commentators(object):
         try:
             conversation = IConversation(object)
             return tuple(conversation.commentators.keys())
-        except TypeError: # pragma: no cover
+        except TypeError:  # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it
             pass
 
 # Comment Indexers
 
+
 @indexer(IComment)
 def title(object):
     return object.Title()
+
 
 @indexer(IComment)
 def creator(object):
     return object.creator and safe_unicode(object.creator).encode('utf-8')
 
+
 @indexer(IComment)
 def description(object):
     # Return the first 25 words of the comment text and append ' [...]'
-    text = join(object.getText(targetMimetype='text/plain').split()[:MAX_DESCRIPTION])
+    text = join(object.getText(
+        targetMimetype='text/plain').split()[:MAX_DESCRIPTION])
     if len(object.getText().split()) > 25:
         text += " [...]"
     return text
 
+
 @indexer(IComment)
 def searchable_text(object):
     return object.getText(targetMimetype='text/plain')
+
 
 @indexer(IComment)
 def in_response_to(object):
     # Always returns the content object the comment is added to.
     # Do not confuse this with the in_reply_to attribute of a comment!
     return object.__parent__.__parent__.title_or_id()
+
 
 @indexer(IComment)
 def effective(object):
@@ -103,6 +113,7 @@ def effective(object):
                     object.creation_date.second,
                     'GMT')
 
+
 @indexer(IComment)
 def created(object):
     # the catalog index needs Zope DateTime instead of Python datetime
@@ -113,6 +124,7 @@ def created(object):
                     object.creation_date.minute,
                     object.creation_date.second,
                     'GMT')
+
 
 @indexer(IComment)
 def modified(object):
@@ -125,19 +137,24 @@ def modified(object):
                     object.modification_date.second,
                     'GMT')
 
+
 # Override the conversation indexers for comments
+
 
 @indexer(IComment)
 def comments_total_comments(object):
     return None
 
+
 @indexer(IComment)
 def comments_last_comment_date(object):
     return None
 
+
 @indexer(IComment)
 def comments_commentators(object):
     return None
+
 
 # Make sure comments don't inherit their container's UID
 @indexer(IComment)

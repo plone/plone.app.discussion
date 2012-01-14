@@ -4,9 +4,11 @@ from zope.component import queryUtility, createObject
 
 from plone.app.testing import TEST_USER_ID, setRoles
 
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import \
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 from plone.app.discussion.interfaces import ICommentingTool, IConversation
+
 
 class ToolTest(unittest.TestCase):
 
@@ -34,8 +36,9 @@ class ToolTest(unittest.TestCase):
         # Check that the comment got indexed in the tool:
         tool = queryUtility(ICommentingTool)
         comment = list(tool.searchResults())
-        self.assertTrue(len(comment) == 1, "There is only one comment, but we got"
-                     " %s results in the search" % len(comment))
+        self.assertTrue(len(comment) == 1,
+            "There is only one comment, but we got"
+            " %s results in the search" % len(comment))
         self.assertEqual(comment[0].Title, 'Jim on Document 1')
 
     def test_unindexing(self):
@@ -44,6 +47,7 @@ class ToolTest(unittest.TestCase):
     def test_search(self):
         # search returns only comments
         pass
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

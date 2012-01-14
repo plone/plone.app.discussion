@@ -9,7 +9,6 @@ from zope.component import getSiteManager
 from zope.component import queryUtility
 
 from plone.app.testing import TEST_USER_ID, setRoles
-from plone.app.testing import logout, login
 
 from Products.MailHost.interfaces import IMailHost
 from Products.CMFPlone.tests.utils import MockMailHost
@@ -225,10 +224,12 @@ class TestModeratorNotificationUnit(unittest.TestCase):
             in msg)
         self.assertTrue('Comment text' in msg)
         self.assertTrue(
-            'Approve comment:\nhttp://nohost/plone/doc1/++conversation++default/%s/@@moderat=\ne-publish-comment'
+            'Approve comment:\nhttp://nohost/plone/doc1/' +
+            '++conversation++default/%s/@@moderat=\ne-publish-comment'
             % comment_id in msg)
         self.assertTrue(
-            'Delete comment:\nhttp://nohost/plone/doc1/++conversation++default/%s/@@moderat=\ne-delete-comment'
+            'Delete comment:\nhttp://nohost/plone/doc1/' +
+            '++conversation++default/%s/@@moderat=\ne-delete-comment'
             % comment_id in msg)
 
     def test_notify_moderator_specific_address(self):
