@@ -32,8 +32,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
     id = "DiscussionSettingsEditForm"
     label = _(u"Discussion settings")
     description = _(u"help_discussion_settings_editform",
-                    default=u"Some discussion related settings are not located "
-                             "in the Discussion Control Panel.\n"
+                    default=u"Some discussion related settings are not "
+                             "located in the Discussion Control Panel.\n"
                              "To enable comments for a specific content type, "
                              "go to the Types Control Panel of this type and "
                              "choose \"Allow comments\".\n"
@@ -125,7 +125,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
 
         # Workflow
         wftool = getToolByName(self.context, 'portal_workflow', None)
-        discussion_workflow = wftool.getChainForPortalType('Discussion Item')[0]
+        discussion_workflow = \
+            wftool.getChainForPortalType('Discussion Item')[0]
         if discussion_workflow:
             output.append(discussion_workflow)
 
