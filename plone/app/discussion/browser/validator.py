@@ -36,6 +36,7 @@ try:
 except ImportError:
     pass
 
+
 class CaptchaValidator(validator.SimpleFieldValidator):
     implements(IValidator)
     adapts(Interface, IDiscussionLayer, Interface, IField, Interface)
@@ -63,4 +64,3 @@ class CaptchaValidator(validator.SimpleFieldValidator):
 # Register Captcha validator for the Captcha field in the ICaptcha Form
 validator.WidgetValidatorDiscriminators(CaptchaValidator,
                                         field=ICaptcha['captcha'])
-

@@ -50,15 +50,14 @@ class IDiscussionSettings(Interface):
         description=_(u"help_moderation_enabled",
                 default=u"If selected, comments will enter a 'Pending' state "
                          "in which they are invisible to the public. A user "
-                         "with the 'Review comments' permission ('Reviewer' or "
-                         "'Manager') can approve comments to make them visible "
-                         "to the public. If you want to enable a custom "
-                         "comment workflow, you have to go to the types "
-                         "control panel."),
+                         "with the 'Review comments' permission ('Reviewer' "
+                         "or 'Manager') can approve comments to make them "
+                         "visible to the public. If you want to enable a "
+                         "custom comment workflow, you have to go to the "
+                         "types control panel."),
         required=False,
         default=False,
         )
-
 
     text_transform = schema.Choice(
         title=_(u"label_text_transform",
@@ -114,11 +113,12 @@ class IDiscussionSettings(Interface):
         )
 
     moderator_email = schema.ASCIILine(
-        title = _(u'label_moderator_email', default=u'Moderator Email Address'),
-        description = _(u'help_moderator_email',
-                        default=u"Address to which moderator notifications "
-                                u"will be sent."),
-        required = False,
+        title=_(u'label_moderator_email',
+                  default=u'Moderator Email Address'),
+        description=_(u'help_moderator_email',
+                      default=u"Address to which moderator notifications "
+                              u"will be sent."),
+        required=False,
         )
 
     user_notification_enabled = schema.Bool(
@@ -321,6 +321,7 @@ class ICommentingTool(Interface):
     def searchResults(REQUEST=None, **kw):
         """Perform a search over all indexed comments.
         """
+
 
 class IDiscussionLayer(Interface):
     """Request marker installed via browserlayer.xml.
