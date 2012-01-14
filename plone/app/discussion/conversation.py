@@ -126,7 +126,7 @@ class Conversation(Traversable, Persistent, Explicit):
                 children = self._children.get(comment_id, None)
                 if children is not None:
                     for child_id in children:
-                        for value in recurse(child_id, d+1):
+                        for value in recurse(child_id, d + 1):
                             yield value
 
         # Find top level threads
@@ -295,9 +295,9 @@ try:
 except ImportError:
     pass
 else:
-    @implementer(IConversation) # pragma: no cover
-    @adapter(IAnnotatable) # pragma: no cover
-    def conversationCanonicalAdapterFactory(content): # pragma: no cover
+    @implementer(IConversation)  # pragma: no cover
+    @adapter(IAnnotatable)  # pragma: no cover
+    def conversationCanonicalAdapterFactory(content):  # pragma: no cover
         """Adapter factory to fetch the default conversation from annotations.
         Will create the conversation if it does not exist.
 
@@ -318,7 +318,7 @@ class ConversationReplies(object):
     """
 
     implements(IReplies)
-    adapts(Conversation) # relies on implementation details
+    adapts(Conversation)  # relies on implementation details
 
     def __init__(self, context):
         self.conversation = context
@@ -387,6 +387,7 @@ class ConversationReplies(object):
         # dict yet when the adapter is first created
         return self.conversation._children.get(self.comment_id, LLSet())
 
+
 class CommentReplies(ConversationReplies):
     """An IReplies adapter for comments.
 
@@ -418,4 +419,3 @@ class CommentReplies(ConversationReplies):
 
     # Dict API is inherited, written in terms of self.conversation and
     # self.children
-

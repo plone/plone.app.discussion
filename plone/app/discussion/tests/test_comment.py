@@ -158,7 +158,8 @@ class CommentTest(unittest.TestCase):
         comment1.text = "Go to http://www.plone.org"
         comment1.mime_type = 'text/x-web-intelligent'
         self.assertEqual(comment1.getText(),
-            'Go to <a href="http://www.plone.org" rel="nofollow">http://www.plone.org</a>')
+            'Go to <a href="http://www.plone.org" ' +
+            'rel="nofollow">http://www.plone.org</a>')
 
     def test_getText_w_custom_targetMimetype(self):
         comment1 = createObject('plone.Comment')
@@ -206,8 +207,7 @@ class CommentTest(unittest.TestCase):
         self.assertEqual(1,
             len(comment.workflow_history['comment_review_workflow']))
         self.assertEqual(None,
-            comment.workflow_history['comment_review_workflow'][0]\
-            ['action'])
+            comment.workflow_history['comment_review_workflow'][0]['action'])
         self.assertEqual('pending',
             self.portal.portal_workflow.getInfoFor(comment, 'review_state'))
 
@@ -392,6 +392,7 @@ class RepliesTest(unittest.TestCase):
         self.assertEqual('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_re_re_re_id),
                           re_re_re_comment.absolute_url())
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

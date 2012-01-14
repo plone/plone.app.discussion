@@ -71,7 +71,7 @@ class ConversationCatalogTest(unittest.TestCase):
 
         brains = self.catalog.searchResults(dict(
              path={'query':
-                     '/'.join(self.portal.doc1.getPhysicalPath()) },
+                   '/'.join(self.portal.doc1.getPhysicalPath())},
              portal_type="Document"
              ))
         self.conversation = conversation
@@ -95,7 +95,7 @@ class ConversationCatalogTest(unittest.TestCase):
         comment2.reindexObject()
         brains = self.catalog.searchResults(dict(
                      path={'query':
-                             '/'.join(self.portal.doc1.getPhysicalPath()) },
+                           '/'.join(self.portal.doc1.getPhysicalPath())},
                      portal_type="Document"
                      ))
         doc1_brain = brains[0]
@@ -120,7 +120,7 @@ class ConversationCatalogTest(unittest.TestCase):
         comment2.reindexObject()
         brains = self.catalog.searchResults(dict(
                      path={'query':
-                             '/'.join(self.portal.doc1.getPhysicalPath()) },
+                           '/'.join(self.portal.doc1.getPhysicalPath())},
                      portal_type="Document"
                      ))
         doc1_brain = brains[0]
@@ -132,7 +132,7 @@ class ConversationCatalogTest(unittest.TestCase):
 
         brains = self.catalog.searchResults(dict(
                      path={'query':
-                             '/'.join(self.portal.doc1.getPhysicalPath()) },
+                           '/'.join(self.portal.doc1.getPhysicalPath())},
                      portal_type="Document"
                      ))
         doc1_brain = brains[0]
@@ -143,7 +143,7 @@ class ConversationCatalogTest(unittest.TestCase):
         del self.conversation[self.new_comment1_id]
         brains = self.catalog.searchResults(dict(
                      path={'query':
-                             '/'.join(self.portal.doc1.getPhysicalPath()) },
+                           '/'.join(self.portal.doc1.getPhysicalPath())},
                      portal_type="Document"
                      ))
         doc1_brain = brains[0]

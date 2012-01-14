@@ -9,7 +9,6 @@ from DateTime import DateTime
 from zope.component import createObject
 
 from plone.app.testing import TEST_USER_ID, setRoles
-from plone.app.testing import logout, login
 
 from plone.app.discussion.testing import \
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
@@ -108,7 +107,6 @@ class CommentIndexersTest(unittest.TestCase):
 
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
-
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
@@ -141,7 +139,8 @@ class CommentIndexersTest(unittest.TestCase):
     def test_description(self):
         self.assertEqual(catalog.description(self.comment)(),
                           'Lorem ipsum dolor sit amet.')
-        self.assertTrue(isinstance(catalog.description, DelegatingIndexerFactory))
+        self.assertTrue(
+            isinstance(catalog.description, DelegatingIndexerFactory))
 
     def test_description_long(self):
         # Create a 50 word comment and make sure the description returns

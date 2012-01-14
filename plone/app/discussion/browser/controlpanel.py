@@ -66,14 +66,14 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             _(u"Moderator Email Notification")
         self.widgets['user_notification_enabled'].label = \
             _(u"User Email Notification")
-        
+
     @button.buttonAndHandler(_('Save'), name=None)
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
             self.status = self.formErrorsMessage
             return
-        changes = self.applyChanges(data)
+        self.applyChanges(data)
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
                                                       "info")
         self.context.REQUEST.RESPONSE.redirect("@@discussion-settings")

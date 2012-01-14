@@ -42,7 +42,8 @@ class CaptchaExtender(extensible.FormExtender):
     registered when a plugin is installed that provides the
     "plone.app.discussion-captcha" feature.
     """
-    adapts(Interface, IDefaultBrowserLayer, CommentForm) # context, request, form
+    # context, request, form
+    adapts(Interface, IDefaultBrowserLayer, CommentForm)
 
     fields = Fields(ICaptcha)
 
@@ -66,10 +67,10 @@ class CaptchaExtender(extensible.FormExtender):
                 self.form.fields['captcha'].widgetFactory = CaptchaFieldWidget
             elif self.captcha == 'recaptcha':
                 from plone.formwidget.recaptcha import ReCaptchaFieldWidget
-                self.form.fields['captcha'].widgetFactory = ReCaptchaFieldWidget
+                self.form.fields['captcha'].widgetFactory = \
+                    ReCaptchaFieldWidget
             elif self.captcha == 'norobots':
                 from collective.z3cform.norobots import NorobotsFieldWidget
                 self.form.fields['captcha'].widgetFactory = NorobotsFieldWidget
             else:
                 self.form.fields['captcha'].mode = interfaces.HIDDEN_MODE
-
