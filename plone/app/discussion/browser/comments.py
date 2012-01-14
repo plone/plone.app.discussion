@@ -58,8 +58,8 @@ COMMENT_DESCRIPTION_MARKDOWN = _(
 COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
     u"comment_description_intelligent_text",
     default=u"You can add a comment by filling out the form below. " +
-             "Plain text formatting. Web and email addresses are transformed " +
-             "into clickable links.")
+             "Plain text formatting. Web and email addresses are " +
+             "transformed into clickable links.")
 
 COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
     u"comment_description_moderation_enabled",
@@ -68,7 +68,7 @@ COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
-    ignoreContext = True # don't use context to get widget data
+    ignoreContext = True  # don't use context to get widget data
     id = None
     label = _(u"Add a comment")
     fields = field.Fields(IComment).omit('portal_type',
@@ -113,8 +113,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         member_email = member.getProperty('email')
 
         # Hide the user_notification checkbox if user notification is disabled
-        # or the user is not logged in. Also check if the user has a valid email
-        # address
+        # or the user is not logged in. Also check if the user has a valid
+        # email address
         if member_email == '' or \
            not settings.user_notification_enabled or \
            mtool.isAnonymousUser():
@@ -130,18 +130,18 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                              name='comment')
     def handleComment(self, action):
         context = aq_inner(self.context)
-        
+
         # Check if conversation is enabled on this content object
         if not self.__parent__.restrictedTraverse(
             '@@conversation_view').enabled():
             raise Unauthorized("Discussion is not enabled for this content "
                                "object.")
-        
+
         # Validation form
         data, errors = self.extractData()
         if errors:
             return
-        
+
         # Validate Captcha
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
@@ -157,12 +157,12 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                        ICaptcha['captcha'],
                                        None)
             captcha.validate(data['captcha'])
-        
+
         # some attributes are not always set
         author_name = u""
         author_email = u""
         user_notification = None
-        
+
         # Create comment
         comment = createObject('plone.Comment')
         # Set comment attributes (including extended comment form attributes)
@@ -173,7 +173,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             author_name = data['author_name']
             if isinstance(author_name, str):
                 author_name = unicode(author_name, 'utf-8')
-        
+
         # Set comment author properties for anonymous users or members
         can_reply = getSecurityManager().checkPermission('Reply to item',
                                                          context)
@@ -185,7 +185,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_name = author_name
             comment.author_email = author_email
             comment.user_notification = user_notification
-            comment.creation_date = comment.modification_date = datetime.utcnow()
+            comment.creation_date = datetime.utcnow()
+            comment.modification_date = datetime.utcnow()
         elif not portal_membership.isAnonymousUser() and can_reply:
             # Member
             member = portal_membership.getAuthenticatedMember()
@@ -204,8 +205,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_name = fullname
             comment.author_email = email
             comment.user_notification = user_notification
-            comment.creation_date = comment.modification_date = datetime.utcnow()
-        else: # pragma: no cover
+            comment.creation_date = datetime.utcnow()
+            comment.modification_date = datetime.utcnow()
+        else:  # pragma: no cover
             raise Unauthorized("Anonymous user tries to post a comment, but "
                 "anonymous commenting is disabled. Or user does not have the "
                 "'reply to item' permission.")
@@ -244,7 +246,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     def handleCancel(self, action):
         # This method should never be called, it's only there to show
         # a cancel button that is handled by a jQuery method.
-        pass # pragma: no cover
+        pass  # pragma: no cover
 
 
 class CommentsViewlet(ViewletBase):
@@ -326,7 +328,7 @@ class CommentsViewlet(ViewletBase):
             try:
                 self.get_replies(workflow_actions).next()
                 return True
-            except StopIteration: # pragma: no cover
+            except StopIteration:  # pragma: no cover
                 pass
         return False
 

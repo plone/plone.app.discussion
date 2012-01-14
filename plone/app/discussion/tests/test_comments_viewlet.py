@@ -60,7 +60,7 @@ class TestCommentForm(unittest.TestCase):
                                    'portal_discussion',
                                     None)
         self.discussionTool.overrideDiscussionFor(self.portal.doc1, False)
-        self.membershipTool = getToolByName(self.folder, 'portal_membership', None)
+        self.membershipTool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
         self.context = getattr(self.portal, 'doc1')
 
@@ -261,7 +261,8 @@ class TestCommentsViewlet(unittest.TestCase):
         # Anonymous has no 'can review' permission
         self.assertFalse(self.viewlet.can_review())
         # The reviewer role has the 'Review comments' permission
-        self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
+        self.portal.acl_users._doAddUser(
+            'reviewer', 'secret', ['Reviewer'], [])
         login(self.portal, 'reviewer')
         self.assertTrue(self.viewlet.can_review())
 
@@ -276,7 +277,8 @@ class TestCommentsViewlet(unittest.TestCase):
         # Anonymous has no 'can review' permission
         self.assertFalse(self.viewlet.can_manage())
         # The reviewer role has the 'Review comments' permission
-        self.portal.acl_users._doAddUser('reviewer', 'secret', ['Reviewer'], [])
+        self.portal.acl_users._doAddUser(
+            'reviewer', 'secret', ['Reviewer'], [])
         login(self.portal, 'reviewer')
         self.assertTrue(self.viewlet.can_manage())
 
@@ -295,8 +297,8 @@ class TestCommentsViewlet(unittest.TestCase):
         self.assertTrue(self.viewlet.comment_transform_message())
         self.assertEqual(
             self.viewlet.comment_transform_message(),
-            "You can add a comment by filling out the form below. Plain text " +
-            "formatting.")
+            "You can add a comment by filling out the form below. Plain " +
+            "text formatting.")
 
         # Set text transform to intelligent text
         registry = queryUtility(IRegistry)
@@ -358,7 +360,7 @@ class TestCommentsViewlet(unittest.TestCase):
             ('comment_review_workflow,'))
         # Check if workflow actions are available
         reply = self.viewlet.get_replies(workflow_actions=True).next()
-        self.assertTrue(reply.has_key('actions'))
+        self.assertTrue('actions' in reply)
         self.assertEqual(reply['actions'][0]['id'],
                           'publish')
         self.assertEqual(reply['actions'][0]['url'],

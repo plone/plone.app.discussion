@@ -15,7 +15,8 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.testing import TEST_USER_ID, setRoles
 
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import \
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
@@ -179,7 +180,6 @@ class ConversationTest(unittest.TestCase):
         # 1) allow_discussion attribute: Every content object in Plone
         # has a allow_discussion attribute. By default it is set to None.
 
-
         # Create a conversation.
         IConversation(self.portal.doc1)
 
@@ -206,7 +206,7 @@ class ConversationTest(unittest.TestCase):
         # the content type. So we allow discussion on the Document content
         # type and check if the Document object allows discussion now.
         document_fti = getattr(portal_types, 'Document')
-        document_fti.manage_changeProperties(allow_discussion = True)
+        document_fti.manage_changeProperties(allow_discussion=True)
         self.assertEqual(portal_discussion.isDiscussionAllowedFor(
             self.portal.doc1), True)
         self.assertEqual(self.portal.doc1.getTypeInfo().allowDiscussion(),
@@ -223,7 +223,7 @@ class ConversationTest(unittest.TestCase):
                           False)
 
         # Disallow discussion on the Document content type again
-        document_fti.manage_changeProperties(allow_discussion = False)
+        document_fti.manage_changeProperties(allow_discussion=False)
         self.assertEqual(portal_discussion.isDiscussionAllowedFor(
             self.portal.doc1), False)
         self.assertEqual(self.portal.doc1.getTypeInfo().allowDiscussion(),
@@ -258,7 +258,7 @@ class ConversationTest(unittest.TestCase):
         # otherwise allow_discussion will always return False
         portal_types = getToolByName(self.portal, 'portal_types')
         document_fti = getattr(portal_types, 'Document')
-        document_fti.manage_changeProperties(allow_discussion = True)
+        document_fti.manage_changeProperties(allow_discussion=True)
 
         self.assertEqual(conversation.enabled(), True)
 
@@ -272,7 +272,7 @@ class ConversationTest(unittest.TestCase):
         # otherwise allow_discussion will always return False
         portal_types = getToolByName(self.portal, 'portal_types')
         document_fti = getattr(portal_types, 'Document')
-        document_fti.manage_changeProperties(allow_discussion = True)
+        document_fti.manage_changeProperties(allow_discussion=True)
 
         # Check if conversation is enabled now
         self.assertEqual(conversation.enabled(), True)
@@ -289,7 +289,6 @@ class ConversationTest(unittest.TestCase):
         settings.globally_enabled = True
         self.assertEqual(conversation.enabled(), True)
 
-
     def test_allow_discussion_for_news_items(self):
 
         self.typetool.constructContent('News Item', self.portal, 'newsitem')
@@ -300,7 +299,7 @@ class ConversationTest(unittest.TestCase):
         # otherwise allow_discussion will always return False
         portal_types = getToolByName(self.portal, 'portal_types')
         document_fti = getattr(portal_types, 'News Item')
-        document_fti.manage_changeProperties(allow_discussion = True)
+        document_fti.manage_changeProperties(allow_discussion=True)
 
         # Check if conversation is enabled now
         self.assertEqual(conversation.enabled(), True)
@@ -329,7 +328,7 @@ class ConversationTest(unittest.TestCase):
         # Allow discussion on Document content type
         portal_types = getToolByName(self.portal, 'portal_types')
         document_fti = getattr(portal_types, 'Document')
-        document_fti.manage_changeProperties(allow_discussion = True)
+        document_fti.manage_changeProperties(allow_discussion=True)
 
         # Check if conversation is enabled now
         self.assertEqual(conversation.enabled(), True)
@@ -337,7 +336,7 @@ class ConversationTest(unittest.TestCase):
         # Disallow discussion on Document content type
         portal_types = getToolByName(self.portal, 'portal_types')
         document_fti = getattr(portal_types, 'Document')
-        document_fti.manage_changeProperties(allow_discussion = False)
+        document_fti.manage_changeProperties(allow_discussion=False)
 
         # Check if conversation is enabled now
         self.assertEqual(conversation.enabled(), False)
@@ -358,7 +357,7 @@ class ConversationTest(unittest.TestCase):
         # Allow discussion on Folder content type
         portal_types = getToolByName(self.portal, 'portal_types')
         document_fti = getattr(portal_types, 'Folder')
-        document_fti.manage_changeProperties(allow_discussion = True)
+        document_fti.manage_changeProperties(allow_discussion=True)
 
         # Always return False
         self.assertFalse(conversation.enabled())
@@ -710,8 +709,7 @@ class ConversationTest(unittest.TestCase):
         self.assertFalse('Discussion Item' in BAD_TYPES)
 
     def test_no_comment(self):
-        conversation = IConversation(self.portal.doc1)
-
+        IConversation(self.portal.doc1)
         # Make sure no conversation has been created
         self.assertTrue('plone.app.discussion:conversation' not in
                      IAnnotations(self.portal.doc1))
@@ -849,6 +847,7 @@ class RepliesTest(unittest.TestCase):
         self.assertEqual(len(replies_to_comment1), 2)
         self.assertEqual(len(replies_to_comment1_1), 1)
         self.assertEqual(len(replies_to_comment2), 1)
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)

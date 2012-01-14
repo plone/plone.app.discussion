@@ -12,7 +12,8 @@ from Products.CMFCore.utils import getToolByName
 from plone.app.testing import TEST_USER_ID, setRoles
 
 from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import \
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
 
 class RegistryTest(unittest.TestCase):
@@ -165,6 +166,7 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
         # enable_moderation checkbox in the discussion control panel. The
         # setting itself remains unchanged.
         self.settings.moderation_enabled = True
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
