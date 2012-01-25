@@ -1,7 +1,17 @@
+=======
 Comment
 =======
 
-.. literalinclude:: ../../plone/app/discussion/interfaces.py
+Member:
+
+    creator: username of the commenter (None for anonymous commenters).
+    author_name: full name of the commenter
+    author_email: email of the commenter
+
+    author_username: username of the commenter
+
+
+.. literalinclude:: interfaces.py
    :language: python
    :pyobject: IComment
 

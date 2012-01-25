@@ -17,11 +17,10 @@ Contents:
    architecture.txt
    design.txt
    workflow.txt
-   comments.txt
    captcha.txt
    email-notification.txt
+   api/index.txt
    howtos/index.txt
-   api.txt
    changes.txt
 
 

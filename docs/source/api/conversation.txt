@@ -1,0 +1,1 @@
+.. include:: ../../../plone/app/discussion/conversation.txt
