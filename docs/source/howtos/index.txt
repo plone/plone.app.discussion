@@ -6,3 +6,4 @@ Howtos
    :maxdepth: 1
 
    howto_extend_the_comment_form.txt
+   howto_override_enable_conversation.txt

@@ -1,17 +1,17 @@
-================================================================================
+===============================================================================
 How to override plone.app.discussion's comments viewlet
-================================================================================
+===============================================================================
 
-This document explains how to override the plone.app.discussion comments 
+This document explains how to override the plone.app.discussion comments
 viewlet that controls the way existing comments are displayed.
 
-There are three different ways to override plone.app.discussion's comments 
-viewlet: through-the-web, on the file system with z3c.jbot, and by overriding 
-the comments viewlet class on the file system. 
+There are three different ways to override plone.app.discussion's comments
+viewlet: through-the-web, on the file system with z3c.jbot, and by overriding
+the comments viewlet class on the file system.
 
-Overriding the comments viewlet template throught-the-web is the quick and 
-dirty approach. Using z3c.jbot is the recommended approach if you just want to 
-override the comments viewlet template. If you want full control over the 
+Overriding the comments viewlet template throught-the-web is the quick and
+dirty approach. Using z3c.jbot is the recommended approach if you just want to
+override the comments viewlet template. If you want full control over the
 comments viewlet class, for instance if you want to add/customize view methods,
 overriding the comments viewlet class on the file system is the recommended
 approach.
@@ -20,7 +20,7 @@ approach.
 Override the comments template through-the web
 ----------------------------------------------
 
-Overriding the comments template through-the web is the easiest way to 
+Overriding the comments template through-the web is the easiest way to
 customize the comments viewlet::
 
   * Go to the ZMI (http://localhost:8080/Plone/manage_main)
@@ -62,10 +62,10 @@ Create the template directory we just registered::
 
 Copy the comments viewlet template we want to override to the
 overrides directory we just created and registered::
-    
+
     $ cp ../parts/omelette/plone/app/discussion/browser/comments.pt overrides/plone.app.discussion.browser.comments.pt
 
-Restart your Plone instance and you can start to customize 
+Restart your Plone instance and you can start to customize
 the plone.app.discussion.browser.comments.pt we just created.
 
 
@@ -73,7 +73,7 @@ Override the comments viewlet class on the file system
 ------------------------------------------------------
 
 Overriding/subclassing the comments viewlet class is allows you not only to
-override the comments viewlet template, but also the comment viewlets view 
+override the comments viewlet template, but also the comment viewlets view
 methods. There are many ways to override components in Plone with the Zope
 Component Architecture (ZCA), which is beyond the scope of this howto.
 
@@ -118,16 +118,16 @@ Once we registered the custom discussion browser layer and the viewlet, we can c
 comments.py file with our custom version of the comments viewlet::
 
     from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-    
+
     from plone.app.discussion.browser.comments import CommentsViewlet as PloneAppDiscussionCommentsViewlet
     from plone.app.discussion.browser.comments import CommentForm
-    
-    
+
+
     class CommentsViewlet(PloneAppDiscussionCommentsViewlet):
-    
+
         form = CommentForm
         index = ViewPageTemplateFile('comments.pt')
-        
+
         def get_commenter_home_url(self, username=None):
             if username is None:
                 return None
@@ -145,7 +145,7 @@ Override the comments viewlet Javascript
 
 Overriding the comments viewlet javascript works just like overriding the
 comments viewlet. We register the javascript file for our custom browser
-layer and remove the existing javascript file in 
+layer and remove the existing javascript file in
 profiles/default/jsregistry.xml::
 
     <?xml version="1.0"?>

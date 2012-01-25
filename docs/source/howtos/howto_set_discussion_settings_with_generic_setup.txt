@@ -3,7 +3,7 @@ How to set discussion settings with generic setup
 =================================================
 
 This document explains how to set plone.app.discussion's settings with a
-generic setup profile. 
+generic setup profile.
 
 plone.app.discussion uses plone.app.registry ...
 
