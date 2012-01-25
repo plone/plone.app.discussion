@@ -1,0 +1,10 @@
+Comment
+=======
+
+.. literalinclude:: ../../plone/app/discussion/interfaces.py
+   :language: python
+   :pyobject: IComment
+
+
+.. autointerface:: plone.app.discussion.interfaces.IComment
+   :members:
