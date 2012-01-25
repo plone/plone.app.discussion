@@ -7,3 +7,4 @@ Howtos
 
    howto_extend_the_comment_form.txt
    howto_override_enable_conversation.txt
+   howto_set_discussion_settings_with_generic_setup.txt
