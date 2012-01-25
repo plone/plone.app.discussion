@@ -6,5 +6,8 @@ Howtos
    :maxdepth: 1
 
    howto_extend_the_comment_form.txt
+   howto_make_pad_work_with_a_dexterity_content_type.txt
+   howto_override_comments_viewlet.txt
    howto_override_enable_conversation.txt
    howto_set_discussion_settings_with_generic_setup.txt
+   howto_write_a_custom_email_notification.txt
