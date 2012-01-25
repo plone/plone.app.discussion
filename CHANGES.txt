@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.1.3 (unreleased)
+------------------
+
+- Set modified date of object receiving comments so that caching works
+  correctly (304s)
+  [eleddy]
+
 2.1.2 (2011-12-21)
 ------------------
 
