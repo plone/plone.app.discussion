@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.4dev'
+version = '2.2.0dev'
 
 install_requires = [
     'setuptools',
@@ -52,7 +52,7 @@ setup(name='plone.app.discussion',
               'plone.app.testing',
               'interlude',
           ]
-      },      
+      },
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone
