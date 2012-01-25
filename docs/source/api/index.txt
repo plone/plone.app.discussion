@@ -1,5 +1,6 @@
-API/Interfaces
---------------
+===
+API
+===
 
 The conversation and replies adapters.
 
@@ -12,6 +13,9 @@ directly in reply to a particular comment (implemented by the CommentReplies
 adpater) or at the top level of the conversation (implemented by the
 ConversationReplies adapter).
 
-.. include:: ../../plone/app/discussion/conversation.txt
 
-.. include:: ../../plone/app/discussion/comment.txt
+.. toctree::
+   :maxdepth: 1
+
+   conversation.txt
+   comment.txt
