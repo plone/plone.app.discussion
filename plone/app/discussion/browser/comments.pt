@@ -126,14 +126,14 @@
             </div>
 
         </tal:getreplies>
-        
+
         <div tal:condition="python: has_replies and not isDiscussionAllowed"
              class="discreet"
              i18n:domain="plone.app.discussion"
              i18n:translate="label_commenting_disabled">
             Commenting has been disabled.
         </div>
-    
+
     </div>
 
     <div class="reply"
@@ -147,7 +147,7 @@
                    />
         </form>
     </div>
-    
+
     <div id="commenting" class="reply" tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)">
 
         <fieldset>
