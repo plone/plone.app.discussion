@@ -1,3 +1,12 @@
+===============================================================================
+How to make plone.app.discussion work with a dexterity content type
+===============================================================================
+
+This document explains how to make plone.app.discussion work with a custom
+dexterity content type.
+
+XXX: TODO
+
 configure.zcml::
 
     <browser:page
@@ -8,7 +17,7 @@ configure.zcml::
         permission="zope2.View"
         />
 
-Define an interface IMyDexterityContentType groked schema, I added:
+Define an interface IMyDexterityContentType groked schema, I added::
 
         allowDiscussion  = schema.Bool(
             title=_(u"Allow Users to Comment"),
@@ -18,7 +27,7 @@ are shown at the end of each page"),
             default=True,
         )
 
-and added this class:
+and added this class::
 
 from plone.app.discussion.browser.comments import CommentsViewlet
 class ConversationView(object):
