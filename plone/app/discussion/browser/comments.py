@@ -181,7 +181,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if portal_membership.isAnonymousUser() and \
            settings.anonymous_comments:
             # Anonymous Users
-            comment.creator = author_name
             comment.author_name = author_name
             comment.author_email = author_email
             comment.user_notification = user_notification
@@ -200,7 +199,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 fullname = unicode(fullname, 'utf-8')
             if email and isinstance(email, str):
                 email = unicode(email, 'utf-8')
-            comment.creator = fullname
+            comment.creator = username
             comment.author_username = username
             comment.author_name = fullname
             comment.author_email = email

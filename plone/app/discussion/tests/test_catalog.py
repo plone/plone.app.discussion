@@ -61,7 +61,7 @@ class ConversationCatalogTest(unittest.TestCase):
         comment1 = createObject('plone.Comment')
         comment1.title = 'Comment 1'
         comment1.text = 'Comment text'
-        comment1.creator = 'Jim'
+        comment1.creator = 'jim'
         comment1.author_username = 'Jim'
         comment1.creation_date = datetime(2006, 9, 17, 14, 18, 12)
         comment1.modification_date = datetime(2006, 9, 17, 14, 18, 12)
@@ -87,7 +87,6 @@ class ConversationCatalogTest(unittest.TestCase):
         comment2 = createObject('plone.Comment')
         comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
-        comment2.creator = 'Emma'
         new_comment2_id = self.conversation.addComment(comment2)
 
         comment2 = self.portal.doc1.restrictedTraverse(
@@ -110,7 +109,6 @@ class ConversationCatalogTest(unittest.TestCase):
         comment2 = createObject('plone.Comment')
         comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
-        comment2.creator = 'Emma'
         comment2.creation_date = datetime(2009, 9, 17, 14, 18, 12)
         comment2.modification_date = datetime(2009, 9, 17, 14, 18, 12)
         new_comment2_id = self.conversation.addComment(comment2)
@@ -157,7 +155,7 @@ class ConversationCatalogTest(unittest.TestCase):
         comment2 = createObject('plone.Comment')
         comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
-        comment2.creator = 'Emma'
+        comment2.creator = 'emma'
         comment2.author_username = 'Emma'
         new_comment2_id = self.conversation.addComment(comment2)
 
@@ -223,7 +221,8 @@ class CommentCatalogTest(unittest.TestCase):
 
         comment1 = createObject('plone.Comment')
         comment1.text = 'Comment text'
-        comment1.creator = 'Jim'
+        comment1.creator = 'jim'
+        comment1.author_name = 'Jim'
         new_comment1_id = conversation.addComment(comment1)
         self.comment_id = new_comment1_id
 
@@ -261,7 +260,7 @@ class CommentCatalogTest(unittest.TestCase):
         self.assertEqual(self.comment_brain.review_state, 'published')
 
     def test_creator(self):
-        self.assertEqual(self.comment_brain.Creator, 'Jim')
+        self.assertEqual(self.comment_brain.Creator, 'jim')
 
     def test_in_response_to(self):
         """Make sure in_response_to returns the title or id of the content

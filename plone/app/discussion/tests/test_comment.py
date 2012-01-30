@@ -98,7 +98,7 @@ class CommentTest(unittest.TestCase):
     def test_title(self):
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
-        comment1.creator = "Jim Fulton"
+        comment1.author_name = "Jim Fulton"
         conversation.addComment(comment1)
         self.assertEqual("Jim Fulton on Document 1", comment1.Title())
 
@@ -114,14 +114,14 @@ class CommentTest(unittest.TestCase):
                           type_name='Document')
         conversation = IConversation(self.portal.doc_sp_chars)
         comment1 = createObject('plone.Comment')
-        comment1.creator = u"Tarek Ziadé"
+        comment1.author_name = u"Tarek Ziadé"
         conversation.addComment(comment1)
         self.assertEqual(u"Tarek Ziadé on Document äüö", comment1.Title())
 
     def test_creator(self):
         comment1 = createObject('plone.Comment')
-        comment1.creator = "Jim"
-        self.assertEqual("Jim", comment1.Creator())
+        comment1.creator = "jim"
+        self.assertEqual("jim", comment1.Creator())
 
     def test_type(self):
         comment1 = createObject('plone.Comment')

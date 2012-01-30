@@ -48,7 +48,7 @@
                               border="0"
                               height="32"
                               tal:attributes="src portrait_url;
-                                              alt reply/Creator" />
+                                              alt reply/author_name" />
                     </a>
                     <img src="defaultUser.gif"
                          alt=""
@@ -56,20 +56,20 @@
                          height="32"
                          tal:condition="not: has_author_link"
                          tal:attributes="src portrait_url;
-                                         alt reply/Creator" />
+                                         alt reply/author_name" />
                 </div>
 
                 <div class="documentByLine" i18n:domain="plone.app.discussion">
                     <tal:name>
                         <a href=""
                            tal:condition="has_author_link"
-                           tal:content="reply/Creator"
+                           tal:content="reply/author_name"
                            tal:attributes="href author_home_url">
                             Poster Name
                         </a>
                         <span tal:condition="not: has_author_link"
-                              tal:replace="reply/Creator" />
-                        <span tal:condition="not: reply/Creator">Anonymous</span>
+                              tal:replace="reply/author_name" />
+                        <span tal:condition="not: reply/author_name">Anonymous</span>
                     </tal:name>
                     <tal:posted i18n:translate="label_says">says:</tal:posted>
                     <div class="commentDate"

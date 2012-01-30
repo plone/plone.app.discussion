@@ -49,7 +49,7 @@ class ConversationIndexersTest(unittest.TestCase):
 
         comment1 = createObject('plone.Comment')
         comment1.text = 'Comment Text'
-        comment1.creator = "Jim"
+        comment1.creator = "jim"
         comment1.author_username = "Jim"
         comment1.creation_date = datetime(2006, 9, 17, 14, 18, 12)
         comment1.modification_date = datetime(2006, 9, 17, 14, 18, 12)
@@ -57,7 +57,7 @@ class ConversationIndexersTest(unittest.TestCase):
 
         comment2 = createObject('plone.Comment')
         comment2.text = 'Comment Text'
-        comment2.creator = "Emma"
+        comment2.creator = "emma"
         comment2.author_username = "Emma"
         comment2.creation_date = datetime(2007, 12, 13, 4, 18, 12)
         comment2.modification_date = datetime(2007, 12, 13, 4, 18, 12)
@@ -65,7 +65,7 @@ class ConversationIndexersTest(unittest.TestCase):
 
         comment3 = createObject('plone.Comment')
         comment3.text = 'Comment Text'
-        comment3.creator = "Lukas"
+        comment3.creator = "lukas"
         comment3.author_username = "Lukas"
         comment3.creation_date = datetime(2009, 4, 12, 11, 12, 12)
         comment3.modification_date = datetime(2009, 4, 12, 11, 12, 12)
@@ -124,7 +124,8 @@ class CommentIndexersTest(unittest.TestCase):
 
         comment = createObject('plone.Comment')
         comment.text = 'Lorem ipsum dolor sit amet.'
-        comment.creator = "Jim"
+        comment.creator = "jim"
+        comment.author_name = "Jim"
         comment.creation_date = datetime(2006, 9, 17, 14, 18, 12)
         comment.modification_date = datetime(2008, 3, 12, 7, 32, 52)
 
@@ -170,7 +171,7 @@ class CommentIndexersTest(unittest.TestCase):
                                 DelegatingIndexerFactory))
 
     def test_creator(self):
-        self.assertEqual(catalog.creator(self.comment)(), ('Jim'))
+        self.assertEqual(catalog.creator(self.comment)(), ('jim'))
 
     def test_in_response_to(self):
         # make sure in_response_to returns the title or id of the content
