@@ -28,7 +28,8 @@ class ToolTest(unittest.TestCase):
 
         # Add a comment.
         comment = createObject('plone.Comment')
-        comment.creator = 'Jim'
+        comment.creator = 'jim'
+        comment.author_name = "Jim"
         comment.text = 'Comment text'
 
         conversation.addComment(comment)

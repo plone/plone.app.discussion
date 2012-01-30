@@ -45,7 +45,7 @@ from OFS.role import RoleManager
 
 COMMENT_TITLE = _(
     u"comment_title",
-    default=u"${creator} on ${content}")
+    default=u"${author_name} on ${content}")
 
 MAIL_NOTIFICATION_MESSAGE = _(
     u"mail_notification_message",
@@ -154,19 +154,18 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         if self.title:
             return self.title
 
-        if not self.creator:
-            creator = translate(Message(_(u"label_anonymous",
+        if not self.author_name:
+            author_name = translate(Message(_(u"label_anonymous",
                                           default=u"Anonymous")))
         else:
-            creator = self.creator
-            creator = creator
+            author_name = self.author_name
 
         # Fetch the content object (the parent of the comment is the
         # conversation, the parent of the conversation is the content object).
         content = aq_base(self.__parent__.__parent__)
         title = translate(
             Message(COMMENT_TITLE,
-                    mapping={'creator': creator,
+                    mapping={'author_name': author_name,
                              'content': safe_unicode(content.Title())}))
         return title
 

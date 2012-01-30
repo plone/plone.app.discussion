@@ -1,6 +1,15 @@
 Changelog
 =========
 
+2.2.0 (unreleased)
+------------------
+
+- Refactor the comment creator/author_name to comply with the Plone core
+  convention to store the username on the creator attribute and not the
+  fullname.
+  [timo]
+
+
 2.1.8 (unreleased)
 ------------------
 

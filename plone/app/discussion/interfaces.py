@@ -157,7 +157,7 @@ class IComment(Interface):
                                              "email."),
                                      required=False)
 
-    creator = schema.TextLine(title=_(u"Author name (for display)"))
+    creator = schema.TextLine(title=_(u"Username of the commenter"))
     creation_date = schema.Date(title=_(u"Creation date"))
     modification_date = schema.Date(title=_(u"Modification date"))
 

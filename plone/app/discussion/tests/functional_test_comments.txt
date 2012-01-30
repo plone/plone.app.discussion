@@ -353,6 +353,7 @@ View the collection listing.
     <Link text='Anonymous on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
     >>> browser.getLink('Anonymous on Doc1', index=1)
     <Link text='Anonymous on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
+    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
     >>> browser.getLink(tarek_fullname + ' on Doc1')
     <Link text='Tarek Ziad\xc3\xa9 on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
     >>> browser.getLink(jim_fullname + ' on Doc1')
