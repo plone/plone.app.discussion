@@ -94,6 +94,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         self.widgets['text'].addClass("autoresize")
         self.widgets['user_notification'].label = _(u"")
 
+        # Rename the id of the text widgets because there can be css-id
+        # clashes with the text field of documents when using and overlay
+        # with TinyMCE.
+        self.widgets['text'].id = "form-widgets-comment-text"
+
         # Anonymous / Logged-in
         mtool = getToolByName(self.context, 'portal_membership')
         if not mtool.isAnonymousUser():

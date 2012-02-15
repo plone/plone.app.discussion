@@ -9,6 +9,11 @@ Changelog
   fullname.
   [timo]
 
+- Rename the id of the text widgets because there can be css-id clashes with
+  the text field of documents when using TinyMCE in overlays or multiple
+  instances of TinyMCE on a single page.
+  [timo]
+
 
 2.1.8 (unreleased)
 ------------------
