@@ -393,7 +393,7 @@ msgstr "Moderazioa desaktibatuta dago. ${enable_comment_workflow} behar duzu, he
 #. Default: "No comments to moderate."
 #: ../browser/moderation.pt:43
 msgid "message_nothing_to_moderate"
-msgstr "Ez dago ezer moderazio kolank"
+msgstr "Ez dago ezer moderazio kolan"
 
 #. Default: "Bulk Actions"
 #: ../browser/moderation.pt:64
