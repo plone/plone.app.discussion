@@ -206,14 +206,10 @@ def notify_content_object(obj, event):
     """Tell the content object when a comment is added
     """
     content_obj = aq_parent(aq_parent(obj))
-    # set the modified date and reindex the item accordingly
-    # so that 304s work correctly. This means that adding a comment
-    # effectively counts as modifying the content type. 
-    content_obj.setModificationDate()
     content_obj.reindexObject(idxs=('total_comments',
                                     'last_comment_date',
                                     'commentators',
-                                    'modified'))
+    ))
 
 
 def notify_content_object_deleted(obj, event):
