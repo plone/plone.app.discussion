@@ -79,7 +79,7 @@ Check that the comment form/viewlet shows up
     >>> 'formfield-form-widgets-in_reply_to' in browser.contents
     True
 
-    >>> 'formfield-form-widgets-text' in browser.contents
+    >>> 'formfield-form-widgets-comment-text' in browser.contents
     True
 
 
