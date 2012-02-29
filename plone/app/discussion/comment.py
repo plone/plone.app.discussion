@@ -159,7 +159,6 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
                                           default=u"Anonymous")))
         else:
             creator = self.creator
-            creator = creator
 
         # Fetch the content object (the parent of the comment is the
         # conversation, the parent of the conversation is the content object).
