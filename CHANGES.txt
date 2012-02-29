@@ -7,6 +7,9 @@ Changelog
 - Revert modification date since this is fixed in p.a.caching now.
   [eleddy]
 
+- Add missing meta_typ to "Review comments" portal action.
+  [batlock666]
+
 
 2.1.3 (2012-01-24)
 ------------------
