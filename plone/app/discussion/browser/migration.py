@@ -94,7 +94,7 @@ class View(BrowserView):
                     comment.creation_date = DT2dt(reply.creation_date)
                     comment.modification_date = DT2dt(reply.modification_date)
 
-                    comment.reply_to = in_reply_to
+                    comment.in_reply_to = in_reply_to
 
                     if in_reply_to == 0:
                         # Direct reply to a content object
