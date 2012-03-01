@@ -283,6 +283,10 @@ def notify_user(obj, event):
             comment.user_notification and comment.author_email):
             emails.add(comment.author_email)
 
+    # author does not need to be informed of her own comment
+    if obj.author_email:
+        emails.discard(obj.author_email)
+
     if not emails:
         return
 
