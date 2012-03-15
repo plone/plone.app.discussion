@@ -47,12 +47,12 @@ setup(name='plone.app.discussion',
       include_package_data=True,
       zip_safe=False,
       install_requires=install_requires,
-      extras_require = {
+      extras_require={
           'test': [
               'plone.app.testing',
               'interlude',
           ]
-      },      
+      },
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone
