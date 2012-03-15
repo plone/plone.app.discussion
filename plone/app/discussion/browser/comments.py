@@ -310,14 +310,16 @@ class CommentsViewlet(ViewletBase):
 
         # comment workflow
         wftool = getToolByName(context, "portal_workflow", None)
-        comment_workflow = wftool.getChainForPortalType('Discussion Item')[0]
-        comment_workflow = wftool[comment_workflow]
-        # check if the current workflow implements a pending state. If this is
-        # true comments are moderated
-        if 'pending' in comment_workflow.states:
-            message = message + " " + \
-                translate(Message(COMMENT_DESCRIPTION_MODERATION_ENABLED),
-                          context=self.request)
+        workflow_chain = wftool.getChainForPortalType('Discussion Item')
+        if workflow_chain:
+            comment_workflow = workflow_chain[0]
+            comment_workflow = wftool[comment_workflow]
+            # check if the current workflow implements a pending state. If this
+            # is true comments are moderated
+            if 'pending' in comment_workflow.states:
+                message = message + " " + \
+                    translate(Message(COMMENT_DESCRIPTION_MODERATION_ENABLED),
+                              context=self.request)
 
         return message
 

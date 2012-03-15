@@ -99,7 +99,7 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         wftool = getToolByName(self.context, "portal_workflow", None)
-        wf = wftool.getChainForPortalType('Discussion Item')
+        workflow_chain = wftool.getChainForPortalType('Discussion Item')
         output = []
 
         # Globally enabled
@@ -107,8 +107,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             output.append("globally_enabled")
 
         # Comment moderation
-        if 'one_state_workflow' not in wf and \
-        'comment_review_workflow' not in wf:
+        if 'one_state_workflow' not in workflow_chain and \
+        'comment_review_workflow' not in workflow_chain:
             output.append("moderation_custom")
         elif settings.moderation_enabled:
             output.append("moderation_enabled")
@@ -125,9 +125,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
 
         # Workflow
         wftool = getToolByName(self.context, 'portal_workflow', None)
-        discussion_workflow = \
-            wftool.getChainForPortalType('Discussion Item')[0]
-        if discussion_workflow:
+        if workflow_chain:
+            discussion_workflow = workflow_chain[0]
             output.append(discussion_workflow)
 
         # Merge all settings into one string
@@ -150,8 +149,9 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         """Returns a warning string if a custom comment workflow is enabled.
         """
         wftool = getToolByName(self.context, "portal_workflow", None)
-        wf = wftool.getChainForPortalType('Discussion Item')
-        if 'one_state_workflow' in wf or 'comment_review_workflow' in wf:
+        workflow_chain = wftool.getChainForPortalType('Discussion Item')
+        if 'one_state_workflow' in workflow_chain \
+        or 'comment_review_workflow' in workflow_chain:
             return
         return True
 
@@ -180,11 +180,13 @@ def notify_configuration_changed(event):
         if 'workflow' in event.data:
             registry = queryUtility(IRegistry)
             settings = registry.forInterface(IDiscussionSettings, check=False)
-            wf = wftool.getChainForPortalType('Discussion Item')[0]
-            if wf == 'one_state_workflow':
-                settings.moderation_enabled = False
-            elif wf == 'comment_review_workflow':
-                settings.moderation_enabled = True
-            else:
-                # Custom workflow
-                pass
+            workflow_chain = wftool.getChainForPortalType('Discussion Item')
+            if workflow_chain:
+                workflow = workflow_chain[0]
+                if workflow == 'one_state_workflow':
+                    settings.moderation_enabled = False
+                elif workflow == 'comment_review_workflow':
+                    settings.moderation_enabled = True
+                else:
+                    # Custom workflow
+                    pass

@@ -1,6 +1,14 @@
 Changelog
 =========
 
+2.1.5 (unreleased)
+------------------
+
+- Make comments and controlpanel views more robust, so they don't break if no
+  workflow is assigned to the 'Discussion Item' content type.
+  [timo]
+
+
 2.1.4 (2012-02-29)
 ------------------
 
