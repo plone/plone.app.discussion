@@ -2,14 +2,14 @@ Introduction
 ============
 
 plone.app.discussion replaces the old commenting system in Plone 4.1 and is also
-available as an add-on product for Plone 3 and 4. It was initially developed as 
-part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin 
+available as an add-on product for Plone 3 and 4. It was initially developed as
+part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin
 Aspeli (mentor).
 
 .. note::
 
   Make sure you pin down plone.app.discussion to versions < 2.0 if you want to
-  install it as an add-on product (see install instructions below for more 
+  install it as an add-on product (see install instructions below for more
   details).
 
 Please report bugs to the `Plone bug tracker`_.
@@ -43,9 +43,9 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
 
     [versions]
     plone.app.discussion = 1.0
-    
+
     ...
-    
+
     [instance]
     ...
     eggs =
@@ -61,17 +61,17 @@ Plone 4.x Buildout Installation
 To install plone.app.discussion, add the following code to your buildout.cfg::
 
     [buildout]
-    
+
     ...
-    
+
     versions = versions
-    
+
     [versions]
     plone.app.discussion = 1.0
     zope.schema = 3.6.4
-    
+
     ...
-    
+
     [instance]
     ...
     eggs =
@@ -108,11 +108,11 @@ Add-on Products
 Documentation
 =============
 
-- For developer documentation see  
-  `http://packages.python.org/plone.app.discussion 
+- For developer documentation see
+  `http://packages.python.org/plone.app.discussion
   <http://packages.python.org/plone.app.discussion>`_.
 
-- For integrator/end-user documentation see 
+- For integrator/end-user documentation see
   `http://plone.org/products/plone.app.discussion/documentation
   <http://plone.org/products/plone.app.discussion/documentation>`_.
 
@@ -120,11 +120,11 @@ Documentation
 Known Issues
 ============
 
-- **ImportError: No module named owner**: You are trying to install 
+- **ImportError: No module named owner**: You are trying to install
   plone.app.discussion 2.x on Plone < 4.1. Pin plone.app.discussion to a version
   < 2.0.
-  
-- **KeyError: 'Interface `plone.app.discussion.interfaces.IDiscussionSettings` 
+
+- **KeyError: 'Interface `plone.app.discussion.interfaces.IDiscussionSettings`
   defines a field `moderator_email`, for which there is no record.'**: An
   upgrade step was unsuccessful. Reinstall plone.app.discussion to fix this.
 
