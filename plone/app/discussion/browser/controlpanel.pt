@@ -61,6 +61,25 @@
         </dd>
     </dl>
 
+    <dl class="portalMessage warning"
+        tal:condition="view/unmigrated_comments_warning">
+        <dt i18n:translate="">
+            Warning
+        </dt>
+        <dd i18n:translate="text_unmigrated_comments">
+            You have comments that have not been migrated to the new
+            commenting system that has been introduced in Plone 4.1.
+            Please
+            <tal:link i18n:name="label_comments_migration_link">
+                <a href=""
+                   i18n:translate="text_comments_migration_link"
+                   tal:attributes="href string:${portal_url}/@@comment-migration"
+                >migrate your comments</a>
+            </tal:link>
+            to fix this.
+        </dd>
+    </dl>
+
     <div metal:use-macro="context/global_statusmessage/macros/portal_message">
       Portal status message
     </div>

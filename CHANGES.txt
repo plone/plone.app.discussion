@@ -4,13 +4,16 @@ Changelog
 2.1.5 (unreleased)
 ------------------
 
-- Redirect to "/view" for Image, File and anything listed as requiring 
+- Redirect to "/view" for Image, File and anything listed as requiring
   a view in the url to properly display comments.
   [eleddy]
 
-
 - Make comments and controlpanel views more robust, so they don't break if no
   workflow is assigned to the 'Discussion Item' content type.
+  [timo]
+
+- Warning message added to discussion control panel that shows up if there are
+  unmigrated comments.
   [timo]
 
 
@@ -78,15 +81,15 @@ Changelog
 - New feature: Markdown syntax added to possible comment text transforms.
   [timo]
 
-- Make sure the comment brains are updated properly when the content object is 
+- Make sure the comment brains are updated properly when the content object is
   renamed.
   [hannosch, timo]
 
 - Make sure only comments to the content object are removed from the catalog
   when the content object is moved.
   [hannosch, timo, davisagli]
-  
-- Make sure the conversation.getComments method returns acquisition wrapped 
+
+- Make sure the conversation.getComments method returns acquisition wrapped
   comments.
   [timo]
 
@@ -100,7 +103,7 @@ Changelog
 2.0.9 (2011-07-25)
 ------------------
 
-- Make sure the creator index always stores utf-8 encoded stings and not 
+- Make sure the creator index always stores utf-8 encoded stings and not
   unicode.
   [timo]
 
@@ -112,7 +115,7 @@ Changelog
   fixes http://dev.plone.org/plone/ticket/11298.
   [timo]
 
-- Use Plone's safe_encode method instead of encode() for the creator index to 
+- Use Plone's safe_encode method instead of encode() for the creator index to
   make sure unicode encoded strings can be indexed too.
   [timo]
 
@@ -120,7 +123,7 @@ Changelog
 2.0.7 (2011-07-15)
 ------------------
 
-- Fix discussion control panel submit for Google Chrome. This fixes 
+- Fix discussion control panel submit for Google Chrome. This fixes
   http://dev.plone.org/plone/ticket/11486.
 
 
@@ -130,7 +133,7 @@ Changelog
 - Update comment brains in zcatalog when moving a content object with comments.
   This fixes http://dev.plone.org/plone/ticket/11331.
   [timo]
-  
+
 - Plone 3 specific exclusion of plone.app.uuid removed.
   [timo]
 
@@ -143,7 +146,7 @@ Changelog
   imported after collapsibleformfields.js.
   [elro]
 
-- Enable the left-menu on the configlet, to be more consistent with all other 
+- Enable the left-menu on the configlet, to be more consistent with all other
   configlets. Related to http://dev.plone.org/plone/ticket/11737
   [WouterVH]
 
@@ -159,7 +162,7 @@ Changelog
 - Refactor/clean up the handleComment method.
   [timo]
 
-- Make handleComment method store comment attributes from form extenders. This 
+- Make handleComment method store comment attributes from form extenders. This
   allows us to extend the comment form with external add-ons. See
   http://packages.python.org/plone.app.discussion/howtos/howto_extend_the_comment_form.html
   for details.

@@ -4,6 +4,8 @@ from Acquisition import aq_base, aq_inner
 
 from Products.CMFCore.utils import getToolByName
 
+from Products.CMFCore.interfaces._content import IDiscussionResponse
+
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.statusmessages.interfaces import IStatusMessage
@@ -154,6 +156,15 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         or 'comment_review_workflow' in workflow_chain:
             return
         return True
+
+    def unmigrated_comments_warning(self):
+        """Returns true if site contains unmigrated comments.
+        """
+        catalog = getToolByName(aq_inner(self.context), 'portal_catalog', None)
+        count_comments_old = catalog.searchResults(
+            object_provides=IDiscussionResponse.__identifier__)
+        if count_comments_old:
+            return True
 
 
 def notify_configuration_changed(event):
