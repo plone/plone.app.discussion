@@ -1,6 +1,7 @@
 from Acquisition import aq_inner, aq_parent
 
 from Products.Five.browser import BrowserView
+from Products.CMFCore.utils import getToolByName
 
 
 class View(BrowserView):
@@ -22,7 +23,17 @@ class View(BrowserView):
 
     def __call__(self):
         context = aq_inner(self.context)
-        self.request.response.redirect(
-            aq_parent(aq_parent(context)).absolute_url() +
-            '#' + str(context.id)
-            )
+        ptool = getToolByName(context, 'portal_properties')
+        view_action_types = ptool.site_properties.typesUseViewActionInListings
+        obj = aq_parent(aq_parent(context))
+        url = obj.absolute_url()
+
+        """
+        Image and File types, as well as many other customized archetypes
+        require /view be appended to the url to see the comments, otherwise it
+        will redirect right to the binary object, bypassing comments.
+        """
+        if obj.portal_type in view_action_types:
+            url = "%s/view" % url
+
+        self.request.response.redirect('%s#%s' % (url, context.id))

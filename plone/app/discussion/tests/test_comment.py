@@ -186,6 +186,156 @@ class CommentTest(unittest.TestCase):
         self.assertEqual('http://nohost/plone/doc1/++conversation++default/' +
                           str(new_comment1_id), comment.absolute_url())
 
+    def test_view_blob_types(self):
+        """
+        Make sure that traversal to images/files redirects to the
+        version of the url with a /view in it.
+        """
+        self.portal.invokeFactory(id='image1',
+                          title='Image',
+                          type_name='Image')
+        conversation = IConversation(self.portal.image1)
+
+        comment1 = createObject('plone.Comment')
+        comment1.text = 'Comment text'
+        new_comment1_id = conversation.addComment(comment1)
+        comment = self.portal.image1.restrictedTraverse(
+            '++conversation++default/%s' % new_comment1_id)
+
+        view = View(comment, self.request)
+        View.__call__(view)
+        response = self.request.response
+        self.assertIn("/view", response.headers['location'])
+
+    def test_workflow(self):
+        """Basic test for the 'comment_review_workflow'
+        """
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ('Discussion Item',),
+            ('comment_review_workflow,'))
+
+        conversation = IConversation(self.portal.doc1)
+        comment1 = createObject('plone.Comment')
+        new_comment1_id = conversation.addComment(comment1)
+
+        comment = conversation[new_comment1_id]
+
+        # Make sure comments use the 'comment_review_workflow'
+        chain = self.portal.portal_workflow.getChainFor(comment)
+        self.assertEqual(('comment_review_workflow',), chain)
+
+        # Ensure the initial state was entered and recorded
+        self.assertEqual(1,
+            len(comment.workflow_history['comment_review_workflow']))
+        self.assertEqual(None,
+            comment.workflow_history['comment_review_workflow'][0]['action'])
+        self.assertEqual('pending',
+            self.portal.portal_workflow.getInfoFor(comment, 'review_state'))
+
+    def test_fti(self):
+        # test that we can look up an FTI for Discussion Item
+
+        self.assertTrue("Discussion Item" in
+            self.portal.portal_types.objectIds())
+
+        comment1 = createObject('plone.Comment')
+
+        fti = self.portal.portal_types.getTypeInfo(comment1)
+        self.assertEqual('Discussion Item', fti.getTypeInfo(comment1).getId())
+
+    def test_view(self):
+        # make sure that the comment view is there and redirects to the right
+        # URL
+
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Create a comment
+        comment1 = createObject('plone.Comment')
+        comment1.text = 'Comment text'
+
+        # Add comment to the conversation
+        new_comment1_id = conversation.addComment(comment1)
+
+        comment = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/%s' % new_comment1_id)
+
+        # make sure the view is there
+        self.assertTrue(getMultiAdapter((comment, self.request),
+                                        name='view'))
+
+        # make sure the HTTP redirect (status code 302) works when a comment
+        # is called directly
+        view = View(comment, self.request)
+        View.__call__(view)
+        self.assertEqual(self.request.response.status, 302)
+
+    def test_workflow(self):
+        """Basic test for the 'comment_review_workflow'
+        """
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ('Discussion Item',),
+            ('comment_review_workflow,'))
+
+        conversation = IConversation(self.portal.doc1)
+        comment1 = createObject('plone.Comment')
+        new_comment1_id = conversation.addComment(comment1)
+
+        comment = conversation[new_comment1_id]
+
+        # Make sure comments use the 'comment_review_workflow'
+        chain = self.portal.portal_workflow.getChainFor(comment)
+        self.assertEqual(('comment_review_workflow',), chain)
+
+        # Ensure the initial state was entered and recorded
+        self.assertEqual(1,
+            len(comment.workflow_history['comment_review_workflow']))
+        self.assertEqual(None,
+            comment.workflow_history['comment_review_workflow'][0]['action'])
+        self.assertEqual('pending',
+            self.portal.portal_workflow.getInfoFor(comment, 'review_state'))
+
+    def test_fti(self):
+        # test that we can look up an FTI for Discussion Item
+
+        self.assertTrue("Discussion Item" in
+            self.portal.portal_types.objectIds())
+
+        comment1 = createObject('plone.Comment')
+
+        fti = self.portal.portal_types.getTypeInfo(comment1)
+        self.assertEqual('Discussion Item', fti.getTypeInfo(comment1).getId())
+
+    def test_view(self):
+        # make sure that the comment view is there and redirects to the right
+        # URL
+
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Create a comment
+        comment1 = createObject('plone.Comment')
+        comment1.text = 'Comment text'
+
+        # Add comment to the conversation
+        new_comment1_id = conversation.addComment(comment1)
+
+        comment = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/%s' % new_comment1_id)
+
+        # make sure the view is there
+        self.assertTrue(getMultiAdapter((comment, self.request),
+                                        name='view'))
+
+        # make sure the HTTP redirect (status code 302) works when a comment
+        # is called directly
+        view = View(comment, self.request)
+        View.__call__(view)
+        
+
+
     def test_workflow(self):
         """Basic test for the 'comment_review_workflow'
         """

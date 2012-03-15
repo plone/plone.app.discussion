@@ -4,6 +4,11 @@ Changelog
 2.1.5 (unreleased)
 ------------------
 
+- Redirect to "/view" for Image, File and anything listed as requiring 
+  a view in the url to properly display comments.
+  [eleddy]
+
+
 - Make comments and controlpanel views more robust, so they don't break if no
   workflow is assigned to the 'Discussion Item' content type.
   [timo]
