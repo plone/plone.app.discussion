@@ -96,8 +96,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         self.widgets['user_notification'].label = _(u"")
 
         # Anonymous / Logged-in
-        portal_membership = getToolByName(self.context, 'portal_membership')
-        if not portal_membership.isAnonymousUser():
+        mtool = getToolByName(self.context, 'portal_membership')
+        if not mtool.isAnonymousUser():
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
@@ -108,7 +108,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
-        mtool = getToolByName(self.context, 'portal_membership')
         member = mtool.getAuthenticatedMember()
         member_email = member.getProperty('email')
 
