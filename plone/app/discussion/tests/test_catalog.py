@@ -18,6 +18,8 @@ from plone.app.discussion.testing import \
 
 from plone.app.discussion.interfaces import IConversation
 
+from plone.app.discussion.testing import COLLECTION_TYPE
+
 
 class CatalogSetupTest(unittest.TestCase):
 
@@ -413,16 +415,28 @@ class CommentCatalogTest(unittest.TestCase):
         self.assertEqual(len(brains), 6)
 
     def test_collection(self):
-        self.portal.invokeFactory(id='topic', type_name='Topic')
-        topic = self.portal.topic
-        crit = topic.addCriterion('Type', 'ATSimpleStringCriterion')
-        crit.setValue('Comment')
-        query = topic.buildQuery()
+        if COLLECTION_TYPE == "Topic":
+            self.portal.invokeFactory('Topic', id='topic')
+            topic = self.portal.topic
+            crit = topic.addCriterion('Type', 'ATSimpleStringCriterion')
+            crit.setValue('Comment')
+            query = topic.buildQuery()
 
-        # Make sure the comment we just added is returned by the collection
-        self.assertEqual(len(query), 1)
-        self.assertEqual(query['Type'], 'Comment')
-        self.assertEqual(len(topic.queryCatalog()), 1)
+            self.assertEqual(len(query), 1)
+            self.assertEqual(query['Type'], 'Comment')
+            self.assertEqual(len(topic.queryCatalog()), 1)
+        else:
+            self.portal.invokeFactory('Collection', id='collection')
+            collection = self.portal.collection
+            collection.query = [{
+              'i': 'Type',
+              'o': 'plone.app.querystring.operation.string.is',
+              'v': 'Comment',
+            }]
+
+            self.assertEqual(len(collection.results()), 1)
+            self.assertEqual(collection.results()[0].text, 'Comment text')
+            self.assertEqual(collection.results()[0].creator, 'Jim')
 
 
 class NoConversationCatalogTest(unittest.TestCase):

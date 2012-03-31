@@ -8,6 +8,12 @@ from plone.app.testing import FunctionalTesting
 
 from zope.configuration import xmlconfig
 
+try:
+    import plone.app.collection
+    COLLECTION_TYPE = "Collection"
+except:
+    COLLECTION_TYPE = "Topic"
+
 
 class PloneAppDiscussion(PloneSandboxLayer):
 
