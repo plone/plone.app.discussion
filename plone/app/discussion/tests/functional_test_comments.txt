@@ -308,8 +308,12 @@ List comments in a collection
 
 Create a collection.
 
+    >>> from plone.app.testing import setRoles
+    >>> from plone.app.testing import TEST_USER_NAME
+    >>> setRoles(portal, 'manager', ['Manager'])
     >>> browser.open(portal.absolute_url())
-    >>> browser.getLink(url='createObject?type_name=Topic').click()
+    >>> from plone.app.discussion.testing import COLLECTION_TYPE
+    >>> browser.getLink(url='createObject?type_name=' + COLLECTION_TYPE).click()
     >>> browser.getControl('Title', index=0
     ...                    ).value = 'Foo Comment Collection'
     >>> browser.getControl('Save').click()
@@ -319,15 +323,22 @@ Create a collection.
 
 Set the collection criteria.
 
-    >>> browser.getLink('Criteria').click()
-    >>> browser.getControl('Item Type', index=0).selected = True
-    >>> browser.getControl('Select content types').selected = True
-    >>> browser.getControl('Add criteria').click()
-    >>> print browser.contents
-    <...Added criterion ATPortalTypeCriterion for field Type...
+    >>> browser.open(topic_url + "/edit")
 
-    >>> browser.getControl('Comment').selected = True
-    >>> browser.getControl('Save', index=0).click()
+    >>> if COLLECTION_TYPE == "Collection":
+    ...     browser.getControl(name="addindex").value = ['portal_type']
+    ...     browser.getControl(name="form.button.addcriteria").click()
+    ...     browser.getControl(name="addoperator").value = ['plone.app.querystring.operation.selection.is']
+    ...     browser.getControl(name="form.button.addcriteria").click()
+    ...     browser.getControl(name="query.v:records:list").value = ["Discussion Item"]
+    ...     browser.getControl(name="form.button.save").click()
+    ... else:
+    ...     browser.getLink('Criteria').click()
+    ...     browser.getControl('Item Type', index=0).selected = True
+    ...     browser.getControl('Select content types').selected = True
+    ...     browser.getControl('Add criteria').click()
+    ...     browser.getControl('Comment').selected = True
+    ...     browser.getControl('Save', index=0).click()
     >>> print browser.contents
     <...Changes saved...
 

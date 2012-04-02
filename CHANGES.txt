@@ -16,6 +16,9 @@ Changelog
   unmigrated comments.
   [timo]
 
+- Make topic/collection tests pass when plone.app.collection is installed.
+  [timo]
+
 
 2.1.4 (2012-02-29)
 ------------------
