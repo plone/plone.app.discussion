@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.5 (unreleased)
+2.1.5 (2012-04-05)
 ------------------
 
 - Redirect to "/view" for Image, File and anything listed as requiring
