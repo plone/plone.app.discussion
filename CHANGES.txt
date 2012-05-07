@@ -3,6 +3,8 @@ Changelog
 
 2.1.6 (unreleased)
 ------------------
+- Add Site Administrator role to Review comments permission.
+  [gaudenz]
 
 - Fix excessive JS comment deletion.
   [gaudenz]

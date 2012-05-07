@@ -3,6 +3,7 @@
     <permissions>
         <permission name="Review comments" acquire="True">
             <role name="Manager"/>
+	    <role name="Site Administrator"/>
             <role name="Reviewer"/>
         </permission>
         <permission name="Reply to item" acquire="False">
