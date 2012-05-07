@@ -86,6 +86,19 @@
                         <form name="delete"
                               action=""
                               method="post"
+			      tal:condition="python: not view.can_review() and view.could_delete_own(reply)"
+                              tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
+			                      style python:view.can_delete_own(reply) and 'display: inline' or 'display: none'">
+                            <input name="form.button.DeleteComment"
+                                   class="destructive"
+                                   type="submit"
+                                   value="Delete"
+                                   i18n:attributes="value label_delete;"
+                                   />
+                        </form>
+                        <form name="delete"
+                              action=""
+                              method="post"
                               style="display: inline;"
                               tal:condition="canReview"
                               tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">

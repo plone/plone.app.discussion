@@ -190,6 +190,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # Member
             member = portal_membership.getAuthenticatedMember()
             username = member.getUserName()
+            userid = member.getUserId()
             email = member.getProperty('email')
             fullname = member.getProperty('fullname')
             if not fullname or fullname == '':
@@ -206,6 +207,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.user_notification = user_notification
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
+
+            # add local "Owner" role for current user
+            comment.manage_setLocalRoles(userid, ['Owner'])
+
         else:  # pragma: no cover
             raise Unauthorized("Anonymous user tries to post a comment, but "
                 "anonymous commenting is disabled. Or user does not have the "
@@ -283,6 +288,24 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission('Review comments',
                                                     aq_inner(self.context))
 
+    def can_delete_own(self, comment):
+        """Returns true if the current user can delete the comment. Only
+        comments without replies can be deleted.
+        """
+        try:
+            return comment.restrictedTraverse('@@delete-own-comment').can_delete()
+        except Unauthorized:
+            return False
+
+    def could_delete_own(self, comment):
+        """Returns true if the current user could delete the comment if it had no
+        replies. This is used to prepare hidden form buttons for JS.
+        """
+        try:
+            return comment.restrictedTraverse('@@delete-own-comment').could_delete()
+        except Unauthorized:
+            return False
+
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
         return context.restrictedTraverse('@@conversation_view').enabled()
@@ -346,7 +369,6 @@ class CommentsViewlet(ViewletBase):
         conversation = IConversation(context)
 
         wf = getToolByName(context, 'portal_workflow')
-
         # workflow_actions is only true when user
         # has 'Manage portal' permission
 

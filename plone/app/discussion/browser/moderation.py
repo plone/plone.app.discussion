@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner, aq_parent
 
+from AccessControl import Unauthorized, getSecurityManager
+
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -10,6 +12,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IReplies
 
 
 class View(BrowserView):
@@ -102,6 +105,34 @@ class DeleteComment(BrowserView):
         if len(came_from) == 0:
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
+
+
+class DeleteOwnComment(DeleteComment):
+    """Delete an own comment if it has no replies. Following conditions have to be true
+    for a user to be able to delete his comments:
+    * "Delete own comments" permission
+    * no replies to the comment
+    * Owner role directly assigned on the comment object
+    """
+
+    def could_delete(self):
+        """returns true if the comment could be deleted if it had no replies."""
+        sm = getSecurityManager()
+        context = aq_inner(self.context)
+        userid = sm.getUser().getId()
+        return (sm.checkPermission('Delete own comments',
+                                   context)
+                and 'Owner' in context.get_local_roles_for_userid(userid))
+
+    def can_delete(self):
+        return (len(IReplies(aq_inner(self.context))) == 0
+                and self.could_delete())
+
+    def __call__(self):
+        if self.can_delete():
+            super(DeleteOwnComment, self).__call__()
+        else:
+            raise Unauthorized("Your not allowed to delete this comment.")
 
 
 class PublishComment(BrowserView):

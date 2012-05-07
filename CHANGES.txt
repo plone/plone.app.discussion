@@ -3,7 +3,15 @@ Changelog
 
 2.1.6 (unreleased)
 ------------------
+- Add permission to allow comment authors to delete their own comments if 
+  there are no replies yet.
+  [gaudenz]
+
 - Add Site Administrator role to Review comments permission.
+  [gaudenz]
+
+- Add permission to allow comment authors to delete their own comments if 
+  there are no replies yet.
   [gaudenz]
 
 - Fix excessive JS comment deletion.

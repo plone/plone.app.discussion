@@ -193,6 +193,9 @@
                             $(this).remove();
                         });
                     });
+                    // Add delete button to the parent
+                    var parent = comment.prev('[class*="replyTreeLevel' + (treelevel - 1) + '"]');
+                    parent.find('form[name="delete"]').css('display', 'inline');
                     // remove comment
                     $(this).fadeOut('fast', function () {
                         $(this).remove();

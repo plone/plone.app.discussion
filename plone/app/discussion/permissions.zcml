@@ -9,4 +9,9 @@
         title="Review comments"
         />
 
+    <permission
+        id="plone.app.discussion.DeleteOwnComments"
+        title="Delete own comments"
+        />
+
 </configure>

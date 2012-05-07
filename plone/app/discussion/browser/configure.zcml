@@ -71,13 +71,21 @@
         permission="zope2.View"
         />
 
-    <!-- Delete comment view -->
+    <!-- Delete comment views -->
     <browser:page
         for="plone.app.discussion.interfaces.IComment"
         name="moderate-delete-comment"
         layer="..interfaces.IDiscussionLayer"
         class=".moderation.DeleteComment"
         permission="plone.app.discussion.ReviewComments"
+        />
+
+    <browser:page
+        for="plone.app.discussion.interfaces.IComment"
+        name="delete-own-comment"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.DeleteOwnComment"
+        permission="plone.app.discussion.DeleteOwnComments"
         />
 
     <!-- Publish comment view -->
