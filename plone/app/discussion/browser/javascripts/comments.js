@@ -179,31 +179,24 @@
                 url: form_url,
                 context: $(trigger).parents(".comment"),
                 success: function (data) {
-                    if ($(".discussion .replyTreeLevel0").length === 1) {
-                        $(".discussion").fadeOut('fast', function () {
-                            $(".discussion").remove();
-                        });
+                    var comment = $(this);
+                    var clss = comment.attr('class');
+                    // remove replies
+                    var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel') + 'replyTreeLevel'.length], 10);
+                    // selector for all the following elements of lower level
+                    var selector = ".replyTreeLevel" + treelevel;
+                    for (var i = 0; i < treelevel; i++) {
+                        selector += ", .replyTreeLevel" + i;
                     }
-                    else {
-                        var comment = $(this);
-                        var clss = comment.attr('class');
-                        // remove replies
-                        var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel') + 'replyTreeLevel'.length], 10);
-                        // selector for all the following elements of lower level
-                        var selector = ".replyTreeLevel" + treelevel;
-                        for (var i = 0; i < treelevel; i++) {
-                            selector += ", .replyTreeLevel" + i;
-                        }
-                        comment.nextUntil(selector).each(function () {
-                            $(this).fadeOut('fast', function () {
-                                $(this).remove();
-                            });
-                        });
-                        // remove comment
+                    comment.nextUntil(selector).each(function () {
                         $(this).fadeOut('fast', function () {
                             $(this).remove();
                         });
-                    }
+                    });
+                    // remove comment
+                    $(this).fadeOut('fast', function () {
+                        $(this).remove();
+                    });
                 },
                 error: function (req, error) {
                     return true;

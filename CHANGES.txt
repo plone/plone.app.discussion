@@ -4,6 +4,9 @@ Changelog
 2.1.6 (unreleased)
 ------------------
 
+- Fix excessive JS comment deletion.
+  [gaudenz]
+
 - No longer depend on zope.app packages.
   [hannosch]
 
