@@ -223,7 +223,7 @@ msgstr ""
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
 #: ../interfaces.py:26
 msgid "help_globally_enabled"
-msgstr "選ばれると、このサイトでユーザがコメントを投稿できるようになります。とはいえ、ユーザがコメントを登校できるようになるためには、さらにコンテンツタイプ、フォルダ、コンテンツオブジェクトに対して、コメントを有効にしなければなりません。"
+msgstr "選ばれると、このサイトでユーザがコメントを投稿できるようになります。とはいえ、ユーザがコメントを投稿できるようになるためには、さらにコンテンツタイプ、フォルダ、コンテンツオブジェクトに対して、コメントを有効にしなければなりません。"
 
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
 #: ../interfaces.py:50
