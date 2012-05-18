@@ -316,7 +316,7 @@ class CommentCatalogTest(unittest.TestCase):
              portal_type="Discussion Item",
              path={'query': '/'.join(self.portal.folder1.getPhysicalPath())}
              ))
-        self.assertEquals(len(brains), 0)
+        self.assertEqual(len(brains), 0)
 
         brains = self.catalog.searchResults(dict(
                  portal_type="Discussion Item",
@@ -324,8 +324,8 @@ class CommentCatalogTest(unittest.TestCase):
                      'query': '/'.join(self.portal.folder2.getPhysicalPath())
                      }
                  ))
-        self.assertEquals(len(brains), 1)
-        self.assertEquals(brains[0].getPath(),
+        self.assertEqual(len(brains), 1)
+        self.assertEqual(brains[0].getPath(),
                           '/plone/folder2/moveme/++conversation++default/' +
                           str(comment_id))
 
@@ -337,8 +337,8 @@ class CommentCatalogTest(unittest.TestCase):
 
         brains = self.catalog.searchResults(
             portal_type='Discussion Item')
-        self.assertEquals(len(brains), 1)
-        self.assertEquals(brains[0].getPath(),
+        self.assertEqual(len(brains), 1)
+        self.assertEqual(brains[0].getPath(),
                           '/plone/doc2/++conversation++default/' +
                           str(self.comment_id))
 
