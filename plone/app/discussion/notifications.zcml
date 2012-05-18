@@ -5,13 +5,13 @@
 
   <subscriber
       for="plone.app.discussion.interfaces.IComment
-           zope.app.container.interfaces.IObjectAddedEvent"
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
       handler=".comment.notify_user"
       />
 
   <subscriber
       for="plone.app.discussion.interfaces.IComment
-           zope.app.container.interfaces.IObjectAddedEvent"
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
       handler=".comment.notify_moderator"
       />
 

@@ -5,43 +5,43 @@
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
-             zope.app.container.interfaces.IObjectAddedEvent"
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
         handler=".comment.notify_workflow"
         />
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
-             zope.app.container.interfaces.IObjectAddedEvent"
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
         handler=".comment.notify_content_object"
         />
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
-             zope.app.container.interfaces.IObjectRemovedEvent"
+             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".comment.notify_content_object"
         />
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
-             zope.app.container.interfaces.IObjectAddedEvent"
+             zope.lifecycleevent.interfaces.IObjectAddedEvent"
         handler=".tool.index_object"
         />
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
-             zope.app.container.interfaces.IObjectRemovedEvent"
+             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".tool.unindex_object"
         />
 
     <subscriber
         for="Products.CMFCore.interfaces.IContentish
-             zope.app.container.interfaces.IObjectRemovedEvent"
+             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".comment.notify_content_object_deleted"
         />
 
     <subscriber
         for="Products.CMFCore.interfaces.IContentish
-             zope.app.container.interfaces.IObjectMovedEvent"
+             zope.lifecycleevent.interfaces.IObjectMovedEvent"
         handler=".comment.notify_content_object_moved"
         />
 

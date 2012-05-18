@@ -17,8 +17,7 @@ from plone.app.registry.browser import controlpanel
 from plone.registry.interfaces import IRegistry
 from plone.registry.interfaces import IRecordModifiedEvent
 
-from zope.app.component.hooks import getSite
-
+from zope.component.hooks import getSite
 from zope.component import getMultiAdapter, queryUtility
 
 from z3c.form import button

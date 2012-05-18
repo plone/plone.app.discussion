@@ -4,7 +4,8 @@ Changelog
 2.1.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- No longer depend on zope.app packages.
+  [hannosch]
 
 
 2.1.5 (2012-04-05)
