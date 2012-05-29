@@ -9,6 +9,11 @@ Changelog
 - Fix excessive JS comment deletion.
   [gaudenz]
 
+- Hide Conversation objects from breadcrumb navigation. The breadcrumbs
+  navigation is also used in the search results view. This lead to Conversation
+  objects showing up if 'Discussion Items' are searchable.
+  [gaudenz]
+
 - No longer depend on zope.app packages.
   [hannosch]
 

@@ -42,6 +42,8 @@ from BTrees.OIBTree import OIBTree
 from BTrees.LOBTree import LOBTree
 from BTrees.LLBTree import LLSet
 
+from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
+
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.comment import Comment
@@ -56,7 +58,7 @@ class Conversation(Traversable, Persistent, Explicit):
     comment lookup.
     """
 
-    implements(IConversation)
+    implements(IConversation, IHideFromBreadcrumbs)
 
     __allow_access_to_unprotected_subobjects__ = True
 
