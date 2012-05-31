@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.6dev'
+version = '2.1.6'
 
 install_requires = [
     'setuptools',
