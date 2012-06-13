@@ -6,6 +6,8 @@ Changelog
 
 - Prune duplicated test code.
   [pjstevns]
+- Update version in buildout.cfg to allow development.
+  [pjstevns]
 
 
 2.1.6 (2012-05-30)
