@@ -6,12 +6,22 @@ Changelog
 
 - Prune duplicated test code.
   [pjstevns]
+
 - Update version in buildout.cfg to allow development.
+  [pjstevns]
+
+- Conversation.total_comments only counts published comments.
+  Fixes bug #11591.
+  [pjstevns]
+
+- Set workflow status of comments during migration based on
+  the state of the Discussion Item.
   [pjstevns]
 
 
 2.1.6 (2012-05-30)
 ------------------
+
 - Add Site Administrator role to Review comments permission.
   [gaudenz]
 

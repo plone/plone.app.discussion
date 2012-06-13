@@ -21,6 +21,14 @@ class MigrationTest(unittest.TestCase):
 
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
+    def _publish(self, reply):
+        # publish the reply
+        status = self.portal.portal_workflow.getStatusOf(
+            'comment_review_workflow', reply).copy()
+        status['review_state'] = 'published'
+        self.portal.portal_workflow.setStatusOf(
+            'comment_review_workflow', reply, status)
+
     def setUp(self):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
@@ -53,6 +61,8 @@ class MigrationTest(unittest.TestCase):
         reply.setReplyTo(self.doc)
         reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6, 'GMT')
         reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7, 'GMT')
+
+        self._publish(reply)
         self.assertEqual(reply.Title(), 'My Title')
         self.assertEqual(reply.EditableBody(), 'My Text')
         self.assertTrue('Jim' in reply.listCreators())
@@ -104,12 +114,16 @@ class MigrationTest(unittest.TestCase):
         talkback.createReply(title='First comment',
                              text='This is my first comment.')
         comment1 = talkback.getReplies()[0]
+        self._publish(comment1)
+
         talkback_comment1 = self.discussion.getDiscussionFor(comment1)
 
         # Re: First comment
         talkback_comment1.createReply(title='Re: First comment',
                                       text='This is my first reply.')
         comment1_1 = talkback_comment1.getReplies()[0]
+        self._publish(comment1_1)
+
         talkback_comment1_1 = self.discussion.getDiscussionFor(comment1_1)
 
         self.assertEqual(len(talkback.getReplies()), 1)
@@ -120,27 +134,34 @@ class MigrationTest(unittest.TestCase):
         talkback_comment1_1.createReply(title='Re: Re: First comment',
                                         text='This is my first re-reply.')
         comment1_1_1 = talkback_comment1_1.getReplies()[0]
+        self._publish(comment1_1_1)
+
         talkback_comment1_1_1 = self.discussion.getDiscussionFor(comment1_1_1)
 
         # Re: Re: Re: First comment
         talkback_comment1_1_1.createReply(title='Re: Re: Re: First comment',
                                           text='This is my first re-re-reply.')
+        self._publish(talkback_comment1_1_1.getReplies()[0])
 
         # Re: First comment (2)
         talkback_comment1.createReply(title='Re: First comment (2)',
                                       text='This is my first reply (2).')
+        self._publish(talkback_comment1.getReplies()[1])
 
         # Re: First comment (3)
         talkback_comment1.createReply(title='Re: First comment (3)',
                                       text='This is my first reply (3).')
+        self._publish(talkback_comment1.getReplies()[2])
 
         # Re: First comment (4)
         talkback_comment1.createReply(title='Re: First comment (4)',
                                       text='This is my first reply (4).')
+        self._publish(talkback_comment1.getReplies()[3])
 
         # Second comment
         talkback.createReply(title='Second comment',
                              text='This is my second comment.')
+        self._publish(talkback.getReplies()[1])
 
         # Call migration script
         self.view()

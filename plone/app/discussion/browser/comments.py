@@ -38,7 +38,6 @@ from plone.app.discussion.interfaces import ICaptcha
 from plone.app.discussion.browser.validator import CaptchaValidator
 
 from plone.z3cform import z2
-from plone.z3cform.widget import SingleCheckBoxWidget
 from plone.z3cform.fieldsets import extensible
 
 
@@ -372,7 +371,7 @@ class CommentsViewlet(ViewletBase):
                     yield r
 
         # Return all direct replies
-        if conversation.total_comments > 0:
+        if len(conversation.objectIds()):
             if workflow_actions:
                 return replies_with_workflow_actions()
             else:

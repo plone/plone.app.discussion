@@ -171,7 +171,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
 
     def test_delete(self):
         # Initially we have three comments
-        self.assertEqual(self.conversation.total_comments, 3)
+        self.assertEqual(len(self.conversation.objectIds()), 3)
         # Delete two comments with bulk actions
         self.request.set('form.select.BulkAction', 'delete')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath()),
@@ -181,7 +181,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         view()
 
         # Make sure that the two comments have been deleted
-        self.assertEqual(self.conversation.total_comments, 1)
+        self.assertEqual(len(self.conversation.objectIds()), 1)
         comment = self.conversation.getComments().next()
         self.assertTrue(comment)
         self.assertEqual(comment, self.comment2)

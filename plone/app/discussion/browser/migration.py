@@ -14,6 +14,9 @@ from plone.app.discussion.comment import CommentFactory
 
 from plone.app.discussion.interfaces import IConversation, IReplies, IComment
 
+from types import TupleType
+from DateTime import DateTime
+
 
 def DT2dt(DT):
     """Convert a Zope DateTime (with timezone) into a Python datetime (GMT)."""
@@ -64,8 +67,14 @@ class View(BrowserView):
             if len(replies) == 0:
                 return True
 
-            for reply in replies:
+            workflow = context.portal_workflow
+            oldchain = workflow.getChainForPortalType('Discussion Item')
+            new_workflow = workflow.comment_review_workflow
 
+            if type(oldchain) == TupleType and len(oldchain) > 0:
+                oldchain = oldchain[0]
+
+            for reply in replies:
                 # log
                 indent = "  "
                 for i in range(depth):
@@ -80,7 +89,8 @@ class View(BrowserView):
 
                 new_in_reply_to = None
                 if should_migrate:
-                    # create a reply object
+
+                                        # create a reply object
                     comment = CommentFactory()
                     comment.title = reply.Title()
                     comment.text = reply.cooked_text
@@ -104,6 +114,31 @@ class View(BrowserView):
                         comment_to_reply_to = conversation.get(in_reply_to)
                         replies = IReplies(comment_to_reply_to)
                         new_in_reply_to = replies.addComment(comment)
+
+                    # migrate the review state
+                    old_status = workflow.getStatusOf(oldchain, reply)
+                    new_status = {
+                        'action': None,
+                        'actor': None,
+                        'comment': 'Migrated workflow state',
+                        'review_state': old_status.get(
+                            'review_state',
+                            new_workflow.initial_state),
+                        'time': DateTime()
+                    }
+                    workflow.setStatusOf('comment_review_workflow',
+                                         comment,
+                                         new_status)
+
+                    auto_transition = new_workflow._findAutomaticTransition(
+                        comment,
+                        new_workflow._getWorkflowStateOf(comment))
+                    if auto_transition is not None:
+                        new_workflow._changeStateOf(comment, auto_transition)
+                    else:
+                        new_workflow.updateRoleMappingsFor(comment)
+                    comment.reindexObject(idxs=['allowedRolesAndUsers',
+                                                'review_state'])
 
                 self.total_comments_migrated += 1
 

@@ -46,6 +46,8 @@ from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.comment import Comment
 
+from AccessControl.SpecialUsers import nobody as user_nobody
+
 ANNOTATION_KEY = 'plone.app.discussion:conversation'
 
 
@@ -85,7 +87,9 @@ class Conversation(Traversable, Persistent, Explicit):
 
     @property
     def total_comments(self):
-        return len(self._comments)
+        public_comments = [x for x in self._comments.values() if \
+                           user_nobody.has_permission('View', x)]
+        return len(public_comments)
 
     @property
     def last_comment_date(self):
