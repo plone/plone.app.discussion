@@ -14,6 +14,9 @@ Changelog
   instances of TinyMCE on a single page.
   [timo]
 
+- text/html added to the possible mime types for comments.
+  [timo]
+
 
 2.1.8 (unreleased)
 ------------------
