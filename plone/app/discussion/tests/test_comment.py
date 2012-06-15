@@ -161,6 +161,13 @@ class CommentTest(unittest.TestCase):
             'Go to <a href="http://www.plone.org" ' +
             'rel="nofollow">http://www.plone.org</a>')
 
+    def test_getText_uses_comment_mime_type_html(self):
+        comment1 = createObject('plone.Comment')
+        comment1.text = 'Go to <a href="http://www.plone.org">plone.org</a>'
+        comment1.mime_type = 'text/html'
+        self.assertEqual(comment1.getText(),
+            'Go to <a href="http://www.plone.org">plone.org</a>')
+
     def test_getText_w_custom_targetMimetype(self):
         comment1 = createObject('plone.Comment')
         comment1.text = 'para'
