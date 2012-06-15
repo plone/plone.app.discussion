@@ -84,6 +84,11 @@ def text_transform_vocabulary(context):
             title='Plain text'))
     terms.append(
         SimpleTerm(
+            value='text/html',
+            token='text/html',
+            title='HTML'))
+    terms.append(
+        SimpleTerm(
             value='text/x-web-markdown',
             token='text/x-web-markdown',
             title='Markdown'))
