@@ -170,6 +170,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Create comment
         comment = createObject('plone.Comment')
+
+        # Set comment mime type to current setting in the discussion registry
+        comment.mime_type = settings.text_transform
+
         # Set comment attributes (including extended comment form attributes)
         for attribute in self.fields.keys():
             setattr(comment, attribute, data[attribute])

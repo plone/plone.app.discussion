@@ -127,6 +127,10 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject('plone.Comment')
         self.assertEqual(comment1.Type(), 'Comment')
 
+    def test_mime_type(self):
+        comment1 = createObject('plone.Comment')
+        self.assertEqual(comment1.mime_type, 'text/plain')
+
     def test_getText(self):
         comment1 = createObject('plone.Comment')
         comment1.text = """First paragraph
