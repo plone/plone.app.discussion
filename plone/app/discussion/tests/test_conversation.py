@@ -715,6 +715,68 @@ class ConversationTest(unittest.TestCase):
                      IAnnotations(self.portal.doc1))
 
 
+class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
+
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        interface.alsoProvides(
+            self.portal.REQUEST,
+            interfaces.IDiscussionLayer)
+
+        typetool = self.portal.portal_types
+        typetool.constructContent('Document', self.portal, 'doc1')
+
+        from plone.dexterity.interfaces import IDexterityContent
+        interface.alsoProvides(
+            self.portal.doc1,
+            IDexterityContent)
+
+    def _makeOne(self, *args, **kw):
+        return self.portal.doc1.restrictedTraverse('@@conversation_view')
+
+    def _globally_enable_discussion(self, value):
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = value
+
+    def _enable_discussion_on_portal_type(self, portal_type, allow_discussion):
+        portal_types = getToolByName(self.portal, 'portal_types')
+        document_fti = getattr(portal_types, portal_type)
+        document_fti.manage_changeProperties(allow_discussion=allow_discussion)
+
+    def test_conversation_is_not_enabled_by_default(self):
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertFalse(conversation.enabled())
+
+    def test_conversation_is_not_enabled_by_default_on_portal_type(self):
+        self._globally_enable_discussion(True)
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertFalse(conversation.enabled())
+
+    def test_conversation_needs_to_be_enabled_globally_and_for_type(self):
+        self._globally_enable_discussion(True)
+        self._enable_discussion_on_portal_type('Document', True)
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertTrue(conversation.enabled())
+
+    def test_disable_discussion(self):
+        self._globally_enable_discussion(True)
+        self._enable_discussion_on_portal_type('Document', True)
+        self.portal.doc1.allow_discussion = False
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertFalse(conversation.enabled())
+
+    def test_enable_discussion(self):
+        self._globally_enable_discussion(True)
+        self._enable_discussion_on_portal_type('Document', True)
+        self.portal.doc1.allow_discussion = True
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertTrue(conversation.enabled())
+
+
 class RepliesTest(unittest.TestCase):
 
     # test the IReplies adapter on a conversation

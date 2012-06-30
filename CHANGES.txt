@@ -4,7 +4,9 @@ Changelog
 2.1.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Support for Dexterity added. The conversation enabled method now detects and
+  supports Dexterity-based content types.
+  [timo]
 
 
 2.1.7 (2012-06-29)
