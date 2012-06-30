@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.7 (unreleased)
+2.1.7 (2012-06-29)
 ------------------
 
 - Prune duplicated test code.
