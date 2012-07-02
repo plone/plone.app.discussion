@@ -1,0 +1,104 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: plone.app.discussion\n"
+"POT-Creation-Date: 2012-07-02 15:38+0000\n"
+"PO-Revision-Date: 2012-07-02 17:54+0100\n"
+"Last-Translator: Radim Novotny <novotny.radim@gmail.com>\n"
+"Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: sk\n"
+"Language-Name: Slovak\n"
+"Preferred-Encodings: utf-8\n"
+"Domain: plone\n"
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "A simple review workflow for comments"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approve"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Approving the comment makes it visible to other users."
+msgstr ""
+
+#: ../profiles/default/types/Discussion_Item.xml
+msgid "Comment"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Comment Review Workflow"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Comment about the last transition"
+msgstr ""
+
+#: ../profiles/default/portal_atct.xml
+msgid "Commentators"
+msgstr ""
+
+#: ../profiles/default/types/Discussion_Item.xml
+msgid "Comments added to a content item."
+msgstr ""
+
+#: ../profiles/default/controlpanel.xml
+msgid "Discussion"
+msgstr ""
+
+#: ../profiles/default/actions.xml
+msgid "Moderate comments"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Pending"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Previous transition"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Provides access to workflow history"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Published"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Reviewer approves content"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Submitted, pending review."
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "The ID of the user who performed the previous transition"
+msgstr ""
+
+#: ../profiles/default/portal_atct.xml
+msgid "Total number of comments"
+msgstr ""
+
+#: ../profiles/default/portal_atct.xml
+msgid "Total number of comments on this item."
+msgstr ""
+
+#: ../profiles/default/portal_atct.xml
+msgid "Users who have commented on the item"
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "Visible to everyone, non-editable."
+msgstr ""
+
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+msgid "When the previous transition was performed"
+msgstr ""
+
