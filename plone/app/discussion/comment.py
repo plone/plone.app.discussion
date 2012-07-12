@@ -159,7 +159,6 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
                                           default=u"Anonymous")))
         else:
             creator = self.creator
-            creator = creator
 
         # Fetch the content object (the parent of the comment is the
         # conversation, the parent of the conversation is the content object).
@@ -283,6 +282,10 @@ def notify_user(obj, event):
         if (obj != comment and
             comment.user_notification and comment.author_email):
             emails.add(comment.author_email)
+
+    # author does not need to be informed of her own comment
+    if obj.author_email:
+        emails.discard(obj.author_email)
 
     if not emails:
         return
