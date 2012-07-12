@@ -17,6 +17,10 @@ Changelog
 - text/html added to the possible mime types for comments.
   [timo]
 
+- Make 'text/plain' the default mime type for comments and make sure the
+  default type is set properly when creating a new comment.
+  [timo]
+
 
 2.1.8 (unreleased)
 ------------------
