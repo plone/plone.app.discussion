@@ -21,6 +21,10 @@ Changelog
   default type is set properly when creating a new comment.
   [timo]
 
+- Fix handling of comments with invalid transforms. Write an error msg
+  to the log and just return the untransformed text.
+  [timo]
+
 
 2.1.8 (unreleased)
 ------------------
