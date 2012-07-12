@@ -21,6 +21,7 @@
         />
 
     <!-- Statistics view -->
+    <!--
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
         name="comment-statistics"
@@ -28,6 +29,7 @@
         class=".statistics.StatisticsView"
         permission="cmf.ManagePortal"
         />
+    -->
 
     <!-- Moderation view -->
     <browser:page
