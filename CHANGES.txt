@@ -8,6 +8,9 @@ Changelog
   supports Dexterity-based content types.
   [timo]
 
+- No more recursive came_from redirection after logged_in.
+  [kcleong, huubbouma]
+
 
 2.1.7 (2012-06-29)
 ------------------
