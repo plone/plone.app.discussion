@@ -99,7 +99,8 @@ class DeleteComment(BrowserView):
             _("Comment deleted."),
             type="info")
         came_from = self.context.REQUEST.HTTP_REFERER
-        if len(came_from) == 0:
+        # if the referrer already has a came_from in it, don't redirect back
+        if len(came_from) == 0 or 'came_from=' in came_from:
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 
@@ -138,7 +139,8 @@ class PublishComment(BrowserView):
             _("Comment approved."),
             type="info")
         came_from = self.context.REQUEST.HTTP_REFERER
-        if len(came_from) == 0:
+        # if the referrer already has a came_from in it, don't redirect back
+        if len(came_from) == 0 or 'came_from=' in came_from:
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 
