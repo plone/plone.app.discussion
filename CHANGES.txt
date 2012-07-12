@@ -17,6 +17,9 @@ Changelog
 - Documentation and howtos updated.
   [timo]
 
+- Remove development buildout files and directories.
+  [timo]
+
 
 2.1.7 (2012-06-29)
 ------------------
