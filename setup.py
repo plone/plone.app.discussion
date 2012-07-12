@@ -12,6 +12,7 @@ install_requires = [
     'plone.indexer',
     'plone.registry',
     'plone.z3cform',
+    'Products.CMFPlone',
     'ZODB3',
     'zope.interface',
     'zope.component',
