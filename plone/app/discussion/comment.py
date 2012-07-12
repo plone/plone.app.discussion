@@ -142,10 +142,22 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
             return ''
         if isinstance(text, unicode):
             text = text.encode('utf8')
-        return transforms.convertTo(targetMimetype,
-                                    text,
-                                    context=self,
-                                    mimetype=sourceMimetype).getData()
+        transform = transforms.convertTo(
+            targetMimetype,
+            text,
+            context=self,
+            mimetype=sourceMimetype)
+        if transform:
+            return transform.getData()
+        else:
+            logger = logging.getLogger("plone.app.discussion")
+            logger.error(
+                _(u"Transform '%s' => '%s' not available. Failed to transform comment '%s'." % (
+                    sourceMimetype,
+                    targetMimetype,
+                    self.absolute_url(),
+                    )))
+            return text
 
     def Title(self):
         """The title of the comment.

@@ -177,6 +177,16 @@ class CommentTest(unittest.TestCase):
         comment1.text = 'para'
         self.assertEqual(comment1.getText(targetMimetype='text/plain'), 'para')
 
+    def test_getText_invalid_transformation_raises_error(self):
+        conversation = IConversation(self.portal.doc1)
+        comment1 = createObject('plone.Comment')
+        comment1.mime_type = 'text/x-html-safe'
+        comment1.text = 'para'
+        conversation.addComment(comment1)
+        self.assertEqual(
+            comment1.getText(targetMimetype='text/html'),
+            'para')
+
     def test_traversal(self):
         # make sure comments are traversable, have an id, absolute_url and
         # physical path
