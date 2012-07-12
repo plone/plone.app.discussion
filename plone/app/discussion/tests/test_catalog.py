@@ -435,7 +435,8 @@ class CommentCatalogTest(unittest.TestCase):
 
             self.assertEqual(len(collection.results()), 1)
             self.assertEqual(collection.results()[0].text, 'Comment text')
-            self.assertEqual(collection.results()[0].creator, 'Jim')
+            self.assertEqual(collection.results()[0].creator, 'jim')
+            self.assertEqual(collection.results()[0].author_name, 'Jim')
 
 
 class NoConversationCatalogTest(unittest.TestCase):
