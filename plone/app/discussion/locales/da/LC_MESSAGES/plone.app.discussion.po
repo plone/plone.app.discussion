@@ -124,7 +124,7 @@ msgstr "Portal type"
 
 #: ../browser/controlpanel.py:69
 msgid "Save"
-msgstr ""
+msgstr "Gem"
 
 #: ../interfaces.py:167
 msgid "The set of unique commentators (usernames)"
@@ -160,12 +160,12 @@ msgstr "Godkend"
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
 #: ../browser/comments.py:52
 msgid "comment_description_intelligent_text"
-msgstr ""
+msgstr "Du kan tilføje en kommentar ved at udfylde formularen nedenfor. Ren tekst-formattering. Web- og emailadresser bliver automatisk lavet om til klikbare links."
 
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:58
 msgid "comment_description_moderation_enabled"
-msgstr ""
+msgstr "Kommentarer er modereret."
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
 #: ../browser/comments.py:47
@@ -220,7 +220,7 @@ msgstr "Her kan du slå CAPTCHA til og fra for kommentarer. Installer plone.form
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
 #: ../browser/controlpanel.py:33
 msgid "help_discussion_settings_editform"
-msgstr ""
+msgstr "Du kan justere kommentarindstillingerne nedenfor. Bemærk, at der også er indstillinger andre steder, som påvirker kommentarer. For at slå kommentarer til for en bestemt indholdstype, så klik \"Typer\" på Kontrolpanelet og afkryds \"Tillad kommentarer\" for typen. For at slå modereringsworkflow til kommentarer, så vælg \"Kommentar\" under \"Typer\" på Kontrolpanelet og vælg workflowet \"Godkendelses-workflow for kommentarer\""
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
 #: ../interfaces.py:26
@@ -230,16 +230,15 @@ msgstr "Hvis du krydser af, kan brugere skrive kommentarer på sitet. Du skal do
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
 #: ../interfaces.py:50
 msgid "help_moderation_enabled"
-msgstr ""
+msgstr "Hvis du krydser af, vil kommentarer automatisk bliver sat i en \"Afventer\"-tilstand, hvor de er usynlige for offentligheden. En bruger med rettigheder til at moderere kommentarer kan godkende kommentarer og gøre dem synlige for offentligheden."
 
 #. Default: "Address to which moderator notifications will be sent."
 #: ../interfaces.py:118
 msgid "help_moderator_email"
-msgstr ""
+msgstr "Adresse på den person, som skal modtage moderator-notificeringer."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
 #: ../interfaces.py:107
-#, fuzzy
 msgid "help_moderator_notification_enabled"
 msgstr "Hvis du krydser af, får en moderator besked, hvis en kommentarer skal vurderes."
 
@@ -251,7 +250,7 @@ msgstr "Hvis du krydser af, bliver der vist et billede af brugeren ved siden af 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
 #: ../interfaces.py:66
 msgid "help_text_transform"
-msgstr ""
+msgstr "Vælg, hvordan kommentartekster skal vises. Du kan vælge mellem \"Plan text\", \"Markdown\" og \"Intelligent text\". Plain text gør ingenting. Markdown fortolker teksten efter Markdown-standarden. Intelligent text oversætter teksten til HTML og bibeholder indrykninger, linjeskift og oversætter emails og webadresser til klikbare links."
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
 #: ../interfaces.py:127
@@ -286,7 +285,7 @@ msgstr "Kommentar"
 #. Default: "Commenting has been disabled."
 #: ../browser/comments.pt:130
 msgid "label_commenting_disabled"
-msgstr ""
+msgstr "Kommentering er slået fra."
 
 #. Default: "Delete"
 #: ../browser/moderation.pt:130
@@ -296,17 +295,17 @@ msgstr "Slet"
 #. Default: "Globally enable comments"
 #: ../interfaces.py:24
 msgid "label_globally_enabled"
-msgstr "Slå kommentarer til over alt"
+msgstr "Tænd for kommentarer"
 
 #. Default: "Enable comment moderation"
 #: ../interfaces.py:48
 msgid "label_moderation_enabled"
-msgstr ""
+msgstr "Slå kommentarmoderering til"
 
 #. Default: "Moderator Email Address"
 #: ../interfaces.py:117
 msgid "label_moderator_email"
-msgstr ""
+msgstr "Email på moderator"
 
 #. Default: "Enable moderator email notification"
 #: ../interfaces.py:105
