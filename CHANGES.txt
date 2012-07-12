@@ -1,6 +1,30 @@
 Changelog
 =========
 
+2.2.2fr (2012-07-12)
+--------------------
+
+- Fix handling of comments with invalid transforms. Write an error msg
+  to the log and just return the untransformed text.
+  [TS]
+
+- Make 'text/plain' the default mime type for comments and make sure the
+  default type is set properly when creating a new comment.
+  [TS]
+
+- Test for mime type transformation from html to html added.
+  [TS]
+
+- HTML added to possible mime types for comments.
+  [TS]
+
+
+2.2.1.fr (unreleased)
+---------------------
+
+- ???
+
+
 2.1.4 (unreleased)
 ------------------
 
