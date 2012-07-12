@@ -11,6 +11,9 @@ Changelog
 - No more recursive came_from redirection after logged_in.
   [kcleong, huubbouma]
 
+- Danish translation updated.
+  [stonor]
+
 
 2.1.7 (2012-06-29)
 ------------------
