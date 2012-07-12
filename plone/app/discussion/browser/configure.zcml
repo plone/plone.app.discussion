@@ -20,6 +20,15 @@
         permission="cmf.ManagePortal"
         />
 
+    <!-- Statistics view -->
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="comment-statistics"
+        layer="..interfaces.IDiscussionLayer"
+        class=".statistics.StatisticsView"
+        permission="cmf.ManagePortal"
+        />
+
     <!-- Moderation view -->
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
