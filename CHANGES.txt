@@ -4,9 +4,7 @@ Changelog
 2.1.8 (unreleased)
 ------------------
 
-- Support for Dexterity added. The conversation enabled method now detects and
-  supports Dexterity-based content types.
-  [timo]
+- Nothing changed yet.
 
 - No more recursive came_from redirection after logged_in.
   [kcleong, huubbouma]
