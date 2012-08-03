@@ -475,12 +475,7 @@ class TestCommentsViewlet(unittest.TestCase):
         python_time = datetime(
             *time.gmtime(time.mktime(python_time.timetuple()))[:7])
         localized_time = self.viewlet.format_time(python_time)
-        # trying to get rid of this failure:
-        # https://jenkins.plone.org/job/plone-4.3-tests/lastFailedBuild/testReport/junit/plone.app.discussion.tests.test_comments_viewlet/TestCommentsViewlet/test_format_time/
-        # ... (but suspecting that now "plone-4.3-ecosystem" will fail, do they use different language settings?)
-        # self.assertEqual(localized_time, 'Feb 01, 2009 11:32 PM')
-        #
-        self.assertEqual(localized_time, '2009-02-01 23:32')
+        self.assertEqual(localized_time, 'Feb 01, 2009 11:32 PM')
 
 
 def test_suite():
