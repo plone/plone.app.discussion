@@ -130,8 +130,8 @@ class PublishComment(BrowserView):
         current_state = workflowTool.getInfoFor(comment, 'review_state')
         if current_state != 'published':
             workflowTool.doActionFor(comment, 'publish')
-        catalogTool = getToolByName(comment, 'portal_catalog')
-        catalogTool.reindexObject(comment)
+        comment.reindexObject()
+        content_object.reindexObject()
         IStatusMessage(self.context.REQUEST).addStatusMessage(
             _("Comment approved."),
             type="info")
