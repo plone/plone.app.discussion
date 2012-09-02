@@ -4,7 +4,8 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Replace discussionitem_icon.gif with png version.
+  [timo]
 
 
 2.2.0 (2012-08-30)

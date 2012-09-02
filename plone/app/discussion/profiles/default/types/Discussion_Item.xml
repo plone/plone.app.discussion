@@ -3,7 +3,7 @@
    i18n:domain="plone" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <property name="title" i18n:translate="">Comment</property>
  <property name="description" i18n:translate="">Comments added to a content item.</property>
- <property name="content_icon">discussionitem_icon.gif</property>
+ <property name="content_icon">discussionitem_icon.png</property>
  <property name="content_meta_type">Discussion Item</property>
  <property name="product"></property>
  <property name="factory">plone.Comment</property>
