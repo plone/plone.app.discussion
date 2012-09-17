@@ -163,7 +163,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # some attributes are not always set
         author_name = u""
-        user_notification = None
 
         # Create comment
         comment = createObject('plone.Comment')
