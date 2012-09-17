@@ -331,6 +331,51 @@ class CommentCatalogTest(unittest.TestCase):
                           '/plone/folder2/moveme/++conversation++default/' +
                           str(comment_id))
 
+
+    def test_move_upper_level_folder(self):
+        # create a folder with a nested structure
+        self.portal.invokeFactory(id='sourcefolder',
+                                  title='Source Folder',
+                                  type_name='Folder')
+        self.portal.sourcefolder.invokeFactory(id='moveme',
+                                               title='Move Me',
+                                               type_name='Folder')
+        self.portal.sourcefolder.moveme.invokeFactory(id='mydocument',
+                                                      title='My Document',
+                                                      type_name='Folder')
+        self.portal.invokeFactory(id='targetfolder',
+                                  title='Target Folder',
+                                  type_name='Folder')
+
+        # create comment on my-document
+        conversation = IConversation(self.portal.sourcefolder.moveme.mydocument)
+        comment = createObject('plone.Comment')
+        comment_id = conversation.addComment(comment)
+
+        # We need to commit here so that _p_jar isn't None and move will work
+        transaction.savepoint(optimistic=True)
+
+        # Move moveme from folder1 to folder2
+        cp = self.portal.sourcefolder.manage_cutObjects(ids=('moveme',))
+        self.portal.targetfolder.manage_pasteObjects(cp)
+
+        # Make sure no old comment brains are left
+        brains = self.catalog.searchResults(dict(
+             portal_type="Discussion Item",
+             path={'query': '/plone/sourcefolder/moveme'}
+             ))
+        self.assertEqual(len(brains), 0)
+
+        # make sure comments are correctly index on the target
+        brains = self.catalog.searchResults(dict(
+                 portal_type="Discussion Item",
+                 path={'query': '/plone/targetfolder/moveme'}
+                 ))
+        self.assertEqual(len(brains), 1)
+        self.assertEqual(brains[0].getPath(),
+                          '/plone/targetfolder/moveme/mydocument/++conversation++default/' +
+                          str(comment_id))
+
     def test_update_comments_when_content_object_is_renamed(self):
         # We need to commit here so that _p_jar isn't None and move will work
         transaction.savepoint(optimistic=True)
