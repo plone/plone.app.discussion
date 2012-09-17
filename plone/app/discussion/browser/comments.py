@@ -163,7 +163,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # some attributes are not always set
         author_name = u""
-        author_email = u""
         user_notification = None
 
         # Create comment
@@ -189,8 +188,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
            settings.anonymous_comments:
             # Anonymous Users
             comment.author_name = author_name
-            comment.author_email = author_email
-            comment.user_notification = user_notification
+            comment.author_email = u""
+            comment.user_notification = None
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
         elif not portal_membership.isAnonymousUser() and can_reply:
@@ -210,7 +209,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.author_username = username
             comment.author_name = fullname
             comment.author_email = email
-            comment.user_notification = user_notification
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
         else:  # pragma: no cover
