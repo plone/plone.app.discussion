@@ -243,9 +243,17 @@ def notify_content_object_moved(obj, event):
     if event.oldParent is None or event.newParent is None \
        or event.oldName is None or event.newName is None:
         return
+
+    # This method is also called for sublocations of moved objects. We therefore can't
+    # assume that event.object == obj and event.{old,new}{Parent,Name} may refer to
+    # the actually moved object further up in the object hierarchy.
+    # The object is already moved at this point. so obj.getPhysicalPath retruns the new path.
+    # get the part of the path that was moved.
+    moved_path = obj.getPhysicalPath()[len(event.newParent.getPhysicalPath()) + 1:]
+
     # Remove comments at the old location from catalog
     catalog = getToolByName(obj, 'portal_catalog')
-    old_path = '/'.join(event.oldParent.getPhysicalPath() + (event.oldName,))
+    old_path = '/'.join(event.oldParent.getPhysicalPath() + (event.oldName,) + moved_path)
     brains = catalog.searchResults(dict(
                  path={'query': old_path},
                  portal_type="Discussion Item"
@@ -256,8 +264,7 @@ def notify_content_object_moved(obj, event):
     conversation = IConversation(obj, None)
     if conversation is not None:
         for comment in conversation.getComments():
-            aq_base(comment).__parent__.__parent__.__parent__ = event.newParent
-            catalog.reindexObject(aq_base(comment))
+            comment.reindexObject()
 
 
 def notify_user(obj, event):
