@@ -69,7 +69,8 @@
                         </a>
                         <span tal:condition="not: has_author_link"
                               tal:replace="reply/author_name" />
-                        <span tal:condition="not: reply/author_name">Anonymous</span>
+                        <span tal:condition="not: reply/author_name"
+                              i18n:translate="label_anonymous">Anonymous</span>
                     </tal:name>
                     <tal:posted i18n:translate="label_says">says:</tal:posted>
                     <div class="commentDate"
