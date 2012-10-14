@@ -89,12 +89,14 @@
        tal:attributes="href string:$portal_url/plone_control_panel"
        i18n:translate="">
         Site Setup
-    </a> &rsaquo;
+    </a>
 
     <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
 
-    <div id="layout-contents">
-        <span tal:replace="structure view/contents" />
+    <div id="content-core">
+        <div id="layout-contents">
+            <span tal:replace="structure view/contents" />
+        </div>
     </div>
 
 </div>
