@@ -41,7 +41,7 @@ msgstr "Afbryd"
 
 #: ../browser/controlpanel.py:76
 msgid "Changes saved"
-msgstr ""
+msgstr "Ændringer gemt"
 
 #: ../browser/moderation.py:133
 msgid "Comment approved."
@@ -80,7 +80,7 @@ msgstr "Indstilling for kommentarer"
 
 #: ../browser/controlpanel.py:82
 msgid "Edit cancelled"
-msgstr ""
+msgstr "Redigering blev afbrudt"
 
 #: ../interfaces.py:269
 msgid "Email"
@@ -170,7 +170,7 @@ msgstr "Kommentarer er modereret."
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
 #: ../browser/comments.py:47
 msgid "comment_description_plain_text"
-msgstr ""
+msgstr "Du kan tilføje en kommentar ved at udfylde formularen nedenfor. Ren tekst-formattering."
 
 #. Default: "${creator} on ${content}"
 #: ../comment.py:46
@@ -356,7 +356,7 @@ msgstr "En kommentarer om '${title}' er blevet gemt her: ${link}"
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
 #: ../comment.py:58
 msgid "mail_notification_message_moderator"
-msgstr ""
+msgstr "En kommentar til '${title}' er blevet indsendt her: ${link}\n\n---\n${text}\n---\n\nGodkend kommentar:\n${link_approve}\n\nSlet kommentar:\n${link_delete}\n"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ../browser/moderation.pt:33
