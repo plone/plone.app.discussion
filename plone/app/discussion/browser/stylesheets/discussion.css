@@ -46,6 +46,7 @@
     clear: both;
     margin: 1em 0;
     overflow: auto;
+    border: 1px solid #ccc;
 }
 
 .commentBody p {
