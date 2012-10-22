@@ -4,6 +4,10 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
+- Remove inline styles, fixes #12399
+  [maartenkling]
+- add fallback border color for i8, fixes #11324
+  [maartenkling]
 - Replace discussionitem_icon.gif with png version.
   [timo]
 - Fix catalog updates for IObjectMovedEvent
