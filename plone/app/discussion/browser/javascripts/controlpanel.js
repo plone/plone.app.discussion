@@ -100,10 +100,10 @@
         $.updateSettings();
         
         // Set #content class and update settings afterwards
-        $("input,select").live("change", function (e) {
+        $(document).delegate("input,select", "change", function (e) {
             var id = $(this).attr("id");
             if (id === "form-widgets-globally_enabled-0") {    
-                if ($(this).attr("checked") === true) {
+                if ($(this).prop("checked") === true) {
                     $("#content").addClass("globally_enabled");
                 }
                 else {
