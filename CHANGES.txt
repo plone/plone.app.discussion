@@ -4,8 +4,8 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-- Submit form using other jquery selector so FF and Chrome don't crash
-  fixes #13037
+- Remove submitting the controlpanel form again after removing disabled tags
+  fixes #13037 and #12357
   [maartenkling]
 
 - Remove inline styles, fixes #12399
