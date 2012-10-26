@@ -120,7 +120,6 @@
          **********************************************************************/
         $("form#DiscussionSettingsEditForm").bind("submit", function (e) {
             $(this).find("input,select").removeAttr('disabled');
-            $("form#DiscussionSettingsEditForm").submit();
         });
 
     });
