@@ -220,7 +220,7 @@ def notify_content_object(obj, event):
     # set the modified date and reindex the item accordingly
     # so that 304s work correctly. This means that adding a comment
     # effectively counts as modifying the content type.
-    content_obj.setModificationDate()
+    content_obj.setModificationDate(datetime.now())
     content_obj.reindexObject(idxs=('total_comments',
                                     'last_comment_date',
                                     'commentators',
