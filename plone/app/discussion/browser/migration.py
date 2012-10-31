@@ -121,9 +121,10 @@ class View(BrowserView):
                         'action': None,
                         'actor': None,
                         'comment': 'Migrated workflow state',
-                        'review_state': old_status.get(
+                        'review_state': old_status and old_status.get(
                             'review_state',
-                            new_workflow.initial_state),
+                            new_workflow.initial_state)
+                            or 'published',
                         'time': DateTime()
                     }
                     workflow.setStatusOf('comment_review_workflow',
