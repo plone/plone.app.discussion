@@ -127,16 +127,16 @@
                                               parents().
                                               filter(".comment").
                                               find(".reply-to-comment-button");
-            
+
             /* Find the reply-to-comment form and hide and remove it again. */
             $.reply_to_comment_form = $(this).parents().filter(".reply");
             $.reply_to_comment_form.slideUp("slow", function () {
                 $(this).remove();
             });
-            
+
             /* Show the reply-to-comment button again. */
             reply_to_comment_button.css("display", "inline");
-        
+
         });
 
 
