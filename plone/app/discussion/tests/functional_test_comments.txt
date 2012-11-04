@@ -227,7 +227,7 @@ Find a comment id to reply to.
     >>> browser.open(urldoc1)
     >>> import re
     >>> comment_div = re.findall('<div.*?.class="comment.*?>', browser.contents)[0]
-    >>> id = re.findall('"([^"]*)"', comment_div)[2]
+    >>> id = re.findall('"([^"]*)"', comment_div)[1]
 
 Post a reply to an existing comment.
 
