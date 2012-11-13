@@ -4,6 +4,14 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
+- For migrations of comments without a valid old_status, apply the 'published'
+  state.
+  [thet]
+
+- Re-apply eleddy's "Revert modification date since this is fixed in
+  p.a.caching now." as her commit was lost later on due to some git magic.
+  [thet]
+
 - Remove submitting the controlpanel form again after removing disabled tags
   fixes #13037 and #12357
   [maartenkling]
