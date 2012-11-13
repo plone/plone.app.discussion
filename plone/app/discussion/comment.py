@@ -80,6 +80,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     """
 
     implements(IComment)
+    security = ClassSecurityInfo()
 
     meta_type = portal_type = 'Discussion Item'
     # This needs to be kept in sync with types/Discussion_Item.xml title
