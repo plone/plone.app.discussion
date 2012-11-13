@@ -41,6 +41,8 @@ from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
 
 from OFS.role import RoleManager
+from AccessControl import ClassSecurityInfo
+from Products.CMFCore import permissions
 
 
 COMMENT_TITLE = _(
@@ -186,6 +188,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         """
         return self.creator
 
+    security.declareProtected(permissions.View, 'Type')
     def Type(self):
         """The Discussion Item content type.
         """
