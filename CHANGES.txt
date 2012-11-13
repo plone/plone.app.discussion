@@ -4,6 +4,13 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
+- fix insufficient privileges when trying to view
+  the RSS feed of a comment collection
+  [maartenkling]
+
+- removed inline border=0 and move it to css
+  [maartenkling]
+
 - For migrations of comments without a valid old_status, apply the 'published'
   state.
   [thet]
