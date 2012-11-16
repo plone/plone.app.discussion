@@ -21,7 +21,6 @@ optionflags = (
 normal_testfiles = [
     'functional_test_comments.txt',
     'functional_test_comment_review_workflow.txt',
-    'functional_test_comment_url.txt',
 ]
 
 
