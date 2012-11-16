@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.1 (unreleased)
+2.2.1 (2012-11-16)
 ------------------
 
 - Make conversation view not break when comment-id cannot be converted to long.
