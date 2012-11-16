@@ -20,7 +20,7 @@ optionflags = (
     doctest.REPORT_ONLY_FIRST_FAILURE)
 normal_testfiles = [
     'functional_test_comments.txt',
-    'functional_test_comment_review_workflow.txt'
+    'functional_test_comment_review_workflow.txt',
 ]
 
 
