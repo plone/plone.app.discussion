@@ -4,6 +4,10 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
+- Make conversation view not break when comment-id cannot be converted to long.
+  Fixes #13327
+  [khink]
+
 - fix insufficient privileges when trying to view
   the RSS feed of a comment collection
   [maartenkling]

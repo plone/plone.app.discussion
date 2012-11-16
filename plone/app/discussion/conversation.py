@@ -210,7 +210,11 @@ class Conversation(Traversable, Persistent, Explicit):
     def __getitem__(self, key):
         """Get an item by its long key
         """
-        return self._comments[long(key)].__of__(self)
+        try:
+            comment_id = long(key)
+        except ValueError:
+            return
+        return self._comments[comment_id].__of__(self)
 
     def __delitem__(self, key, suppress_container_modified=False):
         """Delete an item by its long key

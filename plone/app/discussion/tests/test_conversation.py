@@ -699,6 +699,14 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual('http://nohost/plone/doc1/++conversation++default',
                           conversation.absolute_url())
 
+    def test_unconvertible_id(self):
+        # make sure the conversation view doesn't break when given comment id
+        # can't be converted to long
+
+        conversation = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/ThisCantBeRight')
+        self.assertEqual(conversation, None)
+
     def test_parent(self):
         # Check that conversation has a content object as parent
 
