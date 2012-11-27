@@ -10,6 +10,10 @@ Changelog
 2.2.1 (2012-11-16)
 ------------------
 
+- first check if captcha is installed before we open browsers zcml
+  files that depend on these packages, fixes #12118 and #12774
+  [maartenkling]
+
 - Make conversation view not break when comment-id cannot be converted to long.
   Fixes #13327
   [khink]
