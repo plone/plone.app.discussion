@@ -70,6 +70,8 @@ class View(BrowserView):
             workflow = context.portal_workflow
             oldchain = workflow.getChainForPortalType('Discussion Item')
             new_workflow = workflow.comment_review_workflow
+            mt = getToolByName(self.context, 'portal_membership')
+
 
             if type(oldchain) == TupleType and len(oldchain) > 0:
                 oldchain = oldchain[0]
@@ -96,6 +98,9 @@ class View(BrowserView):
                     comment.text = reply.cooked_text
                     comment.mime_type = 'text/html'
                     comment.creator = reply.Creator()
+                    comment.author_username = reply.getProperty('author_username',reply.Creator())
+                    member = mt.getMemberById(comment.author_username)
+                    comment.author_name = member.getProperty('fullname',None)
 
                     email = reply.getProperty('email', None)
                     if email:
