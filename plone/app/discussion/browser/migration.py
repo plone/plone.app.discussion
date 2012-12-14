@@ -72,7 +72,6 @@ class View(BrowserView):
             new_workflow = workflow.comment_review_workflow
             mt = getToolByName(self.context, 'portal_membership')
 
-
             if type(oldchain) == TupleType and len(oldchain) > 0:
                 oldchain = oldchain[0]
 
@@ -91,8 +90,7 @@ class View(BrowserView):
 
                 new_in_reply_to = None
                 if should_migrate:
-
-                                        # create a reply object
+                    # create a reply object
                     comment = CommentFactory()
                     comment.title = reply.Title()
                     comment.text = reply.cooked_text
@@ -100,11 +98,20 @@ class View(BrowserView):
                     comment.creator = reply.Creator()
                     comment.author_username = reply.getProperty('author_username',reply.Creator())
                     member = mt.getMemberById(comment.author_username)
-                    comment.author_name = member.getProperty('fullname',None)
+                    if member:
+#                        comment.author_name = member.get('fullname')
+                        comment.author_name = member.fullname
+#                    import pdb; pdb.set_trace()
 
-                    email = reply.getProperty('email', None)
-                    if email:
-                        comment.author_email = email
+# .get is overloaded into zope somewhere.. so it'snot getting reply.email
+##                    email = reply.get('email')
+##                    if email:
+##                        comment.author_email = email
+
+                    try:
+                        comment.author_email = reply.email
+                    except AttributeError:
+                        comment.author_email = None
 
                     comment.creation_date = DT2dt(reply.creation_date)
                     comment.modification_date = DT2dt(reply.modification_date)
