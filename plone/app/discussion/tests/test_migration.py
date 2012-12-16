@@ -50,6 +50,13 @@ class MigrationTest(unittest.TestCase):
         self.workflowTool.setChainForPortalTypes(('Discussion Item',),
                                              'comment_review_workflow')
 
+        # Create a user Jimmy Jones so comments creator migration can work?
+        acl_users = getToolByName(self.portal, 'acl_users')
+        acl_users.userFolderAddUser('Jim', 'secret', ['Member'], [])
+        mt = getToolByName(self.portal, 'portal_membership')
+        member = mt.getMemberById('Jim')
+        member.fullname = 'Jimmy Jones'
+
         self.doc = self.portal.doc
 
     def test_migrate_comment(self):
@@ -98,12 +105,6 @@ class MigrationTest(unittest.TestCase):
 
     def test_migrate_comment_with_creator(self):
 
-        # Create a user Jimmy Jones so comments creator migration can work?
-        acl_users = getToolByName(self.portal, 'acl_users')
-        acl_users.userFolderAddUser('Jim', 'secret', ['Member'], [])
-        mt = getToolByName(self.portal, 'portal_membership')
-        member = mt.getMemberById('Jim')
-        member.fullname = 'Jimmy Jones'
   
 
         # Create a comment
