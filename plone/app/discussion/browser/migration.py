@@ -96,18 +96,20 @@ class View(BrowserView):
                     comment.text = reply.cooked_text
                     comment.mime_type = 'text/html'
                     comment.creator = reply.Creator()
-                    comment.author_username = reply.getProperty('author_username',reply.Creator())
+
+                    try:
+                        comment.author_username = reply.author_username
+                    except AttributeError:
+                        comment.author_username = reply.Creator()
+
                     member = mt.getMemberById(comment.author_username)
                     if member:
-#                        comment.author_name = member.get('fullname')
                         comment.author_name = member.fullname
-#                    import pdb; pdb.set_trace()
 
-# .get is overloaded into zope somewhere.. so it'snot getting reply.email
-##                    email = reply.get('email')
-##                    if email:
-##                        comment.author_email = email
-
+                    if not comment.author_name:
+                        # In migrated site member.fullname ='' while member.getProperty('fullname') has the correct value
+                        comment.author_name = member.getProperty('fullname')
+                        
                     try:
                         comment.author_email = reply.email
                     except AttributeError:
