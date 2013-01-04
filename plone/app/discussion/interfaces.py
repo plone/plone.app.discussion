@@ -322,6 +322,15 @@ class IDiscussionSettings(Interface):
         required=False,
         default=False)
 
+    anonymous_email_enabled = schema.Bool(
+        title=_(u"label_anonymous_email_enabled",
+                default=u"Enable anonymous email field"),
+        description=_(u"help_anonymous_email_enabled",
+                      default=u"If selected, anonymous user will have to "
+                      "give their email."),
+        required=False,
+        default=False)
+
 
 class IDiscussionLayer(Interface):
     """Request marker installed via browserlayer.xml.

@@ -105,13 +105,12 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
-        # Todo: Since we are not using the author_email field in the
-        # current state, we hide it by default. But we keep the field for
-        # integrators or later use.
-        self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
-
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
+
+        if mtool.isAnonymousUser() and not settings.anonymous_email_enabled:
+            self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
+
         member = mtool.getAuthenticatedMember()
         member_email = member.getProperty('email')
 
