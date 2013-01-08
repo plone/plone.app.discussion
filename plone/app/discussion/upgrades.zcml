@@ -11,12 +11,4 @@
       handler=".upgrades.update_registry"
       />
 
-  <genericsetup:upgradeStep
-      source="*"
-      destination="110"
-      title="Update plone.app.discussion setting registry"
-      description=""
-      profile="plone.app.discussion:default"
-      handler=".upgrades.update_registry"
-      />
 </configure>
