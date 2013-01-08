@@ -4,8 +4,9 @@ Changelog
 2.2.3 (unreleased)
 ------------------
 
--
-
+- add anonymous_email_enabled settings to really let integrator activate
+  the email field on comment add form when anonymous.
+  [toutpt]
 
 2.2.2 (2012-11-16)
 ------------------
