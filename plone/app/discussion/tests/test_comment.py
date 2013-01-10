@@ -34,9 +34,11 @@ class CommentTest(unittest.TestCase):
         self.request = self.layer['request']
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory(id='doc1',
-                          title='Document 1',
-                          type_name='Document')
+        self.portal.invokeFactory(
+            id='doc1',
+            title='Document 1',
+            type_name='Document'
+        )
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         self.document_brain = self.catalog.searchResults(
             portal_type='Document')[0]
@@ -74,7 +76,8 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject('plone.Comment')
         conversation.addComment(comment1)
         comment_brain = self.catalog.searchResults(
-                            portal_type='Discussion Item')[0]
+            portal_type='Discussion Item'
+        )[0]
         self.assertTrue(comment_brain.UID)
 
     def test_uid_is_unique(self):
@@ -84,7 +87,8 @@ class CommentTest(unittest.TestCase):
         comment2 = createObject('plone.Comment')
         conversation.addComment(comment2)
         brains = self.catalog.searchResults(
-                     portal_type='Discussion Item')
+            portal_type='Discussion Item'
+        )
         self.assertNotEqual(brains[0].UID, brains[1].UID)
 
     def test_comment_uid_differs_from_content_uid(self):
@@ -92,7 +96,8 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject('plone.Comment')
         conversation.addComment(comment1)
         comment_brain = self.catalog.searchResults(
-                            portal_type='Discussion Item')[0]
+            portal_type='Discussion Item'
+        )[0]
         self.assertNotEqual(self.document_brain.UID, comment_brain.UID)
 
     def test_title(self):
