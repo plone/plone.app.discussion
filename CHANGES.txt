@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.3 (unreleased)
+2.2.3 (2013-01-13)
 ------------------
 
 - add anonymous_email_enabled settings to really let integrator activate
