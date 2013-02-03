@@ -4,7 +4,8 @@ Changelog
 2.2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added Romanian translation
+  [ichimdav]
 
 
 2.2.3 (2013-01-13)
