@@ -4,6 +4,9 @@ Changelog
 2.2.4 (unreleased)
 ------------------
 
+- Check for 'checked' attribute in a way that work also for jQuery 1.7 
+  [ichimdav]
+
 - Better fix for #13037 by removing submit event trigger altogether
   [ichimdav]
 

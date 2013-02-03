@@ -103,7 +103,7 @@
         $("input,select").live("change", function (e) {
             var id = $(this).attr("id");
             if (id === "form-widgets-globally_enabled-0") {
-                if ($(this).attr("checked") === true) {
+                if ($(this).attr("checked")) {
                     $("#content").addClass("globally_enabled");
                 }
                 else {
