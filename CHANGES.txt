@@ -4,6 +4,9 @@ Changelog
 2.1.9 (unreleased)
 ------------------
 
+- Better fix for #13037 by removing submit event trigger altogether
+  [ichimdav]
+
 - Added Romanian translation
   [ichimdav]
 
