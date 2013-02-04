@@ -13,6 +13,9 @@ Changelog
 - Added Romanian translation
   [ichimdav]
 
+- Updated Ukrainian translation
+  [kroman0]
+
 
 2.1.8 (2012-08-30)
 ------------------
