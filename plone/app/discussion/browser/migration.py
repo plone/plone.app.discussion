@@ -70,6 +70,7 @@ class View(BrowserView):
             workflow = context.portal_workflow
             oldchain = workflow.getChainForPortalType('Discussion Item')
             new_workflow = workflow.comment_review_workflow
+            mt = getToolByName(self.context, 'portal_membership')
 
             if type(oldchain) == TupleType and len(oldchain) > 0:
                 oldchain = oldchain[0]
@@ -89,17 +90,30 @@ class View(BrowserView):
 
                 new_in_reply_to = None
                 if should_migrate:
-
-                                        # create a reply object
+                    # create a reply object
                     comment = CommentFactory()
                     comment.title = reply.Title()
                     comment.text = reply.cooked_text
                     comment.mime_type = 'text/html'
                     comment.creator = reply.Creator()
 
-                    email = reply.getProperty('email', None)
-                    if email:
-                        comment.author_email = email
+                    try:
+                        comment.author_username = reply.author_username
+                    except AttributeError:
+                        comment.author_username = reply.Creator()
+
+                    member = mt.getMemberById(comment.author_username)
+                    if member:
+                        comment.author_name = member.fullname
+
+                    if not comment.author_name:
+                        # In migrated site member.fullname ='' while member.getProperty('fullname') has the correct value
+                        comment.author_name = member.getProperty('fullname')
+                        
+                    try:
+                        comment.author_email = reply.email
+                    except AttributeError:
+                        comment.author_email = None
 
                     comment.creation_date = DT2dt(reply.creation_date)
                     comment.modification_date = DT2dt(reply.modification_date)
