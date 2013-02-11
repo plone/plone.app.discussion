@@ -50,6 +50,13 @@ class MigrationTest(unittest.TestCase):
         self.workflowTool.setChainForPortalTypes(('Discussion Item',),
                                              'comment_review_workflow')
 
+        # Create a user Jimmy Jones so comments creator migration can work?
+        acl_users = getToolByName(self.portal, 'acl_users')
+        acl_users.userFolderAddUser('Jim', 'secret', ['Member'], [])
+        mt = getToolByName(self.portal, 'portal_membership')
+        member = mt.getMemberById('Jim')
+        member.fullname = 'Jimmy Jones'
+
         self.doc = self.portal.doc
 
     def test_migrate_comment(self):
@@ -94,6 +101,63 @@ class MigrationTest(unittest.TestCase):
             {'comment': comment1, 'depth': 0, 'id': long(comment1.id)}
             ], list(conversation.getThreads()))
         self.assertFalse(self.doc.talkback)
+
+
+    def test_migrate_comment_with_creator(self):
+
+  
+
+        # Create a comment
+        talkback = self.discussion.getDiscussionFor(self.doc)
+        self.doc.talkback.createReply('My Title', 'My Text', Creator='Jim')
+        reply = talkback.getReplies()[0]
+        reply.setReplyTo(self.doc)
+        reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6, 'GMT')
+        reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7, 'GMT')
+        reply.author_username = 'Jim'
+        reply.email = 'jimmy@jones.xyz'
+
+        self._publish(reply)
+        self.assertEqual(reply.Title(), 'My Title')
+        self.assertEqual(reply.EditableBody(), 'My Text')
+        self.assertTrue('Jim' in reply.listCreators())
+        self.assertEqual(talkback.replyCount(self.doc), 1)
+        self.assertEqual(reply.inReplyTo(), self.doc)
+        self.assertEqual(reply.author_username,'Jim')
+        self.assertEqual(reply.email,'jimmy@jones.xyz')
+
+        # Call migration script
+        self.view()
+
+        # Make sure a conversation has been created
+        self.assertTrue('plone.app.discussion:conversation' in
+                        IAnnotations(self.doc))
+        conversation = IConversation(self.doc)
+
+        # Check migration
+        self.assertEqual(conversation.total_comments, 1)
+        self.assertTrue(conversation.getComments().next())
+        comment1 = conversation.values()[0]
+        self.assertTrue(IComment.providedBy(comment1))
+        self.assertEqual(comment1.Title(), 'My Title')
+        self.assertEqual(comment1.text, '<p>My Text</p>\n')
+        self.assertEqual(comment1.mime_type, 'text/html')
+        self.assertEqual(comment1.Creator(), 'Jim')
+        self.assertEqual(comment1.creation_date,
+                          datetime(2003, 3, 11, 9, 28, 6))
+        self.assertEqual(comment1.modification_date,
+                          datetime(2009, 7, 12, 19, 38, 7))
+        self.assertEqual([
+            {'comment': comment1, 'depth': 0, 'id': long(comment1.id)}
+            ], list(conversation.getThreads()))
+        self.assertFalse(self.doc.talkback)
+
+        # Though this should be Jimmy, but looks like getProperty won't pick up 'author_username'
+        # (reply.author_username is not None), so it's propagating Creator()..?
+        self.assertEqual(comment1.author_username,'Jim')
+
+        self.assertEqual(comment1.author_name,'Jimmy Jones')
+        self.assertEqual(comment1.author_email,'jimmy@jones.xyz')
 
     def test_migrate_nested_comments(self):
         # Create some nested comments and migrate them
