@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.9 (unreleased)
+2.1.9 (2013-03-05)
 ------------------
 
 - Check for 'checked' attribute in a way that work also for jQuery 1.7 
