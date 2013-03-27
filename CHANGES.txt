@@ -4,7 +4,8 @@ Changelog
 2.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Do not raise an error when no workflow is assigned to the comment type.
+  [timo] 
 
 
 2.2.4 (2013-03-05)
