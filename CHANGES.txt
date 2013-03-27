@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.5 (unreleased)
+1.1.5 (2013-03-27)
 ------------------
 
 - Automatically reload batch moderation page if no comments are left. This
@@ -12,7 +12,7 @@ Changelog
   [rodfersou]
 
 
-1.1.4 (2001-07-15)
+1.1.4 (2011-07-15)
 ------------------
 
 - Update German translations and fix translation of
