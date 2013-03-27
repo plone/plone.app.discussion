@@ -233,7 +233,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         can_review = getSecurityManager().checkPermission('Review comments',
                                                           context)
         workflowTool = getToolByName(context, 'portal_workflow')
-        comment_review_state = workflowTool.getInfoFor(comment, 'review_state')
+        comment_review_state = workflowTool.getInfoFor(
+            comment, 
+            'review_state', 
+            None
+        )
         if comment_review_state == 'pending' and not can_review:
             # Show info message when comment moderation is enabled
             IStatusMessage(self.context.REQUEST).addStatusMessage(
