@@ -5,13 +5,24 @@ Changelog
 ------------------
 
 - Do not raise an error when no workflow is assigned to the comment type.
-  [timo] 
+  [timo]
+
+- Add a conversation property public_commentators that only lists
+  commentators of comments that are public.
+  The commentators indexer indexes this field now.
+  The behavior of the conversation property commentators is
+  unchanged.
+  [do3cc]
+
+- The last comment date now only returns the date of the newest
+  published comment.
+  [do3cc]
 
 
 2.2.4 (2013-03-05)
 ------------------
 
-- Check for 'checked' attribute in a way that work also for jQuery 1.7 
+- Check for 'checked' attribute in a way that work also for jQuery 1.7
   [ichimdav]
 
 - Better fix for #13037 by removing submit event trigger altogether

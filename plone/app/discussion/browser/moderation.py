@@ -95,6 +95,7 @@ class DeleteComment(BrowserView):
         conversation = aq_parent(comment)
         content_object = aq_parent(conversation)
         del conversation[comment.id]
+        content_object.reindexObject()
         IStatusMessage(self.context.REQUEST).addStatusMessage(
             _("Comment deleted."),
             type="info")
@@ -201,12 +202,13 @@ class BulkActionsView(BrowserView):
         context = aq_inner(self.context)
         for path in self.paths:
             comment = context.restrictedTraverse(path)
+            content_object = aq_parent(aq_parent(comment))
             workflowTool = getToolByName(comment, 'portal_workflow')
             current_state = workflowTool.getInfoFor(comment, 'review_state')
             if current_state != 'published':
                 workflowTool.doActionFor(comment, 'publish')
-            catalog = getToolByName(comment, 'portal_catalog')
-            catalog.reindexObject(comment)
+            comment.reindexObject()
+            content_object.reindexObject()
 
     def mark_as_spam(self):
         raise NotImplementedError
@@ -223,4 +225,6 @@ class BulkActionsView(BrowserView):
         for path in self.paths:
             comment = context.restrictedTraverse(path)
             conversation = aq_parent(comment)
+            content_object = aq_parent(conversation)
             del conversation[comment.id]
+            content_object.reindexObject()

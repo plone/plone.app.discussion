@@ -31,18 +31,24 @@ class IConversation(IIterableMapping):
     """
 
     total_comments = schema.Int(
-        title=_(u"Total number of comments on this item"),
+        title=_(u"Total number of public comments on this item"),
         min=0,
         readonly=True,
         )
 
     last_comment_date = schema.Date(
-        title=_(u"Date of the most recent comment"),
+        title=_(u"Date of the most recent public comment"),
         readonly=True,
         )
 
     commentators = schema.Set(
         title=_(u"The set of unique commentators (usernames)"),
+        readonly=True,
+        )
+
+    public_commentators = schema.Set(
+        title=_(u"The set of unique commentators (usernames) of"
+            " published_comments"),
         readonly=True,
         )
 

@@ -124,6 +124,11 @@ Anonymous user can not see any posts or comment actions
     >>> 'form.button.PublishComment' in unprivileged_browser.contents
     False
 
+The catalog does not list the comments yet:
+
+    >>> portal.portal_catalog.searchResults(id='doc', total_comments=0)
+    [<Products...]
+
 Users with 'Review comment' permission can see unapproved comments and comment
 actions.
 
@@ -176,6 +181,11 @@ Make sure anonyous users see the approved comment, but not the unapproved ones.
     >>> 'First anonymous comment' in unprivileged_browser.contents
     True
 
+Make sure the catalog only lists the public comments.
+
+    >>> portal.portal_catalog.searchResults(id='doc', total_comments=1)
+    [<Products...]
+
 
 Delete a comment in the comments view
 -------------------------------------
@@ -205,4 +215,12 @@ Make sure the second comment has been deleted.
     >>> 'Second anonymous comment' in browser.contents
     False
 
+Delete the first, published comment.
+    >>> browser.open(urldoc)
+    >>> browser.getControl('Delete', index=0).click()
+
+Make sure the catalog has been updated properly.
+
+    >>> portal.portal_catalog.searchResults(id='doc', total_comments=0)
+    [<Products...]
 

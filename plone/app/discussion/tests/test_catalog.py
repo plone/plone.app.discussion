@@ -172,7 +172,7 @@ class ConversationCatalogTest(unittest.TestCase):
                      ))
         doc1_brain = brains[0]
 
-        self.assertEqual(doc1_brain.commentators, ('Emma', 'Jim'))
+        self.assertEqual(doc1_brain.commentators, ('Jim', 'Emma'))
 
         # remove one comments
         del self.conversation[new_comment2_id]
@@ -205,6 +205,16 @@ class ConversationCatalogTest(unittest.TestCase):
         self.assertEqual(comment1_brain.last_comment_date, None)
         self.assertEqual(comment1_brain.total_comments, None)
 
+    def test_dont_index_private_commentators(self):
+        self.comment1.manage_permission("View", roles=tuple())
+        self.portal.doc1.reindexObject()
+        brains = self.catalog.searchResults(dict(
+                     path={'query':
+                           '/'.join(self.portal.doc1.getPhysicalPath())},
+                     portal_type="Document"
+                     ))
+        doc1_brain = brains[0]
+        self.assertEqual(doc1_brain.commentators, ())
 
 class CommentCatalogTest(unittest.TestCase):
 

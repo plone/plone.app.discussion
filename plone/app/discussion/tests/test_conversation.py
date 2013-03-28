@@ -69,13 +69,25 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue(isinstance(comment.comment_id, long))
         self.assertTrue(IComment.providedBy(conversation[new_id]))
         self.assertEqual(aq_base(conversation[new_id].__parent__),
-                          aq_base(conversation))
+                         aq_base(conversation))
         self.assertEqual(new_id, comment.comment_id)
         self.assertEqual(len(list(conversation.getComments())), 1)
         self.assertEqual(len(tuple(conversation.getThreads())), 1)
         self.assertEqual(conversation.total_comments, 1)
         self.assertTrue(conversation.last_comment_date - datetime.utcnow() <
                      timedelta(seconds=1))
+
+    def test_private_comment(self):
+        conversation = IConversation(self.portal.doc1)
+
+        comment = createObject('plone.Comment')
+        comment.author_username = "nobody"
+        conversation.addComment(comment)
+        comment.manage_permission("View", roles=tuple())
+        self.assertEquals(0, conversation.total_comments)
+        self.assertEquals(None, conversation.last_comment_date)
+        self.assertEquals(["nobody"], list(conversation.commentators))
+        self.assertEquals([], list(conversation.public_commentators))
 
     def test_delete_comment(self):
         # Create a conversation. In this case we doesn't assign it to an

@@ -95,14 +95,27 @@ class Conversation(Traversable, Persistent, Explicit):
 
     @property
     def last_comment_date(self):
-        try:
-            return self._comments[self._comments.maxKey()].creation_date
-        except (ValueError, KeyError, AttributeError,):
-            return None
+        # self._comments is an Instance of a btree. The keys
+        # are always ordered
+        comment_keys = self._comments.keys()
+        for comment_key in reversed(comment_keys):
+            comment = self._comments[comment_key]
+            if user_nobody.has_permission('View', comment):
+                return comment.creation_date
+        return None
 
     @property
     def commentators(self):
         return self._commentators
+
+    @property
+    def public_commentators(self):
+        retval = set()
+        for comment in self._comments.values():
+            if not user_nobody.has_permission('View', comment):
+                continue
+            retval.add(comment.author_username)
+        return tuple(retval)
 
     def objectIds(self):
         return self._comments.keys()
