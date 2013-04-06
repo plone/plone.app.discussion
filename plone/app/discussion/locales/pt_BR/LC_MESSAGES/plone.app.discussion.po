@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2011-04-14 17:20-0300\n"
+"PO-Revision-Date: 2013-04-06 14:49+0200\n"
 "Last-Translator: Andre Nogueira <andre@simplesconsultoria.com.br>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Data de criação"
 
 #: ../interfaces.py:40
 msgid "Date of the most recent public comment"
-msgstr ""
+msgstr "Data do comentário, público, mais recente"
 
 #: ../vocabularies.py:44
 msgid "Disabled"
@@ -129,15 +129,15 @@ msgstr "Lista de usuários que fizeram comentários (nome de usuário)"
 
 #: ../interfaces.py:50
 msgid "The set of unique commentators (usernames) of published_comments"
-msgstr ""
+msgstr "O grupo de comentadoristas (nomes de usuários) com comentários publicados"
 
 #: ../interfaces.py:34
 msgid "Total number of public comments on this item"
-msgstr ""
+msgstr "Número total de comentários públicos neste item"
 
 #: ../comment.py:158
 msgid "Transform '%s' => '%s' not available. Failed to transform comment '%s'."
-msgstr ""
+msgstr "A transformação '%s' => '%s' não está disponível. Ocorreu uma falha ao transformar o comentário '%s'."
 
 #: ../browser/controlpanel.py:69
 msgid "User Email Notification"
@@ -145,7 +145,7 @@ msgstr "Notificação de e-mail para o usuário"
 
 #: ../interfaces.py:166
 msgid "Username of the commenter"
-msgstr ""
+msgstr "Nome de usuário do comentarista"
 
 #: ../browser/comments.py:244
 msgid "Your comment awaits moderator approval."
@@ -174,7 +174,7 @@ msgstr "Você pode adicionar um comentário preenchendo o formulário a seguir. 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. You can use the Markdown syntax for links and images."
 #: ../browser/comments.py:51
 msgid "comment_description_markdown"
-msgstr ""
+msgstr "Você pode adicionar um comentário preenchendo o formulário abaixo. Use apenas texto sem formatação. Você pode utilizar a sintaxe Markdown para links e imagens."
 
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:63
@@ -230,7 +230,7 @@ msgstr "Se selecionado, usuários anonimos poderão adicionar comentários sem p
 #. Default: "If selected, anonymous user will have to give their email."
 #: ../interfaces.py:334
 msgid "help_anonymous_email_enabled"
-msgstr ""
+msgstr "Caso selecionado, usuários anônimos devem informar um email."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
 #: ../interfaces.py:279
@@ -294,7 +294,7 @@ msgstr "Permitir comentários anônimos."
 #. Default: "Enable anonymous email field"
 #: ../interfaces.py:332
 msgid "label_anonymous_email_enabled"
-msgstr ""
+msgstr "Habilitar campo de email para usuários anônimos"
 
 #. Default: "Apply"
 #: ../browser/moderation.pt:71
@@ -385,7 +385,7 @@ msgstr "Um comentário em '${title}' foi adicionado aqui: ${link}"
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
 #: ../comment.py:60
 msgid "mail_notification_message_moderator"
-msgstr ""
+msgstr "Um comentário no conteúdo '${title}' foi adicionado em: ${link}\n\n---\n${text}\n---\n\Aprove o comentário:\n${link_approve}\n\nRemova o comentário:\n${link_delete}\n"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ../browser/moderation.pt:33
