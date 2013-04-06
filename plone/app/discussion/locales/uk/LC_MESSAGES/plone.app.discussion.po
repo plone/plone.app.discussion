@@ -18,7 +18,7 @@ msgstr ""
 msgid "A comment has been posted."
 msgstr "Коментар додано."
 
-#: ../interfaces.py:135
+#: ../interfaces.py:141
 msgid "A comment id unique to this conversation"
 msgstr "Унікальний ідентифікатор коментаря для цієї розмови"
 
@@ -30,7 +30,7 @@ msgstr "Додати коментар"
 msgid "Anonymous Comments"
 msgstr "Анонімне коментування"
 
-#: ../browser/comments.py:247
+#: ../browser/comments.py:251
 #: ../browser/controlpanel.py:82
 msgid "Cancel"
 msgstr "Скасувати"
@@ -39,11 +39,11 @@ msgstr "Скасувати"
 msgid "Changes saved"
 msgstr "Зміни збережено"
 
-#: ../browser/moderation.py:139
+#: ../browser/moderation.py:140
 msgid "Comment approved."
 msgstr "Коментар опубліковано."
 
-#: ../browser/moderation.py:99
+#: ../browser/moderation.py:100
 msgid "Comment deleted."
 msgstr "Коментар знищено."
 
@@ -54,17 +54,17 @@ msgstr "Зображення коментатора"
 msgid "Commenting infrastructure for Plone"
 msgstr "Інфраструктура коментування в Plone"
 
-#: ../interfaces.py:130
+#: ../interfaces.py:136
 msgid "Conversation"
 msgstr "Розмова"
 
-#: ../interfaces.py:161
+#: ../interfaces.py:167
 msgid "Creation date"
 msgstr "Дата створення"
 
 #: ../interfaces.py:40
-msgid "Date of the most recent comment"
-msgstr "Дата останнього коментаря"
+msgid "Date of the most recent public comment"
+msgstr ""
 
 #: ../vocabularies.py:44
 msgid "Disabled"
@@ -78,7 +78,7 @@ msgstr "Налаштуванняя коментування"
 msgid "Edit cancelled"
 msgstr "Редагування скасовано"
 
-#: ../interfaces.py:147
+#: ../interfaces.py:153
 msgid "Email"
 msgstr "Електронна адреса"
 
@@ -86,11 +86,11 @@ msgstr "Електронна адреса"
 msgid "Enable Comments"
 msgstr "Увімкнути можливість додавати коментарі"
 
-#: ../interfaces.py:138
+#: ../interfaces.py:144
 msgid "Id of comment this comment is in reply to"
 msgstr "Id коментаря, відповіддю на який - є цей коментар"
 
-#: ../interfaces.py:152
+#: ../interfaces.py:158
 msgid "MIME type"
 msgstr "MIME-тип"
 
@@ -98,15 +98,15 @@ msgstr "MIME-тип"
 msgid "Moderator Email Notification"
 msgstr "Сповіщення модератора електронною поштою"
 
-#: ../interfaces.py:162
+#: ../interfaces.py:168
 msgid "Modification date"
 msgstr "Дата зміни"
 
-#: ../interfaces.py:132
+#: ../interfaces.py:138
 msgid "Name"
 msgstr "Ім'я"
 
-#: ../interfaces.py:156
+#: ../interfaces.py:162
 msgid "Notify me of new comments via email."
 msgstr "Повідомляти про нові коментарі поштою."
 
@@ -114,7 +114,7 @@ msgstr "Повідомляти про нові коментарі поштою."
 msgid "Plone Discussions"
 msgstr "Коментування в Plone"
 
-#: ../interfaces.py:125
+#: ../interfaces.py:131
 msgid "Portal type"
 msgstr "Портал тип"
 
@@ -126,9 +126,13 @@ msgstr "Зберегти"
 msgid "The set of unique commentators (usernames)"
 msgstr "Перелік коментаторів (імена користувачів)"
 
+#: ../interfaces.py:50
+msgid "The set of unique commentators (usernames) of published_comments"
+msgstr ""
+
 #: ../interfaces.py:34
-msgid "Total number of comments on this item"
-msgstr "Загальна кількість коментарів до цього об'єкта"
+msgid "Total number of public comments on this item"
+msgstr ""
 
 #: ../comment.py:158
 msgid "Transform '%s' => '%s' not available. Failed to transform comment '%s'."
@@ -138,11 +142,11 @@ msgstr "Не доступне перетворення '%s' => '%s'. Не вда
 msgid "User Email Notification"
 msgstr "Сповіщення користувача електронною поштою"
 
-#: ../interfaces.py:160
+#: ../interfaces.py:166
 msgid "Username of the commenter"
 msgstr "Ім'я автора коментаря"
 
-#: ../browser/comments.py:240
+#: ../browser/comments.py:244
 msgid "Your comment awaits moderator approval."
 msgstr "Ваш коментар очікує затвердження модератором."
 
@@ -217,17 +221,17 @@ msgid "heading_moderate_comments"
 msgstr "Модерування коментарів"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
-#: ../interfaces.py:230
+#: ../interfaces.py:236
 msgid "help_anonymous_comments"
 msgstr "Якщо вибрано - то анонімні користувачі зможуть додавати коментарі без входу в систему. Для таких випадків рекомендуєтсья використовувати капчу, щоб запобігти надсиланню спаму."
 
 #. Default: "If selected, anonymous user will have to give their email."
-#: ../interfaces.py:328
+#: ../interfaces.py:334
 msgid "help_anonymous_email_enabled"
 msgstr "Якщо вибрано, анонімний користувач повинен буде вказати свою електронну пошту."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
-#: ../interfaces.py:273
+#: ../interfaces.py:279
 msgid "help_captcha"
 msgstr "Використовуйте цей параметр, щоб увімкнути або вимкнути капчу для коментарів. Для цього спершу встановіть plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet або collective.z3cform.norobots."
 
@@ -240,37 +244,37 @@ msgstr ""
 "To enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\".\""
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
-#: ../interfaces.py:218
+#: ../interfaces.py:224
 msgid "help_globally_enabled"
 msgstr "Якщо вибрано, користувачі зможуть додавати коментарі на сайт. Але спочатку необхідно увімкнути можливість коментування для певних типів вмісту, тек, об'єктів."
 
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
-#: ../interfaces.py:242
+#: ../interfaces.py:248
 msgid "help_moderation_enabled"
 msgstr "Якщо вибрано, коментарі увійде в стан 'В очікуванні', у якому вони невидимі для громадськості. Користувач з правом 'Огляд коментарів' ('Рецензент' або 'Менеджер') може схвалити коментар, щоб зробити їх видимими для громадськості. Якщо ви хочете налаштувати робочий процес коментарів, ви повинні піти в панель керування типів."
 
 #. Default: "Address to which moderator notifications will be sent."
-#: ../interfaces.py:310
+#: ../interfaces.py:316
 msgid "help_moderator_email"
 msgstr "Адреса, за якою модератору будуть надсилатися повідомлення."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
-#: ../interfaces.py:298
+#: ../interfaces.py:304
 msgid "help_moderator_notification_enabled"
 msgstr "Якщо вибрано, модератор отримує повідомлення, якщо коментар вимагає уваги. Адресу електронної пошти модератора можна знайти в 'Пошта' панелі керування (Адреса 'Від')"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ../interfaces.py:288
+#: ../interfaces.py:294
 msgid "help_show_commenter_image"
 msgstr "Якщо вибрано, зображення коментатора буде відображатись поруч з коментарем."
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
-#: ../interfaces.py:257
+#: ../interfaces.py:263
 msgid "help_text_transform"
 msgstr "Виберіть як повинен бути перетворений текст коментаря. Ви можете вибрати між 'Звичайний текст' і 'Інтелектуальні тексту'. 'Інтелектуальний текст' перетворює текст в HTML, де рядки і відступи зберігаються, інтернет адреси та адреси електронної пошти перетворяться в активні посилання."
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
-#: ../interfaces.py:319
+#: ../interfaces.py:325
 msgid "help_user_notification_enabled"
 msgstr "Якщо вибрано, користувачі зможуть обрати можливість отримувати нотифікації про нові коментарі поштою."
 
@@ -281,12 +285,12 @@ msgid "label_anonymous"
 msgstr "Анонім"
 
 #. Default: "Enable anonymous comments"
-#: ../interfaces.py:228
+#: ../interfaces.py:234
 msgid "label_anonymous_comments"
 msgstr "Увімкнути можливість анонімного коментування"
 
 #. Default: "Enable anonymous email field"
-#: ../interfaces.py:326
+#: ../interfaces.py:332
 msgid "label_anonymous_email_enabled"
 msgstr "Увімкнути поле електронної адреси для аноніма"
 
@@ -296,12 +300,12 @@ msgid "label_apply"
 msgstr "Застосувати"
 
 #. Default: "Captcha"
-#: ../interfaces.py:271
+#: ../interfaces.py:277
 msgid "label_captcha"
 msgstr "Капча"
 
 #. Default: "Comment"
-#: ../interfaces.py:153
+#: ../interfaces.py:159
 msgid "label_comment"
 msgstr "Коментар"
 
@@ -316,22 +320,22 @@ msgid "label_delete"
 msgstr "Знищити"
 
 #. Default: "Globally enable comments"
-#: ../interfaces.py:216
+#: ../interfaces.py:222
 msgid "label_globally_enabled"
 msgstr "Увімкнути коментування для цілого сайту"
 
 #. Default: "Enable comment moderation"
-#: ../interfaces.py:240
+#: ../interfaces.py:246
 msgid "label_moderation_enabled"
 msgstr "Увімкнути модерування коментарів"
 
 #. Default: "Moderator Email Address"
-#: ../interfaces.py:308
+#: ../interfaces.py:314
 msgid "label_moderator_email"
 msgstr "Електронна адреса модератора"
 
 #. Default: "Enable moderator email notification"
-#: ../interfaces.py:296
+#: ../interfaces.py:302
 msgid "label_moderator_notification_enabled"
 msgstr "Увімкнути сповіщення модератора"
 
@@ -346,7 +350,7 @@ msgid "label_says"
 msgstr "каже:"
 
 #. Default: "Show commenter image"
-#: ../interfaces.py:286
+#: ../interfaces.py:292
 msgid "label_show_commenter_image"
 msgstr "Показати зображення коментатора"
 
@@ -356,17 +360,17 @@ msgid "label_show_full_comment_text"
 msgstr "показати повний текст коментаря"
 
 #. Default: "Subject"
-#: ../interfaces.py:149
+#: ../interfaces.py:155
 msgid "label_subject"
 msgstr "Тема"
 
 #. Default: "Comment text transform"
-#: ../interfaces.py:255
+#: ../interfaces.py:261
 msgid "label_text_transform"
 msgstr "Перетворення тексту коментаря"
 
 #. Default: "Enable user email notification"
-#: ../interfaces.py:317
+#: ../interfaces.py:323
 msgid "label_user_notification_enabled"
 msgstr "Увімкнути надcилання нотифікації користувачу через електронну адресу"
 
