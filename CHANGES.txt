@@ -4,6 +4,8 @@ Changelog
 2.2.5 (unreleased)
 ------------------
 
+- Update pt_BR translation [ericof]
+
 - Do not raise an error when no workflow is assigned to the comment type.
   [timo]
 
