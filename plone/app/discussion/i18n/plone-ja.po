@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2011-04-22 17:12+0000\n"
+"POT-Creation-Date: 2013-04-06 12:48+0000\n"
 "PO-Revision-Date: 2011-04-18 13:13+0900\n"
 "Last-Translator: Takeshi Yamamoto <tyam@mac.com>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
@@ -34,12 +34,7 @@ msgstr "コメント"
 msgid "Comment Review Workflow"
 msgstr "コメント審査ワークフロー"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Comment Single State Workflow"
-msgstr "コメント単一状態ワークフロー"
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "最後の遷移についてのコメント"
 
@@ -55,10 +50,6 @@ msgstr "コンテンツアイテムにコメントが追加されました"
 msgid "Discussion"
 msgstr "議論"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr "本質的に遷移のないワークフローですが、公開状態を持つので、その状態を期待するポートレットやアプリケーションが機能し続けます。"
-
 #: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "コメントをモデレートする"
@@ -68,17 +59,14 @@ msgid "Pending"
 msgstr "保留"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "前の遷移"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "ワークフロー履歴へのアクセスを提供する"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "公開中"
 
@@ -91,7 +79,6 @@ msgid "Submitted, pending review."
 msgstr "提出され、審査待ち"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "前の遷移を実施したユーザのID"
 
@@ -107,16 +94,11 @@ msgstr "このアイテムについてのコメントの合計数"
 msgid "Users who have commented on the item"
 msgstr "このアイテムにコメントしたユーザ"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Visible to everyone, editable by the owner."
-msgstr "誰にでも見え、所有者によって編集可能"
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "誰にでも見え、編集不可能"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "前の遷移が実施された時"
 
