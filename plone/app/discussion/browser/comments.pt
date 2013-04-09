@@ -36,7 +36,7 @@
                              portrait_url python:view.get_commenter_portrait(reply.author_username);
                              review_state python:wtool.getInfoFor(reply, 'review_state', 'none');"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth)+' state-'+str(review_state);
-                                 id string:id-${reply/getId}"
+                                 id string:${reply/getId}"
                  tal:condition="python:canReview or review_state == 'published'">
 
                 <div class="commentImage" tal:condition="showCommenterImage">
