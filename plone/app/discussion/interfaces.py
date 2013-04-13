@@ -34,23 +34,23 @@ class IConversation(IIterableMapping):
         title=_(u"Total number of public comments on this item"),
         min=0,
         readonly=True,
-        )
+    )
 
     last_comment_date = schema.Date(
         title=_(u"Date of the most recent public comment"),
         readonly=True,
-        )
+    )
 
     commentators = schema.Set(
         title=_(u"The set of unique commentators (usernames)"),
         readonly=True,
-        )
+    )
 
     public_commentators = schema.Set(
         title=_(u"The set of unique commentators (usernames) of"
             " published_comments"),
         readonly=True,
-        )
+    )
 
     def addComment(comment):
         """Adds a new comment to the list of comments, and returns the
