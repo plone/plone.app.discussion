@@ -8,6 +8,7 @@
 /build
 /dist
 /local.cfg
+.coverage
 /*.egg-info
 /.installed.cfg
 *.pyc
