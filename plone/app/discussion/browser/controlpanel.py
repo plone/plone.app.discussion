@@ -51,6 +51,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             SingleCheckBoxFieldWidget
         self.fields['moderation_enabled'].widgetFactory = \
             SingleCheckBoxFieldWidget
+        self.fields['edit_comment_enabled'].widgetFactory = \
+            SingleCheckBoxFieldWidget
         self.fields['anonymous_comments'].widgetFactory = \
             SingleCheckBoxFieldWidget
         self.fields['show_commenter_image'].widgetFactory = \
@@ -117,6 +119,9 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             output.append("moderation_custom")
         elif settings.moderation_enabled:
             output.append("moderation_enabled")
+
+        if settings.edit_comment_enabled:
+            output.append("edit_comment_enabled")
 
         # Anonymous comments
         if settings.anonymous_comments:
