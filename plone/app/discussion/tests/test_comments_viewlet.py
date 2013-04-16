@@ -449,9 +449,11 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
     def test_get_commenter_portrait_is_none(self):
-        self.assertEqual(
-            self.viewlet.get_commenter_portrait(),
-            'defaultUser.gif'
+        self.assertTrue(
+            self.viewlet.get_commenter_portrait() in (
+                'defaultUser.png',
+                'defaultUser.gif',
+            )
         )
 
     def test_get_commenter_portrait_without_userimage(self):
