@@ -77,11 +77,11 @@ class EditCommentForm(CommentForm):
             return
 
         # Check permissions
-        can_reply = getSecurityManager().checkPermission(
-            'Modify portal content',
+        can_edit = getSecurityManager().checkPermission(
+            'Edit comments',
             self.context)
         mtool = getToolByName(self.context, 'portal_membership')
-        if mtool.isAnonymousUser() or not can_reply:
+        if mtool.isAnonymousUser() or not can_edit:
             return
 
         # Update text
