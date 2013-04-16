@@ -415,6 +415,12 @@ class CommentsViewlet(ViewletBase):
         settings = registry.forInterface(IDiscussionSettings, check=False)
         return settings.anonymous_comments
 
+    def edit_comment_allowed(self):
+        # Check if editing comments is allowed in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.edit_comment_enabled
+
     def show_commenter_image(self):
         # Check if showing commenter image is enabled in the registry
         registry = queryUtility(IRegistry)

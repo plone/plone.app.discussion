@@ -64,6 +64,14 @@ class RegistryTest(unittest.TestCase):
                           'IDiscussionSettings.moderation_enabled'],
             False)
 
+    def test_edit_comment_enabled(self):
+        # Check edit_comment_enabled record
+        self.assertTrue('edit_comment_enabled' in IDiscussionSettings)
+        self.assertEqual(
+            self.registry['plone.app.discussion.interfaces.' +
+                          'IDiscussionSettings.edit_comment_enabled'],
+            False)
+
     def test_text_transform(self):
         self.assertTrue('text_transform' in IDiscussionSettings)
         self.assertEqual(
