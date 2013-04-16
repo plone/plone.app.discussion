@@ -234,8 +234,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                                           context)
         workflowTool = getToolByName(context, 'portal_workflow')
         comment_review_state = workflowTool.getInfoFor(
-            comment, 
-            'review_state', 
+            comment,
+            'review_state',
             None
         )
         if comment_review_state == 'pending' and not can_review:
