@@ -35,8 +35,9 @@ from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.testing import \
+from plone.app.discussion.testing import (
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+)
 from plone.app.discussion.interfaces import IDiscussionSettings
 
 
@@ -52,13 +53,17 @@ class TestCommentForm(unittest.TestCase):
         self.folder = self.portal['test-folder']
 
         interface.alsoProvides(
-            self.portal.REQUEST, interfaces.IDiscussionLayer)
+            self.portal.REQUEST,
+            interfaces.IDiscussionLayer,
+        )
 
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        self.discussionTool = getToolByName(self.portal,
-                                   'portal_discussion',
-                                    None)
+        self.discussionTool = getToolByName(
+            self.portal,
+            'portal_discussion',
+            None
+        )
         self.discussionTool.overrideDiscussionFor(self.portal.doc1, False)
         self.membershipTool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
@@ -84,16 +89,20 @@ class TestCommentForm(unittest.TestCase):
             alsoProvides(request, IAttributeAnnotatable)
             return request
 
-        provideAdapter(adapts=(Interface, IBrowserRequest),
-                       provides=Interface,
-                       factory=CommentForm,
-                       name=u"comment-form")
+        provideAdapter(
+            adapts=(Interface, IBrowserRequest),
+            provides=Interface,
+            factory=CommentForm,
+            name=u"comment-form"
+        )
 
         # The form should return an error if the comment text field is empty
         request = make_request(form={})
 
-        commentForm = getMultiAdapter((self.context, request),
-                                      name=u"comment-form")
+        commentForm = getMultiAdapter(
+            (self.context, request),
+            name=u"comment-form"
+        )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
@@ -104,8 +113,10 @@ class TestCommentForm(unittest.TestCase):
         # filled out
         request = make_request(form={'form.widgets.text': u'bar'})
 
-        commentForm = getMultiAdapter((self.context, request),
-                                      name=u"comment-form")
+        commentForm = getMultiAdapter(
+            (self.context, request),
+            name=u"comment-form"
+        )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
@@ -137,11 +148,15 @@ class TestCommentForm(unittest.TestCase):
                        name=u"comment-form")
 
         # Post an anonymous comment and provide a name
-        request = make_request(form={'form.widgets.name': u'john doe',
-                                     'form.widgets.text': u'bar'})
+        request = make_request(form={
+            'form.widgets.name': u'john doe',
+            'form.widgets.text': u'bar'
+        })
 
-        commentForm = getMultiAdapter((self.context, request),
-                                      name=u"comment-form")
+        commentForm = getMultiAdapter(
+            (self.context, request),
+            name=u"comment-form"
+        )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
@@ -168,8 +183,10 @@ class TestCommentForm(unittest.TestCase):
 
         request = make_request(form={'form.widgets.text': u'bar'})
 
-        commentForm = getMultiAdapter((self.context, request),
-                                      name=u"comment-form")
+        commentForm = getMultiAdapter(
+            (self.context, request),
+            name=u"comment-form"
+        )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
@@ -210,10 +227,12 @@ class TestCommentForm(unittest.TestCase):
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
         self.assertEqual(len(errors), 0)
-        self.assertRaises(Unauthorized,
-                          commentForm.handleComment,
-                          commentForm,
-                          "foo")
+        self.assertRaises(
+            Unauthorized,
+            commentForm.handleComment,
+            commentForm,
+            "foo"
+        )
 
 
 class TestCommentsViewlet(unittest.TestCase):
@@ -227,16 +246,20 @@ class TestCommentsViewlet(unittest.TestCase):
         self.portal.invokeFactory('Folder', 'test-folder')
         self.folder = self.portal['test-folder']
         interface.alsoProvides(
-            self.request, interfaces.IDiscussionLayer)
+            self.request,
+            interfaces.IDiscussionLayer
+        )
 
         self.workflowTool = getToolByName(self.portal, 'portal_workflow')
         self.workflowTool.setDefaultChain('one_state_workflow')
 
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        self.portal_discussion = getToolByName(self.portal,
-                                               'portal_discussion',
-                                               None)
+        self.portal_discussion = getToolByName(
+            self.portal,
+            'portal_discussion',
+            None
+        )
         self.membershipTool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
         context = getattr(self.portal, 'doc1')
@@ -310,7 +333,8 @@ class TestCommentsViewlet(unittest.TestCase):
             self.viewlet.comment_transform_message(),
             "You can add a comment by filling out the form below. " +
             "Plain text formatting. Web and email addresses are transformed " +
-             "into clickable links.")
+            "into clickable links."
+        )
 
         # Enable moderation workflow
         self.workflowTool.setChainForPortalTypes(
@@ -353,19 +377,26 @@ class TestCommentsViewlet(unittest.TestCase):
         conversation = IConversation(self.portal.doc1)
         c1 = conversation.addComment(comment)
         self.assertEqual(
-            len(tuple(self.viewlet.get_replies(workflow_actions=True))), 1)
+            len(tuple(self.viewlet.get_replies(workflow_actions=True))),
+            1
+        )
         # Enable moderation workflow
         self.workflowTool.setChainForPortalTypes(
             ('Discussion Item',),
-            ('comment_review_workflow,'))
+            ('comment_review_workflow,')
+        )
         # Check if workflow actions are available
         reply = self.viewlet.get_replies(workflow_actions=True).next()
         self.assertTrue('actions' in reply)
-        self.assertEqual(reply['actions'][0]['id'],
-                          'publish')
-        self.assertEqual(reply['actions'][0]['url'],
+        self.assertEqual(
+            reply['actions'][0]['id'],
+            'publish'
+        )
+        self.assertEqual(
+            reply['actions'][0]['url'],
             'http://nohost/plone/doc1/++conversation++default/%s' % int(c1) +
-            '/content_status_modify?workflow_action=publish')
+            '/content_status_modify?workflow_action=publish'
+        )
 
     def test_get_commenter_home_url(self):
         comment = createObject('plone.Comment')
@@ -373,8 +404,10 @@ class TestCommentsViewlet(unittest.TestCase):
         IConversation(self.portal.doc1)
         portal_membership = getToolByName(self.portal, 'portal_membership')
         m = portal_membership.getAuthenticatedMember()
-        self.assertEqual(self.viewlet.get_commenter_home_url(m.getUserName()),
-                          'http://nohost/plone/author/test-user')
+        self.assertEqual(
+            self.viewlet.get_commenter_home_url(m.getUserName()),
+            'http://nohost/plone/author/test-user'
+        )
 
     def test_get_commenter_home_url_is_none(self):
         self.assertFalse(self.viewlet.get_commenter_home_url())
@@ -383,13 +416,19 @@ class TestCommentsViewlet(unittest.TestCase):
 
         # Add a user with a member image
         self.membershipTool.addMember('jim', 'Jim', ['Member'], [])
-        self.memberdata._setPortrait(Image(id='jim',
-                                           file=dummy.File(),
-                                           title=''), 'jim')
-        self.assertEqual(self.memberdata._getPortrait('jim').getId(),
-                         'jim')
-        self.assertEqual(self.memberdata._getPortrait('jim').meta_type,
-                         'Image')
+        self.memberdata._setPortrait(Image(
+            id='jim',
+            file=dummy.File(),
+            title=''
+        ), 'jim')
+        self.assertEqual(
+            self.memberdata._getPortrait('jim').getId(),
+            'jim'
+        )
+        self.assertEqual(
+            self.memberdata._getPortrait('jim').meta_type,
+            'Image'
+        )
 
         # Add a conversation with a comment
         conversation = IConversation(self.portal.doc1)
@@ -404,12 +443,16 @@ class TestCommentsViewlet(unittest.TestCase):
         portrait_url = self.viewlet.get_commenter_portrait('jim')
 
         # Check if the correct member image URL is returned
-        self.assertEqual(portrait_url,
-            'http://nohost/plone/portal_memberdata/portraits/jim')
+        self.assertEqual(
+            portrait_url,
+            'http://nohost/plone/portal_memberdata/portraits/jim'
+        )
 
     def test_get_commenter_portrait_is_none(self):
-        self.assertEqual(self.viewlet.get_commenter_portrait(),
-                          'defaultUser.gif')
+        self.assertEqual(
+            self.viewlet.get_commenter_portrait(),
+            'defaultUser.gif'
+        )
 
     def test_get_commenter_portrait_without_userimage(self):
 
@@ -431,25 +474,32 @@ class TestCommentsViewlet(unittest.TestCase):
         # Check if the correct default member image URL is returned.
         # Note that Products.PlonePAS 4.0.5 and later have .png and
         # earlier versions have .gif.
-        self.assertTrue(portrait_url in
-                        ('http://nohost/plone/defaultUser.png',
-                         'http://nohost/plone/defaultUser.gif'))
+        self.assertTrue(
+            portrait_url in (
+                'http://nohost/plone/defaultUser.png',
+                'http://nohost/plone/defaultUser.gif'
+            )
+        )
 
     def test_anonymous_discussion_allowed(self):
         # Anonymous discussion is not allowed by default
         self.assertFalse(self.viewlet.anonymous_discussion_allowed())
         # Allow anonymous discussion
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
-                  'anonymous_comments'] = True
+        registry[
+            'plone.app.discussion.interfaces.IDiscussionSettings.' +
+            'anonymous_comments'
+        ] = True
         # Test if anonymous discussion is allowed for the viewlet
         self.assertTrue(self.viewlet.anonymous_discussion_allowed())
 
     def test_show_commenter_image(self):
         self.assertTrue(self.viewlet.show_commenter_image())
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
-                 'show_commenter_image'] = False
+        registry[
+            'plone.app.discussion.interfaces.IDiscussionSettings.' +
+            'show_commenter_image'
+        ] = False
         self.assertFalse(self.viewlet.show_commenter_image())
 
     def test_is_anonymous(self):
@@ -459,8 +509,10 @@ class TestCommentsViewlet(unittest.TestCase):
 
     def test_login_action(self):
         self.viewlet.update()
-        self.assertEqual(self.viewlet.login_action(),
-            'http://nohost/plone/login_form?came_from=http%3A//nohost')
+        self.assertEqual(
+            self.viewlet.login_action(),
+            'http://nohost/plone/login_form?came_from=http%3A//nohost'
+        )
 
     def test_format_time(self):
         python_time = datetime(2009, 02, 01, 23, 32, 03, 57)
@@ -473,7 +525,8 @@ class TestCommentsViewlet(unittest.TestCase):
         # time of the local time given above. That way, the time for the
         # example below is correct within each time zone, independent of DST
         python_time = datetime(
-            *time.gmtime(time.mktime(python_time.timetuple()))[:7])
+            *time.gmtime(time.mktime(python_time.timetuple()))[:7]
+        )
         localized_time = self.viewlet.format_time(python_time)
         self.assertEqual(localized_time, 'Feb 01, 2009 11:32 PM')
 
