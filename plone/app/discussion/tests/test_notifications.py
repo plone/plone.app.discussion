@@ -92,8 +92,10 @@ class TestUserNotificationUnit(unittest.TestCase):
 
     def test_do_not_notify_user_when_notification_is_disabled(self):
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
-                  'user_notification_enabled'] = False
+        registry[
+            'plone.app.discussion.interfaces.IDiscussionSettings.' +
+            'user_notification_enabled'
+        ] = False
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         comment.user_notification = True
@@ -177,11 +179,14 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         self.portal.portal_types['Document'].allow_discussion = True
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
-            ('comment_review_workflow',))
+            ('comment_review_workflow',)
+        )
         # Enable moderator notification setting
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
-                'moderator_notification_enabled'] = True
+        registry[
+            'plone.app.discussion.interfaces.IDiscussionSettings.' +
+            'moderator_notification_enabled'
+        ] = True
         # Create test content
         self.portal.invokeFactory('Document', 'doc1')
         self.portal_discussion = self.portal.portal_discussion

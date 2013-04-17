@@ -9,8 +9,9 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.testing import TEST_USER_ID, setRoles
 
-from plone.app.discussion.testing import  \
-        PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import (
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+)
 
 from plone.app.discussion.browser.migration import View
 
@@ -24,19 +25,25 @@ class MigrationTest(unittest.TestCase):
     def _publish(self, reply):
         # publish the reply
         status = self.portal.portal_workflow.getStatusOf(
-            'comment_review_workflow', reply).copy()
+            'comment_review_workflow', reply
+        ).copy()
         status['review_state'] = 'published'
         self.portal.portal_workflow.setStatusOf(
-            'comment_review_workflow', reply, status)
+            'comment_review_workflow',
+            reply,
+            status,
+        )
 
     def setUp(self):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
-        self.portal.invokeFactory(id='doc',
-                                  title='Document 1',
-                                  type_name='Document')
+        self.portal.invokeFactory(
+            id='doc',
+            title='Document 1',
+            type_name='Document'
+        )
         # Create a document
         self.discussion = getToolByName(self.portal, 'portal_discussion', None)
         self.discussion.overrideDiscussionFor(self.portal.doc, 1)
@@ -47,8 +54,10 @@ class MigrationTest(unittest.TestCase):
 
         self.request.set("test", True)
         self.view = View(self.portal, self.request)
-        self.workflowTool.setChainForPortalTypes(('Discussion Item',),
-                                             'comment_review_workflow')
+        self.workflowTool.setChainForPortalTypes(
+            ('Discussion Item',),
+            'comment_review_workflow'
+        )
 
         # Create a user Jimmy Jones so comments creator migration can work?
         acl_users = getToolByName(self.portal, 'acl_users')
@@ -80,8 +89,9 @@ class MigrationTest(unittest.TestCase):
         self.view()
 
         # Make sure a conversation has been created
-        self.assertTrue('plone.app.discussion:conversation' in
-                        IAnnotations(self.doc))
+        self.assertTrue(
+            'plone.app.discussion:conversation' in IAnnotations(self.doc)
+        )
         conversation = IConversation(self.doc)
 
         # Check migration
@@ -93,20 +103,20 @@ class MigrationTest(unittest.TestCase):
         self.assertEqual(comment1.text, '<p>My Text</p>\n')
         self.assertEqual(comment1.mime_type, 'text/html')
         self.assertEqual(comment1.Creator(), 'Jim')
-        self.assertEqual(comment1.creation_date,
-                          datetime(2003, 3, 11, 9, 28, 6))
-        self.assertEqual(comment1.modification_date,
-                          datetime(2009, 7, 12, 19, 38, 7))
+        self.assertEqual(
+            comment1.creation_date,
+            datetime(2003, 3, 11, 9, 28, 6)
+        )
+        self.assertEqual(
+            comment1.modification_date,
+            datetime(2009, 7, 12, 19, 38, 7)
+        )
         self.assertEqual([
             {'comment': comment1, 'depth': 0, 'id': long(comment1.id)}
-            ], list(conversation.getThreads()))
+        ], list(conversation.getThreads()))
         self.assertFalse(self.doc.talkback)
 
-
     def test_migrate_comment_with_creator(self):
-
-  
-
         # Create a comment
         talkback = self.discussion.getDiscussionFor(self.doc)
         self.doc.talkback.createReply('My Title', 'My Text', Creator='Jim')
@@ -123,15 +133,16 @@ class MigrationTest(unittest.TestCase):
         self.assertTrue('Jim' in reply.listCreators())
         self.assertEqual(talkback.replyCount(self.doc), 1)
         self.assertEqual(reply.inReplyTo(), self.doc)
-        self.assertEqual(reply.author_username,'Jim')
-        self.assertEqual(reply.email,'jimmy@jones.xyz')
+        self.assertEqual(reply.author_username, 'Jim')
+        self.assertEqual(reply.email, 'jimmy@jones.xyz')
 
         # Call migration script
         self.view()
 
         # Make sure a conversation has been created
-        self.assertTrue('plone.app.discussion:conversation' in
-                        IAnnotations(self.doc))
+        self.assertTrue(
+            'plone.app.discussion:conversation' in IAnnotations(self.doc)
+        )
         conversation = IConversation(self.doc)
 
         # Check migration
@@ -143,21 +154,26 @@ class MigrationTest(unittest.TestCase):
         self.assertEqual(comment1.text, '<p>My Text</p>\n')
         self.assertEqual(comment1.mime_type, 'text/html')
         self.assertEqual(comment1.Creator(), 'Jim')
-        self.assertEqual(comment1.creation_date,
-                          datetime(2003, 3, 11, 9, 28, 6))
-        self.assertEqual(comment1.modification_date,
-                          datetime(2009, 7, 12, 19, 38, 7))
+        self.assertEqual(
+            comment1.creation_date,
+            datetime(2003, 3, 11, 9, 28, 6)
+        )
+        self.assertEqual(
+            comment1.modification_date,
+            datetime(2009, 7, 12, 19, 38, 7)
+        )
         self.assertEqual([
             {'comment': comment1, 'depth': 0, 'id': long(comment1.id)}
-            ], list(conversation.getThreads()))
+        ], list(conversation.getThreads()))
         self.assertFalse(self.doc.talkback)
 
-        # Though this should be Jimmy, but looks like getProperty won't pick up 'author_username'
-        # (reply.author_username is not None), so it's propagating Creator()..?
-        self.assertEqual(comment1.author_username,'Jim')
+        # Though this should be Jimmy, but looks like getProperty won't pick
+        # up 'author_username' (reply.author_username is not None), so it's
+        # propagating Creator()..?
+        self.assertEqual(comment1.author_username, 'Jim')
 
-        self.assertEqual(comment1.author_name,'Jimmy Jones')
-        self.assertEqual(comment1.author_email,'jimmy@jones.xyz')
+        self.assertEqual(comment1.author_name, 'Jimmy Jones')
+        self.assertEqual(comment1.author_email, 'jimmy@jones.xyz')
 
     def test_migrate_nested_comments(self):
         # Create some nested comments and migrate them
@@ -243,16 +259,16 @@ class MigrationTest(unittest.TestCase):
         comment1_4 = conversation.values()[6]
         comment2 = conversation.values()[7]
 
-        self.assertEqual(
-        [{'comment': comment1,       'depth': 0, 'id': long(comment1.id)},
-         {'comment': comment1_1,     'depth': 1, 'id': long(comment1_1.id)},
-         {'comment': comment1_1_1,   'depth': 2, 'id': long(comment1_1_1.id)},
-         {'comment': comment1_1_1_1, 'depth': 3,
-          'id': long(comment1_1_1_1.id)},
-         {'comment': comment1_2,     'depth': 1, 'id': long(comment1_2.id)},
-         {'comment': comment1_3,     'depth': 1, 'id': long(comment1_3.id)},
-         {'comment': comment1_4,     'depth': 1, 'id': long(comment1_4.id)},
-         {'comment': comment2,       'depth': 0, 'id': long(comment2.id)},
+        self.assertEqual([
+            {'comment': comment1, 'depth': 0, 'id': long(comment1.id)},
+            {'comment': comment1_1, 'depth': 1, 'id': long(comment1_1.id)},
+            {'comment': comment1_1_1, 'depth': 2, 'id': long(comment1_1_1.id)},
+            {'comment': comment1_1_1_1, 'depth': 3,
+             'id': long(comment1_1_1_1.id)},
+            {'comment': comment1_2, 'depth': 1, 'id': long(comment1_2.id)},
+            {'comment': comment1_3, 'depth': 1, 'id': long(comment1_3.id)},
+            {'comment': comment1_4, 'depth': 1, 'id': long(comment1_4.id)},
+            {'comment': comment2, 'depth': 0, 'id': long(comment2.id)},
         ], list(conversation.getThreads()))
 
         talkback = self.discussion.getDiscussionFor(self.doc)
@@ -303,8 +319,9 @@ class MigrationTest(unittest.TestCase):
         self.view()
 
         # Make sure no conversation has been created
-        self.assertTrue('plone.app.discussion:conversation' not in
-                     IAnnotations(self.doc))
+        self.assertTrue(
+            'plone.app.discussion:conversation' not in IAnnotations(self.doc)
+        )
 
 
 def test_suite():

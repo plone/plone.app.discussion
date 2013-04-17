@@ -107,22 +107,25 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         comment1.text = 'Comment text'
         comment1.Creator = 'Jim'
         new_id_1 = conversation.addComment(comment1)
-        self.comment1 = self.portal.doc1.restrictedTraverse(\
-                            '++conversation++default/%s' % new_id_1)
+        self.comment1 = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/%s' % new_id_1
+        )
         comment2 = createObject('plone.Comment')
         comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
         comment2.Creator = 'Joe'
         new_id_2 = conversation.addComment(comment2)
-        self.comment2 = self.portal.doc1.restrictedTraverse(\
-                            '++conversation++default/%s' % new_id_2)
+        self.comment2 = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/%s' % new_id_2
+        )
         comment3 = createObject('plone.Comment')
         comment3.title = 'Comment 3'
         comment3.text = 'Comment text'
         comment3.Creator = 'Emma'
         new_id_3 = conversation.addComment(comment3)
-        self.comment3 = self.portal.doc1.restrictedTraverse(\
-                            '++conversation++default/%s' % new_id_3)
+        self.comment3 = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/%s' % new_id_3
+        )
         self.conversation = conversation
 
     def test_default_bulkaction(self):
