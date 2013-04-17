@@ -13,8 +13,9 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.testing import TEST_USER_ID, setRoles
 
-from plone.app.discussion.testing import \
-  PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import (
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+)
 
 from plone.app.discussion.interfaces import IConversation
 
@@ -29,14 +30,22 @@ class CatalogSetupTest(unittest.TestCase):
         self.portal = self.layer['portal']
 
     def test_catalog_installed(self):
-        self.assertTrue('total_comments' in
-                        self.portal.portal_catalog.indexes())
-        self.assertTrue('commentators' in
-                        self.portal.portal_catalog.indexes())
-        self.assertTrue('total_comments' in
-                        self.portal.portal_catalog.schema())
-        self.assertTrue('in_response_to' in
-                        self.portal.portal_catalog.schema())
+        self.assertTrue(
+            'total_comments' in
+            self.portal.portal_catalog.indexes()
+        )
+        self.assertTrue(
+            'commentators' in
+            self.portal.portal_catalog.indexes()
+        )
+        self.assertTrue(
+            'total_comments' in
+            self.portal.portal_catalog.schema()
+        )
+        self.assertTrue(
+            'in_response_to' in
+            self.portal.portal_catalog.schema()
+        )
 
     def test_collection_criteria_installed(self):
         try:
@@ -54,9 +63,11 @@ class ConversationCatalogTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory(id='doc1',
-                                  Title='Document 1',
-                                  type_name='Document')
+        self.portal.invokeFactory(
+            id='doc1',
+            Title='Document 1',
+            type_name='Document'
+          )
 
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         conversation = IConversation(self.portal.doc1)
@@ -72,10 +83,12 @@ class ConversationCatalogTest(unittest.TestCase):
         self.comment_id = new_comment1_id
 
         brains = self.catalog.searchResults(dict(
-             path={'query':
-                   '/'.join(self.portal.doc1.getPhysicalPath())},
-             portal_type="Document"
-             ))
+            path={
+                'query':
+                '/'.join(self.portal.doc1.getPhysicalPath())
+            },
+            portal_type="Document"
+        ))
         self.conversation = conversation
         self.brains = brains
         self.doc1_brain = brains[0]
@@ -523,8 +536,10 @@ class NoConversationCatalogTest(unittest.TestCase):
         self.assertEqual(self.doc1_brain.total_comments, 0)
 
         # Make sure no conversation has been created
-        self.assertTrue('plone.app.discussion:conversation' not in
-                     IAnnotations(self.portal.doc1))
+        self.assertTrue(
+            'plone.app.discussion:conversation' not in
+            IAnnotations(self.portal.doc1)
+        )
 
 
 def test_suite():
