@@ -4,8 +4,8 @@ Changelog
 2.2.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix migration to not fail when member has been deleted.
+  [datakurre]
 
 2.2.5 (2013-04-06)
 ------------------
