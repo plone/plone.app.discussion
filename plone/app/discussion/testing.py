@@ -9,7 +9,7 @@ from plone.app.testing import FunctionalTesting
 from zope.configuration import xmlconfig
 
 try:
-    import plone.app.collection
+    import plone.app.collection  # noqa
     COLLECTION_TYPE = "Collection"
 except:
     COLLECTION_TYPE = "Topic"

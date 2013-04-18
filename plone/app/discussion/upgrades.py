@@ -6,4 +6,3 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 def update_registry(context):
     registry = getUtility(IRegistry)
     registry.registerInterface(IDiscussionSettings)
-
