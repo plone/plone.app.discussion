@@ -89,7 +89,7 @@
                               action=""
                               method="post"
                               class="commentactionsform"
-                              tal:condition="canReview"
+                              tal:condition="python:canReview or (isEditCommentAllowed and canEdit)"
                               tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">
                             <input name="form.button.DeleteComment"
                                    class="destructive"
