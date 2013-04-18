@@ -291,7 +291,8 @@ class CommentsViewlet(ViewletBase):
                                                     aq_inner(self.context))
 
     def can_edit(self, reply):
-        """Returns true if current user has the 'Edit comments' permission.
+        """Returns true if current user has the 'Delete objects'
+        permission.
         """
         return getSecurityManager().checkPermission('Edit comments',
                                                     aq_inner(reply))
