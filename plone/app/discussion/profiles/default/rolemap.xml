@@ -10,6 +10,7 @@
             <role name="Manager"/>
 	    <role name="Site Administrator"/>
             <role name="Reviewer"/>
+            <role name="Owner"/>
         </permission>
         <permission name="Reply to item" acquire="False">
             <role name="Authenticated"/>
