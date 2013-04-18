@@ -89,8 +89,10 @@ class Conversation(Traversable, Persistent, Explicit):
 
     @property
     def total_comments(self):
-        public_comments = [x for x in self._comments.values() if \
-                           user_nobody.has_permission('View', x)]
+        public_comments = [
+            x for x in self._comments.values()
+            if user_nobody.has_permission('View', x)
+        ]
         return len(public_comments)
 
     @property
@@ -428,9 +430,11 @@ class CommentReplies(ConversationReplies):
     def __init__(self, context):
         self.comment = context
         self.conversation = aq_parent(self.comment)
-
-        if (self.conversation is None or
-            not hasattr(self.conversation, '_children')):
+        conversation_has_no_children = not hasattr(
+            self.conversation,
+            '_children'
+        )
+        if self.conversation is None or conversation_has_no_children:
             raise TypeError("This adapter doesn't know what to do with the "
                             "parent conversation")
 
