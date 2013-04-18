@@ -32,16 +32,18 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
     schema = IDiscussionSettings
     id = "DiscussionSettingsEditForm"
     label = _(u"Discussion settings")
-    description = _(u"help_discussion_settings_editform",
-                    default=u"Some discussion related settings are not "
-                             "located in the Discussion Control Panel.\n"
-                             "To enable comments for a specific content type, "
-                             "go to the Types Control Panel of this type and "
-                             "choose \"Allow comments\".\n"
-                             "To enable the moderation workflow for comments, "
-                             "go to the Types Control Panel, choose "
-                             "\"Comment\" and set workflow to "
-                             "\"Comment Review Workflow\".")
+    description = _(
+        u"help_discussion_settings_editform",
+        default=u"Some discussion related settings are not "
+                u"located in the Discussion Control Panel.\n"
+                u"To enable comments for a specific content type, "
+                u"go to the Types Control Panel of this type and "
+                u"choose \"Allow comments\".\n"
+                u"To enable the moderation workflow for comments, "
+                u"go to the Types Control Panel, choose "
+                u"\"Comment\" and set workflow to "
+                u"\"Comment Review Workflow\"."
+    )
 
     def updateFields(self):
         super(DiscussionSettingsEditForm, self).updateFields()
@@ -108,8 +110,10 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             output.append("globally_enabled")
 
         # Comment moderation
-        if 'one_state_workflow' not in workflow_chain and \
-        'comment_review_workflow' not in workflow_chain:
+        one_state_worklow_disabled = 'one_state_workflow' not in workflow_chain
+        comment_review_workflow_disabled = \
+            'comment_review_workflow' not in workflow_chain
+        if one_state_worklow_disabled and comment_review_workflow_disabled:
             output.append("moderation_custom")
         elif settings.moderation_enabled:
             output.append("moderation_enabled")
@@ -151,8 +155,10 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         """
         wftool = getToolByName(self.context, "portal_workflow", None)
         workflow_chain = wftool.getChainForPortalType('Discussion Item')
-        if 'one_state_workflow' in workflow_chain \
-        or 'comment_review_workflow' in workflow_chain:
+        one_state_workflow_enabled = 'one_state_workflow' in workflow_chain
+        comment_review_workflow_enabled = \
+            'comment_review_workflow' in workflow_chain
+        if one_state_workflow_enabled or comment_review_workflow_enabled:
             return
         return True
 
@@ -176,7 +182,7 @@ def notify_configuration_changed(event):
         # Discussion control panel setting changed
         if event.record.fieldName == 'moderation_enabled':
             # Moderation enabled has changed
-            if event.record.value == True:
+            if event.record.value is True:
                 # Enable moderation workflow
                 wftool.setChainForPortalTypes(('Discussion Item',),
                                               'comment_review_workflow')
