@@ -46,19 +46,19 @@ from plone.z3cform.interfaces import IWrappedForm
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     u"comment_description_plain_text",
     default=u"You can add a comment by filling out the form below. " +
-             "Plain text formatting.")
+            u"Plain text formatting.")
 
 COMMENT_DESCRIPTION_MARKDOWN = _(
     u"comment_description_markdown",
     default=u"You can add a comment by filling out the form below. " +
-             "Plain text formatting. You can use the Markdown syntax for " +
-             "links and images.")
+            u"Plain text formatting. You can use the Markdown syntax for " +
+            u"links and images.")
 
 COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
     u"comment_description_intelligent_text",
     default=u"You can add a comment by filling out the form below. " +
-             "Plain text formatting. Web and email addresses are " +
-             "transformed into clickable links.")
+            u"Plain text formatting. Web and email addresses are " +
+            u"transformed into clickable links.")
 
 COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
     u"comment_description_moderation_enabled",
@@ -117,10 +117,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Hide the user_notification checkbox if user notification is disabled
         # or the user is not logged in. Also check if the user has a valid
         # email address
-        if member_email == '' or \
-           not settings.user_notification_enabled or \
-           mtool.isAnonymousUser():
-                self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
+        member_email_is_empty = member_email == ''
+        user_notification_disabled = not settings.user_notification_enabled
+        anon = mtool.isAnonymousUser()
+        if member_email_is_empty or user_notification_disabled or anon:
+            self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
 
     def updateActions(self):
         super(CommentForm, self).updateActions()
@@ -135,7 +136,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Check if conversation is enabled on this content object
         if not self.__parent__.restrictedTraverse(
-            '@@conversation_view').enabled():
+            '@@conversation_view'
+        ).enabled():
             raise Unauthorized("Discussion is not enabled for this content "
                                "object.")
 
@@ -148,9 +150,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         portal_membership = getToolByName(self.context, 'portal_membership')
-        if settings.captcha != 'disabled' and \
-        settings.anonymous_comments and \
-        portal_membership.isAnonymousUser():
+        captcha_enabled = settings.captcha != 'disabled'
+        anonymous_comments = settings.anonymous_comments
+        anon = portal_membership.isAnonymousUser()
+        if captcha_enabled and anonymous_comments and anon:
             if not 'captcha' in data:
                 data['captcha'] = u""
             captcha = CaptchaValidator(self.context,
@@ -182,8 +185,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         can_reply = getSecurityManager().checkPermission('Reply to item',
                                                          context)
         portal_membership = getToolByName(self.context, 'portal_membership')
-        if portal_membership.isAnonymousUser() and \
-           settings.anonymous_comments:
+        if anon and anonymous_comments:
             # Anonymous Users
             comment.author_name = author_name
             comment.author_email = u""
@@ -210,9 +212,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
         else:  # pragma: no cover
-            raise Unauthorized("Anonymous user tries to post a comment, but "
-                "anonymous commenting is disabled. Or user does not have the "
-                "'reply to item' permission.")
+            raise Unauthorized(
+                u"Anonymous user tries to post a comment, but anonymous "
+                u"commenting is disabled. Or user does not have the "
+                u"'reply to item' permission."
+            )
 
         # Add comment to conversation
         conversation = IConversation(self.__parent__)
@@ -234,8 +238,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                                           context)
         workflowTool = getToolByName(context, 'portal_workflow')
         comment_review_state = workflowTool.getInfoFor(
-            comment, 
-            'review_state', 
+            comment,
+            'review_state',
             None
         )
         if comment_review_state == 'pending' and not can_review:
@@ -262,9 +266,13 @@ class CommentsViewlet(ViewletBase):
 
     def update(self):
         super(CommentsViewlet, self).update()
-        if self.is_discussion_allowed() and \
-           (self.is_anonymous() and self.anonymous_discussion_allowed() \
-            or self.can_reply()):
+        discussion_allowed = self.is_discussion_allowed()
+        anonymous_allowed_or_can_reply = (
+            self.is_anonymous()
+            and self.anonymous_discussion_allowed()
+            or self.can_reply()
+        )
+        if discussion_allowed and anonymous_allowed_or_can_reply:
             z2.switch_on(self, request_layer=IFormLayer)
             self.form = self.form(aq_inner(self.context), self.request)
             alsoProvides(self.form, IWrappedForm)
@@ -362,8 +370,10 @@ class CommentsViewlet(ViewletBase):
             for r in conversation.getThreads():
                 comment_obj = r['comment']
                 # list all possible workflow actions
-                actions = [a for a in wf.listActionInfos(object=comment_obj)
-                               if a['category'] == 'workflow' and a['allowed']]
+                actions = [
+                    a for a in wf.listActionInfos(object=comment_obj)
+                    if a['category'] == 'workflow' and a['allowed']
+                ]
                 r = r.copy()
                 r['actions'] = actions
                 yield r
@@ -400,8 +410,9 @@ class CommentsViewlet(ViewletBase):
             portal_membership = getToolByName(self.context,
                                               'portal_membership',
                                               None)
-            return portal_membership.getPersonalPortrait(username)\
-                   .absolute_url()
+            return portal_membership\
+                .getPersonalPortrait(username)\
+                .absolute_url()
 
     def anonymous_discussion_allowed(self):
         # Check if anonymous comments are allowed in the registry
