@@ -130,6 +130,11 @@ class CommentTest(unittest.TestCase):
         comment1.creator = "jim"
         self.assertEqual("jim", comment1.Creator())
 
+    def test_owner(self):
+        comment1 = createObject('plone.Comment')
+        self.assertEqual((['plone', 'acl_users'], TEST_USER_ID),
+                         comment1.getOwnerTuple())
+
     def test_type(self):
         comment1 = createObject('plone.Comment')
         self.assertEqual(comment1.Type(), 'Comment')
