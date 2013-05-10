@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<object name="portal_workflow" meta_type="CMF Workflow Tool">
- <object name="comment_workflow_acquired_view" meta_type="Workflow"/>
- <bindings>
-  <type type_id="Discussion Item">
-   <bound-workflow workflow_id="comment_workflow_acquired_view"/>
-  </type>
- </bindings>
-</object>

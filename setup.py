@@ -52,7 +52,6 @@ setup(name='plone.app.discussion',
           'test': [
               'plone.app.testing',
               'interlude',
-              'plone.app.dexterity',
           ]
       },
       entry_points="""
