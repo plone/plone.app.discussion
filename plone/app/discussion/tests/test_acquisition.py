@@ -41,12 +41,6 @@ class DexterityAcquisitionTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.wftool = getToolByName(self.portal, 'portal_workflow')
 
-        # Use customized workflow for comments.
-        self.wftool.setChainForPortalTypes(
-            ['Discussion Item'],
-            (comment_workflow_acquired_view,),
-        )
-
         # Use one_state_workflow for Document and sample_content_type,
         # so they're always published.
         self.wftool.setChainForPortalTypes(
