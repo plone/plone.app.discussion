@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from AccessControl.User import User  # before SpecialUsers
+from AccessControl.SpecialUsers import nobody as user_nobody
 from Acquisition import aq_chain
 from plone.app.discussion.testing import \
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
@@ -9,6 +11,8 @@ from zope.component import createObject
 
 import unittest2 as unittest
 
+
+User = User  # stop pyflakes from complaining about side effect import
 
 dexterity_type_name = 'sample_content_type'
 dexterity_object_id = 'instance-of-dexterity-type'
@@ -115,9 +119,20 @@ class DexterityAcquisitionTest(unittest.TestCase):
         # Anonymous has View permission on commented objects.
         self.assertTrue(_anonymousCanView(self.archetypes_object))
         self.assertTrue(_anonymousCanView(self.dexterity_object))
+        self.assertTrue(
+            user_nobody.has_permission("View", self.archetypes_object))
+        self.assertTrue(
+            user_nobody.has_permission("View", self.dexterity_object))
+
+        # Anonymous also passes the user_nobody.has_permission() test
+        # on comments.
+        self.assertTrue(
+            user_nobody.has_permission("View", self.archetypes_comment))
+        self.assertTrue(
+            user_nobody.has_permission("View", self.dexterity_comment))
 
         # Fails: Anonymous should therefore have View permission on the
-        # comments.
+        # comments when we use rolesOfPermission.
         self.assertTrue(_anonymousCanView(self.archetypes_comment))
         self.assertTrue(_anonymousCanView(self.dexterity_comment))
 
