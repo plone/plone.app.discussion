@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.10 (unreleased)
+2.1.10 (2013-05-22)
 -------------------
 
 - Migration would break when reply has no workflow_state.
