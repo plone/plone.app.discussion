@@ -117,13 +117,17 @@ class View(BrowserView):
 
                     # migrate the review state
                     old_status = workflow.getStatusOf(oldchain, reply)
+                    if old_status is None:
+                        review_state = new_workflow.initial_state
+                    else:
+                        review_state = old_status.get(
+                            'review_state',
+                            new_workflow.initial_state)
                     new_status = {
                         'action': None,
                         'actor': None,
                         'comment': 'Migrated workflow state',
-                        'review_state': old_status.get(
-                            'review_state',
-                            new_workflow.initial_state),
+                        'review_state': review_state,
                         'time': DateTime()
                     }
                     workflow.setStatusOf('comment_review_workflow',

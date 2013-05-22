@@ -4,7 +4,8 @@ Changelog
 2.1.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Migration would break when reply has no workflow_state.
+  [gotcha]
 
 
 2.1.9 (2013-03-05)
