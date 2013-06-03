@@ -201,7 +201,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     def Creator(self):
         """The name of the person who wrote the comment.
         """
-        return self.creator
+        return self.creator or self.author_name
 
     security.declareProtected(permissions.View, 'Type')
 
