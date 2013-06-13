@@ -4,7 +4,9 @@ Changelog
 2.2.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Revert change that silently added mime_type attribute values
+  to old discussion items that had none.
+  [pjstevns] 
 
 
 2.2.6 (2013-05-23)
