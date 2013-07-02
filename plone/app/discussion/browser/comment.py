@@ -92,7 +92,7 @@ class EditCommentForm(CommentForm):
                                            default="Comment was edited"),
                                          type='info')
         return self._redirect(
-            target=self.action.replace("@@edit-comment", ""))
+            target=self.action.replace("@@edit-comment", "@@view"))
 
     @button.buttonAndHandler(_(u'cancel_form_button',
                                default=u'Cancel'), name='cancel')
