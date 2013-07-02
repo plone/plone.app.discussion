@@ -63,7 +63,7 @@ class EditCommentForm(CommentForm):
     def _redirect(self, target=''):
         if not target:
             portal_state = getMultiAdapter((self.context, self.request),
-                                       name=u'plone_portal_state')
+                                           name=u'plone_portal_state')
             target = portal_state.portal_url()
         self.request.response.redirect(target)
 
