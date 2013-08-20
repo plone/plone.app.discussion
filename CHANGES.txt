@@ -4,6 +4,9 @@ Changelog
 2.2.7 (unreleased)
 ------------------
 
+- Fix comments viewlet's get_replies for non-annotatable objects.
+  [witsch]
+
 - Revert change that silently added mime_type attribute values
   to old discussion items that had none.
   [pjstevns] 
