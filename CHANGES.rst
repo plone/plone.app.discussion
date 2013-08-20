@@ -4,7 +4,8 @@ Changelog
 2.2.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Rename CHANGES.txt to CHANGES.rst.
+  [timo]
 
 
 2.2.8 (2013-08-20)
