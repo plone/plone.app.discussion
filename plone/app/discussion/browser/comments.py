@@ -358,7 +358,10 @@ class CommentsViewlet(ViewletBase):
         returned with workflow actions.
         """
         context = aq_inner(self.context)
-        conversation = IConversation(context)
+        conversation = IConversation(context, None)
+
+        if conversation is None:
+            return iter([])
 
         wf = getToolByName(context, 'portal_workflow')
 

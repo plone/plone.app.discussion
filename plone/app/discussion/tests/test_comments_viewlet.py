@@ -370,6 +370,14 @@ class TestCommentsViewlet(unittest.TestCase):
         replies.next()
         self.assertRaises(StopIteration, replies.next)
 
+    def test_get_replies_on_non_annotatable_object(self):
+        context = self.portal.MailHost      # the mail host is not annotatable
+        viewlet = CommentsViewlet(context, self.request, None, None)
+        replies = viewlet.get_replies()
+        self.assertEqual(len(tuple(replies)), 0)
+        replies = viewlet.get_replies()
+        self.assertRaises(StopIteration, replies.next)
+
     def test_get_replies_with_workflow_actions(self):
         self.assertFalse(self.viewlet.get_replies(workflow_actions=True))
         comment = createObject('plone.Comment')
