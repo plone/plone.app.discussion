@@ -7,6 +7,8 @@ Changelog
 - Rename CHANGES.txt to CHANGES.rst.
   [timo]
 
+- Fix ajax form submit for delete comment action: add 'data' to the request.
+  [toutpt]
 
 2.2.8 (2013-08-20)
 ------------------

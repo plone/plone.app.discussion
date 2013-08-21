@@ -177,6 +177,7 @@
             $.ajax({
                 type: 'POST',
                 url: form_url,
+                data: data,
                 context: $(trigger).parents(".comment"),
                 success: function (data) {
                     var comment = $(this);
