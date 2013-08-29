@@ -52,6 +52,7 @@ setup(name='plone.app.discussion',
           'test': [
               'plone.app.testing',
               'interlude',
+              'plone.app.contenttypes',
           ]
       },
       entry_points="""

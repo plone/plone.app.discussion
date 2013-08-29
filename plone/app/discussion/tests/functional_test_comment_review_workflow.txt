@@ -33,6 +33,7 @@ We also keep another testbrowser handy for testing how tiles are rendered if
 you're not logged in::
 
     >>> unprivileged_browser = Browser(app)
+    >>> unprivileged_browser.handleErrors = False
 
 Enable commenting.
 
@@ -61,22 +62,28 @@ We need to commit the transaction, otherwise setting the workflow will not work.
 Enable anonymous comments
 
     >>> browser.open(portal_url+'/@@discussion-settings')
-    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True]
+    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = True
     >>> browser.getControl(name='form.buttons.save').click()
 
 Create a public page with comments allowed.
 
     >>> browser.open(portal_url)
     >>> browser.getLink(id='document').click()
-    >>> browser.getControl(name='title').value = "Doc"
-    >>> browser.getControl(name='allowDiscussion:boolean').value = True
-    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.getControl(name='form.widgets.IDublinCore.title').value = "Doc"
+    >>> browser.getControl(name='form.widgets.IAllowDiscussion.allow_discussion:list').value = ['True']
+    >>> browser.getControl('Save').click()
     >>> urldoc = browser.url
 
 Check that the form has been properly submitted
 
     >>> browser.url
-    'http://nohost/plone/doc'
+    'http://nohost/plone/doc/view'
+
+Make sure the document is published:
+
+    >>> browser.getLink("Publish").click()
+    >>> 'Published' in browser.contents
+    True
 
 Post some comments as anonymous user:
 
@@ -223,4 +230,3 @@ Make sure the catalog has been updated properly.
 
     >>> portal.portal_catalog.searchResults(id='doc', total_comments=0)
     [<Products...]
-
