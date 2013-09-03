@@ -283,7 +283,7 @@ class IDiscussionSettings(Interface):
                       "permission."),
         required=False,
         default=False,
-        )
+    )
 
     edit_comment_enabled = schema.Bool(
         title=_(u"label_edit_comment_enabled",
@@ -294,7 +294,7 @@ class IDiscussionSettings(Interface):
                       "permission."),
         required=False,
         default=False,
-        )
+    )
 
     text_transform = schema.Choice(
         title=_(u"label_text_transform",
