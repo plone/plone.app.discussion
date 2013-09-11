@@ -292,7 +292,7 @@ Check it ain't so.
 
     >>> 'require_login' in browser.url
     False
-    >>> urldoc1 in browser.url
+    >>> browser.url.startswith('http://nohost/plone/doc1')
     True
     >>> 'Comment from admin / was edited' in browser.contents
     True
@@ -304,9 +304,8 @@ Opening the edit comment view, then cancel, does nothing.
     True
     >>> browser.open(form.action)
     >>> browser.getControl('Cancel').click()
-    >>> urldoc1 in browser.url
+    >>> browser.url.startswith('http://nohost/plone/doc1')
     True
-
 
 
 Anon cannot edit comments.
