@@ -291,6 +291,18 @@ Check it ain't so.
     >>> 'Comment from admin / was edited' in browser.contents
     True
 
+Opening the edit comment view, then cancel, does nothing.
+
+    >>> form = browser.getForm(name='edit', index=0)
+    >>> '@@edit-comment' in form.action
+    True
+    >>> browser.open(form.action)
+    >>> browser.getControl('Cancel').click()
+    >>> urldoc1 in browser.url
+    True
+
+
+
 Anon cannot edit comments.
 
     >>> unprivileged_browser.open(urldoc1)
