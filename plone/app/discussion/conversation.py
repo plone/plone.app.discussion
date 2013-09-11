@@ -306,12 +306,12 @@ def conversationAdapterFactory(content):
     """
     Adapter factory to fetch the default conversation from annotations.
     """
-    annotions = IAnnotations(content)
-    if not ANNOTATION_KEY in annotions:
+    annotations = IAnnotations(content)
+    if not ANNOTATION_KEY in annotations:
         conversation = Conversation()
         conversation.__parent__ = aq_base(content)
     else:
-        conversation = annotions[ANNOTATION_KEY]
+        conversation = annotations[ANNOTATION_KEY]
     return conversation.__of__(content)
 
 

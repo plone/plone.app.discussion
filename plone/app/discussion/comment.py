@@ -94,7 +94,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     title = u""
 
-    mime_type = "text/plain"
+    mime_type = None
     text = u""
 
     creator = None
@@ -114,6 +114,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     def __init__(self):
         self.creation_date = self.modification_date = datetime.utcnow()
+        self.mime_type = 'text/plain'
 
         user = getSecurityManager().getUser()
         if user and user.getId():

@@ -76,7 +76,7 @@ msgstr "Kommentierungseinstellungen"
 
 #: ../browser/controlpanel.py:84
 msgid "Edit cancelled"
-msgstr ""
+msgstr "Bearbeitung abgebrochen"
 
 #: ../interfaces.py:153
 msgid "Email"
@@ -132,7 +132,7 @@ msgstr ""
 
 #: ../interfaces.py:34
 msgid "Total number of public comments on this item"
-msgstr ""
+msgstr "Summe der veröffentlichten Kommentare zu diesem Artikel"
 
 #: ../comment.py:158
 msgid "Transform '%s' => '%s' not available. Failed to transform comment '%s'."
@@ -144,7 +144,7 @@ msgstr "E-Mail-Benachrichtigungen für Benutzer"
 
 #: ../interfaces.py:166
 msgid "Username of the commenter"
-msgstr ""
+msgstr "Benutzername des Kommentierenden"
 
 #: ../browser/comments.py:244
 msgid "Your comment awaits moderator approval."
@@ -173,7 +173,7 @@ msgstr "Sie können einen Kommentar abgeben, indem Sie das untenstehende Formula
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. You can use the Markdown syntax for links and images."
 #: ../browser/comments.py:51
 msgid "comment_description_markdown"
-msgstr ""
+msgstr "Sie können einen Kommentar abgeben, indem Sie das untenstehende Formular ausfüllen. Sie können die Markdown-Syntax für Links und Bilder benutzen."
 
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:63
@@ -188,7 +188,7 @@ msgstr "Sie können einen Kommentar abgeben, indem Sie das untenstehende Formula
 #. Default: "${author_name} on ${content}"
 #: ../comment.py:48
 msgid "comment_title"
-msgstr ""
+msgstr "${author_name} zu ${content}"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -228,7 +228,7 @@ msgstr "Wenn Sie diese Einstellung aktivieren, können anonyme Benutzer Kommenta
 #. Default: "If selected, anonymous user will have to give their email."
 #: ../interfaces.py:334
 msgid "help_anonymous_email_enabled"
-msgstr ""
+msgstr "Wenn Sie diese Einstellung aktivieren, müssen anonyme Benutzer ihre E-Mail-Adresse angeben."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
 #: ../interfaces.py:279
@@ -279,7 +279,7 @@ msgstr ""
 #. Default: "If selected, users can choose to be notified of new comments by email."
 #: ../interfaces.py:325
 msgid "help_user_notification_enabled"
-msgstr ""
+msgstr "Wenn Sie diese Einstellung auswählen, können Benutzer angeben, dass sie über neue Kommentare per E-Mail informiert werden möchten."
 
 #. Default: "Anonymous"
 #: ../browser/comments.pt:71

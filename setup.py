@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.2.6.dev0'
+version = '2.2.9dev'
 
 install_requires = [
     'setuptools',
@@ -28,7 +28,7 @@ setup(name='plone.app.discussion',
       version=version,
       description="Enhanced discussion support for Plone",
       long_description=open("README.rst").read() + "\n" +
-      open("CHANGES.txt").read(),
+      open("CHANGES.rst").read(),
       classifiers=[
           "Framework :: Plone",
           "Framework :: Plone :: 3.3",
@@ -51,7 +51,7 @@ setup(name='plone.app.discussion',
       extras_require={
           'test': [
               'plone.app.testing',
-              'interlude',
+              'plone.app.contenttypes',
           ]
       },
       entry_points="""
