@@ -24,6 +24,7 @@ from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
 from plone.app.discussion.interfaces import IDiscussionSettings, _
+from plone.app.discussion.upgrades import update_registry
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
@@ -63,7 +64,13 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
-        super(DiscussionSettingsEditForm, self).updateWidgets()
+        try:
+            super(DiscussionSettingsEditForm, self).updateWidgets()
+        except KeyError:
+            # upgrade profile not visible in prefs_install_products_form
+            # provide auto-upgrade
+            update_registry(self.context)
+            super(DiscussionSettingsEditForm, self).updateWidgets()
         self.widgets['globally_enabled'].label = _(u"Enable Comments")
         self.widgets['anonymous_comments'].label = _(u"Anonymous Comments")
         self.widgets['show_commenter_image'].label = _(u"Commenter Image")
