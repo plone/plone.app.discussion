@@ -33,12 +33,14 @@ from plone.app.testing import login
 
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
+from plone.app.discussion.browser.comment import EditCommentForm
 from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.testing import (
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 )
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.interfaces import IConversation
 
 
 class TestCommentForm(unittest.TestCase):
@@ -124,6 +126,65 @@ class TestCommentForm(unittest.TestCase):
 
         self.assertEqual(len(errors), 0)
         self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+
+    def test_edit_comment(self):
+        """Edit a comment as logged-in user.
+        """
+
+        # Allow discussion
+        self.discussionTool.overrideDiscussionFor(self.portal.doc1, True)
+        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
+
+        def make_request(form={}):
+            request = TestRequest()
+            request.form.update(form)
+            alsoProvides(request, IFormLayer)
+            alsoProvides(request, IAttributeAnnotatable)
+            return request
+
+        provideAdapter(
+            adapts=(Interface, IBrowserRequest),
+            provides=Interface,
+            factory=CommentForm,
+            name=u"comment-form"
+        )
+
+        provideAdapter(
+            adapts=(Interface, IBrowserRequest),
+            provides=Interface,
+            factory=EditCommentForm,
+            name=u"edit-comment-form"
+        )
+
+        # The form is submitted successfully, if the required text field is
+        # filled out
+        request = make_request(form={'form.widgets.text': u'bar'})
+
+        commentForm = getMultiAdapter(
+            (self.context, request),
+            name=u"comment-form"
+        )
+        commentForm.update()
+        data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
+
+        self.assertEqual(len(errors), 0)
+        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+
+        # Edit the last comment
+        conversation = IConversation(self.context)
+        comment = [x for x in conversation.getComments()][-1]
+        request = make_request(form={'form.widgets.text': u'foobar'})
+        editForm = getMultiAdapter(
+            (comment, request),
+            name=u"edit-comment-form"
+        )
+        editForm.update()
+        data, errors = editForm.extractData()  # pylint: disable-msg=W0612
+
+        self.assertEqual(len(errors), 0)
+        self.assertFalse(editForm.handleComment(editForm, "foo"))
+        comment = [x for x in conversation.getComments()][-1]
+        self.assertEquals(comment.text, u"foobar")
 
     def test_add_anonymous_comment(self):
         self.discussionTool.overrideDiscussionFor(self.portal.doc1, True)
@@ -459,9 +520,11 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
     def test_get_commenter_portrait_is_none(self):
-        self.assertEqual(
-            self.viewlet.get_commenter_portrait(),
-            'defaultUser.gif'
+        self.assertTrue(
+            self.viewlet.get_commenter_portrait() in (
+                'defaultUser.png',
+                'defaultUser.gif',
+            )
         )
 
     def test_get_commenter_portrait_without_userimage(self):

@@ -71,6 +71,15 @@
         permission="zope2.View"
         />
 
+    <!-- Edit comment view -->
+    <browser:page
+        for="plone.app.discussion.interfaces.IComment"
+        name="edit-comment"
+        layer="..interfaces.IDiscussionLayer"
+        class=".comment.EditComment"
+        permission="plone.app.discussion.EditComments"
+        />
+
     <!-- Delete comment view -->
     <browser:page
         for="plone.app.discussion.interfaces.IComment"

@@ -6,6 +6,12 @@
 	    <role name="Site Administrator"/>
             <role name="Reviewer"/>
         </permission>
+        <permission name="Edit comments" acquire="True">
+            <role name="Manager"/>
+	    <role name="Site Administrator"/>
+            <role name="Reviewer"/>
+            <role name="Owner"/>
+        </permission>
         <permission name="Reply to item" acquire="False">
             <role name="Authenticated"/>
         </permission>
