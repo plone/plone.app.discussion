@@ -1,8 +1,12 @@
 Changelog
 =========
 
+
 2.2.9 (unreleased)
 ------------------
+
+- Make comments editable.
+  [pjstevns, gyst]
 
 - Rename CHANGES.txt to CHANGES.rst.
   [timo]
