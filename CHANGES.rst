@@ -1,6 +1,7 @@
 Changelog
 =========
 
+
 2.3.3 (unreleased)
 ------------------
 
@@ -16,6 +17,10 @@ Changelog
 
 - Update Traditional Chinese translations.
   [marr]
+
+- Make comments editable.
+  [pjstevns, gyst]
+
 
 2.3.2 (2014-04-05)
 ------------------

@@ -40,6 +40,7 @@
             $.enableSettings([
                 $('#formfield-form-widgets-anonymous_comments'),
                 $('#formfield-form-widgets-moderation_enabled'),
+                $('#formfield-form-widgets-edit_comment_enabled'),
                 $('#formfield-form-widgets-text_transform'),
                 $('#formfield-form-widgets-captcha'),
                 $('#formfield-form-widgets-show_commenter_image'),
@@ -52,6 +53,7 @@
             $.disableSettings([
                 $('#formfield-form-widgets-anonymous_comments'),
                 $('#formfield-form-widgets-moderation_enabled'),
+                $('#formfield-form-widgets-edit_comment_enabled'),
                 $('#formfield-form-widgets-text_transform'),
                 $('#formfield-form-widgets-captcha'),
                 $('#formfield-form-widgets-show_commenter_image'),
