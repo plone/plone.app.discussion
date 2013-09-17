@@ -301,6 +301,13 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission('Review comments',
                                                     aq_inner(self.context))
 
+    def can_edit(self, reply):
+        """Returns true if current user has the 'Delete objects'
+        permission.
+        """
+        return getSecurityManager().checkPermission('Edit comments',
+                                                    aq_inner(reply))
+
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
         return context.restrictedTraverse('@@conversation_view').enabled()
@@ -425,6 +432,12 @@ class CommentsViewlet(ViewletBase):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         return settings.anonymous_comments
+
+    def edit_comment_allowed(self):
+        # Check if editing comments is allowed in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.edit_comment_enabled
 
     def show_commenter_image(self):
         # Check if showing commenter image is enabled in the registry

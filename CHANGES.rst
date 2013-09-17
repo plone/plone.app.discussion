@@ -4,7 +4,8 @@ Changelog
 2.2.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Make comments editable.
+  [pjstevns, gyst]
 
 
 2.2.13 (2014-05-16)
