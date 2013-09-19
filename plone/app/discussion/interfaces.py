@@ -253,6 +253,17 @@ class IDiscussionSettings(Interface):
         default=False,
     )
 
+    delete_own_comment_enabled = schema.Bool(
+        title=_(u"label_delete_own_comment_enabled",
+                default="Allow users to delete their own comment threads"),
+        description=_(u"help_edit_comment_enabled",
+                      default=u"If selected, users may delete their own "
+                      "comments -> AND the whole reply thread below that "
+                      "comment!"),
+        required=False,
+        default=False,
+    )
+
     text_transform = schema.Choice(
         title=_(u"label_text_transform",
                 default="Comment text transform"),

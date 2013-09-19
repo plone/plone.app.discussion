@@ -36,7 +36,8 @@
                              has_author_link python:author_home_url and not isAnon;
                              portrait_url python:view.get_commenter_portrait(reply.author_username);
 			     review_state python:wtool.getInfoFor(reply, 'review_state', 'none');
-			     canEdit python:view.can_edit(reply)"
+			     canEdit python:view.can_edit(reply);
+                             canDelete python:view.can_delete(reply)"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth)+' state-'+str(review_state);
                                  id string:${reply/getId}"
                  tal:condition="python:canReview or review_state == 'published'">
@@ -89,7 +90,7 @@
                               action=""
                               method="post"
                               class="commentactionsform"
-                              tal:condition="python:canReview"
+                              tal:condition="python:canDelete"
                               tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">
                             <input name="form.button.DeleteComment"
                                    class="destructive"
