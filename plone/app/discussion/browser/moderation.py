@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner, aq_parent
+from AccessControl import getSecurityManager
+from zope.component import queryUtility
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -8,6 +10,8 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.statusmessages.interfaces import IStatusMessage
 
+from plone.registry.interfaces import IRegistry
+from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 
@@ -94,16 +98,36 @@ class DeleteComment(BrowserView):
         comment = aq_inner(self.context)
         conversation = aq_parent(comment)
         content_object = aq_parent(conversation)
-        del conversation[comment.id]
-        content_object.reindexObject(idxs=['total_comments'])
-        IStatusMessage(self.context.REQUEST).addStatusMessage(
-            _("Comment deleted."),
-            type="info")
+        # conditional security
+        # base ZCML condition zope2.deleteObject allows 'delete own object'
+        # modify this for 'delete_own_comment_allowed' controlpanel setting
+        if self.can_delete(comment):
+            del conversation[comment.id]
+            content_object.reindexObject()
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _("Comment deleted."),
+                type="info")
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
         if len(came_from) == 0 or 'came_from=' in came_from:
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
+
+    def can_delete(self, reply):
+        """By default requires 'Review comments'.
+        If 'delete own comments' is enabled, requires 'Edit comments'.
+        """
+        if self.is_delete_own_comment_allowed():
+            permission = 'Edit comments'
+        else:
+            permission = 'Review comments'
+        return getSecurityManager().checkPermission(permission,
+                                                    aq_inner(reply))
+
+    def is_delete_own_comment_allowed(self):
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.delete_own_comment_enabled
 
 
 class PublishComment(BrowserView):
