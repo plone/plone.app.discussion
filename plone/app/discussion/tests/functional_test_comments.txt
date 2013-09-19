@@ -320,6 +320,146 @@ But Anon can see the edited comment.
     True
 
 
+Deleting existing comments | 'delete own comments' disabled
+-----------------------------------------------------------
+
+Anonymous cannot delete comments
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> 'form.button.Delete' in unprivileged_browser.contents
+    False
+
+A member cannot delete his own comments, unless this is explicitly enabled (see later)
+
+    >>> browser_member.open(urldoc1)
+    >>> 'form.button.Delete' in browser_member.contents
+    False
+
+Admin can delete comments
+
+    >>> browser.open(urldoc1)
+    >>> 'form.button.Delete' in browser.contents
+    True
+
+Extract the delete comment url from the first "delete comment" button
+
+    >>> browser.open(urldoc1)
+    >>> form = browser.getForm(name='delete', index=0)
+    >>> delete_url = form.action
+    >>> '@@moderate-delete-comment' in delete_url
+    True
+    >>> comment_id = delete_url.split('/')[-2]
+
+Anonymous cannot delete a comment by hitting the delete url directly.
+
+    >>> unprivileged_browser.open(delete_url)
+
+The comment is still there
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> comment_id in unprivileged_browser.contents
+    True
+
+
+A Member cannot delete even his own comment by hitting the delete url directly.
+
+Extract the member comment id from the admin browser
+
+    >>> form = browser.getForm(name='delete', index=2)
+    >>> delete_url = form.action
+    >>> '@@moderate-delete-comment' in delete_url
+    True
+    >>> comment_id = delete_url.split('/')[-2]
+
+Now try to hit that url as the member owning that comment.
+Work around some possible testbrowser breakage and check the result later.
+
+    >>> try:
+    ...   browser_member.open(delete_url)
+    ... except:
+    ...   pass
+
+The comment is still there
+
+    >>> browser_member.open(urldoc1)
+    >>> comment_id in browser_member.contents
+    True
+    >>> 'Comment from Jim' in browser_member.contents
+    True
+
+Admin, who hase 'review comments' permission, can delete comments
+
+    >>> browser.open(urldoc1)
+    >>> form = browser.getForm(name='delete', index=0)
+    >>> '@@moderate-delete-comment' in form.action
+    True
+
+    >>> comment_id = form.action.split('/')[-2]
+
+Submitting the form runs into a testbrowser notFoundException.
+We'll just catch that and check the result later.
+
+    >>> try:
+    ...   form.submit()    
+    ... except:
+    ...   pass
+
+Returning to the document we find the deleted comment is indeed gone
+
+    >>> browser.open(urldoc1)
+    >>> comment_id in browser.contents
+    False
+
+
+Deleting existing comments | 'delete own comments' ENABLED
+----------------------------------------------------------
+
+Enable deletion of own comments
+
+    >>> from zope.component import queryUtility
+    >>> from plone.registry.interfaces import IRegistry
+    >>> from plone.app.discussion.interfaces import IDiscussionSettings
+    >>> registry = queryUtility(IRegistry)
+    >>> settings = registry.forInterface(IDiscussionSettings)
+    >>> settings.delete_own_comment_enabled = True
+
+    >>> import transaction
+    >>> transaction.commit()
+
+Anonymous still cannot delete comments
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> 'form.button.Delete' in unprivileged_browser.contents
+    False
+
+A member can now delete his own comments
+
+    >>> browser_member.open(urldoc1)
+    >>> 'form.button.Delete' in browser_member.contents
+    True
+
+    >>> form = browser_member.getForm(name='delete', index=0)
+    >>> '@@moderate-delete-comment' in form.action
+    True
+
+    >>> comment_id = form.action.split('/')[-2]
+
+Submitting the form runs into a testbrowser notFoundException.
+We'll just catch that and check the result later.
+
+    >>> try:
+    ...   form.submit()    
+    ... except:
+    ...   pass
+
+Returning to the document we find the deleted comment is indeed gone
+
+    >>> browser_member.open(urldoc1)
+    >>> comment_id in browser_member.contents
+    False
+    >>> 'Comment from Jim' in browser_member.contents
+    False
+
 
 Post a comment with comment review workflow enabled
 ---------------------------------------------------

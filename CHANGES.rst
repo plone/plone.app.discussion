@@ -5,6 +5,9 @@ Changelog
 2.2.9 (unreleased)
 ------------------
 
+- Provide 'delete own comments' as a configurable option
+  [gyst]
+
 - Make comments editable.
   [pjstevns, gyst]
 

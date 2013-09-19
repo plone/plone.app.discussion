@@ -54,6 +54,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             SingleCheckBoxFieldWidget
         self.fields['edit_comment_enabled'].widgetFactory = \
             SingleCheckBoxFieldWidget
+        self.fields['delete_own_comment_enabled'].widgetFactory = \
+            SingleCheckBoxFieldWidget
         self.fields['anonymous_comments'].widgetFactory = \
             SingleCheckBoxFieldWidget
         self.fields['show_commenter_image'].widgetFactory = \
