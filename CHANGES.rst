@@ -10,6 +10,9 @@ Changelog
 - Fix ajax form submit for delete comment action: add 'data' to the request.
   [toutpt]
 
+- Fix comments Title if utf-8 characters in author_name
+  [huub_bouma]
+
 2.2.8 (2013-08-20)
 ------------------
 

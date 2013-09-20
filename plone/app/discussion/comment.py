@@ -186,7 +186,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         content = aq_base(self.__parent__.__parent__)
         title = translate(
             Message(COMMENT_TITLE,
-                    mapping={'author_name': author_name,
+                    mapping={'author_name': safe_unicode(author_name),
                              'content': safe_unicode(content.Title())}))
         return title
 
