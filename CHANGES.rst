@@ -4,6 +4,12 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
+- Provide 'delete own comments' as a configurable option
+  [gyst]
+
+- Make comments editable.
+  [pjstevns, gyst]
+
 - Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of the PLONE_FIXTURE.
   [timo]
 

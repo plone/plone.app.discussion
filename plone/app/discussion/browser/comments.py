@@ -298,6 +298,29 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission('Review comments',
                                                     aq_inner(self.context))
 
+    def can_edit(self, reply):
+        """Returns true if current user has the 'Edit comments'
+        permission.
+        """
+        return getSecurityManager().checkPermission('Edit comments',
+                                                    aq_inner(reply))
+
+    def can_delete(self, reply):
+        """By default requires 'Review comments'.
+        If 'delete own comments' is enabled, requires 'Edit comments'.
+        """
+        if self.is_delete_own_comment_allowed():
+            permission = 'Edit comments'
+        else:
+            permission = 'Review comments'
+        return getSecurityManager().checkPermission(permission,
+                                                    aq_inner(reply))
+
+    def is_delete_own_comment_allowed(self):
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.delete_own_comment_enabled
+
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
         return context.restrictedTraverse('@@conversation_view').enabled()
@@ -408,7 +431,7 @@ class CommentsViewlet(ViewletBase):
 
         if username is None:
             # return the default user image if no username is given
-            return 'defaultUser.gif'
+            return 'defaultUser.png'
         else:
             portal_membership = getToolByName(self.context,
                                               'portal_membership',
@@ -422,6 +445,12 @@ class CommentsViewlet(ViewletBase):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         return settings.anonymous_comments
+
+    def edit_comment_allowed(self):
+        # Check if editing comments is allowed in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.edit_comment_enabled
 
     def show_commenter_image(self):
         # Check if showing commenter image is enabled in the registry
