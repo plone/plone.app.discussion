@@ -59,8 +59,6 @@ class TestCommentForm(unittest.TestCase):
 
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        wftool = getToolByName(self.portal, "portal_workflow")
-        wftool.doActionFor(self.portal.doc1, action='publish')
         self.discussionTool = getToolByName(
             self.portal,
             'portal_discussion',
@@ -538,8 +536,7 @@ class TestCommentsViewlet(unittest.TestCase):
             *time.gmtime(time.mktime(python_time.timetuple()))[:7]
         )
         localized_time = self.viewlet.format_time(python_time)
-        self.assertTrue(
-            localized_time in ['Feb 01, 2009 11:32 PM', '2009-02-01 23:32'])
+        self.assertEqual(localized_time, 'Feb 01, 2009 11:32 PM')
 
 
 def test_suite():
