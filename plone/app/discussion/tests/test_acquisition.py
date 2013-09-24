@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_chain
+from AccessControl.User import User  # before SpecialUsers
+from AccessControl.SpecialUsers import nobody as user_nobody
+from AccessControl.PermissionRole import rolesForPermissionOn
+from Acquisition import aq_chain, aq_base
 from plone.app.discussion.testing import \
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.discussion.interfaces import IConversation
@@ -139,6 +142,25 @@ class DexterityAcquisitionTest(unittest.TestCase):
         dx_conversation_chain = aq_chain(self.dexterity_conversation)
         for (index, item) in enumerate(dx_conversation_chain):
             self.assertEqual(item, dx_comment_chain[index + 1])
+
+    def test_acquisition_base_object_chain(self):
+        """ The acquisition chain for the object without wrappers should return
+            list which contains only the object.
+        """
+
+        at_object_base_chain = aq_chain(aq_base(self.archetypes_object))
+        dx_object_base_chain = aq_chain(aq_base(self.dexterity_object))
+
+        # Fails: acquisition chain has more than one object
+        self.assertTrue(len(at_object_base_chain) == 1)
+        self.assertTrue(len(dx_object_base_chain) == 1)
+
+        at_comment_base_chain = aq_chain(aq_base(self.archetypes_comment))
+        dx_comment_base_chain = aq_chain(aq_base(self.dexterity_comment))
+
+        # Fails: acquisition chain has more than one object
+        self.assertTrue(len(at_comment_base_chain) == 1)
+        self.assertTrue(len(dx_comment_base_chain) == 1)
 
 
 def test_suite():
