@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.9 (unreleased)
+2.2.9 (2013-09-24)
 ------------------
 
 - Portuguese translation added.
