@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.2.10 (2013-09-24)
+-------------------
+
+- Revert "Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of the PLONE_FIXTURE." that has been accidentially introduced into the 2.2.9 release.
+  [timo]
+
+
 2.2.9 (2013-09-24)
 ------------------
 
