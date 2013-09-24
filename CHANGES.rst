@@ -1,8 +1,7 @@
 Changelog
 =========
 
-
-2.2.9 (unreleased)
+2.3.0 (unreleased)
 ------------------
 
 - Provide 'delete own comments' as a configurable option
@@ -11,16 +10,34 @@ Changelog
 - Make comments editable.
   [pjstevns, gyst]
 
+- Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of the PLONE_FIXTURE.
+  [timo]
+
+
+2.2.10 (2013-09-24)
+-------------------
+
+- Revert "Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of the PLONE_FIXTURE." that has been accidentially introduced into the 2.2.9 release.
+  [timo]
+
+
+2.2.9 (2013-09-24)
+------------------
+
+- Portuguese translation added.
+  [Rui Silva]
+
 - Rename CHANGES.txt to CHANGES.rst.
   [timo]
 
 - Fix ajax form submit for delete comment action: add 'data' to the request.
   [toutpt]
 
+
 2.2.8 (2013-08-20)
 ------------------
 
-- Re-release 2.2.7 with .mo files. Seems like 2.2.7 has been released twice on 
+- Re-release 2.2.7 with .mo files. Seems like 2.2.7 has been released twice on
   two different dates. The first release seems to be made without a github
   push.
   [timo]
@@ -37,7 +54,7 @@ Changelog
 
 - Revert change that silently added mime_type attribute values
   to old discussion items that had none.
-  [pjstevns] 
+  [pjstevns]
 
 
 2.2.6 (2013-05-23)
