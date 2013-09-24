@@ -4,16 +4,20 @@ Changelog
 2.2.9 (unreleased)
 ------------------
 
+- Portuguese translation added.
+  [Rui Silva]
+
 - Rename CHANGES.txt to CHANGES.rst.
   [timo]
 
 - Fix ajax form submit for delete comment action: add 'data' to the request.
   [toutpt]
 
+
 2.2.8 (2013-08-20)
 ------------------
 
-- Re-release 2.2.7 with .mo files. Seems like 2.2.7 has been released twice on 
+- Re-release 2.2.7 with .mo files. Seems like 2.2.7 has been released twice on
   two different dates. The first release seems to be made without a github
   push.
   [timo]
@@ -30,7 +34,7 @@ Changelog
 
 - Revert change that silently added mime_type attribute values
   to old discussion items that had none.
-  [pjstevns] 
+  [pjstevns]
 
 
 2.2.6 (2013-05-23)
