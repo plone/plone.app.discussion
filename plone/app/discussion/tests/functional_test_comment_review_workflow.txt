@@ -33,6 +33,7 @@ We also keep another testbrowser handy for testing how tiles are rendered if
 you're not logged in::
 
     >>> unprivileged_browser = Browser(app)
+    >>> unprivileged_browser.handleErrors = False
 
 Enable commenting.
 
@@ -61,22 +62,28 @@ We need to commit the transaction, otherwise setting the workflow will not work.
 Enable anonymous comments
 
     >>> browser.open(portal_url+'/@@discussion-settings')
-    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True]
+    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = True
     >>> browser.getControl(name='form.buttons.save').click()
 
 Create a public page with comments allowed.
 
     >>> browser.open(portal_url)
     >>> browser.getLink(id='document').click()
-    >>> browser.getControl(name='title').value = "Doc"
-    >>> browser.getControl(name='allowDiscussion:boolean').value = True
-    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.getControl(name='form.widgets.IDublinCore.title').value = "Doc"
+    >>> browser.getControl(name='form.widgets.IAllowDiscussion.allow_discussion:list').value = ['True']
+    >>> browser.getControl('Save').click()
     >>> urldoc = browser.url
 
 Check that the form has been properly submitted
 
     >>> browser.url
-    'http://nohost/plone/doc'
+    'http://nohost/plone/doc/view'
+
+Make sure the document is published:
+
+    >>> browser.getLink("Publish").click()
+    >>> 'Published' in browser.contents
+    True
 
 Post some comments as anonymous user:
 
@@ -123,6 +130,11 @@ Anonymous user can not see any posts or comment actions
 
     >>> 'form.button.PublishComment' in unprivileged_browser.contents
     False
+
+The catalog does not list the comments yet:
+
+    >>> portal.portal_catalog.searchResults(id='doc', total_comments=0)
+    [<Products...]
 
 Users with 'Review comment' permission can see unapproved comments and comment
 actions.
@@ -176,6 +188,11 @@ Make sure anonyous users see the approved comment, but not the unapproved ones.
     >>> 'First anonymous comment' in unprivileged_browser.contents
     True
 
+Make sure the catalog only lists the public comments.
+
+    >>> portal.portal_catalog.searchResults(id='doc', total_comments=1)
+    [<Products...]
+
 
 Delete a comment in the comments view
 -------------------------------------
@@ -205,4 +222,11 @@ Make sure the second comment has been deleted.
     >>> 'Second anonymous comment' in browser.contents
     False
 
+Delete the first, published comment.
+    >>> browser.open(urldoc)
+    >>> browser.getControl('Delete', index=0).click()
 
+Make sure the catalog has been updated properly.
+
+    >>> portal.portal_catalog.searchResults(id='doc', total_comments=0)
+    [<Products...]

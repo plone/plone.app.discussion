@@ -20,7 +20,7 @@ def patchedClearFindAndRebuild(self):
     def indexObject(obj, path):
 
         if (base_hasattr(obj, 'indexObject') and
-            safe_callable(obj.indexObject)):
+                safe_callable(obj.indexObject)):
 
             try:
                 obj.indexObject()

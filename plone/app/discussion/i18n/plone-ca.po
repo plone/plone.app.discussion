@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-22 17:12+0000\n"
+"POT-Creation-Date: 2013-04-06 12:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: Victor Fernandez de Alba <sneridagh@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,12 +34,7 @@ msgstr "Comentari"
 msgid "Comment Review Workflow"
 msgstr "Worfklow de moderació de comentaris"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Comment Single State Workflow"
-msgstr "Workflow d'estat únic per comentaris"
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Comentari sobre la última transició"
 
@@ -55,10 +50,6 @@ msgstr "Comentaris afegits"
 msgid "Discussion"
 msgstr "Comentaris"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr "Essencialment un workflow sense transicions i amb un sol estat 'Publicat' per permetre que portlets i altres aplicacions que esperen la existència d'aquest estat contiuin funcionant."
-
 #: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Modera comentaris"
@@ -68,17 +59,14 @@ msgid "Pending"
 msgstr "Pendent"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Transició anterior"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Accés a la història del workflow"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "Publicat"
 
@@ -91,7 +79,6 @@ msgid "Submitted, pending review."
 msgstr "Enviat, pendent de moderació"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "L'identificador únic de l'usuari que va executar la transició anterior"
 
@@ -107,16 +94,11 @@ msgstr "Número de comentaris d'aquest contingut."
 msgid "Users who have commented on the item"
 msgstr "Usuaris que han comentat el contingut."
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Visible to everyone, editable by the owner."
-msgstr "Visible per a tots, editable per l'autor."
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Visible per a tots, no editable."
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Quan es va executar la transició anterior"
 

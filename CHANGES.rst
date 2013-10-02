@@ -1,13 +1,151 @@
 Changelog
 =========
 
-2.2.1 (unreleased)
+2.3.0 (unreleased)
 ------------------
+
+- Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of the PLONE_FIXTURE.
+  [timo]
+
+
+2.2.10 (2013-09-24)
+-------------------
+
+- Revert "Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of the PLONE_FIXTURE." that has been accidentially introduced into the 2.2.9 release.
+  [timo]
+
+
+2.2.9 (2013-09-24)
+------------------
+
+- Portuguese translation added.
+  [Rui Silva]
+
+- Rename CHANGES.txt to CHANGES.rst.
+  [timo]
+
+- Fix ajax form submit for delete comment action: add 'data' to the request.
+  [toutpt]
+
+
+2.2.8 (2013-08-20)
+------------------
+
+- Re-release 2.2.7 with .mo files. Seems like 2.2.7 has been released twice on
+  two different dates. The first release seems to be made without a github
+  push.
+  [timo]
+
+- Fix comments viewlet's get_replies for non-annotatable objects.
+  [witsch]
+
+
+2.2.7 (2013-07-04)
+------------------
+
+- making sure .mo files are present at release
+  [garbas]
+
+- Revert change that silently added mime_type attribute values
+  to old discussion items that had none.
+  [pjstevns]
+
+
+2.2.6 (2013-05-23)
+------------------
+
+- Fix migration to not fail when member has been deleted.
+  [datakurre]
+
+
+2.2.5 (2013-04-06)
+------------------
+
+- Update pt_BR translation [ericof]
+
+- Do not raise an error when no workflow is assigned to the comment type.
+  [timo]
+
+- Add a conversation property public_commentators that only lists
+  commentators of comments that are public.
+  The commentators indexer indexes this field now.
+  The behavior of the conversation property commentators is
+  unchanged.
+  [do3cc]
+
+- The last comment date now only returns the date of the newest
+  published comment.
+  [do3cc]
+
+
+2.2.4 (2013-03-05)
+------------------
+
+- Check for 'checked' attribute in a way that work also for jQuery 1.7
+  [ichimdav]
+
+- Better fix for #13037 by removing submit event trigger altogether
+  [ichimdav]
+
+- Added Romanian translation
+  [ichimdav]
+
+- Updated Ukrainian translation
+  [kroman0]
+
+2.2.3 (2013-01-13)
+------------------
+
+- add anonymous_email_enabled settings to really let integrator activate
+  the email field on comment add form when anonymous.
+  [toutpt]
+
+2.2.2 (2012-11-16)
+------------------
+
+- first check if captcha is installed before we open browsers zcml
+  files that depend on these packages, fixes #12118 and #12774
+  [maartenkling]
+
+
+2.2.1 (2012-11-16)
+------------------
+
+- Make conversation view not break when comment-id cannot be converted to long.
+  Fixes #13327
+  [khink]
+
+- fix insufficient privileges when trying to view
+  the RSS feed of a comment collection
+  [maartenkling]
+
+- removed inline border=0 and move it to css
+  [maartenkling]
+
+- For migrations of comments without a valid old_status, apply the 'published'
+  state.
+  [thet]
+
+- Re-apply eleddy's "Revert modification date since this is fixed in
+  p.a.caching now." as her commit was lost later on due to some git magic.
+  [thet]
+
+- Remove submitting the controlpanel form again after removing disabled tags
+  fixes #13037 and #12357
+  [maartenkling]
+
+- Remove inline styles, fixes #12399
+  [maartenkling]
+
+- add fallback border color for i8, fixes #11324
+  [maartenkling]
 
 - Replace discussionitem_icon.gif with png version.
   [timo]
+
 - Fix catalog updates for IObjectMovedEvent
   [gaudenz]
+
 - Fix non-functioning user_notification feature
   [izak]
 

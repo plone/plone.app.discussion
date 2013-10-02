@@ -61,7 +61,7 @@ def commentators(object):
     if object.meta_type != 'Discussion Item':
         try:
             conversation = IConversation(object)
-            return tuple(conversation.commentators.keys())
+            return conversation.public_commentators
         except TypeError:  # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it

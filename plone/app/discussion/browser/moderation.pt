@@ -56,7 +56,7 @@
 
                 <div metal:use-macro="here/batch_macros/macros/navigation" />
 
-                <table id="review-comments" class="listing" style="width: 100%">
+                <table id="review-comments" class="listing">
                     <thead>
                         <tr>
                             <th id="bulkactions" class="nosort" colspan="7">
@@ -87,7 +87,7 @@
                     </thead>
                     <tbody>
                         <tal:block repeat="item batch">
-                            <tr style="vertical-align: top" class="commentrow"
+                            <tr class="commentrow"
                                 tal:define="even repeat/item/even"
                                 tal:attributes="class python: even and 'odd' or 'even'">
                                 <td class="notDraggable">

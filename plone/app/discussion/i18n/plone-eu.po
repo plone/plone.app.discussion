@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2011-04-22 17:12+0000\n"
+"POT-Creation-Date: 2013-04-06 12:48+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
 "Language-Team: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
@@ -34,12 +34,7 @@ msgstr "Erantzuna"
 msgid "Comment Review Workflow"
 msgstr "Erantzunen Moderazio Workflowa"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Comment Single State Workflow"
-msgstr "Erantzunen Egoera Bakarreko Workflowa"
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Azken trantsizioari buruzko iruzkina"
 
@@ -55,10 +50,6 @@ msgstr "Elementuari gehitutako erantzunak"
 msgid "Discussion"
 msgstr "Eztabaida"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr "Trantsiziorik ez duen workflowa, hala ere Argitaratuta egoera bat du, beraz hori espero duten portlet edo gainontzeko aplikazioek funtzionatzen jarraituko dute"
-
 #: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Erantzunak moderatu"
@@ -68,17 +59,14 @@ msgid "Pending"
 msgstr "Moderazio kolan"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Aurreko trantsizioa"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Workflowaren historia ikus dezakezu"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "Argitaratuta"
 
@@ -91,7 +79,6 @@ msgid "Submitted, pending review."
 msgstr "Bidalita, moderazio kolan zain."
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "Azken trantsizioa egin zuen erabiltzailearen IDa"
 
@@ -107,16 +94,11 @@ msgstr "Elementu honen erantzun kopurua"
 msgid "Users who have commented on the item"
 msgstr "Elementuaren inguruan erantzuna eman duten erabiltzaileak"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Visible to everyone, editable by the owner."
-msgstr "Guztiek ikusteko, jabeak aldatzeko."
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Guztiek ikusteko, ez da editagarria."
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Aurreko trantsizioa noiz exekutatu zen."
 

@@ -47,9 +47,12 @@ class WorkflowSetupTest(unittest.TestCase):
     def test_default_workflow(self):
         """Make sure one_state_workflow is the default workflow.
         """
-        self.assertEqual(('one_state_workflow',),
-                          self.portal.portal_workflow.getChainForPortalType(
-                              'Discussion Item'))
+        self.assertEqual(
+            ('one_state_workflow',),
+            self.portal.portal_workflow.getChainForPortalType(
+                'Discussion Item'
+            )
+        )
 
     def test_review_comments_permission(self):
         #'Review comments' in self.portal.permissionsOfRole('Admin')
@@ -58,8 +61,13 @@ class WorkflowSetupTest(unittest.TestCase):
         self.assertTrue(self.portal.portal_membership.checkPermission(
                         'Review comments', self.folder), self.folder)
         setRoles(self.portal, TEST_USER_ID, ['Member'])
-        self.assertFalse(self.portal.portal_membership.checkPermission(
-                    'Review comments', self.folder), self.folder)
+        self.assertFalse(
+            self.portal.portal_membership.checkPermission(
+                'Review comments',
+                self.folder
+            ),
+            self.folder
+        )
 
     def test_reply_to_item_permission(self):
         pass
@@ -121,8 +129,9 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         comment.text = 'Comment text'
         cid = conversation.addComment(comment)
 
-        self.comment = self.folder.doc1.restrictedTraverse(\
-                            '++conversation++default/%s' % cid)
+        self.comment = self.folder.doc1.restrictedTraverse(
+            '++conversation++default/%s' % cid
+        )
 
         self.portal.acl_users._doAddUser('member', 'secret', ['Member'], [])
         self.portal.acl_users._doAddUser(
@@ -228,25 +237,45 @@ class CommentReviewWorkflowTest(unittest.TestCase):
     def test_publish(self):
         self.portal.REQUEST.form['comment_id'] = self.comment_id
         self.portal.REQUEST.form['workflow_action'] = 'publish'
-        self.assertEqual('pending',
-                          self.portal.portal_workflow.getInfoFor(
-                              self.comment, 'review_state'))
+        self.assertEqual(
+            'pending',
+            self.portal.portal_workflow.getInfoFor(
+                self.comment,
+                'review_state'
+            )
+        )
         view = self.comment.restrictedTraverse('@@moderate-publish-comment')
         view()
-        self.assertEqual('published', self.portal.portal_workflow.\
-                          getInfoFor(self.comment, 'review_state'))
+        self.assertEqual(
+            'published',
+            self.portal.portal_workflow.getInfoFor(
+                self.comment,
+                'review_state'
+            )
+        )
 
     def test_publish_as_anonymous(self):
         logout()
         self.portal.REQUEST.form['comment_id'] = self.comment_id
         self.portal.REQUEST.form['workflow_action'] = 'publish'
-        self.assertEqual('pending', self.portal.portal_workflow.\
-                          getInfoFor(self.comment, 'review_state'))
-        self.assertRaises(Unauthorized,
-                          self.comment.restrictedTraverse,
-                          '@@moderate-publish-comment')
-        self.assertEqual('pending', self.portal.portal_workflow.\
-                          getInfoFor(self.comment, 'review_state'))
+        self.assertEqual(
+            'pending', self.portal.portal_workflow.getInfoFor(
+                self.comment,
+                'review_state'
+            )
+        )
+        self.assertRaises(
+            Unauthorized,
+            self.comment.restrictedTraverse,
+            '@@moderate-publish-comment'
+        )
+        self.assertEqual(
+            'pending',
+            self.portal.portal_workflow.getInfoFor(
+                self.comment,
+                'review_state'
+            )
+        )
 
 
 def test_suite():

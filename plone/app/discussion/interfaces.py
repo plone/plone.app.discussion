@@ -31,20 +31,28 @@ class IConversation(IIterableMapping):
     """
 
     total_comments = schema.Int(
-        title=_(u"Total number of comments on this item"),
+        title=_(u"Total number of public comments on this item"),
         min=0,
         readonly=True,
-        )
+    )
 
     last_comment_date = schema.Date(
-        title=_(u"Date of the most recent comment"),
+        title=_(u"Date of the most recent public comment"),
         readonly=True,
-        )
+    )
 
     commentators = schema.Set(
         title=_(u"The set of unique commentators (usernames)"),
         readonly=True,
-        )
+    )
+
+    public_commentators = schema.Set(
+        title=_(
+            u"The set of unique commentators (usernames) of"
+            u" published_comments"
+        ),
+        readonly=True,
+    )
 
     def addComment(comment):
         """Adds a new comment to the list of comments, and returns the
@@ -124,7 +132,7 @@ class IComment(Interface):
     portal_type = schema.ASCIILine(
         title=_(u"Portal type"),
         default="Discussion Item",
-        )
+    )
 
     __parent__ = schema.Object(
         title=_(u"Conversation"), schema=Interface)
@@ -137,7 +145,7 @@ class IComment(Interface):
     in_reply_to = schema.Int(
         title=_(u"Id of comment this comment is in reply to"),
         required=False,
-        )
+    )
 
     # for logged in comments - set to None for anonymous
     author_username = schema.TextLine(title=_(u"Name"), required=False)
@@ -150,12 +158,19 @@ class IComment(Interface):
                                     default=u"Subject"))
 
     mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
-    text = schema.Text(title=_(u"label_comment",
-                               default=u"Comment"))
+    text = schema.Text(
+        title=_(
+            u"label_comment",
+            default=u"Comment"
+        )
+    )
 
-    user_notification = schema.Bool(title=_(u"Notify me of new comments via "
-                                             "email."),
-                                     required=False)
+    user_notification = schema.Bool(
+        title=_(
+            u"Notify me of new comments via email."
+        ),
+        required=False
+    )
 
     creator = schema.TextLine(title=_(u"Username of the commenter"))
     creation_date = schema.Date(title=_(u"Creation date"))
@@ -215,110 +230,139 @@ class IDiscussionSettings(Interface):
     globally_enabled = schema.Bool(
         title=_(u"label_globally_enabled",
                 default=u"Globally enable comments"),
-        description=_(u"help_globally_enabled",
-                default=u"If selected, users are able to post comments on the "
-                         "site. Though, you have to enable comments for "
-                         "specific content types, folders or content objects "
-                         "before users will be able to post comments."),
+        description=_(
+            u"help_globally_enabled",
+            default=u"If selected, users are able to post comments on the "
+                    u"site. Though, you have to enable comments for "
+                    u"specific content types, folders or content objects "
+                    u"before users will be able to post comments."
+        ),
         required=False,
         default=False,
-        )
+    )
 
     anonymous_comments = schema.Bool(
         title=_(u"label_anonymous_comments",
                 default="Enable anonymous comments"),
-        description=_(u"help_anonymous_comments",
-                default=u"If selected, anonymous users are able to post "
-                         "comments without loggin in. It is highly "
-                         "recommended to use a captcha solution to prevent "
-                         "spam if this setting is enabled."),
+        description=_(
+            u"help_anonymous_comments",
+            default=u"If selected, anonymous users are able to post "
+                    u"comments without loggin in. It is highly "
+                    u"recommended to use a captcha solution to prevent "
+                    u"spam if this setting is enabled."
+        ),
         required=False,
         default=False,
-        )
+    )
 
     moderation_enabled = schema.Bool(
-        title=_(u"label_moderation_enabled",
-                default="Enable comment moderation"),
-        description=_(u"help_moderation_enabled",
-                default=u"If selected, comments will enter a 'Pending' state "
-                         "in which they are invisible to the public. A user "
-                         "with the 'Review comments' permission ('Reviewer' "
-                         "or 'Manager') can approve comments to make them "
-                         "visible to the public. If you want to enable a "
-                         "custom comment workflow, you have to go to the "
-                         "types control panel."),
+        title=_(
+            u"label_moderation_enabled",
+            default="Enable comment moderation"
+        ),
+        description=_(
+            u"help_moderation_enabled",
+            default=u"If selected, comments will enter a 'Pending' state "
+                    u"in which they are invisible to the public. A user "
+                    u"with the 'Review comments' permission ('Reviewer' "
+                    u"or 'Manager') can approve comments to make them "
+                    u"visible to the public. If you want to enable a "
+                    u"custom comment workflow, you have to go to the "
+                    u"types control panel."
+        ),
         required=False,
         default=False,
-        )
+    )
 
     text_transform = schema.Choice(
         title=_(u"label_text_transform",
                 default="Comment text transform"),
-        description=_(u"help_text_transform",
-                default=u"Use this setting to choose if the comment text " +
-                         "should be transformed in any way. You can choose "
-                         "between 'Plain text' and 'Intelligent text'. " +
-                         "'Intelligent text' converts plain text into HTML " +
-                         "where line breaks and indentation is preserved, " +
-                         "and web and email addresses are made into " +
-                         "clickable links."),
+        description=_(
+            u"help_text_transform",
+            default=u"Use this setting to choose if the comment text " +
+                    u"should be transformed in any way. You can choose "
+                    u"between 'Plain text' and 'Intelligent text'. " +
+                    u"'Intelligent text' converts plain text into HTML " +
+                    u"where line breaks and indentation is preserved, " +
+                    u"and web and email addresses are made into " +
+                    u"clickable links."),
         required=True,
         default='text/plain',
         vocabulary='plone.app.discussion.vocabularies.TextTransformVocabulary',
-        )
+    )
 
     captcha = schema.Choice(
         title=_(u"label_captcha",
                 default="Captcha"),
-        description=_(u"help_captcha",
-                default=u"Use this setting to enable or disable Captcha "
-                         "validation for comments. Install "
-                         "plone.formwidget.captcha, "
-                         "plone.formwidget.recaptcha, collective.akismet, or "
-                         "collective.z3cform.norobots if there are no options "
-                         "available."),
+        description=_(
+            u"help_captcha",
+            default=u"Use this setting to enable or disable Captcha "
+                    u"validation for comments. Install "
+                    u"plone.formwidget.captcha, "
+                    u"plone.formwidget.recaptcha, collective.akismet, or "
+                    u"collective.z3cform.norobots if there are no options "
+                    u"available."),
         required=True,
         default='disabled',
         vocabulary='plone.app.discussion.vocabularies.CaptchaVocabulary',
-        )
+    )
 
     show_commenter_image = schema.Bool(
         title=_(u"label_show_commenter_image",
                 default=u"Show commenter image"),
-        description=_(u"help_show_commenter_image",
-                default=u"If selected, an image of the user is shown next to "
-                         "the comment."),
+        description=_(
+            u"help_show_commenter_image",
+            default=u"If selected, an image of the user is shown next to "
+                    u"the comment."),
         required=False,
         default=True,
-        )
+    )
 
     moderator_notification_enabled = schema.Bool(
         title=_(u"label_moderator_notification_enabled",
                 default=u"Enable moderator email notification"),
-        description=_(u"help_moderator_notification_enabled",
-                default=u"If selected, the moderator is notified if a comment "
-                         "needs attention. The moderator email address can " +
-                         "be found in the 'Mail settings' control panel "
-                         "(Site 'From' address)"),
+        description=_(
+            u"help_moderator_notification_enabled",
+            default=u"If selected, the moderator is notified if a comment "
+                    u"needs attention. The moderator email address can " +
+                    u"be found in the 'Mail settings' control panel "
+                    u"(Site 'From' address)"),
         required=False,
         default=False,
-        )
+    )
 
     moderator_email = schema.ASCIILine(
-        title=_(u'label_moderator_email',
-                  default=u'Moderator Email Address'),
-        description=_(u'help_moderator_email',
-                      default=u"Address to which moderator notifications "
-                              u"will be sent."),
+        title=_(
+            u'label_moderator_email',
+            default=u'Moderator Email Address'
+        ),
+        description=_(
+            u'help_moderator_email',
+            default=u"Address to which moderator notifications "
+                    u"will be sent."),
         required=False,
-        )
+    )
 
     user_notification_enabled = schema.Bool(
-        title=_(u"label_user_notification_enabled",
-        default=u"Enable user email notification"),
-        description=_(u"help_user_notification_enabled",
-                      default=u"If selected, users can choose to be notified "
-                               "of new comments by email."),
+        title=_(
+            u"label_user_notification_enabled",
+            default=u"Enable user email notification"
+        ),
+        description=_(
+            u"help_user_notification_enabled",
+            default=u"If selected, users can choose to be notified "
+                    u"of new comments by email."),
+        required=False,
+        default=False
+    )
+
+    anonymous_email_enabled = schema.Bool(
+        title=_(u"label_anonymous_email_enabled",
+                default=u"Enable anonymous email field"),
+        description=_(
+            u"help_anonymous_email_enabled",
+            default=u"If selected, anonymous user will have to "
+                    u"give their email."),
         required=False,
         default=False)
 
