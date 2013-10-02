@@ -4,6 +4,9 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
+- update da translations
+  [tmog]
+
 - Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of the PLONE_FIXTURE.
   [timo]
 

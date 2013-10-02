@@ -16,7 +16,7 @@ msgstr ""
 
 #: ../comment.py:311
 msgid "A comment has been posted."
-msgstr "En kommentar er gem."
+msgstr "En ny kommentar er tilføjet."
 
 #: ../interfaces.py:141
 msgid "A comment id unique to this conversation"
@@ -64,7 +64,7 @@ msgstr "Oprettelses-dato"
 
 #: ../interfaces.py:40
 msgid "Date of the most recent public comment"
-msgstr ""
+msgstr "Dato for sidste offentlige kommentar"
 
 #: ../vocabularies.py:44
 msgid "Disabled"
@@ -128,15 +128,15 @@ msgstr "Liste over kommentatorer (brugernavne)"
 
 #: ../interfaces.py:50
 msgid "The set of unique commentators (usernames) of published_comments"
-msgstr ""
+msgstr "Brugernavne der står bag alle offentlige kommentarer"
 
 #: ../interfaces.py:34
 msgid "Total number of public comments on this item"
-msgstr ""
+msgstr "Antal offentlige kommentarer på dette indhold"
 
 #: ../comment.py:158
 msgid "Transform '%s' => '%s' not available. Failed to transform comment '%s'."
-msgstr ""
+msgstr "Transformationen '%s' => '%s' er ikke tilgængelig. Kommentaren '%s' kunne ikke transformeres."
 
 #: ../browser/controlpanel.py:69
 msgid "User Email Notification"
@@ -144,7 +144,7 @@ msgstr "Email-notificering af brugere"
 
 #: ../interfaces.py:166
 msgid "Username of the commenter"
-msgstr ""
+msgstr "Kommentatorens brugernavn"
 
 #: ../browser/comments.py:244
 msgid "Your comment awaits moderator approval."
@@ -173,7 +173,7 @@ msgstr "Du kan tilføje en kommentar ved at udfylde formularen nedenfor. Ren tek
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. You can use the Markdown syntax for links and images."
 #: ../browser/comments.py:51
 msgid "comment_description_markdown"
-msgstr ""
+msgstr "Du kan tilføje en kommentar ved at udfylde formularen nedenfor. Du kan benytte Markdown syntaks til at indsætte links og billeder."
 
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:63
@@ -229,7 +229,7 @@ msgstr "Hvis du krydser af, kan anonyme brugere skrive kommentarer uden at være
 #. Default: "If selected, anonymous user will have to give their email."
 #: ../interfaces.py:334
 msgid "help_anonymous_email_enabled"
-msgstr ""
+msgstr "Hvis du krydser af, vil anonyme brugere blive bedt om deres email-adresse."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
 #: ../interfaces.py:279
@@ -290,7 +290,7 @@ msgstr "Slå anonym kommentering til"
 #. Default: "Enable anonymous email field"
 #: ../interfaces.py:332
 msgid "label_anonymous_email_enabled"
-msgstr ""
+msgstr "Slå email til for anonyme"
 
 #. Default: "Apply"
 #: ../browser/moderation.pt:71
