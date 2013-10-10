@@ -313,7 +313,7 @@ class ConversationTest(unittest.TestCase):
         conversation = self.portal.f1.restrictedTraverse('@@conversation_view')
 
         # Allow discussion for the folder
-        self.portal_discussion.overrideDiscussionFor(f1, True)
+        self.portal.f1.allow_discussion = True
 
         # Allow discussion on Folder content type
         portal_types = getToolByName(self.portal, 'portal_types')
@@ -334,12 +334,12 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(conversation.enabled(), False)
 
         # Allow discussion on content object
-        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
+        self.portal.doc1.allow_discussion = True
 
         # Check if discussion is now allowed on the content object
         self.assertEqual(conversation.enabled(), True)
 
-        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, False)
+        self.portal.doc1.allow_discussion = False
         self.assertEqual(conversation.enabled(), False)
 
     def test_dict_operations(self):

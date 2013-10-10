@@ -459,6 +459,9 @@ class CommentCatalogTest(unittest.TestCase):
         )
 
     def test_clear_and_rebuild_catalog(self):
+        brains = self.catalog.searchResults({'portal_type': 'Discussion Item'})
+        self.assertTrue(brains)
+
         # Clear and rebuild catalog
         self.catalog.clearFindAndRebuild()
 

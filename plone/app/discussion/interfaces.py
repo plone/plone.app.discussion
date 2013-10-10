@@ -184,38 +184,6 @@ class ICaptcha(Interface):
                               required=False)
 
 
-class ICommentingTool(Interface):
-    """A tool that indexes all comments for usage by the management interface.
-
-    This means the management interface can still work even though we don't
-    index the comments in portal_catalog.
-
-    The default implementation of this interface simply defers to
-    portal_catalog, but a custom version of the tool can be used to provide
-    an alternate indexing mechanism.
-    """
-
-    def indexObject(comment):
-        """Indexes a comment
-        """
-
-    def reindexObject(comment):
-        """Reindex a comment
-        """
-
-    def unindexObject(comment):
-        """Removes a comment from the indexes
-        """
-
-    def uniqueValuesFor(name):
-        """Get unique values for FieldIndex name
-        """
-
-    def searchResults(REQUEST=None, **kw):
-        """Perform a search over all indexed comments.
-        """
-
-
 class IDiscussionSettings(Interface):
     """Global discussion settings. This describes records stored in the
     configuration registry and obtainable via plone.registry.

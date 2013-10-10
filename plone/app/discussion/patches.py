@@ -1,3 +1,5 @@
+from Products.CMFCore.utils import getToolByName
+
 from zope.component import queryUtility
 
 from Acquisition import aq_inner, aq_parent
@@ -8,7 +10,6 @@ from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_callable
 
 from plone.app.discussion.conversation import ANNOTATION_KEY
-from plone.app.discussion.interfaces import ICommentingTool
 
 
 def patchedClearFindAndRebuild(self):
@@ -26,14 +27,14 @@ def patchedClearFindAndRebuild(self):
                 obj.indexObject()
 
                 annotions = IAnnotations(obj)
-                ctool = queryUtility(ICommentingTool)
+                catalog = getToolByName(obj, "portal_catalog")
                 if ANNOTATION_KEY in annotions:
                     conversation = annotions[ANNOTATION_KEY]
                     conversation = conversation.__of__(obj)
                     for comment in conversation.getComments():
                         try:
-                            if ctool:
-                                ctool.indexObject(comment)
+                            if catalog:
+                                catalog.indexObject(comment)
                         except StopIteration:  # pragma: no cover
                             pass
 
