@@ -91,10 +91,10 @@ class ConversationTest(unittest.TestCase):
         comment.author_username = "nobody"
         conversation.addComment(comment)
         comment.manage_permission("View", roles=tuple())
-        self.assertEquals(0, conversation.total_comments)
-        self.assertEquals(None, conversation.last_comment_date)
-        self.assertEquals(["nobody"], list(conversation.commentators))
-        self.assertEquals([], list(conversation.public_commentators))
+        self.assertEqual(0, conversation.total_comments)
+        self.assertEqual(None, conversation.last_comment_date)
+        self.assertEqual(["nobody"], list(conversation.commentators))
+        self.assertEqual([], list(conversation.public_commentators))
 
     def test_delete_comment(self):
         # Create a conversation. In this case we doesn't assign it to an

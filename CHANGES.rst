@@ -4,6 +4,9 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
+- Replace deprecated test assert statements.
+  [timo]
+
 - Remove portal_discussion tool.
   [timo]
 
