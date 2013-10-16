@@ -4,6 +4,9 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
+- Remove bbb directory. bbb was never really implemented.
+  [timo]
+
 - Replace deprecated test assert statements.
   [timo]
 
