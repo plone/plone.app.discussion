@@ -536,7 +536,12 @@ class TestCommentsViewlet(unittest.TestCase):
             *time.gmtime(time.mktime(python_time.timetuple()))[:7]
         )
         localized_time = self.viewlet.format_time(python_time)
-        self.assertEqual(localized_time, 'Feb 01, 2009 11:32 PM')
+        self.assertTrue(
+            localized_time in [
+                'Feb 01, 2009 11:32 PM',
+                '2009-02-01 23:32'
+            ]
+        )
 
 
 def test_suite():
