@@ -338,3 +338,11 @@ class IDiscussionSettings(Interface):
 class IDiscussionLayer(Interface):
     """Request marker installed via browserlayer.xml.
     """
+
+
+class ICommentingTool(Interface):
+    """For backwards-compatibility.
+
+    This can be removed once we no longer support upgrading from versions
+    of Plone that had a portal_discussion tool.
+    """
