@@ -16,11 +16,11 @@ msgstr ""
 
 #: ../comment.py:311
 msgid "A comment has been posted."
-msgstr "En kommentar er gem."
+msgstr "Der er oprettet en kommentar."
 
 #: ../interfaces.py:141
 msgid "A comment id unique to this conversation"
-msgstr "En kommentar-id som er unik for denne dialog"
+msgstr "Et kommentar-id som er unikt for denne dialog"
 
 #: ../browser/comments.py:72
 msgid "Add a comment"
@@ -64,7 +64,7 @@ msgstr "Oprettelses-dato"
 
 #: ../interfaces.py:40
 msgid "Date of the most recent public comment"
-msgstr ""
+msgstr "Dato for den seneste, offentlige kommentar"
 
 #: ../vocabularies.py:44
 msgid "Disabled"
@@ -80,7 +80,7 @@ msgstr "Redigering blev afbrudt"
 
 #: ../interfaces.py:153
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: ../browser/controlpanel.py:63
 msgid "Enable Comments"
@@ -88,7 +88,7 @@ msgstr "Slå kommentarer til"
 
 #: ../interfaces.py:144
 msgid "Id of comment this comment is in reply to"
-msgstr "Id'en på den kommentar, denne kommentar er et svar til"
+msgstr "Id'et på den kommentar, denne kommentar er et svar til"
 
 #: ../interfaces.py:158
 msgid "MIME type"
@@ -108,7 +108,7 @@ msgstr "Navn"
 
 #: ../interfaces.py:162
 msgid "Notify me of new comments via email."
-msgstr "Send besked om nye kommentarer pr. email."
+msgstr "Send besked om nye kommentarer per e-mail."
 
 #: ./plone.app.discussion/plone/app/discussion/configure.zcml
 msgid "Plone Discussions"
@@ -116,7 +116,7 @@ msgstr "Plone diskussioner"
 
 #: ../interfaces.py:131
 msgid "Portal type"
-msgstr "Portal type"
+msgstr "Portaltype"
 
 #: ../browser/controlpanel.py:71
 msgid "Save"
@@ -128,27 +128,27 @@ msgstr "Liste over kommentatorer (brugernavne)"
 
 #: ../interfaces.py:50
 msgid "The set of unique commentators (usernames) of published_comments"
-msgstr ""
+msgstr "Gruppen af unikke kommentatorer (brugernavne) fra published_comments"
 
 #: ../interfaces.py:34
 msgid "Total number of public comments on this item"
-msgstr ""
+msgstr "Det samlede antal offentlige kommentarer til dette element"
 
 #: ../comment.py:158
 msgid "Transform '%s' => '%s' not available. Failed to transform comment '%s'."
-msgstr ""
+msgstr "Transformation '%s' => '%s' er ikke muligt. Mislykkedes med at transformere kommentaren '%s'."
 
 #: ../browser/controlpanel.py:69
 msgid "User Email Notification"
-msgstr "Email-notificering af brugere"
+msgstr "E-mail-notificering af brugere"
 
 #: ../interfaces.py:166
 msgid "Username of the commenter"
-msgstr ""
+msgstr "Kommentatorens brugernavn"
 
 #: ../browser/comments.py:244
 msgid "Your comment awaits moderator approval."
-msgstr "Din kommentar venter  på godkendelse."
+msgstr "Din kommentar venter på godkendelse."
 
 #. Default: "Comment"
 #: ../browser/comments.py:131
@@ -168,7 +168,7 @@ msgstr "Godkend"
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
 #: ../browser/comments.py:57
 msgid "comment_description_intelligent_text"
-msgstr "Du kan tilføje en kommentar ved at udfylde formularen nedenfor. Ren tekst-formattering. Web- og emailadresser bliver automatisk lavet om til klikbare links."
+msgstr "Du kan tilføje en kommentar ved at udfylde formularen nedenfor. Ren tekst-formattering. Web- og e-mailadresser bliver automatisk lavet om til klikbare links."
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. You can use the Markdown syntax for links and images."
 #: ../browser/comments.py:51
