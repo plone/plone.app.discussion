@@ -17,6 +17,7 @@ Changelog
   PLONE_FIXTURE.
   [timo]
 
+- Fix ownership of comments. [toutpt]
 
 2.2.10 (2013-09-24)
 -------------------
