@@ -123,6 +123,21 @@ class TestCommentForm(unittest.TestCase):
         self.assertEqual(len(errors), 0)
         self.assertFalse(commentForm.handleComment(commentForm, "foo"))
 
+        comments = IConversation(commentForm.context).getComments()
+        comments = [comment for comment in comments]  # consume itertor
+        self.assertEqual(len(comments), 1)
+
+        for comment in comments:
+            self.assertEqual(comment.text, u"bar")
+            self.assertEqual(comment.creator, "test-user")
+            self.assertEqual(comment.getOwner().getUserName(), "test-user")
+            local_roles = comment.get_local_roles()
+            self.assertEqual(len(local_roles), 1)
+            userid, roles = local_roles[0]
+            self.assertEqual(userid, 'test-user')
+            self.assertEqual(len(roles), 1)
+            self.assertEqual(roles[0], 'Owner')
+
     def test_add_anonymous_comment(self):
         self.discussionTool.overrideDiscussionFor(self.portal.doc1, True)
 
@@ -162,6 +177,16 @@ class TestCommentForm(unittest.TestCase):
 
         self.assertEqual(len(errors), 0)
         self.assertFalse(commentForm.handleComment(commentForm, "action"))
+
+        comments = IConversation(commentForm.context).getComments()
+        comments = [comment for comment in comments]  # consume itertor
+        self.assertEqual(len(comments), 1)
+
+        for comment in IConversation(commentForm.context).getComments():
+            self.assertEqual(comment.text, u"bar")
+            self.assertIsNone(comment.creator)
+            roles = comment.get_local_roles()
+            self.assertEqual(len(roles), 0)
 
     def test_can_not_add_comments_if_discussion_is_not_allowed(self):
         """Make sure that comments can't be posted if discussion is disabled.
