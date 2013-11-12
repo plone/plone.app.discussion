@@ -61,7 +61,7 @@ We need to commit the transaction, otherwise setting the workflow will not work.
 
 Enable anonymous comments
 
-    >>> browser.open(portal_url+'/@@discussion-settings')
+    >>> browser.open(portal_url+'/@@discussion-controlpanel')
     >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = True
     >>> browser.getControl(name='form.buttons.save').click()
 

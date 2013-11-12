@@ -33,7 +33,7 @@ class RegistryTest(unittest.TestCase):
     def test_discussion_controlpanel_view(self):
         view = getMultiAdapter(
             (self.portal, self.portal.REQUEST),
-            name="discussion-settings"
+            name="discussion-controlpanel"
         )
         view = view.__of__(self.portal)
         self.assertTrue(view())

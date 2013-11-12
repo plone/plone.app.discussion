@@ -4,6 +4,9 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
+- Rename @@discussion-settings to @@discussion-controlpanel
+  [maartenkling]
+
 - Remove bbb directory. bbb was never really implemented.
   [timo]
 
