@@ -7,6 +7,9 @@ Changelog
 - Show author email to Moderator when it is available in anonymous comment.
   [gotcha, smoussiaux]
 
+- Put defaultUser.png instead of old defaultUser.gif 
+  [bsuttor]
+
 
 2.2.11 (2013-12-07)
 -------------------
