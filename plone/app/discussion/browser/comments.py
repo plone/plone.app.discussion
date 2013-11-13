@@ -411,7 +411,7 @@ class CommentsViewlet(ViewletBase):
 
         if username is None:
             # return the default user image if no username is given
-            return 'defaultUser.gif'
+            return 'defaultUser.png'
         else:
             portal_membership = getToolByName(self.context,
                                               'portal_membership',
