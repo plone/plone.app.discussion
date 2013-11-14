@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2012-02-08 09:14+0100\n"
+"PO-Revision-Date: 2013-11-14 09:07+0100\n"
 "Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
 "Language-Team: eu <eu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Sorrera data"
 
 #: ../interfaces.py:40
 msgid "Date of the most recent public comment"
-msgstr ""
+msgstr "Azken erantzunaren data"
 
 #: ../vocabularies.py:44
 msgid "Disabled"
@@ -129,15 +129,15 @@ msgstr "Erantzunak eman dituzten erabiltzaileak (erabiltzaile-izenak)"
 
 #: ../interfaces.py:50
 msgid "The set of unique commentators (usernames) of published_comments"
-msgstr ""
+msgstr "Erantzun-emaleen erabiltzaile izenak"
 
 #: ../interfaces.py:34
 msgid "Total number of public comments on this item"
-msgstr ""
+msgstr "Elementu  honen erantzun publiko kopurua"
 
 #: ../comment.py:158
 msgid "Transform '%s' => '%s' not available. Failed to transform comment '%s'."
-msgstr ""
+msgstr "'%s' => '%s' eraldaketa ez dago. Huts egin du '%s' erantzuna eraldatzeak."
 
 #: ../browser/controlpanel.py:69
 msgid "User Email Notification"
@@ -145,7 +145,7 @@ msgstr "E-posta abisuak"
 
 #: ../interfaces.py:166
 msgid "Username of the commenter"
-msgstr ""
+msgstr "Erantzuna utzi duenaren erabiltzaile-izena"
 
 #: ../browser/comments.py:244
 msgid "Your comment awaits moderator approval."
@@ -188,9 +188,8 @@ msgstr "Erantzuna formulario hau betez utzi dezakezu. Formatua testu arruntarena
 
 #. Default: "${author_name} on ${content}"
 #: ../comment.py:48
-#, fuzzy
 msgid "comment_title"
-msgstr "${creator} ${content} buruz"
+msgstr "${content} - ${creator}"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -230,7 +229,7 @@ msgstr "Aukeratuta badago, erabiltzaile anonimoek erantzunak gehitu ditzakete lo
 #. Default: "If selected, anonymous user will have to give their email."
 #: ../interfaces.py:334
 msgid "help_anonymous_email_enabled"
-msgstr ""
+msgstr "Aukeratuta badago, erabiltzaile anonimoek eposta helbidea idatzi beharko dute"
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
 #: ../interfaces.py:279
@@ -294,7 +293,7 @@ msgstr "Aktibatu erabiltzaile anonimoen erantzunak"
 #. Default: "Enable anonymous email field"
 #: ../interfaces.py:332
 msgid "label_anonymous_email_enabled"
-msgstr ""
+msgstr "Aktibatu anonimoentzat eposta eremua"
 
 #. Default: "Apply"
 #: ../browser/moderation.pt:71
