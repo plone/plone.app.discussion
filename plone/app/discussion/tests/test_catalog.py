@@ -532,31 +532,6 @@ class CommentCatalogTest(unittest.TestCase):
         self.assertTrue(brains)
         self.assertEqual(len(brains), 6)
 
-    def test_collection(self):
-        if COLLECTION_TYPE == "Topic":
-            self.portal.invokeFactory('Topic', id='topic')
-            topic = self.portal.topic
-            crit = topic.addCriterion('Type', 'ATSimpleStringCriterion')
-            crit.setValue('Comment')
-            query = topic.buildQuery()
-
-            self.assertEqual(len(query), 1)
-            self.assertEqual(query['Type'], 'Comment')
-            self.assertEqual(len(topic.queryCatalog()), 1)
-        else:
-            self.portal.invokeFactory('Collection', id='collection')
-            collection = self.portal.collection
-            collection.query = [{
-                'i': 'Type',
-                'o': 'plone.app.querystring.operation.string.is',
-                'v': 'Comment',
-            }]
-
-            self.assertEqual(collection.results().length, 1)
-            self.assertEqual(collection.results()[0].text, 'Comment text')
-            self.assertEqual(collection.results()[0].creator, 'jim')
-            self.assertEqual(collection.results()[0].author_name, 'Jim')
-
 
 class NoConversationCatalogTest(unittest.TestCase):
 
