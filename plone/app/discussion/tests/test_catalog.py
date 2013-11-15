@@ -48,6 +48,8 @@ class CatalogSetupTest(unittest.TestCase):
         )
 
     def test_collection_criteria_installed(self):
+        if 'portal_atct' not in self.portal:
+            return
         try:
             self.portal.portal_atct.getIndex('commentators')
             self.portal.portal_atct.getIndex('total_comments')
