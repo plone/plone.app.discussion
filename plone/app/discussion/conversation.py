@@ -50,8 +50,14 @@ from plone.app.discussion.comment import Comment
 
 from AccessControl.SpecialUsers import nobody as user_nobody
 
+from ComputedAttribute import ComputedAttribute
+
 ANNOTATION_KEY = 'plone.app.discussion:conversation'
 
+def computed_attribute_decorator(level=0):
+    def computed_attribute_wrapper(func):
+        return ComputedAttribute(func, level)
+    return computed_attribute_wrapper
 
 class Conversation(Traversable, Persistent, Explicit):
     """A conversation is a container for all comments on a content object.
@@ -87,10 +93,10 @@ class Conversation(Traversable, Persistent, Explicit):
         parent = aq_inner(self.__parent__)
         return parent.restrictedTraverse('@@conversation_view').enabled()
 
-    @property
+    @computed_attribute_decorator(level=1)
     def total_comments(self):
         public_comments = [
-            x for x in self._comments.values()
+            x for x in self.values()
             if user_nobody.has_permission('View', x)
         ]
         return len(public_comments)
