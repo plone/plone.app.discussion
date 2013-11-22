@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.3.0dev'
+version = '2.3.0dev.delib-da.1'
 
 install_requires = [
     'setuptools',
