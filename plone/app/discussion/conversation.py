@@ -101,13 +101,13 @@ class Conversation(Traversable, Persistent, Explicit):
         ]
         return len(public_comments)
 
-    @property
+    @computed_attribute_decorator(level=1)
     def last_comment_date(self):
         # self._comments is an Instance of a btree. The keys
         # are always ordered
         comment_keys = self._comments.keys()
         for comment_key in reversed(comment_keys):
-            comment = self._comments[comment_key]
+            comment = self[comment_key]
             if user_nobody.has_permission('View', comment):
                 return comment.creation_date
         return None
@@ -116,10 +116,10 @@ class Conversation(Traversable, Persistent, Explicit):
     def commentators(self):
         return self._commentators
 
-    @property
+    @computed_attribute_decorator(level=1)
     def public_commentators(self):
         retval = set()
-        for comment in self._comments.values():
+        for comment in self.values():
             if not user_nobody.has_permission('View', comment):
                 continue
             retval.add(comment.author_username)
