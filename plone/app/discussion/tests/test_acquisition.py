@@ -2,7 +2,7 @@
 from AccessControl.User import User  # before SpecialUsers
 from AccessControl.SpecialUsers import nobody as user_nobody
 from AccessControl.PermissionRole import rolesForPermissionOn
-from Acquisition import aq_chain
+from Acquisition import aq_chain, aq_base
 from plone.app.discussion.testing import \
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.discussion.interfaces import IConversation
@@ -172,6 +172,71 @@ class AcquisitionTest(unittest.TestCase):
         self.assertTrue(
              user_nobody.has_permission(permission,
                                         self.wrapped_dexterity_comment))
+
+class AcquiredPermissionTest(unittest.TestCase):
+    """ Test methods of a conversation which rely on acquired permissions """
+
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.wftool = getToolByName(self.portal, 'portal_workflow')
+
+        # Disable workflow for comments and content.
+        self.wftool.setChainForPortalTypes(["Discussion Item"],[])
+        self.wftool.setChainForPortalTypes([dexterity_type_name],[])
+
+        # Create a dexterity item.
+        self.portal.invokeFactory(
+            id=dexterity_object_id,
+            title='Instance Of Dexterity Type',
+            type_name=dexterity_type_name,
+        )
+        
+        self.content = self.portal.get(dexterity_object_id)
+
+        # Absolutely make sure that we're replicating the case of an 
+        # incomplete chain correctly.
+        aq_base(self.content).__parent__ = None
+        
+        self.conversation = IConversation(self.content)
+        
+        # Add a comment
+        comment = createObject('plone.Comment')
+        self.conversation.addComment(comment)
+        self.comment = comment
+    
+    def test_view_permission_is_only_available_on_portal(self):
+        """ Check that the test setup is correct """
+        
+        content_roles = rolesForPermissionOn("View",aq_base(self.content))
+        self.assertNotIn("Anonymous",content_roles)
+        
+        comment_roles = rolesForPermissionOn("View",aq_base(self.comment))
+        self.assertNotIn("Anonymous",comment_roles)
+        
+        # This actually acquires view from the app root, but we don't really
+        # care, we just need to confirm that something above our content
+        # object will give us View.
+        portal_roles = rolesForPermissionOn("View",self.portal)
+        self.assertIn("Anonymous",portal_roles)
+
+    # The following tests fail when the conversation uses unwrapped comment
+    # objects to determine whether an anonymous user has the view permission.
+        
+    def test_total_comments(self):
+        self.assertEqual(self.conversation.total_comments,1)
+    
+    def test_last_comment_date(self):
+        self.assertEqual(self.conversation.last_comment_date,
+                         self.comment.creation_date)
+    
+    def test_public_commentators(self):
+        self.assertEqual(self.conversation.public_commentators,
+                         (self.comment.author_username,))
+
 
 
 def test_suite():
