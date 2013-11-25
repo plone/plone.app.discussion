@@ -2,7 +2,7 @@
 from AccessControl.User import User  # before SpecialUsers
 from AccessControl.SpecialUsers import nobody as user_nobody
 from AccessControl.PermissionRole import rolesForPermissionOn
-from Acquisition import aq_chain, aq_base
+from Acquisition import aq_chain
 from plone.app.discussion.testing import \
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.discussion.interfaces import IConversation
@@ -19,23 +19,8 @@ archetypes_object_id = 'instance-of-archetypes-type'
 one_state_workflow = 'one_state_workflow'
 comment_workflow_acquired_view = 'comment_workflow_acquired_view'
 
-
-def _anonymousCanView(obj):
-    """Use rolesOfPermission() to sees if Anonymous has View permission on an
-    object"""
-    roles_of_view_permission = obj.rolesOfPermission("View")
-    # rolesOfPermission returns a list of dictionaries that have the key
-    # 'name' for role.
-    anon_views = [r for r in roles_of_view_permission
-                  if r['name'] == 'Anonymous']
-    # only one entry per role should be present
-    anon_view = anon_views[0]
-    # if this role has the permission, 'selected' is set to 'SELECTED'
-    return anon_view['selected'] == 'SELECTED'
-
-
-class DexterityAcquisitionTest(unittest.TestCase):
-    """See test_view_permission."""
+class AcquisitionTest(unittest.TestCase):
+    """ Define the expected behaviour of wrapped and unwrapped comments. """
 
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
@@ -64,12 +49,14 @@ class DexterityAcquisitionTest(unittest.TestCase):
             title='Instance Of Dexterity Type',
             type_name=dexterity_type_name,
         )
+        
         self.dexterity_object = self.portal.get(dexterity_object_id)
         dx_conversation = IConversation(self.dexterity_object)
         self.dexterity_conversation = dx_conversation
-        comment1 = createObject('plone.Comment')
-        dx_conversation.addComment(comment1)
-        self.dexterity_comment = comment1
+        dx_comment = createObject('plone.Comment')
+        dx_conversation.addComment(dx_comment)
+        self.unwrapped_dexterity_comment = dx_comment
+        self.wrapped_dexterity_comment = dx_conversation[dx_comment.id]
 
         # Create an Archetypes item and add a comment.
         self.portal.invokeFactory(
@@ -77,12 +64,15 @@ class DexterityAcquisitionTest(unittest.TestCase):
             title='Instance Of Archetypes Type',
             type_name='Document',
         )
+        
         self.archetypes_object = self.portal.get(archetypes_object_id)
         at_conversation = IConversation(self.archetypes_object)
         self.archetypes_conversation = at_conversation
-        comment2 = createObject('plone.Comment')
-        at_conversation.addComment(comment2)
-        self.archetypes_comment = comment2
+        at_comment = createObject('plone.Comment')
+        at_conversation.addComment(at_comment)
+        self.unwrapped_archetypes_comment = at_comment
+        self.wrapped_archetypes_comment = at_conversation[at_comment.id]
+        
 
     def test_workflows_installed(self):
         """Check that the new comment workflow has been installed properly.
@@ -103,64 +93,85 @@ class DexterityAcquisitionTest(unittest.TestCase):
             (one_state_workflow,)
         )
         self.assertEqual(
-            self.wftool.getChainFor(self.archetypes_comment),
+            self.wftool.getChainFor(self.unwrapped_archetypes_comment),
             (comment_workflow_acquired_view,)
         )
         self.assertEqual(
-            self.wftool.getChainFor(self.dexterity_comment),
+            self.wftool.getChainFor(self.unwrapped_dexterity_comment),
             (comment_workflow_acquired_view,)
         )
 
-    def test_view_permission(self):
-        """Test that if the View permission on Discussion Items is acquired,
-        Anonymous can view comments on published items."""
+    def test_comment_acquisition_chain(self):
+        """ Test that the acquisition chains for wrapped and unwrapped
+            comments are as expected. """
+        
+        # Unwrapped comments rely on __parent__ attributes to determine 
+        # parentage.  Frustratingly there is no guarantee that __parent__
+        # is always set, so the computed acquisition chain may be short.
+        # In this case the unwrapped AT and DX objects stored as the 
+        # conversation parents don't have a __parent__, preventing the portal
+        # from being included in the chain.
+        self.assertNotIn(self.portal,
+                         aq_chain(self.unwrapped_archetypes_comment))
+        self.assertNotIn(self.portal,
+                         aq_chain(self.unwrapped_dexterity_comment))
 
-        # Anonymous has View permission on commented objects.
-        self.assertTrue(_anonymousCanView(self.archetypes_object))
-        self.assertTrue(_anonymousCanView(self.dexterity_object))
+        # Wrapped comments however have a complete chain and thus can find the
+        # portal object reliably.
+        self.assertIn(self.portal,aq_chain(self.wrapped_archetypes_comment))
+        self.assertIn(self.portal,aq_chain(self.wrapped_dexterity_comment))
 
-        # Fails: Anonymous should therefore have View permission on the
-        # comments.
-        self.assertTrue(_anonymousCanView(self.archetypes_comment))
-        self.assertTrue(_anonymousCanView(self.dexterity_comment))
+    
+    def test_acquiring_comment_permissions(self):
+        """ Unwrapped comments should not be able to acquire permissions
+            controlled by unreachable objects """
+        
+        # We use the "Allow sendto" permission as by default it is
+        # controlled by the portal, which is unreachable via __parent__
+        # attributes on the comments.
+        permission = "Allow sendto"
 
-    def test_acquisition_chain(self):
-        """The acquisition chain for the comment should contain the same items
-        as that of the conversation.
+        # Unwrapped comments can't find the portal so just return manager
+        self.assertNotIn("Anonymous",
+             rolesForPermissionOn(permission,
+                                  self.unwrapped_archetypes_comment))
+        self.assertNotIn("Anonymous",
+             rolesForPermissionOn(permission,
+                                  self.unwrapped_dexterity_comment))
+        
+        # Wrapped objects can find the portal and correctly return the
+        # anonymous role.
+        self.assertIn("Anonymous",
+             rolesForPermissionOn(permission,
+                                  self.wrapped_archetypes_comment))
+        self.assertIn("Anonymous",
+             rolesForPermissionOn(permission,
+                                  self.wrapped_dexterity_comment))
+    
+    def test_acquiring_comment_permissions_via_user_nobody(self):
+        """ The current implementation uses user_nobody.has_permission to
+            check whether anonymous can view comments.  This confirms it also
+            works. """        
+        
+        # Again we want to use a permission that's not managed by any of our
+        # content objects so it must be acquired from the portal.
+        permission = "Allow sendto"
+    
+        self.assertFalse(
+             user_nobody.has_permission(permission,
+                                        self.unwrapped_archetypes_comment))
+        
+        self.assertFalse(
+             user_nobody.has_permission(permission,
+                                        self.unwrapped_dexterity_comment))
 
-        Note that the list returned by aq_inner has the innermost object
-        first."""
+        self.assertTrue(
+             user_nobody.has_permission(permission,
+                                        self.wrapped_archetypes_comment))
 
-        # Fails: list index out of range
-        at_comment_chain = aq_chain(self.archetypes_comment)
-        at_conversation_chain = aq_chain(self.archetypes_conversation)
-        for (index, item) in enumerate(at_conversation_chain):
-            self.assertEqual(item, at_comment_chain[index + 1])
-
-        # Fails: list index out of range
-        dx_comment_chain = aq_chain(self.dexterity_comment)
-        dx_conversation_chain = aq_chain(self.dexterity_conversation)
-        for (index, item) in enumerate(dx_conversation_chain):
-            self.assertEqual(item, dx_comment_chain[index + 1])
-
-    def test_acquisition_base_object_chain(self):
-        """ The acquisition chain for the object without wrappers should return
-            list which contains only the object.
-        """
-
-        at_object_base_chain = aq_chain(aq_base(self.archetypes_object))
-        dx_object_base_chain = aq_chain(aq_base(self.dexterity_object))
-
-        # Fails: acquisition chain has more than one object
-        self.assertTrue(len(at_object_base_chain) == 1)
-        self.assertTrue(len(dx_object_base_chain) == 1)
-
-        at_comment_base_chain = aq_chain(aq_base(self.archetypes_comment))
-        dx_comment_base_chain = aq_chain(aq_base(self.dexterity_comment))
-
-        # Fails: acquisition chain has more than one object
-        self.assertTrue(len(at_comment_base_chain) == 1)
-        self.assertTrue(len(dx_comment_base_chain) == 1)
+        self.assertTrue(
+             user_nobody.has_permission(permission,
+                                        self.wrapped_dexterity_comment))
 
 
 def test_suite():
