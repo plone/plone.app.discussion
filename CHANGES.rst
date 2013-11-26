@@ -4,7 +4,10 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
-- Put defaultUser.png instead of old defaultUser.gif 
+- Corrections and additions to the Danish translation
+  [aputtu]
+
+- Put defaultUser.png instead of old defaultUser.gif
   [bsuttor]
 
 - Remove bbb directory. bbb was never really implemented.
