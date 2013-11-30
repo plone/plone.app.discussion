@@ -126,7 +126,18 @@ Known Issues
 
 - **KeyError: 'Interface `plone.app.discussion.interfaces.IDiscussionSettings`
   defines a field `moderator_email`, for which there is no record.'**: An
-  upgrade step was unsuccessful. Reinstall plone.app.discussion to fix this.
+  upgrade step was unsuccessful. You can fix this by reinstalling
+  plone.app.discussion by either writing an upgrade step or calling the
+  following code directly with 'bin/instance debug' on the command line::
+
+    >>> portal = app.Plone
+    >>> from zope.app.component.hooks import setHooks, setSite
+    >>> setHooks()
+    >>> setSite(portal)
+    >>> from plone.app.upgrade.utils import installOrReinstallProduct
+    >>> installOrReinstallProduct(portal, 'plone.app.discussion', out=None, hidden=True)
+    >>> import transaction
+    >>> transaction.commit()
 
 
 Credits
