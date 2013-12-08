@@ -1,10 +1,13 @@
 Changelog
 =========
 
-2.2.11dev (unreleased)
-----------------------
+2.2.11 (2013-12-07)
+-------------------
+
+- Update basque translation [Mikel Larreateg]
 
 - Fix ownership of comments. [toutpt]
+
 
 2.2.10 (2013-09-24)
 -------------------
