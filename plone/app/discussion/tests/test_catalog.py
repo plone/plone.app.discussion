@@ -19,8 +19,6 @@ from plone.app.discussion.testing import (
 
 from plone.app.discussion.interfaces import IConversation
 
-from plone.app.discussion.testing import COLLECTION_TYPE
-
 
 class CatalogSetupTest(unittest.TestCase):
 
