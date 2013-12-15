@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from DateTime import DateTime
-
 from zope.component import createObject
 
 from Products.CMFCore.utils import getToolByName

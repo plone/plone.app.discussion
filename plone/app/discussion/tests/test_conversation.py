@@ -308,7 +308,7 @@ class ConversationTest(unittest.TestCase):
 
         # Create a folder
         self.typetool.constructContent('Folder', self.portal, 'f1')
-        f1 = self.portal.f1
+
         # Usually we don't create a conversation on a folder
         conversation = self.portal.f1.restrictedTraverse('@@conversation_view')
 
