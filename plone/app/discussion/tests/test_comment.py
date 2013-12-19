@@ -499,6 +499,3 @@ class RepliesTest(unittest.TestCase):
             re_re_re_comment.absolute_url()
         )
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

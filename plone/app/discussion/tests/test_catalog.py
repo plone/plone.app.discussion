@@ -569,6 +569,3 @@ class NoConversationCatalogTest(unittest.TestCase):
             IAnnotations(self.portal.doc1)
         )
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

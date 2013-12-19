@@ -559,6 +559,3 @@ class TestCommentsViewlet(unittest.TestCase):
         self.assertTrue(
             localized_time in ['Feb 01, 2009 11:32 PM', '2009-02-01 23:32'])
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

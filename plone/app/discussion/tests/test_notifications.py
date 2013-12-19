@@ -276,6 +276,3 @@ class TestModeratorNotificationUnit(unittest.TestCase):
 
         self.assertEqual(len(self.mailhost.messages), 0)
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

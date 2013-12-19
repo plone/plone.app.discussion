@@ -874,6 +874,3 @@ class RepliesTest(unittest.TestCase):
         self.assertEqual(len(replies_to_comment1_1), 1)
         self.assertEqual(len(replies_to_comment2), 1)
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

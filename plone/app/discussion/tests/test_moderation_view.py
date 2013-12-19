@@ -164,6 +164,3 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         self.assertTrue(comment)
         self.assertEqual(comment, self.comment2)
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)
