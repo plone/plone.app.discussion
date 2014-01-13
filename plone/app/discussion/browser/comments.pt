@@ -70,6 +70,10 @@
                               tal:replace="reply/author_name" />
                         <span tal:condition="not: reply/author_name"
                               i18n:translate="label_anonymous">Anonymous</span>
+                        <span tal:condition="python: view.show_email(reply)">
+                              (<a tal:attributes="href string:mailto:${reply/author_email}" 
+                                 tal:content="reply/author_email" />)
+                        </span>
                     </tal:name>
                     <tal:posted i18n:translate="label_says">says:</tal:posted>
                     <div class="commentDate"

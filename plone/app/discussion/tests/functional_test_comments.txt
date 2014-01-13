@@ -213,7 +213,6 @@ Make sure special characters work as well.
     >>> 'This is an äüö comment' in unprivileged_browser.contents
     True
 
-
 Reply to an existing comment
 ----------------------------
 
@@ -247,6 +246,20 @@ Check that the reply has been posted properly.
 Post a comment with comment review workflow enabled
 ---------------------------------------------------
 
+Create a new public page with comments allowed.
+
+    >>> browser.open(portal_url)
+    >>> browser.getLink(id='document').click()
+    >>> browser.getControl(name='title').value = "Doc2"
+    >>> browser.getControl(name='allowDiscussion:boolean').value = True
+    >>> browser.getControl(name='form.button.save').click()
+    >>> urldoc2 = browser.url
+
+Check that the form has been properly submitted
+
+    >>> browser.url
+    'http://nohost/plone/doc2'
+
 Enable the 'comment review workflow' for comments.
 
     >>> portal.portal_workflow.setChainForPortalTypes(('Discussion Item',), ('comment_review_workflow'),)
@@ -260,7 +273,7 @@ We need to commit the transaction, otherwise setting the workflow will not work.
 
 Post comment as anonymous user.
 
-    >>> unprivileged_browser.open(urldoc1)
+    >>> unprivileged_browser.open(urldoc2)
     >>> unprivileged_browser.getControl(name='form.widgets.text').value = "Comment review workflow comment"
     >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
 
@@ -273,6 +286,114 @@ Make sure the user gets a notification that the comment awaits moderator
 approval.
 
     >>> 'Your comment awaits moderator approval' in unprivileged_browser.contents
+    True
+
+Login as manager.
+
+    >>> browser.open(portal_url + '/logout')
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = 'admin'
+    >>> browser.getControl(name='__ac_password').value = 'secret'
+    >>> browser.getControl(name='submit').click()
+
+Make sure the Manager can publish.
+
+    >>> browser.open(urldoc2)
+    >>> 'name="form.button.PublishComment"' in browser.contents
+    True
+    
+Manager (with moderate permission) publishes the comment.
+    
+    >>> browser.getControl(name='form.button.PublishComment').click()
+
+Make sure there are no left over comments to publish.
+
+    >>> 'name="form.button.PublishComment"' in browser.contents
+    False    
+
+Make sure Anonymous user sees published comment.
+
+    >>> unprivileged_browser.open(urldoc2)
+    >>> 'Comment review workflow comment' in unprivileged_browser.contents
+    True
+
+Post a comment with comment review workflow enabled (with email)
+----------------------------------------------------------------
+
+Enable anonymous comment and email field
+
+    >>> browser.open(portal_url+'/@@discussion-settings')
+    >>> browser.getControl(name='form.widgets.anonymous_email_enabled:list').value = [True]
+    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True]
+    >>> browser.getControl(name='form.buttons.save').click()
+    >>> browser.open(portal_url + '/logout')
+
+Post comment as anonymous user.
+
+    >>> unprivileged_browser.open(urldoc2)
+    >>> unprivileged_browser.getControl(name='form.widgets.author_name').value = "Godefroid"
+    >>> unprivileged_browser.getControl(name='form.widgets.author_email').value = "gotcha@bubblenet.be"
+    >>> unprivileged_browser.getControl(name='form.widgets.text').value = "With email"
+    >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
+
+Make sure the comment has not been published.
+
+    >>> 'With email' not in unprivileged_browser.contents
+    True
+
+Make sure the user gets a notification that the comment awaits moderator
+approval.
+
+    >>> 'Your comment awaits moderator approval' in unprivileged_browser.contents
+    True
+
+Make sure comment is not yet published.
+
+    >>> 'With email' in unprivileged_browser.contents
+    False
+
+Make sure email is displayed for Manager.
+
+    >>> browser.open(urldoc2)
+
+    >>> "Godefroid" in browser.contents
+    True
+
+    >>> '(<a href="mailto:gotcha@bubblenet.be">gotcha@bubblenet.be</a>)' in browser.contents
+    True
+
+    >>> 'says' in browser.contents
+    True
+    
+Manager (with moderate permission) publishes the comment.
+
+    >>> browser.getControl(name='form.button.PublishComment').click()
+
+Make sure email is still displayed for Manager.
+    
+    >>> "Godefroid" in browser.contents
+    True
+
+    >>> '(<a href="mailto:gotcha@bubblenet.be">gotcha@bubblenet.be</a>)' in browser.contents
+    True
+
+    >>> 'says' in browser.contents
+    True
+
+Make sure comment is published but email is not displayed for anonymous.
+    
+    >>> unprivileged_browser.open(urldoc2)
+
+    >>> 'With email' in unprivileged_browser.contents
+    True
+
+    >>> "Godefroid" in unprivileged_browser.contents
+    True
+
+    >>> '(<a href="mailto:gotcha@bubblenet.be">gotcha@bubblenet.be</a>)' in unprivileged_browser.contents
+    False 
+
+    >>> 'says' in unprivileged_browser.contents
     True
 
 
@@ -351,8 +472,8 @@ View the collection listing.
     <Link text='admin on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
     >>> browser.getLink('Anonymous on Doc1', index=0)
     <Link text='Anonymous on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
-    >>> browser.getLink('Anonymous on Doc1', index=1)
-    <Link text='Anonymous on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
+    >>> browser.getLink('Anonymous on Doc2', index=0)
+    <Link text='Anonymous on Doc2' url='http://nohost/plone/doc2/++conversation++default/...'>
     >>> browser.getLink(tarek_fullname + ' on Doc1')
     <Link text='Tarek Ziad\xc3\xa9 on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
     >>> browser.getLink(jim_fullname + ' on Doc1')

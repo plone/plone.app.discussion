@@ -188,7 +188,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if anon and anonymous_comments:
             # Anonymous Users
             comment.author_name = author_name
-            comment.author_email = u""
+            comment.author_email = data.get('author_email', u'')
             comment.user_notification = None
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
@@ -437,6 +437,13 @@ class CommentsViewlet(ViewletBase):
                                           'portal_membership',
                                           None)
         return portal_membership.isAnonymousUser()
+
+    def show_email(self, reply):
+        has_author_email = reply.author_email
+        may_review = getSecurityManager().checkPermission(
+            'Review comments', self.context
+        )
+        return may_review and has_author_email
 
     def login_action(self):
         return '%s/login_form?came_from=%s' % \

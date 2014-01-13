@@ -4,7 +4,8 @@ Changelog
 2.2.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Show author email to Moderator when it is available in anonymous comment.
+  [gotcha, smoussiaux]
 
 
 2.2.11 (2013-12-07)
