@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.12 (unreleased)
+2.2.12 (2014-01-13)
 -------------------
 
 - Show author email to Moderator when it is available in anonymous comment.
