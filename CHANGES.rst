@@ -4,7 +4,7 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
-- user member.id as author_username, so membrane users having different id
+- use member.getId as author_username, so membrane users having different id
   then username still have there picture shown and author path is correct.
   [maartenkling]
 
