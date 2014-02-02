@@ -195,7 +195,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         elif not portal_membership.isAnonymousUser() and can_reply:
             # Member
             member = portal_membership.getAuthenticatedMember()
-            username = member.getUserName()
+            memberid = member.getId()
             user = member.getUser()
             email = member.getProperty('email')
             fullname = member.getProperty('fullname')
@@ -207,9 +207,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             if email and isinstance(email, str):
                 email = unicode(email, 'utf-8')
             comment.changeOwnership(user, recursive=False)
-            comment.manage_setLocalRoles(username, ["Owner"])
-            comment.creator = username
-            comment.author_username = username
+            comment.manage_setLocalRoles(memberid, ["Owner"])
+            comment.creator = memberid
+            comment.author_username = memberid
             comment.author_name = fullname
             comment.author_email = email
             comment.creation_date = datetime.utcnow()
