@@ -4,20 +4,39 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
+- Corrections and additions to the Danish translation
+  [aputtu]
+
+- Put defaultUser.png instead of old defaultUser.gif
+  [bsuttor]
+
+- Remove bbb directory. bbb was never really implemented.
+  [timo]
+
+- Replace deprecated test assert statements.
+  [timo]
+
+- Remove portal_discussion tool.
+  [timo]
+
+- Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of
+  PLONE_FIXTURE.
+  [timo]
+
+- Fix ownership of comments. [toutpt]
+
 - Provide 'delete own comments' as a configurable option
   [gyst]
 
 - Make comments editable.
   [pjstevns, gyst]
 
-- Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of the PLONE_FIXTURE.
-  [timo]
-
-
 2.2.10 (2013-09-24)
 -------------------
 
-- Revert "Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of the PLONE_FIXTURE." that has been accidentially introduced into the 2.2.9 release.
+- Revert "Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of
+  the PLONE_FIXTURE." that has been accidentially introduced into the 2.2.9
+  release.
   [timo]
 
 

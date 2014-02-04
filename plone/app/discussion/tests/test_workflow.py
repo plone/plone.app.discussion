@@ -32,7 +32,6 @@ class WorkflowSetupTest(unittest.TestCase):
         self.portal.invokeFactory('Folder', 'test-folder')
         self.folder = self.portal['test-folder']
         self.portal.portal_types['Document'].allow_discussion = True
-        self.portal_discussion = self.portal.portal_discussion
         self.folder.invokeFactory('Document', 'doc1')
         self.doc = self.folder.doc1
 
@@ -190,7 +189,6 @@ class CommentReviewWorkflowTest(unittest.TestCase):
 
         # Create a Document
         self.portal.invokeFactory('Document', 'doc1')
-        self.portal_discussion = self.portal.portal_discussion
 
         # Create a conversation for this Document
         conversation = IConversation(self.portal.doc1)
@@ -277,6 +275,3 @@ class CommentReviewWorkflowTest(unittest.TestCase):
             )
         )
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

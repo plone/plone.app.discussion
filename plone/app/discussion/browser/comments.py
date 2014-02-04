@@ -196,6 +196,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # Member
             member = portal_membership.getAuthenticatedMember()
             username = member.getUserName()
+            user = member.getUser()
             email = member.getProperty('email')
             fullname = member.getProperty('fullname')
             if not fullname or fullname == '':
@@ -205,6 +206,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 fullname = unicode(fullname, 'utf-8')
             if email and isinstance(email, str):
                 email = unicode(email, 'utf-8')
+            comment.changeOwnership(user, recursive=False)
+            comment.manage_setLocalRoles(username, ["Owner"])
             comment.creator = username
             comment.author_username = username
             comment.author_name = fullname

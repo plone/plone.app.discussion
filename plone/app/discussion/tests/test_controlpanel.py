@@ -230,6 +230,3 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
         # setting itself remains unchanged.
         self.settings.moderation_enabled = True
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)
