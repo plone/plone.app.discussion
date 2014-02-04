@@ -131,12 +131,11 @@ class PublishComment(BrowserView):
         comment = aq_inner(self.context)
         content_object = aq_parent(aq_parent(comment))
         workflowTool = getToolByName(comment, 'portal_workflow', None)
-        current_state = workflowTool.getInfoFor(comment, 'review_state')
-        if current_state != 'published':
-            workflowTool.doActionFor(comment, 'publish')
+        workflow_action = self.request.form.get('workflow_action', 'publish')
+        workflowTool.doActionFor(comment, workflow_action)
         comment.reindexObject()
         content_object.reindexObject()
-        IStatusMessage(self.context.REQUEST).addStatusMessage(
+        StatusMessage(self.context.REQUEST).addStatusMessage(
             _("Comment approved."),
             type="info")
         came_from = self.context.REQUEST.HTTP_REFERER
