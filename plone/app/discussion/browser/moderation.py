@@ -135,7 +135,7 @@ class PublishComment(BrowserView):
         workflowTool.doActionFor(comment, workflow_action)
         comment.reindexObject()
         content_object.reindexObject()
-        StatusMessage(self.context.REQUEST).addStatusMessage(
+        IStatusMessage(self.context.REQUEST).addStatusMessage(
             _("Comment approved."),
             type="info")
         came_from = self.context.REQUEST.HTTP_REFERER
