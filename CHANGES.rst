@@ -4,6 +4,9 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
+- Execute the property workflow
+  [omiron]
+
 - Corrections and additions to the Danish translation
   [aputtu]
 
