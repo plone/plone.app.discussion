@@ -24,13 +24,13 @@
     <subscriber
         for="plone.app.discussion.interfaces.IComment
              zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".tool.index_object"
+        handler=".subscribers.index_object"
         />
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
              zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".tool.unindex_object"
+        handler=".subscribers.unindex_object"
         />
 
     <subscriber

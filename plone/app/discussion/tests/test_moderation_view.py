@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from DateTime import DateTime
-
 from zope.component import createObject
 
 from Products.CMFCore.utils import getToolByName
@@ -57,29 +55,6 @@ class ModerationViewTest(unittest.TestCase):
         self.wf_tool.setChainForPortalTypes(('Discussion Item',),
                                             ('comment_review_workflow,'))
         self.assertEqual(self.view.moderation_enabled(), True)
-
-    def test_old_comments_not_shown_in_moderation_view(self):
-        # Create old comment
-        discussion = getToolByName(self.portal, 'portal_discussion', None)
-        discussion.overrideDiscussionFor(self.portal.doc1, 1)
-        talkback = discussion.getDiscussionFor(self.portal.doc1)
-        self.portal.doc1.talkback.createReply('My Title',
-                                              'My Text',
-                                              Creator='Jim')
-        reply = talkback.getReplies()[0]
-        reply.setReplyTo(self.portal.doc1)
-        reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6)
-        reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7)
-        self.assertEqual(reply.Title(), 'My Title')
-        self.assertEqual(reply.EditableBody(), 'My Text')
-        self.assertTrue('Jim' in reply.listCreators())
-        self.assertEqual(talkback.replyCount(self.portal.doc1), 1)
-        self.assertEqual(reply.inReplyTo(), self.portal.doc1)
-
-        view = self.view()
-
-        self.assertTrue('No comments to moderate' in view)
-        self.assertEqual(len(self.view.comments), 0)
 
 
 class ModerationBulkActionsViewTest(unittest.TestCase):
@@ -189,6 +164,3 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         self.assertTrue(comment)
         self.assertEqual(comment, self.comment2)
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

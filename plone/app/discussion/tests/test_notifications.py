@@ -42,7 +42,6 @@ class TestUserNotificationUnit(unittest.TestCase):
                  '.user_notification_enabled'] = True
         # Create test content
         self.portal.invokeFactory('Document', 'doc1')
-        self.portal_discussion = self.portal.portal_discussion
         # Archetypes content types store data as utf-8 encoded strings
         # The missing u in front of a string is therefor not missing
         self.portal.doc1.title = 'Kölle Alaaf'  # What is "Fasching"?
@@ -189,7 +188,6 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         ] = True
         # Create test content
         self.portal.invokeFactory('Document', 'doc1')
-        self.portal_discussion = self.portal.portal_discussion
         # Archetypes content types store data as utf-8 encoded strings
         # The missing u in front of a string is therefor not missing
         self.portal.doc1.title = 'Kölle Alaaf'  # What is "Fasching"?
@@ -278,6 +276,3 @@ class TestModeratorNotificationUnit(unittest.TestCase):
 
         self.assertEqual(len(self.mailhost.messages), 0)
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

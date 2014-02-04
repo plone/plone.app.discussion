@@ -19,8 +19,6 @@ from plone.app.discussion.testing import (
 
 from plone.app.discussion.interfaces import IConversation
 
-from plone.app.discussion.testing import COLLECTION_TYPE
-
 
 class CatalogSetupTest(unittest.TestCase):
 
@@ -48,6 +46,8 @@ class CatalogSetupTest(unittest.TestCase):
         )
 
     def test_collection_criteria_installed(self):
+        if 'portal_atct' not in self.portal:
+            return
         try:
             self.portal.portal_atct.getIndex('commentators')
             self.portal.portal_atct.getIndex('total_comments')
@@ -459,6 +459,9 @@ class CommentCatalogTest(unittest.TestCase):
         )
 
     def test_clear_and_rebuild_catalog(self):
+        brains = self.catalog.searchResults({'portal_type': 'Discussion Item'})
+        self.assertTrue(brains)
+
         # Clear and rebuild catalog
         self.catalog.clearFindAndRebuild()
 
@@ -529,31 +532,6 @@ class CommentCatalogTest(unittest.TestCase):
         self.assertTrue(brains)
         self.assertEqual(len(brains), 6)
 
-    def test_collection(self):
-        if COLLECTION_TYPE == "Topic":
-            self.portal.invokeFactory('Topic', id='topic')
-            topic = self.portal.topic
-            crit = topic.addCriterion('Type', 'ATSimpleStringCriterion')
-            crit.setValue('Comment')
-            query = topic.buildQuery()
-
-            self.assertEqual(len(query), 1)
-            self.assertEqual(query['Type'], 'Comment')
-            self.assertEqual(len(topic.queryCatalog()), 1)
-        else:
-            self.portal.invokeFactory('Collection', id='collection')
-            collection = self.portal.collection
-            collection.query = [{
-                'i': 'Type',
-                'o': 'plone.app.querystring.operation.string.is',
-                'v': 'Comment',
-            }]
-
-            self.assertEqual(collection.results().length, 1)
-            self.assertEqual(collection.results()[0].text, 'Comment text')
-            self.assertEqual(collection.results()[0].creator, 'jim')
-            self.assertEqual(collection.results()[0].author_name, 'Jim')
-
 
 class NoConversationCatalogTest(unittest.TestCase):
 
@@ -591,6 +569,3 @@ class NoConversationCatalogTest(unittest.TestCase):
             IAnnotations(self.portal.doc1)
         )
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

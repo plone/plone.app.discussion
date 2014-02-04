@@ -63,12 +63,7 @@ class TestCommentForm(unittest.TestCase):
         typetool.constructContent('Document', self.portal, 'doc1')
         wftool = getToolByName(self.portal, "portal_workflow")
         wftool.doActionFor(self.portal.doc1, action='publish')
-        self.discussionTool = getToolByName(
-            self.portal,
-            'portal_discussion',
-            None
-        )
-        self.discussionTool.overrideDiscussionFor(self.portal.doc1, False)
+        self.portal.doc1.allow_discussion = True
         self.membershipTool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
         self.context = getattr(self.portal, 'doc1')
@@ -83,7 +78,7 @@ class TestCommentForm(unittest.TestCase):
         """
 
         # Allow discussion
-        self.discussionTool.overrideDiscussionFor(self.portal.doc1, True)
+        self.portal.doc1.allow_discussion = True
         self.viewlet = CommentsViewlet(self.context, self.request, None, None)
 
         def make_request(form={}):
@@ -186,8 +181,23 @@ class TestCommentForm(unittest.TestCase):
         comment = [x for x in conversation.getComments()][-1]
         self.assertEquals(comment.text, u"foobar")
 
+        comments = IConversation(commentForm.context).getComments()
+        comments = [comment for comment in comments]  # consume itertor
+        self.assertEqual(len(comments), 1)
+
+        for comment in comments:
+            self.assertEqual(comment.text, u"bar")
+            self.assertEqual(comment.creator, "test-user")
+            self.assertEqual(comment.getOwner().getUserName(), "test-user")
+            local_roles = comment.get_local_roles()
+            self.assertEqual(len(local_roles), 1)
+            userid, roles = local_roles[0]
+            self.assertEqual(userid, 'test-user')
+            self.assertEqual(len(roles), 1)
+            self.assertEqual(roles[0], 'Owner')
+
     def test_add_anonymous_comment(self):
-        self.discussionTool.overrideDiscussionFor(self.portal.doc1, True)
+        self.portal.doc1.allow_discussion = True
 
         self.viewlet = CommentsViewlet(self.context, self.request, None, None)
 
@@ -226,11 +236,24 @@ class TestCommentForm(unittest.TestCase):
         self.assertEqual(len(errors), 0)
         self.assertFalse(commentForm.handleComment(commentForm, "action"))
 
+        comments = IConversation(commentForm.context).getComments()
+        comments = [comment for comment in comments]  # consume itertor
+        self.assertEqual(len(comments), 1)
+
+        for comment in IConversation(commentForm.context).getComments():
+            self.assertEqual(comment.text, u"bar")
+            self.assertIsNone(comment.creator)
+            roles = comment.get_local_roles()
+            self.assertEqual(len(roles), 0)
+
     def test_can_not_add_comments_if_discussion_is_not_allowed(self):
         """Make sure that comments can't be posted if discussion is disabled.
         """
 
-        # Discussion is disabled by default
+        # Disable discussion
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = False
 
         def make_request(form={}):
             request = TestRequest()
@@ -256,6 +279,7 @@ class TestCommentForm(unittest.TestCase):
         # No form errors, but raise unauthorized because discussion is not
         # allowed
         self.assertEqual(len(errors), 0)
+
         self.assertRaises(Unauthorized,
                           commentForm.handleComment,
                           commentForm,
@@ -318,11 +342,6 @@ class TestCommentsViewlet(unittest.TestCase):
 
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
-        self.portal_discussion = getToolByName(
-            self.portal,
-            'portal_discussion',
-            None
-        )
         self.membershipTool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
         context = getattr(self.portal, 'doc1')
@@ -372,8 +391,7 @@ class TestCommentsViewlet(unittest.TestCase):
         # By default, discussion is disabled
         self.assertFalse(self.viewlet.is_discussion_allowed())
         # Enable discussion
-        portal_discussion = getToolByName(self.portal, 'portal_discussion')
-        portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
+        self.portal.doc1.allow_discussion = True
         # Test if discussion has been enabled
         self.assertTrue(self.viewlet.is_discussion_allowed())
 
@@ -520,11 +538,11 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
     def test_get_commenter_portrait_is_none(self):
-        self.assertTrue(
-            self.viewlet.get_commenter_portrait() in (
-                'defaultUser.png',
-                'defaultUser.gif',
-            )
+
+        self.assertEqual(
+            self.viewlet.get_commenter_portrait(),
+            'defaultUser.png'
+
         )
 
     def test_get_commenter_portrait_without_userimage(self):
@@ -604,6 +622,3 @@ class TestCommentsViewlet(unittest.TestCase):
         self.assertTrue(
             localized_time in ['Feb 01, 2009 11:32 PM', '2009-02-01 23:32'])
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

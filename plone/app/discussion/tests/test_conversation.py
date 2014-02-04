@@ -91,10 +91,10 @@ class ConversationTest(unittest.TestCase):
         comment.author_username = "nobody"
         conversation.addComment(comment)
         comment.manage_permission("View", roles=tuple())
-        self.assertEquals(0, conversation.total_comments)
-        self.assertEquals(None, conversation.last_comment_date)
-        self.assertEquals(["nobody"], list(conversation.commentators))
-        self.assertEquals([], list(conversation.public_commentators))
+        self.assertEqual(0, conversation.total_comments)
+        self.assertEqual(None, conversation.last_comment_date)
+        self.assertEqual(["nobody"], list(conversation.commentators))
+        self.assertEqual([], list(conversation.public_commentators))
 
     def test_delete_comment(self):
         # Create a conversation. In this case we doesn't assign it to an
@@ -308,12 +308,12 @@ class ConversationTest(unittest.TestCase):
 
         # Create a folder
         self.typetool.constructContent('Folder', self.portal, 'f1')
-        f1 = self.portal.f1
+
         # Usually we don't create a conversation on a folder
         conversation = self.portal.f1.restrictedTraverse('@@conversation_view')
 
         # Allow discussion for the folder
-        self.portal_discussion.overrideDiscussionFor(f1, True)
+        self.portal.f1.allow_discussion = True
 
         # Allow discussion on Folder content type
         portal_types = getToolByName(self.portal, 'portal_types')
@@ -334,12 +334,12 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(conversation.enabled(), False)
 
         # Allow discussion on content object
-        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
+        self.portal.doc1.allow_discussion = True
 
         # Check if discussion is now allowed on the content object
         self.assertEqual(conversation.enabled(), True)
 
-        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, False)
+        self.portal.doc1.allow_discussion = False
         self.assertEqual(conversation.enabled(), False)
 
     def test_dict_operations(self):
@@ -874,6 +874,3 @@ class RepliesTest(unittest.TestCase):
         self.assertEqual(len(replies_to_comment1_1), 1)
         self.assertEqual(len(replies_to_comment2), 1)
 
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)
