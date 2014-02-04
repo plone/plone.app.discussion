@@ -151,7 +151,7 @@
             $.ajax({
                 type: "GET",
                 url: form_url,
-                data: "workflow_action=publish",
+                data: data,
                 context: trigger,
                 success: function (msg) {
                     // remove button (trigger object can't be directly removed)
