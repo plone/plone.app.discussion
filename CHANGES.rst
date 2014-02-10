@@ -4,7 +4,9 @@ Changelog
 2.2.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Execute the proper workflow change when using the moderation buttons instead
+  of hardcoding the workflow action to always publish
+  [omiron]
 
 
 2.2.12 (2014-01-13)
