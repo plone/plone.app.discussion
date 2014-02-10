@@ -4,7 +4,8 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
-- Execute the property workflow
+- Execute the proper workflow change when using the moderation buttons instead
+  of hardcoding the workflow action to always publish
   [omiron]
 
 - Corrections and additions to the Danish translation
