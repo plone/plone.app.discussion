@@ -4,6 +4,10 @@ Changelog
 2.3.0 (unreleased)
 ------------------
 
+- Remove DL's from portal message in templates.
+  https://github.com/plone/Products.CMFPlone/issues/153
+  [khink]
+
 - Execute the proper workflow change when using the moderation buttons instead
   of hardcoding the workflow action to always publish
   [omiron]
