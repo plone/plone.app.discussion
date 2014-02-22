@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.0 (unreleased)
+2.3.0 (2014-02-22)
 ------------------
 
 - Execute the proper workflow change when using the moderation buttons instead
