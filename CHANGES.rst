@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.1 (unreleased)
+2.3.1 (2014-02-22)
 ------------------
 
 - 2.3.0 was a brown bag release.
