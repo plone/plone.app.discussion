@@ -21,6 +21,9 @@ Changelog
 - Make comments editable.
   [pjstevns, gyst]
 
+- Provide 'Delete comments' permission to handle comments deletion
+  [cekk]
+
 
 2.3.2 (2014-04-05)
 ------------------
@@ -100,8 +103,6 @@ Changelog
   [toutpt]
 
 
-=======
->>>>>>> rebased branch from master
 2.2.10 (2013-09-24)
 -------------------
 

@@ -32,6 +32,7 @@ you're not logged in::
     >>> unprivileged_browser = Browser(app)
     >>> browser_member = Browser(app)
     >>> browser_user = Browser(app)
+    >>> browser_reviewer = Browser(app)
 
 Make sure we have a test user from the layer and it uses fancy characters:
 
@@ -143,7 +144,6 @@ Post a comment as member
 ------------------------
 
 Login as user 'jim'.
-
     >>> browser_member.open(portal_url + '/login_form')
     >>> browser_member.getControl(name='__ac_name').value = 'jim'
     >>> browser_member.getControl(name='__ac_password').value = 'secret'
@@ -320,8 +320,8 @@ But Anon can see the edited comment.
     True
 
 
-Deleting existing comments | 'delete own comments' disabled
------------------------------------------------------------
+Deleting existing comments | 'Delete comments' permission
+----------------------------------------------------------
 
 Anonymous cannot delete comments
 
@@ -329,7 +329,7 @@ Anonymous cannot delete comments
     >>> 'form.button.Delete' in unprivileged_browser.contents
     False
 
-A member cannot delete his own comments, unless this is explicitly enabled (see later)
+A member cannot delete his own comments if he can't review or he isn't a Site Administrator
 
     >>> browser_member.open(urldoc1)
     >>> 'form.button.Delete' in browser_member.contents
@@ -360,7 +360,6 @@ The comment is still there
     >>> comment_id in unprivileged_browser.contents
     True
 
-
 A Member cannot delete even his own comment by hitting the delete url directly.
 
 Extract the member comment id from the admin browser
@@ -387,10 +386,17 @@ The comment is still there
     >>> 'Comment from Jim' in browser_member.contents
     True
 
-Admin, who hase 'review comments' permission, can delete comments
+Now login as user 'reviewer'
 
-    >>> browser.open(urldoc1)
-    >>> form = browser.getForm(name='delete', index=0)
+    >>> browser_reviewer.open(portal_url + '/login_form')
+    >>> browser_reviewer.getControl(name='__ac_name').value = 'reviewer'
+    >>> browser_reviewer.getControl(name='__ac_password').value = 'secret'
+    >>> browser_reviewer.getControl(name='submit').click()
+
+Admin and who have 'Delete comments' permission (reviewers for example), can delete comments
+
+    >>> browser_reviewer.open(urldoc1)
+    >>> form = browser_reviewer.getForm(name='delete', index=0)
     >>> '@@moderate-delete-comment' in form.action
     True
 
@@ -406,58 +412,8 @@ We'll just catch that and check the result later.
 
 Returning to the document we find the deleted comment is indeed gone
 
-    >>> browser.open(urldoc1)
-    >>> comment_id in browser.contents
-    False
-
-
-Deleting existing comments | 'delete own comments' ENABLED
-----------------------------------------------------------
-
-Enable deletion of own comments
-
-    >>> from zope.component import queryUtility
-    >>> from plone.registry.interfaces import IRegistry
-    >>> from plone.app.discussion.interfaces import IDiscussionSettings
-    >>> registry = queryUtility(IRegistry)
-    >>> settings = registry.forInterface(IDiscussionSettings)
-    >>> settings.delete_own_comment_enabled = True
-
-    >>> import transaction
-    >>> transaction.commit()
-
-Anonymous still cannot delete comments
-
-    >>> unprivileged_browser.open(urldoc1)
-    >>> 'form.button.Delete' in unprivileged_browser.contents
-    False
-
-A member can now delete his own comments
-
-    >>> browser_member.open(urldoc1)
-    >>> 'form.button.Delete' in browser_member.contents
-    True
-
-    >>> form = browser_member.getForm(name='delete', index=0)
-    >>> '@@moderate-delete-comment' in form.action
-    True
-
-    >>> comment_id = form.action.split('/')[-2]
-
-Submitting the form runs into a testbrowser notFoundException.
-We'll just catch that and check the result later.
-
-    >>> try:
-    ...   form.submit()    
-    ... except:
-    ...   pass
-
-Returning to the document we find the deleted comment is indeed gone
-
-    >>> browser_member.open(urldoc1)
-    >>> comment_id in browser_member.contents
-    False
-    >>> 'Comment from Jim' in browser_member.contents
+    >>> browser_reviewer.open(urldoc1)
+    >>> comment_id in browser_reviewer.contents
     False
 
 
