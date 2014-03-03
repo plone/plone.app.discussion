@@ -14,11 +14,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.discussion\n"
 
-#: plone.app.discussion/plone/app/discussion/comment.py:326
+#: ../comment.py:335
 msgid "A comment has been posted."
 msgstr "Ein Kommentar wurde abgegeben."
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:143
+#: ../interfaces.py:143
 msgid "A comment id unique to this conversation"
 msgstr "Eine eindeutige ID des Kommentars"
 
@@ -26,36 +26,39 @@ msgstr "Eine eindeutige ID des Kommentars"
 msgid "Add a comment"
 msgstr "Kommentar hinzufügen"
 
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:66
+#: ../browser/controlpanel.py:75
 msgid "Anonymous Comments"
 msgstr "Anonyme Kommentare"
 
-#: plone.app.discussion/plone/app/discussion/browser/comments.py:258
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:84
+#: ../browser/comments.py:258
+#: ../browser/controlpanel.py:93
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:80
+#: ../browser/controlpanel.py:89
 msgid "Changes saved"
 msgstr "Änderungen gespeichert"
 
-#: plone.app.discussion/plone/app/discussion/browser/moderation.py:139
+#: ../browser/moderation.py:155
 msgid "Comment approved."
 msgstr "Kommentar zur Veröffentlichung freigegeben."
 
-#: plone.app.discussion/plone/app/discussion/browser/moderation.py:100
+#: ../browser/moderation.py:108
 msgid "Comment deleted."
 msgstr "Kommentar gelöscht"
 
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:67
+#: ../browser/controlpanel.py:76
 msgid "Commenter Image"
 msgstr "Porträt des Benutzers"
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:138
+msgid "Commenting infrastructure for Plone"
+msgstr ""
+
+#: ../interfaces.py:138
 msgid "Conversation"
 msgstr "Diskussion"
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:176
+#: ../interfaces.py:176
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
@@ -67,51 +70,55 @@ msgstr "Datum des neuesten öffentlichen Kommentars"
 msgid "Disabled"
 msgstr "Ausgeschaltet"
 
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:34
+#: ../browser/controlpanel.py:35
 msgid "Discussion settings"
 msgstr "Kommentierungseinstellungen"
 
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:86
+#: ../browser/controlpanel.py:95
 msgid "Edit cancelled"
 msgstr "Bearbeitung abgebrochen"
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:155
+#: ../interfaces.py:155
 msgid "Email"
 msgstr "E-Mail"
 
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:65
+#: ../browser/controlpanel.py:74
 msgid "Enable Comments"
 msgstr "Kommentare einschalten"
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:146
+#: ../interfaces.py:146
 msgid "Id of comment this comment is in reply to"
 msgstr "ID des Kommentars, auf den geantwortet wird."
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:160
+#: ../interfaces.py:160
 msgid "MIME type"
 msgstr "MIME-Typ"
 
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:69
+#: ../browser/controlpanel.py:78
 msgid "Moderator Email Notification"
 msgstr "Moderator E-Mail Benachrichtigung"
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:177
+#: ../interfaces.py:177
 msgid "Modification date"
 msgstr "Änderungsdatum"
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:140
+#: ../interfaces.py:140
 msgid "Name"
 msgstr "Name"
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:169
+#: ../interfaces.py:169
 msgid "Notify me of new comments via email."
 msgstr "E-Mail-Benachrichtigung bei neuen Kommentaren"
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:133
+#: ./plone.app.discussion/plone/app/discussion/configure.zcml
+msgid "Plone Discussions"
+msgstr "Plone Diskussionen"
+
+#: ../interfaces.py:133
 msgid "Portal type"
 msgstr "Artikeltyp"
 
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:73
+#: ../browser/controlpanel.py:82
 msgid "Save"
 msgstr "Speichern"
 
@@ -127,24 +134,24 @@ msgstr ""
 msgid "Total number of public comments on this item"
 msgstr "Summe der veröffentlichten Kommentare zu diesem Artikel"
 
-#: plone.app.discussion/plone/app/discussion/comment.py:158
+#: ../comment.py:167
 msgid "Transform '%s' => '%s' not available."
-msgstr "Transformation '%s' => '%s' ist nicht verfügbar."
+msgstr ""
 
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:71
+#: ../browser/controlpanel.py:80
 msgid "User Email Notification"
 msgstr "E-Mail-Benachrichtigungen für Benutzer"
 
-#: plone.app.discussion/plone/app/discussion/interfaces.py:175
+#: ../interfaces.py:175
 msgid "Username of the commenter"
 msgstr "Benutzername des Kommentierenden"
 
-#: plone.app.discussion/plone/app/discussion/browser/comments.py:251
+#: ../browser/comments.py:251
 msgid "Your comment awaits moderator approval."
 msgstr "Ihr Kommentar muss noch vom Moderator freigegeben werden."
 
 #. Default: "Comment"
-#: plone.app.discussion/plone/app/discussion/browser/comments.py:132
+#: ../browser/comments.py:132
 msgid "add_comment_button"
 msgstr "Kommentieren"
 
@@ -157,6 +164,11 @@ msgstr "Löschen"
 #: plone.app.discussion/plone/app/discussion/browser/moderation.pt:65
 msgid "bulkactions_publish"
 msgstr "Veröffentlichen"
+
+#. Default: "Cancel"
+#: ../browser/comment.py:97
+msgid "cancel_form_button"
+msgstr ""
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
 #: plone.app.discussion/plone/app/discussion/browser/comments.py:57
@@ -178,10 +190,30 @@ msgstr "Kommentare werden moderiert."
 msgid "comment_description_plain_text"
 msgstr "Sie können einen Kommentar abgeben, indem Sie das untenstehende Formular ausfüllen. Nur Text."
 
+#. Default: "Edit comment cancelled"
+#: ../browser/comment.py:101
+msgid "comment_edit_cancel_notification"
+msgstr ""
+
+#. Default: "Comment was edited"
+#: ../browser/comment.py:91
+msgid "comment_edit_notification"
+msgstr ""
+
 #. Default: "${author_name} on ${content}"
-#: plone.app.discussion/plone/app/discussion/comment.py:48
+#: ../comment.py:49
 msgid "comment_title"
 msgstr "${author_name} zu ${content}"
+
+#. Default: "Edit comment"
+#: ../browser/comment.py:70
+msgid "edit_comment_form_button"
+msgstr ""
+
+#. Default: "Edit comment"
+#: ../browser/comment.py:54
+msgid "edit_comment_form_title"
+msgstr ""
 
 #. Default: "Action"
 #: plone.app.discussion/plone/app/discussion/browser/moderation.pt:85
@@ -214,23 +246,23 @@ msgid "heading_moderate_comments"
 msgstr "Kommentare moderieren"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:215
+#: ../interfaces.py:215
 msgid "help_anonymous_comments"
 msgstr "Wenn Sie diese Einstellung aktivieren, können anonyme Benutzer Kommentare abgeben. Es ist empfehlenswert, dann auch Captchas zu aktivieren."
 
 #. Default: "If selected, anonymous user will have to give their email."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:329
+#: ../interfaces.py:341
 msgid "help_anonymous_email_enabled"
 msgstr "Wenn Sie diese Einstellung aktivieren, müssen anonyme Benutzer ihre E-Mail-Adresse angeben."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:265
+#: ../interfaces.py:276
 #, fuzzy
 msgid "help_captcha"
 msgstr "Wenn Sie diese Einstellung aktivieren, wird mit Hilfe der Captcha-Validierung überprüft, ob die Kommentare von einem echten Benutzer oder von einem automatisierten Skript stammen. Falls Sie die Option nicht einschalten können, fehlt evtl. ein benötigtes Programmmodul. Stellen Sie sicher, dass entweder plone.formwidget.captcha oder plone.formwidget.recaptcha installiert ist."
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
-#: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:35
+#: ../browser/controlpanel.py:36
 #, fuzzy
 msgid "help_discussion_settings_editform"
 msgstr ""
@@ -238,56 +270,60 @@ msgstr ""
 "\n"
 "Um die Moderation von Kommentaren zu aktivieren, wählen Sie den Artikeltyp 'Kommentar' aus und wählen Sie als neuen Arbeitsablauf 'Arbeitsablauf für moderierte Kommentare'."
 
+#. Default: "If selected, supports editing of comments for users with the 'Edit comments' permission."
+#: ../interfaces.py:248
+msgid "help_edit_comment_enabled"
+msgstr ""
+
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:201
+#: ../interfaces.py:201
 #, fuzzy
 msgid "help_globally_enabled"
 msgstr "Wenn Sie diese Einstellung aktivieren, können Artikel generell kommentiert werden."
 
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:231
+#: ../interfaces.py:231
 msgid "help_moderation_enabled"
 msgstr "Falls ausgewählt werden Kommentare in einem für die Öffentlichkeit unsichtbaren Schwebezustand gehalten, bis sie ein Benutzer mit der 'Review comments' Berechtigung ('Reviewer' or 'Manager') genehmigt und damit für die Öffentlichkeit sichtbar macht. Wenn Sie einen angepassten Arbeitsablauf für Kommentare einstellen wollen, so geht das mit dem Menu unter Artikeltypen."
 
 #. Default: "Address to which moderator notifications will be sent."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:306
+#: ../interfaces.py:318
 msgid "help_moderator_email"
 msgstr "E-Mail Adresse an welche die Moderatoren-Benachrichtigungen gesendet werden."
 
-#. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:292
-#, fuzzy
+#. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
+#: ../interfaces.py:303
 msgid "help_moderator_notification_enabled"
 msgstr "Falls ausgewählt erhält der Moderator eine E-Mail, wenn ein Kommentar Aufmerksamkeit braucht. Die E-Mail-Adresse des Moderators kann weiter unten angegeben werden."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:281
+#: ../interfaces.py:292
 msgid "help_show_commenter_image"
 msgstr "Wenn Sie diese Einstellung aktivieren, wird das Porträt des kommentierenden Benutzers neben dem Kommentar angezeigt."
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:248
+#: ../interfaces.py:259
 msgid "help_text_transform"
 msgstr "Diese Einstellung wählen, wenn eine Transformation in irgend einer Art und Weise gewünscht ist. Sie können zwischen 'Plain text' und 'Intelligent text' wählen. 'Intelligent text' wandelt Plain Text in HTML um, dabei werden Zeilenumbrüche und Einrückungen beibehalten sowie Weblinks und E-Mail-Adressen in klickbare Links verwandelt."
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:318
+#: ../interfaces.py:330
 msgid "help_user_notification_enabled"
 msgstr "Wenn Sie diese Einstellung auswählen, können Benutzer angeben, dass sie über neue Kommentare per E-Mail informiert werden möchten."
 
 #. Default: "Anonymous"
-#: plone.app.discussion/plone/app/discussion/browser/comments.pt:71
-#: plone.app.discussion/plone/app/discussion/comment.py:176
+#: ../browser/comments.pt:74
+#: ../comment.py:185
 msgid "label_anonymous"
 msgstr "Anonymer Benutzer"
 
 #. Default: "Enable anonymous comments"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:213
+#: ../interfaces.py:213
 msgid "label_anonymous_comments"
 msgstr "Anonyme Kommentare"
 
 #. Default: "Enable anonymous email field"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:327
+#: ../interfaces.py:339
 msgid "label_anonymous_email_enabled"
 msgstr "E-Mail Feld für anonyme Kommentare einschalten"
 
@@ -297,17 +333,17 @@ msgid "label_apply"
 msgstr "Anwenden"
 
 #. Default: "Captcha"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:263
+#: ../interfaces.py:274
 msgid "label_captcha"
 msgstr "Captcha"
 
 #. Default: "Comment"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:162
+#: ../interfaces.py:162
 msgid "label_comment"
 msgstr "Kommentar"
 
 #. Default: "Commenting has been disabled."
-#: plone.app.discussion/plone/app/discussion/browser/comments.pt:130
+#: ../browser/comments.pt:148
 msgid "label_commenting_disabled"
 msgstr "Kommentare wurden abgeschaltet."
 
@@ -316,13 +352,18 @@ msgstr "Kommentare wurden abgeschaltet."
 msgid "label_delete"
 msgstr "Löschen"
 
+#. Default: "Enable editing of comments"
+#: ../interfaces.py:246
+msgid "label_edit_comment_enabled"
+msgstr ""
+
 #. Default: "Globally enable comments"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:199
+#: ../interfaces.py:199
 msgid "label_globally_enabled"
 msgstr "Kommentierungsfunktion generell einschalten"
 
 #. Default: "Enable comment moderation"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:227
+#: ../interfaces.py:227
 msgid "label_moderation_enabled"
 msgstr "Moderation für Kommentare einschalten"
 
@@ -332,7 +373,7 @@ msgid "label_moderator_email"
 msgstr "E-Mail Adresse des Moderators"
 
 #. Default: "Enable moderator email notification"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:290
+#: ../interfaces.py:301
 msgid "label_moderator_notification_enabled"
 msgstr "Email-Benachrichtigungen für Moderatoren aktivieren"
 
@@ -342,12 +383,12 @@ msgid "label_publish"
 msgstr "Veröffentlichen"
 
 #. Default: "says:"
-#: plone.app.discussion/plone/app/discussion/browser/comments.pt:74
+#: ../browser/comments.pt:77
 msgid "label_says"
 msgstr "sagt"
 
 #. Default: "Show commenter image"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:279
+#: ../interfaces.py:290
 msgid "label_show_commenter_image"
 msgstr "Zeige das Portrait des Kommentators"
 
@@ -357,22 +398,22 @@ msgid "label_show_full_comment_text"
 msgstr "Den vollständigen Kommentar anzeigen"
 
 #. Default: "Subject"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:157
+#: ../interfaces.py:157
 msgid "label_subject"
 msgstr "Betreff"
 
 #. Default: "Comment text transform"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:246
+#: ../interfaces.py:257
 msgid "label_text_transform"
 msgstr "Text transformationen"
 
 #. Default: "Enable user email notification"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:314
+#: ../interfaces.py:326
 msgid "label_user_notification_enabled"
 msgstr "E-Mail-Benachrichtigungen für Benutzer aktivieren"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
-#: plone.app.discussion/plone/app/discussion/comment.py:52
+#: ../comment.py:53
 msgid "mail_notification_message"
 msgstr ""
 "Ein Kommentar zu '${title}' wurde hier abgegeben: ${link}\n"
@@ -382,7 +423,7 @@ msgstr ""
 "---\n"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
-#: plone.app.discussion/plone/app/discussion/comment.py:60
+#: ../comment.py:61
 msgid "mail_notification_message_moderator"
 msgstr ""
 "Ein Kommentar zu '${title}' wurde hier abgegeben: ${link}\n"
