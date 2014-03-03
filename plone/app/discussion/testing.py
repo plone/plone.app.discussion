@@ -28,6 +28,8 @@ class PloneAppDiscussion(PloneSandboxLayer):
     USER_WITH_FULLNAME_PASSWORD = 'secret'
     MANAGER_USER_NAME = 'manager'
     MANAGER_USER_PASSWORD = 'secret'
+    REVIEWER_NAME = 'reviewer'
+    REVIEWER_PASSWORD = 'secret'
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
@@ -60,7 +62,15 @@ class PloneAppDiscussion(PloneSandboxLayer):
             ['Member'],
             [],
         )
+        acl_users.userFolderAddUser(
+            self.REVIEWER_NAME,
+            self.REVIEWER_PASSWORD,
+            ['Member'],
+            [],
+        )
         mtool = getToolByName(portal, 'portal_membership', None)
+        gtool = getToolByName(portal, 'portal_groups', None)
+        gtool.addPrincipalToGroup(self.REVIEWER_NAME, 'Reviewers')
         mtool.addMember('jim', 'Jim', ['Member'], [])
         mtool.getMemberById('jim').setMemberProperties(
             {"fullname": 'Jim Fult\xc3\xb8rn'})

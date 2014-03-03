@@ -88,7 +88,7 @@
         name="moderate-delete-comment"
         layer="..interfaces.IDiscussionLayer"
         class=".moderation.DeleteComment"
-        permission="zope2.DeleteObjects"
+        permission="plone.app.discussion.DeleteComments"
         />
 
     <!-- Publish comment view -->

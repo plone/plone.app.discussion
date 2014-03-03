@@ -64,9 +64,13 @@ Changelog
   PLONE_FIXTURE.
   [timo]
 
-- Fix ownership of comments.
-  [toutpt]
+- Fix ownership of comments. [toutpt]
 
+- Make comments editable.
+  [pjstevns, gyst]
+
+- Provide 'Delete comments' permission to handle comments deletion
+  [cekk]
 
 2.2.10 (2013-09-24)
 -------------------
