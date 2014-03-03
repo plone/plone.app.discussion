@@ -312,17 +312,8 @@ class CommentsViewlet(ViewletBase):
         """By default requires 'Review comments'.
         If 'delete own comments' is enabled, requires 'Edit comments'.
         """
-        if self.is_delete_own_comment_allowed():
-            permission = 'Edit comments'
-        else:
-            permission = 'Review comments'
-        return getSecurityManager().checkPermission(permission,
+        return getSecurityManager().checkPermission('Delete comments',
                                                     aq_inner(reply))
-
-    def is_delete_own_comment_allowed(self):
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings, check=False)
-        return settings.delete_own_comment_enabled
 
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
