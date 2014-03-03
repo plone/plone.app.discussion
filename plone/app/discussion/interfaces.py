@@ -246,7 +246,7 @@ class IDiscussionSettings(Interface):
         title=_(u"label_edit_comment_enabled",
                 default="Enable editing of comments"),
         description=_(u"help_edit_comment_enabled",
-                      default=u"If selected, supports editing and deletion "
+                      default=u"If selected, supports editing "
                       "of comments for users with the 'Edit comments' "
                       "permission."),
         required=False,

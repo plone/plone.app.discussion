@@ -31,6 +31,9 @@ Changelog
 - Provide 'Delete comments' permission to handle comments deletion
   [cekk]
 
+- Fixed Italian translations
+  [cekk]
+
 2.2.10 (2013-09-24)
 -------------------
 
