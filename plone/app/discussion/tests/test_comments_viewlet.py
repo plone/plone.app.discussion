@@ -142,7 +142,7 @@ class TestCommentForm(unittest.TestCase):
         """
 
         # Allow discussion
-        self.discussionTool.overrideDiscussionFor(self.portal.doc1, True)
+        self.portal.doc1.allow_discussion = True
         self.viewlet = CommentsViewlet(self.context, self.request, None, None)
 
         def make_request(form={}):
@@ -195,6 +195,21 @@ class TestCommentForm(unittest.TestCase):
         self.assertFalse(editForm.handleComment(editForm, "foo"))
         comment = [x for x in conversation.getComments()][-1]
         self.assertEquals(comment.text, u"foobar")
+
+        comments = IConversation(commentForm.context).getComments()
+        comments = [comment for comment in comments]  # consume itertor
+        self.assertEqual(len(comments), 1)
+
+        for comment in comments:
+            self.assertEqual(comment.text, u"foobar")
+            self.assertEqual(comment.creator, "test-user")
+            self.assertEqual(comment.getOwner().getUserName(), "test-user")
+            local_roles = comment.get_local_roles()
+            self.assertEqual(len(local_roles), 2)
+            userid, roles = local_roles[0]
+            self.assertEqual(userid, 'test-user')
+            self.assertEqual(len(roles), 1)
+            self.assertEqual(roles[0], 'Owner')
 
     def test_add_anonymous_comment(self):
         self.portal.doc1.allow_discussion = True
