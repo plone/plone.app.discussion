@@ -126,12 +126,12 @@ class TestCommentForm(unittest.TestCase):
 
         for comment in comments:
             self.assertEqual(comment.text, u"bar")
-            self.assertEqual(comment.creator, "test-user")
+            self.assertEqual(comment.creator, "test_user_1_")
             self.assertEqual(comment.getOwner().getUserName(), "test-user")
             local_roles = comment.get_local_roles()
             self.assertEqual(len(local_roles), 1)
             userid, roles = local_roles[0]
-            self.assertEqual(userid, 'test-user')
+            self.assertEqual(userid, 'test_user_1_')
             self.assertEqual(len(roles), 1)
             self.assertEqual(roles[0], 'Owner')
 
@@ -558,4 +558,3 @@ class TestCommentsViewlet(unittest.TestCase):
         localized_time = self.viewlet.format_time(python_time)
         self.assertTrue(
             localized_time in ['Feb 01, 2009 11:32 PM', '2009-02-01 23:32'])
-
