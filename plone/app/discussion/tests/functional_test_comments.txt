@@ -299,7 +299,7 @@ Login as admin.
 Edit the content object.
 
     >>> browser.open("http://nohost/plone/doc1/edit")
-    >>> browser.getControl(name='form.widgets.text').value = "Lorem ipsum"
+    >>> browser.getControl(name='form.widgets.IRichText.text').value = "Lorem ipsum"
     >>> browser.getControl('Save').click()
 
 Make sure the edit was successful.

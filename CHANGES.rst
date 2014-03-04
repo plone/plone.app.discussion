@@ -1,12 +1,27 @@
 Changelog
 =========
 
-2.3.0 (unreleased)
+2.3.2 (unreleased)
 ------------------
 
 - use member.getId as author_username, so membrane users having different id
   then username still have there picture shown and author path is correct.
   [maartenkling]
+
+
+2.3.1 (2014-02-22)
+------------------
+
+- 2.3.0 was a brown bag release.
+  [timo]
+
+
+2.3.0 (2014-02-22)
+------------------
+
+- Execute the proper workflow change when using the moderation buttons instead
+  of hardcoding the workflow action to always publish
+  [omiron]
 
 - Corrections and additions to the Danish translation
   [aputtu]
