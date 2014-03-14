@@ -4,6 +4,10 @@ Changelog
 2.2.13 (unreleased)
 -------------------
 
+- Replace $.live with $.on for jQuery >= 1.9 compatibility. This works on
+  jQuery >= 1.7 (Plone 4.3 onwards).
+  [gaudenz]
+
 - Execute the proper workflow change when using the moderation buttons instead
   of hardcoding the workflow action to always publish
   [omiron]
