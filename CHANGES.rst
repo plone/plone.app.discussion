@@ -10,6 +10,10 @@ Changelog
 - Trigger custom events on comment add/remove/reply
   [avoinea]
 
+- Replace $.live with $.on for jQuery >= 1.9 compatibility. This works on
+  jQuery >= 1.7 (Plone 4.3 onwards).
+  [gaudenz]
+
 2.3.2 (2014-04-05)
 ------------------
 

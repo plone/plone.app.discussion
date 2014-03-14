@@ -143,7 +143,7 @@
         /**********************************************************************
          * Publish a single comment.
          **********************************************************************/
-        $("input[name='form.button.PublishComment']").live('click', function () {
+        $("input[name='form.button.PublishComment']").on('click', function () {
             var trigger = this;
             var form = $(this).parents("form");
             var data = $(form).serialize();
@@ -169,7 +169,7 @@
         /**********************************************************************
          * Delete a comment and its answers.
          **********************************************************************/
-        $("input[name='form.button.DeleteComment']").live('click', function () {
+        $("input[name='form.button.DeleteComment']").on('click', function () {
             var trigger = this;
             var form = $(this).parents("form");
             var data = $(form).serialize();
