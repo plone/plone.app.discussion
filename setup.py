@@ -51,7 +51,7 @@ setup(name='plone.app.discussion',
       extras_require={
           'test': [
               'plone.app.testing',
-              'plone.app.contenttypes',
+              'plone.app.contenttypes[test]',
           ]
       },
       entry_points="""
