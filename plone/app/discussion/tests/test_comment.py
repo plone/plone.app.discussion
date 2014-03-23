@@ -125,6 +125,18 @@ class CommentTest(unittest.TestCase):
         conversation.addComment(comment1)
         self.assertEqual(u"Tarek Ziadé on Document äüö", comment1.Title())
 
+    def test_title_special_characters_utf8(self):
+        self.portal.invokeFactory(
+            id='doc_sp_chars_utf8',
+            title='Document ëïû',
+            type_name='Document'
+        )
+        conversation = IConversation(self.portal.doc_sp_chars_utf8)
+        comment1 = createObject('plone.Comment')
+        comment1.author_name = "Hüüb Bôûmä"
+        conversation.addComment(comment1)
+        self.assertEqual(u"Hüüb Bôûmä on Document ëïû", comment1.Title())
+
     def test_creator(self):
         comment1 = createObject('plone.Comment')
         comment1.creator = "jim"

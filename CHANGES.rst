@@ -4,6 +4,9 @@ Changelog
 2.3.2 (unreleased)
 ------------------
 
+- Fix comments Title if utf-8 characters in author_name
+  [huub_bouma]
+
 - use member.getId as author_username, so membrane users having different id
   then username still have there picture shown and author path is correct.
   [maartenkling]
@@ -42,7 +45,8 @@ Changelog
   PLONE_FIXTURE.
   [timo]
 
-- Fix ownership of comments. [toutpt]
+- Fix ownership of comments. 
+  [toutpt]
 
 
 2.2.10 (2013-09-24)
