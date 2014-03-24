@@ -4,6 +4,10 @@ Changelog
 2.3.2 (unreleased)
 ------------------
 
+- Fix reindexObject for content_object in moderation views.
+  Now reindex only "total_comments" index and not all the indexes 
+  [cekk]
+
 - Fix comments Title if utf-8 characters in author_name
   [huub_bouma]
 
@@ -93,8 +97,6 @@ Changelog
   to old discussion items that had none.
   [pjstevns]
 
-- Fix reindexObject for content_object in moderation views.
-  Now reindex only "total_comments" index and not all the indexes [cekk]
 
 2.2.6 (2013-05-23)
 ------------------
