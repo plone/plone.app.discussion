@@ -93,6 +93,8 @@ Changelog
   to old discussion items that had none.
   [pjstevns]
 
+- Fix reindexObject for content_object in moderation views.
+  Now reindex only "total_comments" index and not all the indexes [cekk]
 
 2.2.6 (2013-05-23)
 ------------------
