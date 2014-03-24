@@ -114,13 +114,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         member = mtool.getAuthenticatedMember()
         member_email = member.getProperty('email')
 
-        # Hide the user_notification checkbox if user notification is disabled
-        # or the user is not logged in. Also check if the user has a valid
-        # email address
-        member_email_is_empty = member_email == ''
-        user_notification_disabled = not settings.user_notification_enabled
-        anon = mtool.isAnonymousUser()
-        if member_email_is_empty or user_notification_disabled or anon:
+        # Decide if the user_notification checkbox should be shown
+        show_user_notification = False
+        if mtool.isAnonymousUser() and settings.anonymous_notification_enabled:
+            show_user_notification = True
+        elif member_email != '' and settings.user_notification_enabled:
+            show_user_notification = True
+
+        if not show_user_notification:
             self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
 
     def updateActions(self):
@@ -188,8 +189,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if anon and anonymous_comments:
             # Anonymous Users
             comment.author_name = author_name
-            comment.author_email = u""
-            comment.user_notification = None
+            comment.author_email = data.get("author_email", u"")
+            comment.user_notification = data.get("user_notification", False)
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
         elif not portal_membership.isAnonymousUser() and can_reply:

@@ -334,6 +334,18 @@ class IDiscussionSettings(Interface):
         required=False,
         default=False)
 
+    anonymous_notification_enabled = schema.Bool(
+        title=_(u"label_anonymous_notification",
+                default="Enable email notification for anonymous comments"),
+        description=_(
+            u"help_anonymous_notification",
+            default=u"If selected, anonymous commenters can choose to be "
+                    u"notified by email when further comments are posted."
+        ),
+        required=False,
+        default=False,
+    )
+
 
 class IDiscussionLayer(Interface):
     """Request marker installed via browserlayer.xml.
