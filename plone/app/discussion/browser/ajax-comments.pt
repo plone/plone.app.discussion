@@ -1,0 +1,27 @@
+<div tal:define="isDiscussionAllowed view/is_discussion_allowed"
+           tal:condition="isDiscussionAllowed"
+           i18n:domain="plone">
+    <tal:message condition="view/message">
+        <div id="info-message" style="display: none;" tal:content="view/message" />
+    </tal:message>
+
+<tal:block define="userHasReplyPermission view/can_reply;
+                   isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
+                   isAnon view/is_anonymous;
+                   canReview view/can_review;
+                   replies python:view.get_replies(workflow_actions=1);
+                   has_replies python:view.has_replies(canReview);
+                   showCommenterImage view/show_commenter_image;
+                   errors options/state/getErrors|nothing;
+                   wtool context/@@plone_tools/workflow;">
+
+    <div class="discussion"
+         tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage' or 'discussion';"
+         tal:condition="has_replies">
+        <tal:getreplies repeat="reply_dict replies">
+            <metal:reply use-macro="view/comment/macros/comment" />
+        </tal:getreplies>
+    </div>
+
+</tal:block>
+</div>

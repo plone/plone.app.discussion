@@ -87,8 +87,7 @@
      * Window Load Function: Executes when complete page is fully loaded,
      * including all frames,
      **************************************************************************/
-    $(window).load(function () {
-
+    var afterCommentsLoad = function () {
 
         /**********************************************************************
          * If the user has hit the reply button of a reply-to-comment form
@@ -106,7 +105,7 @@
         }
 
 
-         /**********************************************************************
+        /**********************************************************************
          * If the user hits the "reply" button of an existing comment, create a
          * reply form right beneath this comment.
          **********************************************************************/
@@ -121,7 +120,7 @@
          * If the user hits the "clear" button of an open reply-to-comment form,
          * remove the form and show the "reply" button again.
          **********************************************************************/
-        $("#commenting #form-buttons-cancel").bind("click", function (e) {
+        $("#form-buttons-cancel").bind("click", function (e) {
             e.preventDefault();
             var reply_to_comment_button = $(this).
                                               parents().
@@ -129,8 +128,8 @@
                                               find(".reply-to-comment-button");
 
             /* Find the reply-to-comment form and hide and remove it again. */
-            $.reply_to_comment_form = $(this).parents().filter(".reply");
-            $.reply_to_comment_form.slideUp("slow", function () {
+            reply_to_comment_form = $(this).parents().filter(".reply");
+            reply_to_comment_form.slideUp("slow", function () {
                 $(this).remove();
             });
 
@@ -139,72 +138,6 @@
 
         });
 
-
-        /**********************************************************************
-         * Publish a single comment.
-         **********************************************************************/
-        $("input[name='form.button.PublishComment']").live('click', function () {
-            var trigger = this;
-            var form = $(this).parents("form");
-            var data = $(form).serialize();
-            var form_url = $(form).attr("action");
-            $.ajax({
-                type: "GET",
-                url: form_url,
-                data: data,
-                context: trigger,
-                success: function (msg) {
-                    // remove button (trigger object can't be directly removed)
-                    form.find("input[name='form.button.PublishComment']").remove();
-                    form.parents(".state-pending").toggleClass('state-pending').toggleClass('state-published');
-                },
-                error: function (msg) {
-                    return true;
-                }
-            });
-            return false;
-        });
-
-
-        /**********************************************************************
-         * Delete a comment and its answers.
-         **********************************************************************/
-        $("input[name='form.button.DeleteComment']").live('click', function () {
-            var trigger = this;
-            var form = $(this).parents("form");
-            var data = $(form).serialize();
-            var form_url = $(form).attr("action");
-            $.ajax({
-                type: 'POST',
-                url: form_url,
-                data: data,
-                context: $(trigger).parents(".comment"),
-                success: function (data) {
-                    var comment = $(this);
-                    var clss = comment.attr('class');
-                    // remove replies
-                    var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel') + 'replyTreeLevel'.length], 10);
-                    // selector for all the following elements of lower level
-                    var selector = ".replyTreeLevel" + treelevel;
-                    for (var i = 0; i < treelevel; i++) {
-                        selector += ", .replyTreeLevel" + i;
-                    }
-                    comment.nextUntil(selector).each(function () {
-                        $(this).fadeOut('fast', function () {
-                            $(this).remove();
-                        });
-                    });
-                    // remove comment
-                    $(this).fadeOut('fast', function () {
-                        $(this).remove();
-                    });
-                },
-                error: function (req, error) {
-                    return true;
-                }
-            });
-            return false;
-        });
 
 
         /**********************************************************************
@@ -224,9 +157,114 @@
          **********************************************************************/
         $(".reply-to-comment-button").css("display" , "inline");
 
-    });
+        /**********************************************************************
+         * Publish a single comment.
+         **********************************************************************/
+        $("input[name='form.button.PublishComment']").live('click',function() {
+            var trigger = this;
+            var form = $(this).parents("form");
+            var data = $(form).serialize();
+            var form_url = $(form).attr("action");
+            $.ajax({
+                type: "GET",
+                url: form_url,
+                data: "workflow_action=publish",
+                context: trigger,
+                success: function (msg) {
+                    // remove button (trigger object can't be directly removed)
+                    form.find("input[name='form.button.PublishComment']").remove();
+                    form.parents(".state-pending").toggleClass('state-pending').toggleClass('state-published');
+                },
+                error: function (msg) {
+                    return true;
+                }
+            });
+            return false;
+        });
 
+
+        /**********************************************************************
+         * Delete a comment and its answers.
+         **********************************************************************/
+
+        $("input[name='form.button.DeleteComment']").live('click', function() {
+            var trigger = this;
+            var form = $(this).parents("form");
+            var data = $(form).serialize();
+            var form_url = $(form).attr("action");
+            $.ajax({
+                type:'POST',
+                url:form_url,
+                context: $(trigger).parents(".comment"),
+                success: function(data) {
+                    if($(".discussion .comment .replyTreeLevel0").length == 1) {
+                        $(".discussion").fadeOut('fast', function() {
+                            $(".discussion").remove();
+                        });
+                    }
+                    else {
+                        var comment = $(this);
+                        var clss = comment.attr('class');
+                        // remove replies
+                        var levelchar = clss.indexOf('replyTreeLevel')+'replyTreeLevel'.length;
+                        var treelevel = parseInt(clss.substr(levelchar, levelchar+1))
+                        // selector for all the following elements of lower level
+                        var selector = ".replyTreeLevel" + treelevel;
+                        for(i=0;i<treelevel;i++){
+                            selector += ", .replyTreeLevel" + i;
+                        }
+                        comment.nextUntil(selector).each(function(){
+                            $(this).fadeOut('fast', function() {
+                                $(this).remove();
+                            });
+                        });
+                        // remove comment
+                        $(this).fadeOut('fast', function() {
+                            $(this).remove();
+                        });
+                    }
+                },
+                error: function(req, error) {
+                    return true;
+                }
+            });
+            return false;
+        });
+    }
 
     //#JSCOVERAGE_ENDIF
+
+
+    $(window).load(function(){
+        $('#plone-app-discussion-display-comments-link').each(function(){
+            var url = $('#here_url').attr('value') + '/@@plone-app-discussion-comments';
+            $.get(url, function(html){
+                $('#plone-app-discussion-comments').html(html);
+                afterCommentsLoad();
+            });
+        })
+
+        $('#commenting form input[type=submit]').unbind('click').click(function(){
+            var form = $(this).parents('form:first');
+            var textarea = form.find('textarea');
+            if($.trim(textarea.attr('value'))=='') return false;
+            var data = form.serialize();
+            data += '&form.buttons.comment=1';
+            var url = $('#here_url').attr('value') + '/@@plone-app-discussion-comments';
+            $.post(url, data, function(html){
+                /* Displays an info message (only one) if it exists */
+                $(html).find('#info-message').each(function(){
+                    $('#kssPortalMessage').find('dd').html($(this).text());
+                    $('#kssPortalMessage').show();
+                });
+                $('#plone-app-discussion-comments').html(html);
+                afterCommentsLoad();
+            });
+            textarea.attr('value', '')
+            return false;
+        });
+
+    })
+
 
 }(jQuery));

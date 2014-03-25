@@ -533,7 +533,6 @@ class ConversationTest(unittest.TestCase):
             conversation.last_comment_date > datetime.utcnow() -
             timedelta(days=2, seconds=1)
         )
-
         # remove the latest comment again
         del conversation[new_comment2_id]
 
@@ -619,9 +618,28 @@ class ConversationTest(unittest.TestCase):
         ], list(conversation.getThreads()))
 
     def test_get_threads_batched(self):
-        # TODO: test start, size, root and depth arguments to getThreads()
+
+        conversation = IConversation(self.portal.doc1)
+        for i in range(50):
+            comment = createObject('plone.Comment')
+            comment.title = 'Comment %i' % i
+            comment.text = 'Comment %i text' % i
+            conversation.addComment(comment)
+
+        # test size
+        comments = conversation.getThreads(size=20)
+        comments = [c for c in comments]
+        self.assertEquals(len(comments), 20)
+        self.assertEquals(comments[0]['comment'].text, 'Comment 0 text')
+        self.assertEquals(comments[19]['comment'].text, 'Comment 19 text')
+
+        comments = conversation.getThreads(start=10, size=20)
+        comments = [c for c in comments]
+        self.assertEquals(len([c for c in comments]), 20)
+        self.assertEquals(comments[0]['comment'].text, 'Comment 10 text')
+        self.assertEquals(comments[19]['comment'].text, 'Comment 29 text')
+        # TODO: test root and depth arguments to getThreads()
         #   - may want to split this into multiple tests
-        pass
 
     def test_traversal(self):
         # make sure we can traverse to conversations and get a URL and path
@@ -873,4 +891,3 @@ class RepliesTest(unittest.TestCase):
         self.assertEqual(len(replies_to_comment1), 2)
         self.assertEqual(len(replies_to_comment1_1), 1)
         self.assertEqual(len(replies_to_comment2), 1)
-

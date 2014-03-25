@@ -21,6 +21,7 @@ from z3c.form.interfaces import IFormLayer
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 
@@ -39,7 +40,6 @@ from plone.app.discussion.browser.validator import CaptchaValidator
 
 from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
-
 
 from plone.z3cform.interfaces import IWrappedForm
 
@@ -83,6 +83,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     def updateFields(self):
         super(CommentForm, self).updateFields()
+
         self.fields['user_notification'].widgetFactory = \
             SingleCheckBoxFieldWidget
 
@@ -232,6 +233,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # Add a comment to the conversation
             comment_id = conversation.addComment(comment)
 
+        is_ajax = self.request.get('HTTP_X_REQUESTED_WITH', '') == 'XMLHttpRequest'
+
         # Redirect after form submit:
         # If a user posts a comment and moderation is enabled, a message is
         # shown to the user that his/her comment awaits moderation. If the user
@@ -248,10 +251,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if comment_review_state == 'pending' and not can_review:
             # Show info message when comment moderation is enabled
             IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _("Your comment awaits moderator approval."),
-                type="info")
-            self.request.response.redirect(self.action)
-        else:
+                _("Your comment awaits moderator approval."), type="info")
+            if not is_ajax:
+                self.request.response.redirect(self.action)
+        elif not is_ajax:
             # Redirect to comment (inside a content object page)
             self.request.response.redirect(self.action + '#' + str(comment_id))
 
@@ -262,26 +265,22 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         pass  # pragma: no cover
 
 
-class CommentsViewlet(ViewletBase):
+class CommentsBase(object):
 
-    form = CommentForm
-    index = ViewPageTemplateFile('comments.pt')
-
-    def update(self):
-        super(CommentsViewlet, self).update()
-        discussion_allowed = self.is_discussion_allowed()
-        anonymous_allowed_or_can_reply = (
-            self.is_anonymous()
-            and self.anonymous_discussion_allowed()
-            or self.can_reply()
-        )
-        if discussion_allowed and anonymous_allowed_or_can_reply:
-            z2.switch_on(self, request_layer=IFormLayer)
-            self.form = self.form(aq_inner(self.context), self.request)
-            alsoProvides(self.form, IWrappedForm)
-            self.form.update()
+    comment = ViewPageTemplateFile('comment.pt')
 
     # view methods
+
+    def cook(self, text):
+        transforms = getToolByName(self, 'portal_transforms')
+        targetMimetype = 'text/html'
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        mimetype = settings.text_transform
+        return transforms.convertTo(targetMimetype,
+                                    text,
+                                    context=self,
+                                    mimetype=mimetype).getData()
 
     def can_reply(self):
         """Returns true if current user has the 'Reply to item' permission.
@@ -351,7 +350,7 @@ class CommentsViewlet(ViewletBase):
                 pass
         return False
 
-    def get_replies(self, workflow_actions=False):
+    def get_replies(self, workflow_actions=False, start=0, size=None):
         """Returns all replies to a content object.
 
         If workflow_actions is false, only published
@@ -370,10 +369,9 @@ class CommentsViewlet(ViewletBase):
 
         # workflow_actions is only true when user
         # has 'Manage portal' permission
-
         def replies_with_workflow_actions():
             # Generator that returns replies dict with workflow actions
-            for r in conversation.getThreads():
+            for r in conversation.getThreads(start=start, size=size):
                 comment_obj = r['comment']
                 # list all possible workflow actions
                 actions = [
@@ -386,7 +384,7 @@ class CommentsViewlet(ViewletBase):
 
         def published_replies():
             # Generator that returns replies dict with workflow status.
-            for r in conversation.getThreads():
+            for r in conversation.getThreads(start=start, size=size):
                 comment_obj = r['comment']
                 workflow_status = wf.getInfoFor(comment_obj, 'review_state')
                 if workflow_status == 'published':
@@ -449,3 +447,55 @@ class CommentsViewlet(ViewletBase):
         util = getToolByName(self.context, 'translation_service')
         zope_time = DateTime(time.isoformat())
         return util.toLocalizedTime(zope_time, long_format=True)
+
+
+class CommentsViewlet(CommentsBase, ViewletBase):
+    "Viewlet for comments shown in page"
+    form = CommentForm
+    index = ViewPageTemplateFile('comments.pt')
+
+    def update(self):
+        super(CommentsViewlet, self).update()
+        z2.switch_on(self, request_layer=IFormLayer)
+        self.form = self.form(aq_inner(self.context), self.request)
+        if HAS_WRAPPED_FORM:
+            alsoProvides(self.form, IWrappedForm)
+        self.form.update()
+
+
+class AjaxCommentLoad(CommentsBase, BrowserView):
+    "View for ajax-loaded comments"
+    template = ViewPageTemplateFile('ajax-comments.pt')
+    form = CommentForm
+
+    def update(self):
+        self.request.RESPONSE.setHeader('Pragma', 'no-cache')
+        self.request.RESPONSE.setHeader('Cache-control', 'no-cache')
+        z2.switch_on(self, request_layer=IFormLayer)
+        self.form = self.form(aq_inner(self.context), self.request)
+        if HAS_WRAPPED_FORM:
+            alsoProvides(self.form, IWrappedForm)
+        self.form.update()
+
+    def render(self):
+        self.update()
+        # manage moderation status message
+        messages = IStatusMessage(self.context.REQUEST).showStatusMessages()
+        if messages:
+            self.message = messages[0].message
+        else:
+            self.message = u""
+        render = self.template()
+        return render
+
+    __call__ = render
+
+    def get_replies(self, workflow_actions=False, start=0, size=None):
+        # Values in the request override the ones provided to this method
+        # XXX is this a good idea?
+        start = int(self.request.form.get('start', start))
+        size = self.request.form.get('size', size)
+        if size is not None:
+            size = int(size)
+        return super(AjaxCommentLoad, self).get_replies(
+            workflow_actions=workflow_actions, start=start, size=size)

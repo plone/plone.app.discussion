@@ -4,8 +4,24 @@ Changelog
 2.3.2 (unreleased)
 ------------------
 
+- Merge master and Ajax-UI by thomasdesvenain and silviot
+  [maartenkling]
+
+- Avoids page reload when user adds a comment.
+  [thomasdesvenain]
+
+- Comments are loaded in ajax after document page load.
+  [silviot, thomasdesvenain]
+
+- Fixed 'start' argument on comments getting.
+  Added tests on batching argument.
+  [thomasdesvenain]
+
+- Avoids page reload when reviewer click on 'approve' or 'delete' comment.
+  [thomasdesvenain]
+
 - Fix reindexObject for content_object in moderation views.
-  Now reindex only "total_comments" index and not all the indexes 
+  Now reindex only "total_comments" index and not all the indexes
   [cekk]
 
 - Fix comments Title if utf-8 characters in author_name
@@ -49,7 +65,7 @@ Changelog
   PLONE_FIXTURE.
   [timo]
 
-- Fix ownership of comments. 
+- Fix ownership of comments.
   [toutpt]
 
 

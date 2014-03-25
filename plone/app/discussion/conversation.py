@@ -137,7 +137,6 @@ class Conversation(Traversable, Persistent, Explicit):
     def getThreads(self, start=0, size=None, root=0, depth=None):
         """Get threaded comments
         """
-
         def recurse(comment_id, d=0):
             # Yield the current comment before we look for its children
             yield {'id': comment_id, 'comment': self[comment_id], 'depth': d}
@@ -152,10 +151,9 @@ class Conversation(Traversable, Persistent, Explicit):
 
         # Find top level threads
         comments = self._children.get(root, None)
-        if comments is not None:
+        if comments is not None and start < len(comments):
             count = 0l
-            for comment_id in comments.keys(min=start):
-
+            for comment_id in comments.keys(min=comments[start]):
                 # Abort if we have found all the threads we want
                 count += 1
                 if size and count > size:
