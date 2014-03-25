@@ -293,8 +293,7 @@ class IDiscussionSettings(Interface):
             u"help_moderator_notification_enabled",
             default=u"If selected, the moderator is notified if a comment "
                     u"needs attention. The moderator email address can " +
-                    u"be found in the 'Mail settings' control panel "
-                    u"(Site 'From' address)"),
+                    u"be set below."),
         required=False,
         default=False,
     )
