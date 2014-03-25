@@ -510,4 +510,3 @@ class RepliesTest(unittest.TestCase):
             str(new_re_re_re_id),
             re_re_re_comment.absolute_url()
         )
-

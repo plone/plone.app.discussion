@@ -213,4 +213,3 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
         # enable_moderation checkbox in the discussion control panel. The
         # setting itself remains unchanged.
         self.settings.moderation_enabled = True
-
