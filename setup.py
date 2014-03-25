@@ -1,8 +1,5 @@
-from setuptools import dist
 from setuptools import find_packages
 from setuptools import setup
-
-dist.Distribution(dict(setup_requires='Babel'))
 
 version = '2.3.2.dev0'
 
