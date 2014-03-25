@@ -61,7 +61,7 @@ msgstr "Erstellungsdatum"
 
 #: plone.app.discussion/plone/app/discussion/interfaces.py:40
 msgid "Date of the most recent public comment"
-msgstr ""
+msgstr "Datum des neuesten öffentlichen Kommentars"
 
 #: plone.app.discussion/plone/app/discussion/vocabularies.py:44
 msgid "Disabled"
@@ -129,7 +129,7 @@ msgstr "Summe der veröffentlichten Kommentare zu diesem Artikel"
 
 #: plone.app.discussion/plone/app/discussion/comment.py:158
 msgid "Transform '%s' => '%s' not available."
-msgstr ""
+msgstr "Transformation '%s' => '%s' ist nicht verfügbar."
 
 #: plone.app.discussion/plone/app/discussion/browser/controlpanel.py:71
 msgid "User Email Notification"
@@ -219,7 +219,7 @@ msgid "help_anonymous_comments"
 msgstr "Wenn Sie diese Einstellung aktivieren, können anonyme Benutzer Kommentare abgeben. Es ist empfehlenswert, dann auch Captchas zu aktivieren."
 
 #. Default: "If selected, anonymous user will have to give their email."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:330
+#: plone.app.discussion/plone/app/discussion/interfaces.py:329
 msgid "help_anonymous_email_enabled"
 msgstr "Wenn Sie diese Einstellung aktivieren, müssen anonyme Benutzer ihre E-Mail-Adresse angeben."
 
@@ -247,17 +247,18 @@ msgstr "Wenn Sie diese Einstellung aktivieren, können Artikel generell kommenti
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
 #: plone.app.discussion/plone/app/discussion/interfaces.py:231
 msgid "help_moderation_enabled"
-msgstr ""
+msgstr "Falls ausgewählt werden Kommentare in einem für die Öffentlichkeit unsichtbaren Schwebezustand gehalten, bis sie ein Benutzer mit der 'Review comments' Berechtigung ('Reviewer' or 'Manager') genehmigt und damit für die Öffentlichkeit sichtbar macht. Wenn Sie einen angepassten Arbeitsablauf für Kommentare einstellen wollen, so geht das mit dem Menu unter Artikeltypen."
 
 #. Default: "Address to which moderator notifications will be sent."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:307
+#: plone.app.discussion/plone/app/discussion/interfaces.py:306
 msgid "help_moderator_email"
 msgstr "E-Mail Adresse an welche die Moderatoren-Benachrichtigungen gesendet werden."
 
-#. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
+#. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
 #: plone.app.discussion/plone/app/discussion/interfaces.py:292
+#, fuzzy
 msgid "help_moderator_notification_enabled"
-msgstr ""
+msgstr "Falls ausgewählt erhält der Moderator eine E-Mail, wenn ein Kommentar Aufmerksamkeit braucht. Die E-Mail-Adresse des Moderators kann weiter unten angegeben werden."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: plone.app.discussion/plone/app/discussion/interfaces.py:281
@@ -267,10 +268,10 @@ msgstr "Wenn Sie diese Einstellung aktivieren, wird das Porträt des kommentiere
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
 #: plone.app.discussion/plone/app/discussion/interfaces.py:248
 msgid "help_text_transform"
-msgstr ""
+msgstr "Diese Einstellung wählen, wenn eine Transformation in irgend einer Art und Weise gewünscht ist. Sie können zwischen 'Plain text' und 'Intelligent text' wählen. 'Intelligent text' wandelt Plain Text in HTML um, dabei werden Zeilenumbrüche und Einrückungen beibehalten sowie Weblinks und E-Mail-Adressen in klickbare Links verwandelt."
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
-#: plone.app.discussion/plone/app/discussion/interfaces.py:319
+#: plone.app.discussion/plone/app/discussion/interfaces.py:318
 msgid "help_user_notification_enabled"
 msgstr "Wenn Sie diese Einstellung auswählen, können Benutzer angeben, dass sie über neue Kommentare per E-Mail informiert werden möchten."
 
@@ -286,9 +287,9 @@ msgid "label_anonymous_comments"
 msgstr "Anonyme Kommentare"
 
 #. Default: "Enable anonymous email field"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:328
+#: plone.app.discussion/plone/app/discussion/interfaces.py:327
 msgid "label_anonymous_email_enabled"
-msgstr ""
+msgstr "E-Mail Feld für anonyme Kommentare einschalten"
 
 #. Default: "Apply"
 #: plone.app.discussion/plone/app/discussion/browser/moderation.pt:71
@@ -308,7 +309,7 @@ msgstr "Kommentar"
 #. Default: "Commenting has been disabled."
 #: plone.app.discussion/plone/app/discussion/browser/comments.pt:130
 msgid "label_commenting_disabled"
-msgstr ""
+msgstr "Kommentare wurden abgeschaltet."
 
 #. Default: "Delete"
 #: plone.app.discussion/plone/app/discussion/browser/moderation.pt:130
@@ -323,12 +324,12 @@ msgstr "Kommentierungsfunktion generell einschalten"
 #. Default: "Enable comment moderation"
 #: plone.app.discussion/plone/app/discussion/interfaces.py:227
 msgid "label_moderation_enabled"
-msgstr ""
+msgstr "Moderation für Kommentare einschalten"
 
 #. Default: "Moderator Email Address"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:303
+#: plone.app.discussion/plone/app/discussion/interfaces.py:302
 msgid "label_moderator_email"
-msgstr ""
+msgstr "E-Mail Adresse des Moderators"
 
 #. Default: "Enable moderator email notification"
 #: plone.app.discussion/plone/app/discussion/interfaces.py:290
@@ -366,7 +367,7 @@ msgid "label_text_transform"
 msgstr "Text transformationen"
 
 #. Default: "Enable user email notification"
-#: plone.app.discussion/plone/app/discussion/interfaces.py:315
+#: plone.app.discussion/plone/app/discussion/interfaces.py:314
 msgid "label_user_notification_enabled"
 msgstr "E-Mail-Benachrichtigungen für Benutzer aktivieren"
 
