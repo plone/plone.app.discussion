@@ -4,6 +4,14 @@ Changelog
 2.3.2 (unreleased)
 ------------------
 
+- bugfix: according to IDiscussionSettings.anonymous_email_enabled (cite):
+  "If selected, anonymous user will have to give their email." - But field
+  was not required. Now it is.
+  [jensens]
+
+- bugfix: anonymous email field was never saved.
+  [jensens]
+
 - updated german translations: added some missing msgstr.
   [jensens]
 
@@ -12,7 +20,7 @@ Changelog
   [jensens]
 
 - Fix reindexObject for content_object in moderation views.
-  Now reindex only "total_comments" index and not all the indexes 
+  Now reindex only "total_comments" index and not all the indexes
   [cekk]
 
 - Fix comments Title if utf-8 characters in author_name
@@ -56,7 +64,7 @@ Changelog
   PLONE_FIXTURE.
   [timo]
 
-- Fix ownership of comments. 
+- Fix ownership of comments.
   [toutpt]
 
 

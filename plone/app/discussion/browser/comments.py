@@ -101,14 +101,20 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Anonymous / Logged-in
         mtool = getToolByName(self.context, 'portal_membership')
-        if not mtool.isAnonymousUser():
-            self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
-            self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
+        anon = mtool.isAnonymousUser()
 
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
 
-        if mtool.isAnonymousUser() and not settings.anonymous_email_enabled:
+        if anon:
+            if settings.anonymous_email_enabled:
+                # according to IDiscussionSettings.anonymous_email_enabled:
+                # "If selected, anonymous user will have to give their email."
+                self.widgets['author_email'].required = True
+            else:
+                self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
+        else:
+            self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
         member = mtool.getAuthenticatedMember()
@@ -119,7 +125,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # email address
         member_email_is_empty = member_email == ''
         user_notification_disabled = not settings.user_notification_enabled
-        anon = mtool.isAnonymousUser()
         if member_email_is_empty or user_notification_disabled or anon:
             self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
 
@@ -175,11 +180,15 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Set comment attributes (including extended comment form attributes)
         for attribute in self.fields.keys():
             setattr(comment, attribute, data[attribute])
-        # Make sure author_name is properly encoded
+        # Make sure author_name/ author_email is properly encoded
         if 'author_name' in data:
             author_name = data['author_name']
             if isinstance(author_name, str):
                 author_name = unicode(author_name, 'utf-8')
+        if 'author_email' in data:
+            author_email = data['author_email']
+            if isinstance(author_email, str):
+                author_email = unicode(author_email, 'utf-8')
 
         # Set comment author properties for anonymous users or members
         can_reply = getSecurityManager().checkPermission('Reply to item',
@@ -188,7 +197,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if anon and anonymous_comments:
             # Anonymous Users
             comment.author_name = author_name
-            comment.author_email = u""
+            comment.author_email = author_email
             comment.user_notification = None
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
@@ -211,7 +220,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment.creator = memberid
             comment.author_username = memberid
             comment.author_name = fullname
+
+            # XXX: according to IComment interface author_email must not be
+            # set for logged in users, cite:
+            # "for anonymous comments only, set to None for logged in comments"
             comment.author_email = email
+            # /XXX
+
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
         else:  # pragma: no cover
