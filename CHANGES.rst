@@ -4,6 +4,9 @@ Changelog
 2.3.2 (unreleased)
 ------------------
 
+- updated german translations: added some missing msgstr.
+  [jensens]
+
 - added i18ndude and a script ``update_translations`` to buildout in order
   to make translation updates simpler.
   [jensens]
