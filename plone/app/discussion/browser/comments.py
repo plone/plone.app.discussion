@@ -64,6 +64,15 @@ COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
     u"comment_description_moderation_enabled",
     default=u"Comments are moderated.")
 
+# starting from 0.6.0 version plone.z3cform has IWrappedForm interface
+try:
+    from plone.z3cform.interfaces import IWrappedForm
+    HAS_WRAPPED_FORM = True
+    from plone.z3cform.interfaces import IWrappedForm
+    HAS_WRAPPED_FORM = True
+except ImportError: # pragma: no cover
+    HAS_WRAPPED_FORM = False
+
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
