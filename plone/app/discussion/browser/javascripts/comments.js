@@ -105,7 +105,7 @@
         }
 
 
-        /**********************************************************************
+         /**********************************************************************
          * If the user hits the "reply" button of an existing comment, create a
          * reply form right beneath this comment.
          **********************************************************************/
@@ -160,7 +160,7 @@
         /**********************************************************************
          * Publish a single comment.
          **********************************************************************/
-        $("input[name='form.button.PublishComment']").live('click', function() {
+        $("input[name='form.button.PublishComment']").live('click', function () {
             var trigger = this;
             var form = $(this).parents("form");
             var data = $(form).serialize();
@@ -194,34 +194,27 @@
             $.ajax({
                 type: 'POST',
                 url: form_url,
+                data: data,
                 context: $(trigger).parents(".comment"),
-                success: function(data) {
-                    if($(".discussion .comment .replyTreeLevel0").length == 1) {
-                        $(".discussion").fadeOut('fast', function() {
-                            $(".discussion").remove();
-                        });
+                success: function (data) {
+                    var comment = $(this);
+                    var clss = comment.attr('class');
+                    // remove replies
+                    var treelevel = parseInt(clss[clss.indexOf('replyTreeLevel') + 'replyTreeLevel'.length], 10);
+                    // selector for all the following elements of lower level
+                    var selector = ".replyTreeLevel" + treelevel;
+                    for (var i = 0; i < treelevel; i++) {
+                        selector += ", .replyTreeLevel" + i;
                     }
-                    else {
-                        var comment = $(this);
-                        var clss = comment.attr('class');
-                        // remove replies
-                        var levelchar = clss.indexOf('replyTreeLevel')+'replyTreeLevel'.length;
-                        var treelevel = parseInt(clss.substr(levelchar, levelchar+1))
-                        // selector for all the following elements of lower level
-                        var selector = ".replyTreeLevel" + treelevel;
-                        for(i=0;i<treelevel;i++){
-                            selector += ", .replyTreeLevel" + i;
-                        }
-                        comment.nextUntil(selector).each(function(){
-                            $(this).fadeOut('fast', function() {
-                                $(this).remove();
-                            });
-                        });
-                        // remove comment
-                        $(this).fadeOut('fast', function() {
+                    comment.nextUntil(selector).each(function () {
+                        $(this).fadeOut('fast', function () {
                             $(this).remove();
                         });
-                    }
+                    });
+                    // remove comment
+                    $(this).fadeOut('fast', function () {
+                        $(this).remove();
+                    });
                 },
                 error: function (req, error) {
                     return true;
@@ -229,6 +222,7 @@
             });
             return false;
         });
+
 
         /**********************************************************************
          * By default, hide the reply and the cancel button for the regular add
@@ -238,6 +232,7 @@
                     .css("display", "none");
         $(".reply").find("input[name='form.buttons.cancel']")
                     .css("display", "none");
+
 
         /**********************************************************************
          * By default, show the reply button only when Javascript is enabled.
