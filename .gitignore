@@ -15,6 +15,7 @@
 /.Python
 /include
 /lib
+/local
 /.project
 /.pydevproject
 /.mr.developer.cfg
