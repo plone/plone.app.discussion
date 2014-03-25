@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2013-04-06 12:48+0000\n"
+"POT-Creation-Date: 2014-03-25 17:31+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
 "Language-Team: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
@@ -14,91 +14,91 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: plone\n"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
 msgstr "Erantzunentzako moderazio workflowa"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
 msgstr "Onartu"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
 msgstr "Erantzuna onartzean erabiltzaile guztientzat argitaratu egingo da"
 
-#: ../profiles/default/types/Discussion_Item.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/types/Discussion_Item.xml
 msgid "Comment"
 msgstr "Erantzuna"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
 msgstr "Erantzunen Moderazio Workflowa"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Azken trantsizioari buruzko iruzkina"
 
-#: ../profiles/default/portal_atct.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
 msgid "Commentators"
 msgstr "Egileak"
 
-#: ../profiles/default/types/Discussion_Item.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr "Elementuari gehitutako erantzunak"
 
-#: ../profiles/default/controlpanel.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Eztabaida"
 
-#: ../profiles/default/actions.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Erantzunak moderatu"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
 msgstr "Moderazio kolan"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Aurreko trantsizioa"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Workflowaren historia ikus dezakezu"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
 msgstr "Argitaratuta"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
 msgstr "Moderatzaileak erantzuna onartu"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
 msgstr "Bidalita, moderazio kolan zain."
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "Azken trantsizioa egin zuen erabiltzailearen IDa"
 
-#: ../profiles/default/portal_atct.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
 msgid "Total number of comments"
 msgstr "Erantzun kopurua"
 
-#: ../profiles/default/portal_atct.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
 msgstr "Elementu honen erantzun kopurua"
 
-#: ../profiles/default/portal_atct.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
 msgstr "Elementuaren inguruan erantzuna eman duten erabiltzaileak"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Guztiek ikusteko, ez da editagarria."
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Aurreko trantsizioa noiz exekutatu zen."
 

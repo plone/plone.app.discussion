@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2013-04-06 12:48+0000\n"
+"POT-Creation-Date: 2014-03-25 17:31+0000\n"
 "PO-Revision-Date: 2011-08-19 12:23+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: plone <plone-i18n@lists.sourceforge.net>\n"
@@ -14,91 +14,91 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: plone\n"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
 msgstr "评论简单审核工作流"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
 msgstr "批准"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
 msgstr "批准评论使它对其他用户可见。"
 
-#: ../profiles/default/types/Discussion_Item.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/types/Discussion_Item.xml
 msgid "Comment"
 msgstr "评论"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
 msgstr "评论审核工作流"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "最后状态转换的注释"
 
-#: ../profiles/default/portal_atct.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
 msgid "Commentators"
 msgstr "评论者"
 
-#: ../profiles/default/types/Discussion_Item.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr "评论已添加到内容条目。"
 
-#: ../profiles/default/controlpanel.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "评论"
 
-#: ../profiles/default/actions.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "评论审核"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
 msgstr "待审核"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Previous transition"
 msgstr "上一步状态转换"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "提供访问工作流历史记录功能"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
 msgstr "已发布"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
 msgstr "审核者批准内容"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
 msgstr "已提交，等待审核。"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "执行上一步状态转换的用户 ID"
 
-#: ../profiles/default/portal_atct.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
 msgid "Total number of comments"
 msgstr "评论总数"
 
-#: ../profiles/default/portal_atct.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
 msgstr "此条目的评论总数。"
 
-#: ../profiles/default/portal_atct.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
 msgstr "此条目的评论者。"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "对任何人可见，不可编辑。"
 
-#: ../profiles/default/workflows/comment_review_workflow/definition.xml
+#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "当上一步状态转换被执行"
 
