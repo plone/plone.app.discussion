@@ -4,6 +4,10 @@ Changelog
 2.3.2 (unreleased)
 ------------------
 
+- added i18ndude and a script ``update_translations`` to buildout in order
+  to make translation updates simpler.
+  [jensens]
+
 - Fix reindexObject for content_object in moderation views.
   Now reindex only "total_comments" index and not all the indexes 
   [cekk]
