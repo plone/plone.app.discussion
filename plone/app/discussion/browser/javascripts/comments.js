@@ -139,24 +139,6 @@
         });
 
 
-
-        /**********************************************************************
-         * By default, hide the reply and the cancel button for the regular add
-         * comment form.
-         **********************************************************************/
-        $(".reply").find("input[name='form.buttons.reply']")
-                    .css("display", "none");
-        $(".reply").find("input[name='form.buttons.cancel']")
-                    .css("display", "none");
-
-
-        /**********************************************************************
-         * By default, show the reply button only when Javascript is enabled.
-         * Otherwise hide it, since the reply functions only work with JS
-         * enabled.
-         **********************************************************************/
-        $(".reply-to-comment-button").css("display" , "inline");
-
         /**********************************************************************
          * Publish a single comment.
          **********************************************************************/
@@ -222,6 +204,24 @@
             });
             return false;
         });
+
+
+        /**********************************************************************
+         * By default, hide the reply and the cancel button for the regular add
+         * comment form.
+         **********************************************************************/
+        $(".reply").find("input[name='form.buttons.reply']")
+                    .css("display", "none");
+        $(".reply").find("input[name='form.buttons.cancel']")
+                    .css("display", "none");
+
+
+        /**********************************************************************
+         * By default, show the reply button only when Javascript is enabled.
+         * Otherwise hide it, since the reply functions only work with JS
+         * enabled.
+         **********************************************************************/
+        $(".reply-to-comment-button").css("display" , "inline");
 
     }
 
