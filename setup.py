@@ -1,4 +1,8 @@
-from setuptools import setup, find_packages
+from setuptools import dist
+from setuptools import find_packages
+from setuptools import setup
+
+dist.Distribution(dict(setup_requires='Babel'))
 
 version = '2.3.2.dev0'
 
@@ -53,6 +57,15 @@ setup(name='plone.app.discussion',
               'plone.app.testing',
               'plone.app.contenttypes[test]',
           ]
+      },
+      message_extractors={
+          'src': [
+              ('**.py', 'lingua_python', None),
+              ('**.pt', 'lingua_xml', None),
+              ('**.cpt', 'lingua_xml', None),
+              ('**.zcml', 'lingua_xml', None),
+              ('**.xml', 'lingua_xml', None),
+          ],
       },
       entry_points="""
       [z3c.autoinclude.plugin]
