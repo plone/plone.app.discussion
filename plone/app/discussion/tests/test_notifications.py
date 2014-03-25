@@ -275,4 +275,3 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         self.conversation.addComment(comment)
 
         self.assertEqual(len(self.mailhost.messages), 0)
-

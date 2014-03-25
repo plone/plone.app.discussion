@@ -873,4 +873,3 @@ class RepliesTest(unittest.TestCase):
         self.assertEqual(len(replies_to_comment1), 2)
         self.assertEqual(len(replies_to_comment1_1), 1)
         self.assertEqual(len(replies_to_comment2), 1)
-

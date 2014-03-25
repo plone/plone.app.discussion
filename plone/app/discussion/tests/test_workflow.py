@@ -274,4 +274,3 @@ class CommentReviewWorkflowTest(unittest.TestCase):
                 'review_state'
             )
         )
-

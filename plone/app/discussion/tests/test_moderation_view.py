@@ -163,4 +163,3 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         comment = self.conversation.getComments().next()
         self.assertTrue(comment)
         self.assertEqual(comment, self.comment2)
-
