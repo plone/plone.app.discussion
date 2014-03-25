@@ -568,4 +568,3 @@ class NoConversationCatalogTest(unittest.TestCase):
             'plone.app.discussion:conversation' not in
             IAnnotations(self.portal.doc1)
         )
-
