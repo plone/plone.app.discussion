@@ -120,7 +120,7 @@
          * If the user hits the "clear" button of an open reply-to-comment form,
          * remove the form and show the "reply" button again.
          **********************************************************************/
-        $("#form-buttons-cancel").bind("click", function (e) {
+        $("#commenting #form-buttons-cancel").bind("click", function (e) {
             e.preventDefault();
             var reply_to_comment_button = $(this).
                                               parents().
@@ -128,8 +128,8 @@
                                               find(".reply-to-comment-button");
 
             /* Find the reply-to-comment form and hide and remove it again. */
-            reply_to_comment_form = $(this).parents().filter(".reply");
-            reply_to_comment_form.slideUp("slow", function () {
+            $.reply_to_comment_form = $(this).parents().filter(".reply");
+            $.reply_to_comment_form.slideUp("slow", function () {
                 $(this).remove();
             });
 
@@ -160,7 +160,7 @@
         /**********************************************************************
          * Publish a single comment.
          **********************************************************************/
-        $("input[name='form.button.PublishComment']").live('click',function() {
+        $("input[name='form.button.PublishComment']").live('click', function() {
             var trigger = this;
             var form = $(this).parents("form");
             var data = $(form).serialize();
@@ -168,7 +168,7 @@
             $.ajax({
                 type: "GET",
                 url: form_url,
-                data: "workflow_action=publish",
+                data: data,
                 context: trigger,
                 success: function (msg) {
                     // remove button (trigger object can't be directly removed)
@@ -186,15 +186,14 @@
         /**********************************************************************
          * Delete a comment and its answers.
          **********************************************************************/
-
-        $("input[name='form.button.DeleteComment']").live('click', function() {
+        $("input[name='form.button.DeleteComment']").live('click', function () {
             var trigger = this;
             var form = $(this).parents("form");
             var data = $(form).serialize();
             var form_url = $(form).attr("action");
             $.ajax({
-                type:'POST',
-                url:form_url,
+                type: 'POST',
+                url: form_url,
                 context: $(trigger).parents(".comment"),
                 success: function(data) {
                     if($(".discussion .comment .replyTreeLevel0").length == 1) {
@@ -224,16 +223,30 @@
                         });
                     }
                 },
-                error: function(req, error) {
+                error: function (req, error) {
                     return true;
                 }
             });
             return false;
         });
+
+        /**********************************************************************
+         * By default, hide the reply and the cancel button for the regular add
+         * comment form.
+         **********************************************************************/
+        $(".reply").find("input[name='form.buttons.reply']")
+                    .css("display", "none");
+        $(".reply").find("input[name='form.buttons.cancel']")
+                    .css("display", "none");
+
+        /**********************************************************************
+         * By default, show the reply button only when Javascript is enabled.
+         * Otherwise hide it, since the reply functions only work with JS
+         * enabled.
+         **********************************************************************/
+        $(".reply-to-comment-button").css("display" , "inline");
+
     }
-
-    //#JSCOVERAGE_ENDIF
-
 
     $(window).load(function(){
         $('#plone-app-discussion-display-comments-link').each(function(){
@@ -266,5 +279,6 @@
 
     })
 
+    //#JSCOVERAGE_ENDIF
 
 }(jQuery));
