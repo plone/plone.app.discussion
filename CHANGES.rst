@@ -1,8 +1,58 @@
 Changelog
 =========
 
-2.3.0 (unreleased)
+2.3.2 (unreleased)
 ------------------
+
+- bugfix: according to IDiscussionSettings.anonymous_email_enabled (cite):
+  "If selected, anonymous user will have to give their email." - But field
+  was not required. Now it is.
+  [jensens]
+
+- bugfix: anonymous email field was never saved.
+  [jensens]
+
+- updated german translations: added some missing msgstr.
+  [jensens]
+
+- added i18ndude and a script ``update_translations`` to buildout in order
+  to make translation updates simpler.
+  [jensens]
+
+- Fix reindexObject for content_object in moderation views.
+  Now reindex only "total_comments" index and not all the indexes
+  [cekk]
+
+- Fix comments Title if utf-8 characters in author_name
+  [huub_bouma]
+
+- use member.getId as author_username, so membrane users having different id
+  then username still have there picture shown and author path is correct.
+  [maartenkling]
+
+- Make comments editable.
+  [pjstevns, gyst]
+
+- Provide 'Delete comments' permission to handle comments deletion
+  [cekk]
+
+- Fixed Italian translations
+  [cekk]
+
+
+2.3.1 (2014-02-22)
+------------------
+
+- 2.3.0 was a brown bag release.
+  [timo]
+
+
+2.3.0 (2014-02-22)
+------------------
+
+- Execute the proper workflow change when using the moderation buttons instead
+  of hardcoding the workflow action to always publish
+  [omiron]
 
 - Corrections and additions to the Danish translation
   [aputtu]
@@ -25,11 +75,6 @@ Changelog
 
 - Fix ownership of comments. [toutpt]
 
-- Make comments editable.
-  [pjstevns, gyst]
-
-- Provide 'Delete comments' permission to handle comments deletion
-  [cekk]
 
 2.2.10 (2013-09-24)
 -------------------
