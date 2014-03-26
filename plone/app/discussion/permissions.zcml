@@ -9,4 +9,14 @@
         title="Review comments"
         />
 
+    <permission
+        id="plone.app.discussion.EditComments"
+        title="Edit comments"
+        />
+
+    <permission
+        id="plone.app.discussion.DeleteComments"
+        title="Delete comments"
+        />
+
 </configure>

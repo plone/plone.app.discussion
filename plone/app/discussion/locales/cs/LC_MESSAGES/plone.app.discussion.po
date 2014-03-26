@@ -14,11 +14,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
 
-#: ../comment.py:311
+#: ../comment.py:335
 msgid "A comment has been posted."
 msgstr "Komentář byl přidán."
 
-#: ../interfaces.py:141
+#: ../interfaces.py:143
 msgid "A comment id unique to this conversation"
 msgstr "Identifikátor komentáře v této konverzaci."
 
@@ -26,39 +26,39 @@ msgstr "Identifikátor komentáře v této konverzaci."
 msgid "Add a comment"
 msgstr "Přidat komentář"
 
-#: ../browser/controlpanel.py:64
+#: ../browser/controlpanel.py:75
 msgid "Anonymous Comments"
 msgstr "Anonymní komentáře"
 
-#: ../browser/comments.py:251
-#: ../browser/controlpanel.py:82
+#: ../browser/comments.py:258
+#: ../browser/controlpanel.py:93
 msgid "Cancel"
 msgstr "Storno"
 
-#: ../browser/controlpanel.py:78
+#: ../browser/controlpanel.py:89
 msgid "Changes saved"
 msgstr "Změny byly uloženy"
 
-#: ../browser/moderation.py:140
+#: ../browser/moderation.py:155
 msgid "Comment approved."
 msgstr "Komentář byl schválen."
 
-#: ../browser/moderation.py:100
+#: ../browser/moderation.py:108
 msgid "Comment deleted."
 msgstr "Komentář byl odebrán."
 
-#: ../browser/controlpanel.py:65
+#: ../browser/controlpanel.py:76
 msgid "Commenter Image"
 msgstr "Portét komentujícího"
 
 msgid "Commenting infrastructure for Plone"
 msgstr "Komentářový systém pro Plone"
 
-#: ../interfaces.py:136
+#: ../interfaces.py:138
 msgid "Conversation"
 msgstr "Konverzace"
 
-#: ../interfaces.py:167
+#: ../interfaces.py:176
 msgid "Creation date"
 msgstr "Datum vytvoření"
 
@@ -70,43 +70,43 @@ msgstr ""
 msgid "Disabled"
 msgstr "Zakázáno"
 
-#: ../browser/controlpanel.py:34
+#: ../browser/controlpanel.py:35
 msgid "Discussion settings"
 msgstr "Nastavení komentářů"
 
-#: ../browser/controlpanel.py:84
+#: ../browser/controlpanel.py:95
 msgid "Edit cancelled"
 msgstr "Úpravy byly stornovány"
 
-#: ../interfaces.py:153
+#: ../interfaces.py:155
 msgid "Email"
 msgstr "Email"
 
-#: ../browser/controlpanel.py:63
+#: ../browser/controlpanel.py:74
 msgid "Enable Comments"
 msgstr "Povolit komentáře"
 
-#: ../interfaces.py:144
+#: ../interfaces.py:146
 msgid "Id of comment this comment is in reply to"
 msgstr "Id předchozího komentáře, na který je tento odpovědí"
 
-#: ../interfaces.py:158
+#: ../interfaces.py:160
 msgid "MIME type"
 msgstr "MIME typ"
 
-#: ../browser/controlpanel.py:67
+#: ../browser/controlpanel.py:78
 msgid "Moderator Email Notification"
 msgstr "Notifikace moderátorů emailem"
 
-#: ../interfaces.py:168
+#: ../interfaces.py:177
 msgid "Modification date"
 msgstr "Datum změny"
 
-#: ../interfaces.py:138
+#: ../interfaces.py:140
 msgid "Name"
 msgstr "Jméno"
 
-#: ../interfaces.py:162
+#: ../interfaces.py:169
 msgid "Notify me of new comments via email."
 msgstr "Chci zasílat notifikace o nových komentářích emailem."
 
@@ -114,11 +114,11 @@ msgstr "Chci zasílat notifikace o nových komentářích emailem."
 msgid "Plone Discussions"
 msgstr "Komentáře"
 
-#: ../interfaces.py:131
+#: ../interfaces.py:133
 msgid "Portal type"
 msgstr "Typ položky"
 
-#: ../browser/controlpanel.py:71
+#: ../browser/controlpanel.py:82
 msgid "Save"
 msgstr "Uložit"
 
@@ -134,24 +134,24 @@ msgstr ""
 msgid "Total number of public comments on this item"
 msgstr ""
 
-#: ../comment.py:158
-msgid "Transform '%s' => '%s' not available. Failed to transform comment '%s'."
+#: ../comment.py:167
+msgid "Transform '%s' => '%s' not available."
 msgstr ""
 
-#: ../browser/controlpanel.py:69
+#: ../browser/controlpanel.py:80
 msgid "User Email Notification"
 msgstr "Notifikace emailem"
 
-#: ../interfaces.py:166
+#: ../interfaces.py:175
 msgid "Username of the commenter"
 msgstr ""
 
-#: ../browser/comments.py:244
+#: ../browser/comments.py:251
 msgid "Your comment awaits moderator approval."
 msgstr "Váš komentář čeká na schválení."
 
 #. Default: "Comment"
-#: ../browser/comments.py:131
+#: ../browser/comments.py:132
 msgid "add_comment_button"
 msgstr "Přidat komentář"
 
@@ -164,6 +164,11 @@ msgstr "Odebrat"
 #: ../browser/moderation.pt:65
 msgid "bulkactions_publish"
 msgstr "Schválit"
+
+#. Default: "Cancel"
+#: ../browser/comment.py:97
+msgid "cancel_form_button"
+msgstr ""
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
 #: ../browser/comments.py:57
@@ -185,11 +190,31 @@ msgstr "Komentáře jsou moderovány."
 msgid "comment_description_plain_text"
 msgstr "Pokud chcete přidat komentář, zadejte jej do formuláře níže. Nejsou povoleny žádné formátovací značky."
 
+#. Default: "Edit comment cancelled"
+#: ../browser/comment.py:101
+msgid "comment_edit_cancel_notification"
+msgstr ""
+
+#. Default: "Comment was edited"
+#: ../browser/comment.py:91
+msgid "comment_edit_notification"
+msgstr ""
+
 #. Default: "${author_name} on ${content}"
-#: ../comment.py:48
+#: ../comment.py:49
 #, fuzzy
 msgid "comment_title"
 msgstr "${creator} k ${content}"
+
+#. Default: "Edit comment"
+#: ../browser/comment.py:70
+msgid "edit_comment_form_button"
+msgstr ""
+
+#. Default: "Edit comment"
+#: ../browser/comment.py:54
+msgid "edit_comment_form_title"
+msgstr ""
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -222,76 +247,81 @@ msgid "heading_moderate_comments"
 msgstr "Správa komentářů"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
-#: ../interfaces.py:236
+#: ../interfaces.py:215
 msgid "help_anonymous_comments"
 msgstr "Je-li zaškrtnuto, nepřihlášení uživatelé mohou posílat komentáře. Doporučujeme použití Captcha, pokud povolíte tuto volbu."
 
 #. Default: "If selected, anonymous user will have to give their email."
-#: ../interfaces.py:334
+#: ../interfaces.py:341
 msgid "help_anonymous_email_enabled"
 msgstr ""
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
-#: ../interfaces.py:279
+#: ../interfaces.py:276
 msgid "help_captcha"
 msgstr "Zde můžete povolit nebo zakázat Captcha pro komentáře. Pokud zde není žádná možnost k výběru, nainstalujte prosím balíček plone.formwidget.captcha nebo plone.formwidget.recaptcha, collective.akismet nebo collective.z3cform.norobots."
 
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
-#: ../browser/controlpanel.py:35
+#: ../browser/controlpanel.py:36
 msgid "help_discussion_settings_editform"
 msgstr ""
 "Nekterá nastavení pro diskuse nejsou k dispozici v ovládacím panelu komentářů.\n"
 " Povolení komentářů pro konkrétní typ položek se provádí v ovládacím panelu Typy, kde zaškrtnete \"Povolit komentáře\".\n"
 " Pokud chcete povolit moderování komentářů, přejděte do ovládacích panelů Typy, vyberte typ položky \"Komentář\" a nastavte workflow na \"Schvalovací workflow pro komentáře\"."
 
+#. Default: "If selected, supports editing of comments for users with the 'Edit comments' permission."
+#: ../interfaces.py:248
+msgid "help_edit_comment_enabled"
+msgstr ""
+
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
-#: ../interfaces.py:224
+#: ../interfaces.py:201
 msgid "help_globally_enabled"
 msgstr "Je-li zaškrtnuto, uživatelé mohou přidávat komentáře. Navíc však musíte ověřit, že je povoleno přidávání komentářů k příslušným typům položek."
 
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
-#: ../interfaces.py:248
+#: ../interfaces.py:231
 msgid "help_moderation_enabled"
 msgstr "Je-li zaškrtnuto, pakbudou komentáře moderované. Po zadání komentáře bude tento komentář ve stavu \"čeká na schválení\" a nebude viditelný nepřihlášeným návštěvníkům. Moderátor (uživatel, ktewrý má opravnění schvalovat komentáře) může takové komentáře schválit a tedy zviditelnit všem."
 
 #. Default: "Address to which moderator notifications will be sent."
-#: ../interfaces.py:316
+#: ../interfaces.py:318
 msgid "help_moderator_email"
 msgstr "Adresa, na kterou budou zasílány notifikační emaily moderátorlů"
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
-#: ../interfaces.py:304
+#: ../interfaces.py:303
 msgid "help_moderator_notification_enabled"
 msgstr "Je-li zaškrtnuto, moderátor je upozorněn na komentáře, které vyžadují jeho zásah."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ../interfaces.py:294
+#: ../interfaces.py:292
 msgid "help_show_commenter_image"
 msgstr "Je-li zaškrtnuto, je vedle komentáře zobrazen portrét autora komentáře."
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
-#: ../interfaces.py:263
+#: ../interfaces.py:259
 msgid "help_text_transform"
 msgstr "Zde můžete nastavit, zda mají být komentáře nějak upraveny. Je možné vybrat mezi Plain text (prostý, neupravený text) nebo \"Intelligent text\". Intelligent text konvertuje odkazy na aktivní linky a převádí text do HTML tak, jak je vidět na obrazovce (tedy se zachováním nových řádků a odsazení)."
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
-#: ../interfaces.py:325
+#: ../interfaces.py:330
 msgid "help_user_notification_enabled"
 msgstr "Je-li zaškrtnuto, uživatelé se mohou rozhodnout zda si přejí být upozorněni na nové komentáře emailem."
 
 #. Default: "Anonymous"
-#: ../browser/comments.pt:71
-#: ../comment.py:173
+#: ../browser/comments.pt:74
+#: ../comment.py:185
 msgid "label_anonymous"
 msgstr "Anonym"
 
 #. Default: "Enable anonymous comments"
-#: ../interfaces.py:234
+#: ../interfaces.py:213
 msgid "label_anonymous_comments"
 msgstr "Povolit anonymní komentáře"
 
 #. Default: "Enable anonymous email field"
-#: ../interfaces.py:332
+#: ../interfaces.py:339
 msgid "label_anonymous_email_enabled"
 msgstr ""
 
@@ -301,17 +331,17 @@ msgid "label_apply"
 msgstr "Provést"
 
 #. Default: "Captcha"
-#: ../interfaces.py:277
+#: ../interfaces.py:274
 msgid "label_captcha"
 msgstr "Captcha"
 
 #. Default: "Comment"
-#: ../interfaces.py:159
+#: ../interfaces.py:162
 msgid "label_comment"
 msgstr "Komentář"
 
 #. Default: "Commenting has been disabled."
-#: ../browser/comments.pt:130
+#: ../browser/comments.pt:148
 msgid "label_commenting_disabled"
 msgstr "Komentáře byly zakázány."
 
@@ -320,13 +350,18 @@ msgstr "Komentáře byly zakázány."
 msgid "label_delete"
 msgstr "Odebrat"
 
+#. Default: "Enable editing of comments"
+#: ../interfaces.py:246
+msgid "label_edit_comment_enabled"
+msgstr ""
+
 #. Default: "Globally enable comments"
-#: ../interfaces.py:222
+#: ../interfaces.py:199
 msgid "label_globally_enabled"
 msgstr "Globální povolení komentářů"
 
 #. Default: "Enable comment moderation"
-#: ../interfaces.py:246
+#: ../interfaces.py:227
 msgid "label_moderation_enabled"
 msgstr "Povolit moderování komentářů"
 
@@ -336,7 +371,7 @@ msgid "label_moderator_email"
 msgstr "Email adresa moderátora"
 
 #. Default: "Enable moderator email notification"
-#: ../interfaces.py:302
+#: ../interfaces.py:301
 msgid "label_moderator_notification_enabled"
 msgstr "Povolit emailovou notifikaci moderátorů"
 
@@ -346,12 +381,12 @@ msgid "label_publish"
 msgstr "Schválit"
 
 #. Default: "says:"
-#: ../browser/comments.pt:74
+#: ../browser/comments.pt:77
 msgid "label_says"
 msgstr "píše:"
 
 #. Default: "Show commenter image"
-#: ../interfaces.py:292
+#: ../interfaces.py:290
 msgid "label_show_commenter_image"
 msgstr "Zobrazit portrét komentujícího"
 
@@ -361,22 +396,22 @@ msgid "label_show_full_comment_text"
 msgstr "zobrazit celý text příspěvku"
 
 #. Default: "Subject"
-#: ../interfaces.py:155
+#: ../interfaces.py:157
 msgid "label_subject"
 msgstr "Předmět"
 
 #. Default: "Comment text transform"
-#: ../interfaces.py:261
+#: ../interfaces.py:257
 msgid "label_text_transform"
 msgstr "Transformace textu"
 
 #. Default: "Enable user email notification"
-#: ../interfaces.py:323
+#: ../interfaces.py:326
 msgid "label_user_notification_enabled"
 msgstr "Povolit notifikaci uživatelů emailem"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
-#: ../comment.py:52
+#: ../comment.py:53
 msgid "mail_notification_message"
 msgstr ""
 "Na adrese ${link} byl přidán komentář k položce '${title}'}\n"
@@ -386,7 +421,7 @@ msgstr ""
 "---"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
-#: ../comment.py:60
+#: ../comment.py:61
 msgid "mail_notification_message_moderator"
 msgstr ""
 "Na adrese ${link} byl vložen komentář k položce '${title}'\n"

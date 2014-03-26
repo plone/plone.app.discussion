@@ -242,6 +242,17 @@ class IDiscussionSettings(Interface):
         default=False,
     )
 
+    edit_comment_enabled = schema.Bool(
+        title=_(u"label_edit_comment_enabled",
+                default="Enable editing of comments"),
+        description=_(u"help_edit_comment_enabled",
+                      default=u"If selected, supports editing "
+                      "of comments for users with the 'Edit comments' "
+                      "permission."),
+        required=False,
+        default=False,
+    )
+
     text_transform = schema.Choice(
         title=_(u"label_text_transform",
                 default="Comment text transform"),
