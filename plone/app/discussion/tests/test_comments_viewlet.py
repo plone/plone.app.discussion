@@ -122,21 +122,6 @@ class TestCommentForm(unittest.TestCase):
         self.assertEqual(len(errors), 0)
         self.assertFalse(commentForm.handleComment(commentForm, "foo"))
 
-        comments = IConversation(commentForm.context).getComments()
-        comments = [comment for comment in comments]  # consume itertor
-        self.assertEqual(len(comments), 1)
-
-        for comment in comments:
-            self.assertEqual(comment.text, u"bar")
-            self.assertEqual(comment.creator, "test_user_1_")
-            self.assertEqual(comment.getOwner().getUserName(), "test-user")
-            local_roles = comment.get_local_roles()
-            self.assertEqual(len(local_roles), 1)
-            userid, roles = local_roles[0]
-            self.assertEqual(userid, 'test_user_1_')
-            self.assertEqual(len(roles), 1)
-            self.assertEqual(roles[0], 'Owner')
-
     def test_edit_comment(self):
         """Edit a comment as logged-in user.
         """
@@ -203,6 +188,7 @@ class TestCommentForm(unittest.TestCase):
         for comment in comments:
             self.assertEqual(comment.text, u"foobar")
             self.assertEqual(comment.creator, "test_user_1_")
+
             self.assertEqual(comment.getOwner().getUserName(), "test-user")
             local_roles = comment.get_local_roles()
             self.assertEqual(len(local_roles), 1)
@@ -607,9 +593,11 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
     def test_get_commenter_portrait_is_none(self):
+
         self.assertEqual(
             self.viewlet.get_commenter_portrait(),
             'defaultUser.png'
+
         )
 
     def test_get_commenter_portrait_without_userimage(self):
