@@ -30,6 +30,15 @@ Changelog
   then username still have there picture shown and author path is correct.
   [maartenkling]
 
+- Make comments editable.
+  [pjstevns, gyst]
+
+- Provide 'Delete comments' permission to handle comments deletion
+  [cekk]
+
+- Fixed Italian translations
+  [cekk]
+
 
 2.3.1 (2014-02-22)
 ------------------
@@ -66,14 +75,6 @@ Changelog
 
 - Fix ownership of comments. [toutpt]
 
-- Make comments editable.
-  [pjstevns, gyst]
-
-- Provide 'Delete comments' permission to handle comments deletion
-  [cekk]
-
-- Fixed Italian translations
-  [cekk]
 
 2.2.10 (2013-09-24)
 -------------------
