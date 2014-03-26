@@ -110,6 +110,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             if settings.anonymous_email_enabled:
                 # according to IDiscussionSettings.anonymous_email_enabled:
                 # "If selected, anonymous user will have to give their email."
+                self.widgets['author_email'].field.required = True
                 self.widgets['author_email'].required = True
             else:
                 self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
