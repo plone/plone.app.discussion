@@ -188,6 +188,7 @@ class TestCommentForm(unittest.TestCase):
         for comment in comments:
             self.assertEqual(comment.text, u"foobar")
             self.assertEqual(comment.creator, "test_user_1_")
+
             self.assertEqual(comment.getOwner().getUserName(), "test-user")
             local_roles = comment.get_local_roles()
             self.assertEqual(len(local_roles), 1)
