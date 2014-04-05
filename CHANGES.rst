@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.2 (unreleased)
+2.3.2 (2014-04-05)
 ------------------
 
 - bugfix: according to IDiscussionSettings.anonymous_email_enabled (cite):
