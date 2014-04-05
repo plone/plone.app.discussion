@@ -21,7 +21,6 @@ Contents:
    email-notification.txt
    api/index.txt
    howtos/index.txt
-   changes.txt
 
 
 
