@@ -4,6 +4,12 @@ Changelog
 2.2.13 (unreleased)
 -------------------
 
+- Register events as Content Rules Event Types if plone.contentrules is present
+  [avoinea]
+
+- Trigger custom events on comment add/remove/reply
+  [avoinea]
+
 - Execute the proper workflow change when using the moderation buttons instead
   of hardcoding the workflow action to always publish
   [omiron]
@@ -15,7 +21,7 @@ Changelog
 - Show author email to Moderator when it is available in anonymous comment.
   [gotcha, smoussiaux]
 
-- Put defaultUser.png instead of old defaultUser.gif 
+- Put defaultUser.png instead of old defaultUser.gif
   [bsuttor]
 
 
