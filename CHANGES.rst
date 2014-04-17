@@ -4,8 +4,11 @@ Changelog
 2.3.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Register events as Content Rules Event Types if plone.contentrules is present
+  [avoinea]
 
+- Trigger custom events on comment add/remove/reply
+  [avoinea]
 
 2.3.2 (2014-04-05)
 ------------------
@@ -53,6 +56,13 @@ Changelog
 
 - Corrections and additions to the Danish translation
   [aputtu]
+
+
+2.2.12 (2014-01-13)
+-------------------
+
+- Show author email to Moderator when it is available in anonymous comment.
+  [gotcha, smoussiaux]
 
 - Put defaultUser.png instead of old defaultUser.gif
   [bsuttor]
