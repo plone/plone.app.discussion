@@ -12,8 +12,9 @@ class DiscussionEvent(object):
     """
     implements(IDiscussionEvent)
 
-    def __init__(self, context, **kwargs):
+    def __init__(self, context, comment, **kwargs):
         self.object = context
+        self.comment = comment
         for key, value in kwargs.items():
             setattr(self, key, value)
 
