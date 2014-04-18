@@ -58,39 +58,41 @@
   </configure>
 
   <!-- Content rules strings -->
-  <adapter
-    for="zope.interface.Interface"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".contentrules.Id"
-    name="comment_id"
-    />
+  <configure zcml:condition="installed plone.stringinterp">
+    <adapter
+      for="zope.interface.Interface"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory=".contentrules.Id"
+      name="comment_id"
+      />
 
-  <adapter
-    for="zope.interface.Interface"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".contentrules.Text"
-    name="comment_text"
-    />
+    <adapter
+      for="zope.interface.Interface"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory=".contentrules.Text"
+      name="comment_text"
+      />
 
-  <adapter
-    for="zope.interface.Interface"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".contentrules.AuthorUserName"
-    name="comment_user_id"
-    />
+    <adapter
+      for="zope.interface.Interface"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory=".contentrules.AuthorUserName"
+      name="comment_user_id"
+      />
 
-  <adapter
-    for="zope.interface.Interface"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".contentrules.AuthorFullName"
-    name="comment_user_fullname"
-    />
+    <adapter
+      for="zope.interface.Interface"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory=".contentrules.AuthorFullName"
+      name="comment_user_fullname"
+      />
 
-  <adapter
-    for="zope.interface.Interface"
-    provides="plone.stringinterp.interfaces.IStringSubstitution"
-    factory=".contentrules.AuthorEmail"
-    name="comment_user_email"
-    />
+    <adapter
+      for="zope.interface.Interface"
+      provides="plone.stringinterp.interfaces.IStringSubstitution"
+      factory=".contentrules.AuthorEmail"
+      name="comment_user_email"
+      />
+  </configure>
 
 </configure>
