@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2014-03-25 17:54+0000\n"
+"POT-Creation-Date: 2014-04-18 14:25+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Anton Stonor <anton@headnet.dk>\n"
 "Language-Team: Anton Stonor <anton@headnet.dk>\n"
@@ -14,91 +14,91 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: plone\n"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
 msgstr "Simpelt godkendelses-workflow for kommentarer"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
 msgstr "Godkend"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
 msgstr "Når en kommentarer bliver godkendt, kan andre se den."
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comment"
 msgstr "Kommentar"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
 msgstr "Godkendelses-workflow for kommentarer"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Kommentar om seneste workflow"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Commentators"
 msgstr "Kommentatorer"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr "Kommentarer tilføjet til indholdet"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/controlpanel.xml
+#: ../profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Kommentering"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Moderér kommentarer"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
 msgstr "Afventer"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Foregående workflow-ændringer"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Giver adgang til workflow-historikken"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
 msgstr "Publiceret"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
 msgstr "En godkender kontrollerer indholdet"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
 msgstr "Gemt, afventer godkendelse"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "Brugernavnet på den, der gennemført det seneste workflow-trin"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments"
 msgstr "Kommentarer i alt"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
 msgstr "Antal kommentarer på denne side."
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
 msgstr "Brugere, der har kommenteret på denne side"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Synligt for alle, kan ikke redigeres."
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Tidspunktet for det seneste workflow-trin"
 

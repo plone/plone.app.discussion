@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2014-03-25 17:54+0000\n"
+"POT-Creation-Date: 2014-04-18 14:25+0000\n"
 "PO-Revision-Date: 2011-04-14 17:38-0300\n"
 "Last-Translator: Andre Nogueira <andre@simplesconsultoria.com.br>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
@@ -14,91 +14,91 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone\n"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
 msgstr "Workflow de moderação simples para comentários"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
 msgstr "Aprovar"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
 msgstr "Aprovar um comentário torna-o visível para todos os usuários"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comment"
 msgstr "Comentário"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
 msgstr "Worfklow de Moderação de Comentários"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Comentário sobre a última transição"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Commentators"
 msgstr "Autores"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/types/Discussion_Item.xml
+#: ../profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
 msgstr "Comentários adicionados a um conteúdo."
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/controlpanel.xml
+#: ../profiles/default/controlpanel.xml
 msgid "Discussion"
 msgstr "Discussão"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/actions.xml
+#: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Moderar comentários"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Pending"
 msgstr "Pendente"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Transição anterior"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Fornece acesso ao histórico do Workflow"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
 msgstr "Publicado"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
 msgstr "Revisor aprova o conteúdo"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."
 msgstr "Enviado, pendente de moderação."
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "O ID do usuário que realizou a transição anterior"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments"
 msgstr "Número total de comentários"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
 msgstr "Número total de comentários deste item."
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/portal_atct.xml
+#: ../profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
 msgstr "Usuários que comentáram este item"
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Visível para todos, não editável."
 
-#: plone.app.discussion/plone/app/discussion/profiles/default/workflows/comment_review_workflow/definition.xml
+#: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Quando a transição anterior foi realizada"
 
