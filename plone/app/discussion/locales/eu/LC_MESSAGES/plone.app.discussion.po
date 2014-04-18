@@ -15,11 +15,11 @@ msgstr ""
 "Domain: DOMAIN\n"
 "X-Poedit-Language: Basque\n"
 
-#: ../comment.py:326
+#: ../comment.py:348
 msgid "A comment has been posted."
 msgstr "Erantzun bat argitaratu da."
 
-#: ../interfaces.py:143
+#: ../interfaces.py:144
 msgid "A comment id unique to this conversation"
 msgstr "Eztabaida honetarako bakarra den erantzunaren id-a."
 
@@ -31,7 +31,7 @@ msgstr "Erantzuna gehitu"
 msgid "Anonymous Comments"
 msgstr "Erantzun anonimoak"
 
-#: ../browser/comments.py:258
+#: ../browser/comments.py:274
 #: ../browser/controlpanel.py:84
 msgid "Cancel"
 msgstr "Utzi"
@@ -40,13 +40,33 @@ msgstr "Utzi"
 msgid "Changes saved"
 msgstr "Aldaketak gordeta"
 
-#: ../browser/moderation.py:140
+#: ../browser/moderation.py:139
 msgid "Comment approved."
 msgstr "Erantzuna onartuta."
+
+#: ../contentrules.py:96
+msgid "Comment author email"
+msgstr ""
+
+#: ../contentrules.py:85
+msgid "Comment author full name"
+msgstr ""
+
+#: ../contentrules.py:74
+msgid "Comment author user name"
+msgstr ""
 
 #: ../browser/moderation.py:100
 msgid "Comment deleted."
 msgstr "Erantzuna ezabatuta."
+
+#: ../contentrules.py:52
+msgid "Comment id"
+msgstr ""
+
+#: ../contentrules.py:63
+msgid "Comment text"
+msgstr ""
 
 #: ../browser/controlpanel.py:67
 msgid "Commenter Image"
@@ -55,15 +75,19 @@ msgstr "Erantzuna eman duenaren irudia."
 msgid "Commenting infrastructure for Plone"
 msgstr "Ploneren Erantzunen Azpiegitura"
 
-#: ../interfaces.py:138
+#: ../contentrules.py:51
+msgid "Comments"
+msgstr ""
+
+#: ../interfaces.py:139
 msgid "Conversation"
 msgstr "Eztabaida"
 
-#: ../interfaces.py:176
+#: ../interfaces.py:177
 msgid "Creation date"
 msgstr "Sorrera data"
 
-#: ../interfaces.py:40
+#: ../interfaces.py:41
 msgid "Date of the most recent public comment"
 msgstr "Azken erantzunaren data"
 
@@ -79,7 +103,7 @@ msgstr "Eztabaidaren ezarpenak"
 msgid "Edit cancelled"
 msgstr "Edizioa utzita"
 
-#: ../interfaces.py:155
+#: ../interfaces.py:156
 msgid "Email"
 msgstr "E-posta"
 
@@ -87,11 +111,11 @@ msgstr "E-posta"
 msgid "Enable Comments"
 msgstr "Erantzunak aktibatu"
 
-#: ../interfaces.py:146
+#: ../interfaces.py:147
 msgid "Id of comment this comment is in reply to"
 msgstr "Erantzun honek erreferentzia egiten dion erantzunaren id-a"
 
-#: ../interfaces.py:160
+#: ../interfaces.py:161
 msgid "MIME type"
 msgstr "MIME mota"
 
@@ -99,15 +123,15 @@ msgstr "MIME mota"
 msgid "Moderator Email Notification"
 msgstr "Moderatzailea e-postaz abisatu"
 
-#: ../interfaces.py:177
+#: ../interfaces.py:178
 msgid "Modification date"
 msgstr "Aldaketa data"
 
-#: ../interfaces.py:140
+#: ../interfaces.py:141
 msgid "Name"
 msgstr "Izena"
 
-#: ../interfaces.py:169
+#: ../interfaces.py:170
 msgid "Notify me of new comments via email."
 msgstr "Erantzun berriak e-postaz bidali"
 
@@ -115,7 +139,7 @@ msgstr "Erantzun berriak e-postaz bidali"
 msgid "Plone Discussions"
 msgstr "Plone Eztabaidak"
 
-#: ../interfaces.py:133
+#: ../interfaces.py:134
 msgid "Portal type"
 msgstr "Elementu mota"
 
@@ -123,19 +147,19 @@ msgstr "Elementu mota"
 msgid "Save"
 msgstr "Gorde"
 
-#: ../interfaces.py:45
+#: ../interfaces.py:46
 msgid "The set of unique commentators (usernames)"
 msgstr "Erantzunak eman dituzten erabiltzaileak (erabiltzaile-izenak)"
 
-#: ../interfaces.py:50
+#: ../interfaces.py:51
 msgid "The set of unique commentators (usernames) of published_comments"
 msgstr "Erantzun-emaleen erabiltzaile izenak"
 
-#: ../interfaces.py:34
+#: ../interfaces.py:35
 msgid "Total number of public comments on this item"
 msgstr "Elementu  honen erantzun publiko kopurua"
 
-#: ../comment.py:158
+#: ../comment.py:164
 msgid "Transform '%s' => '%s' not available."
 msgstr "'%s' => '%s' eraldaketa ez dago erabilgarri."
 
@@ -143,16 +167,16 @@ msgstr "'%s' => '%s' eraldaketa ez dago erabilgarri."
 msgid "User Email Notification"
 msgstr "E-posta abisuak"
 
-#: ../interfaces.py:175
+#: ../interfaces.py:176
 msgid "Username of the commenter"
 msgstr "Erantzuna utzi duenaren erabiltzaile-izena"
 
-#: ../browser/comments.py:251
+#: ../browser/comments.py:267
 msgid "Your comment awaits moderator approval."
 msgstr "Zure erantzuna moderazio kolan dago."
 
 #. Default: "Comment"
-#: ../browser/comments.py:132
+#: ../browser/comments.py:138
 msgid "add_comment_button"
 msgstr "Eman erantzuna"
 
@@ -187,7 +211,7 @@ msgid "comment_description_plain_text"
 msgstr "Erantzuna formulario hau betez utzi dezakezu. Formatua testu arruntarena da."
 
 #. Default: "${author_name} on ${content}"
-#: ../comment.py:48
+#: ../comment.py:54
 msgid "comment_title"
 msgstr "${content} - ${creator}"
 
@@ -222,7 +246,7 @@ msgid "heading_moderate_comments"
 msgstr "Erantzunak moderatu"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
-#: ../interfaces.py:215
+#: ../interfaces.py:216
 msgid "help_anonymous_comments"
 msgstr "Aukeratuta badago, erabiltzaile anonimoek erantzunak gehitu ditzakete login egin gabe. Berariaz gomendatzen dizugu Captcha kontrolen bat aktibatzea anonimoen erantzunak baimentzen badituzu."
 
@@ -232,7 +256,7 @@ msgid "help_anonymous_email_enabled"
 msgstr "Aukeratuta badago, erabiltzaile anonimoek eposta helbidea idatzi beharko dute"
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
-#: ../interfaces.py:265
+#: ../interfaces.py:266
 msgid "help_captcha"
 msgstr "Erabili aukera hau Captcha aktibatu edo desaktibatzeko. Instalatu plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet edo collective.z3cform.norobots aukerarik ez baldin badago."
 
@@ -245,12 +269,12 @@ msgstr ""
 "Erantzunen Moderazio Workflowa aktibatzeko, joan elementu-moten kontrol panelera, aukeratu 'Erantzuna' eta ezarri 'Erantzunen Moderazio Workflowa'."
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
-#: ../interfaces.py:201
+#: ../interfaces.py:202
 msgid "help_globally_enabled"
 msgstr "Aukeratuta badago, atarian erantzunak gehitu daitezke. Edonola ere, elementu-mota bakoitzarentzat erantzunak baimendu beharko dituzu erabiltzaileak erantzunak ematen hasi aurretik."
 
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
-#: ../interfaces.py:231
+#: ../interfaces.py:232
 msgid "help_moderation_enabled"
 msgstr "Aukeratuta badago, erantzuna 'Zain' izeneko egoeran geldituko da eta ez da argitaratuko. 'Erantzunak errebisatu' baimena duten erabiltzaileek ('Zuzentzailea' edo 'Kudeatzailea') argitaratu ditzakete albisteak. Erantzunen worfklowa pertsonalizatu nahi baduzu, elementu-moten kontrol panelera joan zaitez."
 
@@ -259,18 +283,19 @@ msgstr "Aukeratuta badago, erantzuna 'Zain' izeneko egoeran geldituko da eta ez 
 msgid "help_moderator_email"
 msgstr "Moderatzailearen notifikazioak bidali behar diren helbidea."
 
-#. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
-#: ../interfaces.py:292
+#. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
+#: ../interfaces.py:293
+#, fuzzy
 msgid "help_moderator_notification_enabled"
 msgstr "Aukeratuta badago, moderatzaileari e-posta abisua helduko zaio erantzun bat gehitzean. Moderatzailearen e-posta atariaren E-postaren konfigurazioan dago (Atariaren 'Nork' helbidea)"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ../interfaces.py:281
+#: ../interfaces.py:282
 msgid "help_show_commenter_image"
 msgstr "Aukeratuta badago, erantzuna eman duenaren irudi bat agertuko da testuaren ondoan."
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
-#: ../interfaces.py:248
+#: ../interfaces.py:249
 msgid "help_text_transform"
 msgstr "Erabili aukera hau erantzunaren testua nolabait eraldatu behar bada. 'Testu arrunta' edo 'Testu argia'ren artean aukeratu dezakezu. 'Testu argia'-k testu arrunta HTML bihurtzen du lerro saltoak eta espazioak mantenduz, eta web helbideak eta e-postak klikagarri eginez."
 
@@ -281,12 +306,12 @@ msgstr "Aukeratuta badago, erabiltzaileek euren erantzunen erantzunak e-postaz j
 
 #. Default: "Anonymous"
 #: ../browser/comments.pt:71
-#: ../comment.py:176
+#: ../comment.py:182
 msgid "label_anonymous"
 msgstr "Anonimoak"
 
 #. Default: "Enable anonymous comments"
-#: ../interfaces.py:213
+#: ../interfaces.py:214
 msgid "label_anonymous_comments"
 msgstr "Aktibatu erabiltzaile anonimoen erantzunak"
 
@@ -301,12 +326,12 @@ msgid "label_apply"
 msgstr "Aplikatu"
 
 #. Default: "Captcha"
-#: ../interfaces.py:263
+#: ../interfaces.py:264
 msgid "label_captcha"
 msgstr "Captcha"
 
 #. Default: "Comment"
-#: ../interfaces.py:162
+#: ../interfaces.py:163
 msgid "label_comment"
 msgstr "Erantzuna"
 
@@ -321,12 +346,12 @@ msgid "label_delete"
 msgstr "Ezabatu"
 
 #. Default: "Globally enable comments"
-#: ../interfaces.py:199
+#: ../interfaces.py:200
 msgid "label_globally_enabled"
 msgstr "Erantzunak globalki aktibatu"
 
 #. Default: "Enable comment moderation"
-#: ../interfaces.py:227
+#: ../interfaces.py:228
 msgid "label_moderation_enabled"
 msgstr "Erantzunen moderazioa aktibatu."
 
@@ -336,7 +361,7 @@ msgid "label_moderator_email"
 msgstr "Moderatzailearen e-posta helbidea"
 
 #. Default: "Enable moderator email notification"
-#: ../interfaces.py:290
+#: ../interfaces.py:291
 msgid "label_moderator_notification_enabled"
 msgstr "Aktibatu moderatzaileari e-postaz abisatzea"
 
@@ -351,7 +376,7 @@ msgid "label_says"
 msgstr "dio:"
 
 #. Default: "Show commenter image"
-#: ../interfaces.py:279
+#: ../interfaces.py:280
 msgid "label_show_commenter_image"
 msgstr "Erantzuna eman duenaren irudia erakutsi"
 
@@ -361,12 +386,12 @@ msgid "label_show_full_comment_text"
 msgstr "Erakutsi testu osoa"
 
 #. Default: "Subject"
-#: ../interfaces.py:157
+#: ../interfaces.py:158
 msgid "label_subject"
 msgstr "Gaia"
 
 #. Default: "Comment text transform"
-#: ../interfaces.py:246
+#: ../interfaces.py:247
 msgid "label_text_transform"
 msgstr "Erantzunari aplikatu beharreko transformazioa"
 
@@ -376,7 +401,7 @@ msgid "label_user_notification_enabled"
 msgstr "Aktibatu erabiltzaileek e-postaz jakinaraztea"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
-#: ../comment.py:52
+#: ../comment.py:58
 msgid "mail_notification_message"
 msgstr ""
 "Erantzuna berria:Izenburua: ${title} \n"
@@ -386,7 +411,7 @@ msgstr ""
 "--"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
-#: ../comment.py:60
+#: ../comment.py:66
 msgid "mail_notification_message_moderator"
 msgstr ""
 "Erantzun berria:\n"

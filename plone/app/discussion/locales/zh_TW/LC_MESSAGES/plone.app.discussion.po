@@ -14,11 +14,11 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone.app.discussion\n"
 
-#: ../comment.py:311
+#: ../comment.py:348
 msgid "A comment has been posted."
 msgstr "留言已張貼。"
 
-#: ../interfaces.py:141
+#: ../interfaces.py:144
 msgid "A comment id unique to this conversation"
 msgstr "留言的識別碼"
 
@@ -26,43 +26,67 @@ msgstr "留言的識別碼"
 msgid "Add a comment"
 msgstr "新增留言"
 
-#: ../browser/controlpanel.py:64
+#: ../browser/controlpanel.py:66
 msgid "Anonymous Comments"
 msgstr "匿名留言"
 
-#: ../browser/comments.py:251
-#: ../browser/controlpanel.py:82
+#: ../browser/comments.py:274
+#: ../browser/controlpanel.py:84
 msgid "Cancel"
 msgstr "取消"
 
-#: ../browser/controlpanel.py:78
+#: ../browser/controlpanel.py:80
 msgid "Changes saved"
 msgstr "變更已儲存"
 
-#: ../browser/moderation.py:140
+#: ../browser/moderation.py:139
 msgid "Comment approved."
 msgstr "留言已審核"
+
+#: ../contentrules.py:96
+msgid "Comment author email"
+msgstr ""
+
+#: ../contentrules.py:85
+msgid "Comment author full name"
+msgstr ""
+
+#: ../contentrules.py:74
+msgid "Comment author user name"
+msgstr ""
 
 #: ../browser/moderation.py:100
 msgid "Comment deleted."
 msgstr "留言已刪除"
 
-#: ../browser/controlpanel.py:65
+#: ../contentrules.py:52
+msgid "Comment id"
+msgstr ""
+
+#: ../contentrules.py:63
+msgid "Comment text"
+msgstr ""
+
+#: ../browser/controlpanel.py:67
 msgid "Commenter Image"
 msgstr "留言者圖檔"
 
 msgid "Commenting infrastructure for Plone"
 msgstr "Plone 的留言功能"
 
-#: ../interfaces.py:136
+#: ../contentrules.py:51
+msgid "Comments"
+msgstr ""
+
+#: ../interfaces.py:139
 msgid "Conversation"
 msgstr "討論"
 
-#: ../interfaces.py:167
+#: ../interfaces.py:177
 msgid "Creation date"
 msgstr "建立日期"
 
-#: ../interfaces.py:40
+#: ../interfaces.py:41
 msgid "Date of the most recent public comment"
 msgstr ""
 
@@ -74,39 +98,39 @@ msgstr "已停用"
 msgid "Discussion settings"
 msgstr "討論區設定"
 
-#: ../browser/controlpanel.py:84
+#: ../browser/controlpanel.py:86
 msgid "Edit cancelled"
 msgstr "取消編輯"
 
-#: ../interfaces.py:153
+#: ../interfaces.py:156
 msgid "Email"
 msgstr "E-Mail"
 
-#: ../browser/controlpanel.py:63
+#: ../browser/controlpanel.py:65
 msgid "Enable Comments"
 msgstr "允許留言"
 
-#: ../interfaces.py:144
+#: ../interfaces.py:147
 msgid "Id of comment this comment is in reply to"
 msgstr "留言的識別碼"
 
-#: ../interfaces.py:158
+#: ../interfaces.py:161
 msgid "MIME type"
 msgstr "MIME-Type"
 
-#: ../browser/controlpanel.py:67
+#: ../browser/controlpanel.py:69
 msgid "Moderator Email Notification"
 msgstr "審核者的電子郵件通知"
 
-#: ../interfaces.py:168
+#: ../interfaces.py:178
 msgid "Modification date"
 msgstr "修改日期"
 
-#: ../interfaces.py:138
+#: ../interfaces.py:141
 msgid "Name"
 msgstr "名稱"
 
-#: ../interfaces.py:162
+#: ../interfaces.py:170
 msgid "Notify me of new comments via email."
 msgstr "寄送電郵通知新留言。"
 
@@ -114,44 +138,44 @@ msgstr "寄送電郵通知新留言。"
 msgid "Plone Discussions"
 msgstr "Plone 討論區"
 
-#: ../interfaces.py:131
+#: ../interfaces.py:134
 msgid "Portal type"
 msgstr "網站型別"
 
-#: ../browser/controlpanel.py:71
+#: ../browser/controlpanel.py:73
 msgid "Save"
 msgstr "儲存"
 
-#: ../interfaces.py:45
+#: ../interfaces.py:46
 msgid "The set of unique commentators (usernames)"
 msgstr "留言者 (使用者名稱) 的集合"
 
-#: ../interfaces.py:50
+#: ../interfaces.py:51
 msgid "The set of unique commentators (usernames) of published_comments"
 msgstr ""
 
-#: ../interfaces.py:34
+#: ../interfaces.py:35
 msgid "Total number of public comments on this item"
 msgstr ""
 
-#: ../comment.py:158
-msgid "Transform '%s' => '%s' not available. Failed to transform comment '%s'."
+#: ../comment.py:164
+msgid "Transform '%s' => '%s' not available."
 msgstr ""
 
-#: ../browser/controlpanel.py:69
+#: ../browser/controlpanel.py:71
 msgid "User Email Notification"
 msgstr "新留言通知使用者"
 
-#: ../interfaces.py:166
+#: ../interfaces.py:176
 msgid "Username of the commenter"
 msgstr ""
 
-#: ../browser/comments.py:244
+#: ../browser/comments.py:267
 msgid "Your comment awaits moderator approval."
 msgstr "你的留言等待審核中。"
 
 #. Default: "Comment"
-#: ../browser/comments.py:131
+#: ../browser/comments.py:138
 msgid "add_comment_button"
 msgstr "留言"
 
@@ -186,7 +210,7 @@ msgid "comment_description_plain_text"
 msgstr "填寫下列表單後，就可以新增留言。"
 
 #. Default: "${author_name} on ${content}"
-#: ../comment.py:48
+#: ../comment.py:54
 #, fuzzy
 msgid "comment_title"
 msgstr "${creator} 在 ${content} 留言"
@@ -222,17 +246,17 @@ msgid "heading_moderate_comments"
 msgstr "審核留言"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
-#: ../interfaces.py:236
+#: ../interfaces.py:216
 msgid "help_anonymous_comments"
 msgstr "勾選的話，匿名使用者不必登入系統就能留言。建議使用 captcha 來避免垃圾留言。"
 
 #. Default: "If selected, anonymous user will have to give their email."
-#: ../interfaces.py:334
+#: ../interfaces.py:330
 msgid "help_anonymous_email_enabled"
 msgstr ""
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
-#: ../interfaces.py:279
+#: ../interfaces.py:266
 msgid "help_captcha"
 msgstr "設定留言是否啟用或停用 captcha 功能，如果還沒有這類模組選項的話，可安裝 plone.formwidget.captcha、plone.formwidget.recaptcha、collective.akismet 或 collective.z3cform.norobots。"
 
@@ -245,53 +269,54 @@ msgstr ""
 "想要指定留言的審核流程，請到型別控制面板，點選「留言」並指定工作流程為「留言審核流程」。"
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
-#: ../interfaces.py:224
+#: ../interfaces.py:202
 msgid "help_globally_enabled"
 msgstr "勾選的話，就啟用使用者的留言功能，不過，仍然要決定哪些內容型別、目錄、項目，能讓使用者留言。"
 
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
-#: ../interfaces.py:248
+#: ../interfaces.py:232
 msgid "help_moderation_enabled"
 msgstr "勾選的話，留言會先變成待審狀態，直到通過審核後才會公開，想要客製化管理流程的話，必須到型別設定頁面。"
 
 #. Default: "Address to which moderator notifications will be sent."
-#: ../interfaces.py:316
+#: ../interfaces.py:307
 msgid "help_moderator_email"
 msgstr "審核通知信的寄送地址。"
 
-#. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be found in the 'Mail settings' control panel (Site 'From' address)"
-#: ../interfaces.py:304
+#. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
+#: ../interfaces.py:293
+#, fuzzy
 msgid "help_moderator_notification_enabled"
 msgstr "勾選的話，有人留言時就會通知審核者。審核者的寄信地址記錄在郵件設定頁面裡。"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ../interfaces.py:294
+#: ../interfaces.py:282
 msgid "help_show_commenter_image"
 msgstr "勾選的話，使用者的圖檔會顯示在留言旁邊。"
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
-#: ../interfaces.py:263
+#: ../interfaces.py:249
 msgid "help_text_transform"
 msgstr "選擇留言的標註格式，選擇「排版文字」的話，會主動保留內容的換行和縮排，也會把網址變成可以點選的連結。"
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
-#: ../interfaces.py:325
+#: ../interfaces.py:319
 msgid "help_user_notification_enabled"
 msgstr "勾選的話，使用者可以收到新留言的通知信。"
 
 #. Default: "Anonymous"
 #: ../browser/comments.pt:71
-#: ../comment.py:173
+#: ../comment.py:182
 msgid "label_anonymous"
 msgstr "無名氏"
 
 #. Default: "Enable anonymous comments"
-#: ../interfaces.py:234
+#: ../interfaces.py:214
 msgid "label_anonymous_comments"
 msgstr "啟用匿名留言功能"
 
 #. Default: "Enable anonymous email field"
-#: ../interfaces.py:332
+#: ../interfaces.py:328
 msgid "label_anonymous_email_enabled"
 msgstr ""
 
@@ -301,12 +326,12 @@ msgid "label_apply"
 msgstr "更新"
 
 #. Default: "Captcha"
-#: ../interfaces.py:277
+#: ../interfaces.py:264
 msgid "label_captcha"
 msgstr "captcha"
 
 #. Default: "Comment"
-#: ../interfaces.py:159
+#: ../interfaces.py:163
 msgid "label_comment"
 msgstr "留言"
 
@@ -321,22 +346,22 @@ msgid "label_delete"
 msgstr "刪除"
 
 #. Default: "Globally enable comments"
-#: ../interfaces.py:222
+#: ../interfaces.py:200
 msgid "label_globally_enabled"
 msgstr "全域啟用留言功能"
 
 #. Default: "Enable comment moderation"
-#: ../interfaces.py:246
+#: ../interfaces.py:228
 msgid "label_moderation_enabled"
 msgstr "啟用審核功能"
 
 #. Default: "Moderator Email Address"
-#: ../interfaces.py:314
+#: ../interfaces.py:303
 msgid "label_moderator_email"
 msgstr "審核者電郵地址"
 
 #. Default: "Enable moderator email notification"
-#: ../interfaces.py:302
+#: ../interfaces.py:291
 msgid "label_moderator_notification_enabled"
 msgstr "啟用通知審核者的功能"
 
@@ -351,7 +376,7 @@ msgid "label_says"
 msgstr "留言："
 
 #. Default: "Show commenter image"
-#: ../interfaces.py:292
+#: ../interfaces.py:280
 msgid "label_show_commenter_image"
 msgstr "顯示留言者圖檔"
 
@@ -361,22 +386,22 @@ msgid "label_show_full_comment_text"
 msgstr "顯示完整的留言內容"
 
 #. Default: "Subject"
-#: ../interfaces.py:155
+#: ../interfaces.py:158
 msgid "label_subject"
 msgstr "標題"
 
 #. Default: "Comment text transform"
-#: ../interfaces.py:261
+#: ../interfaces.py:247
 msgid "label_text_transform"
 msgstr "留言排版格式"
 
 #. Default: "Enable user email notification"
-#: ../interfaces.py:323
+#: ../interfaces.py:315
 msgid "label_user_notification_enabled"
 msgstr "啟用通知使用者的功能"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
-#: ../comment.py:52
+#: ../comment.py:58
 msgid "mail_notification_message"
 msgstr ""
 "${title} 有新留言：${link}\n"
@@ -386,7 +411,7 @@ msgstr ""
 "---\n"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
-#: ../comment.py:60
+#: ../comment.py:66
 msgid "mail_notification_message_moderator"
 msgstr ""
 "${title} 有新留言：${link}\n"
