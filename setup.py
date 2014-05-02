@@ -53,6 +53,7 @@ setup(name='plone.app.discussion',
           'test': [
               'plone.app.testing',
               'plone.app.contenttypes[test]',
+              'plone.app.robotframework[ride,reload,debug]',
           ]
       },
       entry_points="""

@@ -1,11 +1,17 @@
 from Products.CMFCore.utils import getToolByName
 
-from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import applyProfile
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.robotframework.testing import REMOTE_LIBRARY_ROBOT_TESTING
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import applyProfile
 
+from plone.testing import z2
+from plone.registry.interfaces import IRegistry
+
+from zope.component import queryUtility
 from zope.configuration import xmlconfig
 
 try:
@@ -72,6 +78,16 @@ class PloneAppDiscussion(PloneSandboxLayer):
             [],
         )
 
+
+class PloneAppDiscussionRobot(PloneAppDiscussion):
+
+    def setUpPloneSite(self, portal):
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = True
+
+
+PLONE_APP_DISCUSSION_ROBOT_FIXTURE = PloneAppDiscussionRobot()
 PLONE_APP_DISCUSSION_FIXTURE = PloneAppDiscussion()
 PLONE_APP_DISCUSSION_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONE_APP_DISCUSSION_FIXTURE,),
@@ -79,3 +95,10 @@ PLONE_APP_DISCUSSION_INTEGRATION_TESTING = IntegrationTesting(
 PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONE_APP_DISCUSSION_FIXTURE,),
     name="PloneAppDiscussion:Functional")
+PLONE_APP_DISCUSSION_ROBOT_TESTING = FunctionalTesting(
+    bases=(
+        PLONE_APP_DISCUSSION_ROBOT_FIXTURE,
+        REMOTE_LIBRARY_ROBOT_TESTING
+    ),
+    name="PloneAppDiscussion:Robot"
+)
