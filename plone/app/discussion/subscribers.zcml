@@ -17,20 +17,8 @@
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".comment.notify_comment_added"
-        />
-
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
              zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".comment.notify_content_object"
-        />
-
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".comment.notify_comment_removed"
         />
 
     <subscriber

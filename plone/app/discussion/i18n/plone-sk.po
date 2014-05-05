@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2014-04-18 14:28+0000\n"
+"POT-Creation-Date: 2013-04-06 12:48+0000\n"
 "PO-Revision-Date: 2012-07-02 17:54+0100\n"
 "Last-Translator: Radim Novotny <novotny.radim@gmail.com>\n"
 "Language-Team: Hanno Schlichting <hannosch@plone.org>\n"

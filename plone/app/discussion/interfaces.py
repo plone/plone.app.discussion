@@ -4,7 +4,6 @@
 
 from zope.interface import Interface
 from zope.interface.common.mapping import IIterableMapping
-from zope.component.interfaces import IObjectEvent
 from zope import schema
 
 from plone.app.discussion import PloneAppDiscussionMessageFactory as _
@@ -370,28 +369,4 @@ class IDiscussionSettings(Interface):
 
 class IDiscussionLayer(Interface):
     """Request marker installed via browserlayer.xml.
-    """
-
-#
-# Custom events
-#
-
-class IDiscussionEvent(IObjectEvent):
-    """ Discussion custom event
-    """
-
-class ICommentAddedEvent(IDiscussionEvent):
-    """ Comment added
-    """
-
-class ICommentRemovedEvent(IDiscussionEvent):
-    """ Comment removed
-    """
-
-class IReplyAddedEvent(IDiscussionEvent):
-    """ Comment reply added
-    """
-
-class IReplyRemovedEvent(IDiscussionEvent):
-    """ Comment reply removed
     """
