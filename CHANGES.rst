@@ -14,6 +14,9 @@ Changelog
   jQuery >= 1.7 (Plone 4.3 onwards).
   [gaudenz]
 
+- Update Traditional Chinese translations.
+  [marr]
+
 2.3.2 (2014-04-05)
 ------------------
 
