@@ -51,6 +51,9 @@ setup(name='plone.app.discussion',
       extras_require={
           'test': [
               'plone.app.testing',
+              'plone.stringinterp',
+              'plone.contentrules',
+              'plone.app.contentrules',
           ]
       },
       entry_points="""
