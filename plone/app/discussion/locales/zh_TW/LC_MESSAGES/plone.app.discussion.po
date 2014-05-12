@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2012-10-09 20:55+0800\n"
+"POT-Creation-Date: 2014-04-18 14:25+0000\n"
+"PO-Revision-Date: 2014-05-02 20:55+0800\n"
 "Last-Translator: TsungWei Hu <marr.tw@gmail.com>\n"
 "Language-Team: Plone I18N <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -45,15 +45,15 @@ msgstr "留言已審核"
 
 #: ../contentrules.py:96
 msgid "Comment author email"
-msgstr ""
+msgstr "留言作者電郵"
 
 #: ../contentrules.py:85
 msgid "Comment author full name"
-msgstr ""
+msgstr "留言作者姓名"
 
 #: ../contentrules.py:74
 msgid "Comment author user name"
-msgstr ""
+msgstr "留言作者帳號"
 
 #: ../browser/moderation.py:100
 msgid "Comment deleted."
@@ -61,11 +61,11 @@ msgstr "留言已刪除"
 
 #: ../contentrules.py:52
 msgid "Comment id"
-msgstr ""
+msgstr "留言識別碼"
 
 #: ../contentrules.py:63
 msgid "Comment text"
-msgstr ""
+msgstr "留言內文"
 
 #: ../browser/controlpanel.py:67
 msgid "Commenter Image"
@@ -76,11 +76,11 @@ msgstr "Plone 的留言功能"
 
 #: ../contentrules.py:51
 msgid "Comments"
-msgstr ""
+msgstr "留言"
 
 #: ../interfaces.py:139
 msgid "Conversation"
-msgstr "討論"
+msgstr "留言功能"
 
 #: ../interfaces.py:177
 msgid "Creation date"
@@ -88,7 +88,7 @@ msgstr "建立日期"
 
 #: ../interfaces.py:41
 msgid "Date of the most recent public comment"
-msgstr ""
+msgstr "最新留言的日期"
 
 #: ../vocabularies.py:44
 msgid "Disabled"
@@ -152,15 +152,15 @@ msgstr "留言者 (使用者名稱) 的集合"
 
 #: ../interfaces.py:51
 msgid "The set of unique commentators (usernames) of published_comments"
-msgstr ""
+msgstr "留言的帳號列表"
 
 #: ../interfaces.py:35
 msgid "Total number of public comments on this item"
-msgstr ""
+msgstr "留言的數量統計"
 
 #: ../comment.py:164
 msgid "Transform '%s' => '%s' not available."
-msgstr ""
+msgstr "轉換 '%s' => '%s' 並不存在"
 
 #: ../browser/controlpanel.py:71
 msgid "User Email Notification"
@@ -168,7 +168,7 @@ msgstr "新留言通知使用者"
 
 #: ../interfaces.py:176
 msgid "Username of the commenter"
-msgstr ""
+msgstr "留言者的帳號"
 
 #: ../browser/comments.py:267
 msgid "Your comment awaits moderator approval."
@@ -197,7 +197,7 @@ msgstr "填寫下列表單後，就可以新增留言。網址會被轉換成可
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. You can use the Markdown syntax for links and images."
 #: ../browser/comments.py:51
 msgid "comment_description_markdown"
-msgstr ""
+msgstr "填寫表單後可以留言，可以套用 Markdown 語法來輸入連結或圖檔。"
 
 #. Default: "Comments are moderated."
 #: ../browser/comments.py:63
@@ -211,9 +211,8 @@ msgstr "填寫下列表單後，就可以新增留言。"
 
 #. Default: "${author_name} on ${content}"
 #: ../comment.py:54
-#, fuzzy
 msgid "comment_title"
-msgstr "${creator} 在 ${content} 留言"
+msgstr "${author_name} 在 ${content} 留言"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -253,7 +252,7 @@ msgstr "勾選的話，匿名使用者不必登入系統就能留言。建議使
 #. Default: "If selected, anonymous user will have to give their email."
 #: ../interfaces.py:330
 msgid "help_anonymous_email_enabled"
-msgstr ""
+msgstr "勾選的話，匿名留言者必須填寫電郵信箱。"
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
 #: ../interfaces.py:266
@@ -285,9 +284,8 @@ msgstr "審核通知信的寄送地址。"
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
 #: ../interfaces.py:293
-#, fuzzy
 msgid "help_moderator_notification_enabled"
-msgstr "勾選的話，有人留言時就會通知審核者。審核者的寄信地址記錄在郵件設定頁面裡。"
+msgstr "勾選的話，有人留言時就會通知審核者。審核者的寄信地址可在下列欄位設定。"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ../interfaces.py:282
@@ -318,7 +316,7 @@ msgstr "啟用匿名留言功能"
 #. Default: "Enable anonymous email field"
 #: ../interfaces.py:328
 msgid "label_anonymous_email_enabled"
-msgstr ""
+msgstr "啟用匿名留言的電郵欄位"
 
 #. Default: "Apply"
 #: ../browser/moderation.pt:71
