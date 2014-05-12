@@ -41,10 +41,14 @@ class PloneAppDiscussion(PloneSandboxLayer):
         xmlconfig.file('configure.zcml',
                        plone.app.discussion,
                        context=configurationContext)
+        xmlconfig.file('configure.zcml',
+                       plone.app.discussion.tests,
+                       context=configurationContext)
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.discussion:default')
+        applyProfile(portal, 'plone.app.discussion.tests:testing')
 
         # Creates some users
         acl_users = getToolByName(portal, 'acl_users')

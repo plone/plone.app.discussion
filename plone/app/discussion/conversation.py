@@ -50,8 +50,14 @@ from plone.app.discussion.comment import Comment
 
 from AccessControl.SpecialUsers import nobody as user_nobody
 
+from ComputedAttribute import ComputedAttribute
+
 ANNOTATION_KEY = 'plone.app.discussion:conversation'
 
+def computed_attribute_decorator(level=0):
+    def computed_attribute_wrapper(func):
+        return ComputedAttribute(func, level)
+    return computed_attribute_wrapper
 
 class Conversation(Traversable, Persistent, Explicit):
     """A conversation is a container for all comments on a content object.
@@ -87,21 +93,21 @@ class Conversation(Traversable, Persistent, Explicit):
         parent = aq_inner(self.__parent__)
         return parent.restrictedTraverse('@@conversation_view').enabled()
 
-    @property
+    @computed_attribute_decorator(level=1)
     def total_comments(self):
         public_comments = [
-            x for x in self._comments.values()
+            x for x in self.values()
             if user_nobody.has_permission('View', x)
         ]
         return len(public_comments)
 
-    @property
+    @computed_attribute_decorator(level=1)
     def last_comment_date(self):
         # self._comments is an Instance of a btree. The keys
         # are always ordered
         comment_keys = self._comments.keys()
         for comment_key in reversed(comment_keys):
-            comment = self._comments[comment_key]
+            comment = self[comment_key]
             if user_nobody.has_permission('View', comment):
                 return comment.creation_date
         return None
@@ -110,10 +116,10 @@ class Conversation(Traversable, Persistent, Explicit):
     def commentators(self):
         return self._commentators
 
-    @property
+    @computed_attribute_decorator(level=1)
     def public_commentators(self):
         retval = set()
-        for comment in self._comments.values():
+        for comment in self.values():
             if not user_nobody.has_permission('View', comment):
                 continue
             retval.add(comment.author_username)
