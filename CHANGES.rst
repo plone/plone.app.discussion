@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.13 (unreleased)
+2.2.13 (2014-05-16)
 -------------------
 
 - Replace $.live with $.on for jQuery >= 1.9 compatibility. This works on
