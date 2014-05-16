@@ -48,6 +48,7 @@ from Products.CMFCore.CMFCatalogAware import WorkflowAware
 
 from OFS.role import RoleManager
 from AccessControl import ClassSecurityInfo
+from AccessControl.SecurityManagement import getSecurityManager
 from Products.CMFCore import permissions
 
 
@@ -120,6 +121,14 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     def __init__(self):
         self.creation_date = self.modification_date = datetime.utcnow()
         self.mime_type = 'text/plain'
+
+        user = getSecurityManager().getUser()
+        if user and user.getId():
+            aclpath = [x for x in user.getPhysicalPath() if x]
+            self._owner = (aclpath, user.getId(),)
+            self.__ac_local_roles__ = {
+                user.getId(): ['Owner']
+            }
 
     @property
     def __name__(self):
@@ -199,7 +208,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     def Creator(self):
         """The name of the person who wrote the comment.
         """
-        return self.creator
+        return self.creator or self.author_name
 
     security.declareProtected(permissions.View, 'Type')
 

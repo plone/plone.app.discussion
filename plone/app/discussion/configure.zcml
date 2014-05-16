@@ -44,6 +44,27 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         />
 
+    <genericsetup:upgradeStep
+        title="edit comments"
+        description="reload registry config to enable new field edit_comment_enabled"
+        source="100"
+        destination="101"
+        handler=".upgrades.update_registry"
+        sortkey="1"
+        profile="plone.app.discussion:default"
+    />
+
+    <genericsetup:upgradeStep
+        title="delete comments"
+        description="reload rolemap config to enable new permission 'Delete comments'"
+        source="101"
+        destination="102"
+        handler=".upgrades.update_rolemap"
+        sortkey="1"
+        profile="plone.app.discussion:default"
+    />
+
+
     <!-- Monkey Patches -->
 
     <include package="collective.monkeypatcher" />

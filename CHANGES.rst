@@ -17,6 +17,13 @@ Changelog
 - Update Traditional Chinese translations.
   [marr]
 
+- Make comments editable.
+  [pjstevns, gyst]
+
+- Provide 'Delete comments' permission to handle comments deletion
+  [cekk]
+
+
 2.3.2 (2014-04-05)
 ------------------
 
