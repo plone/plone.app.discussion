@@ -10,6 +10,7 @@ from smtplib import SMTPException
 
 from zope.annotation.interfaces import IAnnotatable
 
+from zope.event import notify
 from zope.component.factory import Factory
 from zope.component import queryUtility
 
@@ -31,6 +32,11 @@ from Products.CMFPlone.utils import safe_unicode
 from OFS.Traversable import Traversable
 
 from plone.registry.interfaces import IRegistry
+
+from plone.app.discussion.events import CommentAddedEvent
+from plone.app.discussion.events import CommentRemovedEvent
+from plone.app.discussion.events import ReplyAddedEvent
+from plone.app.discussion.events import ReplyRemovedEvent
 
 from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 from plone.app.discussion.interfaces import IComment
@@ -232,7 +238,6 @@ def notify_content_object(obj, event):
                                     'last_comment_date',
                                     'commentators'))
 
-
 def notify_content_object_deleted(obj, event):
     """Remove all comments of a content object when the content object has been
        deleted.
@@ -242,6 +247,23 @@ def notify_content_object_deleted(obj, event):
         while conversation:
             del conversation[conversation.keys()[0]]
 
+def notify_comment_added(obj, event):
+    """ Notify custom discussion events when a comment is added or replied
+    """
+    conversation = aq_parent(obj)
+    context = aq_parent(conversation)
+    if getattr(obj, 'in_reply_to', None):
+        return notify(ReplyAddedEvent(context, obj))
+    return notify(CommentAddedEvent(context, obj))
+
+def notify_comment_removed(obj, event):
+    """ Notify custom discussion events when a comment or reply is removed
+    """
+    conversation = aq_parent(obj)
+    context = aq_parent(conversation)
+    if getattr(obj, 'in_reply_to', None):
+        return notify(ReplyRemovedEvent(context, obj))
+    return notify(CommentRemovedEvent(context, obj))
 
 def notify_content_object_moved(obj, event):
     """Update all comments of a content object that has been moved.

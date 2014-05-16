@@ -14,6 +14,7 @@
     <include package="plone.uuid" />
     <include package="plone.app.uuid" />
 
+    <include file="contentrules.zcml" />
     <include file="permissions.zcml" />
     <include file="notifications.zcml" />
     <include file="subscribers.zcml" />
