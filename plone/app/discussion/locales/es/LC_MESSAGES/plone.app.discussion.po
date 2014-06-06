@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2011-12-14 15:33-0600\n"
-"Last-Translator: Héctor Velarde <hector.velarde@gmail.com>\n"
+"PO-Revision-Date: 2014-06-06 09:25+0100\n"
+"Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
 "Language-Team: es <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -189,9 +189,8 @@ msgstr "Puede agregar un comentario llenando el sigueinte formulario. Formato de
 
 #. Default: "${author_name} on ${content}"
 #: ../comment.py:48
-#, fuzzy
 msgid "comment_title"
-msgstr "${creator} sobre ${content}"
+msgstr "${author_name} sobre ${content}"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
