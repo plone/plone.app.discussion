@@ -35,8 +35,9 @@
          */
         reply_div.appendTo(comment_div).css("display", "none");
 
-        /* Remove id="reply" attribute, since we use it to uniquely
+        /* Remove id="commenting" attribute, since we use it to uniquely define
            the main reply form. */
+        // Still belongs to class="reply"
         reply_div.removeAttr("id");
 
         /* Hide the reply button (only hide, because we may want to show it
@@ -46,6 +47,13 @@
 
         /* Fetch the reply form inside the reply div */
         var reply_form = reply_div.find("form");
+
+        /* Change the id of the textarea of the reply form 
+         * To avoid conflict later between textareas with same id 'form-widgets-comment-text' while implementing a seperate instance of TinyMCE
+         * */
+        reply_form.find('#formfield-form-widgets-comment-text').attr('id', 'formfield-form-widgets-new-textarea'+comment_id );
+        reply_form.find('#form-widgets-comment-text').attr('id', 'form-widgets-new-textarea'+comment_id );
+
 
         /* Populate the hidden 'in_reply_to' field with the correct comment
            id */
