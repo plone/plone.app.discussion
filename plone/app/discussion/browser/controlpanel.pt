@@ -14,7 +14,7 @@
 
 
 <body>
-<div id="content"
+<article id="content"
      tal:attributes="class view/settings"
      metal:fill-slot="prefs_configlet_content">
 
@@ -99,6 +99,6 @@
         </div>
     </div>
 
-</div>
+</article>
 </body>
 </html>
