@@ -14,10 +14,22 @@ from Products.CMFPlone.interfaces import INonStructuralFolder
 
 from plone.app.discussion.interfaces import IDiscussionSettings
 
+try:
+    from plone.dexterity.interfaces import IDexterityContent
+    DEXTERITY_INSTALLED = True
+except:
+    DEXTERITY_INSTALLED = False
+
 
 class ConversationView(object):
 
     def enabled(self):
+        if DEXTERITY_INSTALLED and IDexterityContent.providedBy(self.context):
+            return self._enabled_for_dexterity_types()
+        else:
+            return self._enabled_for_archetypes()
+
+    def _enabled_for_archetypes(self):
         """ Returns True if discussion is enabled for this conversation.
 
         This method checks five different settings in order to figure out if
@@ -52,8 +64,9 @@ class ConversationView(object):
             return False
 
         # Always return False if object is a folder
-        if (IFolderish.providedBy(context) and
-            not INonStructuralFolder.providedBy(context)):
+        context_is_folderish = IFolderish.providedBy(context)
+        context_is_structural = not INonStructuralFolder.providedBy(context)
+        if (context_is_folderish and context_is_structural):
             return False
 
         def traverse_parents(context):
@@ -61,8 +74,9 @@ class ConversationView(object):
             # enabled in a parent folder.
             for obj in aq_chain(context):
                 if not IPloneSiteRoot.providedBy(obj):
-                    if (IFolderish.providedBy(obj) and
-                        not INonStructuralFolder.providedBy(obj)):
+                    obj_is_folderish = IFolderish.providedBy(obj)
+                    obj_is_stuctural = not INonStructuralFolder.providedBy(obj)
+                    if (obj_is_folderish and obj_is_stuctural):
                         flag = getattr(obj, 'allow_discussion', None)
                         if flag is not None:
                             return flag
@@ -94,3 +108,38 @@ class ConversationView(object):
                 return False
 
         return True
+
+    def _enabled_for_dexterity_types(self):
+        """ Returns True if discussion is enabled for this conversation.
+
+        This method checks five different settings in order to figure out if
+        discussion is enable on a specific content object:
+
+        1) Check if discussion is enabled globally in the plone.app.discussion
+           registry/control panel.
+
+        2) Check if the allow_discussion boolean flag on the content object is
+           set. If it is set to True or False, return the value. If it set to
+           None, try further.
+
+        3) Check if discussion is allowed for the content type.
+        """
+        context = aq_inner(self.context)
+
+        # Fetch discussion registry
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+
+        # Check if discussion is allowed globally
+        if not settings.globally_enabled:
+            return False
+
+        # Check if discussion is allowed on the content object
+        if hasattr(context, "allow_discussion"):
+            if context.allow_discussion is not None:
+                return context.allow_discussion
+
+        # Check if discussion is allowed on the content type
+        portal_types = getToolByName(self, 'portal_types')
+        document_fti = getattr(portal_types, context.portal_type)
+        return document_fti.getProperty('allow_discussion')

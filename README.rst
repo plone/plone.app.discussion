@@ -28,8 +28,8 @@ Requirements
 Plone 3.3 or later.
 
 
-Plone 3.x Buildout Installation
-===============================
+Plone 3.3.x Buildout Installation
+=================================
 
 To install plone.app.discussion, add the following code to your buildout.cfg::
 
@@ -55,7 +55,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     ...
 
 
-Plone 4.x Buildout Installation
+Plone 4.0 Buildout Installation
 ===============================
 
 To install plone.app.discussion, add the following code to your buildout.cfg::

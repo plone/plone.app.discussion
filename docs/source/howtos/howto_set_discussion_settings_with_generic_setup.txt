@@ -5,12 +5,14 @@ How to set discussion settings with generic setup
 This document explains how to set plone.app.discussion's settings with a
 generic setup profile.
 
-plone.app.discussion uses plone.app.registry ...
-
-registry.xml::
+plone.app.discussion uses plone.app.registry to store its global settings.
+You can set or override the settings in the registry.xml file of your generic
+setup profile::
 
     <registry>
-      <record field="anonymous_comments" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments">
+      <record
+        field="anonymous_comments" interface="plone.app.discussion.interfaces.IDiscussionSettings"
+        name="plone.app.discussion.interfaces.IDiscussionSettings.anonymous_comments">
         <field type="plone.registry.field.Bool">
           <default>False</default>
           <description>help_anonymous_comments</description>
@@ -19,7 +21,10 @@ registry.xml::
         </field>
         <value>False</value>
       </record>
-      <record field="captcha" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.captcha">
+      <record
+        field="captcha"
+        interface="plone.app.discussion.interfaces.IDiscussionSettings"
+        name="plone.app.discussion.interfaces.IDiscussionSettings.captcha">
         <field type="plone.registry.field.Choice">
           <default>disabled</default>
           <description>help_captcha</description>
@@ -28,7 +33,10 @@ registry.xml::
         </field>
         <value>disabled</value>
       </record>
-      <record field="globally_enabled" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled">
+      <record
+        field="globally_enabled"
+        interface="plone.app.discussion.interfaces.IDiscussionSettings"
+        name="plone.app.discussion.interfaces.IDiscussionSettings.globally_enabled">
         <field type="plone.registry.field.Bool">
           <default>False</default>
           <description>help_globally_enabled</description>
@@ -37,7 +45,9 @@ registry.xml::
         </field>
         <value>False</value>
       </record>
-      <record field="moderation_enabled" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.moderation_enabled">
+      <record
+        field="moderation_enabled"
+        interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.moderation_enabled">
         <field type="plone.registry.field.Bool">
           <default>False</default>
           <description>help_moderation_enabled</description>
@@ -46,7 +56,10 @@ registry.xml::
         </field>
         <value>False</value>
       </record>
-      <record field="moderator_email" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.moderator_email">
+      <record
+        field="moderator_email"
+        interface="plone.app.discussion.interfaces.IDiscussionSettings"
+        name="plone.app.discussion.interfaces.IDiscussionSettings.moderator_email">
         <field type="plone.registry.field.ASCIILine">
           <description>help_moderator_email</description>
           <required>False</required>
@@ -54,7 +67,10 @@ registry.xml::
         </field>
         <value />
       </record>
-      <record field="moderator_notification_enabled" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled">
+      <record
+        field="moderator_notification_enabled"
+        interface="plone.app.discussion.interfaces.IDiscussionSettings"
+        name="plone.app.discussion.interfaces.IDiscussionSettings.moderator_notification_enabled">
         <field type="plone.registry.field.Bool">
           <default>False</default>
           <description>help_moderator_notification_enabled</description>
@@ -63,7 +79,10 @@ registry.xml::
         </field>
         <value>False</value>
       </record>
-      <record field="show_commenter_image" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image">
+      <record
+        field="show_commenter_image"
+        interface="plone.app.discussion.interfaces.IDiscussionSettings"
+        name="plone.app.discussion.interfaces.IDiscussionSettings.show_commenter_image">
         <field type="plone.registry.field.Bool">
           <default>True</default>
           <description>help_show_commenter_image</description>
@@ -72,7 +91,10 @@ registry.xml::
         </field>
         <value>True</value>
       </record>
-      <record field="text_transform" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.text_transform">
+      <record
+        field="text_transform"
+        interface="plone.app.discussion.interfaces.IDiscussionSettings"
+        name="plone.app.discussion.interfaces.IDiscussionSettings.text_transform">
         <field type="plone.registry.field.Choice">
           <default>text/plain</default>
           <description>help_text_transform</description>
@@ -81,7 +103,10 @@ registry.xml::
         </field>
         <value>text/plain</value>
       </record>
-      <record field="user_notification_enabled" interface="plone.app.discussion.interfaces.IDiscussionSettings" name="plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled">
+      <record
+        field="user_notification_enabled"
+        interface="plone.app.discussion.interfaces.IDiscussionSettings"
+        name="plone.app.discussion.interfaces.IDiscussionSettings.user_notification_enabled">
         <field type="plone.registry.field.Bool">
           <default>False</default>
           <description>help_user_notification_enabled</description>
@@ -91,4 +116,3 @@ registry.xml::
         <value>False</value>
       </record>
     </registry>
-

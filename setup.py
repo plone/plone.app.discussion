@@ -1,6 +1,7 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
-version = '2.1.6dev'
+version = '2.3.3.dev0'
 
 install_requires = [
     'setuptools',
@@ -12,6 +13,7 @@ install_requires = [
     'plone.indexer',
     'plone.registry',
     'plone.z3cform',
+    'Products.CMFPlone',
     'ZODB3',
     'zope.interface',
     'zope.component',
@@ -21,22 +23,22 @@ install_requires = [
     'zope.lifecycleevent',
     'zope.site',
     'z3c.form>=2.3.3',
-    ]
+]
 
 setup(name='plone.app.discussion',
       version=version,
       description="Enhanced discussion support for Plone",
       long_description=open("README.rst").read() + "\n" +
-                       open("CHANGES.txt").read(),
+      open("CHANGES.rst").read(),
       classifiers=[
-        "Framework :: Plone",
-        "Framework :: Plone :: 3.3",
-        "Framework :: Plone :: 4.0",
-        "Framework :: Plone :: 4.1",
-        "Framework :: Plone :: 4.2",
-        "Framework :: Plone :: 4.3",
-        "Programming Language :: Python",
-        ],
+          "Framework :: Plone",
+          "Framework :: Plone :: 3.3",
+          "Framework :: Plone :: 4.0",
+          "Framework :: Plone :: 4.1",
+          "Framework :: Plone :: 4.2",
+          "Framework :: Plone :: 4.3",
+          "Programming Language :: Python",
+      ],
       keywords='plone discussion',
       author='Timo Stollenwerk - Plone Foundation',
       author_email='plone-developers@lists.sourceforge.net',
@@ -50,7 +52,11 @@ setup(name='plone.app.discussion',
       extras_require={
           'test': [
               'plone.app.testing',
-              'interlude',
+              'plone.stringinterp',
+              'plone.contentrules',
+              'plone.app.contentrules',
+              'plone.app.contenttypes[test]',
+              'plone.app.robotframework[ride,reload,debug]',
           ]
       },
       entry_points="""

@@ -1,15 +1,21 @@
 from Products.CMFCore.utils import getToolByName
 
-from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import applyProfile
-from plone.app.testing import PLONE_FIXTURE
+from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.robotframework.testing import REMOTE_LIBRARY_ROBOT_TESTING
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import applyProfile
 
+from plone.testing import z2
+from plone.registry.interfaces import IRegistry
+
+from zope.component import queryUtility
 from zope.configuration import xmlconfig
 
 try:
-    import plone.app.collection
+    import plone.app.collection  # noqa
     COLLECTION_TYPE = "Collection"
 except:
     COLLECTION_TYPE = "Topic"
@@ -17,7 +23,7 @@ except:
 
 class PloneAppDiscussion(PloneSandboxLayer):
 
-    defaultBases = (PLONE_FIXTURE,)
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     USER_NAME = 'johndoe'
     USER_PASSWORD = 'secret'
@@ -28,6 +34,8 @@ class PloneAppDiscussion(PloneSandboxLayer):
     USER_WITH_FULLNAME_PASSWORD = 'secret'
     MANAGER_USER_NAME = 'manager'
     MANAGER_USER_PASSWORD = 'secret'
+    REVIEWER_NAME = 'reviewer'
+    REVIEWER_PASSWORD = 'secret'
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
@@ -60,7 +68,15 @@ class PloneAppDiscussion(PloneSandboxLayer):
             ['Member'],
             [],
         )
+        acl_users.userFolderAddUser(
+            self.REVIEWER_NAME,
+            self.REVIEWER_PASSWORD,
+            ['Member'],
+            [],
+        )
         mtool = getToolByName(portal, 'portal_membership', None)
+        gtool = getToolByName(portal, 'portal_groups', None)
+        gtool.addPrincipalToGroup(self.REVIEWER_NAME, 'Reviewers')
         mtool.addMember('jim', 'Jim', ['Member'], [])
         mtool.getMemberById('jim').setMemberProperties(
             {"fullname": 'Jim Fult\xc3\xb8rn'})
@@ -72,6 +88,16 @@ class PloneAppDiscussion(PloneSandboxLayer):
             [],
         )
 
+
+class PloneAppDiscussionRobot(PloneAppDiscussion):
+
+    def setUpPloneSite(self, portal):
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = True
+
+
+PLONE_APP_DISCUSSION_ROBOT_FIXTURE = PloneAppDiscussionRobot()
 PLONE_APP_DISCUSSION_FIXTURE = PloneAppDiscussion()
 PLONE_APP_DISCUSSION_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONE_APP_DISCUSSION_FIXTURE,),
@@ -79,3 +105,10 @@ PLONE_APP_DISCUSSION_INTEGRATION_TESTING = IntegrationTesting(
 PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONE_APP_DISCUSSION_FIXTURE,),
     name="PloneAppDiscussion:Functional")
+PLONE_APP_DISCUSSION_ROBOT_TESTING = FunctionalTesting(
+    bases=(
+        PLONE_APP_DISCUSSION_ROBOT_FIXTURE,
+        REMOTE_LIBRARY_ROBOT_TESTING
+    ),
+    name="PloneAppDiscussion:Robot"
+)

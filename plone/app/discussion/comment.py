@@ -10,6 +10,7 @@ from smtplib import SMTPException
 
 from zope.annotation.interfaces import IAnnotatable
 
+from zope.event import notify
 from zope.component.factory import Factory
 from zope.component import queryUtility
 
@@ -32,6 +33,11 @@ from OFS.Traversable import Traversable
 
 from plone.registry.interfaces import IRegistry
 
+from plone.app.discussion.events import CommentAddedEvent
+from plone.app.discussion.events import CommentRemovedEvent
+from plone.app.discussion.events import ReplyAddedEvent
+from plone.app.discussion.events import ReplyRemovedEvent
+
 from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
@@ -41,29 +47,32 @@ from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
 
 from OFS.role import RoleManager
+from AccessControl import ClassSecurityInfo
+from AccessControl.SecurityManagement import getSecurityManager
+from Products.CMFCore import permissions
 
 
 COMMENT_TITLE = _(
     u"comment_title",
-    default=u"${creator} on ${content}")
+    default=u"${author_name} on ${content}")
 
 MAIL_NOTIFICATION_MESSAGE = _(
     u"mail_notification_message",
     default=u"A comment on '${title}' "
-             "has been posted here: ${link}\n\n"
-             "---\n"
-             "${text}\n"
-             "---\n")
+            u"has been posted here: ${link}\n\n"
+            u"---\n"
+            u"${text}\n"
+            u"---\n")
 
 MAIL_NOTIFICATION_MESSAGE_MODERATOR = _(
     u"mail_notification_message_moderator",
     default=u"A comment on '${title}' "
-             "has been posted here: ${link}\n\n"
-             "---\n"
-             "${text}\n"
-             "---\n\n"
-             "Approve comment:\n${link_approve}\n\n"
-             "Delete comment:\n${link_delete}\n")
+            u"has been posted here: ${link}\n\n"
+            u"---\n"
+            u"${text}\n"
+            u"---\n\n"
+            u"Approve comment:\n${link_approve}\n\n"
+            u"Delete comment:\n${link_delete}\n")
 
 logger = logging.getLogger("plone.app.discussion")
 
@@ -78,6 +87,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     """
 
     implements(IComment)
+    security = ClassSecurityInfo()
 
     meta_type = portal_type = 'Discussion Item'
     # This needs to be kept in sync with types/Discussion_Item.xml title
@@ -110,6 +120,15 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     def __init__(self):
         self.creation_date = self.modification_date = datetime.utcnow()
+        self.mime_type = 'text/plain'
+
+        user = getSecurityManager().getUser()
+        if user and user.getId():
+            aclpath = [x for x in user.getPhysicalPath() if x]
+            self._owner = (aclpath, user.getId(),)
+            self.__ac_local_roles__ = {
+                user.getId(): ['Owner']
+            }
 
     @property
     def __name__(self):
@@ -142,10 +161,23 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
             return ''
         if isinstance(text, unicode):
             text = text.encode('utf8')
-        return transforms.convertTo(targetMimetype,
-                                    text,
-                                    context=self,
-                                    mimetype=sourceMimetype).getData()
+        transform = transforms.convertTo(
+            targetMimetype,
+            text,
+            context=self,
+            mimetype=sourceMimetype)
+        if transform:
+            return transform.getData()
+        else:
+            logger = logging.getLogger("plone.app.discussion")
+            logger.error(_(
+                u"Transform '%s' => '%s' not available." % (
+                    sourceMimetype,
+                    targetMimetype
+                ) +
+                u"Failed to transform comment '%s'." % self.absolute_url()
+            ))
+            return text
 
     def Title(self):
         """The title of the comment.
@@ -154,26 +186,31 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         if self.title:
             return self.title
 
-        if not self.creator:
-            creator = translate(Message(_(u"label_anonymous",
-                                          default=u"Anonymous")))
+        if not self.author_name:
+            author_name = translate(
+                Message(_(
+                    u"label_anonymous",
+                    default=u"Anonymous"
+                ))
+            )
         else:
-            creator = self.creator
-            creator = creator
+            author_name = self.author_name
 
         # Fetch the content object (the parent of the comment is the
         # conversation, the parent of the conversation is the content object).
         content = aq_base(self.__parent__.__parent__)
         title = translate(
             Message(COMMENT_TITLE,
-                    mapping={'creator': creator,
+                    mapping={'author_name': safe_unicode(author_name),
                              'content': safe_unicode(content.Title())}))
         return title
 
     def Creator(self):
         """The name of the person who wrote the comment.
         """
-        return self.creator
+        return self.creator or self.author_name
+
+    security.declareProtected(permissions.View, 'Type')
 
     def Type(self):
         """The Discussion Item content type.
@@ -208,9 +245,7 @@ def notify_content_object(obj, event):
     content_obj = aq_parent(aq_parent(obj))
     content_obj.reindexObject(idxs=('total_comments',
                                     'last_comment_date',
-                                    'commentators',
-    ))
-
+                                    'commentators'))
 
 def notify_content_object_deleted(obj, event):
     """Remove all comments of a content object when the content object has been
@@ -221,28 +256,59 @@ def notify_content_object_deleted(obj, event):
         while conversation:
             del conversation[conversation.keys()[0]]
 
+def notify_comment_added(obj, event):
+    """ Notify custom discussion events when a comment is added or replied
+    """
+    conversation = aq_parent(obj)
+    context = aq_parent(conversation)
+    if getattr(obj, 'in_reply_to', None):
+        return notify(ReplyAddedEvent(context, obj))
+    return notify(CommentAddedEvent(context, obj))
+
+def notify_comment_removed(obj, event):
+    """ Notify custom discussion events when a comment or reply is removed
+    """
+    conversation = aq_parent(obj)
+    context = aq_parent(conversation)
+    if getattr(obj, 'in_reply_to', None):
+        return notify(ReplyRemovedEvent(context, obj))
+    return notify(CommentRemovedEvent(context, obj))
 
 def notify_content_object_moved(obj, event):
     """Update all comments of a content object that has been moved.
     """
     if event.oldParent is None or event.newParent is None \
-       or event.oldName is None or event.newName is None:
+            or event.oldName is None or event.newName is None:
         return
+
+    # This method is also called for sublocations of moved objects. We
+    # therefore can't assume that event.object == obj and event.
+    # {old,new}{Parent,Name} may refer to the actually moved object further up
+    # in the object hierarchy. The object is already moved at this point. so
+    # obj.getPhysicalPath retruns the new path get the part of the path that
+    # was moved.
+    moved_path = obj.getPhysicalPath()[
+        len(event.newParent.getPhysicalPath()) + 1:
+    ]
+
     # Remove comments at the old location from catalog
     catalog = getToolByName(obj, 'portal_catalog')
-    old_path = '/'.join(event.oldParent.getPhysicalPath() + (event.oldName,))
+    old_path = '/'.join(
+        event.oldParent.getPhysicalPath() +
+        (event.oldName,) +
+        moved_path
+    )
     brains = catalog.searchResults(dict(
-                 path={'query': old_path},
-                 portal_type="Discussion Item"
-                 ))
+        path={'query': old_path},
+        portal_type="Discussion Item"
+    ))
     for brain in brains:
         catalog.uncatalog_object(brain.getPath())
     # Reindex comment at the new location
     conversation = IConversation(obj, None)
     if conversation is not None:
         for comment in conversation.getComments():
-            aq_base(comment).__parent__.__parent__.__parent__ = event.newParent
-            catalog.reindexObject(aq_base(comment))
+            comment.reindexObject()
 
 
 def notify_user(obj, event):
@@ -280,8 +346,9 @@ def notify_user(obj, event):
     # when he has commented multiple times.
     emails = set()
     for comment in conversation.getComments():
-        if (obj != comment and
-            comment.user_notification and comment.author_email):
+        obj_is_not_the_comment = obj != comment
+        valid_user_email = comment.user_notification and comment.author_email
+        if obj_is_not_the_comment and valid_user_email:
             emails.add(comment.author_email)
 
     if not emails:
@@ -289,13 +356,17 @@ def notify_user(obj, event):
 
     subject = translate(_(u"A comment has been posted."),
                         context=obj.REQUEST)
-    message = translate(Message(
+    message = translate(
+        Message(
             MAIL_NOTIFICATION_MESSAGE,
-            mapping={'title': safe_unicode(content_object.title),
-                     'link': content_object.absolute_url() +
-                             '/view#' + obj.id,
-                     'text': obj.text}),
-            context=obj.REQUEST)
+            mapping={
+                'title': safe_unicode(content_object.title),
+                'link': content_object.absolute_url() + '/view#' + obj.id,
+                'text': obj.text
+            }
+        ),
+        context=obj.REQUEST
+    )
     for email in emails:
         # Send email
         try:
@@ -350,15 +421,21 @@ def notify_moderator(obj, event):
 
     # Compose email
     subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
-    message = translate(Message(MAIL_NOTIFICATION_MESSAGE_MODERATOR,
-        mapping={
-            'title': safe_unicode(content_object.title),
-            'link': content_object.absolute_url() + '/view#' + obj.id,
-            'text': obj.text,
-            'link_approve': obj.absolute_url() + '/@@moderate-publish-comment',
-            'link_delete': obj.absolute_url() + '/@@moderate-delete-comment',
-            }),
-        context=obj.REQUEST)
+    link_approve = obj.absolute_url() + '/@@moderate-publish-comment'
+    link_delete = obj.absolute_url() + '/@@moderate-delete-comment'
+    message = translate(
+        Message(
+            MAIL_NOTIFICATION_MESSAGE_MODERATOR,
+            mapping={
+                'title': safe_unicode(content_object.title),
+                'link': content_object.absolute_url() + '/view#' + obj.id,
+                'text': obj.text,
+                'link_approve': link_approve,
+                'link_delete': link_delete,
+            }
+        ),
+        context=obj.REQUEST
+    )
 
     # Send email
     try:

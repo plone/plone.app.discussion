@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2011-04-22 17:12+0000\n"
+"POT-Creation-Date: 2014-05-16 13:47+0000\n"
 "PO-Revision-Date: 2010-01-28 15:00+0000\n"
 "Last-Translator: Anton Stonor <anton@headnet.dk>\n"
 "Language-Team: Anton Stonor <anton@headnet.dk>\n"
@@ -34,12 +34,7 @@ msgstr "Kommentar"
 msgid "Comment Review Workflow"
 msgstr "Godkendelses-workflow for kommentarer"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Comment Single State Workflow"
-msgstr "Et-trinsworkflow for kommentarer"
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Kommentar om seneste workflow"
 
@@ -55,10 +50,6 @@ msgstr "Kommentarer tilføjet til indholdet"
 msgid "Discussion"
 msgstr "Kommentering"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr "Et workflow med kun 1 tilstand, nemlig publiceret."
-
 #: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Moderér kommentarer"
@@ -68,17 +59,14 @@ msgid "Pending"
 msgstr "Afventer"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Foregående workflow-ændringer"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Giver adgang til workflow-historikken"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "Publiceret"
 
@@ -91,7 +79,6 @@ msgid "Submitted, pending review."
 msgstr "Gemt, afventer godkendelse"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "Brugernavnet på den, der gennemført det seneste workflow-trin"
 
@@ -107,16 +94,11 @@ msgstr "Antal kommentarer på denne side."
 msgid "Users who have commented on the item"
 msgstr "Brugere, der har kommenteret på denne side"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Visible to everyone, editable by the owner."
-msgstr "Synlig for alle, kan redigeres af ejeren."
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Synligt for alle, kan ikke redigeres."
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Tidspunktet for det seneste workflow-trin"
 

@@ -1,20 +1,332 @@
 Changelog
 =========
 
-2.1.6 (unreleased)
+2.3.3 (unreleased)
 ------------------
+
 - Add permission to allow comment authors to delete their own comments if 
   there are no replies yet.
   [gaudenz]
+
+- Register events as Content Rules Event Types if plone.contentrules is present
+  [avoinea]
+
+- Trigger custom events on comment add/remove/reply
+  [avoinea]
+
+- Replace $.live with $.on for jQuery >= 1.9 compatibility. This works on
+  jQuery >= 1.7 (Plone 4.3 onwards).
+  [gaudenz]
+
+- Update Traditional Chinese translations.
+  [marr]
+
+- Make comments editable.
+  [pjstevns, gyst]
+
+- Provide 'Delete comments' permission to handle comments deletion
+  [cekk]
+
+- Fixed Italian translations [cekk]
+
+
+2.3.2 (2014-04-05)
+------------------
+
+- bugfix: according to IDiscussionSettings.anonymous_email_enabled (cite):
+  "If selected, anonymous user will have to give their email." - But field
+  was not required. Now it is.
+  [jensens]
+
+- bugfix: anonymous email field was never saved.
+  [jensens]
+
+- updated german translations: added some missing msgstr.
+  [jensens]
+
+- added i18ndude and a script ``update_translations`` to buildout in order
+  to make translation updates simpler.
+  [jensens]
+
+- Fix reindexObject for content_object in moderation views.
+  Now reindex only "total_comments" index and not all the indexes
+  [cekk]
+
+- Fix comments Title if utf-8 characters in author_name
+  [huub_bouma]
+
+- use member.getId as author_username, so membrane users having different id
+  then username still have there picture shown and author path is correct.
+  [maartenkling]
+
+
+2.3.1 (2014-02-22)
+------------------
+
+- 2.3.0 was a brown bag release.
+  [timo]
+
+
+2.3.0 (2014-02-22)
+------------------
+
+- Remove DL's from portal message in templates.
+  https://github.com/plone/Products.CMFPlone/issues/153
+  [khink]
+
+- Execute the proper workflow change when using the moderation buttons instead
+  of hardcoding the workflow action to always publish
+  [omiron]
+
+- Corrections and additions to the Danish translation
+  [aputtu]
+
+
+2.2.12 (2014-01-13)
+-------------------
+
+- Show author email to Moderator when it is available in anonymous comment.
+  [gotcha, smoussiaux]
+
+- Put defaultUser.png instead of old defaultUser.gif
+  [bsuttor]
+
+- Remove bbb directory. bbb was never really implemented.
+  [timo]
+
+- Replace deprecated test assert statements.
+  [timo]
+
+- Remove portal_discussion tool.
+  [timo]
+
+- Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of
+  PLONE_FIXTURE.
+  [timo]
+
+- Fix ownership of comments.
+  [toutpt]
+
+
+2.2.10 (2013-09-24)
+-------------------
+
+- Revert "Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of
+  the PLONE_FIXTURE." that has been accidentially introduced into the 2.2.9
+  release.
+  [timo]
+
+
+2.2.9 (2013-09-24)
+------------------
+
+- Portuguese translation added.
+  [Rui Silva]
+
+- Rename CHANGES.txt to CHANGES.rst.
+  [timo]
+
+- Fix ajax form submit for delete comment action: add 'data' to the request.
+  [toutpt]
+
+
+2.2.8 (2013-08-20)
+------------------
+
+- Re-release 2.2.7 with .mo files. Seems like 2.2.7 has been released twice on
+  two different dates. The first release seems to be made without a github
+  push.
+  [timo]
+
+- Fix comments viewlet's get_replies for non-annotatable objects.
+  [witsch]
+
+
+2.2.7 (2013-07-04)
+------------------
+
+- making sure .mo files are present at release
+  [garbas]
+
+- Revert change that silently added mime_type attribute values
+  to old discussion items that had none.
+  [pjstevns]
+
+
+2.2.6 (2013-05-23)
+------------------
+
+- Fix migration to not fail when member has been deleted.
+  [datakurre]
+
+
+2.2.5 (2013-04-06)
+------------------
+
+- Update pt_BR translation [ericof]
+
+- Do not raise an error when no workflow is assigned to the comment type.
+  [timo]
+
+- Add a conversation property public_commentators that only lists
+  commentators of comments that are public.
+  The commentators indexer indexes this field now.
+  The behavior of the conversation property commentators is
+  unchanged.
+  [do3cc]
+
+- The last comment date now only returns the date of the newest
+  published comment.
+  [do3cc]
+
+
+2.2.4 (2013-03-05)
+------------------
+
+- Check for 'checked' attribute in a way that work also for jQuery 1.7
+  [ichimdav]
+
+- Better fix for #13037 by removing submit event trigger altogether
+  [ichimdav]
+
+- Added Romanian translation
+  [ichimdav]
+
+- Updated Ukrainian translation
+  [kroman0]
+
+2.2.3 (2013-01-13)
+------------------
+
+- add anonymous_email_enabled settings to really let integrator activate
+  the email field on comment add form when anonymous.
+  [toutpt]
+
+2.2.2 (2012-11-16)
+------------------
+
+- first check if captcha is installed before we open browsers zcml
+  files that depend on these packages, fixes #12118 and #12774
+  [maartenkling]
+
+
+2.2.1 (2012-11-16)
+------------------
+
+- Make conversation view not break when comment-id cannot be converted to long.
+  Fixes #13327
+  [khink]
+
+- fix insufficient privileges when trying to view
+  the RSS feed of a comment collection
+  [maartenkling]
+
+- removed inline border=0 and move it to css
+  [maartenkling]
+
+- For migrations of comments without a valid old_status, apply the 'published'
+  state.
+  [thet]
+
+- Re-apply eleddy's "Revert modification date since this is fixed in
+  p.a.caching now." as her commit was lost later on due to some git magic.
+  [thet]
+
+- Remove submitting the controlpanel form again after removing disabled tags
+  fixes #13037 and #12357
+  [maartenkling]
+
+- Remove inline styles, fixes #12399
+  [maartenkling]
+
+- add fallback border color for i8, fixes #11324
+  [maartenkling]
+
+- Replace discussionitem_icon.gif with png version.
+  [timo]
+
+- Fix catalog updates for IObjectMovedEvent
+  [gaudenz]
+
+- Fix non-functioning user_notification feature
+  [izak]
+
+
+2.2.0 (2012-08-30)
+------------------
+
+- Refactor the comment creator/author_name to comply with the Plone core
+  convention to store the username on the creator attribute and not the
+  fullname.
+  [timo]
+
+- Rename the id of the text widgets because there can be css-id clashes with
+  the text field of documents when using TinyMCE in overlays or multiple
+  instances of TinyMCE on a single page.
+  [timo]
+
+- text/html added to the possible mime types for comments.
+  [timo]
+
+- Make 'text/plain' the default mime type for comments and make sure the
+  default type is set properly when creating a new comment.
+  [timo]
+
+- Fix handling of comments with invalid transforms. Write an error msg
+  to the log and just return the untransformed text.
+  [timo]
+
+
+2.1.8 (unreleased)
+------------------
+
+- Support for Dexterity added. The conversation enabled method now detects and
+  supports Dexterity-based content types.
+  [timo]
+
+- No more recursive came_from redirection after logged_in.
+  [kcleong, huubbouma]
+
+- Danish translation updated.
+  [stonor]
+
+- Documentation and howtos updated.
+  [timo]
+
+- Remove development buildout files and directories.
+  [timo]
+
+
+2.1.7 (2012-06-29)
+------------------
+
+- Prune duplicated test code.
+  [pjstevns]
+
+- Update version in buildout.cfg to allow development.
+  [pjstevns]
+
+- Conversation.total_comments only counts published comments.
+  Fixes bug #11591.
+  [pjstevns]
+
+- Set workflow status of comments during migration based on
+  the state of the Discussion Item.
+  [pjstevns]
+
+
+2.1.6 (2012-05-30)
+------------------
 
 - Add Site Administrator role to Review comments permission.
   [gaudenz]
 
-- Add permission to allow comment authors to delete their own comments if 
-  there are no replies yet.
+- Fix excessive JS comment deletion.
   [gaudenz]
 
-- Fix excessive JS comment deletion.
+- Hide Conversation objects from breadcrumb navigation. The breadcrumbs
+  navigation is also used in the search results view. This lead to Conversation
+  objects showing up if 'Discussion Items' are searchable.
   [gaudenz]
 
 - No longer depend on zope.app packages.

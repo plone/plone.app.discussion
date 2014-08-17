@@ -14,6 +14,9 @@ from plone.app.discussion.comment import CommentFactory
 
 from plone.app.discussion.interfaces import IConversation, IReplies, IComment
 
+from types import TupleType
+from DateTime import DateTime
+
 
 def DT2dt(DT):
     """Convert a Zope DateTime (with timezone) into a Python datetime (GMT)."""
@@ -64,8 +67,15 @@ class View(BrowserView):
             if len(replies) == 0:
                 return True
 
-            for reply in replies:
+            workflow = context.portal_workflow
+            oldchain = workflow.getChainForPortalType('Discussion Item')
+            new_workflow = workflow.comment_review_workflow
+            mt = getToolByName(self.context, 'portal_membership')
 
+            if type(oldchain) == TupleType and len(oldchain) > 0:
+                oldchain = oldchain[0]
+
+            for reply in replies:
                 # log
                 indent = "  "
                 for i in range(depth):
@@ -87,9 +97,30 @@ class View(BrowserView):
                     comment.mime_type = 'text/html'
                     comment.creator = reply.Creator()
 
-                    email = reply.getProperty('email', None)
-                    if email:
-                        comment.author_email = email
+                    try:
+                        comment.author_username = reply.author_username
+                    except AttributeError:
+                        comment.author_username = reply.Creator()
+
+                    member = mt.getMemberById(comment.author_username)
+                    if member:
+                        comment.author_name = member.fullname
+
+                    if not comment.author_name:
+                        # In migrated site member.fullname = ''
+                        # while member.getProperty('fullname') has the
+                        # correct value
+                        if member:
+                            comment.author_name = member.getProperty(
+                                'fullname'
+                            )
+                        else:
+                            comment.author_name = comment.author_username
+
+                    try:
+                        comment.author_email = reply.email
+                    except AttributeError:
+                        comment.author_email = None
 
                     comment.creation_date = DT2dt(reply.creation_date)
                     comment.modification_date = DT2dt(reply.modification_date)
@@ -104,6 +135,32 @@ class View(BrowserView):
                         comment_to_reply_to = conversation.get(in_reply_to)
                         replies = IReplies(comment_to_reply_to)
                         new_in_reply_to = replies.addComment(comment)
+
+                    # migrate the review state
+                    old_status = workflow.getStatusOf(oldchain, reply)
+                    new_status = {
+                        'action': None,
+                        'actor': None,
+                        'comment': 'Migrated workflow state',
+                        'review_state': old_status and old_status.get(
+                            'review_state',
+                            new_workflow.initial_state
+                        ) or 'published',
+                        'time': DateTime()
+                    }
+                    workflow.setStatusOf('comment_review_workflow',
+                                         comment,
+                                         new_status)
+
+                    auto_transition = new_workflow._findAutomaticTransition(
+                        comment,
+                        new_workflow._getWorkflowStateOf(comment))
+                    if auto_transition is not None:
+                        new_workflow._changeStateOf(comment, auto_transition)
+                    else:
+                        new_workflow.updateRoleMappingsFor(comment)
+                    comment.reindexObject(idxs=['allowedRolesAndUsers',
+                                                'review_state'])
 
                 self.total_comments_migrated += 1
 
@@ -133,13 +190,17 @@ class View(BrowserView):
             object_provides='Products.CMFCore.interfaces._content.IContentish')
         log("Found %s content objects." % len(brains))
 
-        count_discussion_items = len(catalog.searchResults(
-                                         Type='Discussion Item'))
-        count_comments_pad = len(catalog.searchResults(
-                                     object_provides=IComment.__identifier__))
-        count_comments_old = len(catalog.searchResults(
-                                     object_provides=IDiscussionResponse.\
-                                         __identifier__))
+        count_discussion_items = len(
+            catalog.searchResults(Type='Discussion Item')
+        )
+        count_comments_pad = len(
+            catalog.searchResults(object_provides=IComment.__identifier__)
+        )
+        count_comments_old = len(
+            catalog.searchResults(
+                object_provides=IDiscussionResponse.__identifier__
+            )
+        )
 
         log("Found %s Discussion Item objects." % count_discussion_items)
         log("Found %s old discussion items." % count_comments_old)
@@ -172,10 +233,14 @@ class View(BrowserView):
                 obj.talkback = None
 
         if self.total_comments_deleted != self.total_comments_migrated:
-            log("Something went wrong during migration. The number of \
-                migrated comments (%s) differs from the number of deleted \
-                comments (%s)."  # pragma: no cover
-                 % (self.total_comments_migrated, self.total_comments_deleted))
+            log(
+                "Something went wrong during migration. The number of " +
+                "migrated comments (%s) differs from the number of deleted " +
+                "comments (%s)." % (
+                    self.total_comments_migrated,
+                    self.total_comments_deleted
+                )
+            )
             if not test:  # pragma: no cover
                 transaction.abort()  # pragma: no cover
             log("Abort transaction")  # pragma: no cover
@@ -188,9 +253,11 @@ class View(BrowserView):
             % (self.total_comments_migrated, count_comments_old))
 
         if self.total_comments_migrated != count_comments_old:
-            log("%s comments could not be migrated." %
-                (count_comments_old - \
-                self.total_comments_migrated))  # pragma: no cover
+            log(
+                "%s comments could not be migrated." % (
+                    count_comments_old - self.total_comments_migrated
+                )
+            )  # pragma: no cover
             log("Please make sure your " +
                 "portal catalog is up-to-date.")  # pragma: no cover
 

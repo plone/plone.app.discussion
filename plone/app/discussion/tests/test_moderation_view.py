@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from DateTime import DateTime
-
 from zope.component import createObject
 
 from Products.CMFCore.utils import getToolByName
@@ -58,29 +56,6 @@ class ModerationViewTest(unittest.TestCase):
                                             ('comment_review_workflow,'))
         self.assertEqual(self.view.moderation_enabled(), True)
 
-    def test_old_comments_not_shown_in_moderation_view(self):
-        # Create old comment
-        discussion = getToolByName(self.portal, 'portal_discussion', None)
-        discussion.overrideDiscussionFor(self.portal.doc1, 1)
-        talkback = discussion.getDiscussionFor(self.portal.doc1)
-        self.portal.doc1.talkback.createReply('My Title',
-                                              'My Text',
-                                              Creator='Jim')
-        reply = talkback.getReplies()[0]
-        reply.setReplyTo(self.portal.doc1)
-        reply.creation_date = DateTime(2003, 3, 11, 9, 28, 6)
-        reply.modification_date = DateTime(2009, 7, 12, 19, 38, 7)
-        self.assertEqual(reply.Title(), 'My Title')
-        self.assertEqual(reply.EditableBody(), 'My Text')
-        self.assertTrue('Jim' in reply.listCreators())
-        self.assertEqual(talkback.replyCount(self.portal.doc1), 1)
-        self.assertEqual(reply.inReplyTo(), self.portal.doc1)
-
-        view = self.view()
-
-        self.assertTrue('No comments to moderate' in view)
-        self.assertEqual(len(self.view.comments), 0)
-
 
 class ModerationBulkActionsViewTest(unittest.TestCase):
 
@@ -107,22 +82,25 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         comment1.text = 'Comment text'
         comment1.Creator = 'Jim'
         new_id_1 = conversation.addComment(comment1)
-        self.comment1 = self.portal.doc1.restrictedTraverse(\
-                            '++conversation++default/%s' % new_id_1)
+        self.comment1 = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/%s' % new_id_1
+        )
         comment2 = createObject('plone.Comment')
         comment2.title = 'Comment 2'
         comment2.text = 'Comment text'
         comment2.Creator = 'Joe'
         new_id_2 = conversation.addComment(comment2)
-        self.comment2 = self.portal.doc1.restrictedTraverse(\
-                            '++conversation++default/%s' % new_id_2)
+        self.comment2 = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/%s' % new_id_2
+        )
         comment3 = createObject('plone.Comment')
         comment3.title = 'Comment 3'
         comment3.text = 'Comment text'
         comment3.Creator = 'Emma'
         new_id_3 = conversation.addComment(comment3)
-        self.comment3 = self.portal.doc1.restrictedTraverse(\
-                            '++conversation++default/%s' % new_id_3)
+        self.comment3 = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/%s' % new_id_3
+        )
         self.conversation = conversation
 
     def test_default_bulkaction(self):
@@ -171,7 +149,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
 
     def test_delete(self):
         # Initially we have three comments
-        self.assertEqual(self.conversation.total_comments, 3)
+        self.assertEqual(len(self.conversation.objectIds()), 3)
         # Delete two comments with bulk actions
         self.request.set('form.select.BulkAction', 'delete')
         self.request.set('paths', ['/'.join(self.comment1.getPhysicalPath()),
@@ -181,11 +159,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         view()
 
         # Make sure that the two comments have been deleted
-        self.assertEqual(self.conversation.total_comments, 1)
+        self.assertEqual(len(self.conversation.objectIds()), 1)
         comment = self.conversation.getComments().next()
         self.assertTrue(comment)
         self.assertEqual(comment, self.comment2)
-
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

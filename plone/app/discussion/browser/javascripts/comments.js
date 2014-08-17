@@ -35,8 +35,9 @@
          */
         reply_div.appendTo(comment_div).css("display", "none");
 
-        /* Remove id="reply" attribute, since we use it to uniquely
+        /* Remove id="commenting" attribute, since we use it to uniquely define
            the main reply form. */
+        // Still belongs to class="reply"
         reply_div.removeAttr("id");
 
         /* Hide the reply button (only hide, because we may want to show it
@@ -46,6 +47,13 @@
 
         /* Fetch the reply form inside the reply div */
         var reply_form = reply_div.find("form");
+
+        /* Change the id of the textarea of the reply form 
+         * To avoid conflict later between textareas with same id 'form-widgets-comment-text' while implementing a seperate instance of TinyMCE
+         * */
+        reply_form.find('#formfield-form-widgets-comment-text').attr('id', 'formfield-form-widgets-new-textarea'+comment_id );
+        reply_form.find('#form-widgets-comment-text').attr('id', 'form-widgets-new-textarea'+comment_id );
+
 
         /* Populate the hidden 'in_reply_to' field with the correct comment
            id */
@@ -127,23 +135,23 @@
                                               parents().
                                               filter(".comment").
                                               find(".reply-to-comment-button");
-            
+
             /* Find the reply-to-comment form and hide and remove it again. */
             $.reply_to_comment_form = $(this).parents().filter(".reply");
             $.reply_to_comment_form.slideUp("slow", function () {
                 $(this).remove();
             });
-            
+
             /* Show the reply-to-comment button again. */
             reply_to_comment_button.css("display", "inline");
-        
+
         });
 
 
         /**********************************************************************
          * Publish a single comment.
          **********************************************************************/
-        $("input[name='form.button.PublishComment']").live('click', function () {
+        $("input[name='form.button.PublishComment']").on('click', function () {
             var trigger = this;
             var form = $(this).parents("form");
             var data = $(form).serialize();
@@ -151,7 +159,7 @@
             $.ajax({
                 type: "GET",
                 url: form_url,
-                data: "workflow_action=publish",
+                data: data,
                 context: trigger,
                 success: function (msg) {
                     // remove button (trigger object can't be directly removed)
@@ -165,11 +173,20 @@
             return false;
         });
 
+        /**********************************************************************
+         * Edit a comment
+         **********************************************************************/
+	$("form[name='edit']").prepOverlay({
+                cssclass: 'overlay-edit-comment',
+                width: '60%',
+		subtype: 'ajax',
+		filter: '#content>*'
+		})
 
         /**********************************************************************
          * Delete a comment and its answers.
          **********************************************************************/
-        $("input[name='form.button.DeleteComment']").live('click', function () {
+        $("input[name='form.button.DeleteComment']").on('click', function () {
             var trigger = this;
             var form = $(this).parents("form");
             var data = $(form).serialize();
@@ -177,6 +194,7 @@
             $.ajax({
                 type: 'POST',
                 url: form_url,
+                data: data,
                 context: $(trigger).parents(".comment"),
                 success: function (data) {
                     var comment = $(this);

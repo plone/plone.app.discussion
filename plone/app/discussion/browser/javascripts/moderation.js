@@ -1,22 +1,22 @@
 /******************************************************************************
- * 
+ *
  * jQuery functions for the plone.app.discussion bulk moderation.
- * 
+ *
  ******************************************************************************/
 
 (function ($) {
-    // This unnamed function allows us to use $ inside of a block of code 
+    // This unnamed function allows us to use $ inside of a block of code
     // without permanently overwriting $.
     // http://docs.jquery.com/Using_jQuery_with_Other_Libraries
-    
+
     //#JSCOVERAGE_IF 0
-    
+
     /**************************************************************************
-     * Window Load Function: Executes when complete page is fully loaded, 
+     * Window Load Function: Executes when complete page is fully loaded,
      * including all frames,
-     **************************************************************************/  
+     **************************************************************************/
     $(window).load(function () {
-    
+
         /**********************************************************************
          * Delete a single comment.
          **********************************************************************/
@@ -47,8 +47,8 @@
                 }
             });
         });
-        
-        
+
+
         /**********************************************************************
          * Publish a single comment.
          **********************************************************************/
@@ -78,8 +78,8 @@
                 }
             });
         });
-        
-        
+
+
         /**********************************************************************
          * Bulk actions for comments (delete, publish)
          **********************************************************************/
@@ -116,8 +116,8 @@
                 selectField.find("option[value='-1']").attr('selected', 'selected');
             }
         });
-        
-        
+
+
         /**********************************************************************
          * Check or uncheck all checkboxes from the batch moderation page.
          **********************************************************************/
@@ -134,12 +134,12 @@
                 $(this).val("0");
             }
         });
-        
-        
+
+
         /**********************************************************************
          * Show full text of a comment in the batch moderation page.
          **********************************************************************/
-        $(".show-full-comment-text").click(function (e) {    
+        $(".show-full-comment-text").click(function (e) {
             e.preventDefault();
             var target = $(this).attr("href");
             var td = $(this).parent();
@@ -156,9 +156,9 @@
                 }
             });
         });
-    
+
     });
-    
+
     //#JSCOVERAGE_ENDIF
-    
+
 }(jQuery));

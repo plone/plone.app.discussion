@@ -6,28 +6,28 @@ from plone.app.discussion.interfaces import _
 
 HAS_CAPTCHA = False
 try:
-    import plone.formwidget.captcha
+    import plone.formwidget.captcha  # noqa
     HAS_CAPTCHA = True  # pragma: no cover
 except ImportError:
     pass
 
 HAS_RECAPTCHA = False
 try:
-    import plone.formwidget.recaptcha
+    import plone.formwidget.recaptcha  # noqa
     HAS_RECAPTCHA = True  # pragma: no cover
 except ImportError:
     pass
 
 HAS_AKISMET = False
 try:
-    import collective.akismet
+    import collective.akismet  # noqa
     HAS_AKISMET = True  # pragma: no cover
 except ImportError:
     pass
 
 HAS_NOROBOTS = False
 try:
-    import collective.z3cform.norobots
+    import collective.z3cform.norobots  # noqa
     HAS_NOROBOTS = True  # pragma: no cover
 except ImportError:
     pass
@@ -82,6 +82,11 @@ def text_transform_vocabulary(context):
             value='text/plain',
             token='text/plain',
             title='Plain text'))
+    terms.append(
+        SimpleTerm(
+            value='text/html',
+            token='text/html',
+            title='HTML'))
     terms.append(
         SimpleTerm(
             value='text/x-web-markdown',

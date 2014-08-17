@@ -11,7 +11,7 @@
 .discussion,
 #commenting {
     /* Clear "float: left" from "manage portlets" div above the
-       comment viewlet. This will get fixed in the next Plone 4 
+       comment viewlet. This will get fixed in the next Plone 4
        release. */
     clear: both;
 }
@@ -46,6 +46,7 @@
     clear: both;
     margin: 1em 0;
     overflow: auto;
+    border: 1px solid #ccc;
 }
 
 .commentBody p {
@@ -55,7 +56,7 @@
 .discussion .documentByLine {
     float: left;
     margin-left: 0;
-	margin-bottom: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .commentActions {
@@ -65,8 +66,52 @@
 
 .discussion .discreet {
     color: #666666;
-    font-size: 85%;    
+    font-size: 85%;
 }
+.loginbutton {
+    margin-bottom: 1.25em;
+}
+.commentactionsform {
+    display: inline;
+}
+
+.replyTreeLevel0 {
+    margin-left: 0em;
+}
+.replyTreeLevel1 {
+    margin-left: 1em;
+}
+.replyTreeLevel2 {
+    margin-left: 2em;
+}
+.replyTreeLevel3 {
+    margin-left: 3em;
+}
+.replyTreeLevel4 {
+    margin-left: 4em;
+}
+.replyTreeLevel5 {
+    margin-left: 5em;
+}
+.replyTreeLevel6 {
+    margin-left: 6em;
+}
+.replyTreeLevel7 {
+    margin-left: 7em;
+}
+.replyTreeLevel8 {
+    margin-left: 8em;
+}
+.replyTreeLevel9 {
+    margin-left: 9em;
+}
+.replyTreeLevel10 {
+    margin-left: 10em;
+}
+.defaultuserimg {
+    border: 0;
+}
+
 
 /* Reply Form
    -------------------------------------------------------------------------- */
@@ -78,7 +123,7 @@
 
 .reply .text-widget {
     /* Make sure the input fields are always below the label. This sometimes
-     * break when the reply form is copied from the main comment form. 
+     * break when the reply form is copied from the main comment form.
      */
     display: block;
 }
@@ -120,6 +165,10 @@
 
 #review-comments {
     margin: 0;
+    width: 100%;
+}
+#review-comments tbody tr {
+    vertical-align: top
 }
 
 #fieldset-moderate-comments {
@@ -137,7 +186,7 @@
 /* Plone 4 Styles
    -------------------------------------------------------------------------- */
 
-/* These styles are only applied for Plone 4, since Plone 3.x does 
+/* These styles are only applied for Plone 4, since Plone 3.x does
     not have a .row class for portal-column-content. */
 
 .row #dobulkaction {
@@ -173,4 +222,10 @@
 .row #commenting label,
 .row .discussion label {
     font-weight:bold;
+}
+
+/* editing comments */
+
+.overlay-edit-comment textarea {
+    height: 10em;
 }

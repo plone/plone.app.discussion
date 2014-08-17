@@ -15,14 +15,21 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.testing import TEST_USER_ID, setRoles
 
-from plone.app.discussion.testing import \
+from plone.app.discussion.testing import (
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+)
 
 from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.interfaces import IDiscussionSettings
+
+try:
+    from plone.dexterity.interfaces import IDexterityContent
+    DEXTERITY = True
+except:
+    DEXTERITY = False
 
 
 class ConversationTest(unittest.TestCase):
@@ -38,9 +45,11 @@ class ConversationTest(unittest.TestCase):
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')
         self.typetool = typetool
-        self.portal_discussion = getToolByName(self.portal,
-                                               'portal_discussion',
-                                               None)
+        self.portal_discussion = getToolByName(
+            self.portal,
+            'portal_discussion',
+            None,
+        )
         # Allow discussion
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
@@ -62,14 +71,30 @@ class ConversationTest(unittest.TestCase):
         # Check that the conversation methods return the correct data
         self.assertTrue(isinstance(comment.comment_id, long))
         self.assertTrue(IComment.providedBy(conversation[new_id]))
-        self.assertEqual(aq_base(conversation[new_id].__parent__),
-                          aq_base(conversation))
+        self.assertEqual(
+            aq_base(conversation[new_id].__parent__),
+            aq_base(conversation)
+        )
         self.assertEqual(new_id, comment.comment_id)
         self.assertEqual(len(list(conversation.getComments())), 1)
         self.assertEqual(len(tuple(conversation.getThreads())), 1)
         self.assertEqual(conversation.total_comments, 1)
-        self.assertTrue(conversation.last_comment_date - datetime.utcnow() <
-                     timedelta(seconds=1))
+        self.assertTrue(
+            conversation.last_comment_date - datetime.utcnow() <
+            timedelta(seconds=1)
+        )
+
+    def test_private_comment(self):
+        conversation = IConversation(self.portal.doc1)
+
+        comment = createObject('plone.Comment')
+        comment.author_username = "nobody"
+        conversation.addComment(comment)
+        comment.manage_permission("View", roles=tuple())
+        self.assertEqual(0, conversation.total_comments)
+        self.assertEqual(None, conversation.last_comment_date)
+        self.assertEqual(["nobody"], list(conversation.commentators))
+        self.assertEqual([], list(conversation.public_commentators))
 
     def test_delete_comment(self):
         # Create a conversation. In this case we doesn't assign it to an
@@ -151,10 +176,10 @@ class ConversationTest(unittest.TestCase):
 
         del conversation[new_id_1]
 
-        self.assertEqual(
-            [{'comment': comment2,     'depth': 0, 'id': new_id_2},
-             {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
-            ], list(conversation.getThreads()))
+        self.assertEqual([
+            {'comment': comment2,     'depth': 0, 'id': new_id_2},
+            {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
+        ], list(conversation.getThreads()))
 
     def test_delete_comment_when_content_object_is_deleted(self):
         # Make sure all comments of a content object are deleted when the
@@ -172,82 +197,16 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(len(tuple(conversation.getThreads())), 0)
         self.assertEqual(conversation.total_comments, 0)
 
-    def test_allow_discussion(self):
-        # This is not a real test! It's only there to understand the
-        # allow discussion attribute. Maybe we should remove this at
-        # some point.
-
-        # 1) allow_discussion attribute: Every content object in Plone
-        # has a allow_discussion attribute. By default it is set to None.
-
-        # Create a conversation.
-        IConversation(self.portal.doc1)
-
-        # By default, discussion is disabled for all content types
-        portal_types = getToolByName(self.portal, 'portal_types')
-        for type in list(portal_types):
-            type_fti = getattr(portal_types, type)
-            if type not in BAD_TYPES:
-                if type != 'Discussion Item':
-                    self.assertFalse(type_fti.allowDiscussion())
-
-        # By default, allow_discussion on newly created content objects is
-        # set to False
-        portal_discussion = getToolByName(self.portal, 'portal_discussion')
-        self.assertEqual(portal_discussion.isDiscussionAllowedFor(
-                          self.portal.doc1), False)
-        self.assertEqual(self.portal.doc1.getTypeInfo().allowDiscussion(),
-                          False)
-
-        # The allow discussion flag is None by default
-        self.assertFalse(getattr(self.portal.doc1, 'allow_discussion', None))
-
-        # But isDiscussionAllowedFor, also checks if discussion is allowed on
-        # the content type. So we allow discussion on the Document content
-        # type and check if the Document object allows discussion now.
-        document_fti = getattr(portal_types, 'Document')
-        document_fti.manage_changeProperties(allow_discussion=True)
-        self.assertEqual(portal_discussion.isDiscussionAllowedFor(
-            self.portal.doc1), True)
-        self.assertEqual(self.portal.doc1.getTypeInfo().allowDiscussion(),
-                          True)
-
-        # We can also override the allow_discussion locally
-        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, False)
-        # Check if the Document discussion is disabled
-        self.assertEqual(portal_discussion.isDiscussionAllowedFor(
-            self.portal.doc1), False)
-        # Check that the local allow_discussion flag is now explicitly set to
-        # False
-        self.assertEqual(getattr(self.portal.doc1, 'allow_discussion', None),
-                          False)
-
-        # Disallow discussion on the Document content type again
-        document_fti.manage_changeProperties(allow_discussion=False)
-        self.assertEqual(portal_discussion.isDiscussionAllowedFor(
-            self.portal.doc1), False)
-        self.assertEqual(self.portal.doc1.getTypeInfo().allowDiscussion(),
-            False)
-
-        # Now we override allow_discussion again (True) for the Document
-        # content object
-        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
-        self.assertEqual(portal_discussion.isDiscussionAllowedFor(
-            self.portal.doc1), True)
-        self.assertEqual(getattr(self.portal.doc1, 'allow_discussion', None),
-                          True)
-
     def test_comments_enabled_on_doc_in_subfolder(self):
         typetool = self.portal.portal_types
         typetool.constructContent('Folder', self.portal, 'folder1')
         typetool.constructContent('Document', self.portal.folder1, 'doc2')
 
         folder = self.portal.folder1
-        folder.allowDiscussion(False)
-        self.assertFalse(hasattr(aq_base(folder), 'allow_discussion'))
-        folder.allowDiscussion(True)
+
+        folder.allow_discussion = True
         self.assertTrue(aq_base(folder).allow_discussion)
-        folder.allowDiscussion(False)
+        folder.allow_discussion = False
         self.assertFalse(aq_base(folder).allow_discussion)
 
         doc = self.portal.folder1.doc2
@@ -320,7 +279,8 @@ class ConversationTest(unittest.TestCase):
 
         # Create a conversation.
         conversation = self.portal.doc1.restrictedTraverse(
-            '@@conversation_view')
+            '@@conversation_view'
+        )
 
         # The Document content type is disabled by default
         self.assertEqual(conversation.enabled(), False)
@@ -342,74 +302,44 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(conversation.enabled(), False)
 
     def test_allow_discussion_on_folder(self):
-        # The enabled method should always return False for the folder
-        # itself.
+        # The ATContentTypes based allow_discussion method did not allow to
+        # allow discussion on a folder. The dexerity behavior shipped with
+        # plone.app.contenttypes does not have this restriction any longer.
 
-        # Create a folderp
+        # Create a folder
         self.typetool.constructContent('Folder', self.portal, 'f1')
-        f1 = self.portal.f1
+
         # Usually we don't create a conversation on a folder
         conversation = self.portal.f1.restrictedTraverse('@@conversation_view')
 
         # Allow discussion for the folder
-        self.portal_discussion.overrideDiscussionFor(f1, True)
+        self.portal.f1.allow_discussion = True
 
         # Allow discussion on Folder content type
         portal_types = getToolByName(self.portal, 'portal_types')
         document_fti = getattr(portal_types, 'Folder')
         document_fti.manage_changeProperties(allow_discussion=True)
 
-        # Always return False
-        self.assertFalse(conversation.enabled())
-
-    def test_is_discussion_allowed_for_folder(self):
-        # When a content item provides IFolderish from CMF and
-        # does not provide INonStructuralFolder from Plone,
-        # allow_discussion acts as an on/off flag for all items
-        # in that folder, overriding settings for any parent folders,
-        # and the for the FTI, but is overridden by child items and
-        # folders further down.
-
-        # Create a folder
-        self.typetool.constructContent('Folder', self.portal, 'f1')
-        f1 = self.portal.f1
-
-        # Create a document inside the folder
-        self.typetool.constructContent('Document', f1, 'doc1')
-        doc1 = self.portal.f1.doc1
-        doc1_conversation = doc1.restrictedTraverse('@@conversation_view')
-
-        self.assertEqual(doc1_conversation.enabled(), False)
-
-        # Allow commenting for the folder
-        self.portal_discussion.overrideDiscussionFor(f1, True)
-
-        # Check if the content objects allows discussion
-        self.assertEqual(doc1_conversation.enabled(), True)
-
-        # Turn commenting for the folder off
-        self.portal_discussion.overrideDiscussionFor(f1, False)
-
-        # Check if content objects do not allow discussion anymore
-        self.assertEqual(doc1_conversation.enabled(), False)
+        self.assertTrue(conversation.enabled())
 
     def test_is_discussion_allowed_on_content_object(self):
         # Allow discussion on a single content object
 
         # Create a conversation.
         conversation = self.portal.doc1.restrictedTraverse(
-            '@@conversation_view')
+            '@@conversation_view'
+        )
 
         # Discussion is disallowed by default
         self.assertEqual(conversation.enabled(), False)
 
         # Allow discussion on content object
-        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, True)
+        self.portal.doc1.allow_discussion = True
 
         # Check if discussion is now allowed on the content object
         self.assertEqual(conversation.enabled(), True)
 
-        self.portal_discussion.overrideDiscussionFor(self.portal.doc1, False)
+        self.portal.doc1.allow_discussion = False
         self.assertEqual(conversation.enabled(), False)
 
     def test_dict_operations(self):
@@ -581,30 +511,42 @@ class ConversationTest(unittest.TestCase):
         new_comment3_id = conversation.addComment(comment3)
 
         # check if the latest comment is exactly one day old
-        self.assertTrue(conversation.last_comment_date < datetime.utcnow() -
-                     timedelta(hours=23, minutes=59, seconds=59))
-        self.assertTrue(conversation.last_comment_date >
-                     datetime.utcnow() - timedelta(days=1, seconds=1))
+        self.assertTrue(
+            conversation.last_comment_date < datetime.utcnow() -
+            timedelta(hours=23, minutes=59, seconds=59)
+        )
+        self.assertTrue(
+            conversation.last_comment_date >
+            datetime.utcnow() - timedelta(days=1, seconds=1)
+        )
 
         # remove the latest comment
         del conversation[new_comment3_id]
 
         # check if the latest comment has been updated
         # the latest comment should be exactly two days old
-        self.assertTrue(conversation.last_comment_date < datetime.utcnow() -
-                     timedelta(days=1, hours=23, minutes=59, seconds=59))
-        self.assertTrue(conversation.last_comment_date > datetime.utcnow() -
-                     timedelta(days=2, seconds=1))
+        self.assertTrue(
+            conversation.last_comment_date < datetime.utcnow() -
+            timedelta(days=1, hours=23, minutes=59, seconds=59)
+        )
+        self.assertTrue(
+            conversation.last_comment_date > datetime.utcnow() -
+            timedelta(days=2, seconds=1)
+        )
 
         # remove the latest comment again
         del conversation[new_comment2_id]
 
         # check if the latest comment has been updated
         # the latest comment should be exactly four days old
-        self.assertTrue(conversation.last_comment_date < datetime.utcnow() -
-                     timedelta(days=3, hours=23, minutes=59, seconds=59))
-        self.assertTrue(conversation.last_comment_date > datetime.utcnow() -
-                     timedelta(days=4, seconds=2))
+        self.assertTrue(
+            conversation.last_comment_date < datetime.utcnow() -
+            timedelta(days=3, hours=23, minutes=59, seconds=59)
+        )
+        self.assertTrue(
+            conversation.last_comment_date > datetime.utcnow() -
+            timedelta(days=4, seconds=2)
+        )
 
     def test_get_comments_full(self):
         pass
@@ -667,14 +609,14 @@ class ConversationTest(unittest.TestCase):
 
         # Get threads
 
-        self.assertEqual(
-            [{'comment': comment1,     'depth': 0, 'id': new_id_1},
-             {'comment': comment1_1,   'depth': 1, 'id': new_id_1_1},
-             {'comment': comment1_1_1, 'depth': 2, 'id': new_id_1_1_1},
-             {'comment': comment1_2,   'depth': 1, 'id': new_id_1_2},
-             {'comment': comment2,     'depth': 0, 'id': new_id_2},
-             {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
-            ], list(conversation.getThreads()))
+        self.assertEqual([
+            {'comment': comment1,     'depth': 0, 'id': new_id_1},
+            {'comment': comment1_1,   'depth': 1, 'id': new_id_1_1},
+            {'comment': comment1_1_1, 'depth': 2, 'id': new_id_1_1_1},
+            {'comment': comment1_2,   'depth': 1, 'id': new_id_1_2},
+            {'comment': comment2,     'depth': 0, 'id': new_id_2},
+            {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
+        ], list(conversation.getThreads()))
 
     def test_get_threads_batched(self):
         # TODO: test start, size, root and depth arguments to getThreads()
@@ -685,13 +627,27 @@ class ConversationTest(unittest.TestCase):
         # make sure we can traverse to conversations and get a URL and path
 
         conversation = self.portal.doc1.restrictedTraverse(
-            '++conversation++default')
+            '++conversation++default'
+        )
         self.assertTrue(IConversation.providedBy(conversation))
 
-        self.assertEqual(('', 'plone', 'doc1', '++conversation++default'),
-                          conversation.getPhysicalPath())
-        self.assertEqual('http://nohost/plone/doc1/++conversation++default',
-                          conversation.absolute_url())
+        self.assertEqual(
+            ('', 'plone', 'doc1', '++conversation++default'),
+            conversation.getPhysicalPath()
+        )
+        self.assertEqual(
+            'http://nohost/plone/doc1/++conversation++default',
+            conversation.absolute_url()
+        )
+
+    def test_unconvertible_id(self):
+        # make sure the conversation view doesn't break when given comment id
+        # can't be converted to long
+
+        conversation = self.portal.doc1.restrictedTraverse(
+            '++conversation++default/ThisCantBeRight'
+        )
+        self.assertEqual(conversation, None)
 
     def test_parent(self):
         # Check that conversation has a content object as parent
@@ -711,8 +667,78 @@ class ConversationTest(unittest.TestCase):
     def test_no_comment(self):
         IConversation(self.portal.doc1)
         # Make sure no conversation has been created
-        self.assertTrue('plone.app.discussion:conversation' not in
-                     IAnnotations(self.portal.doc1))
+        self.assertTrue(
+            'plone.app.discussion:conversation' not in
+            IAnnotations(self.portal.doc1)
+        )
+
+
+class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
+
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        interface.alsoProvides(
+            self.portal.REQUEST,
+            interfaces.IDiscussionLayer
+        )
+
+        typetool = self.portal.portal_types
+        typetool.constructContent('Document', self.portal, 'doc1')
+        if DEXTERITY:
+                interface.alsoProvides(
+                    self.portal.doc1,
+                    IDexterityContent
+                )
+
+    def _makeOne(self, *args, **kw):
+        return self.portal.doc1.restrictedTraverse('@@conversation_view')
+
+    def _globally_enable_discussion(self, value):
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = value
+
+    def _enable_discussion_on_portal_type(self, portal_type, allow_discussion):
+        portal_types = getToolByName(self.portal, 'portal_types')
+        document_fti = getattr(portal_types, portal_type)
+        document_fti.manage_changeProperties(allow_discussion=allow_discussion)
+
+    def test_conversation_is_not_enabled_by_default(self):
+        if DEXTERITY:
+            conversation = self._makeOne(self.portal.doc1)
+            self.assertFalse(conversation.enabled())
+
+    def test_conversation_is_not_enabled_by_default_on_portal_type(self):
+        if DEXTERITY:
+            self._globally_enable_discussion(True)
+            conversation = self._makeOne(self.portal.doc1)
+            self.assertFalse(conversation.enabled())
+
+    def test_conversation_needs_to_be_enabled_globally_and_for_type(self):
+        if DEXTERITY:
+            self._globally_enable_discussion(True)
+            self._enable_discussion_on_portal_type('Document', True)
+            conversation = self._makeOne(self.portal.doc1)
+            self.assertTrue(conversation.enabled())
+
+    def test_disable_discussion(self):
+        if DEXTERITY:
+            self._globally_enable_discussion(True)
+            self._enable_discussion_on_portal_type('Document', True)
+            self.portal.doc1.allow_discussion = False
+            conversation = self._makeOne(self.portal.doc1)
+            self.assertFalse(conversation.enabled())
+
+    def test_enable_discussion(self):
+        if DEXTERITY:
+            self._globally_enable_discussion(True)
+            self._enable_discussion_on_portal_type('Document', True)
+            self.portal.doc1.allow_discussion = True
+            conversation = self._makeOne(self.portal.doc1)
+            self.assertTrue(conversation.enabled())
 
 
 class RepliesTest(unittest.TestCase):
@@ -847,7 +873,3 @@ class RepliesTest(unittest.TestCase):
         self.assertEqual(len(replies_to_comment1), 2)
         self.assertEqual(len(replies_to_comment1_1), 1)
         self.assertEqual(len(replies_to_comment2), 1)
-
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)
