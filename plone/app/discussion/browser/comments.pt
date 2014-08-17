@@ -89,7 +89,6 @@
                         <form name="delete"
                               action=""
                               method="post"
-                              style="display: inline;"
                               class="commentactionsform"
 		                      tal:condition="python: not canDelete and view.could_delete_own(reply)"
                               tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
@@ -104,8 +103,6 @@
                         <form name="delete"
                               action=""
                               method="post"
-                              style="display: inline;"
-                              tal:condition="canReview"
                               class="commentactionsform"
                               tal:condition="python:canDelete"
                               tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">
