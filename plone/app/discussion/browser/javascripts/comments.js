@@ -48,7 +48,7 @@
         /* Fetch the reply form inside the reply div */
         var reply_form = reply_div.find("form");
 
-        /* Change the id of the textarea of the reply form 
+        /* Change the id of the textarea of the reply form
          * To avoid conflict later between textareas with same id 'form-widgets-comment-text' while implementing a seperate instance of TinyMCE
          * */
         reply_form.find('#formfield-form-widgets-comment-text').attr('id', 'formfield-form-widgets-new-textarea'+comment_id );

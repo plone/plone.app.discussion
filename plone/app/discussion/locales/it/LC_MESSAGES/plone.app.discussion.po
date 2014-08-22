@@ -1,6 +1,6 @@
 # Translation of plone.app.discussion.pot to Italian
 # Luca Fabbri <luca.fabbri@redturtle.net>, 2010
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"

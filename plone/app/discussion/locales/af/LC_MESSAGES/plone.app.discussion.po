@@ -1,5 +1,5 @@
 # JC Brand <brand@syslab.com>, 2010.
-# 
+#
 # Some tips for new translators:
 # ------------------------------
 # login: aanmeld, meld aan
@@ -7,16 +7,16 @@
 # subscribe: inteken, teken in
 # unsubscribe: uitteken, teken uit
 # subscribers: intekenaars
-# 
+#
 # Sommige mense verkies die hoflikheidsvorm "u" bo "jy/jou", en anders om.
 # Ons probeer dus maar om sover moontlik in die passiewe vorm te skryf.
 # Bv.
 # - "Attach your file" -> "Heg die lêer aan"
 # - "Afterwards you can attach your files" -> "Agterna kan lêers aangeheg
-# 
+#
 # An updateable list of Afrikaans computer terms can be found here:
 # https://wiki.ubuntu.com/AfrikaansTranslators/VertalerWoordeboek
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
