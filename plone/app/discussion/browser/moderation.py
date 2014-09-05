@@ -132,18 +132,19 @@ class DeleteOwnComment(DeleteComment):
     * Owner role directly assigned on the comment object
     """
 
-    def could_delete(self):
+    def could_delete(self, comment=None):
         """returns true if the comment could be deleted if it had no replies."""
         sm = getSecurityManager()
-        context = aq_inner(self.context)
+        comment = comment or aq_inner(self.context)
         userid = sm.getUser().getId()
         return (sm.checkPermission('Delete own comments',
-                                   context)
-                and 'Owner' in context.get_local_roles_for_userid(userid))
+                                   comment)
+                and 'Owner' in comment.get_local_roles_for_userid(userid))
 
-    def can_delete(self):
-        return (len(IReplies(aq_inner(self.context))) == 0
-                and self.could_delete())
+    def can_delete(self, comment=None):
+        comment = comment or self.context
+        return (len(IReplies(aq_inner(comment))) == 0
+                and self.could_delete(comment=comment))
 
     def __call__(self):
         if self.can_delete():
