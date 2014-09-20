@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest2 as unittest
-from Testing import ZopeTestCase as ztc
 from zope.component import createObject, getAdapter
-from zope.event import notify
 from plone.app.testing import TEST_USER_ID, setRoles
 
 from plone.contentrules.rule.interfaces import IRuleEventType
@@ -25,9 +23,6 @@ class CommentContentRulesTest(unittest.TestCase):
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
-        # Setup session manager
-        ztc.utils.setupCoreSessions(self.layer['app'])
-
         # Setup sandbox
         self.portal = self.layer['portal']
         self.request = self.layer['request']
@@ -94,9 +89,6 @@ class ReplyContentRulesTest(unittest.TestCase):
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
-        # Setup session manager
-        ztc.utils.setupCoreSessions(self.layer['app'])
-
         # Setup sandbox
         self.portal = self.layer['portal']
         self.request = self.layer['request']
