@@ -28,22 +28,18 @@ class CommentSubstitution(BaseSubstitution):
     """
     def __init__(self, context, **kwargs):
         super(CommentSubstitution, self).__init__(context, **kwargs)
-        self._session = None
 
     @property
-    def session(self):
-        """ User session
+    def event(self):
+        """ event that triggered the content rule
         """
-        if self._session is None:
-            sdm = getattr(self.context, 'session_data_manager', None)
-            self._session = sdm.getSessionData(create=False) if sdm else {}
-        return self._session
+        return self.context.REQUEST.get('event')
 
     @property
     def comment(self):
         """ Get changed inline comment
         """
-        return self.session.get('comment', {})
+        return self.event.comment
 
 class Id(CommentSubstitution):
     """ Comment id string substitution
@@ -54,7 +50,7 @@ class Id(CommentSubstitution):
     def safe_call(self):
         """ Safe call
         """
-        return self.comment.get('comment_id', u'')
+        return getattr(self.comment, 'comment_id', u'')
 
 class Text(CommentSubstitution):
     """ Comment text
@@ -65,7 +61,7 @@ class Text(CommentSubstitution):
     def safe_call(self):
         """ Safe call
         """
-        return self.comment.get('text', u'')
+        return getattr(self.comment, 'text', u'')
 
 class AuthorUserName(CommentSubstitution):
     """ Comment author user name string substitution
@@ -76,7 +72,7 @@ class AuthorUserName(CommentSubstitution):
     def safe_call(self):
         """ Safe call
         """
-        return self.comment.get('author_username', u'')
+        return getattr(self.comment, 'author_username', u'')
 
 class AuthorFullName(CommentSubstitution):
     """ Comment author full name string substitution
@@ -87,7 +83,7 @@ class AuthorFullName(CommentSubstitution):
     def safe_call(self):
         """ Safe call
         """
-        return self.comment.get('author_name', u'')
+        return getattr(self.comment, 'author_name', u'')
 
 class AuthorEmail(CommentSubstitution):
     """ Comment author email string substitution
@@ -98,4 +94,4 @@ class AuthorEmail(CommentSubstitution):
     def safe_call(self):
         """ Safe call
         """
-        return self.comment.get('author_email', u'')
+        return getattr(self.comment, 'author_email', u'')

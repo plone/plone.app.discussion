@@ -19,16 +19,10 @@ class DiscussionEvent(object):
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-        # Add comment on session to easily define content-rules dynamic strings
-        sdm = getattr(context, 'session_data_manager', None)
-        session = sdm.getSessionData(create=True) if sdm else None
-
-        if session:
-            sessionComment = dict(
-                (field, getattr(comment, field, None)) for field in IComment
-                if not field.startswith('_')
-            )
-            session.set('comment', sessionComment)
+        # Add event to the request to be able to access comment attributes
+        # in content-rules dynamic strings
+        request = context.REQUEST
+        request.set('event', self)
 
 class CommentAddedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment is added
