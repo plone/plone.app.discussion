@@ -54,6 +54,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             SingleCheckBoxFieldWidget
         self.fields['edit_comment_enabled'].widgetFactory = \
             SingleCheckBoxFieldWidget
+        self.fields['delete_own_comment_enabled'].widgetFactory = \
+            SingleCheckBoxFieldWidget
         self.fields['anonymous_comments'].widgetFactory = \
             SingleCheckBoxFieldWidget
         self.fields['show_commenter_image'].widgetFactory = \
@@ -129,6 +131,9 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
 
         if settings.edit_comment_enabled:
             output.append("edit_comment_enabled")
+
+        if settings.delete_own_comment_enabled:
+            output.append("delte_own_comment_enabled")
 
         # Anonymous comments
         if settings.anonymous_comments:

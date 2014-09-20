@@ -346,8 +346,8 @@ class CommentsViewlet(ViewletBase):
                                                     aq_inner(reply))
 
     def can_delete(self, reply):
-        """By default requires 'Review comments'.
-        If 'delete own comments' is enabled, requires 'Edit comments'.
+        """Returns true if current user has the 'Delete comments'
+        permission.
         """
         return getSecurityManager().checkPermission('Delete comments',
                                                     aq_inner(reply))
@@ -481,6 +481,12 @@ class CommentsViewlet(ViewletBase):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         return settings.edit_comment_enabled
+
+    def delete_own_comment_allowed(self):
+        # Check if delete own comments is allowed in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.delete_own_comment_enabled
 
     def show_commenter_image(self):
         # Check if showing commenter image is enabled in the registry

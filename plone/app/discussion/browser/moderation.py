@@ -117,8 +117,8 @@ class DeleteComment(BrowserView):
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 
     def can_delete(self, reply):
-        """By default requires 'Review comments'.
-        If 'delete own comments' is enabled, requires 'Edit comments'.
+        """Returns true if current user has the 'Delete comments'
+        permission.
         """
         return getSecurityManager().checkPermission('Delete comments',
                                                     aq_inner(reply))
@@ -133,7 +133,7 @@ class DeleteOwnComment(DeleteComment):
     """
 
     def could_delete(self, comment=None):
-        """returns true if the comment could be deleted if it had no replies."""
+        """Returns true if the comment could be deleted if it had no replies."""
         sm = getSecurityManager()
         comment = comment or aq_inner(self.context)
         userid = sm.getUser().getId()
@@ -150,7 +150,7 @@ class DeleteOwnComment(DeleteComment):
         if self.can_delete():
             super(DeleteOwnComment, self).__call__()
         else:
-            raise Unauthorized("Your not allowed to delete this comment.")
+            raise Unauthorized("You're not allowed to delete this comment.")
 
 
 class PublishComment(BrowserView):

@@ -2,6 +2,7 @@
                        isDiscussionAllowed view/is_discussion_allowed;
                        isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
                        isEditCommentAllowed view/edit_comment_allowed;
+                       isDeleteOwnCommentAllowed view/delete_own_comment_allowed;
                        isAnon view/is_anonymous;
                        canReview view/can_review;
                        replies python:view.get_replies(canReview);
@@ -90,7 +91,7 @@
                               action=""
                               method="post"
                               class="commentactionsform"
-		                      tal:condition="python: not canDelete and view.could_delete_own(reply)"
+		                      tal:condition="python:not canDelete and isDeleteOwnCommentAllowed and view.could_delete_own(reply)"
                               tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
 			                      style python:view.can_delete_own(reply) and 'display: inline' or 'display: none'">
                             <input name="form.button.DeleteComment"
