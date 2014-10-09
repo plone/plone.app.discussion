@@ -106,7 +106,7 @@
         var post_comment_div = $("#commenting");
         var in_reply_to_field =
             post_comment_div.find("input[name='form.widgets.in_reply_to']");
-        if (in_reply_to_field.val() !== "") {
+        if (in_reply_to_field.length !== 0 && in_reply_to_field.val() !== "") {
             var current_reply_id = "#" + in_reply_to_field.val();
             var current_reply_to_div = $(".discussion").find(current_reply_id);
             $.createReplyForm(current_reply_to_div);
