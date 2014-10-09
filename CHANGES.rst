@@ -8,6 +8,9 @@ Changelog
   there are no replies yet.
   [gaudenz]
 
+- Don't execute createReplyForm js if there is no in_reply_to button.
+  [vincentfretin]
+
 - Register events as Content Rules Event Types if plone.contentrules is present
   [avoinea]
 
