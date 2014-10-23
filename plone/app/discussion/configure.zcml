@@ -44,6 +44,17 @@
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         />
 
+    <genericsetup:upgradeStep
+        title="edit comments"
+        description="reload registry config to enable new field edit_comment_enabled"
+        source="100"
+        destination="101"
+        handler=".upgrades.update_registry"
+        sortkey="1"
+        profile="plone.app.discussion:default"
+    />
+
+
     <!-- Monkey Patches -->
 
     <include package="collective.monkeypatcher" />

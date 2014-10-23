@@ -223,3 +223,9 @@
 .row .discussion label {
     font-weight:bold;
 }
+
+/* editing comments */
+
+.overlay-edit-comment textarea {
+    height: 10em;
+}

@@ -243,6 +243,77 @@ Check that the reply has been posted properly.
     True
 
 
+Edit an existing comment
+------------------------
+
+Log in as admin
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl('Login Name').value = 'admin'
+    >>> browser.getControl('Password').value = 'secret'
+    >>> browser.getControl('Log in').click()
+
+Use the Plone control panel to enable comment editing.
+
+    >>> browser.open(portal_url + '/plone_control_panel')
+    >>> browser.getLink('Discussion').click()
+    >>> browser.getControl('Enable editing of comments').selected = True
+    >>> browser.getControl(name='form.buttons.save').click()
+
+Extract the edit comment url from the first "edit comment" button
+
+    >>> browser.open(urldoc1)
+    >>> form = browser.getForm(name='edit', index=0)
+    >>> '@@edit-comment' in form.action
+    True
+
+Open the edit comment view
+
+    >>> browser.open(form.action)
+    >>> ctrl = browser.getControl('Comment')
+    >>> ctrl.value
+    'Comment from admin'
+
+Change and save the comment
+
+    >>> ctrl.value = 'Comment from admin / was edited'
+    >>> browser.getControl('Edit comment').click()
+
+This used to trigger permissions problems in some portlet configurations.
+Check it ain't so.
+
+    >>> 'require_login' in browser.url
+    False
+    >>> browser.url.startswith('http://nohost/plone/doc1')
+    True
+    >>> 'Comment from admin / was edited' in browser.contents
+    True
+
+Opening the edit comment view, then cancel, does nothing.
+
+    >>> form = browser.getForm(name='edit', index=0)
+    >>> '@@edit-comment' in form.action
+    True
+    >>> browser.open(form.action)
+    >>> browser.getControl('Cancel').click()
+    >>> browser.url.startswith('http://nohost/plone/doc1')
+    True
+
+
+Anon cannot edit comments.
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> '@@edit-comments' in browser.contents
+    False
+
+But Anon can see the edited comment.
+
+    >>> 'Comment from admin / was edited' in unprivileged_browser.contents
+    True
+
+
+
 Post a comment with comment review workflow enabled
 ---------------------------------------------------
 
