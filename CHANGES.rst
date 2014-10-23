@@ -1,11 +1,14 @@
 Changelog
 =========
 
-2.2.14 (unreleased)
+2.2.14 (2014-10-23)
 -------------------
 
 - Make comments editable.
   [pjstevns, gyst]
+
+- Fix Spanish translation.
+  [erral]
 
 
 2.2.13 (2014-05-16)
