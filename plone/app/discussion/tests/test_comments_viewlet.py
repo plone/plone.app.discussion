@@ -129,16 +129,12 @@ class TestCommentForm(unittest.TestCase):
         comments = [comment for comment in comments]  # consume itertor
         self.assertEqual(len(comments), 1)
 
-        for comment in comments:
-            self.assertEqual(comment.text, u"bar")
-            self.assertEqual(comment.creator, "test-user")
-            self.assertEqual(comment.getOwner().getUserName(), "test-user")
-            local_roles = comment.get_local_roles()
-            self.assertEqual(len(local_roles), 1)
-            userid, roles = local_roles[0]
-            self.assertEqual(userid, 'test-user')
-            self.assertEqual(len(roles), 1)
-            self.assertEqual(roles[0], 'Owner')
+        comment = comments[0]
+        self.assertEqual(comment.text, u"bar")
+        self.assertEqual(comment.creator, "test-user")
+        self.assertEqual(comment.getOwner().getUserName(), "test-user")
+        local_roles = comment.get_local_roles()
+        self.assertTrue(('test-user', ('Owner',)) in local_roles) 
 
     def test_edit_comment(self):
         """Edit a comment as logged-in user.
