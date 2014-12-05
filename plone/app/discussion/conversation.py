@@ -90,7 +90,7 @@ class Conversation(Traversable, Persistent, Explicit):
     @property
     def total_comments(self):
         public_comments = [
-            x for x in self._comments.values()
+            x for x in self.values()
             if user_nobody.has_permission('View', x)
         ]
         return len(public_comments)
