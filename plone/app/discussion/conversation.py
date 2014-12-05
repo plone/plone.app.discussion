@@ -95,6 +95,14 @@ class Conversation(Traversable, Persistent, Explicit):
         ]
         return len(public_comments)
 
+    def another_total_comments(self):
+        public_comments = [
+            x for x in self.values()
+            if user_nobody.has_permission('View', x)
+        ]
+        return len(public_comments)
+        #return self.total_comments
+
     @property
     def last_comment_date(self):
         # self._comments is an Instance of a btree. The keys
