@@ -89,6 +89,18 @@ class Conversation(Traversable, Persistent, Explicit):
 
     @property
     def total_comments(self):
+        return self._total_comments()
+
+    def _total_comments(self):
+        """Count total comments.
+
+        The @property decorator used on ``total_comments`` method (note the
+        lack of a leading underscore) doesn't work at all when is combined
+        with acquisition.
+
+        Thus the total_comments indexer (on p.a.discussion.catalog.py) fails
+        to index properly if acquisition is involved.
+        """
         public_comments = [
             x for x in self.values()
             if user_nobody.has_permission('View', x)
