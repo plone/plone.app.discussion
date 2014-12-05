@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2013-04-06 14:49+0200\n"
-"Last-Translator: Andre Nogueira <andre@simplesconsultoria.com.br>\n"
+"PO-Revision-Date: 2014-12-05 17:36+0200\n"
+"Last-Translator: Joao Molon <jtmolon@hadi.com.br>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -46,15 +46,15 @@ msgstr "Comentário aprovado"
 
 #: ../contentrules.py:96
 msgid "Comment author email"
-msgstr ""
+msgstr "Email do autor do comentário"
 
 #: ../contentrules.py:85
 msgid "Comment author full name"
-msgstr ""
+msgstr "Nome completo do autor do comentário"
 
 #: ../contentrules.py:74
 msgid "Comment author user name"
-msgstr ""
+msgstr "Nome de usuário do autor do comentário"
 
 #: ../browser/moderation.py:108
 msgid "Comment deleted."
@@ -62,22 +62,22 @@ msgstr "Comentário excluído."
 
 #: ../contentrules.py:52
 msgid "Comment id"
-msgstr ""
+msgstr "Id do comentário"
 
 #: ../contentrules.py:63
 msgid "Comment text"
-msgstr ""
+msgstr "Texto do comentário"
 
 #: ../browser/controlpanel.py:76
 msgid "Commenter Image"
-msgstr "Imagedo autor"
+msgstr "Imagem do autor"
 
 msgid "Commenting infrastructure for Plone"
 msgstr "Infraestrutura de comentários para o Plone"
 
 #: ../contentrules.py:51
 msgid "Comments"
-msgstr ""
+msgstr "Comentários"
 
 #: ../interfaces.py:139
 msgid "Conversation"
@@ -161,7 +161,7 @@ msgstr "Número total de comentários públicos neste item"
 
 #: ../comment.py:173
 msgid "Transform '%s' => '%s' not available."
-msgstr ""
+msgstr "Transformação '%s' => '%s' não disponível"
 
 #: ../browser/controlpanel.py:80
 msgid "User Email Notification"
@@ -193,7 +193,7 @@ msgstr "Publicar"
 #. Default: "Cancel"
 #: ../browser/comment.py:97
 msgid "cancel_form_button"
-msgstr ""
+msgstr "Cancelar"
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
 #: ../browser/comments.py:57
@@ -218,28 +218,27 @@ msgstr "Você pode adicionar um comentário preenchendo o formulário a seguir. 
 #. Default: "Edit comment cancelled"
 #: ../browser/comment.py:101
 msgid "comment_edit_cancel_notification"
-msgstr ""
+msgstr "Edição do comentário cancelada"
 
 #. Default: "Comment was edited"
 #: ../browser/comment.py:91
 msgid "comment_edit_notification"
-msgstr ""
+msgstr "Comentário foi editado"
 
 #. Default: "${author_name} on ${content}"
 #: ../comment.py:55
-#, fuzzy
 msgid "comment_title"
-msgstr "${creator} em ${content}"
+msgstr "${author_name} em ${content}"
 
 #. Default: "Edit comment"
 #: ../browser/comment.py:70
 msgid "edit_comment_form_button"
-msgstr ""
+msgstr "Editar comentário"
 
 #. Default: "Edit comment"
 #: ../browser/comment.py:54
 msgid "edit_comment_form_title"
-msgstr ""
+msgstr "Editar cometário"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -297,7 +296,7 @@ msgstr ""
 #. Default: "If selected, supports editing and deletion of comments for users with the 'Edit comments' permission."
 #: ../interfaces.py:249
 msgid "help_edit_comment_enabled"
-msgstr ""
+msgstr "Caso selecionado, permite a edição e remoção de comentários por usuários com a permissão 'Editar comentários'"
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
 #: ../interfaces.py:202
@@ -316,9 +315,8 @@ msgstr "Endereço para o qual as notificações do moderador serão enviadas."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
 #: ../interfaces.py:304
-#, fuzzy
 msgid "help_moderator_notification_enabled"
-msgstr "Se selecionado, o moderador será avisado quando um comentário precisar de atenção. O endereço de e-mail do moderador pode ser encontrado nas configurações de e-mail no Painel de Controle (campo Endereço de 'Remetente' do site)"
+msgstr "Se selecionado, o moderador será avisado quando um comentário precisar de atenção. O endereço de e-mail do moderador pode ser definido abaixo."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ../interfaces.py:293
@@ -379,7 +377,7 @@ msgstr "Excluir"
 #. Default: "Enable editing of comments"
 #: ../interfaces.py:247
 msgid "label_edit_comment_enabled"
-msgstr ""
+msgstr "Habilitar edição de comentários"
 
 #. Default: "Globally enable comments"
 #: ../interfaces.py:200
@@ -438,9 +436,8 @@ msgstr "Ativar notificação de e-mail para os usuários"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
 #: ../comment.py:59
-#, fuzzy
 msgid "mail_notification_message"
-msgstr "Um comentário em '${title}' foi adicionado aqui: ${link}"
+msgstr "Um comentário em '${title}' foi adicionado aqui: ${link}\n\n---\n{text}\n---\n"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
 #: ../comment.py:67

@@ -4,7 +4,7 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Updated portuguese pt-br translation [jtmolon]
 
 
 2.3.3 (2014-10-23)
