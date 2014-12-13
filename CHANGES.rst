@@ -4,7 +4,8 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
-- Updated portuguese pt-br translation [jtmolon]
+- Updated portuguese pt-br translation.
+  [jtmolon]
 
 
 2.3.3 (2014-10-23)
@@ -200,12 +201,14 @@ Changelog
 - Updated Ukrainian translation
   [kroman0]
 
+
 2.2.3 (2013-01-13)
 ------------------
 
 - add anonymous_email_enabled settings to really let integrator activate
   the email field on comment add form when anonymous.
   [toutpt]
+
 
 2.2.2 (2012-11-16)
 ------------------
@@ -218,8 +221,8 @@ Changelog
 2.2.1 (2012-11-16)
 ------------------
 
-- Make conversation view not break when comment-id cannot be converted to long.
-  Fixes #13327
+- Make conversation view not break when comment-id cannot be converted to
+  long. This fixes #13327
   [khink]
 
 - fix insufficient privileges when trying to view
