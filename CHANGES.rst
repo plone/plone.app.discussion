@@ -7,6 +7,9 @@ Changelog
 - Updated portuguese pt-br translation.
   [jtmolon]
 
+- Read mail settings from new (Plone 5) registry.
+  [timo]
+
 
 2.3.3 (2014-10-23)
 ------------------

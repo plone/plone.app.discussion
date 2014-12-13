@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-
-from Acquisition import aq_base, aq_inner
-
+from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
-
 from Products.CMFCore.interfaces._content import IDiscussionResponse
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -152,12 +150,11 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     def mailhost_warning(self):
         """Returns true if mailhost is not configured properly.
         """
-        # Copied from plone.app.controlpanel/plone/app/controlpanel/overview.py
-        mailhost = getToolByName(aq_inner(self.context), 'MailHost', None)
-        if mailhost is None:
-            return True
-        mailhost = getattr(aq_base(mailhost), 'smtp_host', None)
-        email = getattr(aq_inner(self.context), 'email_from_address', None)
+        # Copied from Products.CMFPlone/controlpanel/browser/overview.py
+        registry = getUtility(IRegistry)
+        mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+        mailhost = mail_settings.smtp_host
+        email = mail_settings.email_from_address
         if mailhost and email:
             return False
         return True
@@ -177,7 +174,7 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     def unmigrated_comments_warning(self):
         """Returns true if site contains unmigrated comments.
         """
-        catalog = getToolByName(aq_inner(self.context), 'portal_catalog', None)
+        catalog = getToolByName(self.context, 'portal_catalog', None)
         count_comments_old = catalog.searchResults(
             object_provides=IDiscussionResponse.__identifier__)
         if count_comments_old:
