@@ -26,7 +26,7 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.tests import dummy
 
-from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, setRoles
 from plone.app.testing import logout
 from plone.app.testing import login
 
@@ -265,6 +265,60 @@ class TestCommentForm(unittest.TestCase):
         deleteView()
         self.assertEqual(0, len([x for x in conversation.getComments()]))
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+    def test_delete_own_comment(self):
+        """Delete own comment as logged-in user.
+        """
+
+        # Allow discussion
+        self.portal.doc1.allow_discussion = True
+        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
+
+        def make_request(form={}):
+            request = TestRequest()
+            request.form.update(form)
+            alsoProvides(request, IFormLayer)
+            alsoProvides(request, IAttributeAnnotatable)
+            return request
+
+        provideAdapter(
+            adapts=(Interface, IBrowserRequest),
+            provides=Interface,
+            factory=CommentForm,
+            name=u"comment-form"
+        )
+
+        # The form is submitted successfully, if the required text field is
+        # filled out
+        form_request = make_request(form={'form.widgets.text': u'bar'})
+
+        commentForm = getMultiAdapter(
+            (self.context, form_request),
+            name=u"comment-form"
+        )
+
+        commentForm.update()
+        data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
+        self.assertEqual(len(errors), 0)
+        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+
+        # Delete the last comment
+        conversation = IConversation(self.context)
+        comment = [x for x in conversation.getComments()][-1]
+        deleteView = getMultiAdapter(
+            (comment, self.request),
+            name=u"delete-own-comment"
+        )
+        # try to delete last comment with johndoe
+        setRoles(self.portal, 'johndoe', ['Member'])
+        login(self.portal, 'johndoe')
+        self.assertRaises(Unauthorized, comment.restrictedTraverse, "@@delete-own-comment")
+        self.assertEqual(1, len([x for x in conversation.getComments()]))
+        # try to delete last comment with the same user that created it
+        login(self.portal, TEST_USER_NAME)
+        setRoles(self.portal, TEST_USER_ID, ['Member'])
+        deleteView()
+        self.assertEqual(0, len([x for x in conversation.getComments()]))
 
     def test_add_anonymous_comment(self):
         self.portal.doc1.allow_discussion = True

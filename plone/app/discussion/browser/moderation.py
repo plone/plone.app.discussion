@@ -3,6 +3,8 @@ from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
 from zope.component import queryUtility
 
+from AccessControl import Unauthorized, getSecurityManager
+
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -14,6 +16,7 @@ from plone.registry.interfaces import IRegistry
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IReplies
 
 
 class View(BrowserView):
@@ -114,11 +117,40 @@ class DeleteComment(BrowserView):
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 
     def can_delete(self, reply):
-        """By default requires 'Review comments'.
-        If 'delete own comments' is enabled, requires 'Edit comments'.
+        """Returns true if current user has the 'Delete comments'
+        permission.
         """
         return getSecurityManager().checkPermission('Delete comments',
                                                     aq_inner(reply))
+
+
+class DeleteOwnComment(DeleteComment):
+    """Delete an own comment if it has no replies. Following conditions have to be true
+    for a user to be able to delete his comments:
+    * "Delete own comments" permission
+    * no replies to the comment
+    * Owner role directly assigned on the comment object
+    """
+
+    def could_delete(self, comment=None):
+        """Returns true if the comment could be deleted if it had no replies."""
+        sm = getSecurityManager()
+        comment = comment or aq_inner(self.context)
+        userid = sm.getUser().getId()
+        return (sm.checkPermission('Delete own comments',
+                                   comment)
+                and 'Owner' in comment.get_local_roles_for_userid(userid))
+
+    def can_delete(self, comment=None):
+        comment = comment or self.context
+        return (len(IReplies(aq_inner(comment))) == 0
+                and self.could_delete(comment=comment))
+
+    def __call__(self):
+        if self.can_delete():
+            super(DeleteOwnComment, self).__call__()
+        else:
+            raise Unauthorized("You're not allowed to delete this comment.")
 
 
 class PublishComment(BrowserView):

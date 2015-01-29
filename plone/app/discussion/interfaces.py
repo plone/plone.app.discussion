@@ -247,9 +247,20 @@ class IDiscussionSettings(Interface):
         title=_(u"label_edit_comment_enabled",
                 default="Enable editing of comments"),
         description=_(u"help_edit_comment_enabled",
-                      default=u"If selected, supports editing and deletion "
+                      default=u"If selected, supports editing "
                       "of comments for users with the 'Edit comments' "
                       "permission."),
+        required=False,
+        default=False,
+    )
+
+    delete_own_comment_enabled = schema.Bool(
+        title=_(u"label_delete_own_comment_enabled",
+                default="Enable deleting own comments"),
+        description=_(u"help_delete_own_comment_enabled",
+                      default=u"If selected, supports deleting "
+                      "of own comments for users with the "
+                      "'Delete own comments' permission."),
         required=False,
         default=False,
     )

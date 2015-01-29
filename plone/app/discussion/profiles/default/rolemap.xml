@@ -20,5 +20,11 @@
         <permission name="Reply to item" acquire="False">
             <role name="Authenticated"/>
         </permission>
+        <permission name="Delete own comments" acquire="False">
+            <role name="Manager"/>
+	    <role name="Site Administrator"/>
+            <role name="Reviewer"/>
+            <role name="Owner"/>
+        </permission>
     </permissions>
 </rolemap>

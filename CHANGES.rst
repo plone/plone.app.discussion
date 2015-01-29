@@ -4,6 +4,10 @@ Changelog
 2.3.4 (unreleased)
 ------------------
 
+- Add permission to allow comment authors to delete their own comments if
+  there are no replies yet.
+  [gaudenz]
+
 - Updated portuguese pt-br translation.
   [jtmolon]
 

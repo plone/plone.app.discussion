@@ -230,6 +230,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
+
         else:  # pragma: no cover
             raise Unauthorized(
                 u"Anonymous user tries to post a comment, but anonymous "
@@ -317,6 +318,26 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission('Review comments',
                                                     aq_inner(self.context))
 
+    def can_delete_own(self, comment):
+        """Returns true if the current user can delete the comment. Only
+        comments without replies can be deleted.
+        """
+        try:
+            return comment.restrictedTraverse(
+                '@@delete-own-comment').can_delete()
+        except Unauthorized:
+            return False
+
+    def could_delete_own(self, comment):
+        """Returns true if the current user could delete the comment if it had
+        no replies. This is used to prepare hidden form buttons for JS.
+        """
+        try:
+            return comment.restrictedTraverse(
+                '@@delete-own-comment').could_delete()
+        except Unauthorized:
+            return False
+
     def can_edit(self, reply):
         """Returns true if current user has the 'Edit comments'
         permission.
@@ -325,8 +346,8 @@ class CommentsViewlet(ViewletBase):
                                                     aq_inner(reply))
 
     def can_delete(self, reply):
-        """By default requires 'Review comments'.
-        If 'delete own comments' is enabled, requires 'Edit comments'.
+        """Returns true if current user has the 'Delete comments'
+        permission.
         """
         return getSecurityManager().checkPermission('Delete comments',
                                                     aq_inner(reply))
@@ -397,7 +418,6 @@ class CommentsViewlet(ViewletBase):
             return iter([])
 
         wf = getToolByName(context, 'portal_workflow')
-
         # workflow_actions is only true when user
         # has 'Manage portal' permission
 
@@ -461,6 +481,12 @@ class CommentsViewlet(ViewletBase):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         return settings.edit_comment_enabled
+
+    def delete_own_comment_allowed(self):
+        # Check if delete own comments is allowed in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.delete_own_comment_enabled
 
     def show_commenter_image(self):
         # Check if showing commenter image is enabled in the registry
