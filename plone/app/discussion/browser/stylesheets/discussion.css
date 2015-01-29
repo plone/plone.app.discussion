@@ -178,6 +178,7 @@
 /* Discussion Control Panel
    -------------------------------------------------------------------------- */
 
+.template-discussion-controlpanel .unclickable,
 .template-discussion-settings .unclickable {
     opacity: 0.6;
     filter: alpha(opacity = 50);

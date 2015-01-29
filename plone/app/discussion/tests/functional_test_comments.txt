@@ -182,7 +182,7 @@ Enable anonymous comment
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
     >>> browser.getControl(name='submit').click()
-    >>> browser.open(portal_url+'/@@discussion-settings')
+    >>> browser.open(portal_url+'/@@discussion-controlpanel')
     >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True]
     >>> browser.getControl(name='form.buttons.save').click()
     >>> browser.open(portal_url + '/logout')

@@ -88,7 +88,7 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.applyChanges(data)
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
                                                       "info")
-        self.context.REQUEST.RESPONSE.redirect("@@discussion-settings")
+        self.context.REQUEST.RESPONSE.redirect("@@discussion-controlpanel")
 
     @button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):

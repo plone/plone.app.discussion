@@ -12,7 +12,7 @@
         category="Plone"
         condition_expr=""
         icon_expr="string:${portal_url}/discussionitem_icon.png"
-        url_expr="string:${portal_url}/@@discussion-settings"
+        url_expr="string:${portal_url}/@@discussion-controlpanel"
         visible="True"
         i18n:attributes="title">
             <permission>Manage portal</permission>

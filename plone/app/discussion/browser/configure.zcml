@@ -153,6 +153,13 @@
 
     <!-- Control panel -->
     <browser:page
+        name="discussion-controlpanel"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".controlpanel.DiscussionSettingsControlPanel"
+        permission="cmf.ManagePortal"
+        />
+    <!-- Deprecated controlpanel url -->
+    <browser:page
         name="discussion-settings"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         class=".controlpanel.DiscussionSettingsControlPanel"

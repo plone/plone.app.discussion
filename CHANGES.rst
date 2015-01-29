@@ -4,6 +4,9 @@ Changelog
 2.4.0 (unreleased)
 ------------------
 
+- Rename @@discussion-settings to @@discussion-controlpanel
+  [maartenkling]
+
 - Add permission to allow comment authors to delete their own comments if
   there are no replies yet.
   [gaudenz]
@@ -104,6 +107,7 @@ Changelog
 - Put defaultUser.png instead of old defaultUser.gif
   [bsuttor]
 
+>>>>>>> master
 - Remove bbb directory. bbb was never really implemented.
   [timo]
 
