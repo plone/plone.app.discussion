@@ -40,6 +40,8 @@
             $.enableSettings([
                 $('#formfield-form-widgets-anonymous_comments'),
                 $('#formfield-form-widgets-moderation_enabled'),
+                $('#formfield-form-widgets-edit_comment_enabled'),
+                $('#formfield-form-widgets-delete_own_comment_enabled'),
                 $('#formfield-form-widgets-text_transform'),
                 $('#formfield-form-widgets-captcha'),
                 $('#formfield-form-widgets-show_commenter_image'),
@@ -52,6 +54,8 @@
             $.disableSettings([
                 $('#formfield-form-widgets-anonymous_comments'),
                 $('#formfield-form-widgets-moderation_enabled'),
+                $('#formfield-form-widgets-edit_comment_enabled'),
+                $('#formfield-form-widgets-delete_own_comment_enabled'),
                 $('#formfield-form-widgets-text_transform'),
                 $('#formfield-form-widgets-captcha'),
                 $('#formfield-form-widgets-show_commenter_image'),
@@ -100,7 +104,7 @@
         $.updateSettings();
 
         // Set #content class and update settings afterwards
-        $("input,select").live("change", function (e) {
+        $("input,select").on("change", function (e) {
             var id = $(this).attr("id");
             if (id === "form-widgets-globally_enabled-0") {
                 if ($(this).attr("checked")) {

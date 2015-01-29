@@ -101,14 +101,21 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Anonymous / Logged-in
         mtool = getToolByName(self.context, 'portal_membership')
-        if not mtool.isAnonymousUser():
-            self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
-            self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
+        anon = mtool.isAnonymousUser()
 
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
 
-        if mtool.isAnonymousUser() and not settings.anonymous_email_enabled:
+        if anon:
+            if settings.anonymous_email_enabled:
+                # according to IDiscussionSettings.anonymous_email_enabled:
+                # "If selected, anonymous user will have to give their email."
+                self.widgets['author_email'].field.required = True
+                self.widgets['author_email'].required = True
+            else:
+                self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
+        else:
+            self.widgets['author_name'].mode = interfaces.HIDDEN_MODE
             self.widgets['author_email'].mode = interfaces.HIDDEN_MODE
 
         member = mtool.getAuthenticatedMember()
@@ -119,7 +126,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # email address
         member_email_is_empty = member_email == ''
         user_notification_disabled = not settings.user_notification_enabled
-        anon = mtool.isAnonymousUser()
         if member_email_is_empty or user_notification_disabled or anon:
             self.widgets['user_notification'].mode = interfaces.HIDDEN_MODE
 
@@ -175,11 +181,15 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Set comment attributes (including extended comment form attributes)
         for attribute in self.fields.keys():
             setattr(comment, attribute, data[attribute])
-        # Make sure author_name is properly encoded
+        # Make sure author_name/ author_email is properly encoded
         if 'author_name' in data:
             author_name = data['author_name']
             if isinstance(author_name, str):
                 author_name = unicode(author_name, 'utf-8')
+        if 'author_email' in data:
+            author_email = data['author_email']
+            if isinstance(author_email, str):
+                author_email = unicode(author_email, 'utf-8')
 
         # Set comment author properties for anonymous users or members
         can_reply = getSecurityManager().checkPermission('Reply to item',
@@ -188,14 +198,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if anon and anonymous_comments:
             # Anonymous Users
             comment.author_name = author_name
-            comment.author_email = u""
+            comment.author_email = author_email
             comment.user_notification = None
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
         elif not portal_membership.isAnonymousUser() and can_reply:
             # Member
             member = portal_membership.getAuthenticatedMember()
-            username = member.getUserName()
+            memberid = member.getId()
             user = member.getUser()
             email = member.getProperty('email')
             fullname = member.getProperty('fullname')
@@ -207,13 +217,20 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             if email and isinstance(email, str):
                 email = unicode(email, 'utf-8')
             comment.changeOwnership(user, recursive=False)
-            comment.manage_setLocalRoles(username, ["Owner"])
-            comment.creator = username
-            comment.author_username = username
+            comment.manage_setLocalRoles(memberid, ["Owner"])
+            comment.creator = memberid
+            comment.author_username = memberid
             comment.author_name = fullname
+
+            # XXX: according to IComment interface author_email must not be
+            # set for logged in users, cite:
+            # "for anonymous comments only, set to None for logged in comments"
             comment.author_email = email
+            # /XXX
+
             comment.creation_date = datetime.utcnow()
             comment.modification_date = datetime.utcnow()
+
         else:  # pragma: no cover
             raise Unauthorized(
                 u"Anonymous user tries to post a comment, but anonymous "
@@ -301,6 +318,40 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission('Review comments',
                                                     aq_inner(self.context))
 
+    def can_delete_own(self, comment):
+        """Returns true if the current user can delete the comment. Only
+        comments without replies can be deleted.
+        """
+        try:
+            return comment.restrictedTraverse(
+                '@@delete-own-comment').can_delete()
+        except Unauthorized:
+            return False
+
+    def could_delete_own(self, comment):
+        """Returns true if the current user could delete the comment if it had
+        no replies. This is used to prepare hidden form buttons for JS.
+        """
+        try:
+            return comment.restrictedTraverse(
+                '@@delete-own-comment').could_delete()
+        except Unauthorized:
+            return False
+
+    def can_edit(self, reply):
+        """Returns true if current user has the 'Edit comments'
+        permission.
+        """
+        return getSecurityManager().checkPermission('Edit comments',
+                                                    aq_inner(reply))
+
+    def can_delete(self, reply):
+        """Returns true if current user has the 'Delete comments'
+        permission.
+        """
+        return getSecurityManager().checkPermission('Delete comments',
+                                                    aq_inner(reply))
+
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
         return context.restrictedTraverse('@@conversation_view').enabled()
@@ -367,7 +418,6 @@ class CommentsViewlet(ViewletBase):
             return iter([])
 
         wf = getToolByName(context, 'portal_workflow')
-
         # workflow_actions is only true when user
         # has 'Manage portal' permission
 
@@ -411,7 +461,7 @@ class CommentsViewlet(ViewletBase):
 
         if username is None:
             # return the default user image if no username is given
-            return 'defaultUser.gif'
+            return 'defaultUser.png'
         else:
             portal_membership = getToolByName(self.context,
                                               'portal_membership',
@@ -425,6 +475,18 @@ class CommentsViewlet(ViewletBase):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         return settings.anonymous_comments
+
+    def edit_comment_allowed(self):
+        # Check if editing comments is allowed in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.edit_comment_enabled
+
+    def delete_own_comment_allowed(self):
+        # Check if delete own comments is allowed in the registry
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        return settings.delete_own_comment_enabled
 
     def show_commenter_image(self):
         # Check if showing commenter image is enabled in the registry

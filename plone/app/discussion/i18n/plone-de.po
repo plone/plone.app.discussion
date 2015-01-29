@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2013-04-06 12:48+0000\n"
+"POT-Creation-Date: 2014-05-16 13:47+0000\n"
 "PO-Revision-Date: 2010-03-17 16:11+0100\n"
 "Last-Translator: Timo Stollenwerk <timo@zmag.de>\n"
 "Language-Team: Deutsch <plone-i18n@lists.sourceforge.net>\n"
@@ -16,15 +16,15 @@ msgstr ""
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
-msgstr ""
+msgstr "Ein einfacher redaktioneller Workflow für Kommentare"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
-msgstr ""
+msgstr "Genehmigen"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approving the comment makes it visible to other users."
-msgstr ""
+msgstr "Durch die Genehmigung des Kommentars wird es für andere Benutzer sichtbar."
 
 #: ../profiles/default/types/Discussion_Item.xml
 msgid "Comment"
@@ -72,7 +72,7 @@ msgstr "Veröffentlicht"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Reviewer approves content"
-msgstr ""
+msgstr "Der Redakteur genehmigt den Inhalt"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Submitted, pending review."

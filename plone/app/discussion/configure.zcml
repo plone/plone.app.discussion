@@ -14,6 +14,7 @@
     <include package="plone.uuid" />
     <include package="plone.app.uuid" />
 
+    <include file="contentrules.zcml" />
     <include file="permissions.zcml" />
     <include file="notifications.zcml" />
     <include file="subscribers.zcml" />
@@ -42,6 +43,27 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"
         />
+
+    <genericsetup:upgradeStep
+        title="edit comments and delete own comments"
+        description="reload registry config to enable new fields edit_comment_enabled and delete_own_comment_enabled"
+        source="100"
+        destination="101"
+        handler=".upgrades.update_registry"
+        sortkey="1"
+        profile="plone.app.discussion:default"
+    />
+
+    <genericsetup:upgradeStep
+        title="delete comments and delete own comments"
+        description="reload rolemap config to enable new permissions 'Delete comments' and 'Delete own comments'"
+        source="101"
+        destination="102"
+        handler=".upgrades.update_rolemap"
+        sortkey="1"
+        profile="plone.app.discussion:default"
+    />
+
 
     <!-- Monkey Patches -->
 

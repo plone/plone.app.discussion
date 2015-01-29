@@ -1,6 +1,7 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
-version = '2.3.0dev'
+version = '2.4.0.dev0'
 
 install_requires = [
     'setuptools',
@@ -51,7 +52,11 @@ setup(name='plone.app.discussion',
       extras_require={
           'test': [
               'plone.app.testing',
-              'plone.app.contenttypes',
+              'plone.stringinterp',
+              'plone.contentrules',
+              'plone.app.contentrules',
+              'plone.app.contenttypes[test]',
+              'plone.app.robotframework[ride,reload]',
           ]
       },
       entry_points="""

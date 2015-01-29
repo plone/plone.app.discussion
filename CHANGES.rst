@@ -1,12 +1,113 @@
 Changelog
 =========
 
-2.3.0 (unreleased)
+2.4.0 (unreleased)
 ------------------
 
 - Rename @@discussion-settings to @@discussion-controlpanel
   [maartenkling]
 
+- Add permission to allow comment authors to delete their own comments if
+  there are no replies yet.
+  [gaudenz]
+
+- Updated portuguese pt-br translation.
+  [jtmolon]
+
+- Read mail settings from new (Plone 5) registry.
+  [timo]
+
+
+2.3.3 (2014-10-23)
+------------------
+
+- Don't execute createReplyForm js if there is no in_reply_to button.
+  [vincentfretin]
+
+- Register events as Content Rules Event Types if plone.contentrules is present
+  [avoinea]
+
+- Trigger custom events on comment add/remove/reply
+  [avoinea]
+
+- Replace $.live with $.on for jQuery >= 1.9 compatibility. This works on
+  jQuery >= 1.7 (Plone 4.3 onwards).
+  [gaudenz]
+
+- Update Traditional Chinese translations.
+  [marr]
+
+- Make comments editable.
+  [pjstevns, gyst]
+
+- Provide 'Delete comments' permission to handle comments deletion
+  [cekk]
+
+- Fixed Italian translations [cekk]
+
+
+2.3.2 (2014-04-05)
+------------------
+
+- bugfix: according to IDiscussionSettings.anonymous_email_enabled (cite):
+  "If selected, anonymous user will have to give their email." - But field
+  was not required. Now it is.
+  [jensens]
+
+- bugfix: anonymous email field was never saved.
+  [jensens]
+
+- updated german translations: added some missing msgstr.
+  [jensens]
+
+- added i18ndude and a script ``update_translations`` to buildout in order
+  to make translation updates simpler.
+  [jensens]
+
+- Fix reindexObject for content_object in moderation views.
+  Now reindex only "total_comments" index and not all the indexes
+  [cekk]
+
+- Fix comments Title if utf-8 characters in author_name
+  [huub_bouma]
+
+- use member.getId as author_username, so membrane users having different id
+  then username still have there picture shown and author path is correct.
+  [maartenkling]
+
+
+2.3.1 (2014-02-22)
+------------------
+
+- 2.3.0 was a brown bag release.
+  [timo]
+
+
+2.3.0 (2014-02-22)
+------------------
+
+- Remove DL's from portal message in templates.
+  https://github.com/plone/Products.CMFPlone/issues/153
+  [khink]
+
+- Execute the proper workflow change when using the moderation buttons instead
+  of hardcoding the workflow action to always publish
+  [omiron]
+
+- Corrections and additions to the Danish translation
+  [aputtu]
+
+
+2.2.12 (2014-01-13)
+-------------------
+
+- Show author email to Moderator when it is available in anonymous comment.
+  [gotcha, smoussiaux]
+
+- Put defaultUser.png instead of old defaultUser.gif
+  [bsuttor]
+
+>>>>>>> master
 - Remove bbb directory. bbb was never really implemented.
   [timo]
 
@@ -20,7 +121,9 @@ Changelog
   PLONE_FIXTURE.
   [timo]
 
-- Fix ownership of comments. [toutpt]
+- Fix ownership of comments.
+  [toutpt]
+
 
 2.2.10 (2013-09-24)
 -------------------
@@ -109,12 +212,14 @@ Changelog
 - Updated Ukrainian translation
   [kroman0]
 
+
 2.2.3 (2013-01-13)
 ------------------
 
 - add anonymous_email_enabled settings to really let integrator activate
   the email field on comment add form when anonymous.
   [toutpt]
+
 
 2.2.2 (2012-11-16)
 ------------------
@@ -127,8 +232,8 @@ Changelog
 2.2.1 (2012-11-16)
 ------------------
 
-- Make conversation view not break when comment-id cannot be converted to long.
-  Fixes #13327
+- Make conversation view not break when comment-id cannot be converted to
+  long. This fixes #13327
   [khink]
 
 - fix insufficient privileges when trying to view

@@ -81,6 +81,22 @@ class RegistryTest(unittest.TestCase):
             False
         )
 
+    def test_edit_comment_enabled(self):
+        # Check edit_comment_enabled record
+        self.assertTrue('edit_comment_enabled' in IDiscussionSettings)
+        self.assertEqual(
+            self.registry['plone.app.discussion.interfaces.' +
+                          'IDiscussionSettings.edit_comment_enabled'],
+            False)
+
+    def test_delete_own_comment_enabled(self):
+        # Check delete_own_comment_enabled record
+        self.assertTrue('delete_own_comment_enabled' in IDiscussionSettings)
+        self.assertEqual(
+            self.registry['plone.app.discussion.interfaces.' +
+                          'IDiscussionSettings.delete_own_comment_enabled'],
+            False)
+
     def test_text_transform(self):
         self.assertTrue('text_transform' in IDiscussionSettings)
         self.assertEqual(
@@ -213,7 +229,3 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
         # enable_moderation checkbox in the discussion control panel. The
         # setting itself remains unchanged.
         self.settings.moderation_enabled = True
-
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

@@ -32,6 +32,7 @@ you're not logged in::
     >>> unprivileged_browser = Browser(app)
     >>> browser_member = Browser(app)
     >>> browser_user = Browser(app)
+    >>> browser_reviewer = Browser(app)
 
 Make sure we have a test user from the layer and it uses fancy characters:
 
@@ -143,7 +144,6 @@ Post a comment as member
 ------------------------
 
 Login as user 'jim'.
-
     >>> browser_member.open(portal_url + '/login_form')
     >>> browser_member.getControl(name='__ac_name').value = 'jim'
     >>> browser_member.getControl(name='__ac_password').value = 'secret'
@@ -250,6 +250,173 @@ Check that the reply has been posted properly.
     True
 
 
+Edit an existing comment
+------------------------
+
+Log in as admin
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl('Login Name').value = 'admin'
+    >>> browser.getControl('Password').value = 'secret'
+    >>> browser.getControl('Log in').click()
+
+Use the Plone control panel to enable comment editing.
+
+    >>> browser.open(portal_url + '/plone_control_panel')
+    >>> browser.getLink('Discussion').click()
+    >>> browser.getControl('Enable editing of comments').selected = True
+    >>> browser.getControl(name='form.buttons.save').click()
+
+Extract the edit comment url from the first "edit comment" button
+
+    >>> browser.open(urldoc1)
+    >>> form = browser.getForm(name='edit', index=0)
+    >>> '@@edit-comment' in form.action
+    True
+
+Open the edit comment view
+
+    >>> browser.open(form.action)
+    >>> ctrl = browser.getControl('Comment')
+    >>> ctrl.value
+    'Comment from admin'
+
+Change and save the comment
+
+    >>> ctrl.value = 'Comment from admin / was edited'
+    >>> browser.getControl('Edit comment').click()
+
+This used to trigger permissions problems in some portlet configurations.
+Check it ain't so.
+
+    >>> 'require_login' in browser.url
+    False
+    >>> browser.url.startswith('http://nohost/plone/doc1')
+    True
+    >>> 'Comment from admin / was edited' in browser.contents
+    True
+
+Opening the edit comment view, then cancel, does nothing.
+
+    >>> form = browser.getForm(name='edit', index=0)
+    >>> '@@edit-comment' in form.action
+    True
+    >>> browser.open(form.action)
+    >>> browser.getControl('Cancel').click()
+    >>> browser.url.startswith('http://nohost/plone/doc1')
+    True
+
+
+Anon cannot edit comments.
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> '@@edit-comments' in browser.contents
+    False
+
+But Anon can see the edited comment.
+
+    >>> 'Comment from admin / was edited' in unprivileged_browser.contents
+    True
+
+
+Deleting existing comments | 'Delete comments' permission
+----------------------------------------------------------
+
+Anonymous cannot delete comments
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> 'form.button.Delete' in unprivileged_browser.contents
+    False
+
+A member cannot delete his own comments if he can't review or he isn't a Site Administrator
+
+    >>> browser_member.open(urldoc1)
+    >>> 'form.button.Delete' in browser_member.contents
+    False
+
+Admin can delete comments
+
+    >>> browser.open(urldoc1)
+    >>> 'form.button.Delete' in browser.contents
+    True
+
+Extract the delete comment url from the first "delete comment" button
+
+    >>> browser.open(urldoc1)
+    >>> form = browser.getForm(name='delete', index=0)
+    >>> delete_url = form.action
+    >>> '@@moderate-delete-comment' in delete_url
+    True
+    >>> comment_id = delete_url.split('/')[-2]
+
+Anonymous cannot delete a comment by hitting the delete url directly.
+
+    >>> unprivileged_browser.open(delete_url)
+
+The comment is still there
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> comment_id in unprivileged_browser.contents
+    True
+
+A Member cannot delete even his own comment by hitting the delete url directly.
+
+Extract the member comment id from the admin browser
+
+    >>> form = browser.getForm(name='delete', index=2)
+    >>> delete_url = form.action
+    >>> '@@moderate-delete-comment' in delete_url
+    True
+    >>> comment_id = delete_url.split('/')[-2]
+
+Now try to hit that url as the member owning that comment.
+Work around some possible testbrowser breakage and check the result later.
+
+    >>> try:
+    ...   browser_member.open(delete_url)
+    ... except:
+    ...   pass
+
+The comment is still there
+
+    >>> browser_member.open(urldoc1)
+    >>> comment_id in browser_member.contents
+    True
+    >>> 'Comment from Jim' in browser_member.contents
+    True
+
+Now login as user 'reviewer'
+
+    >>> browser_reviewer.open(portal_url + '/login_form')
+    >>> browser_reviewer.getControl(name='__ac_name').value = 'reviewer'
+    >>> browser_reviewer.getControl(name='__ac_password').value = 'secret'
+    >>> browser_reviewer.getControl(name='submit').click()
+
+Admin and who have 'Delete comments' permission (reviewers for example), can delete comments
+
+    >>> browser_reviewer.open(urldoc1)
+    >>> form = browser_reviewer.getForm(name='delete', index=0)
+    >>> '@@moderate-delete-comment' in form.action
+    True
+
+    >>> comment_id = form.action.split('/')[-2]
+
+Submitting the form runs into a testbrowser notFoundException.
+We'll just catch that and check the result later.
+
+    >>> try:
+    ...   form.submit()
+    ... except:
+    ...   pass
+
+Returning to the document we find the deleted comment is indeed gone
+
+    >>> browser_reviewer.open(urldoc1)
+    >>> comment_id in browser_reviewer.contents
+    False
+
+
 Post a comment with comment review workflow enabled
 ---------------------------------------------------
 
@@ -299,7 +466,7 @@ Login as admin.
 Edit the content object.
 
     >>> browser.open("http://nohost/plone/doc1/edit")
-    >>> browser.getControl(name='form.widgets.text').value = "Lorem ipsum"
+    >>> browser.getControl(name='form.widgets.IRichText.text').value = "Lorem ipsum"
     >>> browser.getControl('Save').click()
 
 Make sure the edit was successful.

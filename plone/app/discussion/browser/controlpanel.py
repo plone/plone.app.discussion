@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-
-from Acquisition import aq_base, aq_inner
-
+from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
-
 from Products.CMFCore.interfaces._content import IDiscussionResponse
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -24,6 +22,7 @@ from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
 from plone.app.discussion.interfaces import IDiscussionSettings, _
+from plone.app.discussion.upgrades import update_registry
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
@@ -51,6 +50,10 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             SingleCheckBoxFieldWidget
         self.fields['moderation_enabled'].widgetFactory = \
             SingleCheckBoxFieldWidget
+        self.fields['edit_comment_enabled'].widgetFactory = \
+            SingleCheckBoxFieldWidget
+        self.fields['delete_own_comment_enabled'].widgetFactory = \
+            SingleCheckBoxFieldWidget
         self.fields['anonymous_comments'].widgetFactory = \
             SingleCheckBoxFieldWidget
         self.fields['show_commenter_image'].widgetFactory = \
@@ -61,7 +64,13 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
-        super(DiscussionSettingsEditForm, self).updateWidgets()
+        try:
+            super(DiscussionSettingsEditForm, self).updateWidgets()
+        except KeyError:
+            # upgrade profile not visible in prefs_install_products_form
+            # provide auto-upgrade
+            update_registry(self.context)
+            super(DiscussionSettingsEditForm, self).updateWidgets()
         self.widgets['globally_enabled'].label = _(u"Enable Comments")
         self.widgets['anonymous_comments'].label = _(u"Anonymous Comments")
         self.widgets['show_commenter_image'].label = _(u"Commenter Image")
@@ -118,6 +127,12 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         elif settings.moderation_enabled:
             output.append("moderation_enabled")
 
+        if settings.edit_comment_enabled:
+            output.append("edit_comment_enabled")
+
+        if settings.delete_own_comment_enabled:
+            output.append("delte_own_comment_enabled")
+
         # Anonymous comments
         if settings.anonymous_comments:
             output.append("anonymous_comments")
@@ -140,12 +155,11 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     def mailhost_warning(self):
         """Returns true if mailhost is not configured properly.
         """
-        # Copied from plone.app.controlpanel/plone/app/controlpanel/overview.py
-        mailhost = getToolByName(aq_inner(self.context), 'MailHost', None)
-        if mailhost is None:
-            return True
-        mailhost = getattr(aq_base(mailhost), 'smtp_host', None)
-        email = getattr(aq_inner(self.context), 'email_from_address', None)
+        # Copied from Products.CMFPlone/controlpanel/browser/overview.py
+        registry = getUtility(IRegistry)
+        mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+        mailhost = mail_settings.smtp_host
+        email = mail_settings.email_from_address
         if mailhost and email:
             return False
         return True
@@ -165,7 +179,7 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     def unmigrated_comments_warning(self):
         """Returns true if site contains unmigrated comments.
         """
-        catalog = getToolByName(aq_inner(self.context), 'portal_catalog', None)
+        catalog = getToolByName(self.context, 'portal_catalog', None)
         count_comments_old = catalog.searchResults(
             object_provides=IDiscussionResponse.__identifier__)
         if count_comments_old:

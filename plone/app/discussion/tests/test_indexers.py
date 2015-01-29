@@ -203,7 +203,3 @@ class CommentIndexersTest(unittest.TestCase):
         # make sure in_response_to returns the title or id of the content
         # object the comment was added to
         self.assertEqual(catalog.in_response_to(self.comment)(), 'Document 1')
-
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

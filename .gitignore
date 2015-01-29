@@ -10,11 +10,13 @@
 /local.cfg
 .coverage
 /*.egg-info
+/*.egg
 /.installed.cfg
 *.pyc
 /.Python
 /include
 /lib
+/local
 /.project
 /.pydevproject
 /.mr.developer.cfg

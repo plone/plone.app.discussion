@@ -1,7 +1,5 @@
 from Products.CMFCore.utils import getToolByName
 
-from zope.component import queryUtility
-
 from Acquisition import aq_inner, aq_parent
 
 from zope.annotation.interfaces import IAnnotations

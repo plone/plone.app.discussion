@@ -26,19 +26,21 @@ from Products.CMFCore.utils import getToolByName
 
 from Products.CMFPlone.tests import dummy
 
-from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, setRoles
 from plone.app.testing import logout
 from plone.app.testing import login
 
 
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.browser.comments import CommentForm
+from plone.app.discussion.browser.comment import EditCommentForm
 from plone.app.discussion import interfaces
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.testing import (
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 )
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.interfaces import IConversation
 
 
 class TestCommentForm(unittest.TestCase):
@@ -126,14 +128,197 @@ class TestCommentForm(unittest.TestCase):
 
         for comment in comments:
             self.assertEqual(comment.text, u"bar")
-            self.assertEqual(comment.creator, "test-user")
+            self.assertEqual(comment.creator, "test_user_1_")
             self.assertEqual(comment.getOwner().getUserName(), "test-user")
             local_roles = comment.get_local_roles()
             self.assertEqual(len(local_roles), 1)
             userid, roles = local_roles[0]
-            self.assertEqual(userid, 'test-user')
+            self.assertEqual(userid, 'test_user_1_')
             self.assertEqual(len(roles), 1)
             self.assertEqual(roles[0], 'Owner')
+
+    def test_edit_comment(self):
+        """Edit a comment as logged-in user.
+        """
+
+        # Allow discussion
+        self.portal.doc1.allow_discussion = True
+        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
+
+        def make_request(form={}):
+            request = TestRequest()
+            request.form.update(form)
+            alsoProvides(request, IFormLayer)
+            alsoProvides(request, IAttributeAnnotatable)
+            return request
+
+        provideAdapter(
+            adapts=(Interface, IBrowserRequest),
+            provides=Interface,
+            factory=CommentForm,
+            name=u"comment-form"
+        )
+
+        provideAdapter(
+            adapts=(Interface, IBrowserRequest),
+            provides=Interface,
+            factory=EditCommentForm,
+            name=u"edit-comment-form"
+        )
+
+        # The form is submitted successfully, if the required text field is
+        # filled out
+        request = make_request(form={'form.widgets.text': u'bar'})
+
+        commentForm = getMultiAdapter(
+            (self.context, request),
+            name=u"comment-form"
+        )
+        commentForm.update()
+        data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
+
+        self.assertEqual(len(errors), 0)
+        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+
+        # Edit the last comment
+        conversation = IConversation(self.context)
+        comment = [x for x in conversation.getComments()][-1]
+        request = make_request(form={'form.widgets.text': u'foobar'})
+        editForm = getMultiAdapter(
+            (comment, request),
+            name=u"edit-comment-form"
+        )
+        editForm.update()
+        data, errors = editForm.extractData()  # pylint: disable-msg=W0612
+
+        self.assertEqual(len(errors), 0)
+        self.assertFalse(editForm.handleComment(editForm, "foo"))
+        comment = [x for x in conversation.getComments()][-1]
+        self.assertEquals(comment.text, u"foobar")
+
+        comments = IConversation(commentForm.context).getComments()
+        comments = [comment for comment in comments]  # consume itertor
+        self.assertEqual(len(comments), 1)
+
+        for comment in comments:
+            self.assertEqual(comment.text, u"foobar")
+            self.assertEqual(comment.creator, "test_user_1_")
+
+            self.assertEqual(comment.getOwner().getUserName(), "test-user")
+            local_roles = comment.get_local_roles()
+            self.assertEqual(len(local_roles), 1)
+            userid, roles = local_roles[0]
+            self.assertEqual(userid, 'test_user_1_')
+            self.assertEqual(len(roles), 1)
+            self.assertEqual(roles[0], 'Owner')
+
+    def test_delete_comment(self):
+        """Delete a comment as logged-in user.
+        """
+
+        # Allow discussion
+        self.portal.doc1.allow_discussion = True
+        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
+
+        def make_request(form={}):
+            request = TestRequest()
+            request.form.update(form)
+            alsoProvides(request, IFormLayer)
+            alsoProvides(request, IAttributeAnnotatable)
+            return request
+
+        provideAdapter(
+            adapts=(Interface, IBrowserRequest),
+            provides=Interface,
+            factory=CommentForm,
+            name=u"comment-form"
+        )
+
+        # The form is submitted successfully, if the required text field is
+        # filled out
+        form_request = make_request(form={'form.widgets.text': u'bar'})
+
+        commentForm = getMultiAdapter(
+            (self.context, form_request),
+            name=u"comment-form"
+        )
+
+        commentForm.update()
+        data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
+        self.assertEqual(len(errors), 0)
+        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+
+        # Delete the last comment
+        conversation = IConversation(self.context)
+        comment = [x for x in conversation.getComments()][-1]
+        deleteView = getMultiAdapter(
+            (comment, self.request),
+            name=u"moderate-delete-comment"
+        )
+        # try to delete last comment without "Delete comments" permission
+        setRoles(self.portal, TEST_USER_ID, ['Member'])
+        self.assertRaises(Unauthorized, comment.restrictedTraverse, "@@moderate-delete-comment")
+        deleteView()
+        self.assertEqual(1, len([x for x in conversation.getComments()]))
+        # try to delete last comment with "Delete comments" permission
+        setRoles(self.portal, TEST_USER_ID, ['Reviewer'])
+        deleteView()
+        self.assertEqual(0, len([x for x in conversation.getComments()]))
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+    def test_delete_own_comment(self):
+        """Delete own comment as logged-in user.
+        """
+
+        # Allow discussion
+        self.portal.doc1.allow_discussion = True
+        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
+
+        def make_request(form={}):
+            request = TestRequest()
+            request.form.update(form)
+            alsoProvides(request, IFormLayer)
+            alsoProvides(request, IAttributeAnnotatable)
+            return request
+
+        provideAdapter(
+            adapts=(Interface, IBrowserRequest),
+            provides=Interface,
+            factory=CommentForm,
+            name=u"comment-form"
+        )
+
+        # The form is submitted successfully, if the required text field is
+        # filled out
+        form_request = make_request(form={'form.widgets.text': u'bar'})
+
+        commentForm = getMultiAdapter(
+            (self.context, form_request),
+            name=u"comment-form"
+        )
+
+        commentForm.update()
+        data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
+        self.assertEqual(len(errors), 0)
+        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+
+        # Delete the last comment
+        conversation = IConversation(self.context)
+        comment = [x for x in conversation.getComments()][-1]
+        deleteView = getMultiAdapter(
+            (comment, self.request),
+            name=u"delete-own-comment"
+        )
+        # try to delete last comment with johndoe
+        setRoles(self.portal, 'johndoe', ['Member'])
+        login(self.portal, 'johndoe')
+        self.assertRaises(Unauthorized, comment.restrictedTraverse, "@@delete-own-comment")
+        self.assertEqual(1, len([x for x in conversation.getComments()]))
+        # try to delete last comment with the same user that created it
+        login(self.portal, TEST_USER_NAME)
+        setRoles(self.portal, TEST_USER_ID, ['Member'])
+        deleteView()
+        self.assertEqual(0, len([x for x in conversation.getComments()]))
 
     def test_add_anonymous_comment(self):
         self.portal.doc1.allow_discussion = True
@@ -477,9 +662,13 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
     def test_get_commenter_portrait_is_none(self):
-        self.assertEqual(
-            self.viewlet.get_commenter_portrait(),
-            'defaultUser.gif'
+
+        self.assertTrue(
+            self.viewlet.get_commenter_portrait() in (
+                'defaultUser.png',
+                'defaultUser.gif',
+            )
+
         )
 
     def test_get_commenter_portrait_without_userimage(self):
@@ -558,7 +747,3 @@ class TestCommentsViewlet(unittest.TestCase):
         localized_time = self.viewlet.format_time(python_time)
         self.assertTrue(
             localized_time in ['Feb 01, 2009 11:32 PM', '2009-02-01 23:32'])
-
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

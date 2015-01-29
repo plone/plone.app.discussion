@@ -9,7 +9,9 @@ from datetime import datetime
 from smtplib import SMTPException
 
 from zope.annotation.interfaces import IAnnotatable
+from zope.component import getUtility
 
+from zope.event import notify
 from zope.component.factory import Factory
 from zope.component import queryUtility
 
@@ -30,18 +32,25 @@ from Products.CMFPlone.utils import safe_unicode
 
 from OFS.Traversable import Traversable
 
-from plone.registry.interfaces import IRegistry
+from plone.app.discussion.events import CommentAddedEvent
+from plone.app.discussion.events import CommentRemovedEvent
+from plone.app.discussion.events import ReplyAddedEvent
+from plone.app.discussion.events import ReplyRemovedEvent
 
 from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
 
+from plone.registry.interfaces import IRegistry
+
 from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 
 from OFS.role import RoleManager
 from AccessControl import ClassSecurityInfo
+from AccessControl.SecurityManagement import getSecurityManager
 from Products.CMFCore import permissions
 
 
@@ -115,6 +124,14 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         self.creation_date = self.modification_date = datetime.utcnow()
         self.mime_type = 'text/plain'
 
+        user = getSecurityManager().getUser()
+        if user and user.getId():
+            aclpath = [x for x in user.getPhysicalPath() if x]
+            self._owner = (aclpath, user.getId(),)
+            self.__ac_local_roles__ = {
+                user.getId(): ['Owner']
+            }
+
     @property
     def __name__(self):
         return self.comment_id and unicode(self.comment_id) or None
@@ -186,14 +203,14 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         content = aq_base(self.__parent__.__parent__)
         title = translate(
             Message(COMMENT_TITLE,
-                    mapping={'author_name': author_name,
+                    mapping={'author_name': safe_unicode(author_name),
                              'content': safe_unicode(content.Title())}))
         return title
 
     def Creator(self):
         """The name of the person who wrote the comment.
         """
-        return self.creator
+        return self.creator or self.author_name
 
     security.declareProtected(permissions.View, 'Type')
 
@@ -232,7 +249,6 @@ def notify_content_object(obj, event):
                                     'last_comment_date',
                                     'commentators'))
 
-
 def notify_content_object_deleted(obj, event):
     """Remove all comments of a content object when the content object has been
        deleted.
@@ -242,6 +258,23 @@ def notify_content_object_deleted(obj, event):
         while conversation:
             del conversation[conversation.keys()[0]]
 
+def notify_comment_added(obj, event):
+    """ Notify custom discussion events when a comment is added or replied
+    """
+    conversation = aq_parent(obj)
+    context = aq_parent(conversation)
+    if getattr(obj, 'in_reply_to', None):
+        return notify(ReplyAddedEvent(context, obj))
+    return notify(CommentAddedEvent(context, obj))
+
+def notify_comment_removed(obj, event):
+    """ Notify custom discussion events when a comment or reply is removed
+    """
+    conversation = aq_parent(obj)
+    context = aq_parent(conversation)
+    if getattr(obj, 'in_reply_to', None):
+        return notify(ReplyRemovedEvent(context, obj))
+    return notify(CommentRemovedEvent(context, obj))
 
 def notify_content_object_moved(obj, event):
     """Update all comments of a content object that has been moved.
@@ -298,9 +331,9 @@ def notify_user(obj, event):
 
     # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
-    portal_url = getToolByName(obj, 'portal_url')
-    portal = portal_url.getPortalObject()
-    sender = portal.getProperty('email_from_address')
+    registry = getUtility(IRegistry)
+    mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+    sender = mail_settings.email_from_address
 
     # Check if a sender address is available
     if not sender:
@@ -372,9 +405,9 @@ def notify_moderator(obj, event):
 
     # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
-    portal_url = getToolByName(obj, 'portal_url')
-    portal = portal_url.getPortalObject()
-    sender = portal.getProperty('email_from_address')
+    registry = getUtility(IRegistry)
+    mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+    sender = mail_settings.email_from_address
 
     if settings.moderator_email:
         mto = settings.moderator_email

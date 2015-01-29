@@ -4,6 +4,7 @@
 
 from zope.interface import Interface
 from zope.interface.common.mapping import IIterableMapping
+from zope.component.interfaces import IObjectEvent
 from zope import schema
 
 from plone.app.discussion import PloneAppDiscussionMessageFactory as _
@@ -242,6 +243,28 @@ class IDiscussionSettings(Interface):
         default=False,
     )
 
+    edit_comment_enabled = schema.Bool(
+        title=_(u"label_edit_comment_enabled",
+                default="Enable editing of comments"),
+        description=_(u"help_edit_comment_enabled",
+                      default=u"If selected, supports editing "
+                      "of comments for users with the 'Edit comments' "
+                      "permission."),
+        required=False,
+        default=False,
+    )
+
+    delete_own_comment_enabled = schema.Bool(
+        title=_(u"label_delete_own_comment_enabled",
+                default="Enable deleting own comments"),
+        description=_(u"help_delete_own_comment_enabled",
+                      default=u"If selected, supports deleting "
+                      "of own comments for users with the "
+                      "'Delete own comments' permission."),
+        required=False,
+        default=False,
+    )
+
     text_transform = schema.Choice(
         title=_(u"label_text_transform",
                 default="Comment text transform"),
@@ -293,8 +316,7 @@ class IDiscussionSettings(Interface):
             u"help_moderator_notification_enabled",
             default=u"If selected, the moderator is notified if a comment "
                     u"needs attention. The moderator email address can " +
-                    u"be found in the 'Mail settings' control panel "
-                    u"(Site 'From' address)"),
+                    u"be set below."),
         required=False,
         default=False,
     )
@@ -345,4 +367,28 @@ class ICommentingTool(Interface):
 
     This can be removed once we no longer support upgrading from versions
     of Plone that had a portal_discussion tool.
+    """
+
+#
+# Custom events
+#
+
+class IDiscussionEvent(IObjectEvent):
+    """ Discussion custom event
+    """
+
+class ICommentAddedEvent(IDiscussionEvent):
+    """ Comment added
+    """
+
+class ICommentRemovedEvent(IDiscussionEvent):
+    """ Comment removed
+    """
+
+class IReplyAddedEvent(IDiscussionEvent):
+    """ Comment reply added
+    """
+
+class IReplyRemovedEvent(IDiscussionEvent):
+    """ Comment reply removed
     """
