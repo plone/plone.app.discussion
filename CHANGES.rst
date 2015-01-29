@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.3.4 (unreleased)
+2.4.0 (unreleased)
 ------------------
 
 - Add permission to allow comment authors to delete their own comments if
