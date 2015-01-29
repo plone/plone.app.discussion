@@ -406,7 +406,7 @@ Submitting the form runs into a testbrowser notFoundException.
 We'll just catch that and check the result later.
 
     >>> try:
-    ...   form.submit()    
+    ...   form.submit()
     ... except:
     ...   pass
 

@@ -9,6 +9,7 @@ from datetime import datetime
 from smtplib import SMTPException
 
 from zope.annotation.interfaces import IAnnotatable
+from zope.component import getUtility
 
 from zope.event import notify
 from zope.component.factory import Factory
@@ -31,8 +32,6 @@ from Products.CMFPlone.utils import safe_unicode
 
 from OFS.Traversable import Traversable
 
-from plone.registry.interfaces import IRegistry
-
 from plone.app.discussion.events import CommentAddedEvent
 from plone.app.discussion.events import CommentRemovedEvent
 from plone.app.discussion.events import ReplyAddedEvent
@@ -43,8 +42,11 @@ from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
 
+from plone.registry.interfaces import IRegistry
+
 from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 
 from OFS.role import RoleManager
 from AccessControl import ClassSecurityInfo
@@ -329,9 +331,9 @@ def notify_user(obj, event):
 
     # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
-    portal_url = getToolByName(obj, 'portal_url')
-    portal = portal_url.getPortalObject()
-    sender = portal.getProperty('email_from_address')
+    registry = getUtility(IRegistry)
+    mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+    sender = mail_settings.email_from_address
 
     # Check if a sender address is available
     if not sender:
@@ -403,9 +405,9 @@ def notify_moderator(obj, event):
 
     # Get informations that are necessary to send an email
     mail_host = getToolByName(obj, 'MailHost')
-    portal_url = getToolByName(obj, 'portal_url')
-    portal = portal_url.getPortalObject()
-    sender = portal.getProperty('email_from_address')
+    registry = getUtility(IRegistry)
+    mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+    sender = mail_settings.email_from_address
 
     if settings.moderator_email:
         mto = settings.moderator_email
