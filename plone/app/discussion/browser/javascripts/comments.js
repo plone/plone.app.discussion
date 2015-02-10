@@ -3,7 +3,17 @@
  * jQuery functions for the plone.app.discussion comment viewlet and form.
  *
  ******************************************************************************/
-(function ($) {
+
+if(require === undefined){
+    require = function(reqs, torun){
+        'use strict';
+        return torun(window.jQuery);
+    }
+}
+
+require([
+    'jquery'
+], function ($) {
     // This unnamed function allows us to use $ inside of a block of code
     // without permanently overwriting $.
     // http://docs.jquery.com/Using_jQuery_with_Other_Libraries
@@ -249,4 +259,4 @@
 
     //#JSCOVERAGE_ENDIF
 
-}(jQuery));
+});

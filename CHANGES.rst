@@ -4,6 +4,9 @@ Changelog
 2.4.0 (unreleased)
 ------------------
 
+- use requirejs if available
+  [vangheem]
+
 - Rename @@discussion-settings to @@discussion-controlpanel
   [maartenkling]
 
