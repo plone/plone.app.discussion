@@ -6,22 +6,12 @@
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="plone">
 
-<metal:javascript_head_slot fill-slot="javascript_head_slot">
-    <script type="text/javascript"
-        tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
-    </script>
-</metal:javascript_head_slot>
-
-
 <body>
 <article id="content"
      tal:attributes="class view/settings"
      metal:fill-slot="prefs_configlet_content">
 
-    <script type="text/javascript"
-        tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
-    </script>
-
+    
     <div class="portalMessage warning"
         tal:condition="view/mailhost_warning">
         <strong i18n:translate="">
@@ -99,6 +89,9 @@
         </div>
     </div>
 
+  <script type="text/javascript"
+          tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
+  </script>
 </article>
 </body>
 </html>
