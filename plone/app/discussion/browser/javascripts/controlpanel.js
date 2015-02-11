@@ -108,7 +108,7 @@ require([  // jshint ignore:line
      * Window Load Function: Executes when complete page is fully loaded,
      * including all frames,
      **************************************************************************/
-    $(window).load(function () {
+    $(document).ready(function () {
 
         // Update settings on page load
         $.updateSettings();
