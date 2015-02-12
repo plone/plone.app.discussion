@@ -33,7 +33,7 @@ def total_comments(object):
     if object.meta_type != 'Discussion Item':
         try:
             conversation = IConversation(object)
-            return conversation.total_comments
+            return conversation.another_total_comments()
         except TypeError:  # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it

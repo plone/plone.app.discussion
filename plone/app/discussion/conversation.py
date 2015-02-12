@@ -90,10 +90,18 @@ class Conversation(Traversable, Persistent, Explicit):
     @property
     def total_comments(self):
         public_comments = [
-            x for x in self._comments.values()
+            x for x in self.values()
             if user_nobody.has_permission('View', x)
         ]
         return len(public_comments)
+
+    def another_total_comments(self):
+        public_comments = [
+            x for x in self.values()
+            if user_nobody.has_permission('View', x)
+        ]
+        return len(public_comments)
+        #return self.total_comments
 
     @property
     def last_comment_date(self):
