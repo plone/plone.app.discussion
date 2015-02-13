@@ -64,3 +64,4 @@ setup(name='plone.app.discussion',
       target = plone
       """,
       )
+
