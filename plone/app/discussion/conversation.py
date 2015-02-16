@@ -9,46 +9,36 @@ manipulate the same data structures, but provide an API for finding and
 manipulating the comments directly in reply to a particular comment or at the
 top level of the conversation.
 """
+from AccessControl.SpecialUsers import nobody as user_nobody
+from Acquisition import aq_base
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+from Acquisition import Explicit
+from BTrees.LLBTree import LLSet
+from BTrees.LOBTree import LOBTree
+from BTrees.OIBTree import OIBTree
+from OFS.event import ObjectWillBeAddedEvent
+from OFS.event import ObjectWillBeRemovedEvent
+from OFS.Traversable import Traversable
+from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
+from persistent import Persistent
+from plone.app.discussion.comment import Comment
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IReplies
+from zope.annotation.interfaces import IAnnotatable
+from zope.annotation.interfaces import IAnnotations
+from zope.component import adapter
+from zope.component import adapts
+from zope.container.contained import ContainerModifiedEvent
+from zope.event import notify
+from zope.interface import implementer
+from zope.interface import implements
+from zope.lifecycleevent import ObjectAddedEvent
+from zope.lifecycleevent import ObjectCreatedEvent
+from zope.lifecycleevent import ObjectRemovedEvent
 
 import time
 
-from persistent import Persistent
-
-from zope.interface import implements, implementer
-from zope.component import adapts
-from zope.component import adapter
-
-from zope.annotation.interfaces import IAnnotations, IAnnotatable
-
-from zope.event import notify
-
-from Acquisition import aq_base, aq_inner, aq_parent
-from Acquisition import Explicit
-
-from OFS.Traversable import Traversable
-
-from OFS.event import ObjectWillBeAddedEvent
-from OFS.event import ObjectWillBeRemovedEvent
-
-from zope.container.contained import ContainerModifiedEvent
-
-from zope.lifecycleevent import ObjectCreatedEvent
-
-from zope.lifecycleevent import ObjectAddedEvent
-from zope.lifecycleevent import ObjectRemovedEvent
-
-from BTrees.OIBTree import OIBTree
-
-from BTrees.LOBTree import LOBTree
-from BTrees.LLBTree import LLSet
-
-from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
-
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IReplies
-from plone.app.discussion.comment import Comment
-
-from AccessControl.SpecialUsers import nobody as user_nobody
 
 ANNOTATION_KEY = 'plone.app.discussion:conversation'
 
