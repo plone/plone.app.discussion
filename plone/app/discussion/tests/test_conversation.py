@@ -78,7 +78,7 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(new_id, comment.comment_id)
         self.assertEqual(len(list(conversation.getComments())), 1)
         self.assertEqual(len(tuple(conversation.getThreads())), 1)
-        self.assertEqual(conversation.total_comments, 1)
+        self.assertEqual(conversation.total_comments(), 1)
         self.assertTrue(
             conversation.last_comment_date - datetime.utcnow() <
             timedelta(seconds=1)
@@ -91,7 +91,7 @@ class ConversationTest(unittest.TestCase):
         comment.author_username = "nobody"
         conversation.addComment(comment)
         comment.manage_permission("View", roles=tuple())
-        self.assertEqual(0, conversation.total_comments)
+        self.assertEqual(0, conversation.total_comments())
         self.assertEqual(None, conversation.last_comment_date)
         self.assertEqual(["nobody"], list(conversation.commentators))
         self.assertEqual([], list(conversation.public_commentators))
@@ -112,7 +112,7 @@ class ConversationTest(unittest.TestCase):
         # make sure the comment has been added
         self.assertEqual(len(list(conversation.getComments())), 1)
         self.assertEqual(len(tuple(conversation.getThreads())), 1)
-        self.assertEqual(conversation.total_comments, 1)
+        self.assertEqual(conversation.total_comments(), 1)
 
         # delete the comment we just created
         del conversation[new_id]
@@ -120,7 +120,7 @@ class ConversationTest(unittest.TestCase):
         # make sure there is no comment left in the conversation
         self.assertEqual(len(list(conversation.getComments())), 0)
         self.assertEqual(len(tuple(conversation.getThreads())), 0)
-        self.assertEqual(conversation.total_comments, 0)
+        self.assertEqual(conversation.total_comments(), 0)
 
     def test_delete_recursive(self):
         # Create a conversation. In this case we doesn't assign it to an
@@ -195,7 +195,7 @@ class ConversationTest(unittest.TestCase):
         # Make sure the comment has been deleted as well
         self.assertEqual(len(list(conversation.getComments())), 0)
         self.assertEqual(len(tuple(conversation.getThreads())), 0)
-        self.assertEqual(conversation.total_comments, 0)
+        self.assertEqual(conversation.total_comments(), 0)
 
     def test_comments_enabled_on_doc_in_subfolder(self):
         typetool = self.portal.portal_types
@@ -422,7 +422,7 @@ class ConversationTest(unittest.TestCase):
         conversation.addComment(comment2)
         conversation.addComment(comment3)
 
-        self.assertEqual(conversation.total_comments, 3)
+        self.assertEqual(conversation.total_comments(), 3)
 
     def test_commentators(self):
         # add and remove a few comments to make sure the commentators
@@ -432,7 +432,7 @@ class ConversationTest(unittest.TestCase):
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
 
-        self.assertEqual(conversation.total_comments, 0)
+        self.assertEqual(conversation.total_comments(), 0)
 
         # Add a four comments from three different users
         # Note: in real life, we always create
@@ -459,7 +459,7 @@ class ConversationTest(unittest.TestCase):
         new_comment4_id = conversation.addComment(comment4)
 
         # check if all commentators are in the commentators list
-        self.assertEqual(conversation.total_comments, 4)
+        self.assertEqual(conversation.total_comments(), 4)
         self.assertTrue('Jim' in conversation.commentators)
         self.assertTrue('Joe' in conversation.commentators)
         self.assertTrue('Jack' in conversation.commentators)
@@ -472,7 +472,7 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue('Jim' in conversation.commentators)
         self.assertTrue('Joe' in conversation.commentators)
         self.assertTrue('Jack' in conversation.commentators)
-        self.assertEqual(conversation.total_comments, 3)
+        self.assertEqual(conversation.total_comments(), 3)
 
         # remove the second comment from Jack
         del conversation[new_comment4_id]
@@ -481,7 +481,7 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue('Jim' in conversation.commentators)
         self.assertTrue('Joe' in conversation.commentators)
         self.assertFalse('Jack' in conversation.commentators)
-        self.assertEqual(conversation.total_comments, 2)
+        self.assertEqual(conversation.total_comments(), 2)
 
     def test_last_comment_date(self):
         # add and remove some comments and check if last_comment_date
@@ -868,7 +868,7 @@ class RepliesTest(unittest.TestCase):
 
         # check that replies only contain the direct comments
         # and no comments deeper than 1
-        self.assertEqual(conversation.total_comments, 6)
+        self.assertEqual(conversation.total_comments(), 6)
         self.assertEqual(len(replies), 2)
         self.assertEqual(len(replies_to_comment1), 2)
         self.assertEqual(len(replies_to_comment1_1), 1)
