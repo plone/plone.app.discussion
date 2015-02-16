@@ -77,7 +77,6 @@ class Conversation(Traversable, Persistent, Explicit):
         parent = aq_inner(self.__parent__)
         return parent.restrictedTraverse('@@conversation_view').enabled()
 
-    @property
     def total_comments(self):
         public_comments = [
             x for x in self.values()
