@@ -20,6 +20,10 @@ Changelog
 - Read mail settings from new (Plone 5) registry.
   [timo]
 
+- Remove @property from Conversation.total_comments as @property and
+  Acquisition don't play well together.
+  [gforcada]
+
 
 2.3.3 (2014-10-23)
 ------------------
