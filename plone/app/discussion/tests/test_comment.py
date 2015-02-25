@@ -433,7 +433,7 @@ class RepliesTest(unittest.TestCase):
         self.assertEqual(len(replies), 0)
 
         # Make sure the first comment is still in the conversation
-        self.assertEqual(conversation.total_comments, 1)
+        self.assertEqual(conversation.total_comments(), 1)
 
     def test_traversal(self):
         # Create a nested structure of comment replies and check the traversal
