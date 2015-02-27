@@ -1,7 +1,6 @@
 Introduction
 ============
 
-
 plone.app.discussion replaces the old commenting system in Plone 4.1 and is also
 available as an add-on product for Plone 3 and 4. It was initially developed as
 part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin
