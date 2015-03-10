@@ -187,9 +187,6 @@ class CommentReviewWorkflowTest(unittest.TestCase):
             ('Discussion Item',),
             ('comment_review_workflow',))
 
-        # Create a Document
-        self.portal.invokeFactory('Document', 'doc1')
-
         # Create a conversation for this Document
         conversation = IConversation(self.portal.doc1)
 

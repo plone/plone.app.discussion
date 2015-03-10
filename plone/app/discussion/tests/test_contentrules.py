@@ -35,12 +35,8 @@ class CommentContentRulesTest(unittest.TestCase):
         })
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        name = self.portal.invokeFactory(
-            id='doc1',
-            title='Document 1',
-            type_name='Document')
 
-        self.document = self.portal[name]
+        self.document = self.portal['doc1']
 
         comment = createObject('plone.Comment')
         comment.text = "This is a comment"
@@ -93,12 +89,8 @@ class ReplyContentRulesTest(unittest.TestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        name = self.portal.invokeFactory(
-            id='doc1',
-            title='Document 1',
-            type_name='Document')
 
-        self.document = self.portal[name]
+        self.document = self.portal['doc1']
         conversation = IConversation(self.document)
         replies = IReplies(conversation)
 

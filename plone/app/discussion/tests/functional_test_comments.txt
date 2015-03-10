@@ -56,8 +56,7 @@ Enable commenting.
 
 Create a public page with comments allowed.
 
-    >>> browser.open(portal_url)
-    >>> browser.getLink(id='document').click()
+    >>> browser.open(portal['doc1'].absolute_url() + '/edit')
     >>> browser.getControl(name='form.widgets.IDublinCore.title').value = "Doc1"
     >>> browser.getControl(name='form.widgets.IAllowDiscussion.allow_discussion:list').value = ['True']
     >>> browser.getControl('Save').click()

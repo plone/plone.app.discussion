@@ -34,11 +34,6 @@ class CommentTest(unittest.TestCase):
         self.request = self.layer['request']
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory(
-            id='doc1',
-            title='Document 1',
-            type_name='Document'
-        )
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         self.document_brain = self.catalog.searchResults(
             portal_type='Document')[0]
@@ -360,11 +355,6 @@ class RepliesTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory(
-            id='doc1',
-            title='Document 1',
-            type_name='Document'
-        )
 
     def test_add_comment(self):
         # Add comments to a CommentReplies adapter

@@ -24,8 +24,6 @@ class ModerationViewTest(unittest.TestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
         self.portal_discussion = getToolByName(self.portal,
                                                'portal_discussion',
                                                None)
@@ -66,8 +64,6 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
         self.wf = getToolByName(self.portal,
                                 'portal_workflow',
                                 None)
