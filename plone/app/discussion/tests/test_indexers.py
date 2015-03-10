@@ -40,12 +40,6 @@ class ConversationIndexersTest(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
-        self.portal.invokeFactory(
-            id='doc1',
-            title='Document 1',
-            type_name='Document'
-        )
-
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
 
@@ -120,12 +114,6 @@ class CommentIndexersTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-
-        self.portal.invokeFactory(
-            id='doc1',
-            title='Document 1',
-            type_name='Document'
-        )
 
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.

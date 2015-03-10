@@ -50,12 +50,7 @@ class CommentEventsTest(unittest.TestCase):
         self.registry = EventsRegistry
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        name = self.portal.invokeFactory(
-            id='doc1',
-            title='Document 1',
-            type_name='Document')
-
-        self.document = self.portal[name]
+        self.document = self.portal['doc1']
 
         #
         # Subscribers
@@ -107,12 +102,7 @@ class RepliesEventsTest(unittest.TestCase):
         self.registry = EventsRegistry
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        name = self.portal.invokeFactory(
-            id='doc1',
-            title='Document 1',
-            type_name='Document')
-
-        self.document = self.portal[name]
+        self.document = self.portal['doc1']
 
         #
         # Subscribers

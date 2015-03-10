@@ -59,8 +59,6 @@ class TestCommentForm(unittest.TestCase):
             interfaces.IDiscussionLayer,
         )
 
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
         wftool = getToolByName(self.portal, "portal_workflow")
         wftool.doActionFor(self.portal.doc1, action='publish')
         self.portal.doc1.allow_discussion = True
@@ -464,8 +462,6 @@ class TestCommentsViewlet(unittest.TestCase):
         self.workflowTool = getToolByName(self.portal, 'portal_workflow')
         self.workflowTool.setDefaultChain('one_state_workflow')
 
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
         self.membershipTool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
         context = getattr(self.portal, 'doc1')

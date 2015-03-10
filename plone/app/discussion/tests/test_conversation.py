@@ -42,9 +42,7 @@ class ConversationTest(unittest.TestCase):
         interface.alsoProvides(
             self.portal.REQUEST, interfaces.IDiscussionLayer)
 
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
-        self.typetool = typetool
+        self.typetool = self.portal.portal_types
         self.portal_discussion = getToolByName(
             self.portal,
             'portal_discussion',
@@ -685,8 +683,6 @@ class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
             interfaces.IDiscussionLayer
         )
 
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
         if DEXTERITY:
                 interface.alsoProvides(
                     self.portal.doc1,
@@ -750,8 +746,6 @@ class RepliesTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        typetool = self.portal.portal_types
-        typetool.constructContent('Document', self.portal, 'doc1')
 
     def test_add_comment(self):
         # Add comments to a ConversationReplies adapter

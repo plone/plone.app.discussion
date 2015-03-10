@@ -1,16 +1,14 @@
-from Products.CMFCore.utils import getToolByName
-
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.robotframework.testing import REMOTE_LIBRARY_ROBOT_TESTING
-from plone.app.testing import IntegrationTesting
-from plone.app.testing import FunctionalTesting
-from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
-
-from plone.testing import z2
+from plone.app.testing import FunctionalTesting
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
-
+from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
 from zope.configuration import xmlconfig
 
@@ -86,6 +84,14 @@ class PloneAppDiscussion(PloneSandboxLayer):
             self.MANAGER_USER_PASSWORD,
             ['Manager'],
             [],
+        )
+
+        # Add a document
+        setRoles(portal, TEST_USER_ID, ['Manager'])
+        portal.invokeFactory(
+            id='doc1',
+            title='Document 1',
+            type_name='Document'
         )
 
 

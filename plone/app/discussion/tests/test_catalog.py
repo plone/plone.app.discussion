@@ -63,11 +63,6 @@ class ConversationCatalogTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory(
-            id='doc1',
-            Title='Document 1',
-            type_name='Document'
-        )
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
@@ -260,9 +255,6 @@ class CommentCatalogTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory(id='doc1',
-                                  title='Document 1',
-                                  type_name='Document')
         self.catalog = getToolByName(self.portal, 'portal_catalog')
 
         conversation = IConversation(self.portal.doc1)
@@ -540,9 +532,6 @@ class NoConversationCatalogTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.portal.invokeFactory(id='doc1',
-                                  Title='Document 1',
-                                  type_name='Document')
 
         self.catalog = getToolByName(self.portal, 'portal_catalog')
 
