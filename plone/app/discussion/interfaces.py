@@ -181,7 +181,7 @@ class IComment(Interface):
 class ICaptcha(Interface):
     """Captcha/ReCaptcha text field to extend the existing comment form.
     """
-    captcha = schema.TextLine(title=u"Captcha",
+    captcha = schema.TextLine(title=_(u"Captcha"),
                               required=False)
 
 

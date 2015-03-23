@@ -14,7 +14,7 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: plone.app.discussion\n"
 
-#: ../comment.py:357
+#: ../comment.py:359
 msgid "A comment has been posted."
 msgstr "Der er oprettet en kommentar."
 
@@ -30,40 +30,44 @@ msgstr "Tilføj en kommentar"
 msgid "Anonymous Comments"
 msgstr "Anonyme kommentarer"
 
-#: ../browser/comments.py:274
+#: ../browser/comments.py:275
 #: ../browser/controlpanel.py:93
 msgid "Cancel"
 msgstr "Afbryd"
+
+#: ../interfaces.py:184
+msgid "Captcha"
+msgstr ""
 
 #: ../browser/controlpanel.py:89
 msgid "Changes saved"
 msgstr "Ændringer gemt"
 
-#: ../browser/moderation.py:154
+#: ../browser/moderation.py:186
 msgid "Comment approved."
 msgstr "Kommentar godkendt."
 
-#: ../contentrules.py:96
+#: ../contentrules.py:92
 msgid "Comment author email"
 msgstr ""
 
-#: ../contentrules.py:85
+#: ../contentrules.py:81
 msgid "Comment author full name"
 msgstr ""
 
-#: ../contentrules.py:74
+#: ../contentrules.py:70
 msgid "Comment author user name"
 msgstr ""
 
-#: ../browser/moderation.py:108
+#: ../browser/moderation.py:111
 msgid "Comment deleted."
 msgstr "Kommentar slettet."
 
-#: ../contentrules.py:52
+#: ../contentrules.py:48
 msgid "Comment id"
 msgstr ""
 
-#: ../contentrules.py:63
+#: ../contentrules.py:59
 msgid "Comment text"
 msgstr ""
 
@@ -74,7 +78,7 @@ msgstr "Kommentar-billede"
 msgid "Commenting infrastructure for Plone"
 msgstr "Kommentar-funktionalitet til Plone"
 
-#: ../contentrules.py:51
+#: ../contentrules.py:47
 msgid "Comments"
 msgstr ""
 
@@ -94,7 +98,7 @@ msgstr "Dato for den seneste, offentlige kommentar"
 msgid "Disabled"
 msgstr "Slået fra"
 
-#: ../browser/controlpanel.py:35
+#: ../browser/controlpanel.py:33
 msgid "Discussion settings"
 msgstr "Indstilling for kommentarer"
 
@@ -158,7 +162,7 @@ msgstr "Gruppen af unikke kommentatorer (brugernavne) fra published_comments"
 msgid "Total number of public comments on this item"
 msgstr "Det samlede antal offentlige kommentarer til dette element"
 
-#: ../comment.py:173
+#: ../comment.py:175
 msgid "Transform '%s' => '%s' not available."
 msgstr ""
 
@@ -170,7 +174,7 @@ msgstr "E-mail-notificering af brugere"
 msgid "Username of the commenter"
 msgstr "Kommentatorens brugernavn"
 
-#: ../browser/comments.py:267
+#: ../browser/comments.py:268
 msgid "Your comment awaits moderator approval."
 msgstr "Din kommentar venter på godkendelse."
 
@@ -225,7 +229,7 @@ msgid "comment_edit_notification"
 msgstr ""
 
 #. Default: "${author_name} on ${content}"
-#: ../comment.py:55
+#: ../comment.py:57
 #, fuzzy
 msgid "comment_title"
 msgstr "${creator} på ${content}"
@@ -276,21 +280,26 @@ msgid "help_anonymous_comments"
 msgstr "Hvis du krydser af, kan anonyme brugere skrive kommentarer uden at være logget ind. I så fald er det en god ide at bruge CAPTCHA for at forhindre spam."
 
 #. Default: "If selected, anonymous user will have to give their email."
-#: ../interfaces.py:341
+#: ../interfaces.py:352
 msgid "help_anonymous_email_enabled"
 msgstr ""
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
-#: ../interfaces.py:277
+#: ../interfaces.py:288
 msgid "help_captcha"
 msgstr "Her kan du slå CAPTCHA til og fra for kommentarer. Installer plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet eller collective.z3cform.norobots, hvis der ikke er nogen valgmuligheder nedenfor."
 
+#. Default: "If selected, supports deleting of own comments for users with the 'Delete own comments' permission."
+#: ../interfaces.py:260
+msgid "help_delete_own_comment_enabled"
+msgstr ""
+
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
-#: ../browser/controlpanel.py:36
+#: ../browser/controlpanel.py:34
 msgid "help_discussion_settings_editform"
 msgstr "Du kan justere kommentarindstillingerne nedenfor. Bemærk, at der også er indstillinger andre steder, som påvirker kommentarer. For at slå kommentarer til for en bestemt indholdstype, så klik \"Typer\" på Kontrolpanelet og afkryds \"Tillad kommentarer\" for typen. For at slå modereringsworkflow til kommentarer, så vælg \"Kommentar\" under \"Typer\" på Kontrolpanelet og vælg workflowet \"Godkendelses-workflow for kommentarer\""
 
-#. Default: "If selected, supports editing and deletion of comments for users with the 'Edit comments' permission."
+#. Default: "If selected, supports editing of comments for users with the 'Edit comments' permission."
 #: ../interfaces.py:249
 msgid "help_edit_comment_enabled"
 msgstr ""
@@ -306,34 +315,34 @@ msgid "help_moderation_enabled"
 msgstr "Hvis du krydser af, vil kommentarer automatisk bliver sat i en \"Afventer\"-tilstand, hvor de er usynlige for offentligheden. En bruger med rettigheder til at moderere kommentarer kan godkende kommentarer og gøre dem synlige for offentligheden."
 
 #. Default: "Address to which moderator notifications will be sent."
-#: ../interfaces.py:318
+#: ../interfaces.py:329
 msgid "help_moderator_email"
 msgstr "Adresse på den person, som skal modtage moderator-notificeringer."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
-#: ../interfaces.py:304
+#: ../interfaces.py:315
 #, fuzzy
 msgid "help_moderator_notification_enabled"
 msgstr "Hvis du krydser af, får en moderator besked, hvis en kommentarer skal vurderes."
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ../interfaces.py:293
+#: ../interfaces.py:304
 msgid "help_show_commenter_image"
 msgstr "Hvis du krydser af, bliver der vist et billede af brugeren ved siden af kommentaren."
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
-#: ../interfaces.py:260
+#: ../interfaces.py:271
 msgid "help_text_transform"
 msgstr "Vælg, hvordan kommentartekster skal vises. Du kan vælge mellem \"Plan text\", \"Markdown\" og \"Intelligent text\". Plain text gør ingenting. Markdown fortolker teksten efter Markdown-standarden. Intelligent text oversætter teksten til HTML og bibeholder indrykninger, linjeskift og oversætter emails og webadresser til klikbare links."
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
-#: ../interfaces.py:330
+#: ../interfaces.py:341
 msgid "help_user_notification_enabled"
 msgstr "Hvis den er slået til, kan brugere få besked om nye kommentarer over email."
 
 #. Default: "Anonymous"
-#: ../browser/comments.pt:74
-#: ../comment.py:191
+#: ../browser/comments.pt:75
+#: ../comment.py:193
 msgid "label_anonymous"
 msgstr "Anonym"
 
@@ -343,7 +352,7 @@ msgid "label_anonymous_comments"
 msgstr "Slå anonym kommentering til"
 
 #. Default: "Enable anonymous email field"
-#: ../interfaces.py:339
+#: ../interfaces.py:350
 msgid "label_anonymous_email_enabled"
 msgstr ""
 
@@ -353,7 +362,7 @@ msgid "label_apply"
 msgstr "Udfør"
 
 #. Default: "Captcha"
-#: ../interfaces.py:275
+#: ../interfaces.py:286
 msgid "label_captcha"
 msgstr "CAPTCHA"
 
@@ -363,7 +372,7 @@ msgid "label_comment"
 msgstr "Kommentar"
 
 #. Default: "Commenting has been disabled."
-#: ../browser/comments.pt:148
+#: ../browser/comments.pt:163
 msgid "label_commenting_disabled"
 msgstr "Kommentering er slået fra."
 
@@ -371,6 +380,11 @@ msgstr "Kommentering er slået fra."
 #: ../browser/moderation.pt:130
 msgid "label_delete"
 msgstr "Slet"
+
+#. Default: "Enable deleting own comments"
+#: ../interfaces.py:258
+msgid "label_delete_own_comment_enabled"
+msgstr ""
 
 #. Default: "Enable editing of comments"
 #: ../interfaces.py:247
@@ -388,12 +402,12 @@ msgid "label_moderation_enabled"
 msgstr "Slå kommentarmoderering til"
 
 #. Default: "Moderator Email Address"
-#: ../interfaces.py:314
+#: ../interfaces.py:325
 msgid "label_moderator_email"
 msgstr "Email på moderator"
 
 #. Default: "Enable moderator email notification"
-#: ../interfaces.py:302
+#: ../interfaces.py:313
 msgid "label_moderator_notification_enabled"
 msgstr "Slå moderatorer-notificering til"
 
@@ -403,12 +417,12 @@ msgid "label_publish"
 msgstr "Godkend"
 
 #. Default: "says:"
-#: ../browser/comments.pt:77
+#: ../browser/comments.pt:78
 msgid "label_says"
 msgstr "siger:"
 
 #. Default: "Show commenter image"
-#: ../interfaces.py:291
+#: ../interfaces.py:302
 msgid "label_show_commenter_image"
 msgstr "Vis kommentator-billede"
 
@@ -423,23 +437,23 @@ msgid "label_subject"
 msgstr "Emne"
 
 #. Default: "Comment text transform"
-#: ../interfaces.py:258
+#: ../interfaces.py:269
 msgid "label_text_transform"
 msgstr "Formattering af kommentar-tekst"
 
 #. Default: "Enable user email notification"
-#: ../interfaces.py:326
+#: ../interfaces.py:337
 msgid "label_user_notification_enabled"
 msgstr "Slå bruger-notificering til"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
-#: ../comment.py:59
+#: ../comment.py:61
 #, fuzzy
 msgid "mail_notification_message"
 msgstr "En kommentarer om '${title}' er blevet gemt her: ${link}"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
-#: ../comment.py:67
+#: ../comment.py:69
 msgid "mail_notification_message_moderator"
 msgstr ""
 "En kommentar til '${title}' er blevet indsendt her: ${link}\n"

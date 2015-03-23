@@ -4,7 +4,8 @@ Changelog
 2.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- i18n for ICaptcha interface.
+  [davidjb]
 
 
 2.4.0 (2015-03-12)

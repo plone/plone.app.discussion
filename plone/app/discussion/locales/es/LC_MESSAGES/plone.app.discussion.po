@@ -16,7 +16,7 @@ msgstr ""
 "Domain: plone.app.discussion\n"
 "X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
 
-#: ../comment.py:357
+#: ../comment.py:359
 msgid "A comment has been posted."
 msgstr "Comentario añadido."
 
@@ -32,16 +32,20 @@ msgstr "Añadir un comentario"
 msgid "Anonymous Comments"
 msgstr "Comentarios anónimos"
 
-#: ../browser/comments.py:274
+#: ../browser/comments.py:275
 #: ../browser/controlpanel.py:93
 msgid "Cancel"
 msgstr "Cancelar"
+
+#: ../interfaces.py:184
+msgid "Captcha"
+msgstr ""
 
 #: ../browser/controlpanel.py:89
 msgid "Changes saved"
 msgstr "Cambios guardados"
 
-#: ../browser/moderation.py:154
+#: ../browser/moderation.py:186
 msgid "Comment approved."
 msgstr "Comentario aprobado."
 
@@ -57,7 +61,7 @@ msgstr "Nombre completo del autor del comentario"
 msgid "Comment author user name"
 msgstr "Nombre de usuario del autor del comentario"
 
-#: ../browser/moderation.py:108
+#: ../browser/moderation.py:111
 msgid "Comment deleted."
 msgstr "Comentario eliminado."
 
@@ -96,7 +100,7 @@ msgstr "Fecha del comentario publico más reciente"
 msgid "Disabled"
 msgstr "Desactivado"
 
-#: ../browser/controlpanel.py:35
+#: ../browser/controlpanel.py:33
 msgid "Discussion settings"
 msgstr "Ajustes de discusión"
 
@@ -160,7 +164,7 @@ msgstr "El conjunto de comentaristas únicos (nombres de usuario) de published_c
 msgid "Total number of public comments on this item"
 msgstr "Total de comentarios públicos en este artículo"
 
-#: ../comment.py:173
+#: ../comment.py:175
 msgid "Transform '%s' => '%s' not available."
 msgstr "Transformada '%s' => '%s' no disponible."
 
@@ -172,7 +176,7 @@ msgstr "Notificaciones de correo para usuarios"
 msgid "Username of the commenter"
 msgstr "Nombre de usuario del comentarista"
 
-#: ../browser/comments.py:267
+#: ../browser/comments.py:268
 msgid "Your comment awaits moderator approval."
 msgstr "Su comentario está pendiente de aprobación por el moderador."
 
@@ -227,7 +231,7 @@ msgid "comment_edit_notification"
 msgstr "Se ha editado el comentario"
 
 #. Default: "${author_name} on ${content}"
-#: ../comment.py:55
+#: ../comment.py:57
 msgid "comment_title"
 msgstr "${author_name} sobre ${content}"
 
@@ -277,29 +281,33 @@ msgid "help_anonymous_comments"
 msgstr "Si está seleccionado, los usuarios anónimos podrán añadir comentarios sin tener que iniciar una sesión. Recomendamos encarecidamente que utilice una solución Captcha para evitar el spam si esta opción está activada."
 
 #. Default: "If selected, anonymous user will have to give their email."
-#: ../interfaces.py:341
+#: ../interfaces.py:352
 msgid "help_anonymous_email_enabled"
 msgstr "Si se selecciona, el usuario anónimo tendrá que proporcionar su correo electrónico."
 
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
-#: ../interfaces.py:277
+#: ../interfaces.py:288
 msgid "help_captcha"
 msgstr "Utilice esta opción para activar o desactivar Captcha para los comentarios. Instale plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet o collective.z3cform.norobots si no tiene ninguna opción disponible."
 
+#. Default: "If selected, supports deleting of own comments for users with the 'Delete own comments' permission."
+#: ../interfaces.py:260
+msgid "help_delete_own_comment_enabled"
+msgstr ""
+
 #. Default: "Some discussion related settings are not located in the Discussion Control Panel.\nTo enable comments for a specific content type, go to the Types Control Panel of this type and choose \"Allow comments\".\nTo enable the moderation workflow for comments, go to the Types Control Panel, choose \"Comment\" and set workflow to \"Comment Review Workflow\"."
-#: ../browser/controlpanel.py:36
+#: ../browser/controlpanel.py:34
 msgid "help_discussion_settings_editform"
 msgstr ""
 "Algunos de los ajustes sobre los comentarios no están en el Panel de Control de Discusiones.\n"
 "Para activar comentarios para un tipo de objeto específico, vaya al Panel de Control de Tipos y elija 'Activar Comentarios'.\n"
 "Para activar el workflow de moderación de comentarios, vaya al Panel de Control de Tipos, elija 'Comentario' y elija el 'Workflow de Moderación de Comentarios'."
 
-#. Default: "If selected, supports editing and deletion of comments for users with the 'Edit comments' permission."
+#. Default: "If selected, supports editing of comments for users with the 'Edit comments' permission."
 #: ../interfaces.py:249
+#, fuzzy
 msgid "help_edit_comment_enabled"
-msgstr ""
-"Si se selecciona, permite la edición y eliminación de comentarios "
-"a los usuarios con el permiso 'Edita comentarios'"
+msgstr "Si se selecciona, permite la edición y eliminación de comentarios a los usuarios con el permiso 'Edita comentarios'"
 
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
 #: ../interfaces.py:202
@@ -312,33 +320,33 @@ msgid "help_moderation_enabled"
 msgstr "Si está seleccionado, los comentarios entraran en un estado 'Pendiente' en el cual ellos no son visibles para el público. Un usuario con el permiso 'Revisar comentarios' ('Revisor' o 'Administrador') puede aprobar los comentarios y hacerlos visibles al público. Si desea habilitar un workflow de comentarios diferente, puede hacerlo a través de la opción 'Configuración de Tipos' en el panel de control."
 
 #. Default: "Address to which moderator notifications will be sent."
-#: ../interfaces.py:318
+#: ../interfaces.py:329
 msgid "help_moderator_email"
 msgstr "La dirección de correo electrónico a la cual se enviarán las notificaciones de moderación."
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
-#: ../interfaces.py:304
+#: ../interfaces.py:315
 msgid "help_moderator_notification_enabled"
 msgstr "Si está seleccionado, se notifica al moderador cuando un nuevo comentario requiere de su atención. La dirección de correo electrónico del moderador se puede encontrar en la opción 'Configuración de correo' del panel de control (Dirección del remitente del sitio)"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
-#: ../interfaces.py:293
+#: ../interfaces.py:304
 msgid "help_show_commenter_image"
 msgstr "Si está seleccionado, se mostrará una imagen del autor junto al comentario."
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
-#: ../interfaces.py:260
+#: ../interfaces.py:271
 msgid "help_text_transform"
 msgstr "Elija si el texto de los comentario será transformado de algún modo. Puede seleccionar entre 'Texto plano' y 'Texto inteligente'. 'Texto inteligente' convierte el texto plano en HTML, conservando los cambios de línea y la indentación, y transformando las direcciones web y de correo electrónico en vínculos."
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
-#: ../interfaces.py:330
+#: ../interfaces.py:341
 msgid "help_user_notification_enabled"
 msgstr "Si está seleccionado, los usuarios pueden solicitar recibir avisos por correo cuando haya nuevos comentarios."
 
 #. Default: "Anonymous"
-#: ../browser/comments.pt:74
-#: ../comment.py:191
+#: ../browser/comments.pt:75
+#: ../comment.py:193
 msgid "label_anonymous"
 msgstr "Anónimo"
 
@@ -348,7 +356,7 @@ msgid "label_anonymous_comments"
 msgstr "Permitir comentarios anónimos"
 
 #. Default: "Enable anonymous email field"
-#: ../interfaces.py:339
+#: ../interfaces.py:350
 msgid "label_anonymous_email_enabled"
 msgstr "Habilitar campo email de anónimos"
 
@@ -358,7 +366,7 @@ msgid "label_apply"
 msgstr "Aplicar"
 
 #. Default: "Captcha"
-#: ../interfaces.py:275
+#: ../interfaces.py:286
 msgid "label_captcha"
 msgstr "Captcha"
 
@@ -368,7 +376,7 @@ msgid "label_comment"
 msgstr "Comentario"
 
 #. Default: "Commenting has been disabled."
-#: ../browser/comments.pt:148
+#: ../browser/comments.pt:163
 msgid "label_commenting_disabled"
 msgstr "Los comentarios han sido inhabilitados."
 
@@ -376,6 +384,11 @@ msgstr "Los comentarios han sido inhabilitados."
 #: ../browser/moderation.pt:130
 msgid "label_delete"
 msgstr "Borrar"
+
+#. Default: "Enable deleting own comments"
+#: ../interfaces.py:258
+msgid "label_delete_own_comment_enabled"
+msgstr ""
 
 #. Default: "Enable editing of comments"
 #: ../interfaces.py:247
@@ -393,12 +406,12 @@ msgid "label_moderation_enabled"
 msgstr "Habilitar la moderación de comentarios"
 
 #. Default: "Moderator Email Address"
-#: ../interfaces.py:314
+#: ../interfaces.py:325
 msgid "label_moderator_email"
 msgstr "Dirección de correo electrónico del moderador"
 
 #. Default: "Enable moderator email notification"
-#: ../interfaces.py:302
+#: ../interfaces.py:313
 msgid "label_moderator_notification_enabled"
 msgstr "Activar notificación al moderador"
 
@@ -408,12 +421,12 @@ msgid "label_publish"
 msgstr "Aprobar"
 
 #. Default: "says:"
-#: ../browser/comments.pt:77
+#: ../browser/comments.pt:78
 msgid "label_says"
 msgstr "dice:"
 
 #. Default: "Show commenter image"
-#: ../interfaces.py:291
+#: ../interfaces.py:302
 msgid "label_show_commenter_image"
 msgstr "Mostrar imagen del autor"
 
@@ -428,17 +441,17 @@ msgid "label_subject"
 msgstr "Tema"
 
 #. Default: "Comment text transform"
-#: ../interfaces.py:258
+#: ../interfaces.py:269
 msgid "label_text_transform"
 msgstr "Transformaciones aplicadas al texto del comentario"
 
 #. Default: "Enable user email notification"
-#: ../interfaces.py:326
+#: ../interfaces.py:337
 msgid "label_user_notification_enabled"
 msgstr "Activar notificación de correo a los usuarios"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
-#: ../comment.py:59
+#: ../comment.py:61
 msgid "mail_notification_message"
 msgstr ""
 "Se ha agregado un comentario a ${title} aquí: ${link}\n"
@@ -448,7 +461,7 @@ msgstr ""
 "---\n"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
-#: ../comment.py:67
+#: ../comment.py:69
 msgid "mail_notification_message_moderator"
 msgstr ""
 "Se ha agregado un comentario a '${title}' aquí: ${link}\n"
@@ -482,3 +495,4 @@ msgstr "No hay nada para moderar."
 #: ../browser/moderation.pt:64
 msgid "title_bulkactions"
 msgstr "Acciones conjuntas"
+
