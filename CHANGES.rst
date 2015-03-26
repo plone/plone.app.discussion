@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.4.1 (unreleased)
+2.4.1 (2015-03-26)
 ------------------
 
 - i18n for ICaptcha interface.
