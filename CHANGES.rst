@@ -7,6 +7,12 @@ Changelog
 - i18n for ICaptcha interface.
   [davidjb]
 
+- Fix total_comments indexer
+  [gforcada]
+
+- Count acquisition wrapped comments
+  [gforcada]
+
 
 2.2.14 (2014-10-23)
 -------------------
