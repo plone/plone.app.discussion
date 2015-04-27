@@ -127,7 +127,6 @@ Changelog
 - Put defaultUser.png instead of old defaultUser.gif
   [bsuttor]
 
->>>>>>> master
 - Remove bbb directory. bbb was never really implemented.
   [timo]
 
