@@ -1,18 +1,17 @@
+# Suzuki, Takanori <takanori@takanory.net> 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Takeshi Yamamoto <tyam@mac.com>\n"
-"Language-Team: Hanno Schlichting <hannosch@plone.org>\n"
+"Project-Id-Version: plone.app.discussion\n"
+"POT-Creation-Date: 2011-04-22 17:12+0000\n"
+"PO-Revision-Date: 2015-04-29 15:00+0000\n"
+"Last-Translator: Suzuki, Takanori <takanori@takanory.net>\n"
+"Language-Team: Plone Japanese Team <https://github.com/plonejp>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
-"Preferred-Encodings: utf-8 latin1\n"
-"Domain: DOMAIN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: ja\n"
+"Language-Name: Japanese\n"
 
 #: ../comment.py:359
 msgid "A comment has been posted."
@@ -20,7 +19,7 @@ msgstr "コメントが投稿されました"
 
 #: ../interfaces.py:144
 msgid "A comment id unique to this conversation"
-msgstr "このカンバセーションにユニークなコメントID"
+msgstr "この会話上のユニークなコメントID"
 
 #: ../browser/comments.py:72
 msgid "Add a comment"
@@ -28,7 +27,11 @@ msgstr "コメントを追加"
 
 #: ../browser/controlpanel.py:75
 msgid "Anonymous Comments"
-msgstr "無名コメント"
+msgstr "匿名コメント"
+
+#: ../interfaces.py:307
+msgid "Author name (for display)"
+msgstr "投稿者名(表示用)"
 
 #: ../browser/comments.py:275
 #: ../browser/controlpanel.py:93
@@ -37,7 +40,7 @@ msgstr "取り消す"
 
 #: ../interfaces.py:184
 msgid "Captcha"
-msgstr ""
+msgstr "CAPTCHA"
 
 #: ../browser/controlpanel.py:89
 msgid "Changes saved"
@@ -65,7 +68,7 @@ msgstr "コメントが削除されました"
 
 #: ../contentrules.py:48
 msgid "Comment id"
-msgstr ""
+msgstr "コメントID"
 
 #: ../contentrules.py:59
 msgid "Comment text"
@@ -73,18 +76,18 @@ msgstr ""
 
 #: ../browser/controlpanel.py:76
 msgid "Commenter Image"
-msgstr "コメント者の画像"
+msgstr "投稿者者の画像"
 
 msgid "Commenting infrastructure for Plone"
 msgstr "Ploneのコメント基盤"
 
 #: ../contentrules.py:47
 msgid "Comments"
-msgstr ""
+msgstr "コメント"
 
 #: ../interfaces.py:139
 msgid "Conversation"
-msgstr "カンバセーション"
+msgstr "会話"
 
 #: ../interfaces.py:177
 msgid "Creation date"
@@ -92,7 +95,7 @@ msgstr "作成日付"
 
 #: ../interfaces.py:41
 msgid "Date of the most recent public comment"
-msgstr ""
+msgstr "最近のコメントの日付"
 
 #: ../vocabularies.py:44
 msgid "Disabled"
@@ -116,7 +119,7 @@ msgstr "コメントを有効にする"
 
 #: ../interfaces.py:147
 msgid "Id of comment this comment is in reply to"
-msgstr "このコメントが回答する先であるコメントのID"
+msgstr "このコメントの返答先のコメントID"
 
 #: ../interfaces.py:161
 msgid "MIME type"
@@ -124,7 +127,7 @@ msgstr "MIMEタイプ"
 
 #: ../browser/controlpanel.py:78
 msgid "Moderator Email Notification"
-msgstr "モデレータへのメール通知"
+msgstr "モデレーターへのメール通知"
 
 #: ../interfaces.py:178
 msgid "Modification date"
@@ -140,7 +143,7 @@ msgstr "新しいコメントを私にメールで知らせる"
 
 #: ./plone.app.discussion/plone/app/discussion/configure.zcml
 msgid "Plone Discussions"
-msgstr "Plone 議論"
+msgstr "Plone議論"
 
 #: ../interfaces.py:134
 msgid "Portal type"
@@ -152,7 +155,7 @@ msgstr "保存"
 
 #: ../interfaces.py:46
 msgid "The set of unique commentators (usernames)"
-msgstr "ユニークなコメント者(ユーザ名)のセット"
+msgstr "ユニークな投稿者(ユーザ名)のセット"
 
 #: ../interfaces.py:51
 msgid "The set of unique commentators (usernames) of published_comments"
@@ -172,7 +175,7 @@ msgstr "ユーザへのメール通知"
 
 #: ../interfaces.py:176
 msgid "Username of the commenter"
-msgstr ""
+msgstr "投稿者のユーザ名"
 
 #: ../browser/comments.py:268
 msgid "Your comment awaits moderator approval."
@@ -201,7 +204,7 @@ msgstr ""
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. Web and email addresses are transformed into clickable links."
 #: ../browser/comments.py:57
 msgid "comment_description_intelligent_text"
-msgstr "下のフォームに書き込むことで、コメントを追加することができます。Webアドレスやメールアドレスは、クリッカブルリンクに変換されます。"
+msgstr "下のフォームに書き込むことでコメントを追加するできます。Webアドレスやメールアドレスは、クリック可能なリンクに変換されます。"
 
 #. Default: "You can add a comment by filling out the form below. Plain text formatting. You can use the Markdown syntax for links and images."
 #: ../browser/comments.py:51
@@ -216,7 +219,7 @@ msgstr "コメントはモデレートされました"
 #. Default: "You can add a comment by filling out the form below. Plain text formatting."
 #: ../browser/comments.py:46
 msgid "comment_description_plain_text"
-msgstr "下のフォームに書き込むことで、コメントを追加することができます。プレーンテキスト形式です。"
+msgstr "下のフォームに書き込むことでコメントを追加できます。プレーンテキスト形式です。"
 
 #. Default: "Edit comment cancelled"
 #: ../browser/comment.py:101
@@ -230,19 +233,18 @@ msgstr ""
 
 #. Default: "${author_name} on ${content}"
 #: ../comment.py:57
-#, fuzzy
 msgid "comment_title"
-msgstr "${creator} が ${content} にコメント"
+msgstr "${author_name} が ${content} にコメント"
 
 #. Default: "Edit comment"
 #: ../browser/comment.py:70
 msgid "edit_comment_form_button"
-msgstr ""
+msgstr "コメントを編集"
 
 #. Default: "Edit comment"
 #: ../browser/comment.py:54
 msgid "edit_comment_form_title"
-msgstr ""
+msgstr "コメントを編集"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -257,7 +259,7 @@ msgstr "コメント"
 #. Default: "Commenter"
 #: ../browser/moderation.pt:81
 msgid "heading_commenter"
-msgstr "コメント者"
+msgstr "投稿者"
 
 #. Default: "Date"
 #: ../browser/moderation.pt:82
@@ -272,12 +274,12 @@ msgstr "回答する先"
 #. Default: "Moderate comments"
 #: ../browser/moderation.pt:24
 msgid "heading_moderate_comments"
-msgstr "コメントをモデレートする"
+msgstr "コメントをモデレート"
 
 #. Default: "If selected, anonymous users are able to post comments without loggin in. It is highly recommended to use a captcha solution to prevent spam if this setting is enabled."
 #: ../interfaces.py:216
 msgid "help_anonymous_comments"
-msgstr "選ばれると、ログインせずに無名ユーザがコメントを投稿できるようになります。もしこの設定が有効にされるなら、キャプチャを使ってスパムを防ぐ解決策をとることをお勧めします。"
+msgstr "匿名ユーザがログインせずにコメントを投稿できます。この設定を有効にする場合は、CAPTCHAを使ってスパムを防ぐことをお勧めします。"
 
 #. Default: "If selected, anonymous user will have to give their email."
 #: ../interfaces.py:352
@@ -287,7 +289,7 @@ msgstr ""
 #. Default: "Use this setting to enable or disable Captcha validation for comments. Install plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet, or collective.z3cform.norobots if there are no options available."
 #: ../interfaces.py:288
 msgid "help_captcha"
-msgstr "コメントでのキャプチャ検査を有効にするか無効にするかを設定するのにこれを使います。もし選択できないようになっていたら、 plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet または collective.z3cform.norobots をインストールしてください。"
+msgstr "コメントでのCAPTCHAの有効/無効を設定します。CAPTCHAを有効にするには plone.formwidget.captcha, plone.formwidget.recaptcha, collective.akismet または collective.z3cform.norobots をインストールしてください。"
 
 #. Default: "If selected, supports deleting of own comments for users with the 'Delete own comments' permission."
 #: ../interfaces.py:260
@@ -298,8 +300,8 @@ msgstr ""
 #: ../browser/controlpanel.py:34
 msgid "help_discussion_settings_editform"
 msgstr ""
-"議論に関係するいくつかの設定は、議論コントロールパネルに置かれていません。\n"
-"特定のコンテンツタイプに対してコメントを有効にするには、タイプコントロールパネルに行ってそのコンテンツタイプを選び、「コメントを許す」を選びます。\n"
+"議論に関するいくつかの設定は、議論コントロールパネルに置かれていません。\n"
+"特定のコンテンツタイプに対してコメントを有効にするには、タイプコントロールパネルでコンテンツタイプを選択し「コメントを許す」を選びます。\n"
 "コメントに対してモデレーションワークフローを有効にするには、タイプコントロールパネルに行き、「コメント」を選び、ワークフローを「コメント審査ワークフロー」に設定します。"
 
 #. Default: "If selected, supports editing of comments for users with the 'Edit comments' permission."
@@ -310,54 +312,54 @@ msgstr ""
 #. Default: "If selected, users are able to post comments on the site. Though, you have to enable comments for specific content types, folders or content objects before users will be able to post comments."
 #: ../interfaces.py:202
 msgid "help_globally_enabled"
-msgstr "選ばれると、このサイトでユーザがコメントを投稿できるようになります。とはいえ、ユーザがコメントを投稿できるようになるためには、さらにコンテンツタイプ、フォルダ、コンテンツオブジェクトに対して、コメントを有効にしなければなりません。"
+msgstr "このサイトでユーザがコメントを投稿できるようになります。しかし、コメントを投稿できるようになるためには、さらにコンテンツタイプ、フォルダ、コンテンツオブジェクトに対して、コメントを有効にしなければなりません。"
 
 #. Default: "If selected, comments will enter a 'Pending' state in which they are invisible to the public. A user with the 'Review comments' permission ('Reviewer' or 'Manager') can approve comments to make them visible to the public. If you want to enable a custom comment workflow, you have to go to the types control panel."
 #: ../interfaces.py:232
 msgid "help_moderation_enabled"
-msgstr "選ばれると、コメントは投稿されると一般公衆からは見えない「保留」状態になります。「コメントを審査(Review comments}」パーミッションを持つユーザ、つまり審査員あるいは管理者がコメントを一般に見えるように承認することができます。カスタムコメントワークフローを有効にしたいなら、タイプコントロールパネルに行く必要があります。"
+msgstr "コメントは投稿されると非公開の「保留」状態になります。「コメントを審査」権限を持つユーザ(審査員または管理者)がコメントを承認して公開します。カスタムコメントワークフローを有効にするには、タイプコントロールパネルに行く必要があります。"
 
 #. Default: "Address to which moderator notifications will be sent."
 #: ../interfaces.py:329
 msgid "help_moderator_email"
-msgstr "モデレータへの通知が送られる送付先アドレス"
+msgstr "モデレータへの通知の送付先アドレス"
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
 #: ../interfaces.py:315
 #, fuzzy
 msgid "help_moderator_notification_enabled"
-msgstr "選ばれると、コメントが注意を要するものであるかどうか、モデレータは通知を受けるようになります。モデレータのメールアドレスはメール設定コントロールパネルの中のサイト「差出人」アドレスです。"
+msgstr "コメントが注意を要するものであるかどうか、モデレータは通知を受けるようになります。モデレータのメールアドレスはメール設定コントロールパネルの中のサイト「差出人」アドレスです。"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ../interfaces.py:304
 msgid "help_show_commenter_image"
-msgstr "選ばれると、コメントの隣にユーザの画像が見えるようになります。"
+msgstr "コメントの横にユーザの画像が表示されます。"
 
 #. Default: "Use this setting to choose if the comment text should be transformed in any way. You can choose between 'Plain text' and 'Intelligent text'. 'Intelligent text' converts plain text into HTML where line breaks and indentation is preserved, and web and email addresses are made into clickable links."
 #: ../interfaces.py:271
 msgid "help_text_transform"
-msgstr "コメントテキストがなんらかの形で変換されるべきかどうかを選ぶのに、この設定を使います。「プレーンテキスト」と「インテリジェントテキスト」の間で選べるようになります。「インテリジェントテキスト」はプレーンテキストをHTMLに変換します。改行とインデントは温存され、Webアドレスやメールアドレスはクリッカブルリンクになります。"
+msgstr "コメントテキストの変換形式を選択します。「Intelligent text」はプレーンテキストをHTMLに変換します。改行とインデントは維持され、Webとメールアドレスはクリッカブルリンクになります。"
 
 #. Default: "If selected, users can choose to be notified of new comments by email."
 #: ../interfaces.py:341
 msgid "help_user_notification_enabled"
-msgstr "選ばれると、新しいコメントをメールによって通知してもらうように、ユーザが選べるようになります。"
+msgstr "ユーザは新しいコメントのメール通知を選択できるようになります。"
 
 #. Default: "Anonymous"
 #: ../browser/comments.pt:75
 #: ../comment.py:193
 msgid "label_anonymous"
-msgstr "無名"
+msgstr "匿名"
 
 #. Default: "Enable anonymous comments"
 #: ../interfaces.py:214
 msgid "label_anonymous_comments"
-msgstr "無名コメントを有効にする"
+msgstr "匿名コメントを有効にする"
 
 #. Default: "Enable anonymous email field"
 #: ../interfaces.py:350
 msgid "label_anonymous_email_enabled"
-msgstr ""
+msgstr "匿名ユーザのメールフィールドを有効にする"
 
 #. Default: "Apply"
 #: ../browser/moderation.pt:71
@@ -387,12 +389,12 @@ msgstr "削除"
 #. Default: "Enable deleting own comments"
 #: ../interfaces.py:258
 msgid "label_delete_own_comment_enabled"
-msgstr ""
+msgstr "自分のコメント削除を有効にする"
 
 #. Default: "Enable editing of comments"
 #: ../interfaces.py:247
 msgid "label_edit_comment_enabled"
-msgstr ""
+msgstr "コメントの編集を有効にする"
 
 #. Default: "Globally enable comments"
 #: ../interfaces.py:200
@@ -422,27 +424,27 @@ msgstr "承認"
 #. Default: "says:"
 #: ../browser/comments.pt:78
 msgid "label_says"
-msgstr "曰く:"
+msgstr "さん:"
 
 #. Default: "Show commenter image"
 #: ../interfaces.py:302
 msgid "label_show_commenter_image"
-msgstr "コメント者の画像を見せる"
+msgstr "投稿者の画像を表示"
 
 #. Default: "show full comment text"
 #: ../browser/moderation.pt:114
 msgid "label_show_full_comment_text"
-msgstr "コメントテキストをそのまま見せる"
+msgstr "コメントテキストをすべて表示"
 
 #. Default: "Subject"
 #: ../interfaces.py:158
 msgid "label_subject"
-msgstr "題目"
+msgstr "件名"
 
 #. Default: "Comment text transform"
 #: ../interfaces.py:269
 msgid "label_text_transform"
-msgstr "コメントテキスト変換"
+msgstr "テキスト変換"
 
 #. Default: "Enable user email notification"
 #: ../interfaces.py:337
@@ -453,22 +455,27 @@ msgstr "ユーザへのメール通知を有効にする"
 #: ../comment.py:61
 #, fuzzy
 msgid "mail_notification_message"
-msgstr "'${title}' へのコメントが、ここに投稿されました: ${link}"
+msgstr "'${title}' へのコメントが投稿されました: ${link}"
+
+#. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
+#: ../comment.py:58
+msgid "mail_notification_message_moderator"
+msgstr "${title} へのコメントが投稿されました: ${link}\n\n---\n${text}\n---\n\nコメントを承認:\n${link_approve}\n\nコメントを削除:\n${link_delete}\n"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
 #: ../comment.py:69
 msgid "mail_notification_message_moderator"
-msgstr ""
+msgstr "${title} へのコメントが投稿されました: ${link}\n\n---\n${text}\n---\n\nコメントを承認:\n${link_approve}\n\nコメントを削除:\n${link_delete}\n"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ../browser/moderation.pt:33
 msgid "message_enable_comment_workflow"
-msgstr "コメントコンテンツタイプに対して、「コメントレビューワークフロー」を有効にします"
+msgstr "コメントコンテンツタイプに対して「コメント審査ワークフロー」を有効にします"
 
 #. Default: "Moderation workflow is disabled. You have to ${enable_comment_workflow} before you can moderate comments here."
 #: ../browser/moderation.pt:33
 msgid "message_moderation_disabled"
-msgstr "モデレーションワークフローは無効になっています。ここでコメントをモデレートするには、 ${enable_comment_workflow} しなければなりません。"
+msgstr "モデレーションワークフローは無効です。ここでコメントをモデレートするには、 ${enable_comment_workflow} しなければなりません。"
 
 #. Default: "No comments to moderate."
 #: ../browser/moderation.pt:43
