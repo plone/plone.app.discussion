@@ -40,7 +40,7 @@ msgstr "取り消す"
 
 #: ../interfaces.py:184
 msgid "Captcha"
-msgstr ""
+msgstr "CAPTCHA"
 
 #: ../browser/controlpanel.py:89
 msgid "Changes saved"
@@ -68,7 +68,7 @@ msgstr "コメントが削除されました"
 
 #: ../contentrules.py:48
 msgid "Comment id"
-msgstr ""
+msgstr "コメントID"
 
 #: ../contentrules.py:59
 msgid "Comment text"
@@ -83,7 +83,7 @@ msgstr "Ploneのコメント基盤"
 
 #: ../contentrules.py:47
 msgid "Comments"
-msgstr ""
+msgstr "コメント"
 
 #: ../interfaces.py:139
 msgid "Conversation"
@@ -175,7 +175,7 @@ msgstr "ユーザへのメール通知"
 
 #: ../interfaces.py:176
 msgid "Username of the commenter"
-msgstr ""
+msgstr "投稿者のユーザ名"
 
 #: ../browser/comments.py:268
 msgid "Your comment awaits moderator approval."
@@ -233,19 +233,18 @@ msgstr ""
 
 #. Default: "${author_name} on ${content}"
 #: ../comment.py:57
-#, fuzzy
 msgid "comment_title"
-msgstr "${creator} が ${content} にコメント"
+msgstr "${author_name} が ${content} にコメント"
 
 #. Default: "Edit comment"
 #: ../browser/comment.py:70
 msgid "edit_comment_form_button"
-msgstr ""
+msgstr "コメントを編集"
 
 #. Default: "Edit comment"
 #: ../browser/comment.py:54
 msgid "edit_comment_form_title"
-msgstr ""
+msgstr "コメントを編集"
 
 #. Default: "Action"
 #: ../browser/moderation.pt:85
@@ -360,7 +359,7 @@ msgstr "匿名コメントを有効にする"
 #. Default: "Enable anonymous email field"
 #: ../interfaces.py:350
 msgid "label_anonymous_email_enabled"
-msgstr ""
+msgstr "匿名ユーザのメールフィールドを有効にする"
 
 #. Default: "Apply"
 #: ../browser/moderation.pt:71
@@ -390,12 +389,12 @@ msgstr "削除"
 #. Default: "Enable deleting own comments"
 #: ../interfaces.py:258
 msgid "label_delete_own_comment_enabled"
-msgstr ""
+msgstr "自分のコメント削除を有効にする"
 
 #. Default: "Enable editing of comments"
 #: ../interfaces.py:247
 msgid "label_edit_comment_enabled"
-msgstr ""
+msgstr "コメントの編集を有効にする"
 
 #. Default: "Globally enable comments"
 #: ../interfaces.py:200
@@ -466,7 +465,7 @@ msgstr "${title} へのコメントが投稿されました: ${link}\n\n---\n${t
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
 #: ../comment.py:69
 msgid "mail_notification_message_moderator"
-msgstr ""
+msgstr "${title} へのコメントが投稿されました: ${link}\n\n---\n${text}\n---\n\nコメントを承認:\n${link_approve}\n\nコメントを削除:\n${link_delete}\n"
 
 #. Default: "enable the 'Comment Review Workflow' for the Comment content type"
 #: ../browser/moderation.pt:33
