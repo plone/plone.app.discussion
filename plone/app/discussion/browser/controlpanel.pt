@@ -6,28 +6,18 @@
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="plone">
 
-<metal:javascript_head_slot fill-slot="javascript_head_slot">
-    <script type="text/javascript"
-        tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
-    </script>
-</metal:javascript_head_slot>
-
-
 <body>
-<div id="content"
+<article id="content"
      tal:attributes="class view/settings"
      metal:fill-slot="prefs_configlet_content">
 
-    <script type="text/javascript"
-        tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
-    </script>
-
-    <dl class="portalMessage warning"
+    
+    <div class="portalMessage warning"
         tal:condition="view/mailhost_warning">
-        <dt i18n:translate="">
+        <strong i18n:translate="">
             Warning
-        </dt>
-        <dd i18n:translate="text_no_mailhost_configured">
+        </strong>
+        <span tal:omit-tag="" i18n:translate="text_no_mailhost_configured">
             You have not configured a mail host or a site 'From'
             address, various features including contact forms, email
             notification and password reset will not work. Go to the
@@ -38,15 +28,15 @@
                 >Mail control panel</a>
             </tal:link>
             to fix this.
-        </dd>
-    </dl>
+        </span>
+    </div>
 
-    <dl class="portalMessage warning"
+    <div class="portalMessage warning"
         tal:condition="view/custom_comment_workflow_warning">
-        <dt i18n:translate="">
+        <strong i18n:translate="">
             Warning
-        </dt>
-        <dd i18n:translate="text_custom_comment_workflow">
+        </strong>
+        <span tal:omit-tag="" i18n:translate="text_custom_comment_workflow">
             You have configured a custom workflow for the 'Discussion Item'
             content type. You can enable/disable the comment moderation
             in this control panel only if you use one of the default
@@ -58,15 +48,15 @@
                 >Types control panel</a>
             </tal:link>
             to choose a workflow for the 'Discussion Item' type.
-        </dd>
-    </dl>
+        </span>
+    </div>
 
-    <dl class="portalMessage warning"
+    <div class="portalMessage warning"
         tal:condition="view/unmigrated_comments_warning">
-        <dt i18n:translate="">
+        <strong i18n:translate="">
             Warning
-        </dt>
-        <dd i18n:translate="text_unmigrated_comments">
+        </strong>
+        <span tal:omit-tag="" i18n:translate="text_unmigrated_comments">
             You have comments that have not been migrated to the new
             commenting system that has been introduced in Plone 4.1.
             Please
@@ -77,8 +67,8 @@
                 >migrate your comments</a>
             </tal:link>
             to fix this.
-        </dd>
-    </dl>
+        </span>
+    </div>
 
     <div metal:use-macro="context/global_statusmessage/macros/portal_message">
       Portal status message
@@ -99,6 +89,9 @@
         </div>
     </div>
 
-</div>
+  <script type="text/javascript"
+          tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
+  </script>
+</article>
 </body>
 </html>

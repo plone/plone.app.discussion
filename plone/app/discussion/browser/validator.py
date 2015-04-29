@@ -32,7 +32,7 @@ except ImportError:
     pass
 
 try:
-    from plone.formwidget.recaptcha.validator import WrongCaptchaCode
+    from plone.formwidget.recaptcha.validator import WrongCaptchaCode  # noqa
 except ImportError:
     pass
 

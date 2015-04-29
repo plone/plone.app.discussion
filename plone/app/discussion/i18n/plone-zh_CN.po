@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
-"POT-Creation-Date: 2011-04-22 17:12+0000\n"
+"POT-Creation-Date: 2015-03-23 08:03+0000\n"
 "PO-Revision-Date: 2011-08-19 12:23+0800\n"
 "Last-Translator: Jian Aijun <jianaijun@gmail.com>\n"
 "Language-Team: plone <plone-i18n@lists.sourceforge.net>\n"
@@ -34,12 +34,7 @@ msgstr "评论"
 msgid "Comment Review Workflow"
 msgstr "评论审核工作流"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Comment Single State Workflow"
-msgstr "评论单一状态工作流"
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "最后状态转换的注释"
 
@@ -55,10 +50,6 @@ msgstr "评论已添加到内容条目。"
 msgid "Discussion"
 msgstr "评论"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr "没有状态转换的基本工作流，只有一个发布状态，所以依赖该状态的面板和应用可以继续正常工作。"
-
 #: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "评论审核"
@@ -68,17 +59,14 @@ msgid "Pending"
 msgstr "待审核"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "上一步状态转换"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "提供访问工作流历史记录功能"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "已发布"
 
@@ -91,7 +79,6 @@ msgid "Submitted, pending review."
 msgstr "已提交，等待审核。"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "执行上一步状态转换的用户 ID"
 
@@ -107,16 +94,11 @@ msgstr "此条目的评论总数。"
 msgid "Users who have commented on the item"
 msgstr "此条目的评论者。"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Visible to everyone, editable by the owner."
-msgstr "对任何人可见，所有者可编辑。"
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "对任何人可见，不可编辑。"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "当上一步状态转换被执行"
 

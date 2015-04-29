@@ -7,11 +7,13 @@ from Acquisition import aq_base
 from zope.component import createObject
 from zope.component import getSiteManager
 from zope.component import queryUtility
+from zope.component import getUtility
 
 from plone.app.testing import TEST_USER_ID, setRoles
 
 from Products.MailHost.interfaces import IMailHost
 from Products.CMFPlone.tests.utils import MockMailHost
+from Products.CMFPlone.interfaces import IMailSchema
 
 from plone.registry.interfaces import IRegistry
 
@@ -34,15 +36,14 @@ class TestUserNotificationUnit(unittest.TestCase):
         sm.unregisterUtility(provided=IMailHost)
         sm.registerUtility(mailhost, provided=IMailHost)
         # We need to fake a valid mail setup
-        self.portal.email_from_address = "portal@plone.test"
+        registry = getUtility(IRegistry)
+        mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+        mail_settings.email_from_address = "portal@plone.test"
         self.mailhost = self.portal.MailHost
         # Enable user notification setting
         registry = queryUtility(IRegistry)
         registry['plone.app.discussion.interfaces.IDiscussionSettings' +
                  '.user_notification_enabled'] = True
-        # Create test content
-        self.portal.invokeFactory('Document', 'doc1')
-        self.portal_discussion = self.portal.portal_discussion
         # Archetypes content types store data as utf-8 encoded strings
         # The missing u in front of a string is therefor not missing
         self.portal.doc1.title = 'Kölle Alaaf'  # What is "Fasching"?
@@ -92,8 +93,10 @@ class TestUserNotificationUnit(unittest.TestCase):
 
     def test_do_not_notify_user_when_notification_is_disabled(self):
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
-                  'user_notification_enabled'] = False
+        registry[
+            'plone.app.discussion.interfaces.IDiscussionSettings.' +
+            'user_notification_enabled'
+        ] = False
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         comment.user_notification = True
@@ -121,7 +124,9 @@ class TestUserNotificationUnit(unittest.TestCase):
     def test_do_not_notify_user_when_no_sender_is_available(self):
         # Set sender mail address to none and make sure no email is send to
         # the moderator.
-        self.portal.email_from_address = None
+        registry = getUtility(IRegistry)
+        mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+        mail_settings.email_from_address = None
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         comment.user_notification = True
@@ -131,7 +136,6 @@ class TestUserNotificationUnit(unittest.TestCase):
         comment.text = 'Comment text'
 
         self.conversation.addComment(comment)
-
         self.assertEqual(len(self.mailhost.messages), 0)
 
     def test_notify_only_once(self):
@@ -171,20 +175,22 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         sm.unregisterUtility(provided=IMailHost)
         sm.registerUtility(mailhost, provided=IMailHost)
         # We need to fake a valid mail setup
-        self.portal.email_from_address = "portal@plone.test"
+        registry = getUtility(IRegistry)
+        mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+        mail_settings.email_from_address = "portal@plone.test"
         self.mailhost = self.portal.MailHost
         # Enable comment moderation
         self.portal.portal_types['Document'].allow_discussion = True
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
-            ('comment_review_workflow',))
+            ('comment_review_workflow',)
+        )
         # Enable moderator notification setting
         registry = queryUtility(IRegistry)
-        registry['plone.app.discussion.interfaces.IDiscussionSettings.' +
-                'moderator_notification_enabled'] = True
-        # Create test content
-        self.portal.invokeFactory('Document', 'doc1')
-        self.portal_discussion = self.portal.portal_discussion
+        registry[
+            'plone.app.discussion.interfaces.IDiscussionSettings.' +
+            'moderator_notification_enabled'
+        ] = True
         # Archetypes content types store data as utf-8 encoded strings
         # The missing u in front of a string is therefor not missing
         self.portal.doc1.title = 'Kölle Alaaf'  # What is "Fasching"?
@@ -252,7 +258,9 @@ class TestModeratorNotificationUnit(unittest.TestCase):
     def test_do_not_notify_moderator_when_no_sender_is_available(self):
         # Set sender mail address to nonw and make sure no email is send to the
         # moderator.
-        self.portal.email_from_address = None
+        registry = getUtility(IRegistry)
+        mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+        mail_settings.email_from_address = None
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
 
@@ -272,7 +280,3 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         self.conversation.addComment(comment)
 
         self.assertEqual(len(self.mailhost.messages), 0)
-
-
-def test_suite():
-    return unittest.defaultTestLoader.loadTestsFromName(__name__)

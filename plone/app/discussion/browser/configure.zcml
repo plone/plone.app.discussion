@@ -71,13 +71,32 @@
         permission="zope2.View"
         />
 
-    <!-- Delete comment view -->
+    <!-- Edit comment view -->
+    <browser:page
+        for="plone.app.discussion.interfaces.IComment"
+        name="edit-comment"
+        layer="..interfaces.IDiscussionLayer"
+        class=".comment.EditComment"
+        permission="plone.app.discussion.EditComments"
+        />
+
+    <!-- Delete comment views
+         has conditional security dependent on controlpanel settings.
+    -->
     <browser:page
         for="plone.app.discussion.interfaces.IComment"
         name="moderate-delete-comment"
         layer="..interfaces.IDiscussionLayer"
         class=".moderation.DeleteComment"
-        permission="plone.app.discussion.ReviewComments"
+        permission="plone.app.discussion.DeleteComments"
+        />
+
+    <browser:page
+        for="plone.app.discussion.interfaces.IComment"
+        name="delete-own-comment"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.DeleteOwnComment"
+        permission="plone.app.discussion.DeleteOwnComments"
         />
 
     <!-- Publish comment view -->
@@ -133,6 +152,13 @@
         />
 
     <!-- Control panel -->
+    <browser:page
+        name="discussion-controlpanel"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".controlpanel.DiscussionSettingsControlPanel"
+        permission="cmf.ManagePortal"
+        />
+    <!-- Deprecated controlpanel url -->
     <browser:page
         name="discussion-settings"
         for="Products.CMFPlone.interfaces.IPloneSiteRoot"

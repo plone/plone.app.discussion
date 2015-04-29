@@ -3,7 +3,19 @@
  * jQuery functions for the plone.app.discussion comment viewlet and form.
  *
  ******************************************************************************/
-(function ($) {
+/* global require */
+
+if(require === undefined){
+    require = function(reqs, torun){  // jshint ignore:line
+        'use strict';
+        return torun(window.jQuery);
+    };
+}
+
+require([  // jshint ignore:line
+    'jquery'
+], function ($) {
+    'use strict';
     // This unnamed function allows us to use $ inside of a block of code
     // without permanently overwriting $.
     // http://docs.jquery.com/Using_jQuery_with_Other_Libraries
@@ -12,7 +24,7 @@
     $.disableSettings = function (settings) {
         $.each(settings, function (intIndex, setting) {
             setting.addClass('unclickable');
-            var setting_field = $(setting).find("input,select");
+            var setting_field = $(setting).find('input,select');
             setting_field.attr('disabled', 'disabled');
         });
     };
@@ -21,7 +33,7 @@
     $.enableSettings = function (settings) {
         $.each(settings, function (intIndex, setting) {
             setting.removeClass('unclickable');
-            var setting_field = $(setting).find("input,select");
+            var setting_field = $(setting).find('input,select');
             setting_field.removeAttr('disabled');
         });
     };
@@ -29,17 +41,17 @@
     /* Update settings */
     $.updateSettings = function () {
 
-        var globally_enabled = $("#content").hasClass("globally_enabled");
-        var anonymous_comments = $("#content").hasClass("anonymous_comments");
-        var moderation_enabled = $("#content").hasClass("moderation_enabled");
-        var moderation_custom = $("#content").hasClass("moderation_custom");
-        var invalid_mail_setup = $("#content").hasClass("invalid_mail_setup");
+        var globally_enabled = $('#content').hasClass('globally_enabled');
+        var moderation_custom = $('#content').hasClass('moderation_custom');
+        var invalid_mail_setup = $('#content').hasClass('invalid_mail_setup');
 
         /* If commenting is globally disabled, disable all settings. */
         if (globally_enabled === true) {
             $.enableSettings([
                 $('#formfield-form-widgets-anonymous_comments'),
                 $('#formfield-form-widgets-moderation_enabled'),
+                $('#formfield-form-widgets-edit_comment_enabled'),
+                $('#formfield-form-widgets-delete_own_comment_enabled'),
                 $('#formfield-form-widgets-text_transform'),
                 $('#formfield-form-widgets-captcha'),
                 $('#formfield-form-widgets-show_commenter_image'),
@@ -52,6 +64,8 @@
             $.disableSettings([
                 $('#formfield-form-widgets-anonymous_comments'),
                 $('#formfield-form-widgets-moderation_enabled'),
+                $('#formfield-form-widgets-edit_comment_enabled'),
+                $('#formfield-form-widgets-delete_own_comment_enabled'),
                 $('#formfield-form-widgets-text_transform'),
                 $('#formfield-form-widgets-captcha'),
                 $('#formfield-form-widgets-show_commenter_image'),
@@ -94,23 +108,20 @@
      * Window Load Function: Executes when complete page is fully loaded,
      * including all frames,
      **************************************************************************/
-    $(window).load(function () {
+    $(document).ready(function () {
 
         // Update settings on page load
         $.updateSettings();
 
         // Set #content class and update settings afterwards
-        $("input,select").live("change", function (e) {
-            var id = $(this).attr("id");
-            if (id === "form-widgets-globally_enabled-0") {
-                if ($(this).attr("checked") === true) {
-                    $("#content").addClass("globally_enabled");
-                }
-                else {
-                    $("#content").removeClass("globally_enabled");
-                }
-                $.updateSettings();
+        $('#form-widgets-globally_enabled-0').on('change', function(){
+            if (this.checked) {
+                $('#content').addClass('globally_enabled');
             }
+            else {
+                $('#content').removeClass('globally_enabled');
+            }
+            $.updateSettings();
         });
 
         /**********************************************************************
@@ -118,12 +129,12 @@
          * submitting the form. Otherwise the z3c.form will raise errors on
          * the required attributes.
          **********************************************************************/
-        $("form#DiscussionSettingsEditForm").bind("submit", function (e) {
-            $(this).find("input,select").removeAttr('disabled');
+        $('form#DiscussionSettingsEditForm').bind('submit', function () {
+            $(this).find('input,select').removeAttr('disabled');
         });
 
     });
 
     //#JSCOVERAGE_ENDIF
 
-}(jQuery));
+});

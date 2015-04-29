@@ -1,37 +1,46 @@
 /******************************************************************************
- * 
+ *
  * jQuery functions for the plone.app.discussion bulk moderation.
- * 
+ *
  ******************************************************************************/
+/* global require, alert */
+/* jshint quotmark: false */
 
-(function ($) {
-    // This unnamed function allows us to use $ inside of a block of code 
+if(require === undefined){
+    require = function(reqs, torun){  // jshint ignore:line
+        'use strict';
+        return torun(window.jQuery);
+    };
+}
+
+require([  // jshint ignore:line
+    'jquery'
+], function ($) {
+    'use strict';
+    // This unnamed function allows us to use $ inside of a block of code
     // without permanently overwriting $.
     // http://docs.jquery.com/Using_jQuery_with_Other_Libraries
-    
+
     //#JSCOVERAGE_IF 0
-    
+
     /**************************************************************************
-     * Window Load Function: Executes when complete page is fully loaded, 
+     * Window Load Function: Executes when complete page is fully loaded,
      * including all frames,
-     **************************************************************************/  
+     **************************************************************************/
     $(window).load(function () {
-    
+
         /**********************************************************************
          * Delete a single comment.
          **********************************************************************/
         $("input[name='form.button.Delete']").click(function (e) {
             e.preventDefault();
-            var button = $(this);
             var row = $(this).parent().parent();
-            var form = $(row).parents("form");
             var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
             var target = path + "/@@moderate-delete-comment";
-            var comment_id = $(this).attr("id");
             $.ajax({
                 type: "GET",
                 url: target,
-                success: function (msg) {
+                success: function (msg) {  // jshint ignore:line
                     // fade out row
                     $(row).fadeOut("normal", function () {
                         $(this).remove();
@@ -42,27 +51,25 @@
                         location.reload();
                     }
                 },
-                error: function (msg) {
+                error: function (msg) {  // jshint ignore:line
                     alert("Error sending AJAX request:" + target);
                 }
             });
         });
-        
-        
+
+
         /**********************************************************************
          * Publish a single comment.
          **********************************************************************/
         $("input[name='form.button.Publish']").click(function (e) {
             e.preventDefault();
-            var button = $(this);
             var row = $(this).parent().parent();
-            var form = $(row).parents("form");
             var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
             var target = path + "/@@moderate-publish-comment";
             $.ajax({
                 type: "GET",
                 url: target,
-                success: function (msg) {
+                success: function (msg) {  // jshint ignore:line
                     // fade out row
                     $(row).fadeOut("normal", function () {
                         $(this).remove();
@@ -73,13 +80,13 @@
                         location.reload();
                     }
                 },
-                error: function (msg) {
+                error: function (msg) {  // jshint ignore:line
                     alert("Error sending AJAX request:" + target);
                 }
             });
         });
-        
-        
+
+
         /**********************************************************************
          * Bulk actions for comments (delete, publish)
          **********************************************************************/
@@ -98,7 +105,7 @@
                 alert("You haven't selected any comment for this bulk action." +
                       "Please select at least one comment.");
             } else {
-                $.post(target, params, function (data) {
+                $.post(target, params, function (data) {  // jshint ignore:line
                     valArray.each(function () {
                         /* Remove all selected lines. */
                         var row = $(this).parent().parent();
@@ -116,8 +123,8 @@
                 selectField.find("option[value='-1']").attr('selected', 'selected');
             }
         });
-        
-        
+
+
         /**********************************************************************
          * Check or uncheck all checkboxes from the batch moderation page.
          **********************************************************************/
@@ -134,12 +141,12 @@
                 $(this).val("0");
             }
         });
-        
-        
+
+
         /**********************************************************************
          * Show full text of a comment in the batch moderation page.
          **********************************************************************/
-        $(".show-full-comment-text").click(function (e) {    
+        $(".show-full-comment-text").click(function (e) {
             e.preventDefault();
             var target = $(this).attr("href");
             var td = $(this).parent();
@@ -151,14 +158,14 @@
                     // show full text
                     td.replaceWith("<td>" + data + "</td>");
                 },
-                error: function (msg) {
+                error: function (msg) {  // jshint ignore:line
                     alert("Error getting full comment text:" + target);
                 }
             });
         });
-    
+
     });
-    
+
     //#JSCOVERAGE_ENDIF
-    
-}(jQuery));
+
+});

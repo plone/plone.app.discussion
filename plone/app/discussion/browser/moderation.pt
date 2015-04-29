@@ -25,18 +25,18 @@
             Moderate comments
         </h1>
 
-        <dl class="portalMessage warning"
+        <div class="portalMessage warning"
             tal:condition="not: view/moderation_enabled">
-            <dt i18n:domain="plone" i18n:translate="">Warning</dt>
-            <dd i18n:translate="message_moderation_disabled">
+            <strong i18n:domain="plone" i18n:translate="">Warning</strong>
+            <span tal:omit-tag="" i18n:translate="message_moderation_disabled">
                 Moderation workflow is disabled. You have to
                 <a i18n:name="enable_comment_workflow"
                    i18n:translate="message_enable_comment_workflow" href=""
                    tal:attributes="href string:${context/portal_url}/@@types-controlpanel?type_id=Discussion Item">
                 enable the 'Comment Review Workflow' for the Comment content
                 type</a> before you can moderate comments here.
-            </dd>
-        </dl>
+            </span>
+        </div>
 
         <form tal:condition="not:items">
             <fieldset id="fieldset-moderate-comments" class="formPanel">

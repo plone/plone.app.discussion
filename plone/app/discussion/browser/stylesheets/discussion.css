@@ -108,6 +108,9 @@
 .replyTreeLevel10 {
     margin-left: 10em;
 }
+.defaultuserimg {
+    border: 0;
+}
 
 
 /* Reply Form
@@ -175,6 +178,7 @@
 /* Discussion Control Panel
    -------------------------------------------------------------------------- */
 
+.template-discussion-controlpanel .unclickable,
 .template-discussion-settings .unclickable {
     opacity: 0.6;
     filter: alpha(opacity = 50);
@@ -219,4 +223,10 @@
 .row #commenting label,
 .row .discussion label {
     font-weight:bold;
+}
+
+/* editing comments */
+
+.overlay-edit-comment textarea {
+    height: 10em;
 }

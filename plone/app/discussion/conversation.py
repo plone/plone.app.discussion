@@ -9,46 +9,36 @@ manipulate the same data structures, but provide an API for finding and
 manipulating the comments directly in reply to a particular comment or at the
 top level of the conversation.
 """
+from AccessControl.SpecialUsers import nobody as user_nobody
+from Acquisition import aq_base
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+from Acquisition import Explicit
+from BTrees.LLBTree import LLSet
+from BTrees.LOBTree import LOBTree
+from BTrees.OIBTree import OIBTree
+from OFS.event import ObjectWillBeAddedEvent
+from OFS.event import ObjectWillBeRemovedEvent
+from OFS.Traversable import Traversable
+from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
+from persistent import Persistent
+from plone.app.discussion.comment import Comment
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IReplies
+from zope.annotation.interfaces import IAnnotatable
+from zope.annotation.interfaces import IAnnotations
+from zope.component import adapter
+from zope.component import adapts
+from zope.container.contained import ContainerModifiedEvent
+from zope.event import notify
+from zope.interface import implementer
+from zope.interface import implements
+from zope.lifecycleevent import ObjectAddedEvent
+from zope.lifecycleevent import ObjectCreatedEvent
+from zope.lifecycleevent import ObjectRemovedEvent
 
 import time
 
-from persistent import Persistent
-
-from zope.interface import implements, implementer
-from zope.component import adapts
-from zope.component import adapter
-
-from zope.annotation.interfaces import IAnnotations, IAnnotatable
-
-from zope.event import notify
-
-from Acquisition import aq_base, aq_inner, aq_parent
-from Acquisition import Explicit
-
-from OFS.Traversable import Traversable
-
-from OFS.event import ObjectWillBeAddedEvent
-from OFS.event import ObjectWillBeRemovedEvent
-
-from zope.container.contained import ContainerModifiedEvent
-
-from zope.lifecycleevent import ObjectCreatedEvent
-
-from zope.lifecycleevent import ObjectAddedEvent
-from zope.lifecycleevent import ObjectRemovedEvent
-
-from BTrees.OIBTree import OIBTree
-
-from BTrees.LOBTree import LOBTree
-from BTrees.LLBTree import LLSet
-
-from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
-
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IReplies
-from plone.app.discussion.comment import Comment
-
-from AccessControl.SpecialUsers import nobody as user_nobody
 
 ANNOTATION_KEY = 'plone.app.discussion:conversation'
 
@@ -87,22 +77,36 @@ class Conversation(Traversable, Persistent, Explicit):
         parent = aq_inner(self.__parent__)
         return parent.restrictedTraverse('@@conversation_view').enabled()
 
-    @property
     def total_comments(self):
-        public_comments = [x for x in self._comments.values() if \
-                           user_nobody.has_permission('View', x)]
+        public_comments = [
+            x for x in self.values()
+            if user_nobody.has_permission('View', x)
+        ]
         return len(public_comments)
 
     @property
     def last_comment_date(self):
-        try:
-            return self._comments[self._comments.maxKey()].creation_date
-        except (ValueError, KeyError, AttributeError,):
-            return None
+        # self._comments is an Instance of a btree. The keys
+        # are always ordered
+        comment_keys = self._comments.keys()
+        for comment_key in reversed(comment_keys):
+            comment = self._comments[comment_key]
+            if user_nobody.has_permission('View', comment):
+                return comment.creation_date
+        return None
 
     @property
     def commentators(self):
         return self._commentators
+
+    @property
+    def public_commentators(self):
+        retval = set()
+        for comment in self._comments.values():
+            if not user_nobody.has_permission('View', comment):
+                continue
+            retval.add(comment.author_username)
+        return tuple(retval)
 
     def objectIds(self):
         return self._comments.keys()
@@ -210,7 +214,11 @@ class Conversation(Traversable, Persistent, Explicit):
     def __getitem__(self, key):
         """Get an item by its long key
         """
-        return self._comments[long(key)].__of__(self)
+        try:
+            comment_id = long(key)
+        except ValueError:
+            return
+        return self._comments[comment_id].__of__(self)
 
     def __delitem__(self, key, suppress_container_modified=False):
         """Delete an item by its long key
@@ -287,12 +295,12 @@ def conversationAdapterFactory(content):
     """
     Adapter factory to fetch the default conversation from annotations.
     """
-    annotions = IAnnotations(content)
-    if not ANNOTATION_KEY in annotions:
+    annotations = IAnnotations(content)
+    if not ANNOTATION_KEY in annotations:
         conversation = Conversation()
         conversation.__parent__ = aq_base(content)
     else:
-        conversation = annotions[ANNOTATION_KEY]
+        conversation = annotations[ANNOTATION_KEY]
     return conversation.__of__(content)
 
 
@@ -411,9 +419,11 @@ class CommentReplies(ConversationReplies):
     def __init__(self, context):
         self.comment = context
         self.conversation = aq_parent(self.comment)
-
-        if (self.conversation is None or
-            not hasattr(self.conversation, '_children')):
+        conversation_has_no_children = not hasattr(
+            self.conversation,
+            '_children'
+        )
+        if self.conversation is None or conversation_has_no_children:
             raise TypeError("This adapter doesn't know what to do with the "
                             "parent conversation")
 

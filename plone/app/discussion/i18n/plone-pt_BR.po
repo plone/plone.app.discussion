@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-22 17:12+0000\n"
+"POT-Creation-Date: 2015-03-23 08:03+0000\n"
 "PO-Revision-Date: 2011-04-14 17:38-0300\n"
 "Last-Translator: Andre Nogueira <andre@simplesconsultoria.com.br>\n"
 "Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
@@ -34,12 +34,7 @@ msgstr "Comentário"
 msgid "Comment Review Workflow"
 msgstr "Worfklow de Moderação de Comentários"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Comment Single State Workflow"
-msgstr "Workflow de estado único para comentários"
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Comment about the last transition"
 msgstr "Comentário sobre a última transição"
 
@@ -55,10 +50,6 @@ msgstr "Comentários adicionados a um conteúdo."
 msgid "Discussion"
 msgstr "Discussão"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work."
-msgstr "Essencialmente um fluxo de trabalho sem transições, mas possui um estado Publicado, para que portlets e aplicativos que esperam este estado funcionem."
-
 #: ../profiles/default/actions.xml
 msgid "Moderate comments"
 msgstr "Moderar comentários"
@@ -68,17 +59,14 @@ msgid "Pending"
 msgstr "Pendente"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Previous transition"
 msgstr "Transição anterior"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Provides access to workflow history"
 msgstr "Fornece acesso ao histórico do Workflow"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "Published"
 msgstr "Publicado"
 
@@ -91,7 +79,6 @@ msgid "Submitted, pending review."
 msgstr "Enviado, pendente de moderação."
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "The ID of the user who performed the previous transition"
 msgstr "O ID do usuário que realizou a transição anterior"
 
@@ -107,16 +94,11 @@ msgstr "Número total de comentários deste item."
 msgid "Users who have commented on the item"
 msgstr "Usuários que comentáram este item"
 
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
-msgid "Visible to everyone, editable by the owner."
-msgstr "Visível para todos, editável pelo autor."
-
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
 msgstr "Visível para todos, não editável."
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
-#: ../profiles/default/workflows/one_state_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Quando a transição anterior foi realizada"
 

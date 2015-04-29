@@ -1,6 +1,8 @@
 <tal:block tal:define="userHasReplyPermission view/can_reply;
                        isDiscussionAllowed view/is_discussion_allowed;
                        isAnonymousDiscussionAllowed view/anonymous_discussion_allowed;
+                       isEditCommentAllowed view/edit_comment_allowed;
+                       isDeleteOwnCommentAllowed view/delete_own_comment_allowed;
                        isAnon view/is_anonymous;
                        canReview view/can_review;
                        replies python:view.get_replies(canReview);
@@ -34,7 +36,9 @@
                              author_home_url python:view.get_commenter_home_url(username=reply.author_username);
                              has_author_link python:author_home_url and not isAnon;
                              portrait_url python:view.get_commenter_portrait(reply.author_username);
-                             review_state python:wtool.getInfoFor(reply, 'review_state', 'none');"
+			     review_state python:wtool.getInfoFor(reply, 'review_state', 'none');
+			     canEdit python:view.can_edit(reply);
+                             canDelete python:view.can_delete(reply)"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth)+' state-'+str(review_state);
                                  id string:${reply/getId}"
                  tal:condition="python:canReview or review_state == 'published'">
@@ -42,16 +46,16 @@
                 <div class="commentImage" tal:condition="showCommenterImage">
                     <a href="" tal:condition="has_author_link"
                                tal:attributes="href author_home_url">
-                         <img src="defaultUser.gif"
+                         <img src="defaultUser.png"
                               alt=""
-                              border="0"
+                              class="defaultuserimg"
                               height="32"
                               tal:attributes="src portrait_url;
                                               alt reply/author_name" />
                     </a>
-                    <img src="defaultUser.gif"
+                    <img src="defaultUser.png"
                          alt=""
-                         border="0"
+                         class="defaultuserimg"
                          height="32"
                          tal:condition="not: has_author_link"
                          tal:attributes="src portrait_url;
@@ -87,7 +91,21 @@
                               action=""
                               method="post"
                               class="commentactionsform"
-                              tal:condition="canReview"
+		                      tal:condition="python:not canDelete and isDeleteOwnCommentAllowed and view.could_delete_own(reply)"
+                              tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
+			                      style python:view.can_delete_own(reply) and 'display: inline' or 'display: none'">
+                            <input name="form.button.DeleteComment"
+                                   class="destructive"
+                                   type="submit"
+                                   value="Delete"
+                                   i18n:attributes="value label_delete;"
+                                   />
+                        </form>
+                        <form name="delete"
+                              action=""
+                              method="post"
+                              class="commentactionsform"
+                              tal:condition="python:canDelete"
                               tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">
                             <input name="form.button.DeleteComment"
                                    class="destructive"
@@ -96,6 +114,21 @@
                                    i18n:attributes="value label_delete;"
                                    />
                         </form>
+
+                        <form name="edit"
+                              action=""
+                              method="get"
+                              class="commentactionsform"
+                              tal:condition="python:isEditCommentAllowed and canEdit"
+                              tal:attributes="action string:${reply/absolute_url}/@@edit-comment">
+                            <input name="form.button.EditComment"
+                                   class="context"
+                                   type="submit"
+                                   value="Edit"
+                                   i18n:attributes="value label_edit;"
+                                   />
+                        </form>
+
 
                         <!-- Workflow actions (e.g. 'publish') -->
                         <form name=""

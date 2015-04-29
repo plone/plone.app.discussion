@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-
-from Acquisition import aq_base, aq_inner
-
+from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
-
 from Products.CMFCore.interfaces._content import IDiscussionResponse
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
@@ -24,6 +22,7 @@ from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 
 from plone.app.discussion.interfaces import IDiscussionSettings, _
+from plone.app.discussion.upgrades import update_registry
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
@@ -32,22 +31,28 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
     schema = IDiscussionSettings
     id = "DiscussionSettingsEditForm"
     label = _(u"Discussion settings")
-    description = _(u"help_discussion_settings_editform",
-                    default=u"Some discussion related settings are not "
-                             "located in the Discussion Control Panel.\n"
-                             "To enable comments for a specific content type, "
-                             "go to the Types Control Panel of this type and "
-                             "choose \"Allow comments\".\n"
-                             "To enable the moderation workflow for comments, "
-                             "go to the Types Control Panel, choose "
-                             "\"Comment\" and set workflow to "
-                             "\"Comment Review Workflow\".")
+    description = _(
+        u"help_discussion_settings_editform",
+        default=u"Some discussion related settings are not "
+                u"located in the Discussion Control Panel.\n"
+                u"To enable comments for a specific content type, "
+                u"go to the Types Control Panel of this type and "
+                u"choose \"Allow comments\".\n"
+                u"To enable the moderation workflow for comments, "
+                u"go to the Types Control Panel, choose "
+                u"\"Comment\" and set workflow to "
+                u"\"Comment Review Workflow\"."
+    )
 
     def updateFields(self):
         super(DiscussionSettingsEditForm, self).updateFields()
         self.fields['globally_enabled'].widgetFactory = \
             SingleCheckBoxFieldWidget
         self.fields['moderation_enabled'].widgetFactory = \
+            SingleCheckBoxFieldWidget
+        self.fields['edit_comment_enabled'].widgetFactory = \
+            SingleCheckBoxFieldWidget
+        self.fields['delete_own_comment_enabled'].widgetFactory = \
             SingleCheckBoxFieldWidget
         self.fields['anonymous_comments'].widgetFactory = \
             SingleCheckBoxFieldWidget
@@ -59,7 +64,13 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
-        super(DiscussionSettingsEditForm, self).updateWidgets()
+        try:
+            super(DiscussionSettingsEditForm, self).updateWidgets()
+        except KeyError:
+            # upgrade profile not visible in prefs_install_products_form
+            # provide auto-upgrade
+            update_registry(self.context)
+            super(DiscussionSettingsEditForm, self).updateWidgets()
         self.widgets['globally_enabled'].label = _(u"Enable Comments")
         self.widgets['anonymous_comments'].label = _(u"Anonymous Comments")
         self.widgets['show_commenter_image'].label = _(u"Commenter Image")
@@ -77,7 +88,7 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.applyChanges(data)
         IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
                                                       "info")
-        self.context.REQUEST.RESPONSE.redirect("@@discussion-settings")
+        self.context.REQUEST.RESPONSE.redirect("@@discussion-controlpanel")
 
     @button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):
@@ -108,11 +119,19 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             output.append("globally_enabled")
 
         # Comment moderation
-        if 'one_state_workflow' not in workflow_chain and \
-        'comment_review_workflow' not in workflow_chain:
+        one_state_worklow_disabled = 'one_state_workflow' not in workflow_chain
+        comment_review_workflow_disabled = \
+            'comment_review_workflow' not in workflow_chain
+        if one_state_worklow_disabled and comment_review_workflow_disabled:
             output.append("moderation_custom")
         elif settings.moderation_enabled:
             output.append("moderation_enabled")
+
+        if settings.edit_comment_enabled:
+            output.append("edit_comment_enabled")
+
+        if settings.delete_own_comment_enabled:
+            output.append("delte_own_comment_enabled")
 
         # Anonymous comments
         if settings.anonymous_comments:
@@ -136,12 +155,11 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     def mailhost_warning(self):
         """Returns true if mailhost is not configured properly.
         """
-        # Copied from plone.app.controlpanel/plone/app/controlpanel/overview.py
-        mailhost = getToolByName(aq_inner(self.context), 'MailHost', None)
-        if mailhost is None:
-            return True
-        mailhost = getattr(aq_base(mailhost), 'smtp_host', None)
-        email = getattr(aq_inner(self.context), 'email_from_address', None)
+        # Copied from Products.CMFPlone/controlpanel/browser/overview.py
+        registry = getUtility(IRegistry)
+        mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+        mailhost = mail_settings.smtp_host
+        email = mail_settings.email_from_address
         if mailhost and email:
             return False
         return True
@@ -151,15 +169,17 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         """
         wftool = getToolByName(self.context, "portal_workflow", None)
         workflow_chain = wftool.getChainForPortalType('Discussion Item')
-        if 'one_state_workflow' in workflow_chain \
-        or 'comment_review_workflow' in workflow_chain:
+        one_state_workflow_enabled = 'one_state_workflow' in workflow_chain
+        comment_review_workflow_enabled = \
+            'comment_review_workflow' in workflow_chain
+        if one_state_workflow_enabled or comment_review_workflow_enabled:
             return
         return True
 
     def unmigrated_comments_warning(self):
         """Returns true if site contains unmigrated comments.
         """
-        catalog = getToolByName(aq_inner(self.context), 'portal_catalog', None)
+        catalog = getToolByName(self.context, 'portal_catalog', None)
         count_comments_old = catalog.searchResults(
             object_provides=IDiscussionResponse.__identifier__)
         if count_comments_old:
@@ -176,7 +196,7 @@ def notify_configuration_changed(event):
         # Discussion control panel setting changed
         if event.record.fieldName == 'moderation_enabled':
             # Moderation enabled has changed
-            if event.record.value == True:
+            if event.record.value is True:
                 # Enable moderation workflow
                 wftool.setChainForPortalTypes(('Discussion Item',),
                                               'comment_review_workflow')

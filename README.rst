@@ -1,6 +1,7 @@
 Introduction
 ============
 
+
 plone.app.discussion replaces the old commenting system in Plone 4.1 and is also
 available as an add-on product for Plone 3 and 4. It was initially developed as
 part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin
@@ -28,8 +29,8 @@ Requirements
 Plone 3.3 or later.
 
 
-Plone 3.x Buildout Installation
-===============================
+Plone 3.3.x Buildout Installation
+=================================
 
 To install plone.app.discussion, add the following code to your buildout.cfg::
 
@@ -55,7 +56,7 @@ To install plone.app.discussion, add the following code to your buildout.cfg::
     ...
 
 
-Plone 4.x Buildout Installation
+Plone 4.0 Buildout Installation
 ===============================
 
 To install plone.app.discussion, add the following code to your buildout.cfg::
@@ -144,3 +145,4 @@ Many thanks to:
 - Hanno Schlichting (for making p.a.d work with Zope 2.12)
 - Alan Hoey (for providing fixes)
 - Maik Roeder (for providing and setting up a buildbot)
+

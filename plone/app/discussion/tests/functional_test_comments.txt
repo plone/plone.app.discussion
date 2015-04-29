@@ -30,6 +30,9 @@ We also keep another testbrowser handy for testing how tiles are rendered if
 you're not logged in::
 
     >>> unprivileged_browser = Browser(app)
+    >>> browser_member = Browser(app)
+    >>> browser_user = Browser(app)
+    >>> browser_reviewer = Browser(app)
 
 Make sure we have a test user from the layer and it uses fancy characters:
 
@@ -53,12 +56,17 @@ Enable commenting.
 
 Create a public page with comments allowed.
 
-    >>> browser.open(portal_url)
-    >>> browser.getLink(id='document').click()
-    >>> browser.getControl(name='title').value = "Doc1"
-    >>> browser.getControl(name='allowDiscussion:boolean').value = True
-    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.open(portal['doc1'].absolute_url() + '/edit')
+    >>> browser.getControl(name='form.widgets.IDublinCore.title').value = "Doc1"
+    >>> browser.getControl(name='form.widgets.IAllowDiscussion.allow_discussion:list').value = ['True']
+    >>> browser.getControl('Save').click()
     >>> urldoc1 = browser.url
+
+Make sure the document is published:
+
+    >>> browser.getLink("Publish").click()
+    >>> 'Published' in browser.contents
+    True
 
 Check that the form has been properly submitted
 
@@ -115,20 +123,19 @@ Post a comment as user
 
 Login as user (without the 'Member' role).
 
-    >>> browser.open(portal_url + '/logout')
-    >>> browser.open(portal_url + '/login_form')
-    >>> browser.getControl(name='__ac_name').value = 'johndoe'
-    >>> browser.getControl(name='__ac_password').value = 'secret'
-    >>> browser.getControl(name='submit').click()
+    >>> browser_user.open(portal_url + '/login_form')
+    >>> browser_user.getControl(name='__ac_name').value = 'johndoe'
+    >>> browser_user.getControl(name='__ac_password').value = 'secret'
+    >>> browser_user.getControl(name='submit').click()
 
 Users without the 'Reply to item' permission will not see the comment form,
 because they don't have the 'Reply to item' permission. By default, this
 permission is only granted to the 'Member' role.
 
-    >>> 'form.widgets.text' in browser.contents
+    >>> 'form.widgets.text' in browser_user.contents
     False
 
-    >>> 'form.buttons.comment' in browser.contents
+    >>> 'form.buttons.comment' in browser_user.contents
     False
 
 
@@ -136,26 +143,24 @@ Post a comment as member
 ------------------------
 
 Login as user 'jim'.
-
-    >>> browser.open(portal_url + '/logout')
-    >>> browser.open(portal_url + '/login_form')
-    >>> browser.getControl(name='__ac_name').value = 'jim'
-    >>> browser.getControl(name='__ac_password').value = 'secret'
-    >>> browser.getControl(name='submit').click()
+    >>> browser_member.open(portal_url + '/login_form')
+    >>> browser_member.getControl(name='__ac_name').value = 'jim'
+    >>> browser_member.getControl(name='__ac_password').value = 'secret'
+    >>> browser_member.getControl(name='submit').click()
 
 Post a comment as user jim.
 
-    >>> browser.open(urldoc1)
-    >>> browser.getControl(name='form.widgets.text').value = "Comment from Jim"
-    >>> submit = browser.getControl(name='form.buttons.comment')
+    >>> browser_member.open(urldoc1)
+    >>> browser_member.getControl(name='form.widgets.text').value = "Comment from Jim"
+    >>> submit = browser_member.getControl(name='form.buttons.comment')
     >>> submit.click()
 
 Check if the comment has been added properly.
 
-    >>> browser.contents
+    >>> browser_member.contents
     '...<a href="http://nohost/plone/author/jim">Jim Fult\xc3\xb8rn</a>...says:...'
 
-    >>> "Comment from Jim" in browser.contents
+    >>> "Comment from Jim" in browser_member.contents
     True
 
 
@@ -176,7 +181,7 @@ Enable anonymous comment
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
     >>> browser.getControl(name='submit').click()
-    >>> browser.open(portal_url+'/@@discussion-settings')
+    >>> browser.open(portal_url+'/@@discussion-controlpanel')
     >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True]
     >>> browser.getControl(name='form.buttons.save').click()
     >>> browser.open(portal_url + '/logout')
@@ -227,7 +232,7 @@ Find a comment id to reply to.
     >>> browser.open(urldoc1)
     >>> import re
     >>> comment_div = re.findall('<div.*?.class="comment.*?>', browser.contents)[0]
-    >>> id = re.findall('"([^"]*)"', comment_div)[2]
+    >>> id = re.findall('"([^"]*)"', comment_div)[1]
 
 Post a reply to an existing comment.
 
@@ -242,6 +247,173 @@ Check that the reply has been posted properly.
 
     >>> 'replyTreeLevel1' in browser.contents
     True
+
+
+Edit an existing comment
+------------------------
+
+Log in as admin
+
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl('Login Name').value = 'admin'
+    >>> browser.getControl('Password').value = 'secret'
+    >>> browser.getControl('Log in').click()
+
+Use the Plone control panel to enable comment editing.
+
+    >>> browser.open(portal_url + '/plone_control_panel')
+    >>> browser.getLink('Discussion').click()
+    >>> browser.getControl('Enable editing of comments').selected = True
+    >>> browser.getControl(name='form.buttons.save').click()
+
+Extract the edit comment url from the first "edit comment" button
+
+    >>> browser.open(urldoc1)
+    >>> form = browser.getForm(name='edit', index=0)
+    >>> '@@edit-comment' in form.action
+    True
+
+Open the edit comment view
+
+    >>> browser.open(form.action)
+    >>> ctrl = browser.getControl('Comment')
+    >>> ctrl.value
+    'Comment from admin'
+
+Change and save the comment
+
+    >>> ctrl.value = 'Comment from admin / was edited'
+    >>> browser.getControl('Edit comment').click()
+
+This used to trigger permissions problems in some portlet configurations.
+Check it ain't so.
+
+    >>> 'require_login' in browser.url
+    False
+    >>> browser.url.startswith('http://nohost/plone/doc1')
+    True
+    >>> 'Comment from admin / was edited' in browser.contents
+    True
+
+Opening the edit comment view, then cancel, does nothing.
+
+    >>> form = browser.getForm(name='edit', index=0)
+    >>> '@@edit-comment' in form.action
+    True
+    >>> browser.open(form.action)
+    >>> browser.getControl('Cancel').click()
+    >>> browser.url.startswith('http://nohost/plone/doc1')
+    True
+
+
+Anon cannot edit comments.
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> '@@edit-comments' in browser.contents
+    False
+
+But Anon can see the edited comment.
+
+    >>> 'Comment from admin / was edited' in unprivileged_browser.contents
+    True
+
+
+Deleting existing comments | 'Delete comments' permission
+----------------------------------------------------------
+
+Anonymous cannot delete comments
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> 'form.button.Delete' in unprivileged_browser.contents
+    False
+
+A member cannot delete his own comments if he can't review or he isn't a Site Administrator
+
+    >>> browser_member.open(urldoc1)
+    >>> 'form.button.Delete' in browser_member.contents
+    False
+
+Admin can delete comments
+
+    >>> browser.open(urldoc1)
+    >>> 'form.button.Delete' in browser.contents
+    True
+
+Extract the delete comment url from the first "delete comment" button
+
+    >>> browser.open(urldoc1)
+    >>> form = browser.getForm(name='delete', index=0)
+    >>> delete_url = form.action
+    >>> '@@moderate-delete-comment' in delete_url
+    True
+    >>> comment_id = delete_url.split('/')[-2]
+
+Anonymous cannot delete a comment by hitting the delete url directly.
+
+    >>> unprivileged_browser.open(delete_url)
+
+The comment is still there
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> comment_id in unprivileged_browser.contents
+    True
+
+A Member cannot delete even his own comment by hitting the delete url directly.
+
+Extract the member comment id from the admin browser
+
+    >>> form = browser.getForm(name='delete', index=2)
+    >>> delete_url = form.action
+    >>> '@@moderate-delete-comment' in delete_url
+    True
+    >>> comment_id = delete_url.split('/')[-2]
+
+Now try to hit that url as the member owning that comment.
+Work around some possible testbrowser breakage and check the result later.
+
+    >>> try:
+    ...   browser_member.open(delete_url)
+    ... except:
+    ...   pass
+
+The comment is still there
+
+    >>> browser_member.open(urldoc1)
+    >>> comment_id in browser_member.contents
+    True
+    >>> 'Comment from Jim' in browser_member.contents
+    True
+
+Now login as user 'reviewer'
+
+    >>> browser_reviewer.open(portal_url + '/login_form')
+    >>> browser_reviewer.getControl(name='__ac_name').value = 'reviewer'
+    >>> browser_reviewer.getControl(name='__ac_password').value = 'secret'
+    >>> browser_reviewer.getControl(name='submit').click()
+
+Admin and who have 'Delete comments' permission (reviewers for example), can delete comments
+
+    >>> browser_reviewer.open(urldoc1)
+    >>> form = browser_reviewer.getForm(name='delete', index=0)
+    >>> '@@moderate-delete-comment' in form.action
+    True
+
+    >>> comment_id = form.action.split('/')[-2]
+
+Submitting the form runs into a testbrowser notFoundException.
+We'll just catch that and check the result later.
+
+    >>> try:
+    ...   form.submit()
+    ... except:
+    ...   pass
+
+Returning to the document we find the deleted comment is indeed gone
+
+    >>> browser_reviewer.open(urldoc1)
+    >>> comment_id in browser_reviewer.contents
+    False
 
 
 Post a comment with comment review workflow enabled
@@ -285,7 +457,6 @@ This is a regression test for http://dev.plone.org/plone/ticket/11157
 
 Login as admin.
 
-    >>> browser.open(portal_url + '/logout')
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
@@ -293,101 +464,11 @@ Login as admin.
 
 Edit the content object.
 
-    >>> browser.open(urldoc1 + "/edit")
-    >>> browser.getControl(name='text').value = "Lorem ipsum"
-    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.open("http://nohost/plone/doc1/edit")
+    >>> browser.getControl(name='form.widgets.IRichText.text').value = "Lorem ipsum"
+    >>> browser.getControl('Save').click()
 
 Make sure the edit was successful.
 
     >>> 'Lorem ipsum' in browser.contents
     True
-
-
-List comments in a collection
------------------------------
-
-Create a collection.
-
-    >>> from plone.app.testing import setRoles
-    >>> from plone.app.testing import TEST_USER_NAME
-    >>> setRoles(portal, 'manager', ['Manager'])
-    >>> browser.open(portal.absolute_url())
-    >>> from plone.app.discussion.testing import COLLECTION_TYPE
-    >>> browser.getLink(url='createObject?type_name=' + COLLECTION_TYPE).click()
-    >>> browser.getControl('Title', index=0
-    ...                    ).value = 'Foo Comment Collection'
-    >>> browser.getControl('Save').click()
-    >>> print browser.contents
-    <...Changes saved...
-    >>> topic_url = browser.url
-
-Set the collection criteria.
-
-    >>> browser.open(topic_url + "/edit")
-
-    >>> if COLLECTION_TYPE == "Collection":
-    ...     browser.getControl(name="addindex").value = ['portal_type']
-    ...     browser.getControl(name="form.button.addcriteria").click()
-    ...     browser.getControl(name="addoperator").value = ['plone.app.querystring.operation.selection.is']
-    ...     browser.getControl(name="form.button.addcriteria").click()
-    ...     browser.getControl(name="query.v:records:list").value = ["Discussion Item"]
-    ...     browser.getControl(name="form.button.save").click()
-    ... else:
-    ...     browser.getLink('Criteria').click()
-    ...     browser.getControl('Item Type', index=0).selected = True
-    ...     browser.getControl('Select content types').selected = True
-    ...     browser.getControl('Add criteria').click()
-    ...     browser.getControl('Comment').selected = True
-    ...     browser.getControl('Save', index=0).click()
-    >>> print browser.contents
-    <...Changes saved...
-
-View the collection listing.
-
-    >>> browser.getLink('View').click()
-    >>> browser.getLink('admin on Doc1', index=0)
-    <Link text='admin on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
-    >>> browser.getLink('admin on Doc1', index=1)
-    <Link text='admin on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
-    >>> browser.getLink('Anonymous on Doc1', index=0)
-    <Link text='Anonymous on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
-    >>> browser.getLink('Anonymous on Doc1', index=1)
-    <Link text='Anonymous on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
-    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
-    >>> browser.getLink(tarek_fullname + ' on Doc1')
-    <Link text='Tarek Ziad\xc3\xa9 on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
-    >>> browser.getLink(jim_fullname + ' on Doc1')
-    <Link text='Jim Fult\xc3\xb8rn on Doc1' url='http://nohost/plone/doc1/++conversation++default/...'>
-
-Comments are unindexed when the content is deleted
---------------------------------------------------
-
-Delete the commented content.
-
-    >>> browser.open(urldoc1)
-    >>> browser.getLink('Delete').click()
-    >>> browser.getControl('Delete').click()
-    >>> print browser.contents
-    <...Doc1 has been deleted...
-
-The comments are no longer in the catalog.
-
-    >>> browser.open(topic_url)
-    >>> browser.getLink('admin on Doc1', index=0)
-    Traceback (most recent call last):
-    LinkNotFoundError
-    >>> browser.getLink('admin on Doc1', index=1)
-    Traceback (most recent call last):
-    LinkNotFoundError
-    >>> browser.getLink('Anonymous on Doc1', index=0)
-    Traceback (most recent call last):
-    LinkNotFoundError
-    >>> browser.getLink('Anonymous on Doc1', index=1)
-    Traceback (most recent call last):
-    LinkNotFoundError
-    >>> browser.getLink(tarek_fullname + ' on Doc1')
-    Traceback (most recent call last):
-    LinkNotFoundError
-    >>> browser.getLink(jim_fullname + ' on Doc1')
-    Traceback (most recent call last):
-    LinkNotFoundError
