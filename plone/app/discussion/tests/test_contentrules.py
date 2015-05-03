@@ -4,7 +4,7 @@ from plone.app.discussion.interfaces import ICommentRemovedEvent
 from plone.app.discussion.interfaces import IConversation, IReplies
 from plone.app.discussion.interfaces import IReplyAddedEvent
 from plone.app.discussion.interfaces import IReplyRemovedEvent
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.contentrules.rule.interfaces import IRuleEventType

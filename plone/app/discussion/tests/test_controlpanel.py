@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.registry import Registry
