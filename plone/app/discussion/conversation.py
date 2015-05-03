@@ -177,7 +177,7 @@ class Conversation(Traversable, Persistent, Explicit):
         # Record unique users who've commented (for logged in users only)
         commentator = comment.author_username
         if commentator:
-            if not commentator in self._commentators:
+            if commentator not in self._commentators:
                 self._commentators[commentator] = 0
             self._commentators[commentator] += 1
 
@@ -186,13 +186,13 @@ class Conversation(Traversable, Persistent, Explicit):
             # top level comments are in reply to the faux id 0
             comment.in_reply_to = reply_to = 0
 
-        if not reply_to in self._children:
+        if reply_to not in self._children:
             self._children[reply_to] = LLSet()
         self._children[reply_to].insert(id)
 
         # Add the annotation if not already done
         annotions = IAnnotations(self.__parent__)
-        if not ANNOTATION_KEY in annotions:
+        if ANNOTATION_KEY not in annotions:
             annotions[ANNOTATION_KEY] = aq_base(self)
 
         # Notify that the object is added. The object must here be
@@ -296,7 +296,7 @@ def conversationAdapterFactory(content):
     Adapter factory to fetch the default conversation from annotations.
     """
     annotations = IAnnotations(content)
-    if not ANNOTATION_KEY in annotations:
+    if ANNOTATION_KEY not in annotations:
         conversation = Conversation()
         conversation.__parent__ = aq_base(content)
     else:
