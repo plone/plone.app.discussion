@@ -1,6 +1,7 @@
-from zope.component import getUtility
-from plone.registry.interfaces import IRegistry
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+
 
 default_profile = 'profile-plone.app.discussion:default'
 

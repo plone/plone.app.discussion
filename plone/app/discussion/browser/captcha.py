@@ -1,30 +1,20 @@
 # -*- coding: utf-8 -*-
-
 # Captcha validator, see captcha.txt for design notes.
-
 from persistent import Persistent
-
-from Products.CMFCore.utils import getToolByName
-
-from z3c.form import interfaces
-from z3c.form.field import Fields
-
-from zope import interface
-
-from zope.annotation import factory
-
-from zope.component import adapts, queryUtility
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
-
-from zope.interface import Interface
-
-from plone.registry.interfaces import IRegistry
-
-from plone.z3cform.fieldsets import extensible
-
 from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.comment import Comment
-from plone.app.discussion.interfaces import IDiscussionSettings, ICaptcha
+from plone.app.discussion.interfaces import ICaptcha
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.registry.interfaces import IRegistry
+from plone.z3cform.fieldsets import extensible
+from Products.CMFCore.utils import getToolByName
+from z3c.form import interfaces
+from z3c.form.field import Fields
+from zope import interface
+from zope.annotation import factory
+from zope.component import adapts, queryUtility
+from zope.interface import Interface
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 
 class Captcha(Persistent):

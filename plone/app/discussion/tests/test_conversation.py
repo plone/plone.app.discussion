@@ -1,29 +1,25 @@
-import unittest2 as unittest
-from datetime import datetime, timedelta
-
-from zope import interface
-from zope.component import createObject, queryUtility
-from zope.annotation.interfaces import IAnnotations
-
-from Acquisition import aq_base, aq_parent
-
-from plone.app.vocabularies.types import BAD_TYPES
-
-from plone.registry.interfaces import IRegistry
-
+from Acquisition import aq_base
+from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
-
-from plone.app.testing import TEST_USER_ID, setRoles
-
-from plone.app.discussion.testing import (
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
-)
-
+from datetime import datetime
+from datetime import timedelta
 from plone.app.discussion import interfaces
-from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IComment
-from plone.app.discussion.interfaces import IReplies
+from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.interfaces import IReplies
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.vocabularies.types import BAD_TYPES
+from plone.registry.interfaces import IRegistry
+from zope import interface
+from zope.annotation.interfaces import IAnnotations
+from zope.component import createObject
+from zope.component import queryUtility
+
+import unittest2 as unittest
+
 
 try:
     from plone.dexterity.interfaces import IDexterityContent

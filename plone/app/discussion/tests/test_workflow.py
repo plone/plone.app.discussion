@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
 """Test plone.app.discussion workflow and permissions.
 """
-import unittest2 as unittest
-
+from AccessControl import Unauthorized
+from Products.CMFCore.permissions import View
+from Products.CMFCore.utils import _checkPermission as checkPerm
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IDiscussionLayer
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import login
+from plone.app.testing import logout
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from zope.component import createObject
-
 from zope.interface import alsoProvides
 
-from AccessControl import Unauthorized
-
-from Products.CMFCore.utils import _checkPermission as checkPerm
-from Products.CMFCore.permissions import View
-
-from plone.app.testing import TEST_USER_ID, setRoles
-from plone.app.testing import logout, login
-
-from plone.app.discussion.testing import \
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
-from plone.app.discussion.interfaces import IConversation, IDiscussionLayer
+import unittest2 as unittest
 
 
 class WorkflowSetupTest(unittest.TestCase):

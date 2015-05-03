@@ -1,3 +1,4 @@
+from Products.CMFCore.utils import getToolByName
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.robotframework.testing import REMOTE_LIBRARY_ROBOT_TESTING
@@ -8,7 +9,6 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
-from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
 from zope.configuration import xmlconfig
 

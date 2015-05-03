@@ -1,47 +1,37 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_inner
-
-from AccessControl import Unauthorized
 from AccessControl import getSecurityManager
-
-from datetime import datetime
+from AccessControl import Unauthorized
+from Acquisition import aq_inner
 from DateTime import DateTime
-
-from urllib import quote as url_quote
-
-from zope.i18n import translate
-from zope.i18nmessageid import Message
-
-from zope.component import createObject, queryUtility
-
-from zope.interface import alsoProvides
-
-from z3c.form import form, field, button, interfaces
-from z3c.form.interfaces import IFormLayer
-from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
-
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-
-from plone.registry.interfaces import IRegistry
-
-from plone.app.layout.viewlets.common import ViewletBase
-
+from datetime import datetime
 from plone.app.discussion import PloneAppDiscussionMessageFactory as _
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IComment
-from plone.app.discussion.interfaces import IReplies
-from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.interfaces import ICaptcha
-
 from plone.app.discussion.browser.validator import CaptchaValidator
-
+from plone.app.discussion.interfaces import ICaptcha
+from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.interfaces import IReplies
+from plone.app.layout.viewlets.common import ViewletBase
+from plone.registry.interfaces import IRegistry
 from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
-
-
 from plone.z3cform.interfaces import IWrappedForm
+from urllib import quote as url_quote
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+from z3c.form import interfaces
+from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
+from z3c.form.interfaces import IFormLayer
+from zope.component import createObject
+from zope.component import queryUtility
+from zope.i18n import translate
+from zope.i18nmessageid import Message
+from zope.interface import alsoProvides
+
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     u"comment_description_plain_text",

@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_inner, aq_parent
+from AccessControl import Unauthorized
 from AccessControl import getSecurityManager
-from zope.component import queryUtility
-
-from AccessControl import Unauthorized, getSecurityManager
-
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
-from Products.CMFCore.utils import getToolByName
-
 from Products.statusmessages.interfaces import IStatusMessage
-
-from plone.registry.interfaces import IRegistry
-from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies

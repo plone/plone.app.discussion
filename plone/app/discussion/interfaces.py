@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 """Interfaces for plone.app.discussion
 """
-
+from plone.app.discussion import PloneAppDiscussionMessageFactory as _
+from zope import schema
+from zope.component.interfaces import IObjectEvent
 from zope.interface import Interface
 from zope.interface.common.mapping import IIterableMapping
-from zope.component.interfaces import IObjectEvent
-from zope import schema
-
-from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 
 
 class IConversation(IIterableMapping):

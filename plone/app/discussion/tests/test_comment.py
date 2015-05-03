@@ -1,24 +1,18 @@
 # -*- coding: utf-8 -*-
-import datetime
-
-import logging
-
-import unittest2 as unittest
-
+from Products.CMFCore.utils import getToolByName
+from plone.app.discussion.browser.comment import View
+from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IReplies
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from zope.component import createObject
-
 from zope.component import getMultiAdapter
 
-from Products.CMFCore.utils import getToolByName
-
-from plone.app.testing import TEST_USER_ID, setRoles
-
-from plone.app.discussion.testing import \
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
-
-from plone.app.discussion.interfaces import IComment, IConversation, IReplies
-
-from plone.app.discussion.browser.comment import View
+import datetime
+import logging
+import unittest2 as unittest
 
 
 logger = logging.getLogger('plone.app.discussion.tests')

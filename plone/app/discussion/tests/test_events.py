@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
-
-import unittest2 as unittest
-from zope.component import createObject
 from Zope2.App import zcml
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IReplies
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from zope.component import createObject
+
 import Products.Five
-from plone.app.testing import TEST_USER_ID, setRoles
-from plone.app.discussion.interfaces import IConversation, IReplies
-from plone.app.discussion.testing import (
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
-)
+import unittest2 as unittest
+
+
 #
 # Fake events registry
 #
+
+
 class EventsRegistry(object):
     """ Fake registry to be used while testing discussion events
     """

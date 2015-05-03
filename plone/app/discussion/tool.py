@@ -4,14 +4,13 @@ standard portal_catalog for indexing comments.
 
 BBB support for the old portal_discussion is provided in the bbb package.
 """
-
+from OFS.SimpleItem import SimpleItem
+from Products.CMFCore.utils import UniqueObject
+from Products.CMFCore.utils import getToolByName
+from interfaces import IComment
+from interfaces import ICommentingTool
 from zope import interface
 from zope.component import queryUtility
-
-from interfaces import ICommentingTool, IComment
-
-from Products.CMFCore.utils import UniqueObject, getToolByName
-from OFS.SimpleItem import SimpleItem
 
 
 class CommentingTool(UniqueObject, SimpleItem):

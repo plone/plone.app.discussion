@@ -1,28 +1,22 @@
 # -*- coding: utf-8 -*-
-from zope.component import getUtility
-from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces._content import IDiscussionResponse
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
 from Products.statusmessages.interfaces import IStatusMessage
-
 from plone.app.controlpanel.interfaces import IConfigurationChangedEvent
-
+from plone.app.discussion.interfaces import _
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.upgrades import update_registry
 from plone.app.registry.browser import controlpanel
-
-from plone.registry.interfaces import IRegistry
 from plone.registry.interfaces import IRecordModifiedEvent
-
-from zope.component.hooks import getSite
-from zope.component import getMultiAdapter, queryUtility
-
+from plone.registry.interfaces import IRegistry
 from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
-
-from plone.app.discussion.interfaces import IDiscussionSettings, _
-from plone.app.discussion.upgrades import update_registry
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.component import queryUtility
+from zope.component.hooks import getSite
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):

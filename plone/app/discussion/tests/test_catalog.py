@@ -1,23 +1,16 @@
 """Test the plone.app.discussion catalog indexes
 """
-import unittest2 as unittest
+from Products.CMFCore.utils import getToolByName
+from datetime import datetime
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from zope.annotation.interfaces import IAnnotations
+from zope.component import createObject
 
 import transaction
-
-from datetime import datetime
-
-from zope.component import createObject
-from zope.annotation.interfaces import IAnnotations
-
-from Products.CMFCore.utils import getToolByName
-
-from plone.app.testing import TEST_USER_ID, setRoles
-
-from plone.app.discussion.testing import (
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
-)
-
-from plone.app.discussion.interfaces import IConversation
+import unittest2 as unittest
 
 
 class CatalogSetupTest(unittest.TestCase):

@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
-import unittest2 as unittest
-
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.registry import Registry
+from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 
-from plone.registry import Registry
-from plone.registry.interfaces import IRegistry
-
-from Products.CMFCore.utils import getToolByName
-
-from plone.app.testing import TEST_USER_ID, setRoles
-
-from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.testing import \
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+import unittest2 as unittest
 
 
 class RegistryTest(unittest.TestCase):

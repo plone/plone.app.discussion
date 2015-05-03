@@ -1,23 +1,17 @@
 """Test for the plone.app.discussion indexers
 """
+from DateTime import DateTime
+from datetime import datetime
+from plone.app.discussion import catalog
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.indexer.delegate import DelegatingIndexerFactory
+from zope.component import createObject
 
 import unittest2 as unittest
 
-from datetime import datetime
-from DateTime import DateTime
-
-from zope.component import createObject
-
-from plone.app.testing import TEST_USER_ID, setRoles
-
-from plone.app.discussion.testing import \
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
-
-from plone.app.discussion.interfaces import IConversation
-
-from plone.indexer.delegate import DelegatingIndexerFactory
-
-from plone.app.discussion import catalog
 
 LONG_TEXT = """Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
 diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,

@@ -1,25 +1,20 @@
 # -*- coding: utf-8 -*-
 """Captcha validator, see captcha.txt for design notes.
 """
-
 from Acquisition import aq_inner
-
-from z3c.form import validator
-
-from z3c.form.interfaces import IValidator
-
-from zope.component import getMultiAdapter, queryUtility
-
-from zope.interface import implements, Interface
-
-from zope.schema.interfaces import IField
-from zope.component import adapts
-
-from plone.registry.interfaces import IRegistry
-
 from plone.app.discussion.interfaces import ICaptcha
-from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import IDiscussionLayer
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.registry.interfaces import IRegistry
+from z3c.form import validator
+from z3c.form.interfaces import IValidator
+from zope.component import adapts
+from zope.component import getMultiAdapter
+from zope.component import queryUtility
+from zope.interface import implements
+from zope.interface import Interface
+from zope.schema.interfaces import IField
+
 
 try:
     from collective.z3cform.norobots.validator import WrongNorobotsAnswer

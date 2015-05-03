@@ -1,15 +1,14 @@
-from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
-
-from zope.component import getMultiAdapter
-from Products.statusmessages.interfaces import IStatusMessage
-from Products.Five.browser import BrowserView
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
-
-from plone.app.discussion import PloneAppDiscussionMessageFactory as _
+from Products.Five.browser import BrowserView
+from Products.statusmessages.interfaces import IStatusMessage
 from comments import CommentForm
-from z3c.form import button
+from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 from plone.z3cform.layout import wrap_form
+from z3c.form import button
+from zope.component import getMultiAdapter
 
 
 class View(BrowserView):

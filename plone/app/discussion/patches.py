@@ -1,13 +1,10 @@
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from Products.CMFCore.utils import getToolByName
-
-from Acquisition import aq_inner, aq_parent
-
-from zope.annotation.interfaces import IAnnotations
-
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.utils import safe_callable
-
 from plone.app.discussion.conversation import ANNOTATION_KEY
+from zope.annotation.interfaces import IAnnotations
 
 
 def patchedClearFindAndRebuild(self):

@@ -1,12 +1,12 @@
 """ Custom discussion events
 """
-from zope.interface import implements
-from plone.app.discussion.interfaces import IComment
-from plone.app.discussion.interfaces import IDiscussionEvent
 from plone.app.discussion.interfaces import ICommentAddedEvent
 from plone.app.discussion.interfaces import ICommentRemovedEvent
+from plone.app.discussion.interfaces import IDiscussionEvent
 from plone.app.discussion.interfaces import IReplyAddedEvent
 from plone.app.discussion.interfaces import IReplyRemovedEvent
+from zope.interface import implements
+
 
 class DiscussionEvent(object):
     """ Custom event

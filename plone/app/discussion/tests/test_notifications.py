@@ -1,25 +1,19 @@
 # -*- coding: utf-8 -*-
-
-import unittest2 as unittest
-
 from Acquisition import aq_base
-
+from Products.CMFPlone.interfaces import IMailSchema
+from Products.CMFPlone.tests.utils import MockMailHost
+from Products.MailHost.interfaces import IMailHost
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+from plone.registry.interfaces import IRegistry
 from zope.component import createObject
 from zope.component import getSiteManager
-from zope.component import queryUtility
 from zope.component import getUtility
+from zope.component import queryUtility
 
-from plone.app.testing import TEST_USER_ID, setRoles
-
-from Products.MailHost.interfaces import IMailHost
-from Products.CMFPlone.tests.utils import MockMailHost
-from Products.CMFPlone.interfaces import IMailSchema
-
-from plone.registry.interfaces import IRegistry
-
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.testing import\
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+import unittest2 as unittest
 
 
 class TestUserNotificationUnit(unittest.TestCase):

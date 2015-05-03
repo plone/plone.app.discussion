@@ -3,22 +3,14 @@ indexes with values based on the IComment interface.
 
 Also provide event handlers to actually catalog the comments.
 """
-
-from string import join
-
 from DateTime import DateTime
-
 from Products.CMFCore.interfaces import IContentish
-
 from Products.CMFPlone.utils import safe_unicode
-
 from Products.ZCatalog.interfaces import IZCatalog
-
 from plone.app.discussion.interfaces import IConversation, IComment
-
 from plone.indexer import indexer
-
 from plone.uuid.interfaces import IUUID
+from string import join
 
 
 MAX_DESCRIPTION = 25

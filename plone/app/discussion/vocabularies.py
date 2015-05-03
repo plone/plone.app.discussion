@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
-
 from plone.app.discussion.interfaces import _
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+
 
 HAS_CAPTCHA = False
 try:

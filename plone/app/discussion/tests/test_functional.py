@@ -3,15 +3,12 @@
 
    These test are only triggered when Plone 4 (and plone.testing) is installed.
 """
-import doctest
-
-import unittest2 as unittest
-import pprint
-
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING # noqa
 from plone.testing import layered
 
-from plone.app.discussion.testing import \
-    PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING
+import doctest
+import pprint
+import unittest2 as unittest
 
 
 optionflags = (

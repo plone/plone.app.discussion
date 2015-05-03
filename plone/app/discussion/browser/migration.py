@@ -1,21 +1,15 @@
-from datetime import datetime
-
-from Acquisition import aq_inner, aq_parent
-
-from Products.Five.browser import BrowserView
-
-from Products.CMFCore.utils import getToolByName
-
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+from DateTime import DateTime
 from Products.CMFCore.interfaces._content import IDiscussionResponse
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser import BrowserView
+from datetime import datetime
+from plone.app.discussion.comment import CommentFactory
+from plone.app.discussion.interfaces import IConversation, IReplies, IComment
+from types import TupleType
 
 import transaction
-
-from plone.app.discussion.comment import CommentFactory
-
-from plone.app.discussion.interfaces import IConversation, IReplies, IComment
-
-from types import TupleType
-from DateTime import DateTime
 
 
 def DT2dt(DT):

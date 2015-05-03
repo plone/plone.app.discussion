@@ -1,46 +1,36 @@
 # -*- coding: utf-8 -*-
-import unittest2 as unittest
-import time
-from datetime import datetime
-
 from AccessControl import Unauthorized
-
+from datetime import datetime
 from OFS.Image import Image
-
-from zope import interface
-from zope.interface import alsoProvides
-from zope.publisher.browser import TestRequest
-from zope.annotation.interfaces import IAttributeAnnotatable
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.tests import dummy
+from plone.app.discussion import interfaces
+from plone.app.discussion.browser.comment import EditCommentForm
+from plone.app.discussion.browser.comments import CommentForm
+from plone.app.discussion.browser.comments import CommentsViewlet
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import login
+from plone.app.testing import logout
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.registry.interfaces import IRegistry
 from z3c.form.interfaces import IFormLayer
-
+from zope import interface
+from zope.annotation.interfaces import IAttributeAnnotatable
+from zope.component import createObject
+from zope.component import getMultiAdapter
 from zope.component import provideAdapter
+from zope.component import queryUtility
+from zope.interface import alsoProvides
+from zope.interface import Interface
+from zope.publisher.browser import TestRequest
 from zope.publisher.interfaces.browser import IBrowserRequest
 
-from zope.interface import Interface
-from zope.component import getMultiAdapter
-from zope.component import createObject, queryUtility
-
-from plone.registry.interfaces import IRegistry
-
-from Products.CMFCore.utils import getToolByName
-
-from Products.CMFPlone.tests import dummy
-
-from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, setRoles
-from plone.app.testing import logout
-from plone.app.testing import login
-
-
-from plone.app.discussion.browser.comments import CommentsViewlet
-from plone.app.discussion.browser.comments import CommentForm
-from plone.app.discussion.browser.comment import EditCommentForm
-from plone.app.discussion import interfaces
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.testing import (
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING
-)
-from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.interfaces import IConversation
+import time
+import unittest2 as unittest
 
 
 class TestCommentForm(unittest.TestCase):

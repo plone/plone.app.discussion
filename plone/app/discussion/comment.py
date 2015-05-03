@@ -1,57 +1,43 @@
 # -*- coding: utf-8 -*-
 """The default comment class and factory.
 """
-
-import logging
-
-from datetime import datetime
-
-from smtplib import SMTPException
-
-from zope.annotation.interfaces import IAnnotatable
-from zope.component import getUtility
-
-from zope.event import notify
-from zope.component.factory import Factory
-from zope.component import queryUtility
-
-from zope.i18n import translate
-from zope.i18nmessageid import Message
-from zope.interface import implements
-
-from Acquisition import aq_parent, aq_base, Implicit
-
-from OFS.owner import Owned
-
-from persistent import Persistent
-
+from AccessControl import ClassSecurityInfo
+from AccessControl.SecurityManagement import getSecurityManager
+from Acquisition import Implicit
+from Acquisition import aq_base
+from Acquisition import aq_parent
+from Products.CMFCore import permissions
+from Products.CMFCore.CMFCatalogAware import CatalogAware
+from Products.CMFCore.CMFCatalogAware import WorkflowAware
 from Products.CMFCore.DynamicType import DynamicType
 from Products.CMFCore.utils import getToolByName
-
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.CMFPlone.utils import safe_unicode
-
+from datetime import datetime
+from OFS.owner import Owned
+from OFS.role import RoleManager
 from OFS.Traversable import Traversable
-
+from persistent import Persistent
+from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 from plone.app.discussion.events import CommentAddedEvent
 from plone.app.discussion.events import CommentRemovedEvent
 from plone.app.discussion.events import ReplyAddedEvent
 from plone.app.discussion.events import ReplyRemovedEvent
-
-from plone.app.discussion import PloneAppDiscussionMessageFactory as _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
-
 from plone.registry.interfaces import IRegistry
+from smtplib import SMTPException
+from zope.annotation.interfaces import IAnnotatable
+from zope.component import getUtility
+from zope.component import queryUtility
+from zope.component.factory import Factory
+from zope.event import notify
+from zope.i18n import translate
+from zope.i18nmessageid import Message
+from zope.interface import implements
 
-from Products.CMFCore.CMFCatalogAware import CatalogAware
-from Products.CMFCore.CMFCatalogAware import WorkflowAware
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-
-from OFS.role import RoleManager
-from AccessControl import ClassSecurityInfo
-from AccessControl.SecurityManagement import getSecurityManager
-from Products.CMFCore import permissions
+import logging
 
 
 COMMENT_TITLE = _(

@@ -2,14 +2,14 @@
 IDiscussion container for the context, from which traversal will continue
 into an actual comment object.
 """
-
-from zope.interface import Interface, implements
-from zope.component import adapts, queryAdapter
-
-from zope.traversing.interfaces import ITraversable, TraversalError
-from zope.publisher.interfaces.browser import IBrowserRequest
-
 from plone.app.discussion.interfaces import IConversation
+from zope.component import adapts
+from zope.component import queryAdapter
+from zope.interface import implements
+from zope.interface import Interface
+from zope.publisher.interfaces.browser import IBrowserRequest
+from zope.traversing.interfaces import ITraversable
+from zope.traversing.interfaces import TraversalError
 
 
 class ConversationNamespace(object):

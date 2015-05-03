@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
-
-import unittest2 as unittest
-from zope.component import createObject, getAdapter
-from plone.app.testing import TEST_USER_ID, setRoles
-
-from plone.contentrules.rule.interfaces import IRuleEventType
-from plone.stringinterp.interfaces import IStringSubstitution
-
-from plone.app.discussion.interfaces import IConversation, IReplies
 from plone.app.discussion.interfaces import ICommentAddedEvent
 from plone.app.discussion.interfaces import ICommentRemovedEvent
+from plone.app.discussion.interfaces import IConversation, IReplies
 from plone.app.discussion.interfaces import IReplyAddedEvent
 from plone.app.discussion.interfaces import IReplyRemovedEvent
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING # noqa
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.contentrules.rule.interfaces import IRuleEventType
+from plone.stringinterp.interfaces import IStringSubstitution
+from zope.component import createObject
+from zope.component import getAdapter
 
-from plone.app.discussion.testing import (
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
-)
+import unittest2 as unittest
+
 
 class CommentContentRulesTest(unittest.TestCase):
     """ Test custom comments events
