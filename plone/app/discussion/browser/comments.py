@@ -150,7 +150,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         anonymous_comments = settings.anonymous_comments
         anon = portal_membership.isAnonymousUser()
         if captcha_enabled and anonymous_comments and anon:
-            if not 'captcha' in data:
+            if 'captcha' not in data:
                 data['captcha'] = u""
             captcha = CaptchaValidator(self.context,
                                        self.request,
