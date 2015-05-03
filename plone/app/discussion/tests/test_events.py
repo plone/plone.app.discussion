@@ -157,7 +157,7 @@ class RepliesEventsTest(unittest.TestCase):
         re_comment.text = 'Comment text'
 
         replies = IReplies(comment)
-        new_re_id = replies.addComment(re_comment)
+        replies.addComment(re_comment)
 
         self.assertTrue(self.registry.replyAdded)
 

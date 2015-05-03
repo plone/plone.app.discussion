@@ -104,7 +104,7 @@ class ReplyContentRulesTest(unittest.TestCase):
         re_comment.author_email = "julia@example.com"
 
         replies = IReplies(comment)
-        new_re_id = replies.addComment(re_comment)
+        replies.addComment(re_comment)
 
     def testReplyIdStringSubstitution(self):
         reply_id = getAdapter(
