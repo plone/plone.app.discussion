@@ -235,6 +235,7 @@ def notify_content_object(obj, event):
                                     'last_comment_date',
                                     'commentators'))
 
+
 def notify_content_object_deleted(obj, event):
     """Remove all comments of a content object when the content object has been
        deleted.
@@ -243,6 +244,7 @@ def notify_content_object_deleted(obj, event):
         conversation = IConversation(obj)
         while conversation:
             del conversation[conversation.keys()[0]]
+
 
 def notify_comment_added(obj, event):
     """ Notify custom discussion events when a comment is added or replied
@@ -253,6 +255,7 @@ def notify_comment_added(obj, event):
         return notify(ReplyAddedEvent(context, obj))
     return notify(CommentAddedEvent(context, obj))
 
+
 def notify_comment_removed(obj, event):
     """ Notify custom discussion events when a comment or reply is removed
     """
@@ -261,6 +264,7 @@ def notify_comment_removed(obj, event):
     if getattr(obj, 'in_reply_to', None):
         return notify(ReplyRemovedEvent(context, obj))
     return notify(CommentRemovedEvent(context, obj))
+
 
 def notify_content_object_moved(obj, event):
     """Update all comments of a content object that has been moved.

@@ -371,21 +371,26 @@ class ICommentingTool(Interface):
 # Custom events
 #
 
+
 class IDiscussionEvent(IObjectEvent):
     """ Discussion custom event
     """
+
 
 class ICommentAddedEvent(IDiscussionEvent):
     """ Comment added
     """
 
+
 class ICommentRemovedEvent(IDiscussionEvent):
     """ Comment removed
     """
 
+
 class IReplyAddedEvent(IDiscussionEvent):
     """ Comment reply added
     """
+
 
 class IReplyRemovedEvent(IDiscussionEvent):
     """ Comment reply removed

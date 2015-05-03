@@ -27,20 +27,29 @@ class EventsRegistry(object):
 #
 # Fake event handlers
 #
+
+
 def comment_added(doc, evt):
     EventsRegistry.commentAdded = True
+
 
 def comment_removed(doc, evt):
     EventsRegistry.commentRemoved = True
 
+
 def reply_added(doc, evt):
     EventsRegistry.replyAdded = True
 
+
 def reply_removed(doc, evt):
     EventsRegistry.replyRemoved = True
+
+
 #
 # Tests
 #
+
+
 class CommentEventsTest(unittest.TestCase):
     """ Test custom comments events
     """

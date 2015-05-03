@@ -44,7 +44,6 @@ class CommentContentRulesTest(unittest.TestCase):
         conversation = IConversation(self.document)
         conversation.addComment(comment)
 
-
     def testEventTypesMarked(self):
         self.assertTrue(IRuleEventType.providedBy(ICommentAddedEvent))
         self.assertTrue(IRuleEventType.providedBy(ICommentRemovedEvent))

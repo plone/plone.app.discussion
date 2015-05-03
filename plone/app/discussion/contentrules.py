@@ -23,6 +23,7 @@ def execute_comment(event):
     """
     execute(event.object, event)
 
+
 class CommentSubstitution(BaseSubstitution):
     """ Comment string substitution
     """
@@ -41,6 +42,7 @@ class CommentSubstitution(BaseSubstitution):
         """
         return self.event.comment
 
+
 class Id(CommentSubstitution):
     """ Comment id string substitution
     """
@@ -51,6 +53,7 @@ class Id(CommentSubstitution):
         """ Safe call
         """
         return getattr(self.comment, 'comment_id', u'')
+
 
 class Text(CommentSubstitution):
     """ Comment text
@@ -63,6 +66,7 @@ class Text(CommentSubstitution):
         """
         return getattr(self.comment, 'text', u'')
 
+
 class AuthorUserName(CommentSubstitution):
     """ Comment author user name string substitution
     """
@@ -74,6 +78,7 @@ class AuthorUserName(CommentSubstitution):
         """
         return getattr(self.comment, 'author_username', u'')
 
+
 class AuthorFullName(CommentSubstitution):
     """ Comment author full name string substitution
     """
@@ -84,6 +89,7 @@ class AuthorFullName(CommentSubstitution):
         """ Safe call
         """
         return getattr(self.comment, 'author_name', u'')
+
 
 class AuthorEmail(CommentSubstitution):
     """ Comment author email string substitution

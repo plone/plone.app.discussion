@@ -24,20 +24,24 @@ class DiscussionEvent(object):
         request = context.REQUEST
         request.set('event', self)
 
+
 class CommentAddedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment is added
     """
     implements(ICommentAddedEvent)
+
 
 class CommentRemovedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment is removed
     """
     implements(ICommentRemovedEvent)
 
+
 class ReplyAddedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment reply is added
     """
     implements(IReplyAddedEvent)
+
 
 class ReplyRemovedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment reply is removed
