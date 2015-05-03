@@ -185,7 +185,7 @@ class TestCommentForm(unittest.TestCase):
         self.assertEquals(comment.text, u"foobar")
 
         comments = IConversation(commentForm.context).getComments()
-        comments = [comment for comment in comments]  # consume iterator
+        comments = [c for c in comments]  # consume iterator
         self.assertEqual(len(comments), 1)
 
         for comment in comments:
