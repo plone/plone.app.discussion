@@ -118,15 +118,18 @@ class DeleteComment(BrowserView):
 
 
 class DeleteOwnComment(DeleteComment):
-    """Delete an own comment if it has no replies. Following conditions have to be true
-    for a user to be able to delete his comments:
+    """Delete an own comment if it has no replies.
+
+    Following conditions have to be true for a user to be able to delete his
+    comments:
     * "Delete own comments" permission
     * no replies to the comment
     * Owner role directly assigned on the comment object
     """
 
     def could_delete(self, comment=None):
-        """Returns true if the comment could be deleted if it had no replies."""
+        """Returns true if the comment could be deleted if it had no replies.
+        """
         sm = getSecurityManager()
         comment = comment or aq_inner(self.context)
         userid = sm.getUser().getId()
