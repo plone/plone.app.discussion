@@ -107,26 +107,41 @@ class ReplyContentRulesTest(unittest.TestCase):
         new_re_id = replies.addComment(re_comment)
 
     def testReplyIdStringSubstitution(self):
-        reply_id = getAdapter(self.document, IStringSubstitution,
-                              name=u"comment_id")
+        reply_id = getAdapter(
+            self.document,
+            IStringSubstitution,
+            name=u"comment_id"
+        )
         self.assertIsInstance(reply_id(), long)
 
     def testReplyTextStringSubstitution(self):
-        reply_text = getAdapter(self.document, IStringSubstitution,
-                                  name=u"comment_text")
+        reply_text = getAdapter(
+            self.document,
+            IStringSubstitution,
+            name=u"comment_text"
+        )
         self.assertEqual(reply_text(), u"This is a reply")
 
     def testReplyUserIdStringSubstitution(self):
-        reply_user_id = getAdapter(self.document, IStringSubstitution,
-                                   name=u"comment_user_id")
+        reply_user_id = getAdapter(
+            self.document,
+            IStringSubstitution,
+            name=u"comment_user_id"
+        )
         self.assertEqual(reply_user_id(), u"julia")
 
     def testReplyUserFullNameStringSubstitution(self):
-        reply_user_fullname = getAdapter(self.document, IStringSubstitution,
-                                           name=u"comment_user_fullname")
+        reply_user_fullname = getAdapter(
+            self.document,
+            IStringSubstitution,
+            name=u"comment_user_fullname"
+        )
         self.assertEqual(reply_user_fullname(), u"Juliana")
 
     def testReplyUserEmailStringSubstitution(self):
-        reply_user_email = getAdapter(self.document, IStringSubstitution,
-                                      name=u"comment_user_email")
+        reply_user_email = getAdapter(
+            self.document,
+            IStringSubstitution,
+            name=u"comment_user_email"
+        )
         self.assertEqual(reply_user_email(), u"julia@example.com")

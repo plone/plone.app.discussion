@@ -245,7 +245,11 @@ class TestCommentForm(unittest.TestCase):
         )
         # try to delete last comment without "Delete comments" permission
         setRoles(self.portal, TEST_USER_ID, ['Member'])
-        self.assertRaises(Unauthorized, comment.restrictedTraverse, "@@moderate-delete-comment")
+        self.assertRaises(
+            Unauthorized,
+            comment.restrictedTraverse,
+            "@@moderate-delete-comment"
+        )
         deleteView()
         self.assertEqual(1, len([x for x in conversation.getComments()]))
         # try to delete last comment with "Delete comments" permission
@@ -300,7 +304,11 @@ class TestCommentForm(unittest.TestCase):
         # try to delete last comment with johndoe
         setRoles(self.portal, 'johndoe', ['Member'])
         login(self.portal, 'johndoe')
-        self.assertRaises(Unauthorized, comment.restrictedTraverse, "@@delete-own-comment")
+        self.assertRaises(
+            Unauthorized,
+            comment.restrictedTraverse,
+            "@@delete-own-comment"
+        )
         self.assertEqual(1, len([x for x in conversation.getComments()]))
         # try to delete last comment with the same user that created it
         login(self.portal, TEST_USER_NAME)
