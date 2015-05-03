@@ -104,6 +104,7 @@ class CommentEventsTest(unittest.TestCase):
         del conversation[cid]
         self.assertTrue(self.registry.commentRemoved)
 
+
 class RepliesEventsTest(unittest.TestCase):
     """ Test custom replies events
     """
