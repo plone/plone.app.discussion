@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.4.2 (unreleased)
+2.4.2 (2015-05-04)
 ------------------
 
 - Update Japanese translation.
