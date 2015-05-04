@@ -13,6 +13,7 @@ Changelog
 - Fix flake8 errors reported by jenkins.plone.org.
   [gforcada]
 
+
 2.4.1 (2015-03-26)
 ------------------
 
