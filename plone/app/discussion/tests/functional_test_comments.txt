@@ -464,7 +464,13 @@ Login as admin.
 
 Edit the content object.
 
-    >>> browser.open("http://nohost/plone/doc1/edit")
+    >>> from plone.protect.authenticator import _getKeyring
+    >>> import hmac
+    >>> from hashlib import sha1 as sha
+    >>> ring = _getKeyring('foo')
+    >>> secret = ring.random()
+    >>> token = hmac.new(secret, 'admin', sha).hexdigest()
+    >>> browser.open("http://nohost/plone/doc1/edit?_authenticator=" + token)
     >>> browser.getControl(name='form.widgets.IRichText.text').value = "Lorem ipsum"
     >>> browser.getControl('Save').click()
 
