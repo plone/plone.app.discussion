@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: plone.app.discussion\n"
 "POT-Creation-Date: 2015-03-23 08:03+0000\n"
-"PO-Revision-Date: 2015-05-09 15:05+0900\n"
+"PO-Revision-Date: 2015-05-09 15:11+0900\n"
 "Last-Translator: Takanori Suzuki <takanori@takanory.net>\n"
 "Language-Team: Plone Japanese Team <https://github.com/plonejp>\n"
 "MIME-Version: 1.0\n"
@@ -326,9 +326,8 @@ msgstr "モデレータへの通知の送付先アドレス"
 
 #. Default: "If selected, the moderator is notified if a comment needs attention. The moderator email address can be set below."
 #: ../interfaces.py:315
-#, fuzzy
 msgid "help_moderator_notification_enabled"
-msgstr "コメントが注意を要するものであるかどうか、モデレータは通知を受けるようになります。モデレータのメールアドレスはメール設定コントロールパネルの中のサイト「差出人」アドレスです。"
+msgstr "コメントが注意を要するものであるかどうか、モデレータは通知を受けるようになります。モデレータのメールアドレスは下のフィールドに設定します。"
 
 #. Default: "If selected, an image of the user is shown next to the comment."
 #: ../interfaces.py:304
@@ -453,9 +452,8 @@ msgstr "ユーザへのメール通知を有効にする"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n"
 #: ../comment.py:61
-#, fuzzy
 msgid "mail_notification_message"
-msgstr "'${title}' へのコメントが投稿されました: ${link}"
+msgstr "'${title}' へのコメントが投稿されました: ${link}\n\n---\n${text}\n---\n"
 
 #. Default: "A comment on '${title}' has been posted here: ${link}\n\n---\n${text}\n---\n\nApprove comment:\n${link_approve}\n\nDelete comment:\n${link_delete}\n"
 #: ../comment.py:58
