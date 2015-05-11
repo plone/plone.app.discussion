@@ -11,6 +11,8 @@ Changelog
 ------------------
 
 - Update Japanese translation.
+  [takanory]
+- Update Japanese translation.
   [terapyon]
 
 - Sort imports as per plone.api styleguide.
