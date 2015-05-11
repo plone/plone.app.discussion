@@ -5,6 +5,8 @@ Changelog
 ------------------
 
 - Update Japanese translation.
+  [takanory]
+- Update Japanese translation.
   [terapyon]
 
 
