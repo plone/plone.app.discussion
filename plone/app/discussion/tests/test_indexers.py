@@ -95,9 +95,9 @@ class ConversationIndexersTest(unittest.TestCase):
 
     def test_conversation_commentators(self):
         pass
-        #self.assertEqual(catalog.commentators(self.portal.doc1)(),
+        # self.assertEqual(catalog.commentators(self.portal.doc1)(),
         #                  ('Jim', 'Emma', 'Lukas'))
-        #self.assertTrue(isinstance(catalog.commentators,
+        # self.assertTrue(isinstance(catalog.commentators,
         #                        DelegatingIndexerFactory))
 
 

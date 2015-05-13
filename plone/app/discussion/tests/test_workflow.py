@@ -51,7 +51,7 @@ class WorkflowSetupTest(unittest.TestCase):
         )
 
     def test_review_comments_permission(self):
-        #'Review comments' in self.portal.permissionsOfRole('Admin')
+        # 'Review comments' in self.portal.permissionsOfRole('Admin')
 
         setRoles(self.portal, TEST_USER_ID, ['Reviewer'])
         self.assertTrue(self.portal.portal_membership.checkPermission(
@@ -146,8 +146,8 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         """Make sure published comments can be viewed by everyone.
         """
         # Owner is allowed
-        #self.login(default_user)
-        #self.assertTrue(checkPerm(View, self.doc))
+        # self.login(default_user)
+        # self.assertTrue(checkPerm(View, self.doc))
         # Member is allowed
         login(self.portal, 'member')
         self.assertTrue(checkPerm(View, self.comment))

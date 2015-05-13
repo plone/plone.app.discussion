@@ -104,4 +104,4 @@ class EditCommentForm(CommentForm):
 
 EditComment = wrap_form(EditCommentForm)
 
-#EOF
+# EOF

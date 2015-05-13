@@ -138,7 +138,7 @@ class RegistryTest(unittest.TestCase):
             False
         )
 
-    #def test_user_notification_enabled(self):
+    # def test_user_notification_enabled(self):
     #    # Check show_commenter_image record
     #    show_commenter_image = self.registry.records['plone.app.discussion.' +
     #        'interfaces.IDiscussionSettings.user_notification_enabled']

@@ -392,7 +392,7 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue((new_id2, comment2) in conversation.iteritems())
 
         # TODO test acquisition wrapping
-        #self.assertTrue(aq_base(aq_parent(comment1)) is conversation)
+        # self.assertTrue(aq_base(aq_parent(comment1)) is conversation)
 
     def test_total_comments(self):
         # Create a conversation. In this case we doesn't assign it to an
