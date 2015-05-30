@@ -9,7 +9,8 @@
                        has_replies python:view.has_replies(canReview);
                        showCommenterImage view/show_commenter_image;
                        errors options/state/getErrors|nothing;
-                       wtool context/@@plone_tools/workflow;"
+                       wtool context/@@plone_tools/workflow;
+                       auth_token context/@@authenticator/token|nothing"
            tal:condition="python:isDiscussionAllowed or has_replies"
            i18n:domain="plone">
 
@@ -115,19 +116,26 @@
                                    />
                         </form>
 
-                        <form name="edit"
-                              action=""
-                              method="get"
-                              class="commentactionsform"
-                              tal:condition="python:isEditCommentAllowed and canEdit"
-                              tal:attributes="action string:${reply/absolute_url}/@@edit-comment">
-                            <input name="form.button.EditComment"
-                                   class="context"
-                                   type="submit"
-                                   value="Edit"
-                                   i18n:attributes="value label_edit;"
-                                   />
-                        </form>
+                        <tal:edit tal:condition="python:isEditCommentAllowed and canEdit">
+                          <!-- plone 5 will have auth_token available
+                               so we'll use modal pattern -->
+                          <a class="commentactionsform pat-plone-modal"
+                             tal:condition="auth_token"
+                             tal:attributes="href string:${reply/absolute_url}/@@edit-comment?_authenticator=${auth_token}">Edit</a>
+                          <form name="edit"
+                                action=""
+                                method="get"
+                                class="commentactionsform"
+                                tal:condition="not: auth_token"
+                                tal:attributes="action string:${reply/absolute_url}/@@edit-comment">
+                              <input name="form.button.EditComment"
+                                     class="context"
+                                     type="submit"
+                                     value="Edit"
+                                     i18n:attributes="value label_edit;"
+                                     />
+                          </form>
+                        </tal:edit>
 
 
                         <!-- Workflow actions (e.g. 'publish') -->
