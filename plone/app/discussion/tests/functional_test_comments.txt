@@ -269,14 +269,15 @@ Use the Plone control panel to enable comment editing.
 
 Extract the edit comment url from the first "edit comment" button
 
+    >>> from Products.CMFPlone import __version__
     >>> browser.open(urldoc1)
-    >>> form = browser.getForm(name='edit', index=0)
-    >>> '@@edit-comment' in form.action
+    >>> url = __version__[0] == '5' and browser.getLink(url='@@edit-comment').url or browser.getForm(name='edit', index=0).action
+    >>> '@@edit-comment' in url
     True
 
 Open the edit comment view
 
-    >>> browser.open(form.action)
+    >>> browser.open(url)
     >>> ctrl = browser.getControl('Comment')
     >>> ctrl.value
     'Comment from admin'
@@ -298,10 +299,10 @@ Check it ain't so.
 
 Opening the edit comment view, then cancel, does nothing.
 
-    >>> form = browser.getForm(name='edit', index=0)
-    >>> '@@edit-comment' in form.action
+    >>> url = __version__[0] == '5' and browser.getLink(url='@@edit-comment').url or browser.getForm(name='edit', index=0).action
+    >>> '@@edit-comment' in url
     True
-    >>> browser.open(form.action)
+    >>> browser.open(url)
     >>> browser.getControl('Cancel').click()
     >>> browser.url.startswith('http://nohost/plone/doc1')
     True

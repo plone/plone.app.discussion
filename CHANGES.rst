@@ -4,7 +4,8 @@ Changelog
 2.4.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Only use edit overlay if available for editing comments
+  [vangheem]
 
 
 2.4.2 (2015-05-04)
