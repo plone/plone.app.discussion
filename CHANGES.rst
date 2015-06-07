@@ -4,6 +4,9 @@ Changelog
 2.4.3 (unreleased)
 ------------------
 
+- Update Spanish translation.
+  [macagua]
+
 - Only use edit overlay if available for editing comments
   [vangheem]
 
