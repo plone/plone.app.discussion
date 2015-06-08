@@ -1,10 +1,12 @@
+# Mikel Larreategi <mlarreategi@codesyntax.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2015-03-23 08:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
-"Language-Team: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
+"Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
+"Language-Team: Spanish <plone-i18n@lists.sourceforge.net>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,10 +15,11 @@ msgstr ""
 "Language-Name: Spanish\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: plone\n"
+"X-Is-Fallback-For: es-ar es-bo es-cl es-co es-cr es-do es-ec es-es es-sv es-gt es-hn es-mx es-ni es-pa es-py es-pe es-pr es-us es-uy es-ve\n"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
-msgstr "Workflow simple de moderación de comentarios"
+msgstr "Flujo de trabajo simple de moderación de comentarios"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
@@ -32,7 +35,7 @@ msgstr "Comentario"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment Review Workflow"
-msgstr "Worfklow de moderación de comentarios"
+msgstr "Flujo de trabajo de moderación de comentarios"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Comment about the last transition"
@@ -64,7 +67,7 @@ msgstr "Transición anterior"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Provides access to workflow history"
-msgstr "Acceso a la historia del workflow"
+msgstr "Acceso al historial del flujo de trabajo"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Published"
@@ -101,4 +104,3 @@ msgstr "Visible para todos, no-editable"
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "When the previous transition was performed"
 msgstr "Cuándo se ejecutó la transición anterior"
-

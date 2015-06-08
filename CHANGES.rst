@@ -10,6 +10,9 @@ Changelog
 2.4.3 (2015-06-05)
 ------------------
 
+- Update Spanish translation.
+  [macagua]
+
 - Only use edit overlay if available for editing comments
   [vangheem]
 
