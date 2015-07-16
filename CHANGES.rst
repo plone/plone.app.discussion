@@ -6,6 +6,8 @@ Changelog
 
 - Change the category of the configlet to 'plone-general' [sneridagh]
 
+- Updated links for the renamed 'Types' control panel [sneridagh]
+
 
 2.4.3 (2015-06-05)
 ------------------
