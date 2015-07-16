@@ -32,7 +32,7 @@
                 Moderation workflow is disabled. You have to
                 <a i18n:name="enable_comment_workflow"
                    i18n:translate="message_enable_comment_workflow" href=""
-                   tal:attributes="href string:${context/portal_url}/@@types-controlpanel?type_id=Discussion Item">
+                   tal:attributes="href string:${context/portal_url}/@@content-controlpanel?type_id=Discussion Item">
                 enable the 'Comment Review Workflow' for the Comment content
                 type</a> before you can moderate comments here.
             </span>

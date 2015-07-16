@@ -11,7 +11,7 @@
      tal:attributes="class view/settings"
      metal:fill-slot="prefs_configlet_content">
 
-    
+
     <div class="portalMessage warning"
         tal:condition="view/mailhost_warning">
         <strong i18n:translate="">
@@ -44,7 +44,7 @@
             <tal:link i18n:name="label_discussion_control_panel_link">
                 <a href=""
                    i18n:translate="text_discussion_type_control_panel_link"
-                   tal:attributes="href string:${portal_url}/@@types-controlpanel?type_id=Discussion Item"
+                   tal:attributes="href string:${portal_url}/@@content-controlpanel?type_id=Discussion Item"
                 >Types control panel</a>
             </tal:link>
             to choose a workflow for the 'Discussion Item' type.
