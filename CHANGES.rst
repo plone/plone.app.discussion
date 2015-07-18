@@ -4,9 +4,14 @@ Changelog
 2.4.4 (unreleased)
 ------------------
 
-- Change the category of the configlet to 'plone-general' [sneridagh]
+- Change the category of the configlet to 'plone-general'.
+  [sneridagh]
 
-- Updated links for the renamed 'Types' control panel [sneridagh]
+- Updated links for the renamed 'Types' control panel.
+  [sneridagh]
+
+- Updated Spanish translation.
+  [Caballero]
 
 
 2.4.3 (2015-06-05)
