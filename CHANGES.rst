@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.4.4 (unreleased)
+2.4.4 (2015-07-18)
 ------------------
 
 - Change the category of the configlet to 'plone-general'.
