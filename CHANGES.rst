@@ -4,7 +4,8 @@ Changelog
 2.4.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Updated basque translation
+  [erral]
 
 
 2.4.4 (2015-07-18)
