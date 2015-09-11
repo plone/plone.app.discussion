@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.4.5 (unreleased)
+2.4.5 (2015-09-11)
 ------------------
 
 - Updated basque translation
