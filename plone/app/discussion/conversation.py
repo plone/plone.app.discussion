@@ -288,6 +288,9 @@ class Conversation(Traversable, Persistent, Explicit):
         for k, v in self._comments.iteritems():
             yield (k, v.__of__(self),)
 
+    def allowedContentTypes(self):
+        return []
+
 
 @implementer(IConversation)
 @adapter(IAnnotatable)
