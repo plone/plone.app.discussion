@@ -4,6 +4,9 @@ Changelog
 2.4.6 (unreleased)
 ------------------
 
+- Fix editing comments in Plone 5.
+  [pbauer]
+
 - Move anonymous_email_enabled after anonymous_comments in controlpanel.
   [pbauer]
 
