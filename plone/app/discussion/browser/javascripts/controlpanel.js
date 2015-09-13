@@ -49,6 +49,7 @@ require([  // jshint ignore:line
         if (globally_enabled === true) {
             $.enableSettings([
                 $('#formfield-form-widgets-anonymous_comments'),
+                $('#formfield-form-widgets-anonymous_email_enabled'),
                 $('#formfield-form-widgets-moderation_enabled'),
                 $('#formfield-form-widgets-edit_comment_enabled'),
                 $('#formfield-form-widgets-delete_own_comment_enabled'),
@@ -63,6 +64,7 @@ require([  // jshint ignore:line
         else {
             $.disableSettings([
                 $('#formfield-form-widgets-anonymous_comments'),
+                $('#formfield-form-widgets-anonymous_email_enabled'),
                 $('#formfield-form-widgets-moderation_enabled'),
                 $('#formfield-form-widgets-edit_comment_enabled'),
                 $('#formfield-form-widgets-delete_own_comment_enabled'),

@@ -222,6 +222,17 @@ class IDiscussionSettings(Interface):
         default=False,
     )
 
+    anonymous_email_enabled = schema.Bool(
+        title=_(u"label_anonymous_email_enabled",
+                default=u"Enable anonymous email field"),
+        description=_(
+            u"help_anonymous_email_enabled",
+            default=u"If selected, anonymous user will have to "
+                    u"give their email."),
+        required=False,
+        default=False
+    )
+
     moderation_enabled = schema.Bool(
         title=_(
             u"label_moderation_enabled",
@@ -343,16 +354,6 @@ class IDiscussionSettings(Interface):
         required=False,
         default=False
     )
-
-    anonymous_email_enabled = schema.Bool(
-        title=_(u"label_anonymous_email_enabled",
-                default=u"Enable anonymous email field"),
-        description=_(
-            u"help_anonymous_email_enabled",
-            default=u"If selected, anonymous user will have to "
-                    u"give their email."),
-        required=False,
-        default=False)
 
 
 class IDiscussionLayer(Interface):

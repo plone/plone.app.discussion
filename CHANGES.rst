@@ -4,7 +4,8 @@ Changelog
 2.4.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Move anonymous_email_enabled after anonymous_comments in controlpanel.
+  [pbauer]
 
 
 2.4.5 (2015-09-11)
