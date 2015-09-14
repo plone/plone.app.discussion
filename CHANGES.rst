@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.4.6 (unreleased)
+2.4.6 (2015-09-14)
 ------------------
 
 - Fix editing comments in Plone 5.
