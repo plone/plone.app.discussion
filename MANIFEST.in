@@ -1,9 +1,7 @@
 include *.txt
 include *.rst
 
-recursive-include docs *
-recursive-include plone *
-
-global-include *.mo
+graft docs
+graft plone
 
 global-exclude *.pyc
