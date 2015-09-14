@@ -37,14 +37,13 @@
 .commentDate {
     display: block;
     font-size: 85%;
-    line-height: 1.5em;
-    padding-top: 0.5em;
     color: #76797C;
 }
 
 .commentBody {
     clear: both;
     margin: 1em 0;
+    padding: 1em;
     overflow: auto;
     border: 1px solid #ccc;
 }
@@ -54,11 +53,8 @@
  }
 
 .discussion .documentByLine {
-    float: left;
-    margin-left: 0;
-    margin-bottom: 0.5em;
+    font-weight: normal;
 }
-
 .commentActions {
     float: right;
     text-align: right;
@@ -71,8 +67,10 @@
 .loginbutton {
     margin-bottom: 1.25em;
 }
+
 .commentactionsform {
     display: inline;
+    margin-left: 6px;
 }
 
 .replyTreeLevel0 {
@@ -194,10 +192,6 @@
     margin: 0;
 }
 
-.row #commenting {
-    font-size: 80%;
-}
-
 .row #commenting .formControls {
     margin: 0;
 }
@@ -217,7 +211,7 @@
 .row #commenting legend,
 .row .discussion legend {
     padding: 0.5em 0.5em 0.5em 0;
-    font-size: 85%;
+    font-weight: normal;
 }
 
 .row #commenting label,

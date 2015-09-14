@@ -4,8 +4,8 @@ Changelog
 2.4.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Tweak discussions.css styles to better live with plonetheme.barcelonata
+  [ichim-david]
 
 2.4.6 (2015-09-14)
 ------------------
