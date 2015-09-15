@@ -119,7 +119,7 @@
                         <tal:edit tal:condition="python:isEditCommentAllowed and canEdit">
                           <!-- plone 5 will have auth_token available
                                so we'll use modal pattern -->
-                          <a class="commentactionsform pat-plone-modal"
+                          <a class="commentactionsform pat-plone-modal context"
                              tal:condition="auth_token"
                              tal:attributes="href string:${reply/absolute_url}/@@edit-comment?_authenticator=${auth_token}">Edit</a>
                           <form name="edit"
