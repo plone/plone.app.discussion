@@ -4,7 +4,9 @@ Changelog
 2.4.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix reply button not showing up since it uses a hide class which needs
+  to be removed instead of a display value
+  [ichim-david]
 
 
 2.4.7 (2015-09-15)

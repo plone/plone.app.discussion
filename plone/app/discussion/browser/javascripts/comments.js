@@ -257,7 +257,7 @@ require([  // jshint ignore:line
          * Otherwise hide it, since the reply functions only work with JS
          * enabled.
          **********************************************************************/
-        $('.reply-to-comment-button').css('display' , 'inline');
+        $('.reply-to-comment-button').removeClass('hide');
 
     });
 
