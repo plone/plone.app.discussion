@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.4.7 (unreleased)
+2.4.7 (2015-09-15)
 ------------------
 
 - Tweak discussions.css styles to better live with plonetheme.barcelonata
