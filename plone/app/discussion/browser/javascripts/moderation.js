@@ -36,7 +36,8 @@ require([  // jshint ignore:line
             e.preventDefault();
             var row = $(this).parent().parent();
             var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
-            var target = path + "/@@moderate-delete-comment";
+            var auth_key = $('input[name="_authenticator"]').val();
+            var target = path + "/@@moderate-delete-comment?_authenticator=" + auth_key;
             $.ajax({
                 type: "GET",
                 url: target,
@@ -65,7 +66,8 @@ require([  // jshint ignore:line
             e.preventDefault();
             var row = $(this).parent().parent();
             var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
-            var target = path + "/@@moderate-publish-comment";
+            var auth_key = $('input[name="_authenticator"]').val();
+            var target = path + "/@@moderate-publish-comment?_authenticator=" + auth_key;
             $.ajax({
                 type: "GET",
                 url: target,
