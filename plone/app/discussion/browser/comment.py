@@ -1,11 +1,13 @@
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from zope.component import getUtility
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from comments import CommentForm
 from plone.app.discussion import PloneAppDiscussionMessageFactory as _
+from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
 from z3c.form import button
 from zope.component import getMultiAdapter
@@ -30,8 +32,11 @@ class View(BrowserView):
 
     def __call__(self):
         context = aq_inner(self.context)
-        ptool = getToolByName(context, 'portal_properties')
-        view_action_types = ptool.site_properties.typesUseViewActionInListings
+
+        registry = getUtility(IRegistry)
+        view_action_types = registry.get(
+            'plone.types_use_view_action_in_listings', [])
+
         obj = aq_parent(aq_parent(context))
         url = obj.absolute_url()
 

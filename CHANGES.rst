@@ -4,6 +4,9 @@ Changelog
 2.4.8 (unreleased)
 ------------------
 
+- Use registry lookup for types_use_view_action_in_listings
+  [esteele]
+
 - Remove discussion.css
   [pbauer]
 
