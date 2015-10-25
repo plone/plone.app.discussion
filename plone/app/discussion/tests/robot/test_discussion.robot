@@ -10,6 +10,7 @@
 *** Settings ***
 
 Resource  plone/app/robotframework/selenium.robot
+Resource  plone/app/robotframework/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
@@ -31,6 +32,19 @@ Add Comment to a Document
    When I add a comment
    Then I can see the comment below the document
 
+# This test will fail as member has to input email due to bug in p.a.discussion
+Add Comment as anon to a Document
+  Given Log in  admin  secret
+    and I enable anon and email anon global and discussion on the document
+
+  Given a anon user
+   When I add a comment as anon
+   Then I can see the anon comment below the document
+
+  Given a logged-in Member
+   When I add a comment as member
+   Then I can see the member comment below the document
+
 #Reply to a comment on a Document
 #  Given a logged-in Site Administrator
 #    and a document with discussion enabled
@@ -47,6 +61,14 @@ Add Comment to a Document
 a logged-in Site Administrator
   Enable autologin as  Site Administrator
 
+a anon user
+  Log out
+  Go To  ${PLONE_URL}/my-document/
+
+a logged-in Member
+  Log in as test user
+  Go To  ${PLONE_URL}/my-document/
+
 a document
   Create content  type=Document  id=my-document  title=My Document
 
@@ -54,8 +76,24 @@ a document with discussion enabled
   a document
   I enable discussion on the document
 
+a document with anon discussion enabled
+  a document
+  I enable discussion on the document
 
 # When
+
+I enable anon and email anon global and discussion on the document
+  Go To  ${PLONE_URL}/@@discussion-settings
+  Select Checkbox  name=form.widgets.anonymous_comments:list
+  Select Checkbox  name=form.widgets.anonymous_email_enabled:list
+  Click Button  Save
+  Go To  ${PLONE_URL}/++add++Document
+  Input Text  form-widgets-IDublinCore-title  My Document
+  Click Button  Save
+  Go To  ${PLONE_URL}/my-document/content_status_history
+  select radio button  workflow_action  publish
+  Click Button  Save
+  I enable discussion on the document
 
 I enable discussion on the document
   Go To  ${PLONE_URL}/my-document/edit
@@ -70,6 +108,17 @@ I add a comment
   Input Text  id=form-widgets-comment-text  This is a comment
   Click Button  Comment
 
+I add a comment as anon
+  Wait until page contains element  id=form-widgets-comment-text
+  Input Text  id=form-widgets-comment-text  This is a comment
+  Input Text  id=form-widgets-author_email  test@plone.org
+  Input Text  id=form-widgets-author_name  AnonName
+  Click Button  Comment
+
+I add a comment as member
+  Wait until page contains element  id=form-widgets-comment-text
+  Input Text  id=form-widgets-comment-text  This is a member comment
+  Click Button  Comment
 
 # Then
 
@@ -82,3 +131,12 @@ I can see a comment form on the document
 I can see the comment below the document
   Go To  ${PLONE_URL}/my-document/view
   Page should contain  This is a comment
+
+I can see the anon comment below the document
+  Go To  ${PLONE_URL}/my-document/view
+  Page should contain  This is a comment
+  Page should contain  AnonName
+
+I can see the member comment below the document
+  Go To  ${PLONE_URL}/my-document/view
+  Page should contain  This is a member comment

@@ -4,7 +4,9 @@ Changelog
 2.4.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- This will only show a bug when anon email is available and member
+  tries to comment
+  [maartenkling]
 
 
 2.4.8 (2015-09-20)
