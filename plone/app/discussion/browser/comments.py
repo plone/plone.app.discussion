@@ -7,7 +7,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from datetime import datetime
-from plone.app.discussion import PloneAppDiscussionMessageFactory as _
+from plone.app.discussion import _
 from plone.app.discussion.browser.validator import CaptchaValidator
 from plone.app.discussion.interfaces import ICaptcha
 from plone.app.discussion.interfaces import IComment

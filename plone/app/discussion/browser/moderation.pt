@@ -4,7 +4,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="context/main_template/macros/master"
-      i18n:domain="plone.app.discussion">
+      i18n:domain="plone">
 <body>
 
 <metal:main fill-slot="main">
@@ -27,7 +27,7 @@
 
         <div class="portalMessage warning"
             tal:condition="not: view/moderation_enabled">
-            <strong i18n:domain="plone" i18n:translate="">Warning</strong>
+            <strong i18n:translate="">Warning</strong>
             <span tal:omit-tag="" i18n:translate="message_moderation_disabled">
                 Moderation workflow is disabled. You have to
                 <a i18n:name="enable_comment_workflow"

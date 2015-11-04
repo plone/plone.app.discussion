@@ -18,7 +18,7 @@ from OFS.owner import Owned
 from OFS.role import RoleManager
 from OFS.Traversable import Traversable
 from persistent import Persistent
-from plone.app.discussion import PloneAppDiscussionMessageFactory as _
+from plone.app.discussion import _
 from plone.app.discussion.events import CommentAddedEvent
 from plone.app.discussion.events import CommentRemovedEvent
 from plone.app.discussion.events import ReplyAddedEvent
