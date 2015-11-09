@@ -10,7 +10,9 @@ New:
 
 Fixes:
 
-- *add item here*
+- Move translations to plone.app.locales
+  https://github.com/plone/plone.app.discussion/issues/66
+  [gforcada]
 
 
 2.4.8 (2015-09-20)
