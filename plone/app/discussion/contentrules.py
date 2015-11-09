@@ -1,6 +1,6 @@
 """ Content rules handlers
 """
-from plone.app.discussion import PloneAppDiscussionMessageFactory as _
+from plone.app.discussion import _
 
 
 try:

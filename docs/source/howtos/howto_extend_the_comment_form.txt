@@ -143,7 +143,7 @@ plone.app.discussion.browser.comments.pt.
 
 You can now add code to show the website attribute to the documentByLine::
 
-    <div class="documentByLine" i18n:domain="plone.app.discussion">
+    <div class="documentByLine" i18n:domain="plone">
         ...
         <div class="commentWebsite"
              tal:condition="reply/website|nothing">

@@ -6,7 +6,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 from comments import CommentForm
-from plone.app.discussion import PloneAppDiscussionMessageFactory as _
+from plone.app.discussion import _
 from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
 from z3c.form import button

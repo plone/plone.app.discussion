@@ -2,4 +2,4 @@
 from zope.i18nmessageid import MessageFactory
 
 
-PloneAppDiscussionMessageFactory = MessageFactory('plone.app.discussion')
+_ = MessageFactory('plone')
