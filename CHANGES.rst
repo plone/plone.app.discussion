@@ -13,6 +13,10 @@ Fixes:
 - Update Site Setup link in all control panels (fixes https://github.com/plone/Products.CMFPlone/issues/1255)
   [davilima6]
 
+- In tests, use ``selection.any`` in querystrings.
+  Issue https://github.com/plone/Products.CMFPlone/issues/1040
+  [maurits]
+
 - Move translations to plone.app.locales
   https://github.com/plone/plone.app.discussion/issues/66
   [gforcada]
