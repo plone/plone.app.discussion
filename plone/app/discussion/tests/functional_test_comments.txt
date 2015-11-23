@@ -262,7 +262,7 @@ Log in as admin
 
 Use the Plone control panel to enable comment editing.
 
-    >>> browser.open(portal_url + '/plone_control_panel')
+    >>> browser.open(portal_url + '/@@overview-controlpanel')
     >>> browser.getLink('Discussion').click()
     >>> browser.getControl('Enable editing of comments').selected = True
     >>> browser.getControl(name='form.buttons.save').click()

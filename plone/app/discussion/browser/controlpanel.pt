@@ -5,12 +5,10 @@
       lang="en"
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="plone">
-
 <body>
 <article id="content"
      tal:attributes="class view/settings"
      metal:fill-slot="prefs_configlet_content">
-
 
     <div class="portalMessage warning"
         tal:condition="view/mailhost_warning">
@@ -74,9 +72,8 @@
       Portal status message
     </div>
 
-    <a href=""
-       id="setup-link"
-       tal:attributes="href string:$portal_url/plone_control_panel"
+    <a id="setup-link" class="link-parent"
+       tal:attributes="href string:$portal_url/@@overview-controlpanel"
        i18n:translate="">
         Site Setup
     </a>
@@ -92,6 +89,7 @@
   <script type="text/javascript"
           tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
   </script>
+
 </article>
 </body>
 </html>
