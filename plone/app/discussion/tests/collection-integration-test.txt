@@ -28,7 +28,7 @@ Set the collection criteria.
     >>> if COLLECTION_TYPE == "Collection":
     ...     browser.getControl(name="addindex").value = ['portal_type']
     ...     browser.getControl(name="form.button.addcriteria").click()
-    ...     browser.getControl(name="addoperator").value = ['plone.app.querystring.operation.selection.is']
+    ...     browser.getControl(name="addoperator").value = ['plone.app.querystring.operation.selection.any']
     ...     browser.getControl(name="form.button.addcriteria").click()
     ...     browser.getControl(name="query.v:records:list").value = ["Discussion Item"]
     ...     browser.getControl(name="form.button.save").click()
