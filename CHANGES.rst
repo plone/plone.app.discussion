@@ -4,10 +4,6 @@ Changelog
 2.4.9 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Update Site Setup link in all control panels (fixes https://github.com/plone/Products.CMFPlone/issues/1255)
