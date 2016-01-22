@@ -6,6 +6,7 @@ Changelog
 
 New:
 
+- add russian translate
 - *add item here*
 
 Fixes:
