@@ -21,6 +21,7 @@ from OFS.event import ObjectWillBeAddedEvent
 from OFS.event import ObjectWillBeRemovedEvent
 from OFS.Traversable import Traversable
 from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
+from Products.CMFPlone import DISCUSSION_ANNOTATION_KEY as ANNOTATION_KEY
 from persistent import Persistent
 from plone.app.discussion.comment import Comment
 from plone.app.discussion.interfaces import IConversation
@@ -37,10 +38,8 @@ from zope.lifecycleevent import ObjectAddedEvent
 from zope.lifecycleevent import ObjectCreatedEvent
 from zope.lifecycleevent import ObjectRemovedEvent
 
+
 import time
-
-
-ANNOTATION_KEY = 'plone.app.discussion:conversation'
 
 
 class Conversation(Traversable, Persistent, Explicit):
