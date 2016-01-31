@@ -11,7 +11,10 @@ New:
 
 Fixes:
 
-- *add item here*
+- Get rid of the monkey patch on Products.CMFPlone's CatalogTool.
+  Issue https://github.com/plone/Products.CMFPlone/issues/1332
+  [staeff, fredvd]
+
 
 
 2.4.9 (2015-11-25)

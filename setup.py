@@ -5,7 +5,6 @@ version = '2.4.10.dev0'
 
 install_requires = [
     'setuptools',
-    'collective.monkeypatcher',
     'plone.app.layout',
     'plone.app.registry',
     'plone.app.uuid',
