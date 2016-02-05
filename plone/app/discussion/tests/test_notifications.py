@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces import IMailSchema
 from Products.CMFPlone.tests.utils import MockMailHost
 from Products.MailHost.interfaces import IMailHost
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
-from plone.registry.interfaces import IRegistry
 from zope.component import createObject
 from zope.component import getSiteManager
 from zope.component import getUtility
@@ -32,7 +32,7 @@ class TestUserNotificationUnit(unittest.TestCase):
         # We need to fake a valid mail setup
         registry = getUtility(IRegistry)
         mail_settings = registry.forInterface(IMailSchema, prefix='plone')
-        mail_settings.email_from_address = "portal@plone.test"
+        mail_settings.email_from_address = 'portal@plone.test'
         self.mailhost = self.portal.MailHost
         # Enable user notification setting
         registry = queryUtility(IRegistry)
@@ -40,7 +40,7 @@ class TestUserNotificationUnit(unittest.TestCase):
                  '.user_notification_enabled'] = True
         # Archetypes content types store data as utf-8 encoded strings
         # The missing u in front of a string is therefor not missing
-        self.portal.doc1.title = 'Kölle Alaaf'  # What is "Fasching"?
+        self.portal.doc1.title = 'Kölle Alaaf'  # What is 'Fasching'?
         self.conversation = IConversation(self.portal.doc1)
 
     def beforeTearDown(self):
@@ -56,7 +56,7 @@ class TestUserNotificationUnit(unittest.TestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         comment.user_notification = True
-        comment.author_email = "john@plone.test"
+        comment.author_email = 'john@plone.test'
         self.conversation.addComment(comment)
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
@@ -75,11 +75,10 @@ class TestUserNotificationUnit(unittest.TestCase):
         # The output should be encoded in a reasonable manner
         # (in this case quoted-printable):
         self.assertTrue(
-            "A comment on \'K=C3=B6lle Alaaf\' has been posted here:"
+            'A comment on "K=C3=B6lle Alaaf" has been posted here:'
             in msg)
         self.assertTrue(
-            "http://nohost/plone/d=\noc1/view#%s"
-            % comment_id
+            'http://nohost/plone/d=\noc1/view#{0}'.format(comment_id)
             in msg)
         self.assertTrue('Comment text' in msg)
         self.assertFalse('Approve comment' in msg)
@@ -94,7 +93,7 @@ class TestUserNotificationUnit(unittest.TestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         comment.user_notification = True
-        comment.author_email = "john@plone.test"
+        comment.author_email = 'john@plone.test'
         self.conversation.addComment(comment)
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
@@ -124,7 +123,7 @@ class TestUserNotificationUnit(unittest.TestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         comment.user_notification = True
-        comment.author_email = "john@plone.test"
+        comment.author_email = 'john@plone.test'
         self.conversation.addComment(comment)
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
@@ -139,12 +138,12 @@ class TestUserNotificationUnit(unittest.TestCase):
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         comment.user_notification = True
-        comment.author_email = "john@plone.test"
+        comment.author_email = 'john@plone.test'
         self.conversation.addComment(comment)
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
         comment.user_notification = True
-        comment.author_email = "john@plone.test"
+        comment.author_email = 'john@plone.test'
 
         self.conversation.addComment(comment)
 
@@ -171,7 +170,7 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         # We need to fake a valid mail setup
         registry = getUtility(IRegistry)
         mail_settings = registry.forInterface(IMailSchema, prefix='plone')
-        mail_settings.email_from_address = "portal@plone.test"
+        mail_settings.email_from_address = 'portal@plone.test'
         self.mailhost = self.portal.MailHost
         # Enable comment moderation
         self.portal.portal_types['Document'].allow_discussion = True
@@ -187,7 +186,7 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         ] = True
         # Archetypes content types store data as utf-8 encoded strings
         # The missing u in front of a string is therefor not missing
-        self.portal.doc1.title = 'Kölle Alaaf'  # What is "Fasching"?
+        self.portal.doc1.title = 'Kölle Alaaf'  # What is 'Fasching'?
         self.conversation = IConversation(self.portal.doc1)
 
     def beforeTearDown(self):
@@ -216,21 +215,28 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         # The output should be encoded in a reasonable manner
         # (in this case quoted-printable):
         self.assertTrue(
-            "A comment on \'K=C3=B6lle Alaaf\' has been posted here:"
+            'A comment on "K=C3=B6lle Alaaf" has been posted here:'
             in msg)
-        self.assertTrue(
-            "http://nohost/plone/d=\noc1/view#%s"
-            % comment_id
-            in msg)
-        self.assertTrue('Comment text' in msg)
-        self.assertTrue(
-            'Approve comment:\nhttp://nohost/plone/doc1/' +
-            '++conversation++default/%s/@@moderat=\ne-publish-comment'
-            % comment_id in msg)
-        self.assertTrue(
-            'Delete comment:\nhttp://nohost/plone/doc1/' +
-            '++conversation++default/%s/@@moderat=\ne-delete-comment'
-            % comment_id in msg)
+        self.assertIn(
+            'http://nohost/plone/d=\noc1/view#{0}'.format(comment_id),
+            msg
+        )
+        self.assertIn(
+            'Comment text',
+            msg
+        )
+        text = 'Approve comment:\nhttp://nohost/plone/doc1/' \
+               '++conversation++default/{0}/@@moderat=\ne-publish-comment'
+        self.assertIn(
+            text.format(comment_id),
+            msg
+        )
+        text = 'Delete comment:\nhttp://nohost/plone/doc1/' \
+               '++conversation++default/{0}/@@moderat=\ne-delete-comment'
+        self.assertIn(
+            text.format(comment_id),
+            msg
+        )
 
     def test_notify_moderator_specific_address(self):
         # A moderator email address can be specified in the control panel.

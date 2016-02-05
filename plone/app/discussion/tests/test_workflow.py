@@ -2,8 +2,6 @@
 """Test plone.app.discussion workflow and permissions.
 """
 from AccessControl import Unauthorized
-from Products.CMFCore.permissions import View
-from Products.CMFCore.utils import _checkPermission as checkPerm
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionLayer
 from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
@@ -11,6 +9,8 @@ from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from Products.CMFCore.permissions import View
+from Products.CMFCore.utils import _checkPermission as checkPerm
 from zope.component import createObject
 from zope.interface import alsoProvides
 
@@ -87,7 +87,7 @@ class PermissionsSetupTest(unittest.TestCase):
            plone.app.discussion assigns this permission to 'Authenticated' as
            well to emulate the behavior of the old commenting system.
         """
-        ReplyToItemPerm = "Reply to item"
+        ReplyToItemPerm = 'Reply to item'
         # should be allowed as Member
         self.assertTrue(self.checkPermission(ReplyToItemPerm, self.portal))
         # should be allowed as Authenticated
@@ -126,7 +126,7 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         cid = conversation.addComment(comment)
 
         self.comment = self.folder.doc1.restrictedTraverse(
-            '++conversation++default/%s' % cid
+            '++conversation++default/{0}'.format(cid)
         )
 
         self.portal.acl_users._doAddUser('member', 'secret', ['Member'], [])
@@ -192,7 +192,8 @@ class CommentReviewWorkflowTest(unittest.TestCase):
         comment.text = 'Comment text'
         comment_id = conversation.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % comment_id)
+            '++conversation++default/{0}'.format(comment_id)
+        )
 
         self.conversation = conversation
         self.comment_id = comment_id

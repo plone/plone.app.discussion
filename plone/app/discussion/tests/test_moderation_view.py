@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
 from plone.app.discussion.browser.moderation import BulkActionsView
 from plone.app.discussion.browser.moderation import View
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from Products.CMFCore.utils import getToolByName
 from zope.component import createObject
 
 import unittest
@@ -75,7 +75,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         comment1.Creator = 'Jim'
         new_id_1 = conversation.addComment(comment1)
         self.comment1 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id_1
+            '++conversation++default/{0}'.format(new_id_1)
         )
         comment2 = createObject('plone.Comment')
         comment2.title = 'Comment 2'
@@ -83,7 +83,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         comment2.Creator = 'Joe'
         new_id_2 = conversation.addComment(comment2)
         self.comment2 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id_2
+            '++conversation++default/{0}'.format(new_id_2)
         )
         comment3 = createObject('plone.Comment')
         comment3.title = 'Comment 3'
@@ -91,7 +91,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         comment3.Creator = 'Emma'
         new_id_3 = conversation.addComment(comment3)
         self.comment3 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id_3
+            '++conversation++default/{0}'.format(new_id_3)
         )
         self.conversation = conversation
 

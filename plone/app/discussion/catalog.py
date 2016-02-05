@@ -1,15 +1,17 @@
+# -*- coding: utf-8 -*-
 """Catalog indexers, using plone.indexer. These will populate standard catalog
 indexes with values based on the IComment interface.
 
 Also provide event handlers to actually catalog the comments.
 """
 from DateTime import DateTime
+from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IConversation
+from plone.indexer import indexer
+from plone.uuid.interfaces import IUUID
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFPlone.utils import safe_unicode
 from Products.ZCatalog.interfaces import IZCatalog
-from plone.app.discussion.interfaces import IConversation, IComment
-from plone.indexer import indexer
-from plone.uuid.interfaces import IUUID
 from string import join
 
 
@@ -78,7 +80,7 @@ def description(object):
     text = join(object.getText(
         targetMimetype='text/plain').split()[:MAX_DESCRIPTION])
     if len(object.getText().split()) > 25:
-        text += " [...]"
+        text += ' [...]'
     return text
 
 

@@ -12,7 +12,8 @@ from z3c.form import interfaces
 from z3c.form.field import Fields
 from zope import interface
 from zope.annotation import factory
-from zope.component import adapts, queryUtility
+from zope.component import adapts
+from zope.component import queryUtility
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
@@ -51,7 +52,7 @@ class CaptchaExtender(extensible.FormExtender):
     def update(self):
         if self.captcha != 'disabled' and self.isAnon:
             # Add a captcha field if captcha is enabled in the registry
-            self.add(ICaptcha, prefix="")
+            self.add(ICaptcha, prefix='')
             if self.captcha == 'captcha':
                 from plone.formwidget.captcha import CaptchaFieldWidget
                 self.form.fields['captcha'].widgetFactory = CaptchaFieldWidget

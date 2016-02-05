@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-from AccessControl import Unauthorized
 from AccessControl import getSecurityManager
+from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from plone.app.discussion.interfaces import _
+from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IReplies
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-from plone.app.discussion.interfaces import _
-from plone.app.discussion.interfaces import IComment
-from plone.app.discussion.interfaces import IReplies
 
 
 class View(BrowserView):
@@ -101,8 +101,8 @@ class DeleteComment(BrowserView):
             del conversation[comment.id]
             content_object.reindexObject()
             IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _("Comment deleted."),
-                type="info")
+                _('Comment deleted.'),
+                type='info')
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
         if len(came_from) == 0 or 'came_from=' in came_from:
@@ -133,14 +133,17 @@ class DeleteOwnComment(DeleteComment):
         sm = getSecurityManager()
         comment = comment or aq_inner(self.context)
         userid = sm.getUser().getId()
-        return (sm.checkPermission('Delete own comments',
-                                   comment)
-                and 'Owner' in comment.get_local_roles_for_userid(userid))
+        return (
+            sm.checkPermission('Delete own comments', comment) and
+            'Owner' in comment.get_local_roles_for_userid(userid)
+        )
 
     def can_delete(self, comment=None):
         comment = comment or self.context
-        return (len(IReplies(aq_inner(comment))) == 0
-                and self.could_delete(comment=comment))
+        return (
+            len(IReplies(aq_inner(comment))) == 0 and
+            self.could_delete(comment=comment)
+        )
 
     def __call__(self):
         if self.can_delete():
@@ -179,8 +182,8 @@ class PublishComment(BrowserView):
         comment.reindexObject()
         content_object.reindexObject(idxs=['total_comments'])
         IStatusMessage(self.context.REQUEST).addStatusMessage(
-            _("Comment approved."),
-            type="info")
+            _('Comment approved.'),
+            type='info')
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
         if len(came_from) == 0 or 'came_from=' in came_from:

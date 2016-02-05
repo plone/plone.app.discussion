@@ -2,11 +2,8 @@
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
-from DateTime import DateTime
-from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.statusmessages.interfaces import IStatusMessage
 from datetime import datetime
+from DateTime import DateTime
 from plone.app.discussion import _
 from plone.app.discussion.browser.validator import CaptchaValidator
 from plone.app.discussion.interfaces import ICaptcha
@@ -19,6 +16,9 @@ from plone.registry.interfaces import IRegistry
 from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
 from plone.z3cform.interfaces import IWrappedForm
+from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.statusmessages.interfaces import IStatusMessage
 from urllib import quote as url_quote
 from z3c.form import button
 from z3c.form import field
@@ -34,32 +34,36 @@ from zope.interface import alsoProvides
 
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
-    u"comment_description_plain_text",
-    default=u"You can add a comment by filling out the form below. " +
-            u"Plain text formatting.")
+    u'comment_description_plain_text',
+    default=u'You can add a comment by filling out the form below. '
+            u'Plain text formatting.'
+)
 
 COMMENT_DESCRIPTION_MARKDOWN = _(
-    u"comment_description_markdown",
-    default=u"You can add a comment by filling out the form below. " +
-            u"Plain text formatting. You can use the Markdown syntax for " +
-            u"links and images.")
+    u'comment_description_markdown',
+    default=u'You can add a comment by filling out the form below. '
+            u'Plain text formatting. You can use the Markdown syntax for '
+            u'links and images.'
+)
 
 COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
-    u"comment_description_intelligent_text",
-    default=u"You can add a comment by filling out the form below. " +
-            u"Plain text formatting. Web and email addresses are " +
-            u"transformed into clickable links.")
+    u'comment_description_intelligent_text',
+    default=u'You can add a comment by filling out the form below. '
+            u'Plain text formatting. Web and email addresses are '
+            u'transformed into clickable links.'
+)
 
 COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
-    u"comment_description_moderation_enabled",
-    default=u"Comments are moderated.")
+    u'comment_description_moderation_enabled',
+    default=u'Comments are moderated.'
+)
 
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True  # don't use context to get widget data
     id = None
-    label = _(u"Add a comment")
+    label = _(u'Add a comment')
     fields = field.Fields(IComment).omit('portal_type',
                                          '__parent__',
                                          '__name__',
@@ -81,13 +85,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Widgets
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
-        self.widgets['text'].addClass("autoresize")
-        self.widgets['user_notification'].label = _(u"")
+        self.widgets['text'].addClass('autoresize')
+        self.widgets['user_notification'].label = _(u'')
 
         # Rename the id of the text widgets because there can be css-id
         # clashes with the text field of documents when using and overlay
         # with TinyMCE.
-        self.widgets['text'].id = "form-widgets-comment-text"
+        self.widgets['text'].id = 'form-widgets-comment-text'
 
         # Anonymous / Logged-in
         mtool = getToolByName(self.context, 'portal_membership')
@@ -99,7 +103,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if anon:
             if settings.anonymous_email_enabled:
                 # according to IDiscussionSettings.anonymous_email_enabled:
-                # "If selected, anonymous user will have to give their email."
+                # 'If selected, anonymous user will have to give their email.'
                 self.widgets['author_email'].field.required = True
                 self.widgets['author_email'].required = True
             else:
@@ -121,11 +125,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     def updateActions(self):
         super(CommentForm, self).updateActions()
-        self.actions['cancel'].addClass("standalone")
-        self.actions['cancel'].addClass("hide")
-        self.actions['comment'].addClass("context")
+        self.actions['cancel'].addClass('standalone')
+        self.actions['cancel'].addClass('hide')
+        self.actions['comment'].addClass('context')
 
-    @button.buttonAndHandler(_(u"add_comment_button", default=u"Comment"),
+    @button.buttonAndHandler(_(u'add_comment_button', default=u'Comment'),
                              name='comment')
     def handleComment(self, action):
         context = aq_inner(self.context)
@@ -134,8 +138,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if not self.__parent__.restrictedTraverse(
             '@@conversation_view'
         ).enabled():
-            raise Unauthorized("Discussion is not enabled for this content "
-                               "object.")
+            raise Unauthorized(
+                'Discussion is not enabled for this content object.'
+            )
 
         # Validation form
         data, errors = self.extractData()
@@ -151,7 +156,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         anon = portal_membership.isAnonymousUser()
         if captcha_enabled and anonymous_comments and anon:
             if 'captcha' not in data:
-                data['captcha'] = u""
+                data['captcha'] = u''
             captcha = CaptchaValidator(self.context,
                                        self.request,
                                        None,
@@ -160,7 +165,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             captcha.validate(data['captcha'])
 
         # some attributes are not always set
-        author_name = u""
+        author_name = u''
 
         # Create comment
         comment = createObject('plone.Comment')
@@ -207,14 +212,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             if email and isinstance(email, str):
                 email = unicode(email, 'utf-8')
             comment.changeOwnership(user, recursive=False)
-            comment.manage_setLocalRoles(memberid, ["Owner"])
+            comment.manage_setLocalRoles(memberid, ['Owner'])
             comment.creator = memberid
             comment.author_username = memberid
             comment.author_name = fullname
 
             # XXX: according to IComment interface author_email must not be
             # set for logged in users, cite:
-            # "for anonymous comments only, set to None for logged in comments"
+            # 'for anonymous comments only, set to None for logged in comments'
             comment.author_email = email
             # /XXX
 
@@ -223,8 +228,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         else:  # pragma: no cover
             raise Unauthorized(
-                u"Anonymous user tries to post a comment, but anonymous "
-                u"commenting is disabled. Or user does not have the "
+                u'Anonymous user tries to post a comment, but anonymous '
+                u'commenting is disabled. Or user does not have the '
                 u"'reply to item' permission."
             )
 
@@ -255,14 +260,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if comment_review_state == 'pending' and not can_review:
             # Show info message when comment moderation is enabled
             IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _("Your comment awaits moderator approval."),
-                type="info")
+                _('Your comment awaits moderator approval.'),
+                type='info')
             self.request.response.redirect(self.action)
         else:
             # Redirect to comment (inside a content object page)
             self.request.response.redirect(self.action + '#' + str(comment_id))
 
-    @button.buttonAndHandler(_(u"Cancel"))
+    @button.buttonAndHandler(_(u'Cancel'))
     def handleCancel(self, action):
         # This method should never be called, it's only there to show
         # a cancel button that is handled by a jQuery method.
@@ -278,9 +283,9 @@ class CommentsViewlet(ViewletBase):
         super(CommentsViewlet, self).update()
         discussion_allowed = self.is_discussion_allowed()
         anonymous_allowed_or_can_reply = (
-            self.is_anonymous()
-            and self.anonymous_discussion_allowed()
-            or self.can_reply()
+            self.is_anonymous() and
+            self.anonymous_discussion_allowed() or
+            self.can_reply()
         )
         if discussion_allowed and anonymous_allowed_or_can_reply:
             z2.switch_on(self, request_layer=IFormLayer)
@@ -356,10 +361,10 @@ class CommentsViewlet(ViewletBase):
         settings = registry.forInterface(IDiscussionSettings, check=False)
 
         # text transform setting
-        if settings.text_transform == "text/x-web-intelligent":
+        if settings.text_transform == 'text/x-web-intelligent':
             message = translate(Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT),
                                 context=self.request)
-        elif settings.text_transform == "text/x-web-markdown":
+        elif settings.text_transform == 'text/x-web-markdown':
             message = translate(Message(COMMENT_DESCRIPTION_MARKDOWN),
                                 context=self.request)
         else:
@@ -367,7 +372,7 @@ class CommentsViewlet(ViewletBase):
                                 context=self.request)
 
         # comment workflow
-        wftool = getToolByName(context, "portal_workflow", None)
+        wftool = getToolByName(context, 'portal_workflow', None)
         workflow_chain = wftool.getChainForPortalType('Discussion Item')
         if workflow_chain:
             comment_workflow = workflow_chain[0]
@@ -375,7 +380,7 @@ class CommentsViewlet(ViewletBase):
             # check if the current workflow implements a pending state. If this
             # is true comments are moderated
             if 'pending' in comment_workflow.states:
-                message = message + " " + \
+                message = message + ' ' + \
                     translate(Message(COMMENT_DESCRIPTION_MODERATION_ENABLED),
                               context=self.request)
 
@@ -445,7 +450,7 @@ class CommentsViewlet(ViewletBase):
         if username is None:
             return None
         else:
-            return "%s/author/%s" % (self.context.portal_url(), username)
+            return '{0}/author/{1}'.format(self.context.portal_url(), username)
 
     def get_commenter_portrait(self, username=None):
 
@@ -491,9 +496,10 @@ class CommentsViewlet(ViewletBase):
         return portal_membership.isAnonymousUser()
 
     def login_action(self):
-        return '%s/login_form?came_from=%s' % \
-            (self.navigation_root_url,
-             url_quote(self.request.get('URL', '')),)
+        return '{0}/login_form?came_from={1}'.format(
+            self.navigation_root_url,
+            url_quote(self.request.get('URL', '')),
+        )
 
     def format_time(self, time):
         # We have to transform Python datetime into Zope DateTime

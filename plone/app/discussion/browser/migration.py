@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from datetime import datetime
 from DateTime import DateTime
+from plone.app.discussion.comment import CommentFactory
+from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IReplies
 from Products.CMFCore.interfaces._content import IDiscussionResponse
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
-from datetime import datetime
-from plone.app.discussion.comment import CommentFactory
-from plone.app.discussion.interfaces import IConversation, IReplies, IComment
 from types import TupleType
 
 import transaction
@@ -35,11 +38,11 @@ class View(BrowserView):
         self.total_comments_migrated = 0
         self.total_comments_deleted = 0
 
-        dry_run = "dry_run" in self.request
+        dry_run = 'dry_run' in self.request
 
         # This is for testing only.
         # Do not use transactions during a test.
-        test = "test" in self.request
+        test = 'test' in self.request
 
         if not test:
             transaction.begin()  # pragma: no cover
@@ -71,10 +74,10 @@ class View(BrowserView):
 
             for reply in replies:
                 # log
-                indent = "  "
+                indent = '  '
                 for i in range(depth):
-                    indent += "  "
-                log("%smigrate_reply: '%s'." % (indent, reply.title))
+                    indent += '  '
+                log('{0}migrate_reply: "{1}".'.format(indent, reply.title))
 
                 should_migrate = True
                 if filter_callback and not filter_callback(reply):
@@ -172,7 +175,7 @@ class View(BrowserView):
                     talkback.deleteReply(reply.id)
                     obj = aq_parent(talkback)
                     obj.talkback = None
-                    log("%sremove %s" % (indent, reply.id))
+                    log('{0}remove {1}'.format(indent, reply.id))
                     self.total_comments_deleted += 1
 
             # Return True when all comments on a certain level have been
@@ -182,7 +185,7 @@ class View(BrowserView):
         # Find content
         brains = catalog.searchResults(
             object_provides='Products.CMFCore.interfaces._content.IContentish')
-        log("Found %s content objects." % len(brains))
+        log('Found {0} content objects.'.format(len(brains)))
 
         count_discussion_items = len(
             catalog.searchResults(Type='Discussion Item')
@@ -196,12 +199,20 @@ class View(BrowserView):
             )
         )
 
-        log("Found %s Discussion Item objects." % count_discussion_items)
-        log("Found %s old discussion items." % count_comments_old)
-        log("Found %s plone.app.discussion comments." % count_comments_pad)
+        log(
+            'Found {0} Discussion Item objects.'.format(
+                count_discussion_items
+            )
+        )
+        log('Found {0} old discussion items.'.format(count_comments_old))
+        log(
+            'Found {0} plone.app.discussion comments.'.format(
+                count_comments_pad
+            )
+        )
 
-        log("\n")
-        log("Start comment migration.")
+        log('\n')
+        log('Start comment migration.')
 
         # This loop is necessary to get all contentish objects, but not
         # the Discussion Items. This wouldn't be necessary if the
@@ -219,46 +230,54 @@ class View(BrowserView):
                 replies = talkback.getReplies()
                 if replies:
                     conversation = IConversation(obj)
-                log("\n")
-                log("Migrate '%s' (%s)" % (obj.Title(),
-                                           obj.absolute_url(relative=1)))
+                log('\n')
+                log(
+                    'Migrate "{0}" ({1})'.format(
+                        obj.Title(),
+                        obj.absolute_url(relative=1)
+                    )
+                )
                 migrate_replies(context, 0, replies)
                 obj = aq_parent(talkback)
                 obj.talkback = None
 
         if self.total_comments_deleted != self.total_comments_migrated:
             log(
-                "Something went wrong during migration. The number of " +
-                "migrated comments (%s) differs from the number of deleted " +
-                "comments (%s)." % (
+                'Something went wrong during migration. The number of '
+                'migrated comments ({0}) differs from the number of deleted '
+                'comments ({1}).'.format(
                     self.total_comments_migrated,
                     self.total_comments_deleted
                 )
             )
             if not test:  # pragma: no cover
                 transaction.abort()  # pragma: no cover
-            log("Abort transaction")  # pragma: no cover
+            log('Abort transaction')  # pragma: no cover
 
-        log("\n")
-        log("Comment migration finished.")
-        log("\n")
+        log('\n')
+        log('Comment migration finished.')
+        log('\n')
 
-        log("%s of %s comments migrated."
-            % (self.total_comments_migrated, count_comments_old))
+        log(
+            '{0} of {1} comments migrated.'.format(
+                self.total_comments_migrated,
+                count_comments_old
+            )
+        )
 
         if self.total_comments_migrated != count_comments_old:
             log(
-                "%s comments could not be migrated." % (
+                '{0} comments could not be migrated.'.format(
                     count_comments_old - self.total_comments_migrated
                 )
             )  # pragma: no cover
-            log("Please make sure your " +
-                "portal catalog is up-to-date.")  # pragma: no cover
+            log('Please make sure your ' +
+                'portal catalog is up-to-date.')  # pragma: no cover
 
         if dry_run and not test:
             transaction.abort()  # pragma: no cover
-            log("Dry run")  # pragma: no cover
-            log("Abort transaction")  # pragma: no cover
+            log('Dry run')  # pragma: no cover
+            log('Abort transaction')  # pragma: no cover
         if not test:
             transaction.commit()  # pragma: no cover
         return '\n'.join(out)

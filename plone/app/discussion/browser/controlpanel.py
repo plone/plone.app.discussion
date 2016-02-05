@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.interfaces._content import IDiscussionResponse
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.controlpanel.interfaces import IConfigurationChangedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IDiscussionSettings
@@ -11,6 +6,11 @@ from plone.app.discussion.upgrades import update_registry
 from plone.app.registry.browser import controlpanel
 from plone.registry.interfaces import IRecordModifiedEvent
 from plone.registry.interfaces import IRegistry
+from Products.CMFCore.interfaces._content import IDiscussionResponse
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 from zope.component import getMultiAdapter
@@ -23,19 +23,19 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
     """Discussion settings form.
     """
     schema = IDiscussionSettings
-    id = "DiscussionSettingsEditForm"
-    label = _(u"Discussion settings")
+    id = 'DiscussionSettingsEditForm'
+    label = _(u'Discussion settings')
     description = _(
-        u"help_discussion_settings_editform",
-        default=u"Some discussion related settings are not "
-                u"located in the Discussion Control Panel.\n"
-                u"To enable comments for a specific content type, "
-                u"go to the Types Control Panel of this type and "
-                u"choose \"Allow comments\".\n"
-                u"To enable the moderation workflow for comments, "
-                u"go to the Types Control Panel, choose "
-                u"\"Comment\" and set workflow to "
-                u"\"Comment Review Workflow\"."
+        u'help_discussion_settings_editform',
+        default=u'Some discussion related settings are not '
+                u'located in the Discussion Control Panel.\n'
+                u'To enable comments for a specific content type, '
+                u'go to the Types Control Panel of this type and '
+                u'choose "Allow comments".\n'
+                u'To enable the moderation workflow for comments, '
+                u'go to the Types Control Panel, choose '
+                u'"Comment" and set workflow to '
+                u'"Comment Review Workflow".'
     )
 
     def updateFields(self):
@@ -65,13 +65,15 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             # provide auto-upgrade
             update_registry(self.context)
             super(DiscussionSettingsEditForm, self).updateWidgets()
-        self.widgets['globally_enabled'].label = _(u"Enable Comments")
-        self.widgets['anonymous_comments'].label = _(u"Anonymous Comments")
-        self.widgets['show_commenter_image'].label = _(u"Commenter Image")
-        self.widgets['moderator_notification_enabled'].label = \
-            _(u"Moderator Email Notification")
-        self.widgets['user_notification_enabled'].label = \
-            _(u"User Email Notification")
+        self.widgets['globally_enabled'].label = _(u'Enable Comments')
+        self.widgets['anonymous_comments'].label = _(u'Anonymous Comments')
+        self.widgets['show_commenter_image'].label = _(u'Commenter Image')
+        self.widgets['moderator_notification_enabled'].label = _(
+            u'Moderator Email Notification'
+        )
+        self.widgets['user_notification_enabled'].label = _(
+            u'User Email Notification'
+        )
 
     @button.buttonAndHandler(_('Save'), name=None)
     def handleSave(self, action):
@@ -80,16 +82,20 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             self.status = self.formErrorsMessage
             return
         self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"),
-                                                      "info")
-        self.context.REQUEST.RESPONSE.redirect("@@discussion-controlpanel")
+        IStatusMessage(self.request).addStatusMessage(_(u'Changes saved'),
+                                                      'info')
+        self.context.REQUEST.RESPONSE.redirect('@@discussion-controlpanel')
 
     @button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"),
-                                                      "info")
-        self.request.response.redirect("%s/%s" % (self.context.absolute_url(),
-                                                  self.control_panel_view))
+        IStatusMessage(self.request).addStatusMessage(_(u'Edit cancelled'),
+                                                      'info')
+        self.request.response.redirect(
+            '{0}/{1}'.format(
+                self.context.absolute_url(),
+                self.control_panel_view
+            )
+        )
 
 
 class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
@@ -104,38 +110,38 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         """
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
-        wftool = getToolByName(self.context, "portal_workflow", None)
+        wftool = getToolByName(self.context, 'portal_workflow', None)
         workflow_chain = wftool.getChainForPortalType('Discussion Item')
         output = []
 
         # Globally enabled
         if settings.globally_enabled:
-            output.append("globally_enabled")
+            output.append('globally_enabled')
 
         # Comment moderation
         one_state_worklow_disabled = 'one_state_workflow' not in workflow_chain
         comment_review_workflow_disabled = \
             'comment_review_workflow' not in workflow_chain
         if one_state_worklow_disabled and comment_review_workflow_disabled:
-            output.append("moderation_custom")
+            output.append('moderation_custom')
         elif settings.moderation_enabled:
-            output.append("moderation_enabled")
+            output.append('moderation_enabled')
 
         if settings.edit_comment_enabled:
-            output.append("edit_comment_enabled")
+            output.append('edit_comment_enabled')
 
         if settings.delete_own_comment_enabled:
-            output.append("delte_own_comment_enabled")
+            output.append('delete_own_comment_enabled')
 
         # Anonymous comments
         if settings.anonymous_comments:
-            output.append("anonymous_comments")
+            output.append('anonymous_comments')
 
         # Invalid mail setting
         ctrlOverview = getMultiAdapter((self.context, self.request),
                                        name='overview-controlpanel')
         if ctrlOverview.mailhost_warning():
-            output.append("invalid_mail_setup")
+            output.append('invalid_mail_setup')
 
         # Workflow
         wftool = getToolByName(self.context, 'portal_workflow', None)
@@ -161,7 +167,7 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     def custom_comment_workflow_warning(self):
         """Returns a warning string if a custom comment workflow is enabled.
         """
-        wftool = getToolByName(self.context, "portal_workflow", None)
+        wftool = getToolByName(self.context, 'portal_workflow', None)
         workflow_chain = wftool.getChainForPortalType('Discussion Item')
         one_state_workflow_enabled = 'one_state_workflow' in workflow_chain
         comment_review_workflow_enabled = \
