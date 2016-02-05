@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Implement the ++comments++ traversal namespace. This should return the
 IDiscussion container for the context, from which traversal will continue
 into an actual comment object.
@@ -29,8 +30,8 @@ class ConversationNamespace(object):
 
     def traverse(self, name, ignore):
 
-        if name == "default":
-            name = u""
+        if name == 'default':
+            name = u''
 
         conversation = queryAdapter(self.context, IConversation, name=name)
         if conversation is None:

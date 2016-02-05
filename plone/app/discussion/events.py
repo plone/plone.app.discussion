@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Custom discussion events
 """
 from plone.app.discussion.interfaces import ICommentAddedEvent

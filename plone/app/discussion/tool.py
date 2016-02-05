@@ -1,14 +1,15 @@
+# -*- coding: utf-8 -*-
 """The portal_discussion tool, usually accessed via
 queryUtility(ICommentingTool). The default implementation delegates to the
 standard portal_catalog for indexing comments.
 
 BBB support for the old portal_discussion is provided in the bbb package.
 """
-from OFS.SimpleItem import SimpleItem
-from Products.CMFCore.utils import UniqueObject
-from Products.CMFCore.utils import getToolByName
 from interfaces import IComment
 from interfaces import ICommentingTool
+from OFS.SimpleItem import SimpleItem
+from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.utils import UniqueObject
 from zope import interface
 from zope.component import queryUtility
 

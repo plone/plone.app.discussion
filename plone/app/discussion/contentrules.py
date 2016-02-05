@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Content rules handlers
 """
 from plone.app.discussion import _
@@ -9,6 +10,7 @@ except ImportError:
     class BaseSubstitution(object):
         """ Fallback class if plone.stringinterp is not available
         """
+
         def __init__(self, context, **kwargs):
             self.context = context
 
@@ -27,6 +29,7 @@ def execute_comment(event):
 class CommentSubstitution(BaseSubstitution):
     """ Comment string substitution
     """
+
     def __init__(self, context, **kwargs):
         super(CommentSubstitution, self).__init__(context, **kwargs)
 

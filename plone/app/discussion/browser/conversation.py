@@ -1,18 +1,20 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_chain
 from Acquisition import aq_inner
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces import IFolderish
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import INonStructuralFolder
 from Products.CMFPlone.interfaces import IPloneSiteRoot
-from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.registry.interfaces import IRegistry
 from zope.component import queryUtility
+
 
 try:
     from plone.dexterity.interfaces import IDexterityContent
     DEXTERITY_INSTALLED = True
-except:
+except ImportError:
     DEXTERITY_INSTALLED = False
 
 
@@ -130,7 +132,7 @@ class ConversationView(object):
             return False
 
         # Check if discussion is allowed on the content object
-        if hasattr(context, "allow_discussion"):
+        if hasattr(context, 'allow_discussion'):
             if context.allow_discussion is not None:
                 return context.allow_discussion
 

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from Zope2.App import zcml
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from zope.component import createObject
+from Zope2.App import zcml
 
 import Products.Five
 import unittest2 as unittest
@@ -86,7 +86,7 @@ class CommentEventsTest(unittest.TestCase):
 
          </configure>
         """
-        zcml.load_config("configure.zcml", Products.Five)
+        zcml.load_config('configure.zcml', Products.Five)
         zcml.load_string(configure)
 
     def test_addEvent(self):
@@ -139,7 +139,7 @@ class RepliesEventsTest(unittest.TestCase):
 
          </configure>
         """
-        zcml.load_config("configure.zcml", Products.Five)
+        zcml.load_config('configure.zcml', Products.Five)
         zcml.load_string(configure)
 
     def test_addEvent(self):
@@ -152,7 +152,8 @@ class RepliesEventsTest(unittest.TestCase):
         comment.text = 'Comment text'
         new_id = replies.addComment(comment)
         comment = self.document.restrictedTraverse(
-            '++conversation++default/%s' % new_id)
+            '++conversation++default/{0}'.format(new_id)
+        )
 
         re_comment = createObject('plone.Comment')
         re_comment.text = 'Comment text'
@@ -172,7 +173,8 @@ class RepliesEventsTest(unittest.TestCase):
         comment.text = 'Comment text'
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id)
+            '++conversation++default/{0}'.format(new_id)
+        )
 
         re_comment = createObject('plone.Comment')
         re_comment.text = 'Comment text'

@@ -2,8 +2,6 @@
 from AccessControl import Unauthorized
 from datetime import datetime
 from OFS.Image import Image
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.tests import dummy
 from plone.app.discussion import interfaces
 from plone.app.discussion.browser.comment import EditCommentForm
 from plone.app.discussion.browser.comments import CommentForm
@@ -17,6 +15,8 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.tests import dummy
 from z3c.form.interfaces import IFormLayer
 from zope import interface
 from zope.annotation.interfaces import IAttributeAnnotatable
@@ -49,7 +49,7 @@ class TestCommentForm(unittest.TestCase):
             interfaces.IDiscussionLayer,
         )
 
-        wftool = getToolByName(self.portal, "portal_workflow")
+        wftool = getToolByName(self.portal, 'portal_workflow')
         wftool.doActionFor(self.portal.doc1, action='publish')
         self.portal.doc1.allow_discussion = True
         self.membershipTool = getToolByName(self.folder, 'portal_membership')
@@ -80,7 +80,7 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form"
+            name=u'comment-form'
         )
 
         # The form should return an error if the comment text field is empty
@@ -88,13 +88,13 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form"
+            name=u'comment-form'
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
         self.assertEqual(len(errors), 1)
-        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+        self.assertFalse(commentForm.handleComment(commentForm, 'foo'))
 
         # The form is submitted successfully, if the required text field is
         # filled out
@@ -102,22 +102,22 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form"
+            name=u'comment-form'
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
         self.assertEqual(len(errors), 0)
-        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+        self.assertFalse(commentForm.handleComment(commentForm, 'foo'))
 
         comments = IConversation(commentForm.context).getComments()
         comments = [comment for comment in comments]  # consume iterator
         self.assertEqual(len(comments), 1)
 
         for comment in comments:
-            self.assertEqual(comment.text, u"bar")
-            self.assertEqual(comment.creator, "test_user_1_")
-            self.assertEqual(comment.getOwner().getUserName(), "test-user")
+            self.assertEqual(comment.text, u'bar')
+            self.assertEqual(comment.creator, 'test_user_1_')
+            self.assertEqual(comment.getOwner().getUserName(), 'test-user')
             local_roles = comment.get_local_roles()
             self.assertEqual(len(local_roles), 1)
             userid, roles = local_roles[0]
@@ -144,14 +144,14 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form"
+            name=u'comment-form'
         )
 
         provideAdapter(
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=EditCommentForm,
-            name=u"edit-comment-form"
+            name=u'edit-comment-form'
         )
 
         # The form is submitted successfully, if the required text field is
@@ -160,13 +160,13 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form"
+            name=u'comment-form'
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
         self.assertEqual(len(errors), 0)
-        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+        self.assertFalse(commentForm.handleComment(commentForm, 'foo'))
 
         # Edit the last comment
         conversation = IConversation(self.context)
@@ -174,25 +174,25 @@ class TestCommentForm(unittest.TestCase):
         request = make_request(form={'form.widgets.text': u'foobar'})
         editForm = getMultiAdapter(
             (comment, request),
-            name=u"edit-comment-form"
+            name=u'edit-comment-form'
         )
         editForm.update()
         data, errors = editForm.extractData()  # pylint: disable-msg=W0612
 
         self.assertEqual(len(errors), 0)
-        self.assertFalse(editForm.handleComment(editForm, "foo"))
+        self.assertFalse(editForm.handleComment(editForm, 'foo'))
         comment = [x for x in conversation.getComments()][-1]
-        self.assertEquals(comment.text, u"foobar")
+        self.assertEqual(comment.text, u'foobar')
 
         comments = IConversation(commentForm.context).getComments()
         comments = [c for c in comments]  # consume iterator
         self.assertEqual(len(comments), 1)
 
         for comment in comments:
-            self.assertEqual(comment.text, u"foobar")
-            self.assertEqual(comment.creator, "test_user_1_")
+            self.assertEqual(comment.text, u'foobar')
+            self.assertEqual(comment.creator, 'test_user_1_')
 
-            self.assertEqual(comment.getOwner().getUserName(), "test-user")
+            self.assertEqual(comment.getOwner().getUserName(), 'test-user')
             local_roles = comment.get_local_roles()
             self.assertEqual(len(local_roles), 1)
             userid, roles = local_roles[0]
@@ -219,7 +219,7 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form"
+            name=u'comment-form'
         )
 
         # The form is submitted successfully, if the required text field is
@@ -228,31 +228,31 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, form_request),
-            name=u"comment-form"
+            name=u'comment-form'
         )
 
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
         self.assertEqual(len(errors), 0)
-        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+        self.assertFalse(commentForm.handleComment(commentForm, 'foo'))
 
         # Delete the last comment
         conversation = IConversation(self.context)
         comment = [x for x in conversation.getComments()][-1]
         deleteView = getMultiAdapter(
             (comment, self.request),
-            name=u"moderate-delete-comment"
+            name=u'moderate-delete-comment'
         )
-        # try to delete last comment without "Delete comments" permission
+        # try to delete last comment without 'Delete comments' permission
         setRoles(self.portal, TEST_USER_ID, ['Member'])
         self.assertRaises(
             Unauthorized,
             comment.restrictedTraverse,
-            "@@moderate-delete-comment"
+            '@@moderate-delete-comment'
         )
         deleteView()
         self.assertEqual(1, len([x for x in conversation.getComments()]))
-        # try to delete last comment with "Delete comments" permission
+        # try to delete last comment with 'Delete comments' permission
         setRoles(self.portal, TEST_USER_ID, ['Reviewer'])
         deleteView()
         self.assertEqual(0, len([x for x in conversation.getComments()]))
@@ -277,7 +277,7 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form"
+            name=u'comment-form'
         )
 
         # The form is submitted successfully, if the required text field is
@@ -286,20 +286,20 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, form_request),
-            name=u"comment-form"
+            name=u'comment-form'
         )
 
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
         self.assertEqual(len(errors), 0)
-        self.assertFalse(commentForm.handleComment(commentForm, "foo"))
+        self.assertFalse(commentForm.handleComment(commentForm, 'foo'))
 
         # Delete the last comment
         conversation = IConversation(self.context)
         comment = [x for x in conversation.getComments()][-1]
         deleteView = getMultiAdapter(
             (comment, self.request),
-            name=u"delete-own-comment"
+            name=u'delete-own-comment'
         )
         # try to delete last comment with johndoe
         setRoles(self.portal, 'johndoe', ['Member'])
@@ -307,7 +307,7 @@ class TestCommentForm(unittest.TestCase):
         self.assertRaises(
             Unauthorized,
             comment.restrictedTraverse,
-            "@@delete-own-comment"
+            '@@delete-own-comment'
         )
         self.assertEqual(1, len([x for x in conversation.getComments()]))
         # try to delete last comment with the same user that created it
@@ -338,7 +338,7 @@ class TestCommentForm(unittest.TestCase):
         provideAdapter(adapts=(Interface, IBrowserRequest),
                        provides=Interface,
                        factory=CommentForm,
-                       name=u"comment-form")
+                       name=u'comment-form')
 
         # Post an anonymous comment and provide a name
         request = make_request(form={
@@ -348,20 +348,20 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form"
+            name=u'comment-form'
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
         self.assertEqual(len(errors), 0)
-        self.assertFalse(commentForm.handleComment(commentForm, "action"))
+        self.assertFalse(commentForm.handleComment(commentForm, 'action'))
 
         comments = IConversation(commentForm.context).getComments()
         comments = [comment for comment in comments]  # consume itertor
         self.assertEqual(len(comments), 1)
 
         for comment in IConversation(commentForm.context).getComments():
-            self.assertEqual(comment.text, u"bar")
+            self.assertEqual(comment.text, u'bar')
             self.assertIsNone(comment.creator)
             roles = comment.get_local_roles()
             self.assertEqual(len(roles), 0)
@@ -385,13 +385,13 @@ class TestCommentForm(unittest.TestCase):
         provideAdapter(adapts=(Interface, IBrowserRequest),
                        provides=Interface,
                        factory=CommentForm,
-                       name=u"comment-form")
+                       name=u'comment-form')
 
         request = make_request(form={'form.widgets.text': u'bar'})
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form"
+            name=u'comment-form'
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -403,7 +403,7 @@ class TestCommentForm(unittest.TestCase):
         self.assertRaises(Unauthorized,
                           commentForm.handleComment,
                           commentForm,
-                          "foo")
+                          'foo')
 
     def test_anonymous_can_not_add_comments_if_discussion_is_not_allowed(self):
         """Make sure that anonymous users can't post comments if anonymous
@@ -424,12 +424,12 @@ class TestCommentForm(unittest.TestCase):
         provideAdapter(adapts=(Interface, IBrowserRequest),
                        provides=Interface,
                        factory=CommentForm,
-                       name=u"comment-form")
+                       name=u'comment-form')
 
         request = make_request(form={'form.widgets.text': u'bar'})
 
         commentForm = getMultiAdapter((self.context, request),
-                                      name=u"comment-form")
+                                      name=u'comment-form')
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
@@ -438,7 +438,7 @@ class TestCommentForm(unittest.TestCase):
             Unauthorized,
             commentForm.handleComment,
             commentForm,
-            "foo"
+            'foo'
         )
 
 
@@ -519,20 +519,20 @@ class TestCommentsViewlet(unittest.TestCase):
         self.assertTrue(self.viewlet.comment_transform_message())
         self.assertEqual(
             self.viewlet.comment_transform_message(),
-            "You can add a comment by filling out the form below. Plain " +
-            "text formatting.")
+            'You can add a comment by filling out the form below. Plain ' +
+            'text formatting.')
 
         # Set text transform to intelligent text
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
-        settings.text_transform = "text/x-web-intelligent"
+        settings.text_transform = 'text/x-web-intelligent'
 
         # Make sure the comment description changes accordingly
         self.assertEqual(
             self.viewlet.comment_transform_message(),
-            "You can add a comment by filling out the form below. " +
-            "Plain text formatting. Web and email addresses are transformed " +
-            "into clickable links."
+            'You can add a comment by filling out the form below. ' +
+            'Plain text formatting. Web and email addresses are transformed ' +
+            'into clickable links.'
         )
 
         # Enable moderation workflow
@@ -543,9 +543,9 @@ class TestCommentsViewlet(unittest.TestCase):
         # Make sure the comment description shows that comments are moderated
         self.assertEqual(
             self.viewlet.comment_transform_message(),
-            "You can add a comment by filling out the form below. " +
-            "Plain text formatting. Web and email addresses are transformed " +
-            "into clickable links. Comments are moderated.")
+            'You can add a comment by filling out the form below. ' +
+            'Plain text formatting. Web and email addresses are transformed ' +
+            'into clickable links. Comments are moderated.')
 
     def test_has_replies(self):
         self.assertEqual(self.viewlet.has_replies(), False)
@@ -599,10 +599,11 @@ class TestCommentsViewlet(unittest.TestCase):
             reply['actions'][0]['id'],
             'publish'
         )
+        expected_url = 'http://nohost/plone/doc1/++conversation++default/{0}' \
+                       '/content_status_modify?workflow_action=publish'
         self.assertEqual(
             reply['actions'][0]['url'],
-            'http://nohost/plone/doc1/++conversation++default/%s' % int(c1) +
-            '/content_status_modify?workflow_action=publish'
+            expected_url.format(int(c1))
         )
 
     def test_get_commenter_home_url(self):

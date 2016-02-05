@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """The conversation and replies adapters
 
 The conversation is responsible for storing all comments. It provides a
@@ -20,12 +21,12 @@ from BTrees.OIBTree import OIBTree
 from OFS.event import ObjectWillBeAddedEvent
 from OFS.event import ObjectWillBeRemovedEvent
 from OFS.Traversable import Traversable
-from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
-from Products.CMFPlone import DISCUSSION_ANNOTATION_KEY as ANNOTATION_KEY
 from persistent import Persistent
 from plone.app.discussion.comment import Comment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IReplies
+from Products.CMFPlone import DISCUSSION_ANNOTATION_KEY as ANNOTATION_KEY
+from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
 from zope.annotation.interfaces import IAnnotatable
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
@@ -37,7 +38,6 @@ from zope.interface import implements
 from zope.lifecycleevent import ObjectAddedEvent
 from zope.lifecycleevent import ObjectCreatedEvent
 from zope.lifecycleevent import ObjectRemovedEvent
-
 
 import time
 
@@ -53,7 +53,7 @@ class Conversation(Traversable, Persistent, Explicit):
 
     __allow_access_to_unprotected_subobjects__ = True
 
-    def __init__(self, id="++conversation++default"):
+    def __init__(self, id='++conversation++default'):
         self.id = id
 
         # username -> count of comments; key is removed when count reaches 0
@@ -427,7 +427,7 @@ class CommentReplies(ConversationReplies):
         )
         if self.conversation is None or conversation_has_no_children:
             raise TypeError("This adapter doesn't know what to do with the "
-                            "parent conversation")
+                            'parent conversation')
 
         self.comment_id = self.comment.comment_id
 

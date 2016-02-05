@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
 from plone.app.discussion.browser.comment import View
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
@@ -7,6 +6,7 @@ from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from Products.CMFCore.utils import getToolByName
 from zope.component import createObject
 from zope.component import getMultiAdapter
 
@@ -41,9 +41,9 @@ class CommentTest(unittest.TestCase):
             datetime.datetime.now() - datetime.datetime.utcnow()
         utc_to_local_diff = abs(utc_to_local_diff.seconds)
         if utc_to_local_diff < 60:
-            logger.warning("Your computer is living in a timezone where local "
-                           "time equals utc time. Some potential errors can "
-                           "get hidden by that")
+            logger.warning('Your computer is living in a timezone where local '
+                           'time equals utc time. Some potential errors can '
+                           'get hidden by that')
         comment1 = createObject('plone.Comment')
         local_utc = datetime.datetime.utcnow()
         for date in (comment1.creation_date, comment1.modification_date):
@@ -92,15 +92,15 @@ class CommentTest(unittest.TestCase):
     def test_title(self):
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
-        comment1.author_name = "Jim Fulton"
+        comment1.author_name = 'Jim Fulton'
         conversation.addComment(comment1)
-        self.assertEqual("Jim Fulton on Document 1", comment1.Title())
+        self.assertEqual('Jim Fulton on Document 1', comment1.Title())
 
     def test_no_name_title(self):
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
         conversation.addComment(comment1)
-        self.assertEqual("Anonymous on Document 1", comment1.Title())
+        self.assertEqual('Anonymous on Document 1', comment1.Title())
 
     def test_title_special_characters(self):
         self.portal.invokeFactory(
@@ -110,9 +110,9 @@ class CommentTest(unittest.TestCase):
         )
         conversation = IConversation(self.portal.doc_sp_chars)
         comment1 = createObject('plone.Comment')
-        comment1.author_name = u"Tarek Ziadé"
+        comment1.author_name = u'Tarek Ziadé'
         conversation.addComment(comment1)
-        self.assertEqual(u"Tarek Ziadé on Document äüö", comment1.Title())
+        self.assertEqual(u'Tarek Ziadé on Document äüö', comment1.Title())
 
     def test_title_special_characters_utf8(self):
         self.portal.invokeFactory(
@@ -122,19 +122,19 @@ class CommentTest(unittest.TestCase):
         )
         conversation = IConversation(self.portal.doc_sp_chars_utf8)
         comment1 = createObject('plone.Comment')
-        comment1.author_name = "Hüüb Bôûmä"
+        comment1.author_name = 'Hüüb Bôûmä'
         conversation.addComment(comment1)
-        self.assertEqual(u"Hüüb Bôûmä on Document ëïû", comment1.Title())
+        self.assertEqual(u'Hüüb Bôûmä on Document ëïû', comment1.Title())
 
     def test_creator(self):
         comment1 = createObject('plone.Comment')
-        comment1.creator = "jim"
-        self.assertEqual("jim", comment1.Creator())
+        comment1.creator = 'jim'
+        self.assertEqual('jim', comment1.Creator())
 
     def test_creator_author_name(self):
         comment1 = createObject('plone.Comment')
-        comment1.author_name = "joey"
-        self.assertEqual("joey", comment1.Creator())
+        comment1.author_name = 'joey'
+        self.assertEqual('joey', comment1.Creator())
 
     def test_owner(self):
         comment1 = createObject('plone.Comment')
@@ -151,25 +151,23 @@ class CommentTest(unittest.TestCase):
 
     def test_getText(self):
         comment1 = createObject('plone.Comment')
-        comment1.text = """First paragraph
-
-        Second paragraph"""
+        comment1.text = 'First paragraph\n\nSecond paragraph'
         self.assertEqual(
             comment1.getText(),
-            "<p>First paragraph<br /><br />        Second paragraph</p>"
+            '<p>First paragraph<br /><br />Second paragraph</p>'
         )
 
     def test_getText_escapes_HTML(self):
         comment1 = createObject('plone.Comment')
-        comment1.text = """<b>Got HTML?</b>"""
+        comment1.text = '<b>Got HTML?</b>'
         self.assertEqual(
             comment1.getText(),
-            "<p>&lt;b&gt;Got HTML?&lt;/b&gt;</p>"
+            '<p>&lt;b&gt;Got HTML?&lt;/b&gt;</p>'
         )
 
     def test_getText_with_non_ascii_characters(self):
         comment1 = createObject('plone.Comment')
-        comment1.text = u"""Umlaute sind ä, ö und ü."""
+        comment1.text = u'Umlaute sind ä, ö und ü.'
         self.assertEqual(
             comment1.getText(),
             '<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>'
@@ -177,15 +175,15 @@ class CommentTest(unittest.TestCase):
 
     def test_getText_doesnt_link(self):
         comment1 = createObject('plone.Comment')
-        comment1.text = "Go to http://www.plone.org"
+        comment1.text = 'Go to http://www.plone.org'
         self.assertEqual(
             comment1.getText(),
-            "<p>Go to http://www.plone.org</p>"
+            '<p>Go to http://www.plone.org</p>'
         )
 
     def test_getText_uses_comment_mime_type(self):
         comment1 = createObject('plone.Comment')
-        comment1.text = "Go to http://www.plone.org"
+        comment1.text = 'Go to http://www.plone.org'
         comment1.mime_type = 'text/x-web-intelligent'
         self.assertEqual(
             comment1.getText(),
@@ -229,7 +227,8 @@ class CommentTest(unittest.TestCase):
         new_comment1_id = conversation.addComment(comment1)
 
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_comment1_id)
+            '++conversation++default/{0}'.format(new_comment1_id)
+        )
         self.assertTrue(IComment.providedBy(comment))
 
         self.assertEqual(
@@ -260,12 +259,13 @@ class CommentTest(unittest.TestCase):
         comment1.text = 'Comment text'
         new_comment1_id = conversation.addComment(comment1)
         comment = self.portal.image1.restrictedTraverse(
-            '++conversation++default/%s' % new_comment1_id)
+            '++conversation++default/{0}'.format(new_comment1_id)
+        )
 
         view = View(comment, self.request)
         View.__call__(view)
         response = self.request.response
-        self.assertIn("/view", response.headers['location'])
+        self.assertIn('/view', response.headers['location'])
 
     def test_workflow(self):
         """Basic test for the 'comment_review_workflow'
@@ -301,8 +301,8 @@ class CommentTest(unittest.TestCase):
     def test_fti(self):
         # test that we can look up an FTI for Discussion Item
 
-        self.assertTrue(
-            "Discussion Item" in
+        self.assertIn(
+            'Discussion Item',
             self.portal.portal_types.objectIds()
         )
 
@@ -327,7 +327,8 @@ class CommentTest(unittest.TestCase):
         new_comment1_id = conversation.addComment(comment1)
 
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_comment1_id)
+            '++conversation++default/{0}'.format(new_comment1_id)
+        )
 
         # make sure the view is there
         self.assertTrue(getMultiAdapter((comment, self.request),
@@ -364,7 +365,8 @@ class RepliesTest(unittest.TestCase):
         comment.text = 'Comment text'
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id)
+            '++conversation++default/{0}'.format(new_id)
+        )
 
         # Add a reply to the CommentReplies adapter of the first comment
         re_comment = createObject('plone.Comment')
@@ -400,7 +402,8 @@ class RepliesTest(unittest.TestCase):
         comment.text = 'Comment text'
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id)
+            '++conversation++default/{0}'.format(new_id)
+        )
 
         # Add a reply to the CommentReplies adapter of the first comment
         re_comment = createObject('plone.Comment')
@@ -435,7 +438,8 @@ class RepliesTest(unittest.TestCase):
         comment.text = 'Comment text'
         new_id = conversation.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id)
+            '++conversation++default/{0}'.format(new_id)
+        )
 
         # Add a reply to the CommentReplies adapter of the first comment
         re_comment = createObject('plone.Comment')
@@ -443,7 +447,7 @@ class RepliesTest(unittest.TestCase):
         replies = IReplies(comment)
         new_re_id = replies.addComment(re_comment)
         re_comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_re_id
+            '++conversation++default/{0}'.format(new_re_id)
         )
 
         # Add a reply to the reply
@@ -452,7 +456,7 @@ class RepliesTest(unittest.TestCase):
         replies = IReplies(re_comment)
         new_re_re_id = replies.addComment(re_re_comment)
         re_re_comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_re_re_id
+            '++conversation++default/{0}'.format(new_re_re_id)
         )
 
         # Add a reply to the replies reply
@@ -461,7 +465,8 @@ class RepliesTest(unittest.TestCase):
         replies = IReplies(re_re_comment)
         new_re_re_re_id = replies.addComment(re_re_re_comment)
         re_re_re_comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_re_re_re_id)
+            '++conversation++default/{0}'.format(new_re_re_re_id)
+        )
 
         self.assertEqual(
             ('', 'plone', 'doc1', '++conversation++default', str(new_id)),

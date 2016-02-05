@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_parent
-from Products.CMFCore.utils import getToolByName
 from datetime import datetime
 from datetime import timedelta
 from plone.app.discussion import interfaces
@@ -13,6 +13,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.vocabularies.types import BAD_TYPES
 from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
 from zope import interface
 from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
@@ -24,7 +25,7 @@ import unittest2 as unittest
 try:
     from plone.dexterity.interfaces import IDexterityContent
     DEXTERITY = True
-except:
+except ImportError:
     DEXTERITY = False
 
 
@@ -82,12 +83,12 @@ class ConversationTest(unittest.TestCase):
         conversation = IConversation(self.portal.doc1)
 
         comment = createObject('plone.Comment')
-        comment.author_username = "nobody"
+        comment.author_username = 'nobody'
         conversation.addComment(comment)
-        comment.manage_permission("View", roles=tuple())
+        comment.manage_permission('View', roles=tuple())
         self.assertEqual(0, conversation.total_comments())
         self.assertEqual(None, conversation.last_comment_date)
-        self.assertEqual(["nobody"], list(conversation.commentators))
+        self.assertEqual(['nobody'], list(conversation.commentators))
         self.assertEqual([], list(conversation.public_commentators))
 
     def test_delete_comment(self):
@@ -434,22 +435,22 @@ class ConversationTest(unittest.TestCase):
         # swapped in
         comment1 = createObject('plone.Comment')
         comment1.text = 'Comment text'
-        comment1.author_username = "Jim"
+        comment1.author_username = 'Jim'
         conversation.addComment(comment1)
 
         comment2 = createObject('plone.Comment')
         comment2.text = 'Comment text'
-        comment2.author_username = "Joe"
+        comment2.author_username = 'Joe'
         conversation.addComment(comment2)
 
         comment3 = createObject('plone.Comment')
         comment3.text = 'Comment text'
-        comment3.author_username = "Jack"
+        comment3.author_username = 'Jack'
         new_comment3_id = conversation.addComment(comment3)
 
         comment4 = createObject('plone.Comment')
         comment4.text = 'Comment text'
-        comment4.author_username = "Jack"
+        comment4.author_username = 'Jack'
         new_comment4_id = conversation.addComment(comment4)
 
         # check if all commentators are in the commentators list
@@ -680,10 +681,10 @@ class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
         )
 
         if DEXTERITY:
-                interface.alsoProvides(
-                    self.portal.doc1,
-                    IDexterityContent
-                )
+            interface.alsoProvides(
+                self.portal.doc1,
+                IDexterityContent
+            )
 
     def _makeOne(self, *args, **kw):
         return self.portal.doc1.restrictedTraverse('@@conversation_view')
@@ -839,16 +840,19 @@ class RepliesTest(unittest.TestCase):
         # Create the nested comment structure
         new_id_1 = replies.addComment(comment1)
         comment1 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id_1)
+            '++conversation++default/{0}'.format(new_id_1)
+        )
         replies_to_comment1 = IReplies(comment1)
         new_id_2 = replies.addComment(comment2)
         comment2 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id_2)
+            '++conversation++default/{0}'.format(new_id_2)
+        )
         replies_to_comment2 = IReplies(comment2)
 
         new_id_1_1 = replies_to_comment1.addComment(comment1_1)
         comment1_1 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/%s' % new_id_1_1)
+            '++conversation++default/{0}'.format(new_id_1_1)
+        )
         replies_to_comment1_1 = IReplies(comment1_1)
         replies_to_comment1_1.addComment(comment1_1_1)
 

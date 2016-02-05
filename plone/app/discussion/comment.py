@@ -3,16 +3,9 @@
 """
 from AccessControl import ClassSecurityInfo
 from AccessControl.SecurityManagement import getSecurityManager
-from Acquisition import Implicit
 from Acquisition import aq_base
 from Acquisition import aq_parent
-from Products.CMFCore import permissions
-from Products.CMFCore.CMFCatalogAware import CatalogAware
-from Products.CMFCore.CMFCatalogAware import WorkflowAware
-from Products.CMFCore.DynamicType import DynamicType
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from Products.CMFPlone.utils import safe_unicode
+from Acquisition import Implicit
 from datetime import datetime
 from OFS.owner import Owned
 from OFS.role import RoleManager
@@ -27,6 +20,13 @@ from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.registry.interfaces import IRegistry
+from Products.CMFCore import permissions
+from Products.CMFCore.CMFCatalogAware import CatalogAware
+from Products.CMFCore.CMFCatalogAware import WorkflowAware
+from Products.CMFCore.DynamicType import DynamicType
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.controlpanel import IMailSchema
+from Products.CMFPlone.utils import safe_unicode
 from smtplib import SMTPException
 from zope.annotation.interfaces import IAnnotatable
 from zope.component import getUtility
@@ -41,28 +41,28 @@ import logging
 
 
 COMMENT_TITLE = _(
-    u"comment_title",
-    default=u"${author_name} on ${content}")
+    u'comment_title',
+    default=u'${author_name} on ${content}')
 
 MAIL_NOTIFICATION_MESSAGE = _(
-    u"mail_notification_message",
-    default=u"A comment on '${title}' "
-            u"has been posted here: ${link}\n\n"
-            u"---\n"
-            u"${text}\n"
-            u"---\n")
+    u'mail_notification_message',
+    default=u'A comment on "${title}" '
+            u'has been posted here: ${link}\n\n'
+            u'---\n'
+            u'${text}\n'
+            u'---\n')
 
 MAIL_NOTIFICATION_MESSAGE_MODERATOR = _(
-    u"mail_notification_message_moderator",
-    default=u"A comment on '${title}' "
-            u"has been posted here: ${link}\n\n"
-            u"---\n"
-            u"${text}\n"
-            u"---\n\n"
-            u"Approve comment:\n${link_approve}\n\n"
-            u"Delete comment:\n${link_delete}\n")
+    u'mail_notification_message_moderator',
+    default=u'A comment on "${title}" '
+            u'has been posted here: ${link}\n\n'
+            u'---\n'
+            u'${text}\n'
+            u'---\n\n'
+            u'Approve comment:\n${link_approve}\n\n'
+            u'Delete comment:\n${link_delete}\n')
 
-logger = logging.getLogger("plone.app.discussion")
+logger = logging.getLogger('plone.app.discussion')
 
 
 class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
@@ -86,10 +86,10 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     comment_id = None  # long
     in_reply_to = None  # long
 
-    title = u""
+    title = u''
 
     mime_type = None
-    text = u""
+    text = u''
 
     creator = None
     creation_date = None
@@ -157,14 +157,12 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         if transform:
             return transform.getData()
         else:
-            logger = logging.getLogger("plone.app.discussion")
-            logger.error(_(
-                u"Transform '%s' => '%s' not available." % (
-                    sourceMimetype,
-                    targetMimetype
-                ) +
-                u"Failed to transform comment '%s'." % self.absolute_url()
-            ))
+            logger = logging.getLogger('plone.app.discussion')
+            msg = u'Transform "{0}" => "{1}" not available. Failed to ' \
+                  u'transform comment "{2}".'
+            logger.error(
+                msg.format(sourceMimetype, targetMimetype, self.absolute_url())
+            )
             return text
 
     def Title(self):
@@ -177,8 +175,8 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         if not self.author_name:
             author_name = translate(
                 Message(_(
-                    u"label_anonymous",
-                    default=u"Anonymous"
+                    u'label_anonymous',
+                    default=u'Anonymous'
                 ))
             )
         else:
@@ -198,8 +196,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         """
         return self.creator or self.author_name
 
-    security.declareProtected(permissions.View, 'Type')
-
+    @security.protected(permissions.View)
     def Type(self):
         """The Discussion Item content type.
         """
@@ -292,7 +289,7 @@ def notify_content_object_moved(obj, event):
     )
     brains = catalog.searchResults(dict(
         path={'query': old_path},
-        portal_type="Discussion Item"
+        portal_type='Discussion Item'
     ))
     for brain in brains:
         catalog.uncatalog_object(brain.getPath())
@@ -346,7 +343,7 @@ def notify_user(obj, event):
     if not emails:
         return
 
-    subject = translate(_(u"A comment has been posted."),
+    subject = translate(_(u'A comment has been posted.'),
                         context=obj.REQUEST)
     message = translate(
         Message(
@@ -412,7 +409,7 @@ def notify_moderator(obj, event):
     content_object = aq_parent(conversation)
 
     # Compose email
-    subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
+    subject = translate(_(u'A comment has been posted.'), context=obj.REQUEST)
     link_approve = obj.absolute_url() + '/@@moderate-publish-comment'
     link_delete = obj.absolute_url() + '/@@moderate-delete-comment'
     message = translate(

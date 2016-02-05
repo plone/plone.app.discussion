@@ -29,14 +29,14 @@ class RegistryTest(unittest.TestCase):
     def test_discussion_controlpanel_view(self):
         view = getMultiAdapter(
             (self.portal, self.portal.REQUEST),
-            name="discussion-controlpanel"
+            name='discussion-controlpanel'
         )
         view = view.__of__(self.portal)
         self.assertTrue(view())
 
     def test_discussion_in_controlpanel(self):
         # Check if discussion is in the control panel
-        self.controlpanel = getToolByName(self.portal, "portal_controlpanel")
+        self.controlpanel = getToolByName(self.portal, 'portal_controlpanel')
         self.assertTrue(
             'discussion' in [
                 a.getAction(self)['id']

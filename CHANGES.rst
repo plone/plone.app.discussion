@@ -15,6 +15,8 @@ Fixes:
   Issue https://github.com/plone/Products.CMFPlone/issues/1332
   [staeff, fredvd]
 
+- Cleanup code according to our style guide.
+  [gforcada]
 
 
 2.4.9 (2015-11-25)
