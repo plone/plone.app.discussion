@@ -144,7 +144,6 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             output.append('invalid_mail_setup')
 
         # Workflow
-        wftool = getToolByName(self.context, 'portal_workflow', None)
         if workflow_chain:
             discussion_workflow = workflow_chain[0]
             output.append(discussion_workflow)
