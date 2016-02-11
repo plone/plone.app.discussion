@@ -16,7 +16,7 @@ msgstr ""
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "A simple review workflow for comments"
-msgstr "Простой обзор рабочего процесса для комментариев"
+msgstr "Простой рабочий процес просмотра для комментариев"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Approve"
@@ -44,7 +44,7 @@ msgstr "Участники обсуждения"
 
 #: ../profiles/default/types/Discussion_Item.xml
 msgid "Comments added to a content item."
-msgstr "Комментарии, добавленные к элемент контента"
+msgstr "Комментарии, добавленные к элементу контента"
 
 #: ../profiles/default/controlpanel.xml
 msgid "Discussion"
@@ -88,11 +88,11 @@ msgstr "Общее количество комментариев"
 
 #: ../profiles/default/portal_atct.xml
 msgid "Total number of comments on this item."
-msgstr "Общее количество комментариев в этом элементе"
+msgstr "Общее количество комментариев для этого элемента"
 
 #: ../profiles/default/portal_atct.xml
 msgid "Users who have commented on the item"
-msgstr "Пользователи, оставившие комментарии в этом элементе"
+msgstr "Пользователи, оставившие комментарии для этого элемента"
 
 #: ../profiles/default/workflows/comment_review_workflow/definition.xml
 msgid "Visible to everyone, non-editable."
