@@ -10,7 +10,7 @@ New:
 
 Fixes:
 
-- *add item here*
+- fixed translate translation plone-ru.po
 
 
 2.4.10 (2016-02-08)
@@ -18,7 +18,7 @@ Fixes:
 
 New:
 
-- Added russian translations.  [serge]
+- Added russian translations.  [serge73]
 
 Fixes:
 
