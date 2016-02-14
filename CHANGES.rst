@@ -4,7 +4,7 @@ Changelog
 2.2.16 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fixed possible test failure by not overriding an existing user.  [maurits]
 
 
 2.2.15 (2015-04-25)

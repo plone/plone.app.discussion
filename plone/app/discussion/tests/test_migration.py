@@ -59,12 +59,13 @@ class MigrationTest(unittest.TestCase):
             'comment_review_workflow'
         )
 
-        # Create a user Jimmy Jones so comments creator migration can work?
-        acl_users = getToolByName(self.portal, 'acl_users')
-        acl_users.userFolderAddUser('Jim', 'secret', ['Member'], [])
-        mt = getToolByName(self.portal, 'portal_membership')
-        member = mt.getMemberById('Jim')
-        member.fullname = 'Jimmy Jones'
+        # Create a user Jimmy Jones so comments creator migration can work.
+        # Note that we create a user Jim here, but we also have a user jim
+        # (Fulton) in testing.py.
+        mtool = getToolByName(self.portal, 'portal_membership')
+        mtool.addMember('Jim', 'Jim', ['Member'], [])
+        mtool.getMemberById('Jim').setMemberProperties(
+            {"fullname": 'Jimmy Jones'})
 
         self.doc = self.portal.doc
 
