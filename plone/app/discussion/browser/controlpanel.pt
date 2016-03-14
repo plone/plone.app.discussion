@@ -22,7 +22,7 @@
             <tal:link i18n:name="label_mail_control_panel_link">
                 <a href=""
                    i18n:translate="text_no_mailhost_configured_control_panel_link"
-                   tal:attributes="href string:${portal_url}/@@mail-controlpanel"
+                   tal:attributes="href string:${view/site_url}/@@mail-controlpanel"
                 >Mail control panel</a>
             </tal:link>
             to fix this.
@@ -42,7 +42,7 @@
             <tal:link i18n:name="label_discussion_control_panel_link">
                 <a href=""
                    i18n:translate="text_discussion_type_control_panel_link"
-                   tal:attributes="href string:${portal_url}/@@content-controlpanel?type_id=Discussion Item"
+                   tal:attributes="href string:${view/site_url}/@@content-controlpanel?type_id=Discussion Item"
                 >Types control panel</a>
             </tal:link>
             to choose a workflow for the 'Discussion Item' type.
@@ -61,7 +61,7 @@
             <tal:link i18n:name="label_comments_migration_link">
                 <a href=""
                    i18n:translate="text_comments_migration_link"
-                   tal:attributes="href string:${portal_url}/@@comment-migration"
+                   tal:attributes="href string:${view/site_url}/@@comment-migration"
                 >migrate your comments</a>
             </tal:link>
             to fix this.
@@ -73,9 +73,9 @@
     </div>
 
     <a id="setup-link" class="link-parent"
-       tal:attributes="href string:$portal_url/@@overview-controlpanel"
-       i18n:translate="">
-        Site Setup
+        tal:attributes="href string:${view/site_url}/@@overview-controlpanel"
+        i18n:translate="">
+      Site Setup
     </a>
 
     <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
@@ -87,7 +87,7 @@
     </div>
 
   <script type="text/javascript"
-          tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
+          tal:attributes="src string:${portal_url}/++resource++plone.app.discussion.javascripts/controlpanel.js">
   </script>
 
 </article>

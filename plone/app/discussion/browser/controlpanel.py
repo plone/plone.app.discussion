@@ -104,6 +104,13 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     form = DiscussionSettingsEditForm
     index = ViewPageTemplateFile('controlpanel.pt')
 
+    @property
+    def site_url(self):
+        """Return the absolute URL to the current site, which is likely not
+        necessarily the portal root.
+        """
+        return getSite().absolute_url()
+
     def settings(self):
         """Compose a string that contains all registry settings that are
            needed for the discussion control panel.
