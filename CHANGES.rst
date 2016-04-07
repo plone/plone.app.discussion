@@ -10,7 +10,8 @@ Incompatibilities:
 
 New:
 
-- *add item here*
+- Reindex comments upon edition.
+  [gforcada]
 
 Fixes:
 
