@@ -41,6 +41,12 @@
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
+             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".subscribers.index_object"
+        />
+
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
              zope.lifecycleevent.interfaces.IObjectRemovedEvent"
         handler=".subscribers.unindex_object"
         />
