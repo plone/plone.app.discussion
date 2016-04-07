@@ -14,7 +14,9 @@ New:
 
 Fixes:
 
-- *add item here*
+- Mark 'Edit' button for translation.
+  https://github.com/plone/plone.app.discussion/issues/90
+  [gforcada]
 
 
 2.4.11 (2016-03-31)
