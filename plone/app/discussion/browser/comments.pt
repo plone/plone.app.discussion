@@ -121,7 +121,8 @@
                                so we'll use modal pattern -->
                           <a class="commentactionsform pat-plone-modal context"
                              tal:condition="auth_token"
-                             tal:attributes="href string:${reply/absolute_url}/@@edit-comment?_authenticator=${auth_token}">Edit</a>
+                             tal:attributes="href string:${reply/absolute_url}/@@edit-comment?_authenticator=${auth_token}"
+                             i18n:translate="Edit">Edit</a>
                           <form name="edit"
                                 action=""
                                 method="get"
