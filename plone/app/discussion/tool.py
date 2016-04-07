@@ -81,3 +81,11 @@ def unindex_object(obj, event):
     tool = queryUtility(ICommentingTool)
     if tool is not None:
         tool.unindexObject(obj)
+
+
+def modified_object(obj, event):
+    """Reindex the object when modified
+    """
+    tool = queryUtility(ICommentingTool)
+    if tool is not None:
+        tool.reindexObject(obj)
