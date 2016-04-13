@@ -1,6 +1,22 @@
 Changelog
 =========
 
+2.4.13 (unreleased)
+-------------------
+
+Incompatibilities:
+
+- *add item here*
+
+New:
+
+- *add item here*
+
+Fixes:
+
+- *add item here*
+
+
 2.4.12 (2016-04-13)
 -------------------
 
