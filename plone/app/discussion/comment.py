@@ -198,8 +198,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     @security.protected(permissions.View)
     def Type(self):
-        """The Discussion Item content type.
-        """
+        # The Discussion Item content type.
         return self.fti_title
 
     # CMF's event handlers assume any IDynamicType has these :(
