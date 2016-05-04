@@ -22,29 +22,25 @@ class CommentingTool(UniqueObject, SimpleItem):
     id = 'portal_discussion'
 
     def reindexObject(self, object):
-        """Remove from catalog.
-        """
+        # Reindex in catalog.
         catalog = getToolByName(self, 'portal_catalog')
         return catalog.reindexObject(object)
 
     indexObject = reindexObject
 
     def unindexObject(self, object):
-        """Remove from catalog.
-        """
+        # Remove from catalog.
         catalog = getToolByName(self, 'portal_catalog')
         return catalog.unindexObject(object)
 
     def uniqueValuesFor(self, name):
-        """ return unique values for FieldIndex name """
+        # return unique values for FieldIndex name
         catalog = getToolByName(self, 'portal_catalog')
         return catalog.uniqueValuesFor(name)
 
     def searchResults(self, REQUEST=None, **kw):
-        """
-            Calls ZCatalog.searchResults with extra arguments that
-            limit the results to what the user is allowed to see.
-        """
+        # Calls ZCatalog.searchResults with extra arguments that
+        # limit the results to what the user is allowed to see.
         catalog = getToolByName(self, 'portal_catalog')
         object_provides = [IComment.__identifier__]
 
