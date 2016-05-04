@@ -4,14 +4,6 @@ Changelog
 2.4.13 (unreleased)
 -------------------
 
-Incompatibilities:
-
-- *add item here*
-
-New:
-
-- *add item here*
-
 Fixes:
 
 - Removed docstrings from some methods to avoid publishing them.  From
