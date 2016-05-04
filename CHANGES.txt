@@ -4,7 +4,10 @@ Changelog
 2.1.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+New:
+
+- Removed docstrings from some methods to avoid publishing them.  From
+  Products.PloneHotfix20160419.  [maurits]
 
 
 2.1.10 (2013-05-22)
@@ -17,7 +20,7 @@ Changelog
 2.1.9 (2013-03-05)
 ------------------
 
-- Check for 'checked' attribute in a way that work also for jQuery 1.7 
+- Check for 'checked' attribute in a way that work also for jQuery 1.7
   [ichimdav]
 
 - Better fix for #13037 by removing submit event trigger altogether

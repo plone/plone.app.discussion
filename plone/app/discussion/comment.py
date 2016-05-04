@@ -120,13 +120,11 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         return self.comment_id and str(self.comment_id) or None
 
     def getId(self):
-        """The id of the comment, as a string.
-        """
+        # The id of the comment, as a string.
         return self.id
 
     def getText(self, targetMimetype=None):
-        """The body text of a comment.
-        """
+        # The body text of a comment.
         transforms = getToolByName(self, 'portal_transforms')
 
         if targetMimetype is None:
@@ -148,8 +146,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
                                     mimetype=sourceMimetype).getData()
 
     def Title(self):
-        """The title of the comment.
-        """
+        # The title of the comment.
 
         if self.title:
             return self.title
@@ -171,13 +168,11 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         return title
 
     def Creator(self):
-        """The name of the person who wrote the comment.
-        """
+        # The name of the person who wrote the comment.
         return self.creator
 
     def Type(self):
-        """The Discussion Item content type.
-        """
+        # The Discussion Item content type.
         return self.fti_title
 
     # CMF's event handlers assume any IDynamicType has these :(
