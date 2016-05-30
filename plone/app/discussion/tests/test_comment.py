@@ -153,8 +153,8 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject('plone.Comment')
         comment1.text = 'First paragraph\n\nSecond paragraph'
         self.assertEqual(
-            comment1.getText(),
-            '<p>First paragraph<br /><br />Second paragraph</p>'
+            ''.join(comment1.getText().split()),
+            '<p>First paragraph<br/><br/>Second paragraph</p>'
         )
 
     def test_getText_escapes_HTML(self):
