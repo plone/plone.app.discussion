@@ -10,11 +10,12 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Make tests work with lxml safe html cleaner
 
 Bug fixes:
 
 - *add item here*
+
 
 
 2.4.13 (2016-05-04)
