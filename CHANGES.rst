@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fixed possible cross site scripting (XSS) attack on moderate comments page.  [maurits]
 
 
 2.2.17 (2016-05-04)

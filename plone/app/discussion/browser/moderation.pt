@@ -110,7 +110,7 @@
                                        tal:content="item/in_response_to" />
                                 </td>
                                 <td>
-                                    <span tal:replace="structure item/Description" />
+                                    <span tal:replace="item/Description" />
                                     <a href=""
                                        tal:attributes="href string:${item/getURL}/getText"
                                        tal:condition="python:item.Description.endswith('[...]')"
