@@ -4,10 +4,6 @@ Changelog
 2.4.14 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Make tests work with lxml safe html cleaner
