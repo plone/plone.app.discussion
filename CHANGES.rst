@@ -4,14 +4,6 @@ Changelog
 2.2.18 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fixed possible cross site scripting (XSS) attack on moderate comments page.  [maurits]
