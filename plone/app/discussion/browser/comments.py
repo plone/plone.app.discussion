@@ -87,6 +87,20 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         self.widgets['in_reply_to'].mode = interfaces.HIDDEN_MODE
         self.widgets['text'].addClass('autoresize')
         self.widgets['user_notification'].label = _(u'')
+        # Reset widget field settings to their defaults, which may be changed
+        # further on.  Otherwise, the email field might get set to required
+        # when an anonymous user visits, and then remain required when an
+        # authenticated user visits, making it impossible for an authenticated
+        # user to fill in the form without validation error.  Or when in the
+        # control panel the field is set as not required anymore, that change
+        # would have no effect until the instance was restarted.  Note that the
+        # widget is new each time, but the field is the same item in memory as
+        # the previous time.
+        self.widgets['author_email'].field.required = False
+        # The widget is new, but its 'required' setting is based on the
+        # previous value on the field, so we need to reset it here.  Changing
+        # the field in updateFields does not help.
+        self.widgets['author_email'].required = False
 
         # Rename the id of the text widgets because there can be css-id
         # clashes with the text field of documents when using and overlay

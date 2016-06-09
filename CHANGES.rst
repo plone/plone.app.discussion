@@ -14,7 +14,13 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Reset the required setting of the author_email widget each time.
+  Otherwise, the email field might get set to required when an
+  anonymous user visits, and then remain required when an
+  authenticated user visits, making it impossible for an authenticated
+  user to fill in the form without validation error.  Or when in the
+  control panel the field is set as not required anymore, that change
+  would have no effect until the instance was restarted.  [maurits]
 
 
 2.4.14 (2016-06-06)
