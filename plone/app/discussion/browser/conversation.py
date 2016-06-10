@@ -19,6 +19,20 @@ except ImportError:
     DEXTERITY_INSTALLED = False
 
 
+def traverse_parents(context):
+    # Run through the aq_chain of obj and check if discussion is
+    # enabled in a parent folder.
+    for obj in aq_chain(context):
+        if not IPloneSiteRoot.providedBy(obj):
+            obj_is_folderish = IFolderish.providedBy(obj)
+            obj_is_stuctural = not INonStructuralFolder.providedBy(obj)
+            if (obj_is_folderish and obj_is_stuctural):
+                flag = getattr(obj, 'allow_discussion', None)
+                if flag is not None:
+                    return flag
+    return None
+
+
 class ConversationView(object):
 
     def enabled(self):
@@ -31,14 +45,14 @@ class ConversationView(object):
         """ Returns True if discussion is enabled for this conversation.
 
         This method checks five different settings in order to figure out if
-        discussion is enable on a specific content object:
+        discussion is enabled on a specific content object:
 
         1) Check if discussion is enabled globally in the plone.app.discussion
            registry/control panel.
 
         2) If the current content object is a folder, always return
            False, since we don't allow comments on a folder. This
-           setting is used to allow/ disallow comments for all content
+           setting is used to allow / disallow comments for all content
            objects inside a folder, not for the folder itself.
 
         3) Check if the allow_discussion boolean flag on the content object is
@@ -63,22 +77,9 @@ class ConversationView(object):
 
         # Always return False if object is a folder
         context_is_folderish = IFolderish.providedBy(context)
-        context_is_structural = not INonStructuralFolder.providedBy(context)
-        if (context_is_folderish and context_is_structural):
-            return False
-
-        def traverse_parents(context):
-            # Run through the aq_chain of obj and check if discussion is
-            # enabled in a parent folder.
-            for obj in aq_chain(context):
-                if not IPloneSiteRoot.providedBy(obj):
-                    obj_is_folderish = IFolderish.providedBy(obj)
-                    obj_is_stuctural = not INonStructuralFolder.providedBy(obj)
-                    if (obj_is_folderish and obj_is_stuctural):
-                        flag = getattr(obj, 'allow_discussion', None)
-                        if flag is not None:
-                            return flag
-            return None
+        if context_is_folderish:
+            if not INonStructuralFolder.providedBy(context):
+                return False
 
         # If discussion is disabled for the object, bail out
         obj_flag = getattr(aq_base(context), 'allow_discussion', None)
