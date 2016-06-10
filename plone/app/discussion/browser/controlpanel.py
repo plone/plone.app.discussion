@@ -6,7 +6,6 @@ from plone.app.discussion.upgrades import update_registry
 from plone.app.registry.browser import controlpanel
 from plone.registry.interfaces import IRecordModifiedEvent
 from plone.registry.interfaces import IRegistry
-from Products.CMFCore.interfaces._content import IDiscussionResponse
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -181,15 +180,6 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         if one_state_workflow_enabled or comment_review_workflow_enabled:
             return
         return True
-
-    def unmigrated_comments_warning(self):
-        """Returns true if site contains unmigrated comments.
-        """
-        catalog = getToolByName(self.context, 'portal_catalog', None)
-        count_comments_old = catalog.searchResults(
-            object_provides=IDiscussionResponse.__identifier__)
-        if count_comments_old:
-            return True
 
 
 def notify_configuration_changed(event):

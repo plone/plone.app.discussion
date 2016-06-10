@@ -21,6 +21,10 @@ Bug fixes:
   user to fill in the form without validation error.  Or when in the
   control panel the field is set as not required anymore, that change
   would have no effect until the instance was restarted.  [maurits]
+- Removed ``comment-migration`` view.  This did not work anymore on
+  Plone 5.  If you still need to migrate from old-style comments, so
+  from Plone 4.0 or earlier, please upgrade to Plone 4.3 first.
+  [maurits]
 
 
 2.4.14 (2016-06-06)
