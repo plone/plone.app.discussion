@@ -143,6 +143,94 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         self.actions['cancel'].addClass('hide')
         self.actions['comment'].addClass('context')
 
+    def get_author(self, data):
+        context = aq_inner(self.context)
+        # some attributes are not always set
+        author_name = u''
+
+        # Make sure author_name/ author_email is properly encoded
+        if 'author_name' in data:
+            author_name = data['author_name']
+            if isinstance(author_name, str):
+                author_name = unicode(author_name, 'utf-8')
+        if 'author_email' in data:
+            author_email = data['author_email']
+            if isinstance(author_email, str):
+                author_email = unicode(author_email, 'utf-8')
+
+        # Set comment author properties for anonymous users or members
+        portal_membership = getToolByName(context, 'portal_membership')
+        anon = portal_membership.isAnonymousUser()
+        if not anon and getSecurityManager().checkPermission(
+                'Reply to item', context):
+            # Member
+            member = portal_membership.getAuthenticatedMember()
+            # memberdata is stored as utf-8 encoded strings
+            email = member.getProperty('email')
+            fullname = member.getProperty('fullname')
+            if not fullname or fullname == '':
+                fullname = member.getUserName()
+            elif isinstance(fullname, str):
+                fullname = unicode(fullname, 'utf-8')
+            author_name = fullname
+            if email and isinstance(email, str):
+                email = unicode(email, 'utf-8')
+            # XXX: according to IComment interface author_email must not be
+            # set for logged in users, cite:
+            # 'for anonymous comments only, set to None for logged in comments'
+            author_email = email
+            # /XXX
+
+        return author_name, author_email
+
+    def create_comment(self, data):
+        context = aq_inner(self.context)
+        comment = createObject('plone.Comment')
+
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        anonymous_comments = settings.anonymous_comments
+
+        # Set comment mime type to current setting in the discussion registry
+        comment.mime_type = settings.text_transform
+
+        # Set comment attributes (including extended comment form attributes)
+        for attribute in self.fields.keys():
+            setattr(comment, attribute, data[attribute])
+
+        # Set dates
+        comment.creation_date = datetime.utcnow()
+        comment.modification_date = datetime.utcnow()
+
+        # Get author name and email
+        comment.author_name, comment.author_email = self.get_author(data)
+
+        # Set comment author properties for anonymous users or members
+        portal_membership = getToolByName(context, 'portal_membership')
+        anon = portal_membership.isAnonymousUser()
+        if anon and anonymous_comments:
+            # Anonymous Users
+            comment.user_notification = None
+        elif not anon and getSecurityManager().checkPermission(
+                'Reply to item', context):
+            # Member
+            member = portal_membership.getAuthenticatedMember()
+            memberid = member.getId()
+            user = member.getUser()
+            comment.changeOwnership(user, recursive=False)
+            comment.manage_setLocalRoles(memberid, ['Owner'])
+            comment.creator = memberid
+            comment.author_username = memberid
+
+        else:  # pragma: no cover
+            raise Unauthorized(
+                u'Anonymous user tries to post a comment, but anonymous '
+                u'commenting is disabled. Or user does not have the '
+                u"'reply to item' permission."
+            )
+
+        return comment
+
     @button.buttonAndHandler(_(u'add_comment_button', default=u'Comment'),
                              name='comment')
     def handleComment(self, action):
@@ -178,74 +266,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                                        None)
             captcha.validate(data['captcha'])
 
-        # some attributes are not always set
-        author_name = u''
-
         # Create comment
-        comment = createObject('plone.Comment')
-
-        # Set comment mime type to current setting in the discussion registry
-        comment.mime_type = settings.text_transform
-
-        # Set comment attributes (including extended comment form attributes)
-        for attribute in self.fields.keys():
-            setattr(comment, attribute, data[attribute])
-        # Make sure author_name/ author_email is properly encoded
-        if 'author_name' in data:
-            author_name = data['author_name']
-            if isinstance(author_name, str):
-                author_name = unicode(author_name, 'utf-8')
-        if 'author_email' in data:
-            author_email = data['author_email']
-            if isinstance(author_email, str):
-                author_email = unicode(author_email, 'utf-8')
-
-        # Set comment author properties for anonymous users or members
-        can_reply = getSecurityManager().checkPermission('Reply to item',
-                                                         context)
-        portal_membership = getToolByName(self.context, 'portal_membership')
-        if anon and anonymous_comments:
-            # Anonymous Users
-            comment.author_name = author_name
-            comment.author_email = author_email
-            comment.user_notification = None
-            comment.creation_date = datetime.utcnow()
-            comment.modification_date = datetime.utcnow()
-        elif not portal_membership.isAnonymousUser() and can_reply:
-            # Member
-            member = portal_membership.getAuthenticatedMember()
-            memberid = member.getId()
-            user = member.getUser()
-            email = member.getProperty('email')
-            fullname = member.getProperty('fullname')
-            if not fullname or fullname == '':
-                fullname = member.getUserName()
-            # memberdata is stored as utf-8 encoded strings
-            elif isinstance(fullname, str):
-                fullname = unicode(fullname, 'utf-8')
-            if email and isinstance(email, str):
-                email = unicode(email, 'utf-8')
-            comment.changeOwnership(user, recursive=False)
-            comment.manage_setLocalRoles(memberid, ['Owner'])
-            comment.creator = memberid
-            comment.author_username = memberid
-            comment.author_name = fullname
-
-            # XXX: according to IComment interface author_email must not be
-            # set for logged in users, cite:
-            # 'for anonymous comments only, set to None for logged in comments'
-            comment.author_email = email
-            # /XXX
-
-            comment.creation_date = datetime.utcnow()
-            comment.modification_date = datetime.utcnow()
-
-        else:  # pragma: no cover
-            raise Unauthorized(
-                u'Anonymous user tries to post a comment, but anonymous '
-                u'commenting is disabled. Or user does not have the '
-                u"'reply to item' permission."
-            )
+        comment = self.create_comment(data)
 
         # Add comment to conversation
         conversation = IConversation(self.__parent__)
