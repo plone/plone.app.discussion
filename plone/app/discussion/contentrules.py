@@ -17,7 +17,8 @@ except ImportError:
 try:
     from plone.app.contentrules.handlers import execute
 except ImportError:
-    execute = lambda context, event: False
+    def execute(context, event):
+        return False
 
 
 def execute_comment(event):

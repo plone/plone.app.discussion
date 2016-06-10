@@ -8,6 +8,7 @@ from Products.CMFCore.interfaces import IFolderish
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import INonStructuralFolder
 from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.CMFPlone.utils import safe_hasattr
 from zope.component import queryUtility
 
 
@@ -132,7 +133,7 @@ class ConversationView(object):
             return False
 
         # Check if discussion is allowed on the content object
-        if hasattr(context, 'allow_discussion'):
+        if safe_hasattr(context, 'allow_discussion'):
             if context.allow_discussion is not None:
                 return context.allow_discussion
 

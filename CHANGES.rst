@@ -29,6 +29,7 @@ Bug fixes:
   user to fill in the form without validation error.  Or when in the
   control panel the field is set as not required anymore, that change
   would have no effect until the instance was restarted.  [maurits]
+- Cleaned code from flake8 errors.  [maurits]
 
 
 2.4.14 (2016-06-06)

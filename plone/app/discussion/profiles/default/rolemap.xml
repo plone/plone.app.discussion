@@ -22,7 +22,7 @@
         </permission>
         <permission name="Delete own comments" acquire="False">
             <role name="Manager"/>
-	    <role name="Site Administrator"/>
+            <role name="Site Administrator"/>
             <role name="Reviewer"/>
             <role name="Owner"/>
         </permission>
