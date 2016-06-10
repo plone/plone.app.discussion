@@ -479,3 +479,60 @@ Make sure the edit was successful.
 
     >>> 'Lorem ipsum' in browser.contents
     True
+
+
+Require anonymous email
+-----------------------
+
+Edit the control panel.
+
+    >>> browser.open(portal_url + '/logout')
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = 'admin'
+    >>> browser.getControl(name='__ac_password').value = 'secret'
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url+'/@@discussion-controlpanel')
+    >>> browser.getControl(name='form.widgets.anonymous_email_enabled:list').value = [True]
+    >>> browser.getControl(name='form.buttons.save').click()
+    >>> browser.open(portal_url + '/logout')
+
+Post an anonymous comment without setting the email.
+
+    >>> unprivileged_browser.open(urldoc1)
+    >>> unprivileged_browser.getControl(name='form.widgets.text').value = "This is an anonymous comment without email"
+    >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
+    >>> 'Required input is missing' in unprivileged_browser.contents
+    True
+
+Try again.
+
+    >>> unprivileged_browser.getControl(name='form.widgets.text').value = "This is an anonymous comment with email"
+    >>> unprivileged_browser.getControl(name='form.widgets.author_email').value = "email@example.org"
+    >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
+    >>> 'Required input missing' in unprivileged_browser.contents
+    False
+    >>> 'Your comment awaits moderator approval' in unprivileged_browser.contents
+    True
+
+Posting as member should still work.  Especially it should not
+complain about missing input for an invisible author_email field.
+Login as user 'jim'.
+
+    >>> browser_member.open(portal_url + '/login_form')
+    >>> browser_member.getControl(name='__ac_name').value = 'jim'
+    >>> browser_member.getControl(name='__ac_password').value = 'secret'
+    >>> browser_member.getControl(name='submit').click()
+
+Post a comment as user jim.
+
+    >>> browser_member.open(urldoc1)
+    >>> browser_member.getControl(name='form.widgets.text').value = "Use the ZODB, Luke!"
+    >>> submit = browser_member.getControl(name='form.buttons.comment')
+    >>> submit.click()
+
+Check if there are no validation errors.
+
+    >>> 'Required input missing' in browser_member.contents
+    False
+    >>> 'Your comment awaits moderator approval' in browser_member.contents
+    True
