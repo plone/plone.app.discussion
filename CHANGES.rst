@@ -4,14 +4,6 @@ Changelog
 2.4.15 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Reset the required setting of the author_email widget each time.
