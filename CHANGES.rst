@@ -22,6 +22,8 @@ Bug fixes:
 
 Bug fixes:
 
+- Cleaned code from flake8 errors.  [maurits]
+
 - Reset the required setting of the author_email widget each time.
   Otherwise, the email field might get set to required when an
   anonymous user visits, and then remain required when an

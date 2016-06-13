@@ -189,14 +189,14 @@ require([  // jshint ignore:line
         /**********************************************************************
          * Edit a comment
          **********************************************************************/
-    if($.fn.prepOverlay){
-    	$('form[name="edit"]').prepOverlay({
-            cssclass: 'overlay-edit-comment',
-            width: '60%',
-    		subtype: 'ajax',
-    		filter: '#content>*'
-    	});
-    }
+        if($.fn.prepOverlay){
+            $('form[name="edit"]').prepOverlay({
+                cssclass: 'overlay-edit-comment',
+                width: '60%',
+                subtype: 'ajax',
+                filter: '#content>*'
+            });
+        }
 
         /**********************************************************************
          * Delete a comment and its answers.

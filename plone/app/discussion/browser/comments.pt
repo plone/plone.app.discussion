@@ -37,8 +37,8 @@
                              author_home_url python:view.get_commenter_home_url(username=reply.author_username);
                              has_author_link python:author_home_url and not isAnon;
                              portrait_url python:view.get_commenter_portrait(reply.author_username);
-			     review_state python:wtool.getInfoFor(reply, 'review_state', 'none');
-			     canEdit python:view.can_edit(reply);
+                             review_state python:wtool.getInfoFor(reply, 'review_state', 'none');
+                             canEdit python:view.can_edit(reply);
                              canDelete python:view.can_delete(reply)"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth)+' state-'+str(review_state);
                                  id string:${reply/getId}"
@@ -92,9 +92,9 @@
                               action=""
                               method="post"
                               class="commentactionsform"
-		                      tal:condition="python:not canDelete and isDeleteOwnCommentAllowed and view.could_delete_own(reply)"
+                              tal:condition="python:not canDelete and isDeleteOwnCommentAllowed and view.could_delete_own(reply)"
                               tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
-			                      style python:view.can_delete_own(reply) and 'display: inline' or 'display: none'">
+                                              style python:view.can_delete_own(reply) and 'display: inline' or 'display: none'">
                             <input name="form.button.DeleteComment"
                                    class="destructive"
                                    type="submit"
