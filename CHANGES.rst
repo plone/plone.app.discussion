@@ -4,14 +4,6 @@ Changelog
 2.4.16 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Cleaned code from flake8 errors.  [maurits]
