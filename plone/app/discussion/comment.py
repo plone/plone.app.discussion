@@ -35,7 +35,7 @@ from zope.component.factory import Factory
 from zope.event import notify
 from zope.i18n import translate
 from zope.i18nmessageid import Message
-from zope.interface import implements
+from zope.interface import implementer
 
 import logging
 
@@ -65,6 +65,7 @@ MAIL_NOTIFICATION_MESSAGE_MODERATOR = _(
 logger = logging.getLogger('plone.app.discussion')
 
 
+@implementer(IComment)
 class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
               RoleManager, Owned, Implicit, Persistent):
     """A comment.
@@ -73,8 +74,6 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     number of standard methods instead of subclassing, to have total control
     over what goes into the object.
     """
-
-    implements(IComment)
     security = ClassSecurityInfo()
 
     meta_type = portal_type = 'Discussion Item'
