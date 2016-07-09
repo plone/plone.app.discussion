@@ -18,10 +18,10 @@ from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 
+@interface.implementer(ICaptcha)
 class Captcha(Persistent):
     """Captcha input field.
     """
-    interface.implements(ICaptcha)
     adapts(Comment)
     captcha = u""
 

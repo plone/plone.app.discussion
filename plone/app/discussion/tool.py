@@ -14,9 +14,8 @@ from zope import interface
 from zope.component import queryUtility
 
 
+@interface.implementer(ICommentingTool)
 class CommentingTool(UniqueObject, SimpleItem):
-
-    interface.implements(ICommentingTool)
 
     meta_type = 'plone.app.discussion tool'
     id = 'portal_discussion'

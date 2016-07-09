@@ -34,7 +34,6 @@ from zope.component import adapts
 from zope.container.contained import ContainerModifiedEvent
 from zope.event import notify
 from zope.interface import implementer
-from zope.interface import implements
 from zope.lifecycleevent import ObjectAddedEvent
 from zope.lifecycleevent import ObjectCreatedEvent
 from zope.lifecycleevent import ObjectRemovedEvent
@@ -42,14 +41,13 @@ from zope.lifecycleevent import ObjectRemovedEvent
 import time
 
 
+@implementer(IConversation, IHideFromBreadcrumbs)
 class Conversation(Traversable, Persistent, Explicit):
     """A conversation is a container for all comments on a content object.
 
     It manages internal data structures for comment threading and efficient
     comment lookup.
     """
-
-    implements(IConversation, IHideFromBreadcrumbs)
 
     __allow_access_to_unprotected_subobjects__ = True
 
@@ -327,13 +325,12 @@ else:
         return conversationAdapterFactory(content)
 
 
+@implementer(IReplies)
 class ConversationReplies(object):
     """An IReplies adapter for conversations.
 
     This makes it easy to work with top-level comments.
     """
-
-    implements(IReplies)
     adapts(Conversation)  # relies on implementation details
 
     def __init__(self, context):
@@ -404,13 +401,12 @@ class ConversationReplies(object):
         return self.conversation._children.get(self.comment_id, LLSet())
 
 
+@implementer(IReplies)
 class CommentReplies(ConversationReplies):
     """An IReplies adapter for comments.
 
     This makes it easy to work with replies to specific comments.
     """
-
-    implements(IReplies)
 
     # depends on implementation details of conversation
     # most likely, anyone writing a different type of Conversation will also

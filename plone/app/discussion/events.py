@@ -6,13 +6,13 @@ from plone.app.discussion.interfaces import ICommentRemovedEvent
 from plone.app.discussion.interfaces import IDiscussionEvent
 from plone.app.discussion.interfaces import IReplyAddedEvent
 from plone.app.discussion.interfaces import IReplyRemovedEvent
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IDiscussionEvent)
 class DiscussionEvent(object):
     """ Custom event
     """
-    implements(IDiscussionEvent)
 
     def __init__(self, context, comment, **kwargs):
         self.object = context
@@ -26,25 +26,25 @@ class DiscussionEvent(object):
         request.set('event', self)
 
 
+@implementer(ICommentAddedEvent)
 class CommentAddedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment is added
     """
-    implements(ICommentAddedEvent)
 
 
+@implementer(ICommentRemovedEvent)
 class CommentRemovedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment is removed
     """
-    implements(ICommentRemovedEvent)
 
 
+@implementer(IReplyAddedEvent)
 class ReplyAddedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment reply is added
     """
-    implements(IReplyAddedEvent)
 
 
+@implementer(IReplyRemovedEvent)
 class ReplyRemovedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment reply is removed
     """
-    implements(IReplyRemovedEvent)
