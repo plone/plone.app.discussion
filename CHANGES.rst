@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Apply security hotfix 20160830 for redirects.  [maurits]
 
 - Update Traditional Chinese translation.
   [l34marr]
