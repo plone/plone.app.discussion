@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 from plone.app.discussion.browser.moderation import BulkActionsView
+from plone.app.discussion.browser.moderation import DeleteComment
+from plone.app.discussion.browser.moderation import PublishComment
 from plone.app.discussion.browser.moderation import View
 from plone.app.discussion.interfaces import IConversation
+from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import createObject
+from zope.component import queryUtility
 
 import unittest
 
@@ -155,3 +160,48 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         comment = self.conversation.getComments().next()
         self.assertTrue(comment)
         self.assertEqual(comment, self.comment2)
+
+
+class RedirectionTest(unittest.TestCase):
+
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+
+    def setUp(self):
+        # Update settings.
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        # applyProfile(self.portal, 'plone.app.discussion:default')
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.globally_enabled = True
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ('Discussion Item',),
+            ('comment_review_workflow',))
+        # Create page plus comment.
+        self.portal.invokeFactory(
+            id='page',
+            title='Page 1',
+            type_name='Document'
+        )
+        self.page = self.portal.page
+        self.conversation = IConversation(self.page)
+        comment = createObject('plone.Comment')
+        comment.text = 'Comment text'
+        self.comment_id = self.conversation.addComment(comment)
+        self.comment = list(self.conversation.getComments())[0]
+
+    def test_regression(self):
+        page_url = self.page.absolute_url()
+        self.request['HTTP_REFERER'] = page_url
+        for Klass in (DeleteComment, PublishComment):
+            view = Klass(self.comment, self.request)
+            view.__parent__ = self.comment
+            self.assertEqual(page_url, view())
+
+    def test_valid_next_url(self):
+        self.request['HTTP_REFERER'] = 'http://attacker.com'
+        for Klass in (DeleteComment, PublishComment):
+            view = Klass(self.comment, self.request)
+            view.__parent__ = self.comment
+            self.assertNotEqual('http://attacker.com', view())
