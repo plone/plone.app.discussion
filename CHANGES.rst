@@ -4,14 +4,6 @@ Changelog
 2.4.18 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Apply security hotfix 20160830 for redirects.  [maurits]
