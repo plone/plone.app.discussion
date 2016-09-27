@@ -15,13 +15,18 @@
         />
 
     <permission
-        id="plone.app.discussion.DeleteOwnComments"
-        title="Delete own comments"
+        id="plone.app.discussion.EditOwnComments"
+        title="Edit own comments"
         />
 
     <permission
         id="plone.app.discussion.DeleteComments"
         title="Delete comments"
+        />
+
+    <permission
+        id="plone.app.discussion.DeleteOwnComments"
+        title="Delete own comments"
         />
 
 </configure>

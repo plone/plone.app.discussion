@@ -84,7 +84,9 @@ class EditCommentForm(CommentForm):
         # Check permissions
         can_edit = getSecurityManager().checkPermission(
             'Edit comments',
-            self.context)
+            self.context) or getSecurityManager().checkPermission(
+                'Edit own comments',
+                self.context)
         mtool = getToolByName(self.context, 'portal_membership')
         if mtool.isAnonymousUser() or not can_edit:
             return
@@ -109,5 +111,6 @@ class EditCommentForm(CommentForm):
         return self._redirect(target=self.context.absolute_url())
 
 EditComment = wrap_form(EditCommentForm)
+EditOwnComment = wrap_form(EditCommentForm)
 
 # EOF

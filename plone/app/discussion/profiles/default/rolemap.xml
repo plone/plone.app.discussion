@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <rolemap>
     <permissions>
+        <permission name="Reply to item" acquire="False">
+            <role name="Authenticated"/>
+        </permission>
         <permission name="Review comments" acquire="True">
             <role name="Manager"/>
             <role name="Site Administrator"/>
@@ -10,6 +13,8 @@
             <role name="Manager"/>
             <role name="Site Administrator"/>
             <role name="Reviewer"/>
+        </permission>
+        <permission name="Edit own comments" acquire="False">
             <role name="Owner"/>
         </permission>
         <permission name="Delete comments" acquire="True">
@@ -17,13 +22,7 @@
             <role name="Site Administrator"/>
             <role name="Reviewer"/>
         </permission>
-        <permission name="Reply to item" acquire="False">
-            <role name="Authenticated"/>
-        </permission>
         <permission name="Delete own comments" acquire="False">
-            <role name="Manager"/>
-            <role name="Site Administrator"/>
-            <role name="Reviewer"/>
             <role name="Owner"/>
         </permission>
     </permissions>
