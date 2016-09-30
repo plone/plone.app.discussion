@@ -14,5 +14,9 @@
         title="Edit comments"
         />
 
+    <permission
+        id="plone.app.discussion.EditOwnComments"
+        title="Edit own comments"
+        />
 
 </configure>
