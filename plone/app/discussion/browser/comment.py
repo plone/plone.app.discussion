@@ -76,7 +76,6 @@ class EditCommentForm(CommentForm):
         if errors:
             return
 
-        import ipdb; ipdb.set_trace()
         # Check permissions
         can_edit = getSecurityManager().checkPermission(
             'Edit comments',
@@ -95,6 +94,9 @@ class EditCommentForm(CommentForm):
         IStatusMessage(self.request).add(_(u'comment_edit_notification',
                                            default="Comment was edited"),
                                          type='info')
+        if can_edit_own:
+            return self._redirect(
+                target=self.action.replace("@@edit-own-comment", "@@view"))
         return self._redirect(
             target=self.action.replace("@@edit-comment", "@@view"))
 

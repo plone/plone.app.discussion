@@ -308,6 +308,13 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission('Edit comments',
                                                     aq_inner(reply))
 
+    def can_edit_own(self, reply):
+        """Returns true if current user has the 'Delete objects'
+        permission.
+        """
+        return getSecurityManager().checkPermission('Edit own comments',
+                                                    aq_inner(reply))
+
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
         return context.restrictedTraverse('@@conversation_view').enabled()

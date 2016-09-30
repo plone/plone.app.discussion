@@ -35,8 +35,9 @@
                              author_home_url python:view.get_commenter_home_url(username=reply.author_username);
                              has_author_link python:author_home_url and not isAnon;
                              portrait_url python:view.get_commenter_portrait(reply.author_username);
-			     review_state python:wtool.getInfoFor(reply, 'review_state', 'none');
-			     canEdit python:view.can_edit(reply)"
+                             review_state python:wtool.getInfoFor(reply, 'review_state', 'none');
+                             canEdit python:view.can_edit(reply);
+                             canEditOwn python:view.can_edit_own(reply)"
                  tal:attributes="class python:'comment replyTreeLevel'+str(depth)+' state-'+str(review_state);
                                  id string:${reply/getId}"
                  tal:condition="python:canReview or review_state == 'published'">
@@ -73,7 +74,7 @@
                         <span tal:condition="not: reply/author_name"
                               i18n:translate="label_anonymous">Anonymous</span>
                         <span tal:condition="python: view.show_email(reply)">
-                              (<a tal:attributes="href string:mailto:${reply/author_email}" 
+                              (<a tal:attributes="href string:mailto:${reply/author_email}"
                                  tal:content="reply/author_email" />)
                         </span>
                     </tal:name>
@@ -107,7 +108,7 @@
                               action=""
                               method="get"
                               class="commentactionsform"
-                              tal:condition="python:isEditCommentAllowed and canEdit"
+                              tal:condition="python:isEditCommentAllowed and canEdit and not canEditOwn"
                               tal:attributes="action string:${reply/absolute_url}/@@edit-comment">
                             <input name="form.button.EditComment"
                                    class="context"
@@ -117,7 +118,20 @@
                                    />
                         </form>
 
- 
+                        <form name="edit"
+                              action=""
+                              method="get"
+                              class="commentactionsform"
+                              tal:condition="python:isEditCommentAllowed and canEditOwn"
+                              tal:attributes="action string:${reply/absolute_url}/@@edit-own-comment">
+                            <input name="form.button.EditComment"
+                                   class="context"
+                                   type="submit"
+                                   value="Edit"
+                                   i18n:attributes="value label_edit;"
+                                   />
+                        </form>
+
                         <!-- Workflow actions (e.g. 'publish') -->
                         <form name=""
                               action=""
@@ -136,7 +150,6 @@
                                    />
                         </form>
                     </div>
-
 
                 </div>
                 <button class="context reply-to-comment-button hide allowMultiSubmit"
