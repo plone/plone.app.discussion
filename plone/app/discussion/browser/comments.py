@@ -24,6 +24,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 
+from plone import api
+
 from plone.registry.interfaces import IRegistry
 
 from plone.app.layout.viewlets.common import ViewletBase
@@ -312,7 +314,11 @@ class CommentsViewlet(ViewletBase):
         """Returns true if current user has the 'Delete objects'
         permission.
         """
-        return getSecurityManager().checkPermission('Edit own comments',
+        user = api.user.get_current()
+        user = user.getUser()
+        owner = reply.getOwner()
+
+        return user == owner and getSecurityManager().checkPermission('Edit own comments',
                                                     aq_inner(reply))
 
     def is_discussion_allowed(self):
