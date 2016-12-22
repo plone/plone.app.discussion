@@ -9,6 +9,8 @@ from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.utils import getToolByName
 from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 import transaction
 import unittest2 as unittest
@@ -328,6 +330,13 @@ class CommentCatalogTest(unittest.TestCase):
             }
         ))
         self.assertEqual(len(brains), 0)
+
+    def test_reindex_comment(self):
+        # Make sure a comment is reindexed on the catalog when is modified
+        self.comment.text = 'Another text'
+        notify(ObjectModifiedEvent(self.comment))
+        brains = self.catalog.searchResults(SearchableText='Another text')
+        self.assertEqual(len(brains), 1)
 
     def test_remove_comments_when_content_object_is_removed(self):
         """Make sure all comments are removed from the catalog, if the content

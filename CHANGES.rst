@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Reindex comments when they are modified.
+  [gforcada]
 
 Bug fixes:
 
