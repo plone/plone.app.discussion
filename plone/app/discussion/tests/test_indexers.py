@@ -9,6 +9,7 @@ from DateTime import DateTime
 from zope.component import createObject
 
 from plone.app.testing import TEST_USER_ID, setRoles
+from plone.app.testing import TEST_USER_NAME
 
 from plone.app.discussion.testing import \
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
@@ -92,6 +93,16 @@ class ConversationIndexersTest(unittest.TestCase):
             catalog.last_comment_date,
             DelegatingIndexerFactory
         ))
+
+        # The last_comment_date indexer works better when the object is
+        # published, because then the comments can be accessed by Anonymous,
+        # which means conversation.last_comment_date actually returns a date
+        # instead of None.
+        workflow = self.portal.portal_workflow
+        workflow.setChainForPortalTypes(
+            ['Document'], ('simple_publication_workflow',))
+        workflow.doActionFor(self.portal.doc1, 'publish')
+
         self.assertEqual(
             catalog.last_comment_date(self.portal.doc1)(),
             datetime(2009, 4, 12, 11, 12, 12)

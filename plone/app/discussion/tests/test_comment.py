@@ -353,6 +353,10 @@ class RepliesTest(unittest.TestCase):
             title='Document 1',
             type_name='Document'
         )
+        workflow = self.portal.portal_workflow
+        workflow.setChainForPortalTypes(
+            ['Document'], ('simple_publication_workflow',))
+        workflow.doActionFor(self.portal.doc1, 'publish')
 
     def test_add_comment(self):
         # Add comments to a CommentReplies adapter

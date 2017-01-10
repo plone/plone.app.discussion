@@ -21,4 +21,12 @@
       profile="plone.app.discussion:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Update plone.app.discussion workflows"
+      source="101"
+      destination="102"
+      profile="plone.app.discussion:default"
+      handler=".upgrades.upgrade_comment_workflows"
+      />
+
 </configure>

@@ -68,6 +68,12 @@ class ConversationCatalogTest(unittest.TestCase):
             Title='Document 1',
             type_name='Document'
         )
+
+        workflow = self.portal.portal_workflow
+        workflow.setChainForPortalTypes(
+            ['Document'], ('simple_publication_workflow',))
+        workflow.doActionFor(self.portal.doc1, 'publish')
+
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')
