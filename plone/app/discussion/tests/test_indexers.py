@@ -35,6 +35,9 @@ class ConversationIndexersTest(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
+        workflow = self.portal.portal_workflow
+        workflow.doActionFor(self.portal.doc1, 'publish')
+
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
 

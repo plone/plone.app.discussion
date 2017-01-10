@@ -46,9 +46,9 @@ class ModerationViewTest(unittest.TestCase):
         # If workflow is not set, enabled must return False
         self.wf_tool.setChainForPortalTypes(('Discussion Item',), ())
         self.assertEqual(self.view.moderation_enabled(), False)
-        # The one_state_workflow does not have a 'pending' state
+        # The comment_one_state_workflow does not have a 'pending' state
         self.wf_tool.setChainForPortalTypes(('Discussion Item',),
-                                            ('one_state_workflow,'))
+                                            ('comment_one_state_workflow,'))
         self.assertEqual(self.view.moderation_enabled(), False)
         # The comment_review_workflow does have a 'pending' state
         self.wf_tool.setChainForPortalTypes(('Discussion Item',),

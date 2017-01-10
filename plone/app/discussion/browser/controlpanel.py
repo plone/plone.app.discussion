@@ -125,7 +125,7 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             output.append('globally_enabled')
 
         # Comment moderation
-        one_state_worklow_disabled = 'one_state_workflow' not in workflow_chain
+        one_state_worklow_disabled = 'comment_one_state_workflow' not in workflow_chain
         comment_review_workflow_disabled = \
             'comment_review_workflow' not in workflow_chain
         if one_state_worklow_disabled and comment_review_workflow_disabled:
@@ -174,7 +174,7 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         """
         wftool = getToolByName(self.context, 'portal_workflow', None)
         workflow_chain = wftool.getChainForPortalType('Discussion Item')
-        one_state_workflow_enabled = 'one_state_workflow' in workflow_chain
+        one_state_workflow_enabled = 'comment_one_state_workflow' in workflow_chain
         comment_review_workflow_enabled = \
             'comment_review_workflow' in workflow_chain
         if one_state_workflow_enabled or comment_review_workflow_enabled:
@@ -199,7 +199,7 @@ def notify_configuration_changed(event):
             else:
                 # Disable moderation workflow
                 wftool.setChainForPortalTypes(('Discussion Item',),
-                                              'one_state_workflow')
+                                              'comment_one_state_workflow')
 
     if IConfigurationChangedEvent.providedBy(event):
         # Types control panel setting changed
@@ -209,7 +209,7 @@ def notify_configuration_changed(event):
             workflow_chain = wftool.getChainForPortalType('Discussion Item')
             if workflow_chain:
                 workflow = workflow_chain[0]
-                if workflow == 'one_state_workflow':
+                if workflow == 'comment_one_state_workflow':
                     settings.moderation_enabled = False
                 elif workflow == 'comment_review_workflow':
                     settings.moderation_enabled = True

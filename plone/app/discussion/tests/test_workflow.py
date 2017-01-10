@@ -9,6 +9,7 @@ from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import _checkPermission as checkPerm
 from zope.component import createObject
@@ -35,7 +36,7 @@ class WorkflowSetupTest(unittest.TestCase):
     def test_workflows_installed(self):
         """Make sure both comment workflows have been installed properly.
         """
-        self.assertTrue('one_state_workflow' in
+        self.assertTrue('comment_one_state_workflow' in
                         self.portal.portal_workflow.objectIds())
         self.assertTrue('comment_review_workflow' in
                         self.portal.portal_workflow.objectIds())
@@ -44,7 +45,7 @@ class WorkflowSetupTest(unittest.TestCase):
         """Make sure one_state_workflow is the default workflow.
         """
         self.assertEqual(
-            ('one_state_workflow',),
+            ('comment_one_state_workflow',),
             self.portal.portal_workflow.getChainForPortalType(
                 'Discussion Item'
             )
@@ -102,7 +103,7 @@ class PermissionsSetupTest(unittest.TestCase):
 
 
 class CommentOneStateWorkflowTest(unittest.TestCase):
-    """Test the one_state_workflow that ships with plone.app.discussion.
+    """Test the comment_one_state_workflow that ships with plone.app.discussion.
     """
 
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
@@ -114,8 +115,6 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         self.folder = self.portal['test-folder']
         self.catalog = self.portal.portal_catalog
         self.workflow = self.portal.portal_workflow
-        self.workflow.setChainForPortalTypes(['Document'],
-                                             'one_state_workflow')
         self.folder.invokeFactory('Document', 'doc1')
         self.doc = self.folder.doc1
 
@@ -137,10 +136,10 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         self.portal.acl_users._doAddUser('reader', 'secret', ['Reader'], [])
 
     def test_initial_workflow_state(self):
-        """Make sure the initial workflow state of a comment is 'published'.
+        """Make sure the initial workflow state of a comment is 'private'.
         """
         self.assertEqual(self.workflow.getInfoFor(self.doc, 'review_state'),
-                         'published')
+                         'private')
 
     def test_view_comments(self):
         """Make sure published comments can be viewed by everyone.
@@ -149,6 +148,10 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         # self.login(default_user)
         # self.assertTrue(checkPerm(View, self.doc))
         # Member is allowed
+        login(self.portal, TEST_USER_NAME)
+        workflow = self.portal.portal_workflow
+        workflow.doActionFor(self.doc, 'publish')
+
         login(self.portal, 'member')
         self.assertTrue(checkPerm(View, self.comment))
         # Reviewer is allowed
@@ -163,6 +166,30 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         # Reader is allowed
         login(self.portal, 'reader')
         self.assertTrue(checkPerm(View, self.comment))
+
+    def test_comment_on_private_content_not_visible_to_world(self):
+        logout()
+        self.assertFalse(checkPerm(View, self.comment))
+
+    def test_migration(self):
+        from plone.app.discussion.upgrades import upgrade_comment_workflows
+        # Fake permission according to earlier one_comment_workflow.
+        self.comment._View_Permission = ('Anonymous',)
+        # Anonymous can see the comment.
+        logout()
+        self.assertTrue(checkPerm(View, self.comment))
+        # Run the upgrade.
+        login(self.portal, TEST_USER_NAME)
+        upgrade_comment_workflows(self.portal.portal_setup)
+        # The workflow chain is still what we want.
+        self.assertEqual(
+            self.portal.portal_workflow.getChainFor('Discussion Item'),
+            ('comment_one_state_workflow',))
+        # A Manager can still see the comment.
+        self.assertTrue(checkPerm(View, self.comment))
+        # Anonymous cannot see the comment.
+        logout()
+        self.assertFalse(checkPerm(View, self.comment))
 
 
 class CommentReviewWorkflowTest(unittest.TestCase):
@@ -269,3 +296,35 @@ class CommentReviewWorkflowTest(unittest.TestCase):
                 'review_state'
             )
         )
+
+    def test_publish_comment_on_private_content_not_visible_to_world(self):
+        logout()
+        self.assertFalse(checkPerm(View, self.comment))
+
+        # publish comment and check again
+        login(self.portal, TEST_USER_NAME)
+        workflow = self.portal.portal_workflow
+        workflow.doActionFor(self.comment, 'publish')
+
+        logout()
+        self.assertFalse(checkPerm(View, self.comment))
+
+    def test_migration(self):
+        from plone.app.discussion.upgrades import upgrade_comment_workflows
+        # Fake permission according to earlier comment_review_workflow.
+        self.comment._View_Permission = ('Anonymous',)
+        # Anonymous can see the comment.
+        logout()
+        self.assertTrue(checkPerm(View, self.comment))
+        # Run the upgrade.
+        login(self.portal, TEST_USER_NAME)
+        upgrade_comment_workflows(self.portal.portal_setup)
+        # The workflow chain is still what we want.
+        self.assertEqual(
+            self.portal.portal_workflow.getChainFor('Discussion Item'),
+            ('comment_review_workflow',))
+        # A Manager can still see the comment.
+        self.assertTrue(checkPerm(View, self.comment))
+        # Anonymous cannot see the comment.
+        logout()
+        self.assertFalse(checkPerm(View, self.comment))

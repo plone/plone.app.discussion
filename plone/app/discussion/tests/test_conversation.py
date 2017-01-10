@@ -50,6 +50,9 @@ class ConversationTest(unittest.TestCase):
         settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = True
 
+        workflow = self.portal.portal_workflow
+        workflow.doActionFor(self.portal.doc1, 'publish')
+
     def test_add_comment(self):
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
@@ -743,6 +746,9 @@ class RepliesTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+        workflow = self.portal.portal_workflow
+        workflow.doActionFor(self.portal.doc1, 'publish')
 
     def test_add_comment(self):
         # Add comments to a ConversationReplies adapter
