@@ -11,4 +11,14 @@
       handler=".upgrades.update_registry"
       />
 
+  <genericsetup:upgradeStep
+      title="edit comments and delete own comments"
+      description="reload registry config to enable new fields edit_comment_enabled and delete_own_comment_enabled"
+      source="100"
+      destination="101"
+      handler=".upgrades.update_registry"
+      sortkey="1"
+      profile="plone.app.discussion:default"
+      />
+
 </configure>
