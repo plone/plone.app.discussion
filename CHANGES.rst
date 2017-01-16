@@ -17,6 +17,9 @@ Bug fixes:
 - Make comment on private content not publicly available in search results.
   Part of PloneHotfix20161129.  [vangheem, maurits]
 
+- Improve English on a couple of field descriptions
+  [djowett]
+
 
 2.4.19 (2017-01-02)
 -------------------

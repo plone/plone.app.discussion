@@ -199,9 +199,9 @@ class IDiscussionSettings(Interface):
         description=_(
             u'help_globally_enabled',
             default=u'If selected, users are able to post comments on the '
-                    u'site. Though, you have to enable comments for '
-                    u'specific content types, folders or content objects '
-                    u'before users will be able to post comments.'
+                    u'site. However, you will still need to enable comments '
+                    u'for specific content types, folders or content '
+                    u'objects before users will be able to post comments.'
         ),
         required=False,
         default=False,
@@ -213,7 +213,7 @@ class IDiscussionSettings(Interface):
         description=_(
             u'help_anonymous_comments',
             default=u'If selected, anonymous users are able to post '
-                    u'comments without loggin in. It is highly '
+                    u'comments without logging in. It is highly '
                     u'recommended to use a captcha solution to prevent '
                     u'spam if this setting is enabled.'
         ),
