@@ -134,7 +134,7 @@ class TestCommentForm(unittest.TestCase):
         self.assertEqual(comment.creator, "test-user")
         self.assertEqual(comment.getOwner().getUserName(), "test-user")
         local_roles = comment.get_local_roles()
-        self.assertTrue(('test-user', ('Owner',)) in local_roles) 
+        self.assertTrue(('test-user', ('Owner',)) in local_roles)
 
     def test_edit_comment(self):
         """Edit a comment as logged-in user.
@@ -333,7 +333,7 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
         self.workflowTool = getToolByName(self.portal, 'portal_workflow')
-        self.workflowTool.setDefaultChain('one_state_workflow')
+        self.workflowTool.setDefaultChain('comment_one_state_workflow')
 
         typetool = self.portal.portal_types
         typetool.constructContent('Document', self.portal, 'doc1')

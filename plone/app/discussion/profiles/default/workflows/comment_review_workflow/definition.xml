@@ -41,14 +41,12 @@
   <description i18n:translate="">
     Visible to everyone, non-editable.
   </description>
-  <permission-map name="Access contents information" acquired="False">
-   <permission-role>Anonymous</permission-role>
+  <permission-map name="Access contents information" acquired="True">
   </permission-map>
   <permission-map name="Modify portal content" acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="View" acquired="False">
-   <permission-role>Anonymous</permission-role>
+  <permission-map name="View" acquired="True">
   </permission-map>
   <permission-map name="Reply to item" acquired="True">
   </permission-map>
