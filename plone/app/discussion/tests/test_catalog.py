@@ -59,6 +59,10 @@ class ConversationCatalogTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+        workflow = self.portal.portal_workflow
+        workflow.doActionFor(self.portal.doc1, 'publish')
+
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         conversation = IConversation(self.portal.doc1)
         comment1 = createObject('plone.Comment')

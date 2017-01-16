@@ -163,9 +163,9 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
            the 'comment_moderation' setting in the discussion control panel
            changes.
         """
-        # By default the one_state_workflow without moderation is enabled
+        # By default the comment_one_state_workflow without moderation is enabled
         self.assertEqual(
-            ('one_state_workflow',),
+            ('comment_one_state_workflow',),
             self.portal.portal_workflow.getChainForPortalType(
                 'Discussion Item'
             )
@@ -185,7 +185,7 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
         # And back
         self.settings.moderation_enabled = False
         self.assertEqual(
-            ('one_state_workflow',),
+            ('comment_one_state_workflow',),
             self.portal.portal_workflow.getChainForPortalType(
                 'Discussion Item'
             )
@@ -211,7 +211,7 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
         # Enable the 'comment_review_workflow' with moderation enabled
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
-            ('one_state_workflow',)
+            ('comment_one_state_workflow',)
         )
         self.settings.moderation_enabled = True
 

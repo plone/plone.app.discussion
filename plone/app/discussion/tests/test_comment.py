@@ -27,6 +27,9 @@ class CommentTest(unittest.TestCase):
         self.portal = self.layer['portal']
         self.request = self.layer['request']
 
+        workflow = self.portal.portal_workflow
+        workflow.doActionFor(self.portal.doc1, 'publish')
+
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.catalog = getToolByName(self.portal, 'portal_catalog')
         self.document_brain = self.catalog.searchResults(
@@ -350,6 +353,9 @@ class RepliesTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+        workflow = self.portal.portal_workflow
+        workflow.doActionFor(self.portal.doc1, 'publish')
 
     def test_add_comment(self):
         # Add comments to a CommentReplies adapter

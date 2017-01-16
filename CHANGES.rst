@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Make comment on private content not publicly available in search results.
+  Part of PloneHotfix20161129.  [vangheem, maurits]
 
 
 2.4.19 (2017-01-02)

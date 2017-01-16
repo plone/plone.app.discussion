@@ -11,4 +11,44 @@
       handler=".upgrades.update_registry"
       />
 
+  <genericsetup:upgradeStep
+      title="edit comments and delete own comments"
+      description="reload registry config to enable new fields edit_comment_enabled and delete_own_comment_enabled"
+      source="100"
+      destination="101"
+      handler=".upgrades.update_registry"
+      sortkey="1"
+      profile="plone.app.discussion:default"
+      />
+
+  <genericsetup:upgradeStep
+      title="delete comments and delete own comments"
+      description="reload rolemap config to enable new permissions 'Delete comments' and 'Delete own comments'"
+      source="101"
+      destination="102"
+      handler=".upgrades.update_rolemap"
+      sortkey="1"
+      profile="plone.app.discussion:default"
+      />
+
+  <genericsetup:upgradeSteps
+      source="102"
+      destination="1000"
+      profile="plone.app.discussion:default">
+    <!-- Apply the update rolemap step again, to avoid missing it when
+         updating from plone.app.discussion 2.2.x.  When originally
+         adding this step in the 2.3.x release, we should have made a
+         bigger metadata revision increase to leave some room for new
+         upgrade steps in 2.2.x. -->
+    <genericsetup:upgradeStep
+        title="delete comments and delete own comments"
+        description="reload rolemap config to enable new permissions 'Delete comments' and 'Delete own comments'"
+        handler=".upgrades.update_rolemap"
+        />
+    <genericsetup:upgradeStep
+        title="Update plone.app.discussion workflows"
+        handler=".upgrades.upgrade_comment_workflows"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

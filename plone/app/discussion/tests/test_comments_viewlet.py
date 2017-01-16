@@ -458,7 +458,7 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
         self.workflowTool = getToolByName(self.portal, 'portal_workflow')
-        self.workflowTool.setDefaultChain('one_state_workflow')
+        self.workflowTool.setDefaultChain('comment_one_state_workflow')
 
         self.membershipTool = getToolByName(self.folder, 'portal_membership')
         self.memberdata = self.portal.portal_memberdata
