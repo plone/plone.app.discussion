@@ -4,14 +4,6 @@ Changelog
 2.2.20 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Make comment on private content not publicly available in search results.
