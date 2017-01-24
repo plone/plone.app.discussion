@@ -163,7 +163,8 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
            the 'comment_moderation' setting in the discussion control panel
            changes.
         """
-        # By default the comment_one_state_workflow without moderation is enabled
+        # By default the comment_one_state_workflow without moderation is 
+        # enabled
         self.assertEqual(
             ('comment_one_state_workflow',),
             self.portal.portal_workflow.getChainForPortalType(

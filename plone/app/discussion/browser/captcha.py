@@ -65,3 +65,5 @@ class CaptchaExtender(extensible.FormExtender):
                 self.form.fields['captcha'].widgetFactory = NorobotsFieldWidget
             else:
                 self.form.fields['captcha'].mode = interfaces.HIDDEN_MODE
+
+

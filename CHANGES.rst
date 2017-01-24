@@ -20,6 +20,9 @@ Bug fixes:
 - Improve English on a couple of field descriptions
   [djowett]
 
+- Fix some easy pep8 issues
+  [djowett]
+
 
 2.4.19 (2017-01-02)
 -------------------

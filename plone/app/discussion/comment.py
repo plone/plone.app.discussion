@@ -207,6 +207,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
     def opaqueValues(self):  # pragma: no cover
         return []
 
+
 CommentFactory = Factory(Comment)
 
 
