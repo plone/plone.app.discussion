@@ -31,7 +31,6 @@ class RegistryTest(unittest.TestCase):
             (self.portal, self.portal.REQUEST),
             name='discussion-controlpanel'
         )
-        view = view.__of__(self.portal)
         self.assertTrue(view())
 
     def test_discussion_in_controlpanel(self):
@@ -163,7 +162,7 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
            the 'comment_moderation' setting in the discussion control panel
            changes.
         """
-        # By default the comment_one_state_workflow without moderation is 
+        # By default the comment_one_state_workflow without moderation is
         # enabled
         self.assertEqual(
             ('comment_one_state_workflow',),
