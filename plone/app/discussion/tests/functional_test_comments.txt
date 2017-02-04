@@ -182,7 +182,7 @@ Enable anonymous comment
     >>> browser.getControl(name='__ac_password').value = 'secret'
     >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url+'/@@discussion-controlpanel')
-    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = [True]
+    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = 'selected'
     >>> browser.getControl(name='form.buttons.save').click()
     >>> browser.open(portal_url + '/logout')
 
@@ -492,7 +492,7 @@ Edit the control panel.
     >>> browser.getControl(name='__ac_password').value = 'secret'
     >>> browser.getControl(name='submit').click()
     >>> browser.open(portal_url+'/@@discussion-controlpanel')
-    >>> browser.getControl(name='form.widgets.anonymous_email_enabled:list').value = [True]
+    >>> browser.getControl(name='form.widgets.anonymous_email_enabled:list').value = 'selected'
     >>> browser.getControl(name='form.buttons.save').click()
     >>> browser.open(portal_url + '/logout')
 

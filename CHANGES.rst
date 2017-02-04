@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fixed tests with newer testbrowser.
+  [mauristvanrees]
+
 - Remove deprecated __of__ calls on BrowserViews
   [MrTango]
 
