@@ -18,6 +18,12 @@ Bug fixes:
 - Remove deprecated __of__ calls on BrowserViews
   [MrTango]
 
+- Improve English on a couple of field descriptions
+  [djowett]
+
+- Fix some easy pep8 issues
+  [djowett]
+
 
 2.4.20 (2017-01-17)
 -------------------
@@ -26,12 +32,6 @@ Bug fixes:
 
 - Make comment on private content not publicly available in search results.
   Part of PloneHotfix20161129.  [vangheem, maurits]
-
-- Improve English on a couple of field descriptions
-  [djowett]
-
-- Fix some easy pep8 issues
-  [djowett]
 
 
 2.4.19 (2017-01-02)
