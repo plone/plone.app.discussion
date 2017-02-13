@@ -4,14 +4,6 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fixed tests with newer testbrowser.
