@@ -98,6 +98,11 @@ class PloneAppDiscussion(PloneSandboxLayer):
 
 class PloneAppDiscussionRobot(PloneAppDiscussion):
 
+    defaultBases = (
+        PLONE_APP_CONTENTTYPES_FIXTURE,
+        REMOTE_LIBRARY_ROBOT_TESTING,
+    )
+
     def setUpPloneSite(self, portal):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
@@ -113,9 +118,6 @@ PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONE_APP_DISCUSSION_FIXTURE,),
     name='PloneAppDiscussion:Functional')
 PLONE_APP_DISCUSSION_ROBOT_TESTING = FunctionalTesting(
-    bases=(
-        PLONE_APP_DISCUSSION_ROBOT_FIXTURE,
-        REMOTE_LIBRARY_ROBOT_TESTING
-    ),
+    bases=(PLONE_APP_DISCUSSION_ROBOT_FIXTURE,),
     name='PloneAppDiscussion:Robot'
 )
