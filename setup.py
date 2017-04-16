@@ -30,6 +30,7 @@ setup(name='plone.app.discussion',
       long_description=open("README.rst").read() + "\n" +
       open("CHANGES.rst").read(),
       classifiers=[
+          "Development Status :: 1 - Planning",
           "Framework :: Plone",
           "Framework :: Plone :: 5.0",
           "Framework :: Plone :: 5.1",
