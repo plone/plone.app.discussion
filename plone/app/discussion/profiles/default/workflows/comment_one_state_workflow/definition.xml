@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <dc-workflow workflow_id="comment_one_state_workflow" title="Single State Workflow" description="- Essentially a workflow with no transitions, but has a Published state, so portlets and applications that expect that state will continue to work." state_variable="review_state"         initial_state="published" manager_bypass="False" >
  <permission>Access contents information</permission>
- <permission>Change portal events</permission>
  <permission>Modify portal content</permission>
  <permission>View</permission>
  <state state_id="published" title="Published" >
@@ -9,12 +8,6 @@
 
   <permission-map name="Access contents information" acquired="False">
    <permission-role>Anonymous</permission-role>
-  </permission-map>
-  <permission-map name="Change portal events" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Owner</permission-role>
-   <permission-role>Editor</permission-role>
-   <permission-role>Site Administrator</permission-role>
   </permission-map>
   <permission-map name="Modify portal content" acquired="False">
    <permission-role>Manager</permission-role>
