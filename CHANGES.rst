@@ -18,15 +18,6 @@ Bug fixes:
   [kakshay21]
 
 
-2.4.21 (2017-02-05)
--------------------
-
-Bug fixes:
-
-- removed "change portal event" permission
-  [kakshay21]
-
-
 3.0.0 (2017-02-12)
 ------------------
 
