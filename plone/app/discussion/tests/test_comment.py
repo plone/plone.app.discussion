@@ -12,7 +12,7 @@ from zope.component import getMultiAdapter
 
 import datetime
 import logging
-import unittest2 as unittest
+import unittest
 
 
 logger = logging.getLogger('plone.app.discussion.tests')

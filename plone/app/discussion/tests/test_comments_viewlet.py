@@ -30,7 +30,7 @@ from zope.publisher.browser import TestRequest
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 import time
-import unittest2 as unittest
+import unittest
 
 
 class TestCommentForm(unittest.TestCase):

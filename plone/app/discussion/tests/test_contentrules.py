@@ -13,7 +13,7 @@ from plone.stringinterp.interfaces import IStringSubstitution
 from zope.component import createObject
 from zope.component import getAdapter
 
-import unittest2 as unittest
+import unittest
 
 
 class CommentContentRulesTest(unittest.TestCase):
