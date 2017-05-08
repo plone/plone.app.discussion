@@ -13,7 +13,7 @@ from zope.component import getSiteManager
 from zope.component import getUtility
 from zope.component import queryUtility
 
-import unittest2 as unittest
+import unittest
 
 
 class TestUserNotificationUnit(unittest.TestCase):

@@ -19,7 +19,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
 from zope.component import queryUtility
 
-import unittest2 as unittest
+import unittest
 
 
 try:

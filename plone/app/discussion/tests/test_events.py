@@ -8,7 +8,7 @@ from zope.component import createObject
 from Zope2.App import zcml
 
 import Products.Five
-import unittest2 as unittest
+import unittest
 
 
 #

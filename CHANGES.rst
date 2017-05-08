@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- removed "change portal event" permission
+- Remove unittest2 dependency
   [kakshay21]
 
 

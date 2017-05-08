@@ -15,7 +15,7 @@ from Products.CMFCore.utils import _checkPermission as checkPerm
 from zope.component import createObject
 from zope.interface import alsoProvides
 
-import unittest2 as unittest
+import unittest
 
 
 class WorkflowSetupTest(unittest.TestCase):

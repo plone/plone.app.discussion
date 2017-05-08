@@ -11,7 +11,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.indexer.delegate import DelegatingIndexerFactory
 from zope.component import createObject
 
-import unittest2 as unittest
+import unittest
 
 
 LONG_TEXT = """Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
