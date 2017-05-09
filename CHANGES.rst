@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Do not index if values are empty. Do an AttributeError instead.  [bsuttor]
 
 
 2.2.20 (2017-01-17)
