@@ -33,7 +33,10 @@ def total_comments(object):
     if object.meta_type != 'Discussion Item':
         try:
             conversation = IConversation(object)
-            return conversation.public_comments()
+            public_comments = conversation.public_comments()
+            if not public_comments:
+                raise AttributeError
+            return public_comments
         except TypeError:  # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it
@@ -47,7 +50,10 @@ def last_comment_date(object):
     if object.meta_type != 'Discussion Item':
         try:
             conversation = IConversation(object)
-            return conversation.last_comment_date
+            last_comment_date = conversation.last_comment_date
+            if not last_comment_date:
+                raise AttributeError
+            return last_comment_date
         except TypeError:  # pragma: no cover
             # The item is contentish but nobody
             # implemented an adapter for it
@@ -61,6 +67,9 @@ def commentators(object):
     if object.meta_type != 'Discussion Item':
         try:
             conversation = IConversation(object)
+            public_commentators = conversation.public_commentators
+            if not public_commentators:
+                raise AttributeError
             return conversation.public_commentators
         except TypeError:  # pragma: no cover
             # The item is contentish but nobody
@@ -77,7 +86,10 @@ def title(object):
 
 @indexer(IComment)
 def creator(object):
-    return object.creator and safe_unicode(object.creator).encode('utf-8')
+    result = object.creator and safe_unicode(object.creator).encode('utf-8')
+    if not result:
+        raise AttributeError
+    return result
 
 
 @indexer(IComment)
@@ -143,21 +155,24 @@ def modified(object):
 
 @indexer(IComment)
 def comments_total_comments(object):
-    return None
+    raise AttributeError
 
 
 @indexer(IComment)
 def comments_last_comment_date(object):
-    return None
+    raise AttributeError
 
 
 @indexer(IComment)
 def comments_commentators(object):
-    return None
+    raise AttributeError
 
 
 # Make sure comments don't inherit their container's UID
 @indexer(IComment)
 def UID(object):
     if IUUID:
-        return IUUID(object, None)
+        iuuid = IUUID(object, None)
+        if not iuuid:
+            raise AttributeError
+        return iuuid
