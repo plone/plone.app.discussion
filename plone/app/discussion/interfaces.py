@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
 """Interfaces for plone.app.discussion
 """
-from plone import api
 from plone.app.discussion import _
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFCore.utils import getToolByName
 from zope import schema
+from zope.component import getUtility
 from zope.component.interfaces import IObjectEvent
-from zope.interface import Interface, Invalid
+from zope.interface import Interface
+from zope.interface import Invalid
 from zope.interface.common.mapping import IIterableMapping
 
 def isEmail(value):
-    reg_tool = api.portal.get_tool(name='portal_registration')
+    portal = getUtility(ISiteRoot)
+    reg_tool = getToolByName(portal, 'portal_registration')
     if not (value and reg_tool.isValidEmail(value)):
         raise Invalid(_("Invalid email address."))
     return True
