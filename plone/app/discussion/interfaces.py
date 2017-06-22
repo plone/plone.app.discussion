@@ -2,11 +2,21 @@
 """Interfaces for plone.app.discussion
 """
 from plone.app.discussion import _
+from Products.CMFCore.interfaces import ISiteRoot
+from Products.CMFCore.utils import getToolByName
 from zope import schema
+from zope.component import getUtility
 from zope.component.interfaces import IObjectEvent
 from zope.interface import Interface
+from zope.interface import Invalid
 from zope.interface.common.mapping import IIterableMapping
 
+def isEmail(value):
+    portal = getUtility(ISiteRoot)
+    reg_tool = getToolByName(portal, 'portal_registration')
+    if not (value and reg_tool.isValidEmail(value)):
+        raise Invalid(_("Invalid email address."))
+    return True
 
 class IConversation(IIterableMapping):
     """A conversation about a content object.
@@ -150,7 +160,7 @@ class IComment(Interface):
 
     # for anonymous comments only, set to None for logged in comments
     author_name = schema.TextLine(title=_(u'Name'), required=False)
-    author_email = schema.TextLine(title=_(u'Email'), required=False)
+    author_email = schema.TextLine(title=_(u'Email'), required=False, constraint=isEmail)
 
     title = schema.TextLine(title=_(u'label_subject',
                                     default=u'Subject'))

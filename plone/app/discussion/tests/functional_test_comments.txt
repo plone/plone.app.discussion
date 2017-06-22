@@ -514,6 +514,27 @@ Try again.
     >>> 'Your comment awaits moderator approval' in unprivileged_browser.contents
     True
 
+Email is being validated.
+
+    >>> unprivileged_browser.getControl(name='form.widgets.text').value = "This is an anonymous comment with email"
+    >>> unprivileged_browser.getControl(name='form.widgets.author_email').value = "abc"
+    >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
+    >>> 'Invalid email address.' in unprivileged_browser.contents
+    True
+    >>> 'Your comment awaits moderator approval' in unprivileged_browser.contents
+    False
+
+Check again with valid email.
+
+    >>> unprivileged_browser.getControl(name='form.widgets.text').value = "This is an anonymous comment with email"
+    >>> unprivileged_browser.getControl(name='form.widgets.author_email').value = "email@example.org"
+    >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
+    >>> 'Invalid email address.' in unprivileged_browser.contents
+    False
+    >>> 'Your comment awaits moderator approval' in unprivileged_browser.contents
+    True
+
+
 Posting as member should still work.  Especially it should not
 complain about missing input for an invisible author_email field.
 Login as user 'jim'.

@@ -10,7 +10,7 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Email validation [ksuess]
 
 Bug fixes:
 
