@@ -1,20 +1,13 @@
 Changelog
 =========
 
-3.0.2 (unreleased)
+3.0.2 (2017-07-03)
 ------------------
-
-Breaking changes:
-
-- *add item here*
 
 New features:
 
-- Email validation [ksuess]
-
-Bug fixes:
-
-- *add item here*
+- Validate that author_email values are emails.
+  [ksuess]
 
 
 3.0.1 (2017-05-31)
