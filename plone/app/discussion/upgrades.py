@@ -61,3 +61,7 @@ def upgrade_comment_workflows(context):
             comment.reindexObjectSecurity()
         except (AttributeError, KeyError):
             logger.info('Could not reindex comment %s' % brain.getURL())
+
+
+def update_catalog(context):
+    context.runImportStepFromProfile(default_profile, 'catalog')

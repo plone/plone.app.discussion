@@ -14,5 +14,6 @@
     <column value="commentators" />
     <column value="in_response_to" />
     <column value="author_name" />
+    <column value="author_email" />
 
 </object>
