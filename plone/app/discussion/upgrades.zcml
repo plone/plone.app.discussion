@@ -50,15 +50,5 @@
         handler=".upgrades.upgrade_comment_workflows"
         />
   </genericsetup:upgradeSteps>
-  
-  <genericsetup:upgradeStep
-      title="show email in moderation view"
-      description="reload catalog config to add author_email in metadata.'"
-      source="1000"
-      destination="1001"
-      handler=".upgrades.update_catalog"
-      sortkey="1"
-      profile="plone.app.discussion:default"
-      />
 
 </configure>
