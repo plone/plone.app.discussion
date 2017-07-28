@@ -8,7 +8,7 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.registry.interfaces import IRegistry
 from z3c.form import validator
 from z3c.form.interfaces import IValidator
-from zope.component import adapts
+from zope.component import adapter
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import implementer
@@ -32,9 +32,9 @@ except ImportError:
     pass
 
 
+@adapter(Interface, IDiscussionLayer, Interface, IField, Interface)
 @implementer(IValidator)
 class CaptchaValidator(validator.SimpleFieldValidator):
-    adapts(Interface, IDiscussionLayer, Interface, IField, Interface)
     #       Object, Request, Form, Field, Widget,
     # We adapt the CaptchaValidator class to all form fields (IField)
 

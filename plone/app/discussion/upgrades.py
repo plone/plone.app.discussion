@@ -60,4 +60,4 @@ def upgrade_comment_workflows(context):
                 wf.updateRoleMappingsFor(comment)
             comment.reindexObjectSecurity()
         except (AttributeError, KeyError):
-            logger.info('Could not reindex comment %s' % brain.getURL())
+            logger.info('Could not reindex comment {0}'.format(brain.getURL()))

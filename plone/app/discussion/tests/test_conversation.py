@@ -175,8 +175,8 @@ class ConversationTest(unittest.TestCase):
         del conversation[new_id_1]
 
         self.assertEqual([
-            {'comment': comment2,     'depth': 0, 'id': new_id_2},
-            {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
+            {'comment': comment2, 'depth': 0, 'id': new_id_2},
+            {'comment': comment2_1, 'depth': 1, 'id': new_id_2_1},
         ], list(conversation.getThreads()))
 
     def test_delete_comment_when_content_object_is_deleted(self):
@@ -608,12 +608,12 @@ class ConversationTest(unittest.TestCase):
         # Get threads
 
         self.assertEqual([
-            {'comment': comment1,     'depth': 0, 'id': new_id_1},
-            {'comment': comment1_1,   'depth': 1, 'id': new_id_1_1},
+            {'comment': comment1, 'depth': 0, 'id': new_id_1},
+            {'comment': comment1_1, 'depth': 1, 'id': new_id_1_1},
             {'comment': comment1_1_1, 'depth': 2, 'id': new_id_1_1_1},
-            {'comment': comment1_2,   'depth': 1, 'id': new_id_1_2},
-            {'comment': comment2,     'depth': 0, 'id': new_id_2},
-            {'comment': comment2_1,   'depth': 1, 'id': new_id_2_1},
+            {'comment': comment1_2, 'depth': 1, 'id': new_id_1_2},
+            {'comment': comment2, 'depth': 0, 'id': new_id_2},
+            {'comment': comment2_1, 'depth': 1, 'id': new_id_2_1},
         ], list(conversation.getThreads()))
 
     def test_get_threads_batched(self):

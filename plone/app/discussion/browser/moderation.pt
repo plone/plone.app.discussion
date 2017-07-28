@@ -106,11 +106,11 @@
                                 </td>
                                 <td>
                                     <span tal:content="python:item.author_name or item.Creator">Name</span>
-                                    <tal:email tal:condition="email"><br /><a 
+                                    <tal:email tal:condition="email"><br /><a
                                         tal:attributes="href string:mailto:$email"
                                         tal:content="email">Email</a></tal:email>
                                 </td>
-                                <td tal:content="python:toLocalizedTime(item.ModificationDate, 
+                                <td tal:content="python:toLocalizedTime(item.ModificationDate,
                                       long_format=1)" />
                                 <td>
                                     <a tal:attributes="href item/getURL"

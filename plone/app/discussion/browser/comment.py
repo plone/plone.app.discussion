@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from Acquisition import aq_parent
@@ -112,6 +112,5 @@ class EditCommentForm(CommentForm):
             type='info')
         return self._redirect(target=self.context.absolute_url())
 
-EditComment = wrap_form(EditCommentForm)
 
-# EOF
+EditComment = wrap_form(EditCommentForm)
