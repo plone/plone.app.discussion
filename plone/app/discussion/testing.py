@@ -11,7 +11,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
-from zope.configuration import xmlconfig
 
 
 try:
@@ -40,9 +39,9 @@ class PloneAppDiscussion(PloneSandboxLayer):
     def setUpZope(self, app, configurationContext):
         # Load ZCML
         import plone.app.discussion
-        xmlconfig.file('configure.zcml',
-                       plone.app.discussion,
-                       context=configurationContext)
+        self.loadZCML(package=plone.app.discussion,
+                      context=configurationContext,
+                      )
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup

@@ -14,6 +14,8 @@ New features:
 
 Bug fixes:
 
+- Show email in moderation view [ksuess]
+
 - Remove plone.app.robotframework extras (reload and ride).
   They are not needed and they are not Python 3 compatible.
   [gforcada]

@@ -12,29 +12,30 @@ from z3c.form import interfaces
 from z3c.form.field import Fields
 from zope import interface
 from zope.annotation import factory
-from zope.component import adapts
+from zope.component import adapter
 from zope.component import queryUtility
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 
+@adapter(Comment)
 @interface.implementer(ICaptcha)
 class Captcha(Persistent):
     """Captcha input field.
     """
-    adapts(Comment)
-    captcha = u""
+    captcha = u''
+
 
 Captcha = factory(Captcha)
 
 
+# context, request, form
+@adapter(Interface, IDefaultBrowserLayer, CommentForm)
 class CaptchaExtender(extensible.FormExtender):
     """Extends the comment form with a Captcha. This Captcha extender is only
     registered when a plugin is installed that provides the
     "plone.app.discussion-captcha" feature.
     """
-    # context, request, form
-    adapts(Interface, IDefaultBrowserLayer, CommentForm)
 
     fields = Fields(ICaptcha)
 
@@ -65,5 +66,3 @@ class CaptchaExtender(extensible.FormExtender):
                 self.form.fields['captcha'].widgetFactory = NorobotsFieldWidget
             else:
                 self.form.fields['captcha'].mode = interfaces.HIDDEN_MODE
-
-

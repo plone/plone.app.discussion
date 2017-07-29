@@ -182,7 +182,7 @@ flaw? Though, the comment is published properly.
     >>> browser.handleErrors = False
     >>> browser.raiseHttpErrors = True
 
-Make sure anonyous users see the approved comment, but not the unapproved ones.
+Make sure anonymous users see the approved comment, but not the unapproved ones.
 
     >>> unprivileged_browser.open(urldoc)
     >>> 'First anonymous comment' in unprivileged_browser.contents
@@ -230,3 +230,53 @@ Make sure the catalog has been updated properly.
 
     >>> portal.portal_catalog.searchResults(id='doc', total_comments=0)
     [<Products...]
+
+
+Moderation view
+---------------
+
+Enable anonymous comment with email.
+
+    >>> browser.open(portal_url + '/logout')
+    >>> browser.open(portal_url + '/login_form')
+    >>> browser.getControl(name='__ac_name').value = 'admin'
+    >>> browser.getControl(name='__ac_password').value = 'secret'
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url+'/@@discussion-controlpanel')
+    >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = 'selected'
+    >>> browser.getControl(name='form.widgets.anonymous_email_enabled:list').value = 'selected'
+    >>> browser.getControl(name='form.buttons.save').click()
+    >>> browser.open(portal_url + '/logout')
+
+Now we can post an anonymous comment.
+
+    >>> unprivileged_browser.open(urldoc)
+    >>> unprivileged_browser.getControl(name='form.widgets.text').value = "This is an anonymous comment"
+    >>> unprivileged_browser.getControl(name='form.widgets.author_name').value = u'John'
+    >>> unprivileged_browser.getControl(name='form.widgets.author_email').value = 'john@acme.com'
+    >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
+
+
+Check that the form has been properly submitted.
+
+    >>> unprivileged_browser.url
+    'http://nohost/plone/doc/document_view'
+
+    >>> 'Your comment awaits moderator approval.' in unprivileged_browser.contents
+    True
+
+Change to Moderation view.
+
+    >>> browser.open(urldoc)
+    >>> browser.getLink("Moderate comments").click()
+
+The new comment is shown in moderation view with authors name and email.
+
+    >>> browser.url
+    'http://nohost/plone/@@moderate-comments'
+    
+    >>> 'John' in browser.contents
+    True
+
+    >>> 'john@acme.com' in browser.contents
+    True

@@ -42,7 +42,8 @@ import logging
 
 COMMENT_TITLE = _(
     u'comment_title',
-    default=u'${author_name} on ${content}')
+    default=u'${author_name} on ${content}',
+    )
 
 MAIL_NOTIFICATION_MESSAGE = _(
     u'mail_notification_message',
@@ -50,7 +51,8 @@ MAIL_NOTIFICATION_MESSAGE = _(
             u'has been posted here: ${link}\n\n'
             u'---\n'
             u'${text}\n'
-            u'---\n')
+            u'---\n',
+    )
 
 MAIL_NOTIFICATION_MESSAGE_MODERATOR = _(
     u'mail_notification_message_moderator',
@@ -60,7 +62,8 @@ MAIL_NOTIFICATION_MESSAGE_MODERATOR = _(
             u'${text}\n'
             u'---\n\n'
             u'Approve comment:\n${link_approve}\n\n'
-            u'Delete comment:\n${link_delete}\n')
+            u'Delete comment:\n${link_delete}\n',
+    )
 
 logger = logging.getLogger('plone.app.discussion')
 

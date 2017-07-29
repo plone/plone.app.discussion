@@ -30,7 +30,6 @@ from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
 from zope.annotation.interfaces import IAnnotatable
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter
-from zope.component import adapts
 from zope.container.contained import ContainerModifiedEvent
 from zope.event import notify
 from zope.interface import implementer
@@ -326,12 +325,12 @@ else:
 
 
 @implementer(IReplies)
+@adapter(Conversation)  # relies on implementation details
 class ConversationReplies(object):
     """An IReplies adapter for conversations.
 
     This makes it easy to work with top-level comments.
     """
-    adapts(Conversation)  # relies on implementation details
 
     def __init__(self, context):
         self.conversation = context
@@ -402,6 +401,7 @@ class ConversationReplies(object):
 
 
 @implementer(IReplies)
+@adapter(Comment)
 class CommentReplies(ConversationReplies):
     """An IReplies adapter for comments.
 
@@ -411,8 +411,6 @@ class CommentReplies(ConversationReplies):
     # depends on implementation details of conversation
     # most likely, anyone writing a different type of Conversation will also
     # have a different type of Comment
-
-    adapts(Comment)
 
     def __init__(self, context):
         self.comment = context

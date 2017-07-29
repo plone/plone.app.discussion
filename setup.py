@@ -1,5 +1,8 @@
+# encoding: utf-8
+
 from setuptools import find_packages
 from setuptools import setup
+
 
 version = '3.0.3.dev0'
 
@@ -26,15 +29,15 @@ install_requires = [
 
 setup(name='plone.app.discussion',
       version=version,
-      description="Enhanced discussion support for Plone",
-      long_description=open("README.rst").read() + "\n" +
-      open("CHANGES.rst").read(),
+      description='Enhanced discussion support for Plone',
+      long_description=open('README.rst').read() + '\n' +
+      open('CHANGES.rst').read(),
       classifiers=[
-          "Framework :: Plone",
-          "Framework :: Plone :: 5.0",
-          "Framework :: Plone :: 5.1",
-          "Programming Language :: Python",
-          "Programming Language :: Python :: 2.7",
+          'Framework :: Plone',
+          'Framework :: Plone :: 5.0',
+          'Framework :: Plone :: 5.1',
+          'Programming Language :: Python',
+          'Programming Language :: Python :: 2.7',
       ],
       keywords='plone discussion',
       author='Timo Stollenwerk - Plone Foundation',
@@ -54,11 +57,10 @@ setup(name='plone.app.discussion',
               'plone.app.contentrules',
               'plone.app.contenttypes[test]',
               'plone.app.robotframework',
-          ]
+          ],
       },
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone
       """,
       )
-
