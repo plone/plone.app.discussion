@@ -89,7 +89,7 @@
                         <tal:block repeat="item batch">
                             <tr class="commentrow"
                                 tal:define="even repeat/item/even;
-                                   email python:getattr(item.getObject(), 'author_email')"
+                                            email python:getattr(item.getObject(), 'author_email');"
                                 tal:attributes="class python: even and 'odd' or 'even'">
                                 <td class="notDraggable">
                                     <input type="checkbox"
@@ -106,12 +106,14 @@
                                 </td>
                                 <td>
                                     <span tal:content="python:item.author_name or item.Creator">Name</span>
-                                    <tal:email tal:condition="email"><br /><a
-                                        tal:attributes="href string:mailto:$email"
-                                        tal:content="email">Email</a></tal:email>
+                                    <tal:email tal:condition="email">
+                                        <br/>
+                                        <a tal:attributes="href string:mailto:$email;"
+                                           tal:content="email">Email
+                                        </a>
+                                    </tal:email>
                                 </td>
-                                <td tal:content="python:toLocalizedTime(item.ModificationDate,
-                                      long_format=1)" />
+                                <td tal:content="python:toLocalizedTime(item.ModificationDate, long_format=1)"/>
                                 <td>
                                     <a tal:attributes="href item/getURL"
                                        tal:content="item/in_response_to" />
