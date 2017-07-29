@@ -32,8 +32,8 @@ except ImportError:
     pass
 
 
-@adapter(Interface, IDiscussionLayer, Interface, IField, Interface)
 @implementer(IValidator)
+@adapter(Interface, IDiscussionLayer, Interface, IField, Interface)
 class CaptchaValidator(validator.SimpleFieldValidator):
     #       Object, Request, Form, Field, Widget,
     # We adapt the CaptchaValidator class to all form fields (IField)

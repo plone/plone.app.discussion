@@ -324,8 +324,8 @@ else:
         return conversationAdapterFactory(content)
 
 
-@adapter(Conversation)  # relies on implementation details
 @implementer(IReplies)
+@adapter(Conversation)  # relies on implementation details
 class ConversationReplies(object):
     """An IReplies adapter for conversations.
 
@@ -400,8 +400,8 @@ class ConversationReplies(object):
         return self.conversation._children.get(self.comment_id, LLSet())
 
 
-@adapter(Comment)
 @implementer(IReplies)
+@adapter(Comment)
 class CommentReplies(ConversationReplies):
     """An IReplies adapter for comments.
 

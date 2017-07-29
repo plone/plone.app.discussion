@@ -13,8 +13,8 @@ from zope.traversing.interfaces import ITraversable
 from zope.traversing.interfaces import TraversalError
 
 
-@adapter(Interface, IBrowserRequest)
 @implementer(ITraversable)
+@adapter(Interface, IBrowserRequest)
 class ConversationNamespace(object):
     """Allow traversal into a conversation via a ++conversation++name
     namespace. The name is the name of an adapter from context to
