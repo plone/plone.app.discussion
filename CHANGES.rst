@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Make sure the effects of the robotframework REMOTE_LIBRARY_ROBOT_TESTING fixture
+  are not accidentally removed when tearing down the PLONE_APP_DISCUSSION_ROBOT_TESTING fixture.
+  [davisagli]
 
 
 3.0.3 (2017-08-27)
