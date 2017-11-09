@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fixed Dutch typo in comment box: nieuwe -> nieuw.  [maurits]
 
 
 2.2.20 (2017-01-17)

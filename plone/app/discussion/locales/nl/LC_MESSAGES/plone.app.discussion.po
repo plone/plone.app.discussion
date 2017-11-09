@@ -137,7 +137,7 @@ msgstr "Naam"
 
 #: ../interfaces.py:170
 msgid "Notify me of new comments via email."
-msgstr "Hou me middels e-mail op de hoogte van nieuwe commentaar."
+msgstr "Hou me middels e-mail op de hoogte van nieuw commentaar."
 
 #: ./plone.app.discussion/plone/app/discussion/configure.zcml
 msgid "Plone Discussions"
@@ -465,4 +465,3 @@ msgstr "Niets te modereren"
 #: ../browser/moderation.pt:64
 msgid "title_bulkactions"
 msgstr "Bulkacties"
-
