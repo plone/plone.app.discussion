@@ -4,14 +4,6 @@ Changelog
 3.0.4 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Make sure the effects of the robotframework REMOTE_LIBRARY_ROBOT_TESTING fixture
