@@ -156,7 +156,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
 
         # Make sure that the two comments have been deleted
         self.assertEqual(len(self.conversation.objectIds()), 1)
-        comment = self.conversation.getComments().next()
+        comment = next(self.conversation.getComments())
         self.assertTrue(comment)
         self.assertEqual(comment, self.comment2)
 

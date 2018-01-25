@@ -40,6 +40,9 @@ from zope.interface import implementer
 import logging
 
 
+import six
+
+
 COMMENT_TITLE = _(
     u'comment_title',
     default=u'${author_name} on ${content}',
@@ -122,7 +125,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     @property
     def __name__(self):
-        return self.comment_id and unicode(self.comment_id) or None
+        return self.comment_id and six.text_type(self.comment_id) or None
 
     @property
     def id(self):
@@ -147,7 +150,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         text = self.text
         if text is None:
             return ''
-        if isinstance(text, unicode):
+        if isinstance(text, six.text_type):
             text = text.encode('utf8')
         transform = transforms.convertTo(
             targetMimetype,
@@ -238,7 +241,7 @@ def notify_content_object_deleted(obj, event):
     if IAnnotatable.providedBy(obj):
         conversation = IConversation(obj)
         while conversation:
-            del conversation[conversation.keys()[0]]
+            del conversation[list(conversation.keys())[0]]
 
 
 def notify_comment_added(obj, event):
@@ -427,7 +430,7 @@ def notify_moderator(obj, event):
     # Send email
     try:
         mail_host.send(message, mto, sender, subject, charset='utf-8')
-    except SMTPException, e:
+    except SMTPException as e:
         logger.error('SMTP exception (%s) while trying to send an ' +
                      'email notification to the comment moderator ' +
                      '(from %s to %s, message: %s)',
