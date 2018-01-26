@@ -17,7 +17,7 @@ Create a collection.
     >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
     >>> browser.getControl('form.widgets.IDublinCore.title').value = 'Foo Comment Collection'
     >>> browser.getControl('Save').click()
-    >>> print browser.contents
+    >>> print(browser.contents)
     <...Changes saved...
     >>> topic_url = browser.url
 
@@ -39,7 +39,7 @@ Set the collection criteria.
     ...     browser.getControl('Add criteria').click()
     ...     browser.getControl('Comment').selected = True
     ...     browser.getControl('Save', index=0).click()
-    >>> print browser.contents
+    >>> print(browser.contents)
     <...Changes saved...
 
 View the collection listing.
@@ -66,7 +66,7 @@ Delete the commented content.
     >>> browser.open(urldoc1)
     >>> browser.getLink('Delete').click()
     >>> browser.getControl('Delete').click()
-    >>> print browser.contents
+    >>> print(browser.contents)
     <...Doc1 has been deleted...
 
 The comments are no longer in the catalog.
