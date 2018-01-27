@@ -565,8 +565,8 @@ class TestCommentsViewlet(unittest.TestCase):
         replies = self.viewlet.get_replies()
         self.assertEqual(len(tuple(replies)), 2)
         replies = self.viewlet.get_replies()
-        replies.next()
-        replies.next()
+        next(replies)
+        next(replies)
         self.assertRaises(StopIteration, replies.next)
 
     def test_get_replies_on_non_annotatable_object(self):
@@ -593,7 +593,7 @@ class TestCommentsViewlet(unittest.TestCase):
             ('comment_review_workflow,')
         )
         # Check if workflow actions are available
-        reply = self.viewlet.get_replies(workflow_actions=True).next()
+        reply = next(self.viewlet.get_replies(workflow_actions=True))
         self.assertTrue('actions' in reply)
         self.assertEqual(
             reply['actions'][0]['id'],

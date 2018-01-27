@@ -33,6 +33,9 @@ from zope.i18nmessageid import Message
 from zope.interface import alsoProvides
 
 
+import six
+
+
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     u'comment_description_plain_text',
     default=u'You can add a comment by filling out the form below. '
@@ -152,11 +155,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if 'author_name' in data:
             author_name = data['author_name']
             if isinstance(author_name, str):
-                author_name = unicode(author_name, 'utf-8')
+                author_name = six.text_type(author_name, 'utf-8')
         if 'author_email' in data:
             author_email = data['author_email']
             if isinstance(author_email, str):
-                author_email = unicode(author_email, 'utf-8')
+                author_email = six.text_type(author_email, 'utf-8')
 
         # Set comment author properties for anonymous users or members
         portal_membership = getToolByName(context, 'portal_membership')
@@ -171,10 +174,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             if not fullname or fullname == '':
                 fullname = member.getUserName()
             elif isinstance(fullname, str):
-                fullname = unicode(fullname, 'utf-8')
+                fullname = six.text_type(fullname, 'utf-8')
             author_name = fullname
             if email and isinstance(email, str):
-                email = unicode(email, 'utf-8')
+                email = six.text_type(email, 'utf-8')
             # XXX: according to IComment interface author_email must not be
             # set for logged in users, cite:
             # 'for anonymous comments only, set to None for logged in comments'
@@ -427,7 +430,7 @@ class CommentsViewlet(ViewletBase):
         """
         if self.get_replies(workflow_actions) is not None:
             try:
-                self.get_replies(workflow_actions).next()
+                next(self.get_replies(workflow_actions))
                 return True
             except StopIteration:  # pragma: no cover
                 pass

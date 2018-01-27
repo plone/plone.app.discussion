@@ -22,6 +22,9 @@ from zope.component import queryUtility
 import unittest
 
 
+import six
+
+
 try:
     from plone.dexterity.interfaces import IDexterityContent
     DEXTERITY = True
@@ -383,17 +386,17 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue(comment2 in conversation.values())
 
         # check if comment ids are in iterkeys
-        self.assertTrue(new_id1 in conversation.iterkeys())
-        self.assertTrue(new_id2 in conversation.iterkeys())
-        self.assertFalse(123 in conversation.iterkeys())
+        self.assertTrue(new_id1 in six.iterkeys(conversation))
+        self.assertTrue(new_id2 in six.iterkeys(conversation))
+        self.assertFalse(123 in six.iterkeys(conversation))
 
         # check if comment objects are in itervalues
-        self.assertTrue(comment1 in conversation.itervalues())
-        self.assertTrue(comment2 in conversation.itervalues())
+        self.assertTrue(comment1 in six.itervalues(conversation))
+        self.assertTrue(comment2 in six.itervalues(conversation))
 
         # check if iteritems returns (key, comment object) pairs
-        self.assertTrue((new_id1, comment1) in conversation.iteritems())
-        self.assertTrue((new_id2, comment2) in conversation.iteritems())
+        self.assertTrue((new_id1, comment1) in six.iteritems(conversation))
+        self.assertTrue((new_id2, comment2) in six.iteritems(conversation))
 
         # TODO test acquisition wrapping
         # self.assertTrue(aq_base(aq_parent(comment1)) is conversation)

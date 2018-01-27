@@ -40,6 +40,9 @@ from zope.lifecycleevent import ObjectRemovedEvent
 import time
 
 
+import six
+
+
 @implementer(IConversation, IHideFromBreadcrumbs)
 class Conversation(Traversable, Persistent, Explicit):
     """A conversation is a container for all comments on a content object.
@@ -110,7 +113,7 @@ class Conversation(Traversable, Persistent, Explicit):
     def getComments(self, start=0, size=None):
         """Get unthreaded comments
         """
-        count = 0l
+        count = 0
         for comment in self._comments.values(min=start):
             # Yield the acquisition wrapped comment
             yield self[comment.id]
@@ -138,7 +141,7 @@ class Conversation(Traversable, Persistent, Explicit):
         # Find top level threads
         comments = self._children.get(root, None)
         if comments is not None:
-            count = 0l
+            count = 0
             for comment_id in comments.keys(min=start):
 
                 # Abort if we have found all the threads we want
@@ -274,14 +277,14 @@ class Conversation(Traversable, Persistent, Explicit):
         return [v.__of__(self) for v in self._comments.values()]
 
     def iterkeys(self):
-        return self._comments.iterkeys()
+        return six.iterkeys(self._comments)
 
     def itervalues(self):
-        for v in self._comments.itervalues():
+        for v in six.itervalues(self._comments):
             yield v.__of__(self)
 
     def iteritems(self):
-        for k, v in self._comments.iteritems():
+        for k, v in six.iteritems(self._comments):
             yield (k, v.__of__(self),)
 
     def allowedContentTypes(self):
@@ -334,7 +337,7 @@ class ConversationReplies(object):
 
     def __init__(self, context):
         self.conversation = context
-        self.comment_id = 0l
+        self.comment_id = 0
 
     def addComment(self, comment):
         comment.in_reply_to = None
