@@ -19,7 +19,7 @@ from plone.z3cform.interfaces import IWrappedForm
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-from urllib import quote as url_quote
+from six.moves.urllib.parse import quote
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
@@ -537,7 +537,7 @@ class CommentsViewlet(ViewletBase):
     def login_action(self):
         return '{0}/login_form?came_from={1}'.format(
             self.navigation_root_url,
-            url_quote(self.request.get('URL', '')),
+            quote(self.request.get('URL', '')),
         )
 
     def format_time(self, time):
