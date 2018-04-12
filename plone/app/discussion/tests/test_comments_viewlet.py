@@ -727,7 +727,7 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
     def test_format_time(self):
-        python_time = datetime(2009, 02, 01, 23, 32, 03, 57)
+        python_time = datetime(2009, 2, 1, 23, 32, 3, 57)
         # Python Time must be utc time. There seems to be no too simple way
         # to tell datetime to be of utc time.
         # therefor, we convert the time to seconds since epoch, which seems
