@@ -161,7 +161,7 @@ class Conversation(Traversable, Persistent, Explicit):
 
         comment = aq_base(comment)
 
-        id = long(time.time() * 1e6)
+        id = int(time.time() * 1e6)
         while id in self._comments:
             id += 1
 
@@ -206,22 +206,22 @@ class Conversation(Traversable, Persistent, Explicit):
         return len(self._comments)
 
     def __contains__(self, key):
-        return long(key) in self._comments
+        return int(key) in self._comments
 
     def __getitem__(self, key):
-        """Get an item by its long key
+        """Get an item by its int key
         """
         try:
-            comment_id = long(key)
+            comment_id = int(key)
         except ValueError:
             return
         return self._comments[comment_id].__of__(self)
 
     def __delitem__(self, key, suppress_container_modified=False):
-        """Delete an item by its long key
+        """Delete an item by its int key
         """
 
-        key = long(key)
+        key = int(key)
 
         comment = self[key].__of__(self)
         commentator = comment.author_username
@@ -260,7 +260,7 @@ class Conversation(Traversable, Persistent, Explicit):
         return iter(self._comments)
 
     def get(self, key, default=None):
-        comment = self._comments.get(long(key), default)
+        comment = self._comments.get(int(key), default)
         if comment is default:
             return default
         return comment.__of__(self)
