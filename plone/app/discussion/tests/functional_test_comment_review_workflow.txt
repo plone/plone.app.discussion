@@ -143,7 +143,7 @@ actions.
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = 'jack'
     >>> browser.getControl(name='__ac_password').value = 'secret'
-    >>> browser.getControl(name='submit').click()
+    >>> browser.getControl('Log in').click()
 
     >>> browser.open(urldoc)
 
@@ -241,7 +241,7 @@ Enable anonymous comment with email.
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
-    >>> browser.getControl(name='submit').click()
+    >>> browser.getControl('Log in').click()
     >>> browser.open(portal_url+'/@@discussion-controlpanel')
     >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = 'selected'
     >>> browser.getControl(name='form.widgets.anonymous_email_enabled:list').value = 'selected'
@@ -274,7 +274,7 @@ The new comment is shown in moderation view with authors name and email.
 
     >>> browser.url
     'http://nohost/plone/@@moderate-comments'
-    
+
     >>> 'John' in browser.contents
     True
 
