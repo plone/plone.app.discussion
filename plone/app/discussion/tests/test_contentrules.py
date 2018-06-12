@@ -54,7 +54,7 @@ class CommentContentRulesTest(unittest.TestCase):
     def testCommentIdStringSubstitution(self):
         comment_id = getAdapter(self.document, IStringSubstitution,
                                 name=u'comment_id')
-        self.assertIsInstance(comment_id(), long)
+        self.assertIsInstance(comment_id(), int)
 
     def testCommentTextStringSubstitution(self):
         comment_text = getAdapter(self.document, IStringSubstitution,
@@ -114,7 +114,7 @@ class ReplyContentRulesTest(unittest.TestCase):
             IStringSubstitution,
             name=u'comment_id',
         )
-        self.assertIsInstance(reply_id(), long)
+        self.assertIsInstance(reply_id(), int)
 
     def testReplyTextStringSubstitution(self):
         reply_text = getAdapter(

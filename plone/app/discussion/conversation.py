@@ -347,20 +347,20 @@ class ConversationReplies(object):
         return len(self.children)
 
     def __contains__(self, key):
-        return long(key) in self.children
+        return int(key) in self.children
 
     def __getitem__(self, key):
-        """Get an item by its long key
+        """Get an item by its int key
         """
-        key = long(key)
+        key = int(key)
         if key not in self.children:
             raise KeyError(key)
         return self.conversation[key]
 
     def __delitem__(self, key):
-        """Delete an item by its long key
+        """Delete an item by its int key
         """
-        key = long(key)
+        key = int(key)
         if key not in self.children:
             raise KeyError(key)
         del self.conversation[key]
@@ -369,7 +369,7 @@ class ConversationReplies(object):
         return iter(self.children)
 
     def get(self, key, default=None):
-        key = long(key)
+        key = int(key)
         if key not in self.children:
             return default
         return self.conversation.get(key)

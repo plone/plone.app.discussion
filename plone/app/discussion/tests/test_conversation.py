@@ -68,7 +68,7 @@ class ConversationTest(unittest.TestCase):
         new_id = conversation.addComment(comment)
 
         # Check that the conversation methods return the correct data
-        self.assertTrue(isinstance(comment.comment_id, long))
+        self.assertTrue(isinstance(comment.comment_id, int))
         self.assertTrue(IComment.providedBy(conversation[new_id]))
         self.assertEqual(
             aq_base(conversation[new_id].__parent__),
@@ -641,7 +641,7 @@ class ConversationTest(unittest.TestCase):
 
     def test_unconvertible_id(self):
         # make sure the conversation view doesn't break when given comment id
-        # can't be converted to long
+        # can't be converted to int
 
         conversation = self.portal.doc1.restrictedTraverse(
             '++conversation++default/ThisCantBeRight',

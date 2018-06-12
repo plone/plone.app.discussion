@@ -17,6 +17,7 @@ from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
 from plone.z3cform.interfaces import IWrappedForm
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from six.moves.urllib.parse import quote
@@ -152,13 +153,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Make sure author_name/ author_email is properly encoded
         if 'author_name' in data:
-            author_name = data['author_name']
-            if isinstance(author_name, str):
-                author_name = six.text_type(author_name, 'utf-8')
+            author_name = safe_unicode(data['author_name'])
         if 'author_email' in data:
-            author_email = data['author_email']
-            if isinstance(author_email, str):
-                author_email = six.text_type(author_email, 'utf-8')
+            author_email = safe_unicode(data['author_email'])
 
         # Set comment author properties for anonymous users or members
         portal_membership = getToolByName(context, 'portal_membership')
@@ -167,8 +164,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 'Reply to item', context):
             # Member
             member = portal_membership.getAuthenticatedMember()
-            # memberdata is stored as utf-8 encoded strings
-            email = member.getProperty('email')
+            email = safe_unicode(member.getProperty('email'))
             fullname = member.getProperty('fullname')
             if not fullname or fullname == '':
                 fullname = member.getUserName()
