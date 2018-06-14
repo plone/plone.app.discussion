@@ -54,7 +54,7 @@ class CommentTest(unittest.TestCase):
             difference = difference.seconds
             # We hope that between comment1 and local_utc happen less than
             # 10 seconds
-            self.assertFalse(difference / 10)
+            self.assertFalse(difference // 10)
 
     def test_id(self):
         comment1 = createObject('plone.Comment')

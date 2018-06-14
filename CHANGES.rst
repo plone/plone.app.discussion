@@ -41,7 +41,7 @@ Bug fixes:
   [jensens]
 
 - More Python 2 / 3 compatibility.
-  [pbauer]
+  [pbauer, hvelarde]
 
 
 3.0.5 (2018-02-04)
