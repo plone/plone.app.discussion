@@ -37,10 +37,8 @@ from zope.lifecycleevent import ObjectAddedEvent
 from zope.lifecycleevent import ObjectCreatedEvent
 from zope.lifecycleevent import ObjectRemovedEvent
 
-import time
-
-
 import six
+import time
 
 
 @implementer(IConversation, IHideFromBreadcrumbs)

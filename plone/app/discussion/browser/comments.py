@@ -32,7 +32,6 @@ from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import alsoProvides
 
-
 import six
 
 
