@@ -23,7 +23,7 @@ def test_suite():
         suite.addTests([
             layered(
                 robottestsuite,
-                layer=PLONE_APP_DISCUSSION_ROBOT_TESTING
+                layer=PLONE_APP_DISCUSSION_ROBOT_TESTING,
             ),
         ])
     return suite

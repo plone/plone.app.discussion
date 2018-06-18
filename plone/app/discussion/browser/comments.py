@@ -32,33 +32,32 @@ from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import alsoProvides
 
-
 import six
 
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     u'comment_description_plain_text',
     default=u'You can add a comment by filling out the form below. '
-            u'Plain text formatting.'
+            u'Plain text formatting.',
 )
 
 COMMENT_DESCRIPTION_MARKDOWN = _(
     u'comment_description_markdown',
     default=u'You can add a comment by filling out the form below. '
             u'Plain text formatting. You can use the Markdown syntax for '
-            u'links and images.'
+            u'links and images.',
 )
 
 COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
     u'comment_description_intelligent_text',
     default=u'You can add a comment by filling out the form below. '
             u'Plain text formatting. Web and email addresses are '
-            u'transformed into clickable links.'
+            u'transformed into clickable links.',
 )
 
 COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
     u'comment_description_moderation_enabled',
-    default=u'Comments are moderated.'
+    default=u'Comments are moderated.',
 )
 
 
@@ -178,11 +177,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             author_name = fullname
             if email and isinstance(email, str):
                 email = six.text_type(email, 'utf-8')
-            # XXX: according to IComment interface author_email must not be
+            # XXX: according to IComment interface author_email must not be  # noqa T000
             # set for logged in users, cite:
             # 'for anonymous comments only, set to None for logged in comments'
             author_email = email
-            # /XXX
+            # /XXX  # noqa T000
 
         return author_name, author_email
 
@@ -229,7 +228,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             raise Unauthorized(
                 u'Anonymous user tries to post a comment, but anonymous '
                 u'commenting is disabled. Or user does not have the '
-                u"'reply to item' permission."
+                u"'reply to item' permission.",
             )
 
         return comment
@@ -241,10 +240,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Check if conversation is enabled on this content object
         if not self.__parent__.restrictedTraverse(
-            '@@conversation_view'
+            '@@conversation_view',
         ).enabled():
             raise Unauthorized(
-                'Discussion is not enabled for this content object.'
+                'Discussion is not enabled for this content object.',
             )
 
         # Validation form
@@ -294,7 +293,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         comment_review_state = workflowTool.getInfoFor(
             comment,
             'review_state',
-            None
+            None,
         )
         if comment_review_state == 'pending' and not can_review:
             # Show info message when comment moderation is enabled

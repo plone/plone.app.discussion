@@ -80,7 +80,7 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u'comment-form'
+            name=u'comment-form',
         )
 
         # The form should return an error if the comment text field is empty
@@ -88,7 +88,7 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u'comment-form'
+            name=u'comment-form',
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -102,7 +102,7 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u'comment-form'
+            name=u'comment-form',
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -144,14 +144,14 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u'comment-form'
+            name=u'comment-form',
         )
 
         provideAdapter(
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=EditCommentForm,
-            name=u'edit-comment-form'
+            name=u'edit-comment-form',
         )
 
         # The form is submitted successfully, if the required text field is
@@ -160,7 +160,7 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u'comment-form'
+            name=u'comment-form',
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -174,7 +174,7 @@ class TestCommentForm(unittest.TestCase):
         request = make_request(form={'form.widgets.text': u'foobar'})
         editForm = getMultiAdapter(
             (comment, request),
-            name=u'edit-comment-form'
+            name=u'edit-comment-form',
         )
         editForm.update()
         data, errors = editForm.extractData()  # pylint: disable-msg=W0612
@@ -219,7 +219,7 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u'comment-form'
+            name=u'comment-form',
         )
 
         # The form is submitted successfully, if the required text field is
@@ -228,7 +228,7 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, form_request),
-            name=u'comment-form'
+            name=u'comment-form',
         )
 
         commentForm.update()
@@ -241,14 +241,14 @@ class TestCommentForm(unittest.TestCase):
         comment = [x for x in conversation.getComments()][-1]
         deleteView = getMultiAdapter(
             (comment, self.request),
-            name=u'moderate-delete-comment'
+            name=u'moderate-delete-comment',
         )
         # try to delete last comment without 'Delete comments' permission
         setRoles(self.portal, TEST_USER_ID, ['Member'])
         self.assertRaises(
             Unauthorized,
             comment.restrictedTraverse,
-            '@@moderate-delete-comment'
+            '@@moderate-delete-comment',
         )
         deleteView()
         self.assertEqual(1, len([x for x in conversation.getComments()]))
@@ -277,7 +277,7 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u'comment-form'
+            name=u'comment-form',
         )
 
         # The form is submitted successfully, if the required text field is
@@ -286,7 +286,7 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, form_request),
-            name=u'comment-form'
+            name=u'comment-form',
         )
 
         commentForm.update()
@@ -299,7 +299,7 @@ class TestCommentForm(unittest.TestCase):
         comment = [x for x in conversation.getComments()][-1]
         deleteView = getMultiAdapter(
             (comment, self.request),
-            name=u'delete-own-comment'
+            name=u'delete-own-comment',
         )
         # try to delete last comment with johndoe
         setRoles(self.portal, 'johndoe', ['Member'])
@@ -307,7 +307,7 @@ class TestCommentForm(unittest.TestCase):
         self.assertRaises(
             Unauthorized,
             comment.restrictedTraverse,
-            '@@delete-own-comment'
+            '@@delete-own-comment',
         )
         self.assertEqual(1, len([x for x in conversation.getComments()]))
         # try to delete last comment with the same user that created it
@@ -343,12 +343,12 @@ class TestCommentForm(unittest.TestCase):
         # Post an anonymous comment and provide a name
         request = make_request(form={
             'form.widgets.name': u'john doe',
-            'form.widgets.text': u'bar'
+            'form.widgets.text': u'bar',
         })
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u'comment-form'
+            name=u'comment-form',
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -391,7 +391,7 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u'comment-form'
+            name=u'comment-form',
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -438,7 +438,7 @@ class TestCommentForm(unittest.TestCase):
             Unauthorized,
             commentForm.handleComment,
             commentForm,
-            'foo'
+            'foo',
         )
 
 
@@ -454,7 +454,7 @@ class TestCommentsViewlet(unittest.TestCase):
         self.folder = self.portal['test-folder']
         interface.alsoProvides(
             self.request,
-            interfaces.IDiscussionLayer
+            interfaces.IDiscussionLayer,
         )
 
         self.workflowTool = getToolByName(self.portal, 'portal_workflow')
@@ -532,7 +532,7 @@ class TestCommentsViewlet(unittest.TestCase):
             self.viewlet.comment_transform_message(),
             'You can add a comment by filling out the form below. ' +
             'Plain text formatting. Web and email addresses are transformed ' +
-            'into clickable links.'
+            'into clickable links.',
         )
 
         # Enable moderation workflow
@@ -585,25 +585,25 @@ class TestCommentsViewlet(unittest.TestCase):
         c1 = conversation.addComment(comment)
         self.assertEqual(
             len(tuple(self.viewlet.get_replies(workflow_actions=True))),
-            1
+            1,
         )
         # Enable moderation workflow
         self.workflowTool.setChainForPortalTypes(
             ('Discussion Item',),
-            ('comment_review_workflow,')
+            ('comment_review_workflow,'),
         )
         # Check if workflow actions are available
         reply = next(self.viewlet.get_replies(workflow_actions=True))
         self.assertTrue('actions' in reply)
         self.assertEqual(
             reply['actions'][0]['id'],
-            'publish'
+            'publish',
         )
         expected_url = 'http://nohost/plone/doc1/++conversation++default/{0}' \
                        '/content_status_modify?workflow_action=publish'
         self.assertEqual(
             reply['actions'][0]['url'],
-            expected_url.format(int(c1))
+            expected_url.format(int(c1)),
         )
 
     def test_get_commenter_home_url(self):
@@ -614,7 +614,7 @@ class TestCommentsViewlet(unittest.TestCase):
         m = portal_membership.getAuthenticatedMember()
         self.assertEqual(
             self.viewlet.get_commenter_home_url(m.getUserName()),
-            'http://nohost/plone/author/test-user'
+            'http://nohost/plone/author/test-user',
         )
 
     def test_get_commenter_home_url_is_none(self):
@@ -627,15 +627,15 @@ class TestCommentsViewlet(unittest.TestCase):
         self.memberdata._setPortrait(Image(
             id='jim',
             file=dummy.File(),
-            title=''
+            title='',
         ), 'jim')
         self.assertEqual(
             self.memberdata._getPortrait('jim').getId(),
-            'jim'
+            'jim',
         )
         self.assertEqual(
             self.memberdata._getPortrait('jim').meta_type,
-            'Image'
+            'Image',
         )
 
         # Add a conversation with a comment
@@ -653,7 +653,7 @@ class TestCommentsViewlet(unittest.TestCase):
         # Check if the correct member image URL is returned
         self.assertEqual(
             portrait_url,
-            'http://nohost/plone/portal_memberdata/portraits/jim'
+            'http://nohost/plone/portal_memberdata/portraits/jim',
         )
 
     def test_get_commenter_portrait_is_none(self):
@@ -662,8 +662,7 @@ class TestCommentsViewlet(unittest.TestCase):
             self.viewlet.get_commenter_portrait() in (
                 'defaultUser.png',
                 'defaultUser.gif',
-            )
-
+            ),
         )
 
     def test_get_commenter_portrait_without_userimage(self):
@@ -689,8 +688,8 @@ class TestCommentsViewlet(unittest.TestCase):
         self.assertTrue(
             portrait_url in (
                 'http://nohost/plone/defaultUser.png',
-                'http://nohost/plone/defaultUser.gif'
-            )
+                'http://nohost/plone/defaultUser.gif',
+            ),
         )
 
     def test_anonymous_discussion_allowed(self):
@@ -723,7 +722,7 @@ class TestCommentsViewlet(unittest.TestCase):
         self.viewlet.update()
         self.assertEqual(
             self.viewlet.login_action(),
-            'http://nohost/plone/login_form?came_from=http%3A//nohost'
+            'http://nohost/plone/login_form?came_from=http%3A//nohost',
         )
 
     def test_format_time(self):
@@ -737,8 +736,8 @@ class TestCommentsViewlet(unittest.TestCase):
         # time of the local time given above. That way, the time for the
         # example below is correct within each time zone, independent of DST
         python_time = datetime(
-            *time.gmtime(time.mktime(python_time.timetuple()))[:7]
-        )
+            *time.gmtime(time.mktime(python_time.timetuple()))[:7])
         localized_time = self.viewlet.format_time(python_time)
         self.assertTrue(
-            localized_time in ['Feb 01, 2009 11:32 PM', '2009-02-01 23:32'])
+            localized_time in ['Feb 01, 2009 11:32 PM', '2009-02-01 23:32'],
+        )

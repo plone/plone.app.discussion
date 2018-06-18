@@ -70,7 +70,7 @@ class ConversationIndexersTest(unittest.TestCase):
     def test_conversation_total_comments(self):
         self.assertTrue(isinstance(
             catalog.total_comments,
-            DelegatingIndexerFactory
+            DelegatingIndexerFactory,
         ))
         self.assertEqual(catalog.total_comments(self.portal.doc1)(), 3)
         del self.conversation[self.new_id1]
@@ -82,16 +82,16 @@ class ConversationIndexersTest(unittest.TestCase):
     def test_conversation_last_comment_date(self):
         self.assertTrue(isinstance(
             catalog.last_comment_date,
-            DelegatingIndexerFactory
+            DelegatingIndexerFactory,
         ))
         self.assertEqual(
             catalog.last_comment_date(self.portal.doc1)(),
-            datetime(2009, 4, 12, 11, 12, 12)
+            datetime(2009, 4, 12, 11, 12, 12),
         )
         del self.conversation[self.new_id3]
         self.assertEqual(
             catalog.last_comment_date(self.portal.doc1)(),
-            datetime(2007, 12, 13, 4, 18, 12)
+            datetime(2007, 12, 13, 4, 18, 12),
         )
         del self.conversation[self.new_id2]
         del self.conversation[self.new_id1]
@@ -138,7 +138,7 @@ class CommentIndexersTest(unittest.TestCase):
     def test_description(self):
         self.assertEqual(
             catalog.description(self.comment)(),
-            'Lorem ipsum dolor sit amet.'
+            'Lorem ipsum dolor sit amet.',
         )
         self.assertTrue(
             isinstance(catalog.description, DelegatingIndexerFactory))
@@ -153,33 +153,33 @@ class CommentIndexersTest(unittest.TestCase):
         self.conversation.addComment(comment_long)
         self.assertEqual(
             catalog.description(comment_long)(),
-            LONG_TEXT_CUT.replace('\n', ' ')
+            LONG_TEXT_CUT.replace('\n', ' '),
         )
 
     def test_dates(self):
         # Test if created, modified, effective etc. are set correctly
         self.assertEqual(
             catalog.created(self.comment)(),
-            DateTime(2006, 9, 17, 14, 18, 12, 'GMT')
+            DateTime(2006, 9, 17, 14, 18, 12, 'GMT'),
         )
         self.assertEqual(
             catalog.effective(self.comment)(),
-            DateTime(2006, 9, 17, 14, 18, 12, 'GMT')
+            DateTime(2006, 9, 17, 14, 18, 12, 'GMT'),
         )
         self.assertEqual(
             catalog.modified(self.comment)(),
-            DateTime(2008, 3, 12, 7, 32, 52, 'GMT')
+            DateTime(2008, 3, 12, 7, 32, 52, 'GMT'),
         )
 
     def test_searchable_text(self):
         # Test if searchable text is a concatenation of title and comment text
         self.assertEqual(
             catalog.searchable_text(self.comment)(),
-            ('Lorem ipsum dolor sit amet.')
+            ('Lorem ipsum dolor sit amet.'),
         )
         self.assertTrue(isinstance(
             catalog.searchable_text,
-            DelegatingIndexerFactory
+            DelegatingIndexerFactory,
         ))
 
     def test_creator(self):

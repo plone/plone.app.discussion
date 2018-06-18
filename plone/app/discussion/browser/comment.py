@@ -2,7 +2,6 @@
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from .comments import CommentForm
 from plone.app.discussion import _
 from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
@@ -14,6 +13,7 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
+from .comments import CommentForm
 
 
 class View(BrowserView):
