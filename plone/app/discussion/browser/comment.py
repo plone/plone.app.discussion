@@ -14,6 +14,7 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
+from .comments import CommentForm
 
 
 class View(BrowserView):

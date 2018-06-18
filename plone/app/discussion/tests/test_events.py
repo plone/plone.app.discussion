@@ -152,7 +152,7 @@ class RepliesEventsTest(unittest.TestCase):
         comment.text = 'Comment text'
         new_id = replies.addComment(comment)
         comment = self.document.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id)
+            '++conversation++default/{0}'.format(new_id),
         )
 
         re_comment = createObject('plone.Comment')
@@ -173,7 +173,7 @@ class RepliesEventsTest(unittest.TestCase):
         comment.text = 'Comment text'
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id)
+            '++conversation++default/{0}'.format(new_id),
         )
 
         re_comment = createObject('plone.Comment')

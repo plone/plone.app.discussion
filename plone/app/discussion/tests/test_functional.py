@@ -25,11 +25,16 @@ normal_testfiles = [
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTests([
-        layered(doctest.DocFileSuite(test,
-                                     optionflags=optionflags,
-                                     globs={'pprint': pprint.pprint,
-                                            }
-                                     ),
-                layer=PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING)
-        for test in normal_testfiles])
+        layered(
+            doctest.DocFileSuite(
+                test,
+                optionflags=optionflags,
+                globs={
+                    'pprint': pprint.pprint,
+                }
+            ),
+            layer=PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING,
+        )
+        for test in normal_testfiles
+    ])
     return suite

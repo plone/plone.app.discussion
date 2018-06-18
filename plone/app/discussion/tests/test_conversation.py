@@ -72,7 +72,7 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue(IComment.providedBy(conversation[new_id]))
         self.assertEqual(
             aq_base(conversation[new_id].__parent__),
-            aq_base(conversation)
+            aq_base(conversation),
         )
         self.assertEqual(new_id, comment.comment_id)
         self.assertEqual(len(list(conversation.getComments())), 1)
@@ -80,7 +80,7 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(conversation.total_comments(), 1)
         self.assertTrue(
             conversation.last_comment_date - datetime.utcnow() <
-            timedelta(seconds=1)
+            timedelta(seconds=1),
         )
 
     def test_private_comment(self):
@@ -278,7 +278,7 @@ class ConversationTest(unittest.TestCase):
 
         # Create a conversation.
         conversation = self.portal.doc1.restrictedTraverse(
-            '@@conversation_view'
+            '@@conversation_view',
         )
 
         # The Document content type is disabled by default
@@ -326,7 +326,7 @@ class ConversationTest(unittest.TestCase):
 
         # Create a conversation.
         conversation = self.portal.doc1.restrictedTraverse(
-            '@@conversation_view'
+            '@@conversation_view',
         )
 
         # Discussion is disallowed by default
@@ -396,7 +396,7 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue((new_id1, comment1) in six.iteritems(conversation))
         self.assertTrue((new_id2, comment2) in six.iteritems(conversation))
 
-        # TODO test acquisition wrapping
+        # TODO test acquisition wrapping  # noqa T000
         # self.assertTrue(aq_base(aq_parent(comment1)) is conversation)
 
     def test_total_comments(self):
@@ -512,11 +512,11 @@ class ConversationTest(unittest.TestCase):
         # check if the latest comment is exactly one day old
         self.assertTrue(
             conversation.last_comment_date < datetime.utcnow() -
-            timedelta(hours=23, minutes=59, seconds=59)
+            timedelta(hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
             conversation.last_comment_date >
-            datetime.utcnow() - timedelta(days=1, seconds=1)
+            datetime.utcnow() - timedelta(days=1, seconds=1),
         )
 
         # remove the latest comment
@@ -526,11 +526,11 @@ class ConversationTest(unittest.TestCase):
         # the latest comment should be exactly two days old
         self.assertTrue(
             conversation.last_comment_date < datetime.utcnow() -
-            timedelta(days=1, hours=23, minutes=59, seconds=59)
+            timedelta(days=1, hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
             conversation.last_comment_date > datetime.utcnow() -
-            timedelta(days=2, seconds=1)
+            timedelta(days=2, seconds=1),
         )
 
         # remove the latest comment again
@@ -540,11 +540,11 @@ class ConversationTest(unittest.TestCase):
         # the latest comment should be exactly four days old
         self.assertTrue(
             conversation.last_comment_date < datetime.utcnow() -
-            timedelta(days=3, hours=23, minutes=59, seconds=59)
+            timedelta(days=3, hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
             conversation.last_comment_date > datetime.utcnow() -
-            timedelta(days=4, seconds=2)
+            timedelta(days=4, seconds=2),
         )
 
     def test_get_comments_full(self):
@@ -618,7 +618,7 @@ class ConversationTest(unittest.TestCase):
         ], list(conversation.getThreads()))
 
     def test_get_threads_batched(self):
-        # TODO: test start, size, root and depth arguments to getThreads()
+        # TODO: test start, size, root and depth arguments to getThreads()  # noqa T000
         #   - may want to split this into multiple tests
         pass
 
@@ -626,17 +626,17 @@ class ConversationTest(unittest.TestCase):
         # make sure we can traverse to conversations and get a URL and path
 
         conversation = self.portal.doc1.restrictedTraverse(
-            '++conversation++default'
+            '++conversation++default',
         )
         self.assertTrue(IConversation.providedBy(conversation))
 
         self.assertEqual(
             ('', 'plone', 'doc1', '++conversation++default'),
-            conversation.getPhysicalPath()
+            conversation.getPhysicalPath(),
         )
         self.assertEqual(
             'http://nohost/plone/doc1/++conversation++default',
-            conversation.absolute_url()
+            conversation.absolute_url(),
         )
 
     def test_unconvertible_id(self):
@@ -644,7 +644,7 @@ class ConversationTest(unittest.TestCase):
         # can't be converted to long
 
         conversation = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/ThisCantBeRight'
+            '++conversation++default/ThisCantBeRight',
         )
         self.assertEqual(conversation, None)
 
@@ -668,7 +668,7 @@ class ConversationTest(unittest.TestCase):
         # Make sure no conversation has been created
         self.assertTrue(
             'plone.app.discussion:conversation' not in
-            IAnnotations(self.portal.doc1)
+            IAnnotations(self.portal.doc1),
         )
 
 
@@ -681,13 +681,13 @@ class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         interface.alsoProvides(
             self.portal.REQUEST,
-            interfaces.IDiscussionLayer
+            interfaces.IDiscussionLayer,
         )
 
         if DEXTERITY:
             interface.alsoProvides(
                 self.portal.doc1,
-                IDexterityContent
+                IDexterityContent,
             )
 
     def _makeOne(self, *args, **kw):
@@ -847,18 +847,18 @@ class RepliesTest(unittest.TestCase):
         # Create the nested comment structure
         new_id_1 = replies.addComment(comment1)
         comment1 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id_1)
+            '++conversation++default/{0}'.format(new_id_1),
         )
         replies_to_comment1 = IReplies(comment1)
         new_id_2 = replies.addComment(comment2)
         comment2 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id_2)
+            '++conversation++default/{0}'.format(new_id_2),
         )
         replies_to_comment2 = IReplies(comment2)
 
         new_id_1_1 = replies_to_comment1.addComment(comment1_1)
         comment1_1 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id_1_1)
+            '++conversation++default/{0}'.format(new_id_1_1),
         )
         replies_to_comment1_1 = IReplies(comment1_1)
         replies_to_comment1_1.addComment(comment1_1_1)
