@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Test for the plone.app.discussion indexers
 """
-from datetime import datetime
 from DateTime import DateTime
+from datetime import datetime
 from plone.app.discussion import catalog
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa

@@ -1,8 +1,8 @@
 # coding: utf-8
+from .comments import CommentForm
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from .comments import CommentForm
 from plone.app.discussion import _
 from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form

@@ -38,8 +38,6 @@ from zope.i18nmessageid import Message
 from zope.interface import implementer
 
 import logging
-
-
 import six
 
 

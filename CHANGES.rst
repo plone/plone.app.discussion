@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Fix tests to work with merges plone.login.
+  [jensens]
+
 - More Python 2 / 3 compatibility.
   [pbauer]
 

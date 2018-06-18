@@ -126,7 +126,7 @@ Login as user (without the 'Member' role).
     >>> browser_user.open(portal_url + '/login_form')
     >>> browser_user.getControl(name='__ac_name').value = 'johndoe'
     >>> browser_user.getControl(name='__ac_password').value = 'secret'
-    >>> browser_user.getControl(name='submit').click()
+    >>> browser_user.getControl('Log in').click()
 
 Users without the 'Reply to item' permission will not see the comment form,
 because they don't have the 'Reply to item' permission. By default, this
@@ -146,7 +146,7 @@ Login as user 'jim'.
     >>> browser_member.open(portal_url + '/login_form')
     >>> browser_member.getControl(name='__ac_name').value = 'jim'
     >>> browser_member.getControl(name='__ac_password').value = 'secret'
-    >>> browser_member.getControl(name='submit').click()
+    >>> browser_member.getControl('Log in').click()
 
 Post a comment as user jim.
 
@@ -180,7 +180,7 @@ Enable anonymous comment
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
-    >>> browser.getControl(name='submit').click()
+    >>> browser.getControl('Log in').click()
     >>> browser.open(portal_url+'/@@discussion-controlpanel')
     >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = 'selected'
     >>> browser.getControl(name='form.buttons.save').click()
@@ -391,7 +391,7 @@ Now login as user 'reviewer'
     >>> browser_reviewer.open(portal_url + '/login_form')
     >>> browser_reviewer.getControl(name='__ac_name').value = 'reviewer'
     >>> browser_reviewer.getControl(name='__ac_password').value = 'secret'
-    >>> browser_reviewer.getControl(name='submit').click()
+    >>> browser_reviewer.getControl('Log in').click()
 
 Admin and who have 'Delete comments' permission (reviewers for example), can delete comments
 
@@ -461,7 +461,7 @@ Login as admin.
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
-    >>> browser.getControl(name='submit').click()
+    >>> browser.getControl('Log in').click()
 
 Edit the content object.
 
@@ -490,7 +490,7 @@ Edit the control panel.
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = 'admin'
     >>> browser.getControl(name='__ac_password').value = 'secret'
-    >>> browser.getControl(name='submit').click()
+    >>> browser.getControl('Log in').click()
     >>> browser.open(portal_url+'/@@discussion-controlpanel')
     >>> browser.getControl(name='form.widgets.anonymous_email_enabled:list').value = 'selected'
     >>> browser.getControl(name='form.buttons.save').click()
@@ -542,7 +542,7 @@ Login as user 'jim'.
     >>> browser_member.open(portal_url + '/login_form')
     >>> browser_member.getControl(name='__ac_name').value = 'jim'
     >>> browser_member.getControl(name='__ac_password').value = 'secret'
-    >>> browser_member.getControl(name='submit').click()
+    >>> browser_member.getControl('Log in').click()
 
 Post a comment as user jim.
 
