@@ -24,10 +24,10 @@ require([  // jshint ignore:line
     //#JSCOVERAGE_IF 0
 
     /**************************************************************************
-     * Window Load Function: Executes when complete page is fully loaded,
+     * Document Ready Function: Executes when complete page is fully loaded,
      * including all frames,
      **************************************************************************/
-    $(window).load(function () {
+    $(document).ready(function () {
 
         /**********************************************************************
          * Delete a single comment.
