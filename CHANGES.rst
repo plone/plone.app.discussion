@@ -19,6 +19,8 @@ Bug fixes:
   This is a follow up to `issue 476 <https://github.com/plone/plone.app.contenttypes/issues/476>`_.
   [iham]
 
+- *add item here*
+
 
 3.0.6 (2018-06-18)
 ------------------

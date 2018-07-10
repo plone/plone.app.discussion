@@ -31,7 +31,7 @@ def test_suite():
                 optionflags=optionflags,
                 globs={
                     'pprint': pprint.pprint,
-                }
+                },
             ),
             layer=PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING,
         )
