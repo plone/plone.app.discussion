@@ -176,7 +176,7 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         self.portal.portal_types['Document'].allow_discussion = True
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
-            ('comment_review_workflow',)
+            ('comment_review_workflow',),
         )
         # Enable moderator notification setting
         registry = queryUtility(IRegistry)
@@ -219,23 +219,23 @@ class TestModeratorNotificationUnit(unittest.TestCase):
             in msg)
         self.assertIn(
             'http://nohost/plone/d=\noc1/view#{0}'.format(comment_id),
-            msg
+            msg,
         )
         self.assertIn(
             'Comment text',
-            msg
+            msg,
         )
         text = 'Approve comment:\nhttp://nohost/plone/doc1/' \
                '++conversation++default/{0}/@@moderat=\ne-publish-comment'
         self.assertIn(
             text.format(comment_id),
-            msg
+            msg,
         )
         text = 'Delete comment:\nhttp://nohost/plone/doc1/' \
                '++conversation++default/{0}/@@moderat=\ne-delete-comment'
         self.assertIn(
             text.format(comment_id),
-            msg
+            msg,
         )
 
     def test_notify_moderator_specific_address(self):

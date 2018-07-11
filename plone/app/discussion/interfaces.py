@@ -59,7 +59,8 @@ class IConversation(IIterableMapping):
 
     public_commentators = schema.Set(
         title=_(
-            u'The set of unique commentators (usernames) of published_comments'
+            u'The set of unique commentators (usernames) '
+            u'of published_comments',
         ),
         readonly=True,
     )
@@ -174,15 +175,15 @@ class IComment(Interface):
     text = schema.Text(
         title=_(
             u'label_comment',
-            default=u'Comment'
-        )
+            default=u'Comment',
+        ),
     )
 
     user_notification = schema.Bool(
         title=_(
-            u'Notify me of new comments via email.'
+            u'Notify me of new comments via email.',
         ),
-        required=False
+        required=False,
     )
 
     creator = schema.TextLine(title=_(u'Username of the commenter'))
@@ -216,7 +217,7 @@ class IDiscussionSettings(Interface):
             default=u'If selected, users are able to post comments on the '
                     u'site. However, you will still need to enable comments '
                     u'for specific content types, folders or content '
-                    u'objects before users will be able to post comments.'
+                    u'objects before users will be able to post comments.',
         ),
         required=False,
         default=False,
@@ -230,7 +231,7 @@ class IDiscussionSettings(Interface):
             default=u'If selected, anonymous users are able to post '
                     u'comments without logging in. It is highly '
                     u'recommended to use a captcha solution to prevent '
-                    u'spam if this setting is enabled.'
+                    u'spam if this setting is enabled.',
         ),
         required=False,
         default=False,
@@ -242,15 +243,16 @@ class IDiscussionSettings(Interface):
         description=_(
             u'help_anonymous_email_enabled',
             default=u'If selected, anonymous user will have to '
-                    u'give their email.'),
+                    u'give their email.',
+        ),
         required=False,
-        default=False
+        default=False,
     )
 
     moderation_enabled = schema.Bool(
         title=_(
             u'label_moderation_enabled',
-            default='Enable comment moderation'
+            default='Enable comment moderation',
         ),
         description=_(
             u'help_moderation_enabled',
@@ -260,7 +262,7 @@ class IDiscussionSettings(Interface):
                     u'or "Manager") can approve comments to make them '
                     u'visible to the public. If you want to enable a '
                     u'custom comment workflow, you have to go to the '
-                    u'types control panel.'
+                    u'types control panel.',
         ),
         required=False,
         default=False,
@@ -347,7 +349,7 @@ class IDiscussionSettings(Interface):
     moderator_email = schema.ASCIILine(
         title=_(
             u'label_moderator_email',
-            default=u'Moderator Email Address'
+            default=u'Moderator Email Address',
         ),
         description=_(
             u'help_moderator_email',
@@ -359,14 +361,14 @@ class IDiscussionSettings(Interface):
     user_notification_enabled = schema.Bool(
         title=_(
             u'label_user_notification_enabled',
-            default=u'Enable user email notification'
+            default=u'Enable user email notification',
         ),
         description=_(
             u'help_user_notification_enabled',
             default=u'If selected, users can choose to be notified '
                     u'of new comments by email.'),
         required=False,
-        default=False
+        default=False,
     )
 
 

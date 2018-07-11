@@ -47,8 +47,8 @@ class WorkflowSetupTest(unittest.TestCase):
         self.assertEqual(
             ('comment_one_state_workflow',),
             self.portal.portal_workflow.getChainForPortalType(
-                'Discussion Item'
-            )
+                'Discussion Item',
+            ),
         )
 
     def test_review_comments_permission(self):
@@ -61,9 +61,9 @@ class WorkflowSetupTest(unittest.TestCase):
         self.assertFalse(
             self.portal.portal_membership.checkPermission(
                 'Review comments',
-                self.folder
+                self.folder,
             ),
-            self.folder
+            self.folder,
         )
 
     def test_reply_to_item_permission(self):
@@ -125,7 +125,7 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         cid = conversation.addComment(comment)
 
         self.comment = self.folder.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(cid)
+            '++conversation++default/{0}'.format(cid),
         )
 
         self.portal.acl_users._doAddUser('member', 'secret', ['Member'], [])
@@ -138,8 +138,10 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
     def test_initial_workflow_state(self):
         """Make sure the initial workflow state of a comment is 'private'.
         """
-        self.assertEqual(self.workflow.getInfoFor(self.doc, 'review_state'),
-                         'private')
+        self.assertEqual(
+            self.workflow.getInfoFor(self.doc, 'review_state'),
+            'private',
+        )
 
     def test_view_comments(self):
         """Make sure published comments can be viewed by everyone.
@@ -184,7 +186,8 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         # The workflow chain is still what we want.
         self.assertEqual(
             self.portal.portal_workflow.getChainFor('Discussion Item'),
-            ('comment_one_state_workflow',))
+            ('comment_one_state_workflow',),
+        )
         # A Manager can still see the comment.
         self.assertTrue(checkPerm(View, self.comment))
         # Anonymous cannot see the comment.
@@ -209,7 +212,8 @@ class CommentReviewWorkflowTest(unittest.TestCase):
         # Set workflow for Discussion item to review workflow
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
-            ('comment_review_workflow',))
+            ('comment_review_workflow',),
+        )
 
         # Create a conversation for this Document
         conversation = IConversation(self.portal.doc1)
@@ -219,7 +223,7 @@ class CommentReviewWorkflowTest(unittest.TestCase):
         comment.text = 'Comment text'
         comment_id = conversation.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(comment_id)
+            '++conversation++default/{0}'.format(comment_id),
         )
 
         self.conversation = conversation
@@ -239,9 +243,11 @@ class CommentReviewWorkflowTest(unittest.TestCase):
         # Make sure that anonymous users can not delete comments
         logout()
         self.portal.REQUEST.form['comment_id'] = self.comment_id
-        self.assertRaises(Unauthorized,
-                          self.comment.restrictedTraverse,
-                          '@@moderate-delete-comment')
+        self.assertRaises(
+            Unauthorized,
+            self.comment.restrictedTraverse,
+            '@@moderate-delete-comment',
+        )
         self.assertTrue(self.comment_id in self.conversation.objectIds())
 
     def test_delete_as_user(self):
@@ -249,9 +255,11 @@ class CommentReviewWorkflowTest(unittest.TestCase):
         logout()
         setRoles(self.portal, TEST_USER_ID, ['Member'])
         self.portal.REQUEST.form['comment_id'] = self.comment_id
-        self.assertRaises(Unauthorized,
-                          self.comment.restrictedTraverse,
-                          '@@moderate-delete-comment')
+        self.assertRaises(
+            Unauthorized,
+            self.comment.restrictedTraverse,
+            '@@moderate-delete-comment',
+        )
         self.assertTrue(self.comment_id in self.conversation.objectIds())
 
     def test_publish(self):
@@ -261,8 +269,8 @@ class CommentReviewWorkflowTest(unittest.TestCase):
             'pending',
             self.portal.portal_workflow.getInfoFor(
                 self.comment,
-                'review_state'
-            )
+                'review_state',
+            ),
         )
         view = self.comment.restrictedTraverse('@@moderate-publish-comment')
         view()
@@ -270,8 +278,8 @@ class CommentReviewWorkflowTest(unittest.TestCase):
             'published',
             self.portal.portal_workflow.getInfoFor(
                 self.comment,
-                'review_state'
-            )
+                'review_state',
+            ),
         )
 
     def test_publish_as_anonymous(self):
@@ -281,20 +289,20 @@ class CommentReviewWorkflowTest(unittest.TestCase):
         self.assertEqual(
             'pending', self.portal.portal_workflow.getInfoFor(
                 self.comment,
-                'review_state'
-            )
+                'review_state',
+            ),
         )
         self.assertRaises(
             Unauthorized,
             self.comment.restrictedTraverse,
-            '@@moderate-publish-comment'
+            '@@moderate-publish-comment',
         )
         self.assertEqual(
             'pending',
             self.portal.portal_workflow.getInfoFor(
                 self.comment,
-                'review_state'
-            )
+                'review_state',
+            ),
         )
 
     def test_publish_comment_on_private_content_not_visible_to_world(self):

@@ -26,19 +26,19 @@ class CatalogSetupTest(unittest.TestCase):
     def test_catalog_installed(self):
         self.assertTrue(
             'total_comments' in
-            self.portal.portal_catalog.indexes()
+            self.portal.portal_catalog.indexes(),
         )
         self.assertTrue(
             'commentators' in
-            self.portal.portal_catalog.indexes()
+            self.portal.portal_catalog.indexes(),
         )
         self.assertTrue(
             'total_comments' in
-            self.portal.portal_catalog.schema()
+            self.portal.portal_catalog.schema(),
         )
         self.assertTrue(
             'in_response_to' in
-            self.portal.portal_catalog.schema()
+            self.portal.portal_catalog.schema(),
         )
 
     def test_collection_criteria_installed(self):
@@ -76,13 +76,14 @@ class ConversationCatalogTest(unittest.TestCase):
         new_comment1_id = conversation.addComment(comment1)
         self.comment_id = new_comment1_id
 
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         self.conversation = conversation
         self.brains = brains
         self.doc1_brain = brains[0]
@@ -99,16 +100,17 @@ class ConversationCatalogTest(unittest.TestCase):
         new_comment2_id = self.conversation.addComment(comment2)
 
         comment2 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_comment2_id)
+            '++conversation++default/{0}'.format(new_comment2_id),
         )
         comment2.reindexObject()
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         doc1_brain = brains[0]
         self.assertEqual(doc1_brain.total_comments, 2)
 
@@ -116,7 +118,7 @@ class ConversationCatalogTest(unittest.TestCase):
         self.assertTrue('last_comment_date' in self.doc1_brain)
         self.assertEqual(
             self.doc1_brain.last_comment_date,
-            datetime(2006, 9, 17, 14, 18, 12)
+            datetime(2006, 9, 17, 14, 18, 12),
         )
 
         # Add another comment and check if last comment date is updated.
@@ -128,47 +130,50 @@ class ConversationCatalogTest(unittest.TestCase):
         new_comment2_id = self.conversation.addComment(comment2)
 
         comment2 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_comment2_id)
+            '++conversation++default/{0}'.format(new_comment2_id),
         )
         comment2.reindexObject()
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         doc1_brain = brains[0]
         self.assertEqual(
             doc1_brain.last_comment_date,
-            datetime(2009, 9, 17, 14, 18, 12)
+            datetime(2009, 9, 17, 14, 18, 12),
         )
 
         # Remove the comment again
         del self.conversation[new_comment2_id]
 
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         doc1_brain = brains[0]
         self.assertEqual(
             doc1_brain.last_comment_date,
-            datetime(2006, 9, 17, 14, 18, 12)
+            datetime(2006, 9, 17, 14, 18, 12),
         )
 
         # remove all comments
         del self.conversation[self.new_comment1_id]
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         doc1_brain = brains[0]
         self.assertEqual(doc1_brain.last_comment_date, None)
 
@@ -185,53 +190,57 @@ class ConversationCatalogTest(unittest.TestCase):
         new_comment2_id = self.conversation.addComment(comment2)
 
         comment2 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_comment2_id)
+            '++conversation++default/{0}'.format(new_comment2_id),
         )
         comment2.reindexObject()
 
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         doc1_brain = brains[0]
 
         self.assertEqual(doc1_brain.commentators, ('Jim', 'Emma'))
 
         # remove one comments
         del self.conversation[new_comment2_id]
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         doc1_brain = brains[0]
         self.assertEqual(doc1_brain.commentators, ('Jim',))
 
         # remove all comments
         del self.conversation[self.new_comment1_id]
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         doc1_brain = brains[0]
         self.assertEqual(doc1_brain.commentators, ())
 
     def test_conversation_indexes_not_in_comments(self):
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Discussion Item'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Discussion Item',
+            ),
+        )
         comment1_brain = brains[0]
         self.assertEqual(comment1_brain.commentators, None)
         self.assertEqual(comment1_brain.last_comment_date, None)
@@ -240,13 +249,14 @@ class ConversationCatalogTest(unittest.TestCase):
     def test_dont_index_private_commentators(self):
         self.comment1.manage_permission('View', roles=tuple())
         self.portal.doc1.reindexObject()
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         doc1_brain = brains[0]
         self.assertEqual(doc1_brain.commentators, ())
 
@@ -272,14 +282,15 @@ class CommentCatalogTest(unittest.TestCase):
 
         # Comment brain
         self.comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_comment1_id)
+            '++conversation++default/{0}'.format(new_comment1_id),
         )
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.comment.getPhysicalPath())
-            }
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.comment.getPhysicalPath()),
+                },
+            ),
+        )
         self.comment_brain = brains[0]
 
     def test_title(self):
@@ -292,14 +303,15 @@ class CommentCatalogTest(unittest.TestCase):
 
         # Comment brain
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(cid)
+            '++conversation++default/{0}'.format(cid),
         )
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(comment.getPhysicalPath())
-            }
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(comment.getPhysicalPath()),
+                },
+            ),
+        )
         comment_brain = brains[0]
         self.assertEqual(comment_brain.Title, 'Anonymous on Document 1')
 
@@ -327,12 +339,13 @@ class CommentCatalogTest(unittest.TestCase):
         # Make sure a comment is removed from the catalog as well when it is
         # deleted.
         del self.conversation[self.comment_id]
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.comment.getPhysicalPath())
-            }
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.comment.getPhysicalPath()),
+                },
+            ),
+        )
         self.assertEqual(len(brains), 0)
 
     def test_reindex_comment(self):
@@ -357,17 +370,17 @@ class CommentCatalogTest(unittest.TestCase):
         self.portal.invokeFactory(
             id='folder1',
             title='Folder 1',
-            type_name='Folder'
+            type_name='Folder',
         )
         self.portal.invokeFactory(
             id='folder2',
             title='Folder 2',
-            type_name='Folder'
+            type_name='Folder',
         )
         self.portal.folder1.invokeFactory(
             id='moveme',
             title='Move Me',
-            type_name='Document'
+            type_name='Document',
         )
         conversation = IConversation(self.portal.folder1.moveme)
         comment = createObject('plone.Comment')
@@ -380,43 +393,57 @@ class CommentCatalogTest(unittest.TestCase):
         self.portal.folder2.manage_pasteObjects(cp)
 
         # Make sure no old comment brains are
-        brains = self.catalog.searchResults(dict(
-            portal_type='Discussion Item',
-            path={'query': '/'.join(self.portal.folder1.getPhysicalPath())}
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                portal_type='Discussion Item',
+                path={
+                    'query': '/'.join(self.portal.folder1.getPhysicalPath()),
+                },
+            ),
+        )
         self.assertEqual(len(brains), 0)
 
-        brains = self.catalog.searchResults(dict(
-            portal_type='Discussion Item',
-            path={
-                'query': '/'.join(self.portal.folder2.getPhysicalPath())
-            }
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                portal_type='Discussion Item',
+                path={
+                    'query': '/'.join(self.portal.folder2.getPhysicalPath()),
+                },
+            ),
+        )
         self.assertEqual(len(brains), 1)
         self.assertEqual(
             brains[0].getPath(),
             '/plone/folder2/moveme/++conversation++default/' +
-            str(comment_id)
+            str(comment_id),
         )
 
     def test_move_upper_level_folder(self):
         # create a folder with a nested structure
-        self.portal.invokeFactory(id='sourcefolder',
-                                  title='Source Folder',
-                                  type_name='Folder')
-        self.portal.sourcefolder.invokeFactory(id='moveme',
-                                               title='Move Me',
-                                               type_name='Folder')
-        self.portal.sourcefolder.moveme.invokeFactory(id='mydocument',
-                                                      title='My Document',
-                                                      type_name='Folder')
-        self.portal.invokeFactory(id='targetfolder',
-                                  title='Target Folder',
-                                  type_name='Folder')
+        self.portal.invokeFactory(
+            id='sourcefolder',
+            title='Source Folder',
+            type_name='Folder',
+        )
+        self.portal.sourcefolder.invokeFactory(
+            id='moveme',
+            title='Move Me',
+            type_name='Folder',
+        )
+        self.portal.sourcefolder.moveme.invokeFactory(
+            id='mydocument',
+            title='My Document',
+            type_name='Folder',
+        )
+        self.portal.invokeFactory(
+            id='targetfolder',
+            title='Target Folder',
+            type_name='Folder',
+        )
 
         # create comment on my-document
         conversation = IConversation(
-            self.portal.sourcefolder.moveme.mydocument
+            self.portal.sourcefolder.moveme.mydocument,
         )
         comment = createObject('plone.Comment')
         comment_id = conversation.addComment(comment)
@@ -429,22 +456,26 @@ class CommentCatalogTest(unittest.TestCase):
         self.portal.targetfolder.manage_pasteObjects(cp)
 
         # Make sure no old comment brains are left
-        brains = self.catalog.searchResults(dict(
-            portal_type='Discussion Item',
-            path={'query': '/plone/sourcefolder/moveme'}
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                portal_type='Discussion Item',
+                path={'query': '/plone/sourcefolder/moveme'},
+            ),
+        )
         self.assertEqual(len(brains), 0)
 
         # make sure comments are correctly index on the target
-        brains = self.catalog.searchResults(dict(
-            portal_type='Discussion Item',
-            path={'query': '/plone/targetfolder/moveme'}
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                portal_type='Discussion Item',
+                path={'query': '/plone/targetfolder/moveme'},
+            ),
+        )
         self.assertEqual(len(brains), 1)
         self.assertEqual(
             brains[0].getPath(),
             '/plone/targetfolder/moveme/mydocument/++conversation++default/' +
-            str(comment_id)
+            str(comment_id),
         )
 
     def test_update_comments_when_content_object_is_renamed(self):
@@ -454,12 +485,13 @@ class CommentCatalogTest(unittest.TestCase):
         self.portal.manage_renameObject('doc1', 'doc2')
 
         brains = self.catalog.searchResults(
-            portal_type='Discussion Item')
+            portal_type='Discussion Item',
+        )
         self.assertEqual(len(brains), 1)
         self.assertEqual(
             brains[0].getPath(),
             '/plone/doc2/++conversation++default/' +
-            str(self.comment_id)
+            str(self.comment_id),
         )
 
     def test_clear_and_rebuild_catalog(self):
@@ -477,7 +509,7 @@ class CommentCatalogTest(unittest.TestCase):
         self.assertEqual(
             comment_brain.getPath(),
             '/plone/doc1/++conversation++default/' +
-            str(self.comment_id)
+            str(self.comment_id),
         )
 
     def test_clear_and_rebuild_catalog_for_nested_comments(self):
@@ -549,13 +581,14 @@ class NoConversationCatalogTest(unittest.TestCase):
 
         conversation = IConversation(self.portal.doc1)
 
-        brains = self.catalog.searchResults(dict(
-            path={
-                'query':
-                '/'.join(self.portal.doc1.getPhysicalPath())
-            },
-            portal_type='Document'
-        ))
+        brains = self.catalog.searchResults(
+            dict(
+                path={
+                    'query': '/'.join(self.portal.doc1.getPhysicalPath()),
+                },
+                portal_type='Document',
+            ),
+        )
         self.conversation = conversation
         self.brains = brains
         self.doc1_brain = brains[0]
@@ -567,5 +600,5 @@ class NoConversationCatalogTest(unittest.TestCase):
         # Make sure no conversation has been created
         self.assertTrue(
             'plone.app.discussion:conversation' not in
-            IAnnotations(self.portal.doc1)
+            IAnnotations(self.portal.doc1),
         )

@@ -14,6 +14,11 @@ New features:
 
 Bug fixes:
 
+- Fixed tests when IRichText behavior is used.
+  IRichText -> IRichTextBehavior
+  This is a follow up to `issue 476 <https://github.com/plone/plone.app.contenttypes/issues/476>`_.
+  [iham]
+
 - *add item here*
 
 

@@ -37,10 +37,8 @@ from zope.lifecycleevent import ObjectAddedEvent
 from zope.lifecycleevent import ObjectCreatedEvent
 from zope.lifecycleevent import ObjectRemovedEvent
 
-import time
-
-
 import six
+import time
 
 
 @implementer(IConversation, IHideFromBreadcrumbs)
@@ -420,7 +418,7 @@ class CommentReplies(ConversationReplies):
         self.conversation = aq_parent(self.comment)
         conversation_has_no_children = not hasattr(
             self.conversation,
-            '_children'
+            '_children',
         )
         if self.conversation is None or conversation_has_no_children:
             raise TypeError("This adapter doesn't know what to do with the "
