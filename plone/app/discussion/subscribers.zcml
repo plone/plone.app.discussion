@@ -66,7 +66,7 @@
     <!-- Control panel event subscribers -->
 
     <subscriber
-        for="plone.app.controlpanel.interfaces.IConfigurationChangedEvent"
+        for="Products.CMFPlone.interfaces.events.IConfigurationChangedEvent"
         handler=".browser.controlpanel.notify_configuration_changed"
         />
 
