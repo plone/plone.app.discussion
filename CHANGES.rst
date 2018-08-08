@@ -15,6 +15,9 @@ New features:
 
 Bug fixes:
 
+- Fix location of controlpanel events.
+  [jensens]
+
 - Fixed tests when IRichText behavior is used.
   IRichText -> IRichTextBehavior
   This is a follow up to `issue 476 <https://github.com/plone/plone.app.contenttypes/issues/476>`_.
