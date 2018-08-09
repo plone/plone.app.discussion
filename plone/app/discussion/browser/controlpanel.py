@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from plone.app.controlpanel.interfaces import IConfigurationChangedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.upgrades import update_registry
@@ -7,6 +6,7 @@ from plone.app.registry.browser import controlpanel
 from plone.registry.interfaces import IRecordModifiedEvent
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.controlpanel import IConfigurationChangedEvent  # noqa: E501
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
