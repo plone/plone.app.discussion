@@ -1,7 +1,6 @@
 Changelog
 =========
 
-3.0.6 (unreleased)
 3.0.7 (unreleased)
 ------------------
 
@@ -23,17 +22,11 @@ Bug fixes:
   This is a follow up to `issue 476 <https://github.com/plone/plone.app.contenttypes/issues/476>`_.
   [iham]
 
+- Fix commenting and tests in python 3.
+  [pbauer]
 
 3.0.6 (2018-06-18)
 ------------------
-
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
 
 Bug fixes:
 
