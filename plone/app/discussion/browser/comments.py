@@ -33,8 +33,6 @@ from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import alsoProvides
 
-import six
-
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     u'comment_description_plain_text',
@@ -168,11 +166,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             fullname = member.getProperty('fullname')
             if not fullname or fullname == '':
                 fullname = member.getUserName()
-            elif isinstance(fullname, str):
-                fullname = six.text_type(fullname, 'utf-8')
+            fullname = safe_unicode(fullname)
             author_name = fullname
-            if email and isinstance(email, str):
-                email = six.text_type(email, 'utf-8')
+            email = safe_unicode(email)
             # XXX: according to IComment interface author_email must not be  # noqa T000
             # set for logged in users, cite:
             # 'for anonymous comments only, set to None for logged in comments'
