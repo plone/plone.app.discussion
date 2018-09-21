@@ -12,6 +12,7 @@ from zope.component import getMultiAdapter
 
 import datetime
 import logging
+import six
 import unittest
 
 
@@ -172,10 +173,14 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject('plone.Comment')
         comment1.text = u'Umlaute sind ä, ö und ü.'
         out = b'<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>'
-        self.assertEqual(
-            comment1.getText(),
-            out.decode('utf8')
-        )
+        if six.PY2:
+            self.assertEqual(
+                comment1.getText(),
+                out)
+        else:
+            self.assertEqual(
+                comment1.getText(),
+                out.decode('utf8'))
 
     def test_getText_doesnt_link(self):
         comment1 = createObject('plone.Comment')
