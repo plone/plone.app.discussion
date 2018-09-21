@@ -54,7 +54,7 @@ class CommentTest(unittest.TestCase):
             difference = difference.seconds
             # We hope that between comment1 and local_utc happen less than
             # 10 seconds
-            self.assertFalse(difference / 10)
+            self.assertFalse(difference // 10)
 
     def test_id(self):
         comment1 = createObject('plone.Comment')
@@ -171,9 +171,10 @@ class CommentTest(unittest.TestCase):
     def test_getText_with_non_ascii_characters(self):
         comment1 = createObject('plone.Comment')
         comment1.text = u'Umlaute sind ä, ö und ü.'
+        out = b'<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>'
         self.assertEqual(
             comment1.getText(),
-            '<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>',
+            out.decode('utf8')
         )
 
     def test_getText_doesnt_link(self):

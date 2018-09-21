@@ -17,6 +17,7 @@ from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
 from plone.z3cform.interfaces import IWrappedForm
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from six.moves.urllib.parse import quote
@@ -31,8 +32,6 @@ from zope.component import queryUtility
 from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import alsoProvides
-
-import six
 
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
@@ -152,13 +151,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Make sure author_name/ author_email is properly encoded
         if 'author_name' in data:
-            author_name = data['author_name']
-            if isinstance(author_name, str):
-                author_name = six.text_type(author_name, 'utf-8')
+            author_name = safe_unicode(data['author_name'])
         if 'author_email' in data:
-            author_email = data['author_email']
-            if isinstance(author_email, str):
-                author_email = six.text_type(author_email, 'utf-8')
+            author_email = safe_unicode(data['author_email'])
 
         # Set comment author properties for anonymous users or members
         portal_membership = getToolByName(context, 'portal_membership')
@@ -167,16 +162,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 'Reply to item', context):
             # Member
             member = portal_membership.getAuthenticatedMember()
-            # memberdata is stored as utf-8 encoded strings
-            email = member.getProperty('email')
+            email = safe_unicode(member.getProperty('email'))
             fullname = member.getProperty('fullname')
             if not fullname or fullname == '':
                 fullname = member.getUserName()
-            elif isinstance(fullname, str):
-                fullname = six.text_type(fullname, 'utf-8')
+            fullname = safe_unicode(fullname)
             author_name = fullname
-            if email and isinstance(email, str):
-                email = six.text_type(email, 'utf-8')
+            email = safe_unicode(email)
             # XXX: according to IComment interface author_email must not be  # noqa T000
             # set for logged in users, cite:
             # 'for anonymous comments only, set to None for logged in comments'

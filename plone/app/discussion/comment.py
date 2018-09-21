@@ -148,7 +148,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         text = self.text
         if text is None:
             return ''
-        if isinstance(text, six.text_type):
+        if six.PY2 and isinstance(text, six.text_type):
             text = text.encode('utf8')
         transform = transforms.convertTo(
             targetMimetype,

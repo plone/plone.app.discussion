@@ -470,7 +470,7 @@ Edit the content object.
     >>> from hashlib import sha1 as sha
     >>> ring = _getKeyring('foo')
     >>> secret = ring.random()
-    >>> token = hmac.new(secret, 'admin', sha).hexdigest()
+    >>> token = hmac.new(secret.encode('utf8'), b'admin', sha).hexdigest()
     >>> browser.open("http://nohost/plone/doc1/edit?_authenticator=" + token)
     >>> browser.getControl(name='form.widgets.IRichTextBehavior.text').value = "Lorem ipsum"
     >>> browser.getControl('Save').click()
