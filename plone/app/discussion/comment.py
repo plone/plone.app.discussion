@@ -118,7 +118,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
             aclpath = [x for x in user.getPhysicalPath() if x]
             self._owner = (aclpath, user.getId(),)
             self.__ac_local_roles__ = {
-                user.getId(): ['Owner']
+                user.getId(): ['Owner'],
             }
 
     @property
@@ -148,7 +148,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         text = self.text
         if text is None:
             return ''
-        if isinstance(text, six.text_type):
+        if six.PY2 and isinstance(text, six.text_type):
             text = text.encode('utf8')
         transform = transforms.convertTo(
             targetMimetype,
@@ -162,7 +162,11 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
             msg = u'Transform "{0}" => "{1}" not available. Failed to ' \
                   u'transform comment "{2}".'
             logger.error(
-                msg.format(sourceMimetype, targetMimetype, self.absolute_url())
+                msg.format(
+                    sourceMimetype,
+                    targetMimetype,
+                    self.absolute_url(),
+                ),
             )
             return text
 
@@ -174,10 +178,12 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
         if not self.author_name:
             author_name = translate(
-                Message(_(
-                    u'label_anonymous',
-                    default=u'Anonymous'
-                ))
+                Message(
+                    _(
+                        u'label_anonymous',
+                        default=u'Anonymous',
+                    ),
+                ),
             )
         else:
             author_name = self.author_name
@@ -284,11 +290,11 @@ def notify_content_object_moved(obj, event):
     old_path = '/'.join(
         event.oldParent.getPhysicalPath() +
         (event.oldName,) +
-        moved_path
+        moved_path,
     )
     brains = catalog.searchResults(dict(
         path={'query': old_path},
-        portal_type='Discussion Item'
+        portal_type='Discussion Item',
     ))
     for brain in brains:
         catalog.uncatalog_object(brain.getPath())
@@ -350,24 +356,28 @@ def notify_user(obj, event):
             mapping={
                 'title': safe_unicode(content_object.title),
                 'link': content_object.absolute_url() + '/view#' + obj.id,
-                'text': obj.text
-            }
+                'text': obj.text,
+            },
         ),
-        context=obj.REQUEST
+        context=obj.REQUEST,
     )
     for email in emails:
         # Send email
         try:
-            mail_host.send(message,
-                           email,
-                           sender,
-                           subject,
-                           charset='utf-8')
+            mail_host.send(
+                message,
+                email,
+                sender,
+                subject,
+                charset='utf-8',
+            )
         except SMTPException:
-            logger.error('SMTP exception while trying to send an ' +
-                         'email from %s to %s',
-                         sender,
-                         email)
+            logger.error(
+                'SMTP exception while trying to send an ' +
+                'email from %s to %s',
+                sender,
+                email,
+            )
 
 
 def notify_moderator(obj, event):
@@ -420,19 +430,21 @@ def notify_moderator(obj, event):
                 'text': obj.text,
                 'link_approve': link_approve,
                 'link_delete': link_delete,
-            }
+            },
         ),
-        context=obj.REQUEST
+        context=obj.REQUEST,
     )
 
     # Send email
     try:
         mail_host.send(message, mto, sender, subject, charset='utf-8')
     except SMTPException as e:
-        logger.error('SMTP exception (%s) while trying to send an ' +
-                     'email notification to the comment moderator ' +
-                     '(from %s to %s, message: %s)',
-                     e,
-                     sender,
-                     mto,
-                     message)
+        logger.error(
+            'SMTP exception (%s) while trying to send an ' +
+            'email notification to the comment moderator ' +
+            '(from %s to %s, message: %s)',
+            e,
+            sender,
+            mto,
+            message,
+        )

@@ -4,7 +4,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '3.0.6.dev0'
+version = '3.0.7.dev0'
 
 install_requires = [
     'setuptools',
@@ -37,9 +37,12 @@ setup(name='plone.app.discussion',
           'Framework :: Plone',
           'Framework :: Plone :: 5.0',
           'Framework :: Plone :: 5.1',
+          'Framework :: Plone :: 5.2',
           'License :: OSI Approved :: GNU General Public License (GPL)',
           'Programming Language :: Python',
           'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: 3.7',
       ],
       keywords='plone discussion',
       author='Timo Stollenwerk - Plone Foundation',

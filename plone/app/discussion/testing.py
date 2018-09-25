@@ -92,7 +92,7 @@ class PloneAppDiscussion(PloneSandboxLayer):
         portal.invokeFactory(
             id='doc1',
             title='Document 1',
-            type_name='Document'
+            type_name='Document',
         )
 
 
@@ -119,5 +119,5 @@ PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING = FunctionalTesting(
     name='PloneAppDiscussion:Functional')
 PLONE_APP_DISCUSSION_ROBOT_TESTING = FunctionalTesting(
     bases=(PLONE_APP_DISCUSSION_ROBOT_FIXTURE,),
-    name='PloneAppDiscussion:Robot'
+    name='PloneAppDiscussion:Robot',
 )

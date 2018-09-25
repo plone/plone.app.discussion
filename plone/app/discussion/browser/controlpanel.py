@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from plone.app.controlpanel.interfaces import IConfigurationChangedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.upgrades import update_registry
@@ -7,6 +6,7 @@ from plone.app.registry.browser import controlpanel
 from plone.registry.interfaces import IRecordModifiedEvent
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.controlpanel import IConfigurationChangedEvent  # noqa: E501
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
@@ -34,7 +34,7 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
                 u'To enable the moderation workflow for comments, '
                 u'go to the Types Control Panel, choose '
                 u'"Comment" and set workflow to '
-                u'"Comment Review Workflow".'
+                u'"Comment Review Workflow".',
     )
 
     def updateFields(self):
@@ -68,10 +68,10 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.widgets['anonymous_comments'].label = _(u'Anonymous Comments')
         self.widgets['show_commenter_image'].label = _(u'Commenter Image')
         self.widgets['moderator_notification_enabled'].label = _(
-            u'Moderator Email Notification'
+            u'Moderator Email Notification',
         )
         self.widgets['user_notification_enabled'].label = _(
-            u'User Email Notification'
+            u'User Email Notification',
         )
 
     @button.buttonAndHandler(_('Save'), name=None)
@@ -92,8 +92,8 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.request.response.redirect(
             '{0}/{1}'.format(
                 self.context.absolute_url(),
-                self.control_panel_view
-            )
+                self.control_panel_view,
+            ),
         )
 
 

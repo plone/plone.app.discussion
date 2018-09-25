@@ -13,6 +13,7 @@ from Products.CMFCore.interfaces import IContentish
 from Products.CMFPlone.utils import safe_unicode
 from Products.ZCatalog.interfaces import IZCatalog
 
+import six
 
 MAX_DESCRIPTION = 25
 
@@ -70,13 +71,20 @@ def title(object):
 
 @indexer(IComment)
 def creator(object):
-    return object.creator and safe_unicode(object.creator).encode('utf-8')
+    if not object.creator:
+        return
+    value = safe_unicode(object.creator)
+    if six.PY2:
+        return value.encode('utf8')
+    return value
 
 
 @indexer(IComment)
 def description(object):
     # Return the first 25 words of the comment text and append ' [...]'
-    text = ' '.join(object.getText(targetMimetype='text/plain').split()[:MAX_DESCRIPTION])
+    text = ' '.join(
+        object.getText(targetMimetype='text/plain').split()[:MAX_DESCRIPTION],
+    )
     if len(object.getText().split()) > 25:
         text += ' [...]'
     return text

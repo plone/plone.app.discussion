@@ -30,7 +30,7 @@ class CommentContentRulesTest(unittest.TestCase):
         member = self.portal.portal_membership.getMemberById(TEST_USER_ID)
         member.setMemberProperties({
             'fullname': 'X Manager',
-            'email': 'xmanager@example.com'
+            'email': 'xmanager@example.com',
         })
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
@@ -54,7 +54,7 @@ class CommentContentRulesTest(unittest.TestCase):
     def testCommentIdStringSubstitution(self):
         comment_id = getAdapter(self.document, IStringSubstitution,
                                 name=u'comment_id')
-        self.assertIsInstance(comment_id(), long)
+        self.assertIsInstance(comment_id(), int)
 
     def testCommentTextStringSubstitution(self):
         comment_text = getAdapter(self.document, IStringSubstitution,
@@ -96,7 +96,7 @@ class ReplyContentRulesTest(unittest.TestCase):
         comment.text = 'This is a comment'
         new_id = replies.addComment(comment)
         comment = self.document.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id)
+            '++conversation++default/{0}'.format(new_id),
         )
 
         re_comment = createObject('plone.Comment')
@@ -112,15 +112,15 @@ class ReplyContentRulesTest(unittest.TestCase):
         reply_id = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_id'
+            name=u'comment_id',
         )
-        self.assertIsInstance(reply_id(), long)
+        self.assertIsInstance(reply_id(), int)
 
     def testReplyTextStringSubstitution(self):
         reply_text = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_text'
+            name=u'comment_text',
         )
         self.assertEqual(reply_text(), u'This is a reply')
 
@@ -128,7 +128,7 @@ class ReplyContentRulesTest(unittest.TestCase):
         reply_user_id = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_user_id'
+            name=u'comment_user_id',
         )
         self.assertEqual(reply_user_id(), u'julia')
 
@@ -136,7 +136,7 @@ class ReplyContentRulesTest(unittest.TestCase):
         reply_user_fullname = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_user_fullname'
+            name=u'comment_user_fullname',
         )
         self.assertEqual(reply_user_fullname(), u'Juliana')
 
@@ -144,6 +144,6 @@ class ReplyContentRulesTest(unittest.TestCase):
         reply_user_email = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_user_email'
+            name=u'comment_user_email',
         )
         self.assertEqual(reply_user_email(), u'julia@example.com')
