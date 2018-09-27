@@ -4,6 +4,8 @@
 from plone.app.discussion.interfaces import ICommentAddedEvent
 from plone.app.discussion.interfaces import ICommentRemovedEvent
 from plone.app.discussion.interfaces import IDiscussionEvent
+from plone.app.discussion.interfaces import INotifyOnDelete
+from plone.app.discussion.interfaces import INotifyOnPublish
 from plone.app.discussion.interfaces import IReplyAddedEvent
 from plone.app.discussion.interfaces import IReplyRemovedEvent
 from zope.interface import implementer
@@ -47,4 +49,16 @@ class ReplyAddedEvent(DiscussionEvent):
 @implementer(IReplyRemovedEvent)
 class ReplyRemovedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment reply is removed
+    """
+
+
+@implementer(INotifyOnDelete)
+class NotifyOnDelete(DiscussionEvent):
+    """ Event to be triggered when a Comment is deleted
+    """
+
+
+@implementer(INotifyOnPublish)
+class NotifyOnPublish(DiscussionEvent):
+    """ Event to be triggered when a Comment is publicated
     """

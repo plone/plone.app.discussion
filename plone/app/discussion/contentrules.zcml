@@ -28,6 +28,18 @@
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Comment reply removed"
       />
+      
+    <interface
+      interface="plone.app.discussion.interfaces.INotifyOnPublish"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Notify user on comment publication"
+      />
+      
+    <interface
+      interface="plone.app.discussion.interfaces.INotifyOnDelete"
+      type="plone.contentrules.rule.interfaces.IRuleEventType"
+      name="Notify user on comment delete"
+      />
 
   </configure>
 
@@ -52,6 +64,16 @@
 
     <subscriber
       for="plone.app.discussion.interfaces.IReplyRemovedEvent"
+      handler=".contentrules.execute_comment"
+      />
+      
+    <subscriber
+      for="plone.app.discussion.interfaces.INotifyOnDelete"
+      handler=".contentrules.execute_comment"
+      />
+      
+    <subscriber
+      for="plone.app.discussion.interfaces.INotifyOnPublish"
       handler=".contentrules.execute_comment"
       />
 
