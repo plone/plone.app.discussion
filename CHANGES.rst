@@ -10,9 +10,13 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Added notification about the publishing or elimination of a comment.
+  [eikichi18]
 
 Bug fixes:
+
+- Changed method that check when the page is fully loaded in moderation.js
+  [eikichi18]
 
 - Fix location of controlpanel events.
   [jensens]
