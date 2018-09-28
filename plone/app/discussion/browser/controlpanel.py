@@ -6,7 +6,6 @@ from plone.app.registry.browser import controlpanel
 from plone.registry.interfaces import IRecordModifiedEvent
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.controlpanel import IConfigurationChangedEvent  # noqa: E501
 from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
@@ -16,6 +15,11 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.component.hooks import getSite
+
+try:
+    from Products.CMFPlone.interfaces.controlpanel import IConfigurationChangedEvent  # noqa: E501
+except ImportError:
+    from Products.CMFPlone.interfaces import IConfigurationChangedEvent  # noqa: E501
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
