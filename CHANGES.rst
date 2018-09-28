@@ -23,7 +23,7 @@ Bug fixes:
   [iham]
 
 - Fix commenting and tests in python 3.
-  [pbauer]
+  [pbauer, jensens]
 
 3.0.6 (2018-06-18)
 ------------------

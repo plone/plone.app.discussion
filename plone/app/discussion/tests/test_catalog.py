@@ -204,7 +204,10 @@ class ConversationCatalogTest(unittest.TestCase):
         )
         doc1_brain = brains[0]
 
-        self.assertEqual(doc1_brain.commentators, ('Jim', 'Emma'))
+        self.assertEqual(
+            sorted(doc1_brain.commentators),
+            sorted(('Jim', 'Emma')),
+        )
 
         # remove one comments
         del self.conversation[new_comment2_id]
