@@ -4,7 +4,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '3.0.8'
+version = '3.0.9.dev0'
 
 install_requires = [
     'setuptools',
