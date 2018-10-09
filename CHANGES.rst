@@ -4,14 +4,6 @@ Changelog
 3.0.8 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Reverted test fix for richtext behavior.
