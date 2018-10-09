@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Reverted test fix for richtext behavior.
+  The related change was reverted in plone.app.contenttypes 1.4.15.
+  [maurits]
 
 
 3.0.7 (2018-09-23)
