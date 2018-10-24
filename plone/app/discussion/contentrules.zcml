@@ -30,13 +30,13 @@
       />
       
     <interface
-      interface="plone.app.discussion.interfaces.INotifyOnPublish"
+      interface="plone.app.discussion.interfaces.ICommentPublishedEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Notify user on comment publication"
       />
       
     <interface
-      interface="plone.app.discussion.interfaces.INotifyOnDelete"
+      interface="plone.app.discussion.interfaces.ICommentDeletedEvent"
       type="plone.contentrules.rule.interfaces.IRuleEventType"
       name="Notify user on comment delete"
       />
@@ -68,12 +68,12 @@
       />
       
     <subscriber
-      for="plone.app.discussion.interfaces.INotifyOnDelete"
+      for="plone.app.discussion.interfaces.ICommentDeletedEvent"
       handler=".contentrules.execute_comment"
       />
       
     <subscriber
-      for="plone.app.discussion.interfaces.INotifyOnPublish"
+      for="plone.app.discussion.interfaces.ICommentPublishedEvent"
       handler=".contentrules.execute_comment"
       />
 

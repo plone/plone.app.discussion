@@ -3,8 +3,8 @@ from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from plone.app.discussion.events import NotifyOnPublish
-from plone.app.discussion.events import NotifyOnDelete
+from plone.app.discussion.events import CommentPublishedEvent
+from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
@@ -103,7 +103,7 @@ class DeleteComment(BrowserView):
         if self.can_delete(comment):
             del conversation[comment.id]
             content_object.reindexObject()
-            notify(NotifyOnDelete(self.context, comment))
+            notify(CommentDeletedEvent(self.context, comment))
             IStatusMessage(self.context.REQUEST).addStatusMessage(
                 _('Comment deleted.'),
                 type='info')
@@ -187,7 +187,7 @@ class PublishComment(BrowserView):
         workflowTool.doActionFor(comment, workflow_action)
         comment.reindexObject()
         content_object.reindexObject(idxs=['total_comments'])
-        notify(NotifyOnPublish(self.context, comment))
+        notify(CommentPublishedEvent(self.context, comment))
         IStatusMessage(self.context.REQUEST).addStatusMessage(
             _('Comment approved.'),
             type='info')
@@ -263,7 +263,7 @@ class BulkActionsView(BrowserView):
                 workflowTool.doActionFor(comment, 'publish')
             comment.reindexObject()
             content_object.reindexObject(idxs=['total_comments'])
-            notify(NotifyOnPublish(content_object, comment))
+            notify(CommentPublishedEvent(content_object, comment))
 
     def mark_as_spam(self):
         raise NotImplementedError
@@ -283,4 +283,4 @@ class BulkActionsView(BrowserView):
             content_object = aq_parent(conversation)
             del conversation[comment.id]
             content_object.reindexObject(idxs=['total_comments'])
-            notify(NotifyOnDelete(content_object, comment))
+            notify(CommentDeletedEvent(content_object, comment))

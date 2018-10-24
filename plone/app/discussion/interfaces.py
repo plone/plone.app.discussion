@@ -414,11 +414,11 @@ class IReplyRemovedEvent(IDiscussionEvent):
     """
 
 
-class INotifyOnPublish(IDiscussionEvent):
+class ICommentPublishedEvent(IDiscussionEvent):
     """ Notify user on comment publication
     """
 
 
-class INotifyOnDelete(IDiscussionEvent):
+class ICommentDeletedEvent(IDiscussionEvent):
     """ Notify user on comment delete
     """
