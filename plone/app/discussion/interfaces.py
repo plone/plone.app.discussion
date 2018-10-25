@@ -412,3 +412,13 @@ class IReplyAddedEvent(IDiscussionEvent):
 class IReplyRemovedEvent(IDiscussionEvent):
     """ Comment reply removed
     """
+
+
+class ICommentPublishedEvent(IDiscussionEvent):
+    """ Notify user on comment publication
+    """
+
+
+class ICommentDeletedEvent(IDiscussionEvent):
+    """ Notify user on comment delete
+    """

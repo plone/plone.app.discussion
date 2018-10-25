@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Added notification about the publishing or elimination of a comment.
+  [eikichi18]
 
 Bug fixes:
 
