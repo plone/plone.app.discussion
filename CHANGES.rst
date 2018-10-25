@@ -15,6 +15,10 @@ New features:
 
 Bug fixes:
 
+- Changed $(window).load with $(document).ready in moderation.js 
+  because in some version of FF and IE doesn't work.
+  [eikcihi18]
+
 - Fix location of controlpanel events.
   [jensens]
 
