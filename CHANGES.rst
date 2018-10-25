@@ -15,9 +15,6 @@ New features:
 
 Bug fixes:
 
-- Changed method that check when the page is fully loaded in moderation.js
-  [eikichi18]
-
 - Fix location of controlpanel events.
   [jensens]
 
