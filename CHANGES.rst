@@ -4,10 +4,6 @@ Changelog
 3.0.7 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Added notification about the publishing or elimination of a comment.
