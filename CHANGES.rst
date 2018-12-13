@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Changed $(window).load with $(document).ready in moderation.js
+  because in some version of FF and IE doesn't work.
+  [eikichi18]
 
 
 3.1.0 (2018-10-30)
@@ -26,10 +28,6 @@ New features:
   [eikichi18]
 
 Bug fixes:
-
-- Changed $(window).load with $(document).ready in moderation.js 
-  because in some version of FF and IE doesn't work.
-  [eikichi18]
 
 - Fix location of controlpanel events.
   [jensens]
