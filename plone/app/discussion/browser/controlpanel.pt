@@ -11,7 +11,8 @@
      metal:fill-slot="prefs_configlet_content">
 
     <div class="portalMessage warning"
-        tal:condition="view/mailhost_warning">
+         role="status"
+         tal:condition="view/mailhost_warning">
         <strong i18n:translate="">
             Warning
         </strong>
@@ -30,7 +31,8 @@
     </div>
 
     <div class="portalMessage warning"
-        tal:condition="view/custom_comment_workflow_warning">
+         role="status"
+         tal:condition="view/custom_comment_workflow_warning">
         <strong i18n:translate="">
             Warning
         </strong>

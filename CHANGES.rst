@@ -18,6 +18,9 @@ Bug fixes:
   because in some version of FF and IE doesn't work.
   [eikichi18]
 
+- a11y: Added role attribute for portalMessage
+  [nzambello]
+
 
 3.1.0 (2018-10-30)
 ------------------

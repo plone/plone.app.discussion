@@ -26,7 +26,8 @@
         </h1>
 
         <div class="portalMessage warning"
-            tal:condition="not: view/moderation_enabled">
+             role="status"
+             tal:condition="not: view/moderation_enabled">
             <strong i18n:translate="">Warning</strong>
             <span tal:omit-tag="" i18n:translate="message_moderation_disabled">
                 Moderation workflow is disabled. You have to
