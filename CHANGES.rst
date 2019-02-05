@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Do not depend on the ``meta_type`` metadata in the catalog.
+  [jensens]
+
 - Changed $(window).load with $(document).ready in moderation.js
   because in some version of FF and IE doesn't work.
   [eikichi18]

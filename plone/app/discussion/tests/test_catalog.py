@@ -320,7 +320,6 @@ class CommentCatalogTest(unittest.TestCase):
 
     def test_type(self):
         self.assertEqual(self.comment_brain.portal_type, 'Discussion Item')
-        self.assertEqual(self.comment_brain.meta_type, 'Discussion Item')
         self.assertEqual(self.comment_brain.Type, 'Comment')
 
     def test_review_state(self):
