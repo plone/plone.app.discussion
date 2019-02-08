@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.1 (2019-02-08)
+------------------
+
+Bug fixes:
+
+
+- Changed $(window).load with $(document).ready in moderation.js because in
+  some version of FF and IE doesn't work. [eikichi18] (#144)
+- a11y: Added role attribute for portalMessage [nzambello] (#145)
+- Do not depend on the ``meta_type`` metadata in the catalog. [jensens] (#146)
+
+
 3.1.0 (2018-10-30)
 ------------------
 
