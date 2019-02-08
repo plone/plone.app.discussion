@@ -10,7 +10,7 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Log catalog clear and rebuild [gotcha]
 
 Bug fixes:
 

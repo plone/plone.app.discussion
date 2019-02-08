@@ -1,3 +1,4 @@
+import logging
 from zope.component import queryUtility
 
 from Acquisition import aq_inner, aq_parent
@@ -9,6 +10,9 @@ from Products.CMFPlone.utils import safe_callable
 
 from plone.app.discussion.conversation import ANNOTATION_KEY
 from plone.app.discussion.interfaces import ICommentingTool
+
+
+logger = logging.getLogger('catalog_clear_and_rebuild')
 
 
 def patchedClearFindAndRebuild(self):
@@ -23,6 +27,7 @@ def patchedClearFindAndRebuild(self):
                 safe_callable(obj.indexObject)):
 
             try:
+                logger.debug("Indexing %s", path)
                 obj.indexObject()
 
                 annotions = IAnnotations(obj)
