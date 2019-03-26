@@ -4,10 +4,6 @@ Changelog
 2.2.21 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Log catalog clear and rebuild [gotcha]
