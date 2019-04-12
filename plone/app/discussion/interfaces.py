@@ -6,10 +6,10 @@ from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from zope import schema
 from zope.component import getUtility
-from zope.component.interfaces import IObjectEvent
 from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface.common.mapping import IIterableMapping
+from zope.interface.interfaces import IObjectEvent
 
 
 def isEmail(value):
