@@ -8,6 +8,23 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0 (2019-04-29)
+------------------
+
+New features:
+
+
+- Index/reindex/unindex the comment itself, do not defer to ``ICommentingTool``.
+  This way it can be integrated into collective.indexing and Solr (or any other indexing tool).
+  [gforcada] (#77)
+
+
+Bug fixes:
+
+
+- Fixed DeprecationWarning for ObjectEvent.  [jensens] (#153)
+
+
 3.1.1 (2019-02-08)
 ------------------
 
