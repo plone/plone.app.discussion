@@ -18,7 +18,7 @@
                     b_start request/b_start | b_start;
                     moderation_enabled view/moderation_enabled;">
         <script type="text/javascript"
-            tal:attributes="src string:${context/portal_url}/++resource++plone.app.discussion.javascripts/moderation.js">
+            tal:attributes="src string:${context/portal_url}/++plone++plone.app.discussion.javascripts/moderation.js">
         </script>
 
         <h1 class="documentFirstHeading" i18n:translate="heading_moderate_comments">

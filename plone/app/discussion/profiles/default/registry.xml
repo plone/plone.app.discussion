@@ -7,7 +7,7 @@
 
   <records prefix="plone.resources/plone-app-discussion"
             interface='Products.CMFPlone.interfaces.IResourceRegistry'>
-      <value key="js">++resource++plone.app.discussion.javascripts/comments.js</value>
+      <value key="js">++plone++plone.app.discussion.javascripts/comments.js</value>
   </records>
   <records prefix="plone.bundles/plone-legacy"
             interface='Products.CMFPlone.interfaces.IBundleRegistry'>

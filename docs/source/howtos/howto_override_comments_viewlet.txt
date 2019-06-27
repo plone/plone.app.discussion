@@ -135,36 +135,4 @@ comments.py file with our custom version of the comments viewlet::
                 return "%s/memberhome/%s" % (self.context.portal_url(), username)
 
 To override the comments viewlet template, we create a comment.pt file in the
-same directory and copy the contents from::
-
-    ...
-
-
-Override the comments viewlet Javascript
-----------------------------------------
-
-Overriding the comments viewlet javascript works just like overriding the
-comments viewlet. We register the javascript file for our custom browser
-layer and remove the existing javascript file in
-profiles/default/jsregistry.xml::
-
-    <?xml version="1.0"?>
-    <object name="portal_javascripts">
-     <!-- Remove plone.app.discussion comments javascript -->
-     <javascript
-         id="++resource++plone.app.discussion.javascripts/comments.js"
-         remove="True"
-         />
-     <!-- Register a custom version of the plone.app.discussion javascript -->
-     <javascript
-         id="++resource++example.myaddonproduct.javascripts/comments.js" />
-    </object>
-
-browser/configure.zcml::
-
-    <!-- Resource directory for javascripts -->
-    <browser:resourceDirectory
-      name="example.myaddonproduct.javascripts"
-      directory="javascripts"
-      layer="example.myaddonprocuts.interfaces.IBrowserLayer"
-      />
+same directory and copy the contents from the original.
