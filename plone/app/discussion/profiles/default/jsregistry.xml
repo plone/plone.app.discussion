@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<object name="portal_javascripts">
- <javascript
-     id="++resource++plone.app.discussion.javascripts/comments.js"
-     insert-after="collapsibleformfields.js"
-     />
-</object>

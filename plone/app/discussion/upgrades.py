@@ -61,3 +61,7 @@ def upgrade_comment_workflows(context):
             comment.reindexObjectSecurity()
         except (AttributeError, KeyError):
             logger.info('Could not reindex comment {0}'.format(brain.getURL()))
+
+
+def add_js_to_plone_legacy(context):
+    context.runImportStepFromProfile(default_profile, 'plone.app.registry')
