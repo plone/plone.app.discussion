@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.1 (2019-06-28)
+------------------
+
+Bug fixes:
+
+
+- Fix reply to comment by adding old-school js-resources to legacy-bundle. Fix #157
+  [pbauer] (#157)
+
+
 3.2.0 (2019-04-29)
 ------------------
 
