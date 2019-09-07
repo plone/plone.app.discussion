@@ -165,6 +165,16 @@ require([  // jshint ignore:line
             });
         });
 
+
+        /**********************************************************************
+         * Comments approved: Load history for approved date.
+         **********************************************************************/
+        $(".last-history-entry").each(function() {
+            $(this).load($(this).attr("data-href") + " .historyByLine", function() {
+                $(this).children(".historyByLine").last().remove();
+            });
+        });
+
     });
 
     //#JSCOVERAGE_ENDIF

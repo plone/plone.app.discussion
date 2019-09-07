@@ -134,7 +134,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         return self.id
 
     def getText(self, targetMimetype=None):
-        # The body text of a comment.
+        """The body text of a comment."""
         transforms = getToolByName(self, 'portal_transforms')
 
         if targetMimetype is None:

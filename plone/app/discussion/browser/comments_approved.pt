@@ -21,17 +21,12 @@
             tal:attributes="src string:${context/portal_url}/++plone++plone.app.discussion.javascripts/moderation.js">
         </script>
 
-        <h1 class="documentFirstHeading" i18n:translate="heading_moderate_comments">
-            Moderate comments
+        <h1 class="documentFirstHeading" i18n:translate="heading_comments_approved">
+            Comments approved
         </h1>
-        <p>
-            <a tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/comments-approved;">&gt; <span 
-                i18n:translate="heading_comments_approved">Comments approved</span></a>
-        </p>
 
         <div class="portalMessage warning"
-             role="status"
-             tal:condition="not: view/moderation_enabled">
+            tal:condition="not: view/moderation_enabled">
             <strong i18n:translate="">Warning</strong>
             <span tal:omit-tag="" i18n:translate="message_moderation_disabled">
                 Moderation workflow is disabled. You have to
@@ -45,15 +40,14 @@
 
         <form tal:condition="not:items">
             <fieldset id="fieldset-moderate-comments" class="formPanel">
-                <p id="no-comments-message" i18n:translate="message_nothing_to_moderate">
-                    No comments to moderate.
+                <p id="no-comments-message" i18n:translate="message_no_comments_approved">
+                    No comments approved
                 </p>
             </fieldset>
         </form>
 
         <form method="post"
               action="#"
-              tal:attributes="action string:${context/absolute_url}/@@bulk-actions"
               tal:condition="items"
               tal:define="batch python:Batch(items, b_size, int(b_start), orphan=1);">
 
@@ -64,29 +58,11 @@
                 <table id="review-comments" class="listing">
                     <thead>
                         <tr>
-                            <th id="bulkactions" class="nosort" colspan="7">
-                                <select name="form.select.BulkAction">
-                                    <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
-                                    <option value="publish"
-                                            i18n:translate="bulkactions_publish"
-                                            tal:condition="python: filter != 'published' and moderation_enabled">Approve</option>
-                                    <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
-                                </select>
-                                <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
-                                <input id="dobulkaction"
-                                       type="submit"
-                                       class="standalone allowMultiSubmit"
-                                       value="Apply"
-                                       name="form.button.BulkAction"
-                                       i18n:attributes="value label_apply;" />
-                            </th>
-                        </tr>
-                        <tr>
-                            <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
                             <th class="nosort" i18n:translate="heading_commenter">Commenter</th>
                             <th class="nosort" i18n:translate="heading_date">Date</th>
                             <th class="nosort" i18n:translate="heading_in_reponse_to">In Response To</th>
                             <th class="nosort" i18n:translate="heading_comment">Comment</th>
+                            <th class="nosort" i18n:translate="heading_approvedby">Approved by</th>
                             <th class="nosort" i18n:translate="heading_action">Action</th>
                         </tr>
                     </thead>
@@ -94,21 +70,9 @@
                         <tal:block repeat="item batch">
                             <tr class="commentrow"
                                 tal:define="even repeat/item/even;
-                                            email python:getattr(item.getObject(), 'author_email');"
+                                            email python:getattr(item.getObject(), 'author_email');
+                                            item_url item/getURL;"
                                 tal:attributes="class python: even and 'odd' or 'even'">
-                                <td class="notDraggable">
-                                    <input type="checkbox"
-                                           class="noborder"
-                                           name="paths:list" id="#"
-                                           value="#"
-                                           tal:attributes="value   item/getPath;
-                                                           id      string:cb_${item/id};
-                                                           checked item/checked|nothing;
-                                                           alt     string:Select ${item/Title};
-                                                           title   string:Select ${item/Title}" />
-                                    <input type="hidden" name="selected_obj_paths:list" value="#"
-                                           tal:attributes="value item/getURL" />
-                                </td>
                                 <td>
                                     <span tal:content="python:item.author_name or item.Creator">Name</span>
                                     <tal:email tal:condition="email">
@@ -120,27 +84,27 @@
                                 </td>
                                 <td tal:content="python:toLocalizedTime(item.created, long_format=1)"/>
                                 <td>
-                                    <a tal:attributes="href item/getURL"
+                                    <a tal:attributes="href item_url"
                                        tal:content="item/in_response_to" />
                                 </td>
                                 <td>
                                     <span tal:replace="item/Description" />
                                     <a href=""
-                                       tal:attributes="href string:${item/getURL}/getText"
+                                       tal:attributes="href string:$item_url/getText"
                                        tal:condition="python:item.Description.endswith('[...]')"
                                        i18n:translate="label_show_full_comment_text"
                                        class="show-full-comment-text">show full comment text</a>
                                 </td>
+                                <td>
+                                    <span class="last-history-entry"
+                                        tal:attributes="data-href string:$item_url/@@historyview">
+                                        last history entry
+                                    </span>
+                                </td>
+
                                 <td class="actions">
-                                    <input id=""
-                                           class="context comment-publish-button"
-                                           type="submit"
-                                           value="Approve"
-                                           name="form.button.Publish"
-                                           i18n:attributes="value label_publish;"
-                                           tal:attributes="id item/id"
-                                           tal:condition="python:item.review_state == 'pending'"
-                                           />
+                                    <input type="hidden" name="selected_obj_paths:list" value="#"
+                                           tal:attributes="value item/getURL" />
                                     <input id=""
                                            class="destructive comment-delete-button"
                                            type="submit"
@@ -157,6 +121,7 @@
                 <div metal:use-macro="here/batch_macros/macros/navigation" />
             </fieldset>
         </form>
+
     </tal:main-macro>
 </metal:main>
 

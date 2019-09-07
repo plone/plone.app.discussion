@@ -29,6 +29,23 @@
         permission="plone.app.discussion.ReviewComments"
         />
 
+    <!-- Approved comments view -->
+    <browser:page
+        for="Products.CMFCore.interfaces.ISiteRoot"
+        name="comments-approved"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.ApprovedView"
+        permission="plone.app.discussion.ReviewComments"
+        />
+
+    <browser:page
+        for="plone.app.layout.navigation.interfaces.INavigationRoot"
+        name="comments-approved"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.ApprovedView"
+        permission="plone.app.discussion.ReviewComments"
+        />
+
     <!-- Moderation bulk actions view -->
     <browser:page
         for="Products.CMFCore.interfaces.ISiteRoot"
