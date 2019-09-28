@@ -10,6 +10,7 @@
 
     <include package="plone.indexer" />
     <include package="plone.app.registry" />
+    <include package="plone.resource" />
     <include package="plone.uuid" />
     <include package="plone.app.uuid" />
 
