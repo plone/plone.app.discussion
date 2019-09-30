@@ -8,6 +8,7 @@ from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
+from plone.protect.interfaces import IDisableCSRFProtection
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -206,6 +207,7 @@ class PublishComment(BrowserView):
     """
 
     def __call__(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
         comment = aq_inner(self.context)
         content_object = aq_parent(aq_parent(comment))
         workflowTool = getToolByName(comment, 'portal_workflow', None)
