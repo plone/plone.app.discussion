@@ -35,6 +35,10 @@ class View(BrowserView):
                                 review_state='pending',
                                 sort_on='created',
                                 sort_order='reverse')
+        self.comments_approved = catalog(object_provides=IComment.__identifier__,
+                                review_state='published',
+                                sort_on='created',
+                                sort_order='reverse')
         return self.template()
 
     def moderation_enabled(self):
@@ -52,31 +56,6 @@ class View(BrowserView):
             if 'pending' in comment_workflow.states:
                 return True
         return False
-
-
-class ApprovedView(View):
-    """Overview comments already approved."""
-    template = ViewPageTemplateFile('comments_approved.pt')
-    try:
-        template.id = '@@comments-approved'
-    except AttributeError:
-        # id is not writeable in Zope 2.12
-        pass
-
-    def __call__(self):
-        self.request.set('disable_border', True)
-        context = aq_inner(self.context)
-        catalog = getToolByName(context, 'portal_catalog')
-        self.comments = catalog(object_provides=IComment.__identifier__,
-                                review_state='published',
-                                sort_on='created',
-                                sort_order='reverse')
-
-        # print("*** approved comments")
-        # print(self.comments)
-        # for el in self.comments:
-        #     print(el.id, el.review_state)
-        return self.template()
 
 
 class ModerateCommentsEnabled(BrowserView):
