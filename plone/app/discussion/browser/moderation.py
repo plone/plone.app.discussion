@@ -36,7 +36,7 @@ class View(BrowserView):
                                 sort_on='created',
                                 sort_order='reverse')
         self.comments_approved = catalog(object_provides=IComment.__identifier__,
-                                review_state='published',
+                                review_state=['published', 'rejected'],
                                 sort_on='created',
                                 sort_order='reverse')
         return self.template()
@@ -54,6 +54,23 @@ class View(BrowserView):
             comment_workflow = comment_workflow[0]
             comment_workflow = workflowTool[comment_workflow]
             if 'pending' in comment_workflow.states:
+                return True
+        return False
+
+    @property
+    def moderation_3state(self):
+        """Returns true if a 'review 3 state workflow' is enabled on 'Discussion Item'
+           content type. A 'review 3 state workflow' is characterized by implementing
+           a 'rejected' workflow state.
+        """
+        context = aq_inner(self.context)
+        workflowTool = getToolByName(context, 'portal_workflow')
+        comment_workflow = workflowTool.getChainForPortalType(
+            'Discussion Item')
+        if comment_workflow:
+            comment_workflow = comment_workflow[0]
+            comment_workflow = workflowTool[comment_workflow]
+            if 'rejected' in comment_workflow.states:
                 return True
         return False
 
@@ -189,10 +206,11 @@ class PublishComment(BrowserView):
         alsoProvides(self.request, IDisableCSRFProtection)
         comment = aq_inner(self.context)
         content_object = aq_parent(aq_parent(comment))
+        print("*** called: PublishComment for ", comment.Description)
         workflowTool = getToolByName(comment, 'portal_workflow', None)
         workflow_action = self.request.form.get('workflow_action', 'publish')
         review_state = workflowTool.getInfoFor(comment, 'review_state', '')
-        if review_state == "pending":
+        if review_state != "published":
             workflowTool.doActionFor(comment, workflow_action)
             comment.reindexObject()
             content_object.reindexObject(idxs=['total_comments'])
@@ -210,6 +228,41 @@ class PublishComment(BrowserView):
                 not getToolByName(
                 content_object, 'portal_url').isURLInPortal(came_from) or
                 '@@confirm-action' in came_from):
+            came_from = content_object.absolute_url()
+        return self.context.REQUEST.RESPONSE.redirect(came_from)
+
+
+class RejectComment(BrowserView):
+    """Reject a comment.
+
+       see PublishComment for more information
+    """
+
+    def __call__(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
+        comment = aq_inner(self.context)
+        content_object = aq_parent(aq_parent(comment))
+        print("*** called: RejectComment for ", comment.Description)
+        workflowTool = getToolByName(comment, 'portal_workflow', None)
+        workflow_action = self.request.form.get('workflow_action', 'reject')
+        review_state = workflowTool.getInfoFor(comment, 'review_state', '')
+        if review_state != 'rejected':
+            workflowTool.doActionFor(comment, workflow_action)
+            comment.reindexObject()
+            content_object.reindexObject(idxs=['total_comments'])
+            notify(CommentPublishedEvent(self.context, comment))
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _('Comment rejected.'),
+                type='info')
+        else:
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _('Comment already rejected.'),
+                type='info')
+        came_from = self.context.REQUEST.HTTP_REFERER
+        # if the referrer already has a came_from in it, don't redirect back
+        if (len(came_from) == 0 or 'came_from=' in came_from or
+                not getToolByName(
+                content_object, 'portal_url').isURLInPortal(came_from)):
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 
