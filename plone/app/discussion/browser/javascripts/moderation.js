@@ -67,17 +67,57 @@ require([  // jshint ignore:line
             var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
             var auth_key = $('input[name="_authenticator"]').val();
             var target = path + "/@@moderate-publish-comment?_authenticator=" + auth_key;
+            var moderate = $(this).closest("fieldset").attr("id") == "fieldset-moderate-comments";
             $.ajax({
                 type: "GET",
                 url: target,
                 success: function (msg) {  // jshint ignore:line
-                    // fade out row
-                    $(row).fadeOut("normal", function () {
-                        $(this).remove();
-                    });
-                    // reload page if all comments have been removed
-                    var comments = $("table#review-comments > tbody > tr");
-                    if (comments.length === 1) {
+                    if (moderate) {
+                        // fade out row
+                        $(row).fadeOut("normal", function () {
+                            $(this).remove();
+                        });
+                        // reload page if all comments have been removed
+                        var comments = $("table#review-comments > tbody > tr");
+                        if (comments.length === 1) {
+                            location.reload();
+                        }
+                    } else {
+                        location.reload();
+                    }
+                },
+                error: function (msg) {  // jshint ignore:line
+                    alert("Error sending AJAX request:" + target);
+                }
+            });
+        });
+
+
+        /**********************************************************************
+         * Reject a single comment.
+         **********************************************************************/
+        $("input[name='form.button.Reject']").click(function (e) {
+            e.preventDefault();
+            var row = $(this).parent().parent();
+            var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
+            var auth_key = $('input[name="_authenticator"]').val();
+            var target = path + "/@@moderate-reject-comment?_authenticator=" + auth_key;
+            var moderate = $(this).closest("fieldset").attr("id") == "fieldset-moderate-comments";
+            $.ajax({
+                type: "GET",
+                url: target,
+                success: function (msg) {  // jshint ignore:line
+                    if (moderate) {
+                        // fade out row
+                        $(row).fadeOut("normal", function () {
+                            $(this).remove();
+                        });
+                        // reload page if all comments have been removed
+                        var comments = $("table#review-comments > tbody > tr");
+                        if (comments.length === 1) {
+                            location.reload();
+                        }
+                    } else {
                         location.reload();
                     }
                 },
@@ -171,7 +211,8 @@ require([  // jshint ignore:line
          **********************************************************************/
         $(".last-history-entry").each(function() {
             $(this).load($(this).attr("data-href") + " .historyByLine", function() {
-                $(this).children(".historyByLine").last().remove();
+                let currententry = $(this).children(".historyByLine").first();
+                $(this).html(currententry);
             });
         });
 

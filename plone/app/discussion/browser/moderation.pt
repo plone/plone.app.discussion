@@ -142,7 +142,16 @@
                                                      name="form.button.Publish"
                                                      i18n:attributes="value label_publish;"
                                                      tal:attributes="id item/id"
-                                                     tal:condition="python:item.review_state == 'pending'"
+                                                     tal:condition="python:item.review_state in ['pending',]"
+                                                     />
+                                              <input id=""
+                                                     class="context comment-reject-button"
+                                                     type="submit"
+                                                     value="Reject"
+                                                     name="form.button.Reject"
+                                                     i18n:attributes="value label_reject;"
+                                                     tal:attributes="id item/id"
+                                                     tal:condition="python:view.moderation_3state and item.review_state == 'pending'"
                                                      />
                                               <input id=""
                                                      class="destructive comment-delete-button"
@@ -167,7 +176,7 @@
                   Approved comments</legend>
               <div>
                   <form tal:condition="not:items_approved_or_rejected">
-                      <fieldset id="fieldset-moderate-comments" class="formPanel">
+                      <fieldset id="fieldset-moderated-comments" class="formPanel">
                           <p id="no-comments-message" i18n:translate="message_no_comments_approved">
                               No comments approved
                           </p>
@@ -179,7 +188,7 @@
                         tal:condition="items_approved_or_rejected"
                         tal:define="batch python:Batch(items_approved_or_rejected, b_size, int(b_start), orphan=1);">
 
-                      <fieldset id="fieldset-moderate-comments" class="formPanel">
+                      <fieldset id="fieldset-moderated-comments" class="formPanel">
 
                           <div metal:use-macro="here/batch_macros/macros/navigation" />
 
@@ -190,7 +199,7 @@
                                       <th class="nosort" i18n:translate="heading_date">Date</th>
                                       <th class="nosort" i18n:translate="heading_in_reponse_to">In Response To</th>
                                       <th class="nosort" i18n:translate="heading_comment">Comment</th>
-                                      <th class="nosort" i18n:translate="heading_approvedby">Approved by</th>
+                                      <th class="nosort" i18n:translate="heading_changedby">Last Action</th>
                                       <th class="nosort" i18n:translate="heading_action">Action</th>
                                   </tr>
                               </thead>
@@ -215,8 +224,8 @@
                                               <a tal:attributes="href item_url"
                                                  tal:content="item/in_response_to" />
                                           </td>
-                                          <td>
-                                              <span tal:replace="item/Description" />
+                                          <td tal:attributes="class  python:item.review_state=='rejected' and 'state-private'">
+                                              <span tal:replace="item/Description"/>
                                               <a href=""
                                                  tal:attributes="href string:$item_url/getText"
                                                  tal:condition="python:item.Description.endswith('[...]')"
@@ -229,10 +238,27 @@
                                                   last history entry
                                               </span>
                                           </td>
-
                                           <td class="actions">
                                               <input type="hidden" name="selected_obj_paths:list" value="#"
                                                      tal:attributes="value item/getURL" />
+                                              <input id=""
+                                                     class="context comment-publish-button"
+                                                     type="submit"
+                                                     value="Approve"
+                                                     name="form.button.Publish"
+                                                     i18n:attributes="value label_publish;"
+                                                     tal:attributes="id item/id"
+                                                     tal:condition="python:item.review_state in ['pending', 'rejected']"
+                                                     />
+                                              <input id=""
+                                                     class="context comment-reject-button"
+                                                     type="submit"
+                                                     value="Reject"
+                                                     name="form.button.Reject"
+                                                     i18n:attributes="value label_reject;"
+                                                     tal:attributes="id item/id"
+                                                     tal:condition="python:view.moderation_3state and item.review_state == 'published'"
+                                                     />
                                               <input id=""
                                                      class="destructive comment-delete-button"
                                                      type="submit"
