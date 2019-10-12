@@ -8,6 +8,23 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.0 (2019-10-12)
+------------------
+
+New features:
+
+
+- Additional view for approved comments
+  [ksuess] (#159)
+
+
+Bug fixes:
+
+
+- Load zcml of ``plone.resource`` for our use of the ``plone:static`` directive.
+  [maurits] (#2952)
+
+
 3.2.1 (2019-06-28)
 ------------------
 
