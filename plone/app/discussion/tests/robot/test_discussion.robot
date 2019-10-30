@@ -9,12 +9,13 @@
 
 *** Settings ***
 
+Resource  plone/app/robotframework/saucelabs.robot
 Resource  plone/app/robotframework/selenium.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
-Test Setup  Open test browser
-Test Teardown  Close all browsers
+Test Setup  Run Keywords  Plone test setup
+Test Teardown  Run keywords  Plone test teardown
 
 
 *** Test Cases ***
@@ -31,13 +32,13 @@ Add Comment to a Document
    When I add a comment
    Then I can see the comment below the document
 
-#Reply to a comment on a Document
-#  Given a logged-in Site Administrator
-#    and a document with discussion enabled
+Reply to a comment on a Document
+  Given a logged-in Site Administrator
+    and a document with discussion enabled
 
-#Delete Comment from a Document
-#  Given a logged-in Site Administrator
-#    and a document with discussion enabled
+Delete Comment from a Document
+  Given a logged-in Site Administrator
+    and a document with discussion enabled
 
 
 *** Keywords ***
