@@ -207,7 +207,6 @@ class PublishComment(BrowserView):
     """
 
     def __call__(self):
-        alsoProvides(self.request, IDisableCSRFProtection)
         comment = aq_inner(self.context)
         content_object = aq_parent(aq_parent(comment))
         workflowTool = getToolByName(comment, 'portal_workflow', None)
