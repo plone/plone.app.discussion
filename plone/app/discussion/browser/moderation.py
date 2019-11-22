@@ -228,7 +228,8 @@ class PublishComment(BrowserView):
         # if the referrer already has a came_from in it, don't redirect back
         if (len(came_from) == 0 or 'came_from=' in came_from or
                 not getToolByName(
-                content_object, 'portal_url').isURLInPortal(came_from)):
+                content_object, 'portal_url').isURLInPortal(came_from) or
+                '@@confirm-action' in came_from):
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 
