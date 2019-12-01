@@ -58,12 +58,12 @@ MAIL_NOTIFICATION_MESSAGE = _(
 MAIL_NOTIFICATION_MESSAGE_MODERATOR = _(
     u'mail_notification_message_moderator',
     default=u'A comment on "${title}" '
-            u'has been posted here: ${link}\n\n'
-            u'---\n'
-            u'${text}\n'
+            u'has been posted by ${commentator}\n'
+            u'here: ${link}\n\n'
             u'---\n\n'
-            u'Approve comment:\n${link_approve}\n\n'
-            u'Delete comment:\n${link_delete}\n',
+            u'${text}\n\n'
+            u'---\n\n'
+            u'Log in to moderate.\n\n',
     )
 
 logger = logging.getLogger('plone.app.discussion')
@@ -419,8 +419,6 @@ def notify_moderator(obj, event):
 
     # Compose email
     subject = translate(_(u'A comment has been posted.'), context=obj.REQUEST)
-    link_approve = obj.absolute_url() + '/@@moderate-publish-comment'
-    link_delete = obj.absolute_url() + '/@@moderate-delete-comment'
     message = translate(
         Message(
             MAIL_NOTIFICATION_MESSAGE_MODERATOR,
@@ -428,8 +426,14 @@ def notify_moderator(obj, event):
                 'title': safe_unicode(content_object.title),
                 'link': content_object.absolute_url() + '/view#' + obj.id,
                 'text': obj.text,
-                'link_approve': link_approve,
-                'link_delete': link_delete,
+                'commentator': obj.author_email or translate(
+                        Message(
+                            _(
+                                u'label_anonymous',
+                                default=u'Anonymous',
+                            ),
+                        ),
+                    )
             },
         ),
         context=obj.REQUEST,
