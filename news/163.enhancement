@@ -1,0 +1,4 @@
+Notification moderator: - Email commentator added
+  - Link to commented page for editing, approving, deleting comment instead of link to /@@moderate-publish-comment and @@moderate-delete-comment
+/@@moderate-publish-comment : publish only pending comment, else show status message "comment already approved"
+[ksuess]

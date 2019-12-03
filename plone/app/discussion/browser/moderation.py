@@ -13,6 +13,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.event import notify
+from zope.interface import alsoProvides
 
 
 class View(BrowserView):
@@ -209,18 +210,25 @@ class PublishComment(BrowserView):
         content_object = aq_parent(aq_parent(comment))
         workflowTool = getToolByName(comment, 'portal_workflow', None)
         workflow_action = self.request.form.get('workflow_action', 'publish')
-        workflowTool.doActionFor(comment, workflow_action)
-        comment.reindexObject()
-        content_object.reindexObject(idxs=['total_comments'])
-        notify(CommentPublishedEvent(self.context, comment))
-        IStatusMessage(self.context.REQUEST).addStatusMessage(
-            _('Comment approved.'),
-            type='info')
+        review_state = workflowTool.getInfoFor(comment, 'review_state', '')
+        if review_state == "pending":
+            workflowTool.doActionFor(comment, workflow_action)
+            comment.reindexObject()
+            content_object.reindexObject(idxs=['total_comments'])
+            notify(CommentPublishedEvent(self.context, comment))
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _('Comment approved.'),
+                type='info')
+        else:
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _('Comment already approved.'),
+                type='info')
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
         if (len(came_from) == 0 or 'came_from=' in came_from or
                 not getToolByName(
-                content_object, 'portal_url').isURLInPortal(came_from)):
+                content_object, 'portal_url').isURLInPortal(came_from) or
+                '@@confirm-action' in came_from):
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 

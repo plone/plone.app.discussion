@@ -197,9 +197,10 @@ class TestModeratorNotificationUnit(unittest.TestCase):
                            provided=IMailHost)
 
     def test_notify_moderator(self):
-        # Add a comment and make sure an email is send to the moderator.
+        """Add a comment and make sure an email is send to the moderator."""
         comment = createObject('plone.Comment')
         comment.text = 'Comment text'
+        comment.author_email = 'john@plone.test'
 
         comment_id = self.conversation.addComment(comment)
 
@@ -215,27 +216,20 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         # The output should be encoded in a reasonable manner
         # (in this case quoted-printable):
         self.assertTrue(
-            'A comment on "K=C3=B6lle Alaaf" has been posted here:'
-            in msg)
-        self.assertIn(
-            'http://nohost/plone/d=\noc1/view#{0}'.format(comment_id),
-            msg,
+            'A comment on "K=C3=B6lle Alaaf" has been posted'
+            in msg
         )
         self.assertIn(
-            'Comment text',
-            msg,
+            'http://nohost/plone/doc1/view#{0}'.format(comment_id),
+            msg
         )
-        text = 'Approve comment:\nhttp://nohost/plone/doc1/' \
-               '++conversation++default/{0}/@@moderat=\ne-publish-comment'
         self.assertIn(
-            text.format(comment_id),
-            msg,
+            comment.author_email,
+            msg
         )
-        text = 'Delete comment:\nhttp://nohost/plone/doc1/' \
-               '++conversation++default/{0}/@@moderat=\ne-delete-comment'
         self.assertIn(
-            text.format(comment_id),
-            msg,
+            comment.text,
+            msg
         )
 
     def test_notify_moderator_specific_address(self):
