@@ -16,9 +16,23 @@ from zope.event import notify
 from zope.interface import alsoProvides
 
 
+# Translations for generated values in buttons
+# States
+_('comment_pending', default='pending')
+# _('comment_approved', default='approved')
+_('comment_published', default='approved')
+_('comment_rejected', default='rejected')
+_('comment_spam', default='marked as spam')
+# Transitions
+_('Recall')
+_('Approve')
+_('Reject')
+_('Spam')
+
+
 class View(BrowserView):
-    """Comment moderation view.
-    """
+    """Show comment moderation view."""
+
     template = ViewPageTemplateFile('moderation.pt')
     try:
         template.id = '@@moderate-comments'
@@ -26,57 +40,86 @@ class View(BrowserView):
         # id is not writeable in Zope 2.12
         pass
 
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.workflowTool = getToolByName(self.context, 'portal_workflow')
+
     def __call__(self):
         self.request.set('disable_border', True)
-        context = aq_inner(self.context)
-        catalog = getToolByName(context, 'portal_catalog')
-        self.comments = catalog(object_provides=IComment.__identifier__,
-                                review_state='pending',
-                                sort_on='created',
-                                sort_order='reverse')
+        self.request.set('review_state', self.request.get('review_state', 'pending'))
         return self.template()
+
+    def comments(self):
+        """Return comments of defined review_state.
+
+        review_state is string or list of strings.
+        """
+        catalog = getToolByName(self.context, 'portal_catalog')
+        if self.request.review_state == 'all':
+            return catalog(object_provides=IComment.__identifier__,
+                           sort_on='created',
+                           sort_order='reverse')
+        return catalog(object_provides=IComment.__identifier__,
+                       review_state=self.request.review_state,
+                       sort_on='created',
+                       sort_order='reverse')
+
 
     def moderation_enabled(self):
         """Returns true if a 'review workflow' is enabled on 'Discussion Item'
            content type. A 'review workflow' is characterized by implementing
            a 'pending' workflow state.
         """
-        context = aq_inner(self.context)
-        workflowTool = getToolByName(context, 'portal_workflow')
-        comment_workflow = workflowTool.getChainForPortalType(
+        comment_workflow = self.workflowTool.getChainForPortalType(
             'Discussion Item')
         if comment_workflow:
             comment_workflow = comment_workflow[0]
-            comment_workflow = workflowTool[comment_workflow]
+            comment_workflow = self.workflowTool[comment_workflow]
             if 'pending' in comment_workflow.states:
                 return True
         return False
 
+    @property
+    def moderation_multiple_state_enabled(self):
+        """Returns true if a 'review multiple state workflow' is enabled on 'Discussion Item'
+           content type. A 'review multipe state workflow' is characterized by implementing
+           a 'rejected' workflow state and a 'spam' workflow state.
+        """
+        comment_workflow = self.workflowTool.getChainForPortalType(
+            'Discussion Item')
+        if comment_workflow:
+            comment_workflow = comment_workflow[0]
+            comment_workflow = self.workflowTool[comment_workflow]
+            if 'rejected' in comment_workflow.states:
+                return True
+        return False
 
-class ApprovedView(View):
-    """Overview comments already approved."""
-    template = ViewPageTemplateFile('comments_approved.pt')
-    try:
-        template.id = '@@comments-approved'
-    except AttributeError:
-        # id is not writeable in Zope 2.12
-        pass
+    def allowed_transitions(self, obj=None):
+        """Return allowed workflow transitions.
 
-    def __call__(self):
-        self.request.set('disable_border', True)
-        context = aq_inner(self.context)
-        catalog = getToolByName(context, 'portal_catalog')
-        self.comments = catalog(object_provides=IComment.__identifier__,
-                                review_state='published',
-                                sort_on='created',
-                                sort_order='reverse')
+        Example: pending
 
-        # print("*** approved comments")
-        # print(self.comments)
-        # for el in self.comments:
-        #     print(el.id, el.review_state)
-        return self.template()
+        [{'id': 'mark_as_spam', 'url': 'http://localhost:8083/PloneRejected/testfolder/testpage/++conversation++default/1575415863542780/content_status_modify?workflow_action=mark_as_spam', 'icon': '', 'category': 'workflow', 'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_multiple_state_review_workflow/transitions/mark_as_spam>, 'title': 'Spam', 'link_target': None, 'visible': True, 'available': True, 'allowed': True},
+        {'id': 'publish',
+            'url': 'http://localhost:8083/PloneRejected/testfolder/testpage/++conversation++default/1575415863542780/content_status_modify?workflow_action=publish',
+            'icon': '',
+            'category': 'workflow',
+            'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_multiple_state_review_workflow/transitions/publish>,
+            'title': 'Approve',
+            'link_target': None, 'visible': True, 'available': True, 'allowed': True},
+        {'id': 'reject', 'url': 'http://localhost:8083/PloneRejected/testfolder/testpage/++conversation++default/1575415863542780/content_status_modify?workflow_action=reject', 'icon': '', 'category': 'workflow', 'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_multiple_state_review_workflow/transitions/reject>, 'title': 'Reject', 'link_target': None, 'visible': True, 'available': True, 'allowed': True}]
+        """
 
+        if obj:
+            transitions = [
+                a for a in self.workflowTool.listActionInfos(object=obj)
+                if a['category'] == 'workflow' and a['allowed']
+                ]
+            return transitions
+
+    def translate(self, text=""):
+        return _(text)
 
 class ModerateCommentsEnabled(BrowserView):
 
@@ -184,13 +227,13 @@ class DeleteOwnComment(DeleteComment):
             raise Unauthorized("You're not allowed to delete this comment.")
 
 
-class PublishComment(BrowserView):
-    """Publish a comment.
+class CommentTransition(BrowserView):
+    r"""Publish, reject, recall a comment or mark it as spam.
 
        This view is always called directly on the comment object:
 
            http://nohost/front-page/++conversation++default/1286289644723317/\
-           @@moderate-publish-comment
+           @@transmit-comment
 
        Each table row (comment) in the moderation view contains a hidden input
        field with the absolute URL of the content object:
@@ -206,35 +249,43 @@ class PublishComment(BrowserView):
     """
 
     def __call__(self):
+        """Call CommentTransition."""
         comment = aq_inner(self.context)
         content_object = aq_parent(aq_parent(comment))
         workflowTool = getToolByName(comment, 'portal_workflow', None)
         workflow_action = self.request.form.get('workflow_action', 'publish')
         review_state = workflowTool.getInfoFor(comment, 'review_state', '')
-        if review_state == "pending":
-            workflowTool.doActionFor(comment, workflow_action)
-            comment.reindexObject()
-            content_object.reindexObject(idxs=['total_comments'])
-            notify(CommentPublishedEvent(self.context, comment))
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _('Comment approved.'),
-                type='info')
-        else:
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _('Comment already approved.'),
-                type='info')
+        workflowTool.doActionFor(comment, workflow_action)
+        comment.reindexObject()
+        content_object.reindexObject(idxs=['total_comments'])
+        notify(CommentPublishedEvent(self.context, comment))
+        review_state_new = workflowTool.getInfoFor(comment, 'review_state', '')
+
+        # context.translate() does not know a default for untranslated msgids
+        comment_state_translated = self.context.translate("comment_"+review_state_new)
+        if comment_state_translated=="comment_"+review_state_new:
+            comment_state_translated= review_state_new
+
+        msgid = _(
+            "comment_transmitted",
+            default='Comment ${comment_state_translated}.',
+            mapping={"comment_state_translated": comment_state_translated})
+        translated = self.context.translate(msgid)
+        IStatusMessage(self.context.REQUEST).addStatusMessage(
+            translated, type='info')
+
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
-        if (len(came_from) == 0 or 'came_from=' in came_from or
-                not getToolByName(
-                content_object, 'portal_url').isURLInPortal(came_from) or
-                '@@confirm-action' in came_from):
+        if (len(came_from) == 0
+            or 'came_from=' in came_from
+            or not getToolByName(
+                content_object, 'portal_url').isURLInPortal(came_from)):
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 
 
 class BulkActionsView(BrowserView):
-    """Bulk actions (unapprove, approve, delete, mark as spam).
+    """Bulk actions (approve, delete, reject, recall, mark as spam).
 
        Each table row of the moderation view has a checkbox with the absolute
        path (without host and port) of the comment objects:
@@ -257,6 +308,7 @@ class BulkActionsView(BrowserView):
     """
 
     def __call__(self):
+        """Call BulkActionsView."""
         if 'form.select.BulkAction' in self.request:
             bulkaction = self.request.get('form.select.BulkAction')
             self.paths = self.request.get('paths')

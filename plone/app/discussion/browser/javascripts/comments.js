@@ -162,9 +162,9 @@ require([  // jshint ignore:line
 
 
         /**********************************************************************
-         * Publish a single comment.
+         * Transmit a single comment.
          **********************************************************************/
-        $('input[name="form.button.PublishComment"]').on('click', function () {
+        $('input[name="form.button.TransmitComment"]').on('click', function () {
             var trigger = this;
             var form = $(this).parents('form');
             var data = $(form).serialize();
@@ -176,7 +176,7 @@ require([  // jshint ignore:line
                 context: trigger,
                 success: function (msg) {  // jshint ignore:line
                     // remove button (trigger object can't be directly removed)
-                    form.find('input[name="form.button.PublishComment"]').remove();
+                    form.find('input[name="form.button.TransmitComment"]').remove();
                     form.parents('.state-pending').toggleClass('state-pending').toggleClass('state-published');
                 },
                 error: function (msg) {  // jshint ignore:line
@@ -201,7 +201,7 @@ require([  // jshint ignore:line
         /**********************************************************************
          * Delete a comment and its answers.
          **********************************************************************/
-        $('input[name="form.button.DeleteComment"]').on('click', function () {
+        $('input[name="form.button.DeleteCommentComment"]').on('click', function () {
             var trigger = this;
             var form = $(this).parents('form');
             var data = $(form).serialize();

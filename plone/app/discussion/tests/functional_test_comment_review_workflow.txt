@@ -112,7 +112,7 @@ Administrators can see all posts and comment actions
     >>> 'form.button.DeleteComment' in browser.contents
     True
 
-    >>> 'form.button.PublishComment' in browser.contents
+    >>> 'form.button.TransmitComment' in browser.contents
     True
 
 Anonymous user can not see any posts or comment actions
@@ -128,7 +128,7 @@ Anonymous user can not see any posts or comment actions
     >>> 'form.button.DeleteComment' in unprivileged_browser.contents
     False
 
-    >>> 'form.button.PublishComment' in unprivileged_browser.contents
+    >>> 'form.button.TransmitComment' in unprivileged_browser.contents
     False
 
 The catalog does not list the comments yet:
@@ -156,7 +156,7 @@ actions.
     >>> 'form.button.DeleteComment' in browser.contents
     True
 
-    >>> 'form.button.PublishComment' in browser.contents
+    >>> 'form.button.TransmitComment' in browser.contents
     True
 
 

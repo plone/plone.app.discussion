@@ -3,47 +3,43 @@
  * jQuery functions for the plone.app.discussion bulk moderation.
  *
  ******************************************************************************/
-/* global require, alert */
-/* jshint quotmark: false */
+
 
 if(require === undefined){
-    require = function(reqs, torun){  // jshint ignore:line
+    require = function(reqs, torun){
         'use strict';
         return torun(window.jQuery);
     };
 }
 
-require([  // jshint ignore:line
-    'jquery'
-], function ($) {
+require([
+    'jquery',
+    'pat-registry',
+], function ($, registry) {
     'use strict';
-    // This unnamed function allows us to use $ inside of a block of code
-    // without permanently overwriting $.
-    // http://docs.jquery.com/Using_jQuery_with_Other_Libraries
 
-    //#JSCOVERAGE_IF 0
-
-    /**************************************************************************
-     * Document Ready Function: Executes when DOM is ready.
-     **************************************************************************/
     $(document).ready(function () {
+        init();
+    });
+
+    function init() {
 
         /**********************************************************************
          * Delete a single comment.
          **********************************************************************/
-        $("input[name='form.button.Delete']").click(function (e) {
+        $("input[name='form.button.moderation.DeleteComment']").click(function (e) {
             e.preventDefault();
-            var row = $(this).parent().parent();
-            var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
+            var row = $(this).closest('tr');
+            var path = row.find("[name='selected_obj_paths:list']").attr("value");
             var auth_key = $('input[name="_authenticator"]').val();
             var target = path + "/@@moderate-delete-comment?_authenticator=" + auth_key;
             $.ajax({
                 type: "GET",
                 url: target,
-                success: function (msg) {  // jshint ignore:line
+                success: function (msg) {
                     // fade out row
-                    $(row).fadeOut("normal", function () {
-                        $(this).remove();
+                    row.fadeOut(250).fadeIn(250, function () {
+                        row.remove();
                     });
                     // reload page if all comments have been removed
                     var comments = $("table#review-comments > tbody > tr");
@@ -51,7 +47,7 @@ require([  // jshint ignore:line
                         location.reload();
                     }
                 },
-                error: function (msg) {  // jshint ignore:line
+                error: function (msg) {
                     alert("Error sending AJAX request:" + target);
                 }
             });
@@ -59,30 +55,37 @@ require([  // jshint ignore:line
 
 
         /**********************************************************************
-         * Publish a single comment.
+         * Transmit a single comment.
          **********************************************************************/
-        $("input[name='form.button.Publish']").click(function (e) {
+        $('input[name="form.button.moderation.TransmitComment"]').click(function (e) {
             e.preventDefault();
-            var row = $(this).parent().parent();
-            var path = $(row).find("[name='selected_obj_paths:list']").attr("value");
+            let button = $(this);
+            var row = $(this).closest('tr');
+            var path = $(row).find("[name='selected_obj_paths:list']")
+                             .attr("value");
+            var workflow_action = $(this).attr('data-transition');
             var auth_key = $('input[name="_authenticator"]').val();
-            var target = path + "/@@moderate-publish-comment?_authenticator=" + auth_key;
+            // distinction of workflow_action
+            var target = path + "/@@transmit-comment?_authenticator=" + auth_key
+                + "&workflow_action=" + workflow_action;
+            var moderate = $(this).closest("fieldset")
+                                  .attr("id") == "fieldset-moderate-comments";
             $.ajax({
                 type: "GET",
                 url: target,
-                success: function (msg) {  // jshint ignore:line
-                    // fade out row
-                    $(row).fadeOut("normal", function () {
-                        $(this).remove();
-                    });
-                    // reload page if all comments have been removed
-                    var comments = $("table#review-comments > tbody > tr");
-                    if (comments.length === 1) {
+                success: function (msg) {
+                    if (moderate) {
+                        let url = location.href;
+                        $("#review-comments").load(url + " #review-comments", function() {
+                            init();
+                            $('.pat-plone-modal').patPloneModal();
+                        });
+                    } else {
                         location.reload();
                     }
                 },
-                error: function (msg) {  // jshint ignore:line
-                    alert("Error sending AJAX request:" + target);
+                error: function (msg) {
+                    alert("Error transmitting comment. (Error sending AJAX request:" + target + ")");
                 }
             });
         });
@@ -106,7 +109,7 @@ require([  // jshint ignore:line
                 alert("You haven't selected any comment for this bulk action." +
                       "Please select at least one comment.");
             } else {
-                $.post(target, params, function (data) {  // jshint ignore:line
+                $.post(target, params, function (data) {
                     valArray.each(function () {
                         /* Remove all selected lines. */
                         var row = $(this).parent().parent();
@@ -133,15 +136,37 @@ require([  // jshint ignore:line
             if ($(this).val() === '0') {
                 $(this).parents("table")
                        .find("input:checkbox")
-                       .attr("checked", "checked");
+                       .prop("checked", true);
                 $(this).val("1");
             } else {
                 $(this).parents("table")
                        .find("input:checkbox")
-                       .attr("checked", "");
+                       .prop("checked", false);
                 $(this).val("0");
             }
         });
+
+        /**********************************************************************
+         * select comments with review_state
+         **********************************************************************/
+
+         $("input[name='review_state']").click(function () {
+             // location.search = 'review_state=' + $(this).val();
+             let review_state = $(this).val();
+             let url = location.href;
+             if (location.search) {
+                 url = location.href.replace(location.search, "?review_state=" + review_state);
+             } else {
+                 url = location.href + "?review_state=" + review_state;
+             }
+
+             $("#review-comments").load(url + " #review-comments", function() {
+                 init();
+                 $('.pat-plone-modal').patPloneModal();
+                 let stateObj = { review_state: review_state };
+                 history.pushState(stateObj, "moderate comments", url);
+             });
+         });
 
 
         /**********************************************************************
@@ -150,16 +175,16 @@ require([  // jshint ignore:line
         $(".show-full-comment-text").click(function (e) {
             e.preventDefault();
             var target = $(this).attr("href");
-            var td = $(this).parent();
+            var parent = $(this).parent();
             $.ajax({
                 type: "GET",
                 url: target,
                 data: "",
                 success: function (data) {
                     // show full text
-                    td.replaceWith("<td>" + data + "</td>");
+                    parent.html(data);
                 },
-                error: function (msg) {  // jshint ignore:line
+                error: function (msg) {
                     alert("Error getting full comment text:" + target);
                 }
             });
@@ -170,13 +195,25 @@ require([  // jshint ignore:line
          * Comments approved: Load history for approved date.
          **********************************************************************/
         $(".last-history-entry").each(function() {
-            $(this).load($(this).attr("data-href") + " .historyByLine", function() {
-                $(this).children(".historyByLine").last().remove();
+            var me = $(this);
+            $.ajax({
+                url: me.attr("data-href"),
+                success: function (data) {
+                    let first_history_entry = $(data).find(".historyByLine").first();
+                    me.html("");
+                    first_history_entry.children().each(function() {
+                        me.append($(this));
+                        me.append("<br/>");
+                    });
+                    // format date
+                    registry.scan(me);
+                },
+                error: function (msg) {
+                    alert("Error getting history.");
+                }
             });
         });
+    }; // end init
 
-    });
-
-    //#JSCOVERAGE_ENDIF
 
 });
