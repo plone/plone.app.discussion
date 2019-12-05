@@ -236,29 +236,28 @@ class DeleteOwnComment(DeleteComment):
 class CommentTransition(BrowserView):
     r"""Publish, reject, recall a comment or mark it as spam.
 
-       This view is always called directly on the comment object:
+    This view is always called directly on the comment object:
 
-           http://nohost/front-page/++conversation++default/1286289644723317/\
-           @@transmit-comment
+        http://nohost/front-page/++conversation++default/1286289644723317/\
+        @@transmit-comment
 
-       Each table row (comment) in the moderation view contains a hidden input
-       field with the absolute URL of the content object:
+    Each table row (comment) in the moderation view contains a hidden input
+    field with the absolute URL of the content object:
 
-         <input type="hidden"
-                value="http://nohost/front-page/++conversation++default/\
-                       1286289644723317"
-                name="selected_obj_paths:list">
+        <input type="hidden"
+            value="http://nohost/front-page/++conversation++default/\
+                1286289644723317"
+            name="selected_obj_paths:list">
 
-       This absolute URL is called from a jQuery method that is bind to the
-       'delete' button of the table row. See javascripts/moderation.js for more
-       details.
+    This absolute URL is called from a jQuery method that is bind to the
+    'delete' button of the table row. See javascripts/moderation.js for more
+    details.
     """
 
     def __call__(self):
         """Call CommentTransition."""
         comment = aq_inner(self.context)
         content_object = aq_parent(aq_parent(comment))
-        print("*** called: PublishComment for ", comment.Description)
         workflowTool = getToolByName(comment, 'portal_workflow', None)
         workflow_action = self.request.form.get('workflow_action', 'publish')
         review_state = workflowTool.getInfoFor(comment, 'review_state', '')
