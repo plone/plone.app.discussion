@@ -66,7 +66,7 @@
                   <thead>
                       <tr>
                           <th colspan="7">
-                              <fieldset>
+                              <fieldset tal:condition="view/moderation_multiple_state_enabled">
                                 <input type="radio" id="all" name="review_state" value="all"
                                     tal:attributes="checked python:request.review_state=='all'">
                                 <label for="all" i18n:translate="">all</label>
