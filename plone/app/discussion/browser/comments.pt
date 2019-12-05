@@ -39,8 +39,9 @@
                              portrait_url python:view.get_commenter_portrait(reply.author_username);
                              review_state python:wtool.getInfoFor(reply, 'review_state', 'none');
                              canEdit python:view.can_edit(reply);
-                             canDelete python:view.can_delete(reply)"
-                 tal:attributes="class python:'comment replyTreeLevel'+str(depth)+' state-'+str(review_state);
+                             canDelete python:view.can_delete(reply);
+                             colorclass python:lambda x: 'state-private' if x=='rejected' else ('state-internal' if x=='spam' else 'state-'+x);"
+                 tal:attributes="class python:'comment replyTreeLevel{depth} {state}'.format(depth= depth, state=colorclass(review_state));
                                  id string:${reply/getId}"
                  tal:condition="python:canReview or review_state == 'published'">
 
@@ -119,7 +120,7 @@
                         <tal:edit tal:condition="python:isEditCommentAllowed and canEdit">
                           <!-- plone 5 will have auth_token available
                                so we'll use modal pattern -->
-                          <a class="commentactionsform pat-plone-modal context"
+                          <a class="pat-plone-modal context"
                              tal:condition="auth_token"
                              tal:attributes="href string:${reply/absolute_url}/@@edit-comment?_authenticator=${auth_token}"
                              i18n:translate="Edit">Edit</a>
@@ -146,10 +147,10 @@
                               class="commentactionsform"
                               tal:condition="canReview"
                               tal:repeat="action reply_dict/actions|nothing"
-                              tal:attributes="action string:${reply/absolute_url}/@@moderate-publish-comment;
+                              tal:attributes="action string:${reply/absolute_url}/@@transmit-comment;
                                               name action/id">
                             <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
-                            <input name="form.button.PublishComment"
+                            <input name="form.button.TransmitComment"
                                    class="context"
                                    type="submit"
                                    tal:attributes="value action/title"

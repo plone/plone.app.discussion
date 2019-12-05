@@ -272,7 +272,7 @@ class CommentReviewWorkflowTest(unittest.TestCase):
                 'review_state',
             ),
         )
-        view = self.comment.restrictedTraverse('@@moderate-publish-comment')
+        view = self.comment.restrictedTraverse('@@transmit-comment')
         view()
         self.assertEqual(
             'published',
@@ -295,7 +295,7 @@ class CommentReviewWorkflowTest(unittest.TestCase):
         self.assertRaises(
             Unauthorized,
             self.comment.restrictedTraverse,
-            '@@moderate-publish-comment',
+            '@@transmit-comment',
         )
         self.assertEqual(
             'pending',

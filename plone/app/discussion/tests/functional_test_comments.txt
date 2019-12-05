@@ -326,19 +326,19 @@ Deleting existing comments | 'Delete comments' permission
 Anonymous cannot delete comments
 
     >>> unprivileged_browser.open(urldoc1)
-    >>> 'form.button.Delete' in unprivileged_browser.contents
+    >>> 'form.button.DeleteComment' in unprivileged_browser.contents
     False
 
 A member cannot delete his own comments if he can't review or he isn't a Site Administrator
 
     >>> browser_member.open(urldoc1)
-    >>> 'form.button.Delete' in browser_member.contents
+    >>> 'form.button.DeleteComment' in browser_member.contents
     False
 
 Admin can delete comments
 
     >>> browser.open(urldoc1)
-    >>> 'form.button.Delete' in browser.contents
+    >>> 'form.button.DeleteComment' in browser.contents
     True
 
 Extract the delete comment url from the first "delete comment" button

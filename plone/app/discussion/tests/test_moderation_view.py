@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone.app.discussion.browser.moderation import BulkActionsView
 from plone.app.discussion.browser.moderation import DeleteComment
-from plone.app.discussion.browser.moderation import PublishComment
+from plone.app.discussion.browser.moderation import CommentTransition
 from plone.app.discussion.browser.moderation import View
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
@@ -195,14 +195,14 @@ class RedirectionTest(unittest.TestCase):
     def test_regression(self):
         page_url = self.page.absolute_url()
         self.request['HTTP_REFERER'] = page_url
-        for Klass in (DeleteComment, PublishComment):
+        for Klass in (DeleteComment, CommentTransition):
             view = Klass(self.comment, self.request)
             view.__parent__ = self.comment
             self.assertEqual(page_url, view())
 
     def test_valid_next_url(self):
         self.request['HTTP_REFERER'] = 'http://attacker.com'
-        for Klass in (DeleteComment, PublishComment):
+        for Klass in (DeleteComment, CommentTransition):
             view = Klass(self.comment, self.request)
             view.__parent__ = self.comment
             self.assertNotEqual('http://attacker.com', view())

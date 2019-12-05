@@ -91,23 +91,15 @@
         permission="plone.app.discussion.DeleteOwnComments"
         />
 
-    <!-- Publish comment view -->
+    <!-- Comment Transition -->
     <browser:page
         for="plone.app.discussion.interfaces.IComment"
-        name="moderate-publish-comment"
+        name="transmit-comment"
         layer="..interfaces.IDiscussionLayer"
-        class=".moderation.PublishComment"
+        class=".moderation.CommentTransition"
         permission="plone.app.discussion.ReviewComments"
         />
 
-    <!-- Reject comment view -->
-    <browser:page
-        for="plone.app.discussion.interfaces.IComment"
-        name="moderate-reject-comment"
-        layer="..interfaces.IDiscussionLayer"
-        class=".moderation.RejectComment"
-        permission="plone.app.discussion.ReviewComments"
-        />
 
     <!-- Comments viewlet -->
     <browser:viewlet
