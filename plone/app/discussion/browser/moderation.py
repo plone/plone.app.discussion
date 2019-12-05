@@ -8,6 +8,7 @@ from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
+from plone.protect.interfaces import IDisableCSRFProtection
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -252,6 +253,7 @@ class CommentTransition(BrowserView):
         """Call CommentTransition."""
         comment = aq_inner(self.context)
         content_object = aq_parent(aq_parent(comment))
+        print("*** called: PublishComment for ", comment.Description)
         workflowTool = getToolByName(comment, 'portal_workflow', None)
         workflow_action = self.request.form.get('workflow_action', 'publish')
         review_state = workflowTool.getInfoFor(comment, 'review_state', '')
