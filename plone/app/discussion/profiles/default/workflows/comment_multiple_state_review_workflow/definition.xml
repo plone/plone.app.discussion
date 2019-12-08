@@ -36,7 +36,7 @@
             <permission-role>Reviewer</permission-role>
         </permission-map>
     </state>
-    <state state_id="published" title="Published">
+    <state state_id="published" title="Approved">
         <description>Visible to everyone, non-editable.</description>
         <exit-transition transition_id="mark_as_spam"/>
         <exit-transition transition_id="recall"/>
@@ -76,7 +76,7 @@
         </guard>
     </transition>
     <transition transition_id="recall" title="Reviewer recalls comment back to pending state" new_state="pending" trigger="USER" before_script="" after_script="">
-        <action url="%(content_url)s/content_status_modify?workflow_action=recall" category="workflow" icon="">Reject</action>
+        <action url="%(content_url)s/content_status_modify?workflow_action=recall" category="workflow" icon="">Recall</action>
         <guard>
             <guard-permission>Review comments</guard-permission>
         </guard>

@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * jQuery functions for the plone.app.discussion bulk moderation.
+ * jQuery functions for the plone.app.discussion moderation.
  *
  ******************************************************************************/
 
@@ -96,35 +96,29 @@ require([
          **********************************************************************/
         $("input[name='form.button.BulkAction']").click(function (e) {
             e.preventDefault();
-            var form = $(this).parents("form");
+            var form = $(this).closest("form");
             var target = $(form).attr('action');
             var params = $(form).serialize();
             var valArray = $('input:checkbox:checked');
             var selectField = $(form).find("[name='form.select.BulkAction']");
+
             if (selectField.val() === '-1') {
-                // XXX: translate message
+                // TODO: translate message
                 alert("You haven't selected a bulk action. Please select one.");
             } else if (valArray.length === 0) {
-                // XXX: translate message
+                // TODO: translate message
                 alert("You haven't selected any comment for this bulk action." +
                       "Please select at least one comment.");
             } else {
                 $.post(target, params, function (data) {
-                    valArray.each(function () {
-                        /* Remove all selected lines. */
-                        var row = $(this).parent().parent();
-                        row.fadeOut("normal", function () {
-                            row.remove();
-                        });
+                    // reset the bulkaction select
+                    selectField.find("option[value='-1']").attr('selected', 'selected');
+                    // reload filtered comments
+                    $("#review-comments").load(window.location + " #review-comments", function() {
+                        init();
+                        $('.pat-plone-modal').patPloneModal();
                     });
-                    // reload page if all comments have been removed
-                    var comments = $("table#review-comments > tbody > tr");
-                    if (comments.length <= valArray.length) {
-                        location.reload();
-                    }
                 });
-                // reset the bulkaction select
-                selectField.find("option[value='-1']").attr('selected', 'selected');
             }
         });
 
