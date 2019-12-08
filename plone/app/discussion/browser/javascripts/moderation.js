@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * jQuery functions for the plone.app.discussion bulk moderation.
+ * jQuery functions for the plone.app.discussion moderation.
  *
  ******************************************************************************/
 
@@ -84,19 +84,80 @@ require(["jquery", "pat-registry"], function($, registry) {
               init();
               $(".pat-plone-modal").patPloneModal();
             });
-          } else {
-            location.reload();
-          }
-        },
-        error: function(msg) {
-          alert(
-            "Error transmitting comment. (Error sending AJAX request:" +
-              target +
-              ")"
-          );
-        }
-      });
-    });
+        });
+
+
+        /**********************************************************************
+         * Bulk actions for comments (delete, publish)
+         **********************************************************************/
+        $("input[name='form.button.BulkAction']").click(function (e) {
+            e.preventDefault();
+            var form = $(this).closest("form");
+            var target = $(form).attr('action');
+            var params = $(form).serialize();
+            var valArray = $('input:checkbox:checked');
+            var selectField = $(form).find("[name='form.select.BulkAction']");
+
+            if (selectField.val() === '-1') {
+                // TODO: translate message
+                alert("You haven't selected a bulk action. Please select one.");
+            } else if (valArray.length === 0) {
+                // TODO: translate message
+                alert("You haven't selected any comment for this bulk action." +
+                      "Please select at least one comment.");
+            } else {
+                $.post(target, params, function (data) {
+                    // reset the bulkaction select
+                    selectField.find("option[value='-1']").attr('selected', 'selected');
+                    // reload filtered comments
+                    $("#review-comments").load(window.location + " #review-comments", function() {
+                        init();
+                        $('.pat-plone-modal').patPloneModal();
+                    });
+                });
+            }
+        });
+
+
+        /**********************************************************************
+         * Check or uncheck all checkboxes from the batch moderation page.
+         **********************************************************************/
+        $("input[name='check_all']").click(function () {
+            if ($(this).val() === '0') {
+                $(this).parents("table")
+                       .find("input:checkbox")
+                       .prop("checked", true);
+                $(this).val("1");
+            } else {
+                $(this).parents("table")
+                       .find("input:checkbox")
+                       .prop("checked", false);
+                $(this).val("0");
+            }
+        });
+
+        /**********************************************************************
+         * select comments with review_state
+         **********************************************************************/
+
+         $("input[name='review_state']").click(function () {
+             // location.search = 'review_state=' + $(this).val();
+             let review_state = $(this).val();
+             let url = location.href;
+             if (location.search) {
+                 url = location.href.replace(location.search, "?review_state=" + review_state);
+             } else {
+                 url = location.href + "?review_state=" + review_state;
+             }
+
+             $("#review-comments").load(url + " #review-comments", function() {
+                 init();
+                 $('.pat-plone-modal').patPloneModal();
+                 let stateObj = { review_state: review_state };
+                 history.pushState(stateObj, "moderate comments", url);
+             });
+         });
+
 
     /**********************************************************************
      * Bulk actions for comments (delete, publish)

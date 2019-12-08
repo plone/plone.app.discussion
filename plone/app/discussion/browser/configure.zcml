@@ -100,6 +100,14 @@
         permission="plone.app.discussion.ReviewComments"
         />
 
+    <browser:page
+        for="*"
+        name="translationhelper"
+        layer="..interfaces.IDiscussionLayer"
+        class=".moderation.TranslationHelper"
+        permission="plone.app.discussion.ReviewComments"
+        />
+
 
     <!-- Comments viewlet -->
     <browser:viewlet

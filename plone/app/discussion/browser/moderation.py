@@ -4,6 +4,7 @@ from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from plone.app.discussion.events import CommentPublishedEvent
+from plone.app.discussion.events import CommentTransitionEvent
 from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
@@ -31,6 +32,15 @@ _('Reject')
 _('Spam')
 
 
+class TranslationHelper(BrowserView):
+
+    def translate(self, text=""):
+        return _(text)
+
+    def translate_comment_review_state(self, rs):
+        return _("comment_" + rs, default=rs)
+
+
 class View(BrowserView):
     """Show comment moderation view."""
 
@@ -42,9 +52,9 @@ class View(BrowserView):
         pass
 
     def __init__(self, context, request):
-        self.context = context
-        self.request = request
+        super(View, self).__init__(context, request)
         self.workflowTool = getToolByName(self.context, 'portal_workflow')
+        self.transitions = []
 
     def __call__(self):
         self.request.set('disable_border', True)
@@ -74,11 +84,10 @@ class View(BrowserView):
         A 'review workflow' is characterized by implementing a 'pending'
         workflow state.
         """
-        comment_workflow = self.workflowTool.getChainForPortalType(
+        workflows = self.workflowTool.getChainForPortalType(
             'Discussion Item')
-        if comment_workflow:
-            comment_workflow = comment_workflow[0]
-            comment_workflow = self.workflowTool[comment_workflow]
+        if workflows:
+            comment_workflow = self.workflowTool[workflows[0]]
             if 'pending' in comment_workflow.states:
                 return True
         return False
@@ -91,17 +100,16 @@ class View(BrowserView):
         A 'review multipe state workflow' is characterized by implementing
         a 'rejected' workflow state and a 'spam' workflow state.
         """
-        comment_workflow = self.workflowTool.getChainForPortalType(
+        workflows = self.workflowTool.getChainForPortalType(
             'Discussion Item')
-        if comment_workflow:
-            comment_workflow = comment_workflow[0]
-            comment_workflow = self.workflowTool[comment_workflow]
-            if 'rejected' in comment_workflow.states:
+        if workflows:
+            comment_workflow = self.workflowTool[workflows[0]]
+            if 'spam' in comment_workflow.states:
                 return True
         return False
 
     def allowed_transitions(self, obj=None):
-        """Return allowed workflow transitions.
+        """Return allowed workflow transitions for obj.
 
         Example: pending
 
@@ -123,8 +131,6 @@ class View(BrowserView):
                 ]
             return transitions
 
-    def translate(self, text=""):
-        return _(text)
 
 
 class ModerateCommentsEnabled(BrowserView):
@@ -265,13 +271,11 @@ class CommentTransition(BrowserView):
         comment.reindexObject()
         content_object.reindexObject(idxs=['total_comments'])
         notify(CommentPublishedEvent(self.context, comment))
+        # for complexer workflows:
+        notify(CommentTransitionEvent(self.context, comment))
         review_state_new = workflowTool.getInfoFor(comment, 'review_state', '')
 
-        # context.translate() does not know a default for untranslated msgids
-        comment_state_translated = \
-            self.context.translate("comment_"+review_state_new)
-        if comment_state_translated == "comment_"+review_state_new:
-            comment_state_translated = review_state_new
+        comment_state_translated = self.context.restrictedTraverse("translationhelper").translate_comment_review_state(review_state_new)
 
         msgid = _(
             "comment_transmitted",
@@ -327,7 +331,7 @@ class RejectComment(BrowserView):
 
 
 class BulkActionsView(BrowserView):
-    """Bulk actions (approve, delete, reject, recall, mark as spam).
+    """Call bulk action: publish/approve, delete (, reject, recall, mark as spam).
 
        Each table row of the moderation view has a checkbox with the absolute
        path (without host and port) of the comment objects:
@@ -349,6 +353,10 @@ class BulkActionsView(BrowserView):
 
     """
 
+    def __init__(self, context, request):
+        super(BulkActionsView, self).__init__(context, request)
+        self.workflowTool = getToolByName(context, 'portal_workflow')
+
     def __call__(self):
         """Call BulkActionsView."""
         if 'form.select.BulkAction' in self.request:
@@ -358,50 +366,40 @@ class BulkActionsView(BrowserView):
                 if bulkaction == '-1':
                     # no bulk action was selected
                     pass
-                elif bulkaction == 'retract':
-                    self.retract()
-                elif bulkaction == 'publish':
-                    self.publish()
-                elif bulkaction == 'mark_as_spam':
-                    self.mark_as_spam()
                 elif bulkaction == 'delete':
                     self.delete()
                 else:
-                    raise KeyError  # pragma: no cover
+                    self.transmit(bulkaction)
 
-    def retract(self):
-        raise NotImplementedError
+    def transmit(self, action=None):
+        """Transmit all comments in the paths variable to requested review_state.
 
-    def publish(self):
-        """Publishes all comments in the paths variable.
+        Expects a list of absolute paths (without host and port):
 
-           Expects a list of absolute paths (without host and port):
-
-             /Plone/startseite/++conversation++default/1286200010610352
-
+        /Plone/startseite/++conversation++default/1286200010610352
         """
         context = aq_inner(self.context)
         for path in self.paths:
             comment = context.restrictedTraverse(path)
             content_object = aq_parent(aq_parent(comment))
-            workflowTool = getToolByName(comment, 'portal_workflow')
-            current_state = workflowTool.getInfoFor(comment, 'review_state')
-            if current_state != 'published':
-                workflowTool.doActionFor(comment, 'publish')
-            comment.reindexObject()
-            content_object.reindexObject(idxs=['total_comments'])
-            notify(CommentPublishedEvent(content_object, comment))
-
-    def mark_as_spam(self):
-        raise NotImplementedError
+            allowed_transitions = [
+                transition['id'] for transition in self.workflowTool.listActionInfos(object=comment)
+                if transition['category'] == 'workflow' and transition['allowed']
+                ]
+            if action in allowed_transitions:
+                self.workflowTool.doActionFor(comment, action)
+                comment.reindexObject()
+                content_object.reindexObject(idxs=['total_comments'])
+                notify(CommentPublishedEvent(content_object, comment))
+                # for complexer workflows:
+                notify(CommentTransitionEvent(self.context, comment))
 
     def delete(self):
-        """Deletes all comments in the paths variable.
+        """Delete all comments in the paths variable.
 
-           Expects a list of absolute paths (without host and port):
+        Expects a list of absolute paths (without host and port):
 
-             /Plone/startseite/++conversation++default/1286200010610352
-
+        /Plone/startseite/++conversation++default/1286200010610352
         """
         context = aq_inner(self.context)
         for path in self.paths:

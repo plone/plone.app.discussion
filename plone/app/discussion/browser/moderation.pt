@@ -15,13 +15,14 @@
     <tal:main-macro metal:define-macro="main"
         tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime;
                     items view/comments;
-                    filter view/filter|nothing;
+                    filter request/review_state|nothing;
                     Batch python:modules['Products.CMFPlone'].Batch;
                     b_size python:30;
                     b_start python:0;
                     b_start request/b_start | b_start;
                     moderation_enabled view/moderation_enabled;
                     colorclass python:lambda x: 'state-private' if x=='rejected' else ('state-internal' if x=='spam' else 'state-'+x);
+                    translationhelper nocall:context/@@translationhelper;
                     ">
         <script type="text/javascript"
             tal:attributes="src string:${context/portal_url}/++plone++plone.app.discussion.javascripts/moderation.js">
@@ -33,7 +34,7 @@
 
         <div class="portalMessage warning"
              role="status"
-             tal:condition="not: view/moderation_enabled">
+             tal:condition="not: moderation_enabled">
             <strong i18n:translate="">Warning</strong>
             <span tal:omit-tag="" i18n:translate="message_moderation_disabled">
                 Moderation workflow is disabled. You have to
@@ -56,6 +57,7 @@
 
       <form method="post"
             action="#"
+            tal:condition="moderation_enabled"
             tal:attributes="action string:${context/absolute_url}/@@bulk-actions"
             tal:define="batch python:Batch(items, b_size, int(b_start), orphan=1);">
 
@@ -76,7 +78,7 @@
                                             value review_state;
                                             id review_state;
                                             checked python:request.review_state==review_state">
-                                    <label tal:attributes="for review_state"><span tal:content="python:view.translate('comment_{}'.format(review_state))">review_state</span></label>
+                                    <label tal:attributes="for review_state"><span tal:content="python:translationhelper.translate_comment_review_state(review_state)">review_state</span></label>
                                 </tal:workflow-filter>
                               </fieldset>
                           </th>
@@ -85,12 +87,15 @@
                           <th id="bulkactions" class="nosort" colspan="7">
                               <select name="form.select.BulkAction">
                                   <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
+                                  <tal:comment tal:replace="nothing"></tal:comment>
                                   <option value="publish"
                                           i18n:translate="bulkactions_publish"
-                                          tal:condition="python: filter != 'published' and moderation_enabled">Approve</option>
+                                          tal:condition="python: filter != 'published'">Approve</option>
+                                  <option value="mark_as_spam"
+                                          tal:condition="python: filter != 'spam'">Spam</option>
                                   <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
                               </select>
-                              <input type="hidden" name="form.button.Filter" tal:attributes="value filter" value="" />
+                              <input type="hidden" name="filter" tal:attributes="value filter"/>
                               <input id="dobulkaction"
                                      type="submit"
                                      class="standalone allowMultiSubmit"
@@ -184,7 +189,7 @@
                                               value="Label"
                                               tal:attributes="id item/id;
                                                     data-transition transition/id;
-                                                    value python:view.translate(transition['title'])"
+                                                    value python:translationhelper.translate(transition['title'])"
                                                  />
                                       </tal:transitions>
                                   </div>

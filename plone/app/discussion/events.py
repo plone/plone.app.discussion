@@ -6,6 +6,7 @@ from plone.app.discussion.interfaces import ICommentRemovedEvent
 from plone.app.discussion.interfaces import IDiscussionEvent
 from plone.app.discussion.interfaces import ICommentDeletedEvent
 from plone.app.discussion.interfaces import ICommentPublishedEvent
+from plone.app.discussion.interfaces import ICommentTransitionEvent
 from plone.app.discussion.interfaces import IReplyAddedEvent
 from plone.app.discussion.interfaces import IReplyRemovedEvent
 from zope.interface import implementer
@@ -62,3 +63,8 @@ class CommentDeletedEvent(DiscussionEvent):
 class CommentPublishedEvent(DiscussionEvent):
     """ Event to be triggered when a Comment is publicated
     """
+
+
+@implementer(ICommentTransitionEvent)
+class CommentTransitionEvent(DiscussionEvent):
+    """Event to be triggered when a Comments review_state changed."""
