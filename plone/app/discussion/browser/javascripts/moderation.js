@@ -150,11 +150,12 @@ require(["jquery", "pat-registry"], function($, registry) {
                  url = location.href + "?review_state=" + review_state;
              }
 
-             $("#review-comments").load(url + " #review-comments", function() {
-                 init();
-                 $('.pat-plone-modal').patPloneModal();
-                 let stateObj = { review_state: review_state };
-                 history.pushState(stateObj, "moderate comments", url);
+             $("#fieldset-moderate-comments").parent()
+                .load(url + " #fieldset-moderate-comments", function() {
+                    init();
+                    $('.pat-plone-modal').patPloneModal();
+                    let stateObj = { review_state: review_state };
+                    history.pushState(stateObj, "moderate comments", url);
              });
          });
 
