@@ -49,9 +49,11 @@ I add a comment and delete it
   Input Text  id=form-widgets-comment-text  This is a comment
   Click Button  Comment
   Go To  ${PLONE_URL}/@@moderate-comments?review_state=all
+  Wait until page contains element  name=form.select.BulkAction
   Select from list by value   xpath://select[@name='form.select.BulkAction']  delete
   Select Checkbox  name=check_all
   Click Button  Apply
+  Wait Until Page Does Not Contain  This is a comment
 
 workflow multiple enabled
   Go To  ${PLONE_URL}/@@content-controlpanel?type_id=Discussion%20Item&new_workflow=comment_multiple_state_review_workflow
@@ -61,4 +63,5 @@ workflow multiple enabled
 
 I can not see the comment below the document
   Go To  ${PLONE_URL}/my-document/view
+  Wait until page contains  My Document
   Page should not contain  This is a comment
