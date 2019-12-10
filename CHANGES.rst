@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.2 (2019-12-10)
+------------------
+
+New features:
+
+
+- Notification for moderator: show email address of commentator. (#163)
+- Link to the commented page for editing, approving, deleting comment instead of linking to ``/@@moderate-publish-comment`` and ``@@moderate-delete-comment``.
+  [ksuess] (#163)
+
+
+Bug fixes:
+
+
+- ``/@@moderate-publish-comment``: publish only pending comment, else show status message "comment already approved".
+  [ksuess] (#163)
+
+
 3.3.1 (2019-11-25)
 ------------------
 
