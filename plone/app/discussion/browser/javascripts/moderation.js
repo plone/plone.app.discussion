@@ -187,7 +187,7 @@ require([
 
 
         /**********************************************************************
-         * Comments approved: Load history for approved date.
+         * Comments published: Load history for publishing date.
          **********************************************************************/
         $(".last-history-entry").each(function() {
             var me = $(this);

@@ -36,7 +36,7 @@
             <permission-role>Reviewer</permission-role>
         </permission-map>
     </state>
-    <state state_id="published" title="Approved">
+    <state state_id="published" title="Published">
         <description>Visible to everyone, non-editable.</description>
         <exit-transition transition_id="mark_as_spam"/>
         <exit-transition transition_id="recall"/>
