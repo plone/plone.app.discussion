@@ -220,22 +220,29 @@ require(["jquery", "pat-registry"], function($, registry) {
       }
     });
 
-    /**********************************************************************
-     * select comments with review_state
-     **********************************************************************/
-
-    $("input[name='review_state']").click(function() {
-      // location.search = 'review_state=' + $(this).val();
-      let review_state = $(this).val();
-      let url = location.href;
-      if (location.search) {
-        url = location.href.replace(
-          location.search,
-          "?review_state=" + review_state
-        );
-      } else {
-        url = location.href + "?review_state=" + review_state;
-      }
+        /**********************************************************************
+         * Comments published: Load history for publishing date.
+         **********************************************************************/
+        $(".last-history-entry").each(function() {
+            var me = $(this);
+            $.ajax({
+                url: me.attr("data-href"),
+                success: function (data) {
+                    let first_history_entry = $(data).find(".historyByLine").first();
+                    me.html("");
+                    first_history_entry.children().each(function() {
+                        me.append($(this));
+                        me.append("<br/>");
+                    });
+                    // format date
+                    registry.scan(me);
+                },
+                error: function (msg) {
+                    alert("Error getting history.");
+                }
+            });
+        });
+    }; // end init
 
       $("#review-comments").load(url + " #review-comments", function() {
         init();

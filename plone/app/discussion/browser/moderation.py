@@ -21,8 +21,8 @@ from zope.interface import alsoProvides
 # Translations for generated values in buttons
 # States
 _('comment_pending', default='pending')
-# _('comment_approved', default='approved')
-_('comment_published', default='approved')
+# _('comment_approved', default='published')
+_('comment_published', default='published')
 _('comment_rejected', default='rejected')
 _('comment_spam', default='marked as spam')
 # Transitions
