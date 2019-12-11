@@ -229,11 +229,8 @@ require(["jquery", "pat-registry"], function($, registry) {
                 url: me.attr("data-href"),
                 success: function (data) {
                     let first_history_entry = $(data).find(".historyByLine").first();
-                    me.html("");
-                    first_history_entry.children().each(function() {
-                        me.append($(this));
-                        me.append("<br/>");
-                    });
+                    me.html(first_history_entry);
+
                     // format date
                     registry.scan(me);
                 },
