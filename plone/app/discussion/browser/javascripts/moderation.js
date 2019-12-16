@@ -224,18 +224,16 @@ require(["jquery", "pat-registry"], function($, registry) {
          * Comments published: Load history for publishing date.
          **********************************************************************/
         $(".last-history-entry").each(function() {
-            var me = $(this);
+            var lasthistoryentry = $(this);
             $.ajax({
-                url: me.attr("data-href"),
+                url: lasthistoryentry.attr("data-href"),
                 success: function (data) {
-                    let first_history_entry = $(data).find(".historyByLine").first();
-                    me.html(first_history_entry);
-
+                    lasthistoryentry.html($(data).find(".historyByLine").first());
                     // format date
-                    registry.scan(me);
+                    registry.scan(lasthistoryentry);
                 },
                 error: function (msg) {
-                    alert("Error getting history.");
+                    console.error("Error getting history.");
                 }
             });
         });

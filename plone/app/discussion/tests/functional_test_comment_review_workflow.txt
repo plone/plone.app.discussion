@@ -176,7 +176,7 @@ flaw? Though, the comment is published properly.
     >>> browser.raiseHttpErrors = False
     >>> browser.getControl('Approve', index=0).click()
 
-    >>> 'Comment approved' in browser.contents
+    >>> 'Comment published' in browser.contents
     True
 
     >>> browser.handleErrors = False

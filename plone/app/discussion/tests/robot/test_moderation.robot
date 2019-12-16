@@ -15,8 +15,15 @@ Add a Comment to a Document and bulk delete it
   Given a logged-in Site Administrator
     and workflow multiple enabled
     and a document with discussion enabled
-   When I add a comment and delete it
-   Then I can not see the comment below the document
+  When I add a comment and delete it
+  Then I can not see the comment below the document
+
+Last history entry is shown
+  Given a logged-in Site Administrator
+    and workflow multiple enabled
+    and a document with discussion enabled
+  When I add a comment
+  Then I can see the last history entry in moderation view
 
 
 *** Keywords ***
@@ -44,6 +51,11 @@ I enable discussion on the document
   Select From List  name=form.widgets.IAllowDiscussion.allow_discussion:list  True
   Click Button  Save
 
+I add a comment
+  Wait until page contains element  id=form-widgets-comment-text
+  Input Text  id=form-widgets-comment-text  This is a comment
+  Click Button  Comment
+
 I add a comment and delete it
   Wait until page contains element  id=form-widgets-comment-text
   Input Text  id=form-widgets-comment-text  This is a comment
@@ -65,3 +77,8 @@ I can not see the comment below the document
   Go To  ${PLONE_URL}/my-document/view
   Wait until page contains  My Document
   Page should not contain  This is a comment
+
+I can see the last history entry in moderation view
+  Go To  ${PLONE_URL}/@@moderate-comments?review_state=all
+  Wait until page contains element  name=form.select.BulkAction
+  Page should contain  Create

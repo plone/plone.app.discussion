@@ -196,7 +196,7 @@
                               </td>
                               <td>
                                   <span class="last-history-entry"
-                                      tal:attributes="data-href string:$item_url/@@historyview">
+                                      tal:attributes="data-href string:$item_url/@@contenthistorypopup">
                                       last history entry
                                   </span>
                               </td>
