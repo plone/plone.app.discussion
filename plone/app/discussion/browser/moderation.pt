@@ -46,21 +46,12 @@
             </span>
         </div>
 
-
-      <form tal:condition="not:items">
-          <fieldset id="fieldset-moderate-comments" class="formPanel">
-              <p id="no-comments-message" i18n:translate="message_no_comments">
-                  No comments
-              </p>
-          </fieldset>
-      </form>
-
-      <form method="post"
+      <form
+            method="post"
             action="#"
             tal:condition="moderation_enabled"
             tal:attributes="action string:${context/absolute_url}/@@bulk-actions"
             tal:define="batch python:Batch(items, b_size, int(b_start), orphan=1);">
-
           <fieldset id="fieldset-moderate-comments" class="formPanel">
 
               <div metal:use-macro="here/batch_macros/macros/navigation" />
@@ -187,9 +178,11 @@
                                               class="context"
                                               type="submit"
                                               value="Label"
-                                              tal:attributes="id item/id;
+                                              tal:attributes="id string:${item/id}_${transition/id};
                                                     data-transition transition/id;
-                                                    value python:translationhelper.translate(transition['title'])"
+                                                    value python:translationhelper.translate(transition['title']);
+                                                    style python:transition['id']=='publish' and 'background-color: #5cb85c;; border-color: #4cae4c;;' or '';
+                                                    "
                                                  />
                                       </tal:transitions>
                                   </div>

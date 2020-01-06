@@ -68,7 +68,7 @@ I add a comment and delete it
   Wait Until Page Does Not Contain  This is a comment
 
 workflow multiple enabled
-  Go To  ${PLONE_URL}/@@content-controlpanel?type_id=Discussion%20Item&new_workflow=comment_multiple_state_review_workflow
+  Go To  ${PLONE_URL}/@@content-controlpanel?type_id=Discussion%20Item&new_workflow=comment_review_workflow
   Click Button  Save
 
 # Then

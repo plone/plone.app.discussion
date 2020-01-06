@@ -113,15 +113,15 @@ class View(BrowserView):
 
         Example: pending
 
-        [{'id': 'mark_as_spam', 'url': 'http://localhost:8083/PloneRejected/testfolder/testpage/++conversation++default/1575415863542780/content_status_modify?workflow_action=mark_as_spam', 'icon': '', 'category': 'workflow', 'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_multiple_state_review_workflow/transitions/mark_as_spam>, 'title': 'Spam', 'link_target': None, 'visible': True, 'available': True, 'allowed': True},
+        [{'id': 'mark_as_spam', 'url': 'http://localhost:8083/PloneRejected/testfolder/testpage/++conversation++default/1575415863542780/content_status_modify?workflow_action=mark_as_spam', 'icon': '', 'category': 'workflow', 'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_review_workflow/transitions/mark_as_spam>, 'title': 'Spam', 'link_target': None, 'visible': True, 'available': True, 'allowed': True},
         {'id': 'publish',
             'url': 'http://localhost:8083/PloneRejected/testfolder/testpage/++conversation++default/1575415863542780/content_status_modify?workflow_action=publish',
             'icon': '',
             'category': 'workflow',
-            'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_multiple_state_review_workflow/transitions/publish>,
+            'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_review_workflow/transitions/publish>,
             'title': 'Approve',
             'link_target': None, 'visible': True, 'available': True, 'allowed': True},
-        {'id': 'reject', 'url': 'http://localhost:8083/PloneRejected/testfolder/testpage/++conversation++default/1575415863542780/content_status_modify?workflow_action=reject', 'icon': '', 'category': 'workflow', 'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_multiple_state_review_workflow/transitions/reject>, 'title': 'Reject', 'link_target': None, 'visible': True, 'available': True, 'allowed': True}]
+        {'id': 'reject', 'url': 'http://localhost:8083/PloneRejected/testfolder/testpage/++conversation++default/1575415863542780/content_status_modify?workflow_action=reject', 'icon': '', 'category': 'workflow', 'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_review_workflow/transitions/reject>, 'title': 'Reject', 'link_target': None, 'visible': True, 'available': True, 'allowed': True}]
         """
 
         if obj:

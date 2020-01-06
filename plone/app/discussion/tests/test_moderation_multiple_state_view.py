@@ -31,7 +31,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         self.context = self.portal
         self.portal.portal_workflow.setChainForPortalTypes(
             ('Discussion Item',),
-            'comment_multiple_state_review_workflow',
+            'comment_review_workflow',
         )
         self.wf_tool = self.portal.portal_workflow
         # Add a conversation with three comments

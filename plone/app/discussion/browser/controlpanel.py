@@ -184,11 +184,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             'comment_one_state_workflow' in workflow_chain
         comment_review_workflow_enabled = \
             'comment_review_workflow' in workflow_chain
-        comment_multiple_state_review_workflow = \
-            'comment_multiple_state_review_workflow' in workflow_chain
         if one_state_workflow_enabled \
-                or comment_review_workflow_enabled \
-                or comment_multiple_state_review_workflow:
+                or comment_review_workflow_enabled:
             return
         return True
 
