@@ -599,10 +599,10 @@ class TestCommentsViewlet(unittest.TestCase):
         self.assertTrue('actions' in reply)
         self.assertEqual(
             reply['actions'][0]['id'],
-            'publish',
+            'mark_as_spam',
         )
         expected_url = 'http://nohost/plone/doc1/++conversation++default/{0}' \
-                       '/content_status_modify?workflow_action=publish'
+                       '/content_status_modify?workflow_action=mark_as_spam'
         self.assertEqual(
             reply['actions'][0]['url'],
             expected_url.format(int(c1)),
