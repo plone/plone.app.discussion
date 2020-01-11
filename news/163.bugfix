@@ -1,0 +1,2 @@
+``/@@moderate-publish-comment``: publish only pending comment, else show status message "comment already approved".
+[ksuess]
