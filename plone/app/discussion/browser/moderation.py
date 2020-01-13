@@ -9,13 +9,11 @@ from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
-from plone.protect.interfaces import IDisableCSRFProtection
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.event import notify
-from zope.interface import alsoProvides
 
 
 # Translations for generated values in buttons
@@ -123,14 +121,12 @@ class View(BrowserView):
             'link_target': None, 'visible': True, 'available': True, 'allowed': True},
         {'id': 'reject', 'url': 'http://localhost:8083/PloneRejected/testfolder/testpage/++conversation++default/1575415863542780/content_status_modify?workflow_action=reject', 'icon': '', 'category': 'workflow', 'transition': <TransitionDefinition at /PloneRejected/portal_workflow/comment_review_workflow/transitions/reject>, 'title': 'Reject', 'link_target': None, 'visible': True, 'available': True, 'allowed': True}]
         """
-
         if obj:
             transitions = [
                 a for a in self.workflowTool.listActionInfos(object=obj)
                 if a['category'] == 'workflow' and a['allowed']
                 ]
             return transitions
-
 
 
 class ModerateCommentsEnabled(BrowserView):
@@ -290,41 +286,6 @@ class CommentTransition(BrowserView):
         if (len(came_from) == 0
             or 'came_from=' in came_from
             or not getToolByName(
-                content_object, 'portal_url').isURLInPortal(came_from)):
-            came_from = content_object.absolute_url()
-        return self.context.REQUEST.RESPONSE.redirect(came_from)
-
-
-class RejectComment(BrowserView):
-    """Reject a comment.
-
-       see PublishComment for more information
-    """
-
-    def __call__(self):
-        alsoProvides(self.request, IDisableCSRFProtection)
-        comment = aq_inner(self.context)
-        content_object = aq_parent(aq_parent(comment))
-        print("*** called: RejectComment for ", comment.Description)
-        workflowTool = getToolByName(comment, 'portal_workflow', None)
-        workflow_action = self.request.form.get('workflow_action', 'reject')
-        review_state = workflowTool.getInfoFor(comment, 'review_state', '')
-        if review_state != 'rejected':
-            workflowTool.doActionFor(comment, workflow_action)
-            comment.reindexObject()
-            content_object.reindexObject(idxs=['total_comments'])
-            notify(CommentPublishedEvent(self.context, comment))
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _('Comment rejected.'),
-                type='info')
-        else:
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _('Comment already rejected.'),
-                type='info')
-        came_from = self.context.REQUEST.HTTP_REFERER
-        # if the referrer already has a came_from in it, don't redirect back
-        if (len(came_from) == 0 or 'came_from=' in came_from or
-                not getToolByName(
                 content_object, 'portal_url').isURLInPortal(came_from)):
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
