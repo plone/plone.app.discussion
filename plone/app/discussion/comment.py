@@ -184,6 +184,7 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
                         default=u'Anonymous',
                     ),
                 ),
+                context=self.REQUEST,
             )
         else:
             author_name = self.author_name
