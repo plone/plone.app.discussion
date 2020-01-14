@@ -27,6 +27,11 @@
         <script type="text/javascript"
             tal:attributes="src string:${context/portal_url}/++plone++plone.app.discussion.javascripts/moderation.js">
         </script>
+        <style>
+            #review-comments th label {
+                margin-right: 1em;
+            }
+        </style>
 
         <h1 class="documentFirstHeading" i18n:translate="heading_moderate_comments">
             Moderate comments
