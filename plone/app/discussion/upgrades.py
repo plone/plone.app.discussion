@@ -73,3 +73,8 @@ def upgrade_comment_workflows(context):
 
 def add_js_to_plone_legacy(context):
     context.runImportStepFromProfile(default_profile, 'plone.app.registry')
+
+
+def extend_review_workflow(context):
+    """Apply changes made to review workflow."""
+    upgrade_comment_workflows_retain_current_workflow(context)

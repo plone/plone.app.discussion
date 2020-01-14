@@ -62,4 +62,15 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+    source="1001"
+    destination="1002"
+    profile="plone.app.discussion:default">
+    <genericsetup:upgradeStep
+        title="Extended review workflow with states pending, published and new: rejected and spam"
+        description="Additional states allows moderator to review history of publishing and rejection"
+        handler=".upgrades.extend_review_workflow"
+        />
+</genericsetup:upgradeSteps>
+
 </configure>
