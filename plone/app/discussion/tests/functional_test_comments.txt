@@ -285,7 +285,7 @@ Open the edit comment view
 Change and save the comment
 
     >>> ctrl.value = 'Comment from admin / was edited'
-    >>> browser.getControl('Edit comment').click()
+    >>> browser.getControl('Save').click()
 
 This used to trigger permissions problems in some portlet configurations.
 Check it ain't so.

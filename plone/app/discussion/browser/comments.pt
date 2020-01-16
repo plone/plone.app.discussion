@@ -32,6 +32,7 @@
 
             <div class="comment"
                  tal:define="reply reply_dict/comment;
+                             comment_id reply/getId;
                              depth reply_dict/depth|python:0;
                              depth python: depth > 10 and '10' or depth;
                              author_home_url python:view.get_commenter_home_url(username=reply.author_username);
@@ -42,7 +43,7 @@
                              canDelete python:view.can_delete(reply);
                              colorclass python:lambda x: 'state-private' if x=='rejected' else ('state-internal' if x=='spam' else 'state-'+x);"
                  tal:attributes="class python:'comment replyTreeLevel{depth} {state}'.format(depth= depth, state=colorclass(review_state));
-                                 id string:${reply/getId}"
+                                 id comment_id"
                  tal:condition="python:canReview or review_state == 'published'">
 
                 <div class="commentImage" tal:condition="showCommenterImage">
@@ -95,7 +96,8 @@
                               class="commentactionsform"
                               tal:condition="python:not canDelete and isDeleteOwnCommentAllowed and view.could_delete_own(reply)"
                               tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
-                                              style python:view.can_delete_own(reply) and 'display: inline' or 'display: none'">
+                                              style python:view.can_delete_own(reply) and 'display: inline' or 'display: none';
+                                              id string:delete-${comment_id}">
                             <input name="form.button.DeleteComment"
                                    class="destructive"
                                    type="submit"
@@ -108,7 +110,8 @@
                               method="post"
                               class="commentactionsform"
                               tal:condition="python:canDelete"
-                              tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment">
+                              tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment;
+                                              id string:delete-${comment_id}">
                             <input name="form.button.DeleteComment"
                                    class="destructive"
                                    type="submit"
@@ -120,7 +123,7 @@
                         <tal:edit tal:condition="python:isEditCommentAllowed and canEdit">
                           <!-- plone 5 will have auth_token available
                                so we'll use modal pattern -->
-                          <a class="pat-plone-modal context"
+                          <a class="pat-plone-modal context commentactionsform"
                              tal:condition="auth_token"
                              tal:attributes="href string:${reply/absolute_url}/@@edit-comment?_authenticator=${auth_token}"
                              i18n:translate="Edit">Edit</a>
@@ -129,7 +132,8 @@
                                 method="get"
                                 class="commentactionsform"
                                 tal:condition="not: auth_token"
-                                tal:attributes="action string:${reply/absolute_url}/@@edit-comment">
+                                tal:attributes="action string:${reply/absolute_url}/@@edit-comment;
+                                                id string:edit-${comment_id}">
                               <input name="form.button.EditComment"
                                      class="context"
                                      type="submit"
@@ -148,7 +152,8 @@
                               tal:condition="canReview"
                               tal:repeat="action reply_dict/actions|nothing"
                               tal:attributes="action string:${reply/absolute_url}/@@transmit-comment;
-                                              name action/id">
+                                              name action/id;
+                                              id string:${action/id}-${comment_id}">
                             <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
                             <input name="form.button.TransmitComment"
                                    class="context"
