@@ -106,13 +106,109 @@ require([
     /* XXX: Clean all additional form extender fields. */
   };
 
-  //#JSCOVERAGE_IF 0
+  function init_comment_eventhandler () {
+      /**********************************************************************
+       * Transmit a single comment.
+       **********************************************************************/
+      $('input[name="form.button.TransmitComment"]').on("click", function(e) {
+        e.preventDefault();
+        var trigger = this;
+        var form = $(this).parents("form");
+        var data = $(form).serialize();
+        var form_url = $(form).attr("action");
+        var comment_id = $(this).parents(".comment").attr("id");
+        $.ajax({
+          type: "GET",
+          url: form_url,
+          data: data,
+          context: trigger,
+          success: function(msg) {
+              let url = location.href;
+              $(this).parents(".comment").load(
+                // loading child nodes is not enough,
+                // class attributes are needed for visualization of workflow_state
+                url + " #" + comment_id + ".comment",
+                function() {
+                  $(this).find(".comment").unwrap();
+                  init_comment_eventhandler();
+                  $(".pat-plone-modal").patPloneModal();
+                }
+              );
+          },
+          error: function(msg) {
+            return true;
+          }
+        });
+        return false;
+      });
 
-  /**************************************************************************
-   * Window Load Function: Executes when complete page is fully loaded,
-   * including all frames,
-   **************************************************************************/
-  $(window).load(function() {
+      /**********************************************************************
+       * Edit a comment
+       **********************************************************************/
+      if ($.fn.prepOverlay) {
+        $('form[name="edit"]').prepOverlay({
+          cssclass: "overlay-edit-comment",
+          width: "60%",
+          subtype: "ajax",
+          filter: "#content>*"
+        });
+      }
+
+      /**********************************************************************
+       * Delete a comment and its answers.
+       **********************************************************************/
+      $('input[name="form.button.DeleteComment"]').on("click", function(e) {
+        e.preventDefault();
+        var trigger = this;
+        var form = $(this).parents("form");
+        var data = $(form).serialize();
+        var form_url = $(form).attr("action");
+        $.ajax({
+          type: "POST",
+          url: form_url,
+          data: data,
+          context: $(trigger).parents(".comment"),
+          success: function(data) {
+            // jshint ignore:line
+            var comment = $(this);
+            var clss = comment.attr("class");
+            // remove replies
+            var treelevel = parseInt(
+              clss[clss.indexOf("replyTreeLevel") + "replyTreeLevel".length],
+              10
+            );
+            // selector for all the following elements of lower level
+            var selector = ".replyTreeLevel" + treelevel;
+            for (var i = 0; i < treelevel; i++) {
+              selector += ", .replyTreeLevel" + i;
+            }
+            comment.nextUntil(selector).each(function() {
+              $(this).fadeOut("fast", function() {
+                $(this).remove();
+              });
+            });
+            // Add delete button to the parent
+            var parent = comment.prev(
+              '[class*="replyTreeLevel' + (treelevel - 1) + '"]'
+            );
+            parent.find('form[name="delete"]').css("display", "inline");
+            // remove comment
+            $(this).fadeOut("fast", function() {
+              $(this).remove();
+            });
+          },
+          error: function(req, error) {
+            // jshint ignore:line
+            return true;
+          }
+        });
+        return false;
+      });
+  };
+
+  $(document).ready(function() {
+    init_comment_eventhandler();
+
     /**********************************************************************
      * If the user has hit the reply button of a reply-to-comment form
      * (form was submitted with a value for the 'in_reply_to' field in the
@@ -166,98 +262,6 @@ require([
     });
 
     /**********************************************************************
-     * Transmit a single comment.
-     **********************************************************************/
-    $('input[name="form.button.TransmitComment"]').on("click", function() {
-      var trigger = this;
-      var form = $(this).parents("form");
-      var data = $(form).serialize();
-      var form_url = $(form).attr("action");
-      $.ajax({
-        type: "GET",
-        url: form_url,
-        data: data,
-        context: trigger,
-        success: function(msg) {
-          // jshint ignore:line
-          // remove button (trigger object can't be directly removed)
-          form.find('input[name="form.button.TransmitComment"]').remove();
-          form
-            .parents(".state-pending")
-            .toggleClass("state-pending")
-            .toggleClass("state-published");
-        },
-        error: function(msg) {
-          // jshint ignore:line
-          return true;
-        }
-      });
-      return false;
-    });
-
-    /**********************************************************************
-     * Edit a comment
-     **********************************************************************/
-    if ($.fn.prepOverlay) {
-      $('form[name="edit"]').prepOverlay({
-        cssclass: "overlay-edit-comment",
-        width: "60%",
-        subtype: "ajax",
-        filter: "#content>*"
-      });
-    }
-
-    /**********************************************************************
-     * Delete a comment and its answers.
-     **********************************************************************/
-    $('input[name="form.button.DeleteComment"]').on("click", function() {
-      var trigger = this;
-      var form = $(this).parents("form");
-      var data = $(form).serialize();
-      var form_url = $(form).attr("action");
-      $.ajax({
-        type: "POST",
-        url: form_url,
-        data: data,
-        context: $(trigger).parents(".comment"),
-        success: function(data) {
-          // jshint ignore:line
-          var comment = $(this);
-          var clss = comment.attr("class");
-          // remove replies
-          var treelevel = parseInt(
-            clss[clss.indexOf("replyTreeLevel") + "replyTreeLevel".length],
-            10
-          );
-          // selector for all the following elements of lower level
-          var selector = ".replyTreeLevel" + treelevel;
-          for (var i = 0; i < treelevel; i++) {
-            selector += ", .replyTreeLevel" + i;
-          }
-          comment.nextUntil(selector).each(function() {
-            $(this).fadeOut("fast", function() {
-              $(this).remove();
-            });
-          });
-          // Add delete button to the parent
-          var parent = comment.prev(
-            '[class*="replyTreeLevel' + (treelevel - 1) + '"]'
-          );
-          parent.find('form[name="delete"]').css("display", "inline");
-          // remove comment
-          $(this).fadeOut("fast", function() {
-            $(this).remove();
-          });
-        },
-        error: function(req, error) {
-          // jshint ignore:line
-          return true;
-        }
-      });
-      return false;
-    });
-
-    /**********************************************************************
      * By default, hide the reply and the cancel button for the regular add
      * comment form.
      **********************************************************************/
@@ -276,5 +280,4 @@ require([
     $(".reply-to-comment-button").removeClass("hide");
   });
 
-  //#JSCOVERAGE_ENDIF
 });

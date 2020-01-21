@@ -15,10 +15,10 @@ require(["jquery", "pat-registry"], function($, registry) {
   "use strict";
 
   $(document).ready(function() {
-    init();
+    init_moderation_eventhandler();
   });
 
-  function init() {
+  function init_moderation_eventhandler() {
     /**********************************************************************
      * Delete a single comment.
      **********************************************************************/
@@ -83,7 +83,7 @@ require(["jquery", "pat-registry"], function($, registry) {
             $("#review-comments").load(
               url + " #review-comments > *",
               function() {
-                init();
+                init_moderation_eventhandler();
                 $(".pat-plone-modal").patPloneModal();
               }
             );
@@ -129,7 +129,7 @@ require(["jquery", "pat-registry"], function($, registry) {
           $("#review-comments").load(
             window.location + " #review-comments",
             function() {
-              init();
+              init_moderation_eventhandler();
               $(".pat-plone-modal").patPloneModal();
             }
           );
@@ -174,8 +174,8 @@ require(["jquery", "pat-registry"], function($, registry) {
 
       $("#fieldset-moderate-comments")
         .parent()
-        .load(url + " #fieldset-moderate-comments", function() {
-          init();
+        .load(url + " #content form > *", function() {
+          init_moderation_eventhandler();
           $(".pat-plone-modal").patPloneModal();
           let stateObj = { review_state: review_state };
           history.pushState(stateObj, "moderate comments", url);
@@ -224,5 +224,5 @@ require(["jquery", "pat-registry"], function($, registry) {
         }
       });
     });
-  } // end init
+  } // end init_moderation_eventhandler
 });
