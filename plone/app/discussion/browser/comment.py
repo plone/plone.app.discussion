@@ -76,7 +76,7 @@ class EditCommentForm(CommentForm):
         self.request.response.redirect(target)
 
     @button.buttonAndHandler(_(u'edit_comment_form_button',
-                               default=u'Edit comment'), name='comment')
+                               default=u'Save'), name='comment')
     def handleComment(self, action):
 
         # Validate form

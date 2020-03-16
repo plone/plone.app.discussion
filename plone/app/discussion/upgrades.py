@@ -20,7 +20,7 @@ def update_rolemap(context):
     context.runImportStepFromProfile(default_profile, 'rolemap')
 
 
-def upgrade_comment_workflows(context):
+def upgrade_comment_workflows_retain_current_workflow(context):
     # If the current comment workflow is the one_state_workflow, running our
     # import step will change it to comment_one_state_workflow.  This is good.
     # If it was anything else, we should restore this.  So get the original
@@ -46,13 +46,16 @@ def upgrade_comment_workflows(context):
             orig_chain[idx] = 'comment_one_state_workflow'
         # Restore the chain.
         wf_tool.setChainForPortalTypes([portal_type], orig_chain)
-    new_chain = list(wf_tool.getChainFor(portal_type))
-    workflows = [wf_tool.getWorkflowById(wf_id)
-                 for wf_id in new_chain]
 
+
+def upgrade_comment_workflows_apply_rolemapping(context):
     # Now go over the comments, update their role mappings, and reindex the
     # allowedRolesAndUsers index.
+    portal_type = 'Discussion Item'
     catalog = getToolByName(context, 'portal_catalog')
+    wf_tool = getToolByName(context, 'portal_workflow')
+    new_chain = list(wf_tool.getChainFor(portal_type))
+    workflows = [wf_tool.getWorkflowById(wf_id) for wf_id in new_chain]
     for brain in catalog.unrestrictedSearchResults(portal_type=portal_type):
         try:
             comment = brain.getObject()
@@ -63,5 +66,15 @@ def upgrade_comment_workflows(context):
             logger.info('Could not reindex comment {0}'.format(brain.getURL()))
 
 
+def upgrade_comment_workflows(context):
+    upgrade_comment_workflows_retain_current_workflow(context)
+    upgrade_comment_workflows_apply_rolemapping(context)
+
+
 def add_js_to_plone_legacy(context):
     context.runImportStepFromProfile(default_profile, 'plone.app.registry')
+
+
+def extend_review_workflow(context):
+    """Apply changes made to review workflow."""
+    upgrade_comment_workflows_retain_current_workflow(context)

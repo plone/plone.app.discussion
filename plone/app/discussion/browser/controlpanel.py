@@ -177,15 +177,15 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         return True
 
     def custom_comment_workflow_warning(self):
-        """Returns a warning string if a custom comment workflow is enabled.
-        """
+        """Return True if a custom comment workflow is enabled."""
         wftool = getToolByName(self.context, 'portal_workflow', None)
         workflow_chain = wftool.getChainForPortalType('Discussion Item')
         one_state_workflow_enabled = \
             'comment_one_state_workflow' in workflow_chain
         comment_review_workflow_enabled = \
             'comment_review_workflow' in workflow_chain
-        if one_state_workflow_enabled or comment_review_workflow_enabled:
+        if one_state_workflow_enabled \
+                or comment_review_workflow_enabled:
             return
         return True
 
