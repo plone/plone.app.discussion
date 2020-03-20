@@ -56,7 +56,7 @@ MAIL_NOTIFICATION_MESSAGE = _(
     )
 
 MAIL_NOTIFICATION_MESSAGE_MODERATOR = _(
-    u'mail_notification_message_moderator',
+    u'mail_notification_message_moderator2',
     default=u'A comment on "${title}" '
             u'has been posted by ${commentator}\n'
             u'here: ${link}\n\n'
