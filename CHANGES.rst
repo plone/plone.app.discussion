@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.0 (2020-04-20)
+------------------
+
+New features:
+
+
+- Extended existing review workflow by stati ``rejected`` and ``spam``
+  Moderation view extended to handle four workflow states.
+  [ksuess and precious input of agitator] (#164)
+
+
+Bug fixes:
+
+
+- Fix tests failing for Plone 6, deprecate Plone 4 and older.
+  [tschorr] (#168)
+
+
 3.3.2 (2019-12-10)
 ------------------
 
