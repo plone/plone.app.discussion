@@ -29,6 +29,7 @@ _('Recall')
 _('Approve')
 _('Reject')
 _('Spam')
+PMF = _
 
 
 class TranslationHelper(BrowserView):
@@ -37,7 +38,8 @@ class TranslationHelper(BrowserView):
         return _(text)
 
     def translate_comment_review_state(self, rs):
-        return _("comment_" + rs, default=rs)
+        # use PMF instead of _ here so i18ndude doesn't extract "comment_"
+        return PMF("comment_" + rs, default=rs)
 
 
 class View(BrowserView):
