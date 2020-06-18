@@ -75,7 +75,7 @@ class EditCommentForm(CommentForm):
             target = portal_state.portal_url()
         self.request.response.redirect(target)
 
-    @button.buttonAndHandler(_(u'edit_comment_form_button',
+    @button.buttonAndHandler(_(u'label_save',
                                default=u'Save'), name='comment')
     def handleComment(self, action):
 
