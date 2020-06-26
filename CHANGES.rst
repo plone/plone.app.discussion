@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.1 (2020-06-26)
+------------------
+
+Bug fixes:
+
+
+- Reuse existing translation for the "Save" button in the Edit comment form.
+  [vincentfretin] (#170)
+
+
 3.4.0 (2020-04-20)
 ------------------
 
