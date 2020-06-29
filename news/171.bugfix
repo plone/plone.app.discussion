@@ -1,0 +1,2 @@
+Close input tags properly in moderation.pt to avoid an error with i18ndude find-untranslated
+[vincentfretin]

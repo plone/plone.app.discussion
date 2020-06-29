@@ -66,14 +66,14 @@
                           <th colspan="7">
                               <fieldset tal:condition="view/moderation_multiple_state_enabled">
                                 <input type="radio" id="all" name="review_state" value="all"
-                                    tal:attributes="checked python:request.review_state=='all'">
+                                    tal:attributes="checked python:request.review_state=='all'" />
                                 <label for="all" i18n:translate="">all</label>
                                 <tal:workflow-filter tal:repeat="review_state python:['pending', 'published', 'rejected', 'spam']">
                                     <input type="radio" name="review_state"
                                         tal:attributes="
                                             value review_state;
                                             id review_state;
-                                            checked python:request.review_state==review_state">
+                                            checked python:request.review_state==review_state" />
                                     <label tal:attributes="for review_state"><span tal:content="python:translationhelper.translate_comment_review_state(review_state)">review_state</span></label>
                                 </tal:workflow-filter>
                               </fieldset>
@@ -91,7 +91,7 @@
                                           tal:condition="python: filter != 'spam'">Spam</option>
                                   <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
                               </select>
-                              <input type="hidden" name="filter" tal:attributes="value filter"/>
+                              <input type="hidden" name="filter" tal:attributes="value filter" />
                               <input id="dobulkaction"
                                      type="submit"
                                      class="standalone allowMultiSubmit"
