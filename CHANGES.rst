@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.2 (2020-06-30)
+------------------
+
+Bug fixes:
+
+
+- Close input tags properly in moderation.pt to avoid an error with i18ndude find-untranslated
+  [vincentfretin] (#171)
+
+
 3.4.1 (2020-06-26)
 ------------------
 
