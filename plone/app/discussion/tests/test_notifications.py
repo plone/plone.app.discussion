@@ -247,10 +247,7 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         self.assertEqual(len(self.mailhost.messages), 1)
         msg = self.mailhost.messages[0]
         msg = msg.decode("utf-8")
-        if not isinstance(msg, str):
-            self.assertTrue('test@example.com' in msg.mto)
-        else:
-            self.assertTrue('To: test@example.com' in msg)
+        self.assertTrue('To: test@example.com' in msg)
 
     def test_do_not_notify_moderator_when_no_sender_is_available(self):
         # Set sender mail address to nonw and make sure no email is send to the
