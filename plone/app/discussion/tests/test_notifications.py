@@ -65,7 +65,8 @@ class TestUserNotificationUnit(unittest.TestCase):
 
         self.assertEqual(len(self.mailhost.messages), 1)
         self.assertTrue(self.mailhost.messages[0])
-        msg = str(self.mailhost.messages[0])
+        msg = self.mailhost.messages[0]
+        msg = msg.decode("utf-8")
         self.assertTrue('To: john@plone.test' in msg)
         self.assertTrue('From: portal@plone.test' in msg)
         # We expect the headers to be properly header encoded (7-bit):
@@ -207,6 +208,7 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         self.assertEqual(len(self.mailhost.messages), 1)
         self.assertTrue(self.mailhost.messages[0])
         msg = self.mailhost.messages[0]
+        msg = msg.decode("utf-8")
         self.assertTrue('To: portal@plone.test' in msg)
         self.assertTrue('From: portal@plone.test' in msg)
         # We expect the headers to be properly header encoded (7-bit):
@@ -244,10 +246,8 @@ class TestModeratorNotificationUnit(unittest.TestCase):
 
         self.assertEqual(len(self.mailhost.messages), 1)
         msg = self.mailhost.messages[0]
-        if not isinstance(msg, str):
-            self.assertTrue('test@example.com' in msg.mto)
-        else:
-            self.assertTrue('To: test@example.com' in msg)
+        msg = msg.decode("utf-8")
+        self.assertTrue('To: test@example.com' in msg)
 
     def test_do_not_notify_moderator_when_no_sender_is_available(self):
         # Set sender mail address to nonw and make sure no email is send to the
