@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.4 (2020-10-09)
+------------------
+
+New features:
+
+
+- Update templates markup to Bootstrap 4.
+  [andreesg]
+
+
 3.4.3 (2020-09-28)
 ------------------
 
