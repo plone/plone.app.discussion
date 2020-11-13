@@ -54,7 +54,7 @@
       <form
             method="post"
             action="#"
-            class="form-group"
+            class="mb-3"
             tal:condition="moderation_enabled"
             tal:attributes="action string:${context/absolute_url}/@@bulk-actions"
             tal:define="batch python:Batch(items, b_size, int(b_start), orphan=1);">
@@ -93,7 +93,7 @@
                                             tal:condition="python: filter != 'spam'">Spam</option>
                                     <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
                                 </select>
-                    
+
                                 <input type="hidden" name="filter" tal:attributes="value filter" />
                                 <button id="dobulkaction"
                                        type="submit"
