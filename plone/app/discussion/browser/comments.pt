@@ -17,7 +17,7 @@
     <div class="reply"
          tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
         <form tal:attributes="action view/login_action">
-            <button class="standalone loginbutton form-group"
+            <button class="standalone loginbutton mb-3"
                    type="submit"
                    value="Log in to add comments"
                    i18n:attributes="value label_login_to_add_comments;"
@@ -96,7 +96,7 @@
                           <form name="delete"
                                 action=""
                                 method="post"
-                                class="commentactionsform form-group"
+                                class="commentactionsform mb-3"
                                 tal:condition="python:not canDelete and isDeleteOwnCommentAllowed and view.could_delete_own(reply)"
                                 tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
                                                 style python:view.can_delete_own(reply) and 'display: inline' or 'display: none';
@@ -135,7 +135,7 @@
                             <form name="edit"
                                   action=""
                                   method="get"
-                                  class="commentactionsform form-group"
+                                  class="commentactionsform mb-3"
                                   tal:condition="not: auth_token"
                                   tal:attributes="action string:${reply/absolute_url}/@@edit-comment;
                                                   id string:edit-${comment_id}">
@@ -154,7 +154,7 @@
                           <form name=""
                                 action=""
                                 method="get"
-                                class="commentactionsform form-group"
+                                class="commentactionsform mb-3"
                                 tal:condition="canReview"
                                 tal:repeat="action reply_dict/actions|nothing"
                                 tal:attributes="action string:${reply/absolute_url}/@@transmit-comment;
@@ -193,7 +193,7 @@
 
     <div class="reply"
          tal:condition="python:has_replies and (isAnon and not isAnonymousDiscussionAllowed)">
-        <form tal:attributes="action view/login_action" class="form-group">
+        <form tal:attributes="action view/login_action" class="mb-3">
             <button class="standalone loginbutton btn btn-primary"
                    type="submit"
                    value="Log in to add comments"
