@@ -22,7 +22,7 @@ require(["jquery", "pat-registry"], function($, registry) {
     /**********************************************************************
      * Delete a single comment.
      **********************************************************************/
-    $("input[name='form.button.moderation.DeleteComment']").click(function(e) {
+    $("button[name='form.button.moderation.DeleteComment']").click(function(e) {
       e.preventDefault();
       var row = $(this).closest("tr");
       var path = row.find("[name='selected_obj_paths:list']").attr("value");
@@ -52,7 +52,7 @@ require(["jquery", "pat-registry"], function($, registry) {
     /**********************************************************************
      * Transmit a single comment.
      **********************************************************************/
-    $('input[name="form.button.moderation.TransmitComment"]').click(function(
+    $('button[name="form.button.moderation.TransmitComment"]').click(function(
       e
     ) {
       e.preventDefault();
@@ -104,7 +104,7 @@ require(["jquery", "pat-registry"], function($, registry) {
     /**********************************************************************
      * Bulk actions for comments (delete, publish)
      **********************************************************************/
-    $("input[name='form.button.BulkAction']").click(function(e) {
+    $("button[name='form.button.BulkAction']").click(function(e) {
       e.preventDefault();
       var form = $(this).closest("form");
       var target = $(form).attr("action");
