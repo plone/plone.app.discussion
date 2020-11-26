@@ -140,9 +140,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     def updateActions(self):
         super(CommentForm, self).updateActions()
-        self.actions['cancel'].addClass('standalone')
+        self.actions['cancel'].addClass('btn btn-secondary')
         self.actions['cancel'].addClass('hide')
-        self.actions['comment'].addClass('context')
+        self.actions['comment'].addClass('btn btn-primary')
 
     def get_author(self, data):
         context = aq_inner(self.context)
