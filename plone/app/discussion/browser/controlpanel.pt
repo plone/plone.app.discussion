@@ -8,7 +8,7 @@
 <body>
 <article id="content"
      tal:attributes="class view/settings"
-     metal:fill-slot="prefs_configlet_content">
+     metal:fill-slot="prefs_configlet_main">
 
     <div class="portalMessage warning"
          role="status"
