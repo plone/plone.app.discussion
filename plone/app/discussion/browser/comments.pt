@@ -92,11 +92,11 @@
 
                       <span tal:replace="structure reply/getText" />
 
-                      <div class="commentActions">
+                      <div class="commentActions row row-cols-lg-auto g-3 align-items-center">
                           <form name="delete"
                                 action=""
                                 method="post"
-                                class="commentactionsform mb-3"
+                                class="commentactionsform"
                                 tal:condition="python:not canDelete and isDeleteOwnCommentAllowed and view.could_delete_own(reply)"
                                 tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
                                                 style python:view.can_delete_own(reply) and 'display: inline' or 'display: none';
@@ -135,7 +135,7 @@
                             <form name="edit"
                                   action=""
                                   method="get"
-                                  class="commentactionsform mb-3"
+                                  class="commentactionsform"
                                   tal:condition="not: auth_token"
                                   tal:attributes="action string:${reply/absolute_url}/@@edit-comment;
                                                   id string:edit-${comment_id}">
@@ -154,7 +154,7 @@
                           <form name=""
                                 action=""
                                 method="get"
-                                class="commentactionsform mb-3"
+                                class="commentactionsform"
                                 tal:condition="canReview"
                                 tal:repeat="action reply_dict/actions|nothing"
                                 tal:attributes="action string:${reply/absolute_url}/@@transmit-comment;
