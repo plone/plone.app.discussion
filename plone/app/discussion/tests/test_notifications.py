@@ -67,23 +67,26 @@ class TestUserNotificationUnit(unittest.TestCase):
         self.assertTrue(self.mailhost.messages[0])
         msg = self.mailhost.messages[0]
         msg = msg.decode("utf-8")
-        self.assertTrue('To: john@plone.test' in msg)
-        self.assertTrue('From: portal@plone.test' in msg)
+        self.assertIn('To: john@plone.test', msg)
+        self.assertIn('From: portal@plone.test', msg)
         # We expect the headers to be properly header encoded (7-bit):
-        self.assertTrue(
-            'Subject: =?utf-8?q?A_comment_has_been_posted=2E?=\n'
-            in msg)
+        self.assertIn(
+            'Subject: =?utf-8?q?A_comment_has_been_posted=2E?=',
+            msg)
         # The output should be encoded in a reasonable manner
-        # (in this case quoted-printable):
-        self.assertTrue(
-            'A comment on "K=C3=B6lle Alaaf" has been posted here:'
-            in msg)
-        self.assertTrue(
-            'http://nohost/plone/d=\noc1/view#{0}'.format(comment_id)
-            in msg)
-        self.assertTrue('Comment text' in msg)
-        self.assertFalse('Approve comment' in msg)
-        self.assertFalse('Delete comment' in msg)
+        # (in this case quoted-printable).
+        # Depending on which Python version and which Products.MailHost version,
+        # you may get lines separated by '\n' or '\r\n' in here.
+        msg = msg.replace('\r\n', '\n')
+        self.assertIn(
+            'A comment on "K=C3=B6lle Alaaf" has been posted here:',
+            msg)
+        self.assertIn(
+            'http://nohost/plone/d=\noc1/view#{0}'.format(comment_id),
+            msg)
+        self.assertIn('Comment text', msg)
+        self.assertNotIn('Approve comment', msg)
+        self.assertNotIn('Delete comment', msg)
 
     def test_do_not_notify_user_when_notification_is_disabled(self):
         registry = queryUtility(IRegistry)
@@ -213,7 +216,7 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         self.assertTrue('From: portal@plone.test' in msg)
         # We expect the headers to be properly header encoded (7-bit):
         self.assertTrue(
-            'Subject: =?utf-8?q?A_comment_has_been_posted=2E?=\n'
+            'Subject: =?utf-8?q?A_comment_has_been_posted=2E?='
             in msg)
         # The output should be encoded in a reasonable manner
         # (in this case quoted-printable):
