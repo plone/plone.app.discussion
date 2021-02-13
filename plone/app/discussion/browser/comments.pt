@@ -17,16 +17,17 @@
     <div class="reply"
          tal:condition="python:isAnon and not isAnonymousDiscussionAllowed">
         <form tal:attributes="action view/login_action">
-            <input class="standalone loginbutton"
+            <button class="standalone loginbutton mb-3"
                    type="submit"
                    value="Log in to add comments"
                    i18n:attributes="value label_login_to_add_comments;"
-                   />
+                   i18n:translate="label_login_to_add_comments"
+                   >Log in to add comments</button>
         </form>
     </div>
 
     <div class="discussion"
-         tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage' or 'discussion';"
+         tal:attributes="class python: showCommenterImage and 'discussion showCommenterImage card' or 'discussion card';"
          tal:condition="has_replies">
         <tal:getreplies repeat="reply_dict replies">
 
@@ -46,131 +47,138 @@
                                  id comment_id"
                  tal:condition="python:canReview or review_state == 'published'">
 
-                <div class="commentImage" tal:condition="showCommenterImage">
-                    <a href="" tal:condition="has_author_link"
-                               tal:attributes="href author_home_url">
-                         <img src="defaultUser.png"
-                              alt=""
-                              class="defaultuserimg"
-                              height="32"
-                              tal:attributes="src portrait_url;
-                                              alt reply/author_name" />
-                    </a>
-                    <img src="defaultUser.png"
-                         alt=""
-                         class="defaultuserimg"
-                         height="32"
-                         tal:condition="not: has_author_link"
-                         tal:attributes="src portrait_url;
-                                         alt reply/author_name" />
+                 <div class="card-header">
+                  <div class="commentImage" tal:condition="showCommenterImage">
+                      <a href="" tal:condition="has_author_link"
+                                 tal:attributes="href author_home_url">
+                           <img src="defaultUser.png"
+                                alt=""
+                                class="defaultuserimg"
+                                height="32"
+                                tal:attributes="src portrait_url;
+                                                alt reply/author_name" />
+                      </a>
+                      <img src="defaultUser.png"
+                           alt=""
+                           class="defaultuserimg"
+                           height="32"
+                           tal:condition="not: has_author_link"
+                           tal:attributes="src portrait_url;
+                                           alt reply/author_name" />
+                  </div>
+
+                  <div class="documentByLine">
+                      <tal:name>
+                          <a href=""
+                             tal:condition="has_author_link"
+                             tal:content="reply/author_name"
+                             tal:attributes="href author_home_url">
+                              Poster Name
+                          </a>
+                          <span tal:condition="not: has_author_link"
+                                tal:replace="reply/author_name" />
+                          <span tal:condition="not: reply/author_name"
+                                i18n:translate="label_anonymous">Anonymous</span>
+                      </tal:name>
+                      <tal:posted i18n:translate="label_says">says:</tal:posted>
+                      <div class="commentDate"
+                           tal:content="python:view.format_time(reply.modification_date)">
+                           8/23/2001 12:40:44 PM
+                      </div>
+                  </div>
                 </div>
+                <div class="card-body">
+                  <div class="commentBody">
 
-                <div class="documentByLine">
-                    <tal:name>
-                        <a href=""
-                           tal:condition="has_author_link"
-                           tal:content="reply/author_name"
-                           tal:attributes="href author_home_url">
-                            Poster Name
-                        </a>
-                        <span tal:condition="not: has_author_link"
-                              tal:replace="reply/author_name" />
-                        <span tal:condition="not: reply/author_name"
-                              i18n:translate="label_anonymous">Anonymous</span>
-                    </tal:name>
-                    <tal:posted i18n:translate="label_says">says:</tal:posted>
-                    <div class="commentDate"
-                         tal:content="python:view.format_time(reply.modification_date)">
-                         8/23/2001 12:40:44 PM
-                    </div>
-                </div>
+                      <span tal:replace="structure reply/getText" />
 
-                <div class="commentBody">
+                      <div class="commentActions row row-cols-lg-auto g-3 align-items-center">
+                          <form name="delete"
+                                action=""
+                                method="post"
+                                class="commentactionsform"
+                                tal:condition="python:not canDelete and isDeleteOwnCommentAllowed and view.could_delete_own(reply)"
+                                tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
+                                                style python:view.can_delete_own(reply) and 'display: inline' or 'display: none';
+                                                id string:delete-${comment_id}">
+                              <button name="form.button.DeleteComment"
+                                     class="destructive btn btn-danger"
+                                     type="submit"
+                                     value="Delete"
+                                     i18n:attributes="value label_delete;"
+                                     i18n:translate="label_delete"
+                                     >Delete</button>
+                          </form>
+                          <form name="delete"
+                                action=""
+                                method="post"
+                                class="commentactionsform"
+                                tal:condition="python:canDelete"
+                                tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment;
+                                                id string:delete-${comment_id}">
+                              <button name="form.button.DeleteComment"
+                                     class="destructive btn btn-danger"
+                                     type="submit"
+                                     value="Delete"
+                                     i18n:attributes="value label_delete;"
+                                     i18n:translate="label_delete"
+                                     >Delete</button>
+                          </form>
 
-                    <span tal:replace="structure reply/getText" />
+                          <tal:edit tal:condition="python:isEditCommentAllowed and canEdit">
+                            <!-- plone 5 will have auth_token available
+                                 so we'll use modal pattern -->
+                            <a class="pat-plone-modal context commentactionsform btn btn-primary"
+                               tal:condition="auth_token"
+                               tal:attributes="href string:${reply/absolute_url}/@@edit-comment?_authenticator=${auth_token}"
+                               i18n:translate="Edit">Edit</a>
+                            <form name="edit"
+                                  action=""
+                                  method="get"
+                                  class="commentactionsform"
+                                  tal:condition="not: auth_token"
+                                  tal:attributes="action string:${reply/absolute_url}/@@edit-comment;
+                                                  id string:edit-${comment_id}">
+                                <button name="form.button.EditComment"
+                                       class="context btn btn-primary"
+                                       type="submit"
+                                       value="Edit"
+                                       i18n:attributes="value label_edit;"
+                                       i18n:translate="label_edit"
+                                       >Edit</button>
+                            </form>
+                          </tal:edit>
 
-                    <div class="commentActions">
-                        <form name="delete"
-                              action=""
-                              method="post"
-                              class="commentactionsform"
-                              tal:condition="python:not canDelete and isDeleteOwnCommentAllowed and view.could_delete_own(reply)"
-                              tal:attributes="action string:${reply/absolute_url}/@@delete-own-comment;
-                                              style python:view.can_delete_own(reply) and 'display: inline' or 'display: none';
-                                              id string:delete-${comment_id}">
-                            <input name="form.button.DeleteComment"
-                                   class="destructive"
-                                   type="submit"
-                                   value="Delete"
-                                   i18n:attributes="value label_delete;"
-                                   />
-                        </form>
-                        <form name="delete"
-                              action=""
-                              method="post"
-                              class="commentactionsform"
-                              tal:condition="python:canDelete"
-                              tal:attributes="action string:${reply/absolute_url}/@@moderate-delete-comment;
-                                              id string:delete-${comment_id}">
-                            <input name="form.button.DeleteComment"
-                                   class="destructive"
-                                   type="submit"
-                                   value="Delete"
-                                   i18n:attributes="value label_delete;"
-                                   />
-                        </form>
 
-                        <tal:edit tal:condition="python:isEditCommentAllowed and canEdit">
-                          <!-- plone 5 will have auth_token available
-                               so we'll use modal pattern -->
-                          <a class="pat-plone-modal context commentactionsform"
-                             tal:condition="auth_token"
-                             tal:attributes="href string:${reply/absolute_url}/@@edit-comment?_authenticator=${auth_token}"
-                             i18n:translate="Edit">Edit</a>
-                          <form name="edit"
+                          <!-- Workflow actions (e.g. 'publish') -->
+                          <form name=""
                                 action=""
                                 method="get"
                                 class="commentactionsform"
-                                tal:condition="not: auth_token"
-                                tal:attributes="action string:${reply/absolute_url}/@@edit-comment;
-                                                id string:edit-${comment_id}">
-                              <input name="form.button.EditComment"
-                                     class="context"
+                                tal:condition="canReview"
+                                tal:repeat="action reply_dict/actions|nothing"
+                                tal:attributes="action string:${reply/absolute_url}/@@transmit-comment;
+                                                name action/id;
+                                                id string:${action/id}-${comment_id}">
+                              <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
+                              <button name="form.button.TransmitComment"
+                                     class="context btn btn-primary"
                                      type="submit"
-                                     value="Edit"
-                                     i18n:attributes="value label_edit;"
-                                     />
+                                     tal:attributes="value action/title"
+                                     tal:content="action/title"
+                                     i18n:attributes="value"
+                                     ></button>
                           </form>
-                        </tal:edit>
+                      </div>
 
 
-                        <!-- Workflow actions (e.g. 'publish') -->
-                        <form name=""
-                              action=""
-                              method="get"
-                              class="commentactionsform"
-                              tal:condition="canReview"
-                              tal:repeat="action reply_dict/actions|nothing"
-                              tal:attributes="action string:${reply/absolute_url}/@@transmit-comment;
-                                              name action/id;
-                                              id string:${action/id}-${comment_id}">
-                            <input type="hidden" name="workflow_action" tal:attributes="value action/id" />
-                            <input name="form.button.TransmitComment"
-                                   class="context"
-                                   type="submit"
-                                   tal:attributes="value action/title"
-                                   i18n:attributes="value"
-                                   />
-                        </form>
-                    </div>
-
-
+                  </div>
+                  <button class="context reply-to-comment-button hide allowMultiSubmit btn btn-primary"
+                          tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)"
+                          i18n:translate="label_reply">
+                      Reply
+                  </button>
                 </div>
-                <button class="context reply-to-comment-button hide allowMultiSubmit"
-                        tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)"
-                        i18n:translate="label_reply">
-                    Reply
-                </button>
             </div>
 
         </tal:getreplies>
@@ -185,12 +193,13 @@
 
     <div class="reply"
          tal:condition="python:has_replies and (isAnon and not isAnonymousDiscussionAllowed)">
-        <form tal:attributes="action view/login_action">
-            <input class="standalone loginbutton"
+        <form tal:attributes="action view/login_action" class="mb-3">
+            <button class="standalone loginbutton btn btn-primary"
                    type="submit"
                    value="Log in to add comments"
                    i18n:attributes="value label_login_to_add_comments;"
-                   />
+                   i18n:translate="label_login_to_add_comments"
+                   >Log in to add comments</button>
         </form>
     </div>
 

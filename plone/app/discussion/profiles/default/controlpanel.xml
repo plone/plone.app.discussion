@@ -11,7 +11,7 @@
         appId="plone.app.discussion"
         category="plone-general"
         condition_expr=""
-        icon_expr="string:${portal_url}/discussionitem_icon.png"
+        icon_expr="string:chat-square-dots"
         url_expr="string:${portal_url}/@@discussion-controlpanel"
         visible="True"
         i18n:attributes="title">
