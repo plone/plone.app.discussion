@@ -6,16 +6,12 @@
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="plone">
 <body>
-<article id="content"
-     tal:attributes="class view/settings"
-     metal:fill-slot="prefs_configlet_main">
 
-    <div class="portalMessage warning"
-         role="status"
-         tal:condition="view/mailhost_warning">
-        <strong i18n:translate="">
-            Warning
-        </strong>
+<metal:main metal:fill-slot="prefs_configlet_main" i18n:domain="plone">
+
+    <div class="statusmessage statusmessage-warning alert alert-warning" role="alert" tal:condition="view/mailhost_warning">
+        <tal:icon tal:replace="structure python:icons.tag('plone-statusmessage-warning', tag_alt='Warning', tag_class='statusmessage-icon mb-1 me-2')" />
+        <strong i18n:translate="">Warning</strong>
         <span tal:omit-tag="" i18n:translate="text_no_mailhost_configured">
             You have not configured a mail host or a site 'From'
             address, various features including contact forms, email
@@ -30,12 +26,9 @@
         </span>
     </div>
 
-    <div class="portalMessage warning"
-         role="status"
-         tal:condition="view/custom_comment_workflow_warning">
-        <strong i18n:translate="">
-            Warning
-        </strong>
+    <div class="statusmessage statusmessage-warning alert alert-warning" role="alert" tal:condition="view/custom_comment_workflow_warning">
+        <tal:icon tal:replace="structure python:icons.tag('plone-statusmessage-warning', tag_alt='Warning', tag_class='statusmessage-icon mb-1 me-2')" />
+        <strong i18n:translate="">Warning</strong>
         <span tal:omit-tag="" i18n:translate="text_custom_comment_workflow">
             You have configured a custom workflow for the 'Discussion Item'
             content type. You can enable/disable the comment moderation
@@ -55,18 +48,20 @@
       Portal status message
     </div>
 
-    <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
+    <header>
+      <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
+      <p class="lead" tal:content="view/description">Description</p>
+    </header>
 
-    <div id="content-core">
-        <div id="layout-contents">
-            <span tal:replace="structure view/contents" />
-        </div>
+    <div id="content-core" tal:attributes="class view/settings">
+      <span tal:replace="structure view/contents" />
     </div>
 
   <script type="text/javascript"
           tal:attributes="src string:${portal_url}/++plone++plone.app.discussion.javascripts/controlpanel.js">
   </script>
 
-</article>
+</metal:main>
+
 </body>
 </html>
