@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.4 (2021-02-16)
+------------------
+
+Bug fixes:
+
+
+- Fix tests with Products.MailHost 4.11.
+  [maurits] (#174)
+
+
 3.4.3 (2020-09-28)
 ------------------
 
