@@ -41,9 +41,9 @@ require([  // jshint ignore:line
     /* Update settings */
     $.updateSettings = function () {
 
-        var globally_enabled = $('#content').hasClass('globally_enabled');
-        var moderation_custom = $('#content').hasClass('moderation_custom');
-        var invalid_mail_setup = $('#content').hasClass('invalid_mail_setup');
+        var globally_enabled = $('#content-core').hasClass('globally_enabled');
+        var moderation_custom = $('#content-core').hasClass('moderation_custom');
+        var invalid_mail_setup = $('#content-core').hasClass('invalid_mail_setup');
 
         /* If commenting is globally disabled, disable all settings. */
         if (globally_enabled === true) {
@@ -115,13 +115,13 @@ require([  // jshint ignore:line
         // Update settings on page load
         $.updateSettings();
 
-        // Set #content class and update settings afterwards
+        // Set #content-core class and update settings afterwards
         $('#form-widgets-globally_enabled-0').on('change', function(){
             if (this.checked) {
-                $('#content').addClass('globally_enabled');
+                $('#content-core').addClass('globally_enabled');
             }
             else {
-                $('#content').removeClass('globally_enabled');
+                $('#content-core').removeClass('globally_enabled');
             }
             $.updateSettings();
         });

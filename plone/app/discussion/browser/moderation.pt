@@ -33,23 +33,18 @@
             }
         </style>
 
-        <h1 class="documentFirstHeading" i18n:translate="heading_moderate_comments">
+        <h1 i18n:translate="heading_moderate_comments">
             Moderate comments
         </h1>
 
-        <div class="portalMessage warning"
-             role="status"
-             tal:condition="not: moderation_enabled">
-            <strong i18n:translate="">Warning</strong>
-            <span tal:omit-tag="" i18n:translate="message_moderation_disabled">
-                Moderation workflow is disabled. You have to
-                <a i18n:name="enable_comment_workflow"
-                   i18n:translate="message_enable_comment_workflow" href=""
-                   tal:attributes="href string:${context/portal_url}/@@content-controlpanel?type_id=Discussion Item">
-                enable the 'Comment Review Workflow' for the Comment content
-                type</a> before you can moderate comments here.
-            </span>
-        </div>
+        <p class="lead" i18n:translate="message_moderation_disabled">
+            Moderation workflow is disabled. You have to
+            <a i18n:name="enable_comment_workflow"
+                i18n:translate="message_enable_comment_workflow" href=""
+                tal:attributes="href string:${context/portal_url}/@@content-controlpanel?type_id=Discussion Item">
+            enable the 'Comment Review Workflow' for the Comment content
+            type</a> before you can moderate comments here.
+        </p>
 
       <form class="mb-3"
             method="post"
