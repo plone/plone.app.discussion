@@ -109,6 +109,11 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     form = DiscussionSettingsEditForm
     index = ViewPageTemplateFile('controlpanel.pt')
 
+    def __call__(self):
+        self.mailhost_warning()
+        self.custom_comment_workflow_warning()
+        return super(DiscussionSettingsControlPanel, self).__call__()
+
     @property
     def site_url(self):
         """Return the absolute URL to the current site, which is likely not
@@ -173,8 +178,10 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         mailhost = mail_settings.smtp_host
         email = mail_settings.email_from_address
         if mailhost and email:
-            return False
-        return True
+            pass
+        else:
+            message = _(u'You have not configured a mail host or a site \'From\' address, various features including contact forms, email notification and password reset will not work. Go to the E-Mail Settings to fix this.')  # noqa: E501
+            IStatusMessage(self.request).addStatusMessage(message, 'warning')
 
     def custom_comment_workflow_warning(self):
         """Return True if a custom comment workflow is enabled."""
@@ -184,10 +191,11 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             'comment_one_state_workflow' in workflow_chain
         comment_review_workflow_enabled = \
             'comment_review_workflow' in workflow_chain
-        if one_state_workflow_enabled \
-                or comment_review_workflow_enabled:
-            return
-        return True
+        if one_state_workflow_enabled or comment_review_workflow_enabled:
+            pass
+        else:
+            message = _(u'You have configured a custom workflow for the \'Discussion Item\' content type. You can enable/disable the comment moderation in this control panel only if you use one of the default \'Discussion Item\' workflows. Go to the Types control panel to choose a workflow for the \'Discussion Item\' type.')  # noqa: E501
+            IStatusMessage(self.request).addStatusMessage(message, 'warning')
 
 
 def notify_configuration_changed(event):
