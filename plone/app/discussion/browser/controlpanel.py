@@ -180,7 +180,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         if mailhost and email:
             pass
         else:
-            message = _(u'You have not configured a mail host or a site \'From\' address, various features including contact forms, email notification and password reset will not work. Go to the E-Mail Settings to fix this.')  # noqa: E501
+            message = _(u'discussion_text_no_mailhost_configured',
+                default=u'You have not configured a mail host or a site \'From\' address, various features including contact forms, email notification and password reset will not work. Go to the E-Mail Settings to fix this.')  # noqa: E501
             IStatusMessage(self.request).addStatusMessage(message, 'warning')
 
     def custom_comment_workflow_warning(self):
@@ -194,7 +195,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         if one_state_workflow_enabled or comment_review_workflow_enabled:
             pass
         else:
-            message = _(u'You have configured a custom workflow for the \'Discussion Item\' content type. You can enable/disable the comment moderation in this control panel only if you use one of the default \'Discussion Item\' workflows. Go to the Types control panel to choose a workflow for the \'Discussion Item\' type.')  # noqa: E501
+            message = _(u'discussion_text_custom_comment_workflow',
+                default=u'You have configured a custom workflow for the \'Discussion Item\' content type. You can enable/disable the comment moderation in this control panel only if you use one of the default \'Discussion Item\' workflows. Go to the Types control panel to choose a workflow for the \'Discussion Item\' type.')  # noqa: E501
             IStatusMessage(self.request).addStatusMessage(message, 'warning')
 
 
