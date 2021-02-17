@@ -57,13 +57,9 @@
                   <!-- commenter name and date -->
                   <div class="comment-author">
 
-                    <a href="" tal:condition="has_author_link" tal:attributes="href author_home_url">
-                      ${reply/author_name}
-                    </a>
+                    <a href="" tal:condition="has_author_link" tal:attributes="href author_home_url">${reply/author_name}</a>
 
-                    <span tal:condition="not: has_author_link">
-                      ${reply/author_name}
-                    </span>
+                    <span tal:condition="not: has_author_link">${reply/author_name}</span>
 
                     <span tal:condition="not: reply/author_name" i18n:translate="label_anonymous">Anonymous</span>
 
