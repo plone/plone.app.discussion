@@ -69,8 +69,8 @@ Create a public page with comments allowed.
 
     >>> browser.open(portal_url)
     >>> browser.getLink(id='document').click()
-    >>> browser.getControl(name='form.widgets.IDublinCore.title').value = "Doc"
-    >>> browser.getControl(name='form.widgets.IAllowDiscussion.allow_discussion:list').value = ['True']
+    >>> browser.getControl(name='form.widgets.title').value = "Doc"
+    >>> browser.getControl(name='form.widgets.allow_discussion:list').value = ['True']
     >>> browser.getControl('Save').click()
     >>> urldoc = browser.url
 

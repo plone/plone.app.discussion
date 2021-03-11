@@ -57,8 +57,8 @@ Enable commenting.
 Create a public page with comments allowed.
 
     >>> browser.open(portal['doc1'].absolute_url() + '/edit')
-    >>> browser.getControl(name='form.widgets.IDublinCore.title').value = "Doc1"
-    >>> browser.getControl(name='form.widgets.IAllowDiscussion.allow_discussion:list').value = ['True']
+    >>> browser.getControl(name='form.widgets.title').value = "Doc1"
+    >>> browser.getControl(name='form.widgets.allow_discussion:list').value = ['True']
     >>> browser.getControl('Save').click()
     >>> urldoc1 = browser.url
 
@@ -471,7 +471,7 @@ Edit the content object.
     >>> secret = ring.random()
     >>> token = hmac.new(secret.encode('utf8'), b'admin', sha).hexdigest()
     >>> browser.open("http://nohost/plone/doc1/edit?_authenticator=" + token)
-    >>> browser.getControl(name='form.widgets.IRichTextBehavior.text').value = "Lorem ipsum"
+    >>> browser.getControl(name='form.widgets.text').value = "Lorem ipsum"
     >>> browser.getControl('Save').click()
 
 Make sure the edit was successful.

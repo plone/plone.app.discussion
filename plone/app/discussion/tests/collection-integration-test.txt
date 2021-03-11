@@ -15,7 +15,7 @@ Create a collection.
     >>> from plone.app.discussion.testing import COLLECTION_TYPE
     >>> browser.getLink(url='++add++' + COLLECTION_TYPE).click()
     >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
-    >>> browser.getControl('form.widgets.IDublinCore.title').value = 'Foo Comment Collection'
+    >>> browser.getControl('form.widgets.title').value = 'Foo Comment Collection'
     >>> browser.getControl('Save').click()
     >>> print(browser.contents)
     <...Changes saved...

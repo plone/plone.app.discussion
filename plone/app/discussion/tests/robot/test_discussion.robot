@@ -62,8 +62,8 @@ I enable discussion on the document
   Go To  ${PLONE_URL}/my-document/edit
   Wait until page contains  Settings
   Click Link  Settings
-  Wait until element is visible  name=form.widgets.IAllowDiscussion.allow_discussion:list
-  Select From List  name=form.widgets.IAllowDiscussion.allow_discussion:list  True
+  Wait until element is visible  name=form.widgets.allow_discussion:list
+  Select From List  name=form.widgets.allow_discussion:list  True
   Click Button  Save
 
 I add a comment
