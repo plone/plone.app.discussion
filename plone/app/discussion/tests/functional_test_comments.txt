@@ -111,9 +111,6 @@ Check if comment has been added properly.
     >>> '<a href="http://nohost/plone/author/admin">admin</a>' in browser.contents
     True
 
-    >>> browser.contents
-    '...<a href="http://nohost/plone/author/admin">admin</a>...says:...'
-
     >>> "Comment from admin" in browser.contents
     True
 
@@ -158,7 +155,7 @@ Post a comment as user jim.
 Check if the comment has been added properly.
 
     >>> browser_member.contents
-    '...<a href="http://nohost/plone/author/jim">Jim Fult\xc3\xb8rn</a>...says:...'
+    '...<a href="http://nohost/plone/author/jim">Jim Fult\xc3\xb8rn</a>...'
 
     >>> "Comment from Jim" in browser_member.contents
     True
@@ -195,9 +192,6 @@ Now we can post an anonymous comment.
     >>> '<span>Anonymous</span>' in unprivileged_browser.contents
     True
 
-    >>> 'says' in unprivileged_browser.contents
-    True
-
     >>> 'This is an anonymous comment' in unprivileged_browser.contents
     True
 
@@ -210,9 +204,6 @@ Make sure special characters work as well.
     >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
 
     >>> tarek_fullname in unprivileged_browser.contents
-    True
-
-    >>> 'says' in unprivileged_browser.contents
     True
 
     >>> 'This is an äüö comment' in unprivileged_browser.contents
@@ -245,7 +236,7 @@ Check that the reply has been posted properly.
     >>> 'Reply comment' in browser.contents
     True
 
-    >>> 'replyTreeLevel1' in browser.contents
+    >>> 'level-1' in browser.contents
     True
 
 

@@ -17,6 +17,12 @@ Bug fixes:
 - Fix tests with Products.MailHost 4.11.
   [maurits] (#174)
 
+New features:
+
+
+- Update templates markup to Bootstrap 4.
+  [andreesg]
+
 
 3.4.3 (2020-09-28)
 ------------------

@@ -6,73 +6,23 @@
       metal:use-macro="here/prefs_main_template/macros/master"
       i18n:domain="plone">
 <body>
-<article id="content"
-     tal:attributes="class view/settings"
-     metal:fill-slot="prefs_configlet_content">
 
-    <div class="portalMessage warning"
-         role="status"
-         tal:condition="view/mailhost_warning">
-        <strong i18n:translate="">
-            Warning
-        </strong>
-        <span tal:omit-tag="" i18n:translate="text_no_mailhost_configured">
-            You have not configured a mail host or a site 'From'
-            address, various features including contact forms, email
-            notification and password reset will not work. Go to the
-            <tal:link i18n:name="label_mail_control_panel_link">
-                <a href=""
-                   i18n:translate="text_no_mailhost_configured_control_panel_link"
-                   tal:attributes="href string:${view/site_url}/@@mail-controlpanel"
-                >Mail control panel</a>
-            </tal:link>
-            to fix this.
-        </span>
-    </div>
+<metal:main metal:fill-slot="prefs_configlet_main" i18n:domain="plone">
 
-    <div class="portalMessage warning"
-         role="status"
-         tal:condition="view/custom_comment_workflow_warning">
-        <strong i18n:translate="">
-            Warning
-        </strong>
-        <span tal:omit-tag="" i18n:translate="text_custom_comment_workflow">
-            You have configured a custom workflow for the 'Discussion Item'
-            content type. You can enable/disable the comment moderation
-            in this control panel only if you use one of the default
-            'Discussion Item' workflows. Go to the
-            <tal:link i18n:name="label_discussion_control_panel_link">
-                <a href=""
-                   i18n:translate="text_discussion_type_control_panel_link"
-                   tal:attributes="href string:${view/site_url}/@@content-controlpanel?type_id=Discussion Item"
-                >Types control panel</a>
-            </tal:link>
-            to choose a workflow for the 'Discussion Item' type.
-        </span>
-    </div>
+    <header>
+      <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
+      <p class="lead" tal:content="view/description">Description</p>
+    </header>
 
-    <div metal:use-macro="context/global_statusmessage/macros/portal_message">
-      Portal status message
-    </div>
-
-    <a id="setup-link" class="link-parent"
-        tal:attributes="href string:${view/site_url}/@@overview-controlpanel"
-        i18n:translate="">
-      Site Setup
-    </a>
-
-    <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
-
-    <div id="content-core">
-        <div id="layout-contents">
-            <span tal:replace="structure view/contents" />
-        </div>
+    <div id="content-core" tal:attributes="class view/settings">
+      <span tal:replace="structure view/contents" />
     </div>
 
   <script type="text/javascript"
           tal:attributes="src string:${portal_url}/++plone++plone.app.discussion.javascripts/controlpanel.js">
   </script>
 
-</article>
+</metal:main>
+
 </body>
 </html>

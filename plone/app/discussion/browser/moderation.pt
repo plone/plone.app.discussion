@@ -33,25 +33,20 @@
             }
         </style>
 
-        <h1 class="documentFirstHeading" i18n:translate="heading_moderate_comments">
+        <h1 i18n:translate="heading_moderate_comments">
             Moderate comments
         </h1>
 
-        <div class="portalMessage warning"
-             role="status"
-             tal:condition="not: moderation_enabled">
-            <strong i18n:translate="">Warning</strong>
-            <span tal:omit-tag="" i18n:translate="message_moderation_disabled">
-                Moderation workflow is disabled. You have to
-                <a i18n:name="enable_comment_workflow"
-                   i18n:translate="message_enable_comment_workflow" href=""
-                   tal:attributes="href string:${context/portal_url}/@@content-controlpanel?type_id=Discussion Item">
-                enable the 'Comment Review Workflow' for the Comment content
-                type</a> before you can moderate comments here.
-            </span>
-        </div>
+        <p class="lead" i18n:translate="message_moderation_disabled">
+            Moderation workflow is disabled. You have to
+            <a i18n:name="enable_comment_workflow"
+                i18n:translate="message_enable_comment_workflow" href=""
+                tal:attributes="href string:${context/portal_url}/@@content-controlpanel?type_id=Discussion Item">
+            enable the 'Comment Review Workflow' for the Comment content
+            type</a> before you can moderate comments here.
+        </p>
 
-      <form
+      <form class="mb-3"
             method="post"
             action="#"
             tal:condition="moderation_enabled"
@@ -60,54 +55,68 @@
           <fieldset id="fieldset-moderate-comments" class="formPanel">
 
               <div metal:use-macro="here/batch_macros/macros/navigation" />
-              <table id="review-comments" class="listing">
+              <div id="review-comments">
+
+                <div  class="row row-cols-lg-auto g-3 align-items-center mb-2 mt-2" id="bulkactions">
+                  <tal:bulk condition="items">
+                    <div class="col-auto">
+                      <select class="form-select" name="form.select.BulkAction">
+                        <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
+                        <tal:comment tal:replace="nothing"></tal:comment>
+                        <option value="publish"
+                                i18n:translate="bulkactions_publish"
+                                tal:condition="python: filter != 'published'">Approve</option>
+                        <option value="mark_as_spam"
+                                tal:condition="python: filter != 'spam'">Spam</option>
+                        <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
+                      </select>
+                    </div>
+                    <div class="col-auto">
+                      <input type="hidden" name="filter" tal:attributes="value filter" />
+                      <button class="standalone allowMultiSubmit btn btn-primary"
+                              id="dobulkaction"
+                              type="submit"
+                              value="Apply"
+                              name="form.button.BulkAction"
+                              i18n:attributes="value label_apply;"
+                              i18n:translate="label_apply">Apply</button>
+                    </div>
+                  </tal:bulk>
+
+                  <div class="flex-grow-1">
+                    <div class="row row-cols-lg-auto g-3 align-items-center justify-content-end" tal:condition="view/moderation_multiple_state_enabled">
+                      <label i18n:translate="filter_by_state">Filter by state:</label>
+                      <div>
+                        <input class="form-check-input" type="radio" id="all" name="review_state" value="all"
+                            tal:attributes="checked python:request.review_state=='all'" />
+                        <label class="form-check-label" for="all" i18n:translate="">all</label>
+                      </div>
+                      <tal:states tal:repeat="review_state python:['pending', 'published', 'rejected', 'spam']">
+                        <div>
+                          <input class="form-check-input" type="radio" name="review_state"
+                            tal:attributes="
+                                value review_state;
+                                id review_state;
+                                checked python:request.review_state==review_state" />
+                          <label class="form-check-label"
+                            tal:attributes="for review_state"><span tal:content="python:translationhelper.translate_comment_review_state(review_state)">review_state</span></label>
+                        </div>
+                      </tal:states>
+                    </div>  
+                  </div>
+
+
+                </div>                
+                <table class="table table-bordered table-striped">
                   <thead>
-                      <tr>
-                          <th colspan="7">
-                              <fieldset tal:condition="view/moderation_multiple_state_enabled">
-                                <input type="radio" id="all" name="review_state" value="all"
-                                    tal:attributes="checked python:request.review_state=='all'" />
-                                <label for="all" i18n:translate="">all</label>
-                                <tal:workflow-filter tal:repeat="review_state python:['pending', 'published', 'rejected', 'spam']">
-                                    <input type="radio" name="review_state"
-                                        tal:attributes="
-                                            value review_state;
-                                            id review_state;
-                                            checked python:request.review_state==review_state" />
-                                    <label tal:attributes="for review_state"><span tal:content="python:translationhelper.translate_comment_review_state(review_state)">review_state</span></label>
-                                </tal:workflow-filter>
-                              </fieldset>
-                          </th>
-                      </tr>
-                      <tr tal:condition="items">
-                          <th id="bulkactions" class="nosort" colspan="7">
-                              <select name="form.select.BulkAction">
-                                  <option selected="selected" value="-1" i18n:translate="title_bulkactions">Bulk Actions</option>
-                                  <tal:comment tal:replace="nothing"></tal:comment>
-                                  <option value="publish"
-                                          i18n:translate="bulkactions_publish"
-                                          tal:condition="python: filter != 'published'">Approve</option>
-                                  <option value="mark_as_spam"
-                                          tal:condition="python: filter != 'spam'">Spam</option>
-                                  <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
-                              </select>
-                              <input type="hidden" name="filter" tal:attributes="value filter" />
-                              <input id="dobulkaction"
-                                     type="submit"
-                                     class="standalone allowMultiSubmit"
-                                     value="Apply"
-                                     name="form.button.BulkAction"
-                                     i18n:attributes="value label_apply;" />
-                          </th>
-                      </tr>
-                      <tr tal:condition="items">
-                          <th class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
-                          <th class="nosort" i18n:translate="heading_commenter">Commenter</th>
-                          <th class="nosort" i18n:translate="heading_date">Date</th>
-                          <th class="nosort" i18n:translate="heading_in_reponse_to">In Response To</th>
-                          <th class="nosort" i18n:translate="heading_comment">Comment</th>
-                          <th class="nosort" i18n:translate="heading_changedby">Last Action</th>
-                      </tr>
+                    <tr tal:condition="items">
+                        <th scope="col" class="nosort"><input name="check_all" type="checkbox" value="0" /></th>
+                        <th scope="col" class="nosort" i18n:translate="heading_commenter">Commenter</th>
+                        <th scope="col" class="nosort" i18n:translate="heading_date">Date</th>
+                        <th scope="col" class="nosort" i18n:translate="heading_in_reponse_to">In Response To</th>
+                        <th scope="col" class="nosort" i18n:translate="heading_comment">Comment</th>
+                        <th scope="col" class="nosort" i18n:translate="heading_changedby">Last Action</th>
+                    </tr>
                   </thead>
                   <tbody>
                       <tal:block repeat="item batch"
@@ -146,7 +155,7 @@
                                      tal:content="item/in_response_to" />
                               </td>
                               <td tal:attributes="class  python:colorclass(item.review_state)">
-                                  <div>
+                                  <div class="mb-2">
                                       <span tal:replace="item/Description"/>
                                       <a href=""
                                          tal:attributes="href string:$item_url/getText"
@@ -162,33 +171,35 @@
                                           tal:attributes="value item/getURL"
                                           />
                                       <!-- delete -->
-                                      <input id=""
-                                          class="destructive comment-delete-button"
+                                      <button id=""
+                                          class="destructive comment-delete-button btn btn-sm btn-danger"
                                           type="submit"
                                           value="Delete"
                                           name="form.button.moderation.DeleteComment"
                                           i18n:attributes="value label_delete;"
                                           tal:attributes="id item/id"
-                                          />
+                                          i18n:translate="label_delete"
+                                          >Delete</button>
                                       <!-- edit -->
-                                      <a class="pat-plone-modal context" href="#"
+                                      <a class="pat-plone-modal context btn btn-sm btn-primary" href="#"
                                           tal:attributes="href python:item_url+'/@@edit-comment?review_state=' + item.review_state">Edit</a>
 
                                       <!-- workflow actions -->
                                       <tal:transitions
                                           tal:define="
                                             transitions python:view.allowed_transitions(item_obj)">
-                                          <input name="form.button.moderation.TransmitComment"
+                                          <button name="form.button.moderation.TransmitComment"
                                               tal:repeat="transition transitions"
-                                              class="context"
+                                              class="context btn btn-sm btn-primary"
                                               type="submit"
                                               value="Label"
+                                              tal:content="python:translationhelper.translate(transition['title'])"
                                               tal:attributes="id string:${item/id}_${transition/id};
                                                     data-transition transition/id;
                                                     value python:translationhelper.translate(transition['title']);
                                                     style python:transition['id']=='publish' and 'background-color: #5cb85c;; border-color: #4cae4c;;' or '';
                                                     "
-                                                 />
+                                                 >Label</button>
                                       </tal:transitions>
                                   </div>
                               </td>
@@ -202,6 +213,7 @@
                       </tal:block>
                   </tbody>
               </table>
+              </div>
               <div metal:use-macro="here/batch_macros/macros/navigation" />
           </fieldset>
       </form>
