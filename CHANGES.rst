@@ -8,6 +8,25 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a1 (2021-04-21)
+--------------------
+
+New features:
+
+
+- Refactor templates and styling for comments and controlpanel.
+  [santonelli] (#169)
+- Cleanup template and move message to python code.
+  [santonelli] (#177)
+
+
+Bug fixes:
+
+
+- Fix tests with Products.MailHost 4.11.
+  [maurits] (#174)
+
+
 3.4.4 (2020-10-09)
 ------------------
 
