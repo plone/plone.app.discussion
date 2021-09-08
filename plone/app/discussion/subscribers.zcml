@@ -11,6 +11,12 @@
 
     <subscriber
         for="plone.app.discussion.interfaces.IComment
+             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".comment.notify_comment_modified"
+        />
+
+    <subscriber
+        for="plone.app.discussion.interfaces.IComment
              zope.lifecycleevent.interfaces.IObjectAddedEvent"
         handler=".comment.notify_content_object"
         />
