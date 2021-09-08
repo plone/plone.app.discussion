@@ -6,6 +6,8 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from Zope2.App import zcml
 from zope.component import createObject
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 import Products.Five
 import unittest
@@ -20,8 +22,10 @@ class EventsRegistry(object):
     """ Fake registry to be used while testing discussion events
     """
     commentAdded = False
+    commentModified = False
     commentRemoved = False
     replyAdded = False
+    replyModified = False
     replyRemoved = False
 
 #
@@ -33,12 +37,20 @@ def comment_added(doc, evt):
     EventsRegistry.commentAdded = True
 
 
+def comment_modified(doc, evt):
+    EventsRegistry.commentModified = True
+
+
 def comment_removed(doc, evt):
     EventsRegistry.commentRemoved = True
 
 
 def reply_added(doc, evt):
     EventsRegistry.replyAdded = True
+
+
+def reply_modified(doc, evt):
+    EventsRegistry.replyModified = True
 
 
 def reply_removed(doc, evt):
@@ -79,6 +91,12 @@ class CommentEventsTest(unittest.TestCase):
             />
 
           <subscriber
+            for="plone.app.discussion.interfaces.IComment
+                 zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+            handler="plone.app.discussion.tests.test_events.comment_modified"
+            />
+
+          <subscriber
             for="OFS.interfaces.ISimpleItem
                  plone.app.discussion.interfaces.ICommentRemovedEvent"
             handler="plone.app.discussion.tests.test_events.comment_removed"
@@ -95,6 +113,18 @@ class CommentEventsTest(unittest.TestCase):
         conversation = IConversation(self.document)
         conversation.addComment(comment)
         self.assertTrue(self.registry.commentAdded)
+
+    def test_modifyEvent(self):
+        self.assertFalse(self.registry.commentModified)
+        comment = createObject('plone.Comment')
+        conversation = IConversation(self.document)
+        new_id = conversation.addComment(comment)
+        comment = self.document.restrictedTraverse(
+            '++conversation++default/{0}'.format(new_id),
+        )
+        comment.text = "foo"
+        notify(ObjectModifiedEvent(comment))
+        self.assertTrue(self.registry.commentModified)
 
     def test_removedEvent(self):
         self.assertFalse(self.registry.commentRemoved)
@@ -132,6 +162,12 @@ class RepliesEventsTest(unittest.TestCase):
             />
 
           <subscriber
+            for="plone.app.discussion.interfaces.IComment
+                 zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+            handler="plone.app.discussion.tests.test_events.reply_modified"
+            />
+
+          <subscriber
             for="OFS.interfaces.ISimpleItem
                  plone.app.discussion.interfaces.IReplyRemovedEvent"
             handler="plone.app.discussion.tests.test_events.reply_removed"
@@ -162,6 +198,26 @@ class RepliesEventsTest(unittest.TestCase):
         replies.addComment(re_comment)
 
         self.assertTrue(self.registry.replyAdded)
+
+    def test_modifyEvent(self):
+        self.assertFalse(self.registry.replyModified)
+
+        conversation = IConversation(self.document)
+        replies = IReplies(conversation)
+        comment = createObject('plone.Comment')
+        comment.text = 'Comment text'
+        comment_id = replies.addComment(comment)
+        comment = self.document.restrictedTraverse(
+            '++conversation++default/{0}'.format(comment_id),
+        )
+        re_comment = createObject('plone.Comment')
+        re_comment.text = 'Comment text'
+        replies = IReplies(comment)
+        new_id = replies.addComment(re_comment)
+        reply = replies[new_id]
+        reply.text = "Another text"
+        notify(ObjectModifiedEvent(reply))
+        self.assertTrue(self.registry.replyModified)
 
     def test_removedEvent(self):
         self.assertFalse(self.registry.replyRemoved)

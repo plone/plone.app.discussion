@@ -399,6 +399,11 @@ class ICommentAddedEvent(IDiscussionEvent):
     """
 
 
+class ICommentModifiedEvent(IDiscussionEvent):
+    """ Comment modified
+    """
+
+
 class ICommentRemovedEvent(IDiscussionEvent):
     """ Comment removed
     """
@@ -406,6 +411,11 @@ class ICommentRemovedEvent(IDiscussionEvent):
 
 class IReplyAddedEvent(IDiscussionEvent):
     """ Comment reply added
+    """
+
+
+class IReplyModifiedEvent(IDiscussionEvent):
+    """ Comment reply modified
     """
 
 

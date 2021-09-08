@@ -13,8 +13,10 @@ from OFS.Traversable import Traversable
 from persistent import Persistent
 from plone.app.discussion import _
 from plone.app.discussion.events import CommentAddedEvent
+from plone.app.discussion.events import CommentModifiedEvent
 from plone.app.discussion.events import CommentRemovedEvent
 from plone.app.discussion.events import ReplyAddedEvent
+from plone.app.discussion.events import ReplyModifiedEvent
 from plone.app.discussion.events import ReplyRemovedEvent
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
@@ -256,6 +258,16 @@ def notify_comment_added(obj, event):
     if getattr(obj, 'in_reply_to', None):
         return notify(ReplyAddedEvent(context, obj))
     return notify(CommentAddedEvent(context, obj))
+
+
+def notify_comment_modified(obj, event):
+    """ Notify custom discussion events when a comment, or a reply, is modified
+    """
+    conversation = aq_parent(obj)
+    context = aq_parent(conversation)
+    if getattr(obj, 'in_reply_to', None):
+        return notify(ReplyModifiedEvent(context, obj))
+    return notify(CommentModifiedEvent(context, obj))
 
 
 def notify_comment_removed(obj, event):
