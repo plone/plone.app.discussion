@@ -8,6 +8,26 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a2 (2021-09-15)
+--------------------
+
+New features:
+
+
+- Refactor templates and styling for comments and controlpanel.
+  [santonelli] (#169)
+- Implement events for Comment (ICommentModifiedEvent) and Reply(IReplyModifiedEvent) modification [ericof] (#183)
+
+
+Bug fixes:
+
+
+- Fix tests with Products.MailHost 4.11.
+  [maurits] (#174)
+- Remove cyclic dependency with Products.CMFPlone
+  [ericof] (#186)
+
+
 4.0.0a1 (2021-04-21)
 --------------------
 
