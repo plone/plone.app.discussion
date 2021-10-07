@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.5 (2021-10-07)
+------------------
+
+New features:
+
+
+- Implement events for Comment (ICommentModifiedEvent) and Reply(IReplyModifiedEvent) modification [ericof] (#183)
+
+
 3.4.4 (2021-02-16)
 ------------------
 
