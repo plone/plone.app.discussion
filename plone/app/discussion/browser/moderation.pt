@@ -67,6 +67,7 @@
                                 i18n:translate="bulkactions_publish"
                                 tal:condition="python: filter != 'published'">Approve</option>
                         <option value="mark_as_spam"
+                                i18n:translate="bulkactions_spam"
                                 tal:condition="python: filter != 'spam'">Spam</option>
                         <option value="delete" i18n:translate="bulkactions_delete">Delete</option>
                       </select>
@@ -102,11 +103,11 @@
                             tal:attributes="for review_state"><span tal:content="python:translationhelper.translate_comment_review_state(review_state)">review_state</span></label>
                         </div>
                       </tal:states>
-                    </div>  
+                    </div>
                   </div>
 
 
-                </div>                
+                </div>
                 <table class="table table-bordered table-striped">
                   <thead>
                     <tr tal:condition="items">
@@ -182,6 +183,7 @@
                                           >Delete</button>
                                       <!-- edit -->
                                       <a class="pat-plone-modal context btn btn-sm btn-primary" href="#"
+                                          i18n:translate="label_edit"
                                           tal:attributes="href python:item_url+'/@@edit-comment?review_state=' + item.review_state">Edit</a>
 
                                       <!-- workflow actions -->
@@ -205,7 +207,8 @@
                               </td>
                               <td>
                                   <span class="last-history-entry"
-                                      tal:attributes="data-href string:$item_url/@@contenthistorypopup">
+                                      tal:attributes="data-href string:$item_url/@@contenthistorypopup"
+                                      i18n:translate="">
                                       last history entry
                                   </span>
                               </td>
