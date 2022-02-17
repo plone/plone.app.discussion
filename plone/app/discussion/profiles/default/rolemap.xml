@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <rolemap>
     <permissions>
+        <permission name="View comments" acquire="True">
+            <role name="Anonymous"/>
+        </permission>
         <permission name="Review comments" acquire="True">
             <role name="Manager"/>
             <role name="Site Administrator"/>
