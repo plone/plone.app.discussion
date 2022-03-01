@@ -80,6 +80,13 @@
       title="Update controlpanel icon"
       import_steps="controlpanel" />
 
+    <genericsetup:upgradeDepends
+      source="1003"
+      destination="1004"
+      profile="plone.app.discussion:default"
+      title="Add 'View comments' permission"
+      import_steps="controlpanel" />
+
 
 
 </configure>
