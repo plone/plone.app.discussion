@@ -117,7 +117,7 @@
         manager="plone.app.layout.viewlets.interfaces.IBelowContent"
         view="plone.app.layout.globals.interfaces.IViewView"
         class=".comments.CommentsViewlet"
-        permission="zope2.View"
+        permission="plone.app.discussion.ViewComments"
         />
 
     <!-- Conversation view -->
