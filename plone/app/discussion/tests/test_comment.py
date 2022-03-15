@@ -158,7 +158,7 @@ class CommentTest(unittest.TestCase):
         comment1.text = 'First paragraph\n\nSecond_paragraph'
         self.assertEqual(
             ''.join(comment1.getText().split()),
-            '<p>Firstparagraph<br/><br/>Second_paragraph</p>',
+            '<p>Firstparagraph<br><br>Second_paragraph</p>',
         )
 
     def test_getText_escapes_HTML(self):
