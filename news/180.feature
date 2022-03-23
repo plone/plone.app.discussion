@@ -1,1 +1,1 @@
-- Added 'View comments' permission. [@razvanMiu]
+Added 'View comments' permission. [@razvanMiu]
