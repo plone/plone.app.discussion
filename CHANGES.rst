@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a4 (2022-03-23)
+--------------------
+
+New features:
+
+
+- Added 'View comments' permission. [@razvanMiu] (#180)
+
+
 4.0.0a3 (2021-10-16)
 --------------------
 
