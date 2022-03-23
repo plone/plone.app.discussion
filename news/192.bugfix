@@ -1,0 +1,2 @@
+Fix test after PortalTransforms uses lxml html method to serialize, instead of xml method.
+[gotcha]
