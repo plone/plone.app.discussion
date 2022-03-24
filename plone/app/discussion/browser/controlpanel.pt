@@ -18,10 +18,6 @@
       <span tal:replace="structure view/contents" />
     </div>
 
-  <script type="text/javascript"
-          tal:attributes="src string:${portal_url}/++plone++plone.app.discussion.javascripts/controlpanel.js">
-  </script>
-
 </metal:main>
 
 </body>

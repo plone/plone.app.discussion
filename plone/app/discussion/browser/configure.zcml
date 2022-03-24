@@ -138,13 +138,6 @@
         permission="zope2.View"
         />
 
-    <!-- Resource directory for javascripts -->
-    <plone:static
-        name="plone.app.discussion.javascripts"
-        type="plone"
-        directory="javascripts"
-        />
-
     <!-- Control panel -->
     <browser:page
         name="discussion-controlpanel"
