@@ -1,1 +1,0 @@
-Moved JS to Mockup control panel patterns (ES6) [MrTango]

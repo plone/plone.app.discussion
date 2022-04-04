@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a5 (2022-04-04)
+--------------------
+
+New features:
+
+
+- Moved JS to Mockup control panel patterns (ES6) [MrTango] (#190)
+
+
 4.0.0a4 (2022-03-23)
 --------------------
 
