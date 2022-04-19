@@ -3,7 +3,6 @@ from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from plone import api
 from plone.app.discussion.events import CommentPublishedEvent
 from plone.app.discussion.events import CommentTransitionEvent
 from plone.app.discussion.events import CommentDeletedEvent
@@ -264,22 +263,25 @@ class CommentTransition(BrowserView):
         comment = aq_inner(self.context)
         content_object = aq_parent(aq_parent(comment))
         workflow_action = self.request.form.get('workflow_action', 'publish')
-        api.content.transition(comment, transition=workflow_action)
+        workflowTool = getToolByName(self.context, 'portal_workflow')
+        workflowTool.doActionFor(comment, workflow_action)
         comment.reindexObject()
         content_object.reindexObject(idxs=['total_comments'])
         notify(CommentPublishedEvent(self.context, comment))
         # for complexer workflows:
         notify(CommentTransitionEvent(self.context, comment))
-        review_state_new = api.content.get_state(comment, '')
-
-        comment_state_translated = self.context.restrictedTraverse("translationhelper").translate_comment_review_state(review_state_new)
+        comment_state_translated = ''
+        if workflowTool.getWorkflowsFor(comment):
+            review_state_new = workflowTool.getInfoFor(ob=comment, name='review_state')
+            helper = self.context.restrictedTraverse("translationhelper")
+            comment_state_translated = helper.translate_comment_review_state(review_state_new)
 
         msgid = _(
             "comment_transmitted",
             default='Comment ${comment_state_translated}.',
             mapping={"comment_state_translated": comment_state_translated})
         translated = self.context.translate(msgid)
-        api.portal.show_message(translated, self.context.REQUEST)
+        IStatusMessage(self.request).add(translated, type='info')
 
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
