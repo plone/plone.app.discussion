@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a6 (2022-04-28)
+--------------------
+
+Bug fixes:
+
+
+- Replaced use of ``plone.api``.  That should not be done in Plone core.
+  [maurits] (#188)
+
+
 4.0.0a5 (2022-04-04)
 --------------------
 
