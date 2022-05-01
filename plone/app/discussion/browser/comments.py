@@ -11,12 +11,12 @@ from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import IReplies
 from plone.app.layout.viewlets.common import ViewletBase
+from plone.base.utils import safe_text
 from plone.registry.interfaces import IRegistry
 from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
 from plone.z3cform.interfaces import IWrappedForm
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from urllib.parse import quote
@@ -151,9 +151,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         # Make sure author_name/ author_email is properly encoded
         if "author_name" in data:
-            author_name = safe_unicode(data["author_name"])
+            author_name = safe_text(data["author_name"])
         if "author_email" in data:
-            author_email = safe_unicode(data["author_email"])
+            author_email = safe_text(data["author_email"])
 
         # Set comment author properties for anonymous users or members
         portal_membership = getToolByName(context, "portal_membership")
@@ -161,13 +161,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if not anon and getSecurityManager().checkPermission("Reply to item", context):
             # Member
             member = portal_membership.getAuthenticatedMember()
-            email = safe_unicode(member.getProperty("email"))
+            email = safe_text(member.getProperty("email"))
             fullname = member.getProperty("fullname")
             if not fullname or fullname == "":
                 fullname = member.getUserName()
-            fullname = safe_unicode(fullname)
+            fullname = safe_text(fullname)
             author_name = fullname
-            email = safe_unicode(email)
+            email = safe_text(email)
             # XXX: according to IComment interface author_email must not be  # noqa T000
             # set for logged in users, cite:
             # 'for anonymous comments only, set to None for logged in comments'

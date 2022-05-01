@@ -11,6 +11,9 @@ from zope.interface.common.mapping import IIterableMapping
 from zope.interface.interfaces import IObjectEvent
 
 
+DISCUSSION_ANNOTATION_KEY = "plone.app.discussion:conversation"
+
+
 def isEmail(value):
     portal = getUtility(ISiteRoot)
     reg_tool = getToolByName(portal, "portal_registration")

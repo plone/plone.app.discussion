@@ -1,4 +1,4 @@
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_ROBOT_TESTING
+from ..testing import PLONE_APP_DISCUSSION_ROBOT_TESTING
 from plone.app.testing import ROBOT_TEST_LEVEL
 from plone.testing import layered
 

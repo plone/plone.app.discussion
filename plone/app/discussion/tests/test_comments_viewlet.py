@@ -1,15 +1,13 @@
+from .. import interfaces
+from ..browser.comment import EditCommentForm
+from ..browser.comments import CommentForm
+from ..browser.comments import CommentsViewlet
+from ..interfaces import IConversation
+from ..interfaces import IDiscussionSettings
+from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from AccessControl import Unauthorized
 from datetime import datetime
 from OFS.Image import Image
-from plone.app.discussion import interfaces
-from plone.app.discussion.browser.comment import EditCommentForm
-from plone.app.discussion.browser.comments import CommentForm
-from plone.app.discussion.browser.comments import CommentsViewlet
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.testing import (  # noqa
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
-)
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
@@ -17,7 +15,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.tests import dummy
 from z3c.form.interfaces import IFormLayer
 from zope import interface
 from zope.annotation.interfaces import IAttributeAnnotatable
@@ -29,9 +26,43 @@ from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.publisher.browser import TestRequest
 from zope.publisher.interfaces.browser import IBrowserRequest
+from ZPublisher.HTTPRequest import FileUpload
 
 import time
 import unittest
+import io
+
+
+TEXT = b"file data"
+
+
+class DummyFile(FileUpload):
+    """Dummy upload object
+    Used to fake uploaded files.
+    """
+
+    __allow_access_to_unprotected_subobjects__ = 1
+    filename = "dummy.txt"
+    data = TEXT
+    headers = {}
+
+    def __init__(self, filename=None, data=None, headers=None):
+        if filename is not None:
+            self.filename = filename
+        if data is not None:
+            self.data = data
+        if headers is not None:
+            self.headers = headers
+        self.file = io.BytesIO(self.data)
+
+    def seek(self, *args):
+        pass
+
+    def tell(self, *args):
+        return 1
+
+    def read(self, *args):
+        return self.data
 
 
 class TestCommentForm(unittest.TestCase):
@@ -631,7 +662,7 @@ class TestCommentsViewlet(unittest.TestCase):
         self.memberdata._setPortrait(
             Image(
                 id="jim",
-                file=dummy.File(),
+                file=DummyFile(),
                 title="",
             ),
             "jim",

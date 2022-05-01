@@ -1,11 +1,9 @@
 """Test plone.app.discussion workflow and permissions.
 """
+from ..interfaces import IConversation
+from ..interfaces import IDiscussionLayer
+from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from AccessControl import Unauthorized
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IDiscussionLayer
-from plone.app.discussion.testing import (  # noqa
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
-)
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles

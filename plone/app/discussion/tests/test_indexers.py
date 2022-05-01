@@ -1,12 +1,10 @@
 """Test for the plone.app.discussion indexers
 """
+from .. import catalog
+from ..interfaces import IConversation
+from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from datetime import datetime
 from DateTime import DateTime
-from plone.app.discussion import catalog
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.testing import (  # noqa
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
-)
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.indexer.delegate import DelegatingIndexerFactory

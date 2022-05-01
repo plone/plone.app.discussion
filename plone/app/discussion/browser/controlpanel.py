@@ -1,11 +1,12 @@
-from plone.app.discussion.interfaces import _
-from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.upgrades import update_registry
+from ..interfaces import _
+from ..interfaces import IDiscussionSettings
+from ..upgrades import update_registry
 from plone.app.registry.browser import controlpanel
+from plone.base.interfaces.controlpanel import IConfigurationChangedEvent
+from plone.base.interfaces.controlpanel import IMailSchema
 from plone.registry.interfaces import IRecordModifiedEvent
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
@@ -14,16 +15,6 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.component.hooks import getSite
-
-
-# try/except was added because Configuration Changed Event was moved inside the
-# controlpanel file in the PR #2495 on Products.CMFPlone
-try:
-    from Products.CMFPlone.interfaces.controlpanel import (  # noqa: E501
-        IConfigurationChangedEvent,
-    )
-except ImportError:
-    from Products.CMFPlone.interfaces import IConfigurationChangedEvent
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):

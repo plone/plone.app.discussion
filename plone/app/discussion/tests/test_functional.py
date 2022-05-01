@@ -2,7 +2,7 @@
 
    These test are only triggered when Plone 4 (and plone.testing) is installed.
 """
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING  # noqa
+from ..testing import PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING  # noqa
 from plone.testing import layered
 
 import doctest

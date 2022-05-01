@@ -20,14 +20,14 @@ from plone.app.discussion.events import ReplyRemovedEvent
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.base.interfaces.controlpanel import IMailSchema
+from plone.base.utils import safe_text
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore import permissions
 from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
 from Products.CMFCore.DynamicType import DynamicType
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from Products.CMFPlone.utils import safe_unicode
 from smtplib import SMTPException
 from zope.annotation.interfaces import IAnnotatable
 from zope.component import getUtility
@@ -205,8 +205,8 @@ class Comment(
             Message(
                 COMMENT_TITLE,
                 mapping={
-                    "author_name": safe_unicode(author_name),
-                    "content": safe_unicode(content.Title()),
+                    "author_name": safe_text(author_name),
+                    "content": safe_text(content.Title()),
                 },
             )
         )
@@ -374,7 +374,7 @@ def notify_user(obj, event):
         Message(
             MAIL_NOTIFICATION_MESSAGE,
             mapping={
-                "title": safe_unicode(content_object.title),
+                "title": safe_text(content_object.title),
                 "link": content_object.absolute_url() + "/view#" + obj.id,
                 "text": obj.text,
             },
@@ -442,7 +442,7 @@ def notify_moderator(obj, event):
         Message(
             MAIL_NOTIFICATION_MESSAGE_MODERATOR,
             mapping={
-                "title": safe_unicode(content_object.title),
+                "title": safe_text(content_object.title),
                 "link": content_object.absolute_url() + "/view#" + obj.id,
                 "text": obj.text,
                 "commentator": obj.author_email

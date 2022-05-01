@@ -48,7 +48,7 @@
 
     <!-- Moderate comments enabled view -->
     <browser:page
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="plone.base.interfaces.IPloneSiteRoot"
         name="moderate-comments-enabled"
         layer="..interfaces.IDiscussionLayer"
         class=".moderation.ModerateCommentsEnabled"
@@ -141,14 +141,14 @@
     <!-- Control panel -->
     <browser:page
         name="discussion-controlpanel"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="plone.base.interfaces.IPloneSiteRoot"
         class=".controlpanel.DiscussionSettingsControlPanel"
         permission="cmf.ManagePortal"
         />
     <!-- Deprecated controlpanel url -->
     <browser:page
         name="discussion-settings"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="plone.base.interfaces.IPloneSiteRoot"
         class=".controlpanel.DiscussionSettingsControlPanel"
         permission="cmf.ManagePortal"
         />

@@ -9,6 +9,10 @@ manipulate the same data structures, but provide an API for finding and
 manipulating the comments directly in reply to a particular comment or at the
 top level of the conversation.
 """
+from .comment import Comment
+from .interfaces import DISCUSSION_ANNOTATION_KEY as ANNOTATION_KEY
+from .interfaces import IConversation
+from .interfaces import IReplies
 from AccessControl.SpecialUsers import nobody as user_nobody
 from Acquisition import aq_base
 from Acquisition import aq_inner
@@ -21,11 +25,7 @@ from OFS.event import ObjectWillBeAddedEvent
 from OFS.event import ObjectWillBeRemovedEvent
 from OFS.Traversable import Traversable
 from persistent import Persistent
-from plone.app.discussion.comment import Comment
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IReplies
-from Products.CMFPlone import DISCUSSION_ANNOTATION_KEY as ANNOTATION_KEY
-from Products.CMFPlone.interfaces import IHideFromBreadcrumbs
+from plone.base.interfaces import IHideFromBreadcrumbs
 from zope.annotation.interfaces import IAnnotatable
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapter

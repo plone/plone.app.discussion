@@ -1,13 +1,13 @@
+from ..interfaces import IComment
+from ..interfaces import IConversation
+from ..interfaces import IDiscussionLayer
+from ..interfaces import IDiscussionSettings
+from ..interfaces import IReplies
+from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from datetime import datetime
 from datetime import timedelta
-from plone.app.discussion import interfaces
-from plone.app.discussion.interfaces import IComment
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.interfaces import IReplies
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.vocabularies.types import BAD_TYPES
@@ -29,7 +29,7 @@ class ConversationTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        interface.alsoProvides(self.portal.REQUEST, interfaces.IDiscussionLayer)
+        interface.alsoProvides(self.portal.REQUEST, IDiscussionLayer)
 
         self.typetool = self.portal.portal_types
         self.portal_discussion = getToolByName(
@@ -675,7 +675,7 @@ class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         interface.alsoProvides(
             self.portal.REQUEST,
-            interfaces.IDiscussionLayer,
+            IDiscussionLayer,
         )
 
         interface.alsoProvides(

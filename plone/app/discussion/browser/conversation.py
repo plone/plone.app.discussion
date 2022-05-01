@@ -1,13 +1,13 @@
+from ..interfaces import IDiscussionSettings
 from Acquisition import aq_base
 from Acquisition import aq_chain
 from Acquisition import aq_inner
-from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.base.interfaces import INonStructuralFolder
+from plone.base.interfaces import IPloneSiteRoot
+from plone.base.utils import safe_hasattr
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces import IFolderish
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import INonStructuralFolder
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import safe_hasattr
 from zope.component import queryUtility
 
 

@@ -1,20 +1,56 @@
+from ..interfaces import IConversation
+from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from Acquisition import aq_base
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.testing import (  # noqa
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
-)
+from persistent.list import PersistentList
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.base.interfaces import IMailSchema
 from plone.registry.interfaces import IRegistry
-from Products.CMFPlone.interfaces import IMailSchema
-from Products.CMFPlone.tests.utils import MockMailHost
 from Products.MailHost.interfaces import IMailHost
+from Products.MailHost.MailHost import _mungeHeaders
+from Products.MailHost.MailHost import MailBase
 from zope.component import createObject
 from zope.component import getSiteManager
 from zope.component import getUtility
 from zope.component import queryUtility
 
 import unittest
+
+
+class MockMailHost(MailBase):
+    """A MailHost that collects messages instead of sending them."""
+
+    def __init__(self, id):
+        self.reset()
+
+    def reset(self):
+        self.messages = PersistentList()
+
+    def _send(self, mfrom, mto, messageText, immediate=False):
+        """Send the message"""
+        self.messages.append(messageText)
+
+    def send(
+        self,
+        messageText,
+        mto=None,
+        mfrom=None,
+        subject=None,
+        encode=None,
+        immediate=False,
+        charset=None,
+        msg_type=None,
+    ):
+        """send *messageText* modified by the other parameters.
+
+        *messageText* can either be an ``email.message.Message``
+        or a string.
+        Note that Products.MailHost 4.10 had changes here.
+        """
+        msg, mto, mfrom = _mungeHeaders(
+            messageText, mto, mfrom, subject, charset, msg_type, encode
+        )
+        self.messages.append(msg)
 
 
 class TestUserNotificationUnit(unittest.TestCase):
