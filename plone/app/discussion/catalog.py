@@ -12,8 +12,6 @@ from Products.CMFCore.interfaces import IContentish
 from Products.CMFPlone.utils import safe_unicode
 from Products.ZCatalog.interfaces import IZCatalog
 
-import six
-
 
 MAX_DESCRIPTION = 25
 
@@ -75,8 +73,6 @@ def creator(object):
     if not object.creator:
         return
     value = safe_unicode(object.creator)
-    if six.PY2:
-        return value.encode("utf8")
     return value
 
 

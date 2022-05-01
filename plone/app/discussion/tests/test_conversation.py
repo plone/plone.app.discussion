@@ -7,12 +7,11 @@ from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import IReplies
-from plone.app.discussion.testing import (  # noqa
-    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
-)
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.vocabularies.types import BAD_TYPES
+from plone.dexterity.interfaces import IDexterityContent
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope import interface
@@ -20,16 +19,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
 from zope.component import queryUtility
 
-import six
 import unittest
-
-
-try:
-    from plone.dexterity.interfaces import IDexterityContent
-
-    DEXTERITY = True
-except ImportError:
-    DEXTERITY = False
 
 
 class ConversationTest(unittest.TestCase):
@@ -688,11 +678,10 @@ class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
             interfaces.IDiscussionLayer,
         )
 
-        if DEXTERITY:
-            interface.alsoProvides(
-                self.portal.doc1,
-                IDexterityContent,
-            )
+        interface.alsoProvides(
+            self.portal.doc1,
+            IDexterityContent,
+        )
 
     def _makeOne(self, *args, **kw):
         return self.portal.doc1.restrictedTraverse("@@conversation_view")
@@ -708,38 +697,33 @@ class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
         document_fti.manage_changeProperties(allow_discussion=allow_discussion)
 
     def test_conversation_is_not_enabled_by_default(self):
-        if DEXTERITY:
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertFalse(conversation.enabled())
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertFalse(conversation.enabled())
 
     def test_conversation_is_not_enabled_by_default_on_portal_type(self):
-        if DEXTERITY:
-            self._globally_enable_discussion(True)
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertFalse(conversation.enabled())
+        self._globally_enable_discussion(True)
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertFalse(conversation.enabled())
 
     def test_conversation_needs_to_be_enabled_globally_and_for_type(self):
-        if DEXTERITY:
-            self._globally_enable_discussion(True)
-            self._enable_discussion_on_portal_type("Document", True)
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertTrue(conversation.enabled())
+        self._globally_enable_discussion(True)
+        self._enable_discussion_on_portal_type("Document", True)
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertTrue(conversation.enabled())
 
     def test_disable_discussion(self):
-        if DEXTERITY:
-            self._globally_enable_discussion(True)
-            self._enable_discussion_on_portal_type("Document", True)
-            self.portal.doc1.allow_discussion = False
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertFalse(conversation.enabled())
+        self._globally_enable_discussion(True)
+        self._enable_discussion_on_portal_type("Document", True)
+        self.portal.doc1.allow_discussion = False
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertFalse(conversation.enabled())
 
     def test_enable_discussion(self):
-        if DEXTERITY:
-            self._globally_enable_discussion(True)
-            self._enable_discussion_on_portal_type("Document", True)
-            self.portal.doc1.allow_discussion = True
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertTrue(conversation.enabled())
+        self._globally_enable_discussion(True)
+        self._enable_discussion_on_portal_type("Document", True)
+        self.portal.doc1.allow_discussion = True
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertTrue(conversation.enabled())
 
 
 class RepliesTest(unittest.TestCase):

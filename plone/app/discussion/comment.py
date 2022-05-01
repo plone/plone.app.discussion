@@ -39,7 +39,6 @@ from zope.i18nmessageid import Message
 from zope.interface import implementer
 
 import logging
-import six
 
 
 COMMENT_TITLE = _(
@@ -161,8 +160,6 @@ class Comment(
         text = self.text
         if text is None:
             return ""
-        if six.PY2 and isinstance(text, str):
-            text = text.encode("utf8")
         transform = transforms.convertTo(
             targetMimetype, text, context=self, mimetype=sourceMimetype
         )
