@@ -8,7 +8,9 @@ from plone.app.discussion.browser.comments import CommentForm
 from plone.app.discussion.browser.comments import CommentsViewlet
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
+from plone.app.discussion.testing import (  # noqa
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
+)
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles

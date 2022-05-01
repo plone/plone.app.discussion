@@ -2,12 +2,12 @@
 """ Custom discussion events
 """
 from plone.app.discussion.interfaces import ICommentAddedEvent
-from plone.app.discussion.interfaces import ICommentModifiedEvent
-from plone.app.discussion.interfaces import ICommentRemovedEvent
-from plone.app.discussion.interfaces import IDiscussionEvent
 from plone.app.discussion.interfaces import ICommentDeletedEvent
+from plone.app.discussion.interfaces import ICommentModifiedEvent
 from plone.app.discussion.interfaces import ICommentPublishedEvent
+from plone.app.discussion.interfaces import ICommentRemovedEvent
 from plone.app.discussion.interfaces import ICommentTransitionEvent
+from plone.app.discussion.interfaces import IDiscussionEvent
 from plone.app.discussion.interfaces import IReplyAddedEvent
 from plone.app.discussion.interfaces import IReplyModifiedEvent
 from plone.app.discussion.interfaces import IReplyRemovedEvent

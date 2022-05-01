@@ -15,6 +15,7 @@ from Products.ZCatalog.interfaces import IZCatalog
 
 import six
 
+
 MAX_DESCRIPTION = 25
 
 # Conversation Indexers

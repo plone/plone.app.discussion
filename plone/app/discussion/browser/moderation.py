@@ -3,9 +3,9 @@ from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.events import CommentPublishedEvent
 from plone.app.discussion.events import CommentTransitionEvent
-from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies

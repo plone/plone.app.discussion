@@ -16,10 +16,13 @@ from zope.component import getUtility
 from zope.component import queryUtility
 from zope.component.hooks import getSite
 
+
 # try/except was added because Configuration Changed Event was moved inside the
 # controlpanel file in the PR #2495 on Products.CMFPlone
 try:
-    from Products.CMFPlone.interfaces.controlpanel import IConfigurationChangedEvent  # noqa: E501
+    from Products.CMFPlone.interfaces.controlpanel import (  # noqa: E501
+        IConfigurationChangedEvent,
+    )
 except ImportError:
     from Products.CMFPlone.interfaces import IConfigurationChangedEvent
 

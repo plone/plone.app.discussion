@@ -4,7 +4,9 @@
 from AccessControl import Unauthorized
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionLayer
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
+from plone.app.discussion.testing import (  # noqa
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
+)
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
@@ -175,6 +177,7 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
 
     def test_migration(self):
         from plone.app.discussion.upgrades import upgrade_comment_workflows
+
         # Fake permission according to earlier one_comment_workflow.
         self.comment._View_Permission = ('Anonymous',)
         # Anonymous can see the comment.
@@ -319,6 +322,7 @@ class CommentReviewWorkflowTest(unittest.TestCase):
 
     def test_migration(self):
         from plone.app.discussion.upgrades import upgrade_comment_workflows
+
         # Fake permission according to earlier comment_review_workflow.
         self.comment._View_Permission = ('Anonymous',)
         # Anonymous can see the comment.
