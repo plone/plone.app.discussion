@@ -14,6 +14,7 @@ from zope.component import queryUtility
 
 try:
     from plone.dexterity.interfaces import IDexterityContent
+
     DEXTERITY_INSTALLED = True
 except ImportError:
     DEXTERITY_INSTALLED = False
@@ -26,15 +27,14 @@ def traverse_parents(context):
         if not IPloneSiteRoot.providedBy(obj):
             obj_is_folderish = IFolderish.providedBy(obj)
             obj_is_stuctural = not INonStructuralFolder.providedBy(obj)
-            if (obj_is_folderish and obj_is_stuctural):
-                flag = getattr(obj, 'allow_discussion', None)
+            if obj_is_folderish and obj_is_stuctural:
+                flag = getattr(obj, "allow_discussion", None)
                 if flag is not None:
                     return flag
     return None
 
 
 class ConversationView(object):
-
     def enabled(self):
         if DEXTERITY_INSTALLED and IDexterityContent.providedBy(self.context):
             return self._enabled_for_dexterity_types()
@@ -42,7 +42,7 @@ class ConversationView(object):
             return self._enabled_for_archetypes()
 
     def _enabled_for_archetypes(self):
-        """ Returns True if discussion is enabled for this conversation.
+        """Returns True if discussion is enabled for this conversation.
 
         This method checks five different settings in order to figure out if
         discussion is enabled on a specific content object:
@@ -82,7 +82,7 @@ class ConversationView(object):
                 return False
 
         # If discussion is disabled for the object, bail out
-        obj_flag = getattr(aq_base(context), 'allow_discussion', None)
+        obj_flag = getattr(aq_base(context), "allow_discussion", None)
         if obj_flag is False:
             return False
 
@@ -91,16 +91,16 @@ class ConversationView(object):
         folder_allow_discussion = traverse_parents(context)
 
         if folder_allow_discussion:
-            if not getattr(self, 'allow_discussion', None):
+            if not getattr(self, "allow_discussion", None):
                 return True
         else:
             if obj_flag:
                 return True
 
         # Check if discussion is allowed on the content type
-        portal_types = getToolByName(self, 'portal_types')
+        portal_types = getToolByName(self, "portal_types")
         document_fti = getattr(portal_types, context.portal_type)
-        if not document_fti.getProperty('allow_discussion'):
+        if not document_fti.getProperty("allow_discussion"):
             # If discussion is not allowed on the content type,
             # check if 'allow discussion' is overridden on the content object.
             if not obj_flag:
@@ -109,7 +109,7 @@ class ConversationView(object):
         return True
 
     def _enabled_for_dexterity_types(self):
-        """ Returns True if discussion is enabled for this conversation.
+        """Returns True if discussion is enabled for this conversation.
 
         This method checks five different settings in order to figure out if
         discussion is enable on a specific content object:
@@ -134,11 +134,11 @@ class ConversationView(object):
             return False
 
         # Check if discussion is allowed on the content object
-        if safe_hasattr(context, 'allow_discussion'):
+        if safe_hasattr(context, "allow_discussion"):
             if context.allow_discussion is not None:
                 return context.allow_discussion
 
         # Check if discussion is allowed on the content type
-        portal_types = getToolByName(self, 'portal_types')
+        portal_types = getToolByName(self, "portal_types")
         document_fti = getattr(portal_types, context.portal_type)
-        return document_fti.getProperty('allow_discussion')
+        return document_fti.getProperty("allow_discussion")

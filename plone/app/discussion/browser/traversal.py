@@ -29,8 +29,8 @@ class ConversationNamespace(object):
 
     def traverse(self, name, ignore):
 
-        if name == 'default':
-            name = u''
+        if name == "default":
+            name = u""
 
         conversation = queryAdapter(self.context, IConversation, name=name)
         if conversation is None:

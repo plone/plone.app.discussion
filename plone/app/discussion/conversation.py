@@ -51,7 +51,7 @@ class Conversation(Traversable, Persistent, Explicit):
 
     __allow_access_to_unprotected_subobjects__ = True
 
-    def __init__(self, id='++conversation++default'):
+    def __init__(self, id="++conversation++default"):
         self.id = id
 
         # username -> count of comments; key is removed when count reaches 0
@@ -72,12 +72,11 @@ class Conversation(Traversable, Persistent, Explicit):
 
     def enabled(self):
         parent = aq_inner(self.__parent__)
-        return parent.restrictedTraverse('@@conversation_view').enabled()
+        return parent.restrictedTraverse("@@conversation_view").enabled()
 
     def total_comments(self):
         public_comments = [
-            x for x in self.values()
-            if user_nobody.has_permission('View', x)
+            x for x in self.values() if user_nobody.has_permission("View", x)
         ]
         return len(public_comments)
 
@@ -88,7 +87,7 @@ class Conversation(Traversable, Persistent, Explicit):
         comment_keys = self._comments.keys()
         for comment_key in reversed(comment_keys):
             comment = self._comments[comment_key]
-            if user_nobody.has_permission('View', comment):
+            if user_nobody.has_permission("View", comment):
                 return comment.creation_date
         return None
 
@@ -100,7 +99,7 @@ class Conversation(Traversable, Persistent, Explicit):
     def public_commentators(self):
         retval = set()
         for comment in self._comments.values():
-            if not user_nobody.has_permission('View', comment):
+            if not user_nobody.has_permission("View", comment):
                 continue
             retval.add(comment.author_username)
         return tuple(retval)
@@ -109,8 +108,7 @@ class Conversation(Traversable, Persistent, Explicit):
         return self._comments.keys()
 
     def getComments(self, start=0, size=None):
-        """Get unthreaded comments
-        """
+        """Get unthreaded comments"""
         count = 0
         for comment in self._comments.values(min=start):
             # Yield the acquisition wrapped comment
@@ -121,12 +119,11 @@ class Conversation(Traversable, Persistent, Explicit):
                 return
 
     def getThreads(self, start=0, size=None, root=0, depth=None):
-        """Get threaded comments
-        """
+        """Get threaded comments"""
 
         def recurse(comment_id, d=0):
             # Yield the current comment before we look for its children
-            yield {'id': comment_id, 'comment': self[comment_id], 'depth': d}
+            yield {"id": comment_id, "comment": self[comment_id], "depth": d}
 
             # Recurse if there are children and we are not out of our depth
             if depth is None or d + 1 < depth:
@@ -209,8 +206,7 @@ class Conversation(Traversable, Persistent, Explicit):
         return int(key) in self._comments
 
     def __getitem__(self, key):
-        """Get an item by its int key
-        """
+        """Get an item by its int key"""
         try:
             comment_id = int(key)
         except ValueError:
@@ -218,8 +214,7 @@ class Conversation(Traversable, Persistent, Explicit):
         return self._comments[comment_id].__of__(self)
 
     def __delitem__(self, key, suppress_container_modified=False):
-        """Delete an item by its int key
-        """
+        """Delete an item by its int key"""
 
         key = int(key)
 
@@ -269,7 +264,13 @@ class Conversation(Traversable, Persistent, Explicit):
         return self._comments.keys()
 
     def items(self):
-        return [(i[0], i[1].__of__(self),) for i in self._comments.items()]
+        return [
+            (
+                i[0],
+                i[1].__of__(self),
+            )
+            for i in self._comments.items()
+        ]
 
     def values(self):
         return [v.__of__(self) for v in self._comments.values()]
@@ -283,7 +284,10 @@ class Conversation(Traversable, Persistent, Explicit):
 
     def iteritems(self):
         for k, v in six.iteritems(self._comments):
-            yield (k, v.__of__(self),)
+            yield (
+                k,
+                v.__of__(self),
+            )
 
     def allowedContentTypes(self):
         return []
@@ -309,6 +313,7 @@ try:
 except ImportError:
     pass
 else:
+
     @implementer(IConversation)  # pragma: no cover
     @adapter(IAnnotatable)  # pragma: no cover
     def conversationCanonicalAdapterFactory(content):  # pragma: no cover
@@ -350,16 +355,14 @@ class ConversationReplies(object):
         return int(key) in self.children
 
     def __getitem__(self, key):
-        """Get an item by its int key
-        """
+        """Get an item by its int key"""
         key = int(key)
         if key not in self.children:
             raise KeyError(key)
         return self.conversation[key]
 
     def __delitem__(self, key):
-        """Delete an item by its int key
-        """
+        """Delete an item by its int key"""
         key = int(key)
         if key not in self.children:
             raise KeyError(key)
@@ -392,7 +395,10 @@ class ConversationReplies(object):
 
     def iteritems(self):
         for key in self.children:
-            yield (key, self.conversation[key],)
+            yield (
+                key,
+                self.conversation[key],
+            )
 
     @property
     def children(self):
@@ -418,11 +424,12 @@ class CommentReplies(ConversationReplies):
         self.conversation = aq_parent(self.comment)
         conversation_has_no_children = not hasattr(
             self.conversation,
-            '_children',
+            "_children",
         )
         if self.conversation is None or conversation_has_no_children:
-            raise TypeError("This adapter doesn't know what to do with the "
-                            'parent conversation')
+            raise TypeError(
+                "This adapter doesn't know what to do with the " "parent conversation"
+            )
 
         self.comment_id = self.comment.comment_id
 

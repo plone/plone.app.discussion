@@ -19,8 +19,8 @@ class RegistryTest(unittest.TestCase):
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.registry = Registry()
         self.registry.registerInterface(IDiscussionSettings)
 
@@ -31,99 +31,100 @@ class RegistryTest(unittest.TestCase):
     def test_discussion_controlpanel_view(self):
         view = getMultiAdapter(
             (self.portal, self.portal.REQUEST),
-            name='discussion-controlpanel',
+            name="discussion-controlpanel",
         )
         self.assertTrue(view())
 
     def test_discussion_in_controlpanel(self):
         # Check if discussion is in the control panel
-        self.controlpanel = getToolByName(self.portal, 'portal_controlpanel')
+        self.controlpanel = getToolByName(self.portal, "portal_controlpanel")
         self.assertTrue(
-            'discussion' in [
-                a.getAction(self)['id']
-                for a in self.controlpanel.listActions()
-            ],
+            "discussion"
+            in [a.getAction(self)["id"] for a in self.controlpanel.listActions()],
         )
 
     def test_globally_enabled(self):
         # Check globally_enabled record
-        self.assertTrue('globally_enabled' in IDiscussionSettings)
+        self.assertTrue("globally_enabled" in IDiscussionSettings)
         self.assertEqual(
             self.registry[
-                'plone.app.discussion.interfaces.' +
-                'IDiscussionSettings.globally_enabled'
+                "plone.app.discussion.interfaces."
+                + "IDiscussionSettings.globally_enabled"
             ],
             False,
         )
 
     def test_anonymous_comments(self):
         # Check anonymous_comments record
-        self.assertTrue('anonymous_comments' in IDiscussionSettings)
+        self.assertTrue("anonymous_comments" in IDiscussionSettings)
         self.assertEqual(
             self.registry[
-                'plone.app.discussion.interfaces.' +
-                'IDiscussionSettings.anonymous_comments'
+                "plone.app.discussion.interfaces."
+                + "IDiscussionSettings.anonymous_comments"
             ],
             False,
         )
 
     def test_moderation_enabled(self):
         # Check globally_enabled record
-        self.assertTrue('moderation_enabled' in IDiscussionSettings)
+        self.assertTrue("moderation_enabled" in IDiscussionSettings)
         self.assertEqual(
             self.registry[
-                'plone.app.discussion.interfaces.' +
-                'IDiscussionSettings.moderation_enabled'
+                "plone.app.discussion.interfaces."
+                + "IDiscussionSettings.moderation_enabled"
             ],
             False,
         )
 
     def test_edit_comment_enabled(self):
         # Check edit_comment_enabled record
-        self.assertTrue('edit_comment_enabled' in IDiscussionSettings)
+        self.assertTrue("edit_comment_enabled" in IDiscussionSettings)
         self.assertEqual(
-            self.registry['plone.app.discussion.interfaces.' +
-                          'IDiscussionSettings.edit_comment_enabled'],
+            self.registry[
+                "plone.app.discussion.interfaces."
+                + "IDiscussionSettings.edit_comment_enabled"
+            ],
             False,
         )
 
     def test_delete_own_comment_enabled(self):
         # Check delete_own_comment_enabled record
-        self.assertTrue('delete_own_comment_enabled' in IDiscussionSettings)
+        self.assertTrue("delete_own_comment_enabled" in IDiscussionSettings)
         self.assertEqual(
-            self.registry['plone.app.discussion.interfaces.' +
-                          'IDiscussionSettings.delete_own_comment_enabled'],
+            self.registry[
+                "plone.app.discussion.interfaces."
+                + "IDiscussionSettings.delete_own_comment_enabled"
+            ],
             False,
         )
 
     def test_text_transform(self):
-        self.assertTrue('text_transform' in IDiscussionSettings)
+        self.assertTrue("text_transform" in IDiscussionSettings)
         self.assertEqual(
             self.registry[
-                'plone.app.discussion.interfaces.' +
-                'IDiscussionSettings.text_transform'
+                "plone.app.discussion.interfaces."
+                + "IDiscussionSettings.text_transform"
             ],
-            'text/plain',
+            "text/plain",
         )
 
     def test_captcha(self):
         # Check globally_enabled record
-        self.assertTrue('captcha' in IDiscussionSettings)
+        self.assertTrue("captcha" in IDiscussionSettings)
         self.assertEqual(
             self.registry[
-                'plone.app.discussion.interfaces.' +
-                'IDiscussionSettings.captcha'
+                "plone.app.discussion.interfaces." + "IDiscussionSettings.captcha"
             ],
-            'disabled',
+            "disabled",
         )
 
     def test_show_commenter_image(self):
         # Check show_commenter_image record
-        self.assertTrue('show_commenter_image' in IDiscussionSettings)
+        self.assertTrue("show_commenter_image" in IDiscussionSettings)
         self.assertEqual(
             self.registry[
-                'plone.app.discussion.interfaces.' +
-                'IDiscussionSettings.show_commenter_image'
+                "plone.app.discussion.interfaces."
+                + "IDiscussionSettings.show_commenter_image"
             ],
             True,
         )
@@ -131,12 +132,12 @@ class RegistryTest(unittest.TestCase):
     def test_moderator_notification_enabled(self):
         # Check show_commenter_image record
         self.assertTrue(
-            'moderator_notification_enabled' in IDiscussionSettings,
+            "moderator_notification_enabled" in IDiscussionSettings,
         )
         self.assertEqual(
             self.registry[
-                'plone.app.discussion.interfaces.' +
-                'IDiscussionSettings.moderator_notification_enabled'
+                "plone.app.discussion.interfaces."
+                + "IDiscussionSettings.moderator_notification_enabled"
             ],
             False,
         )
@@ -156,22 +157,22 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         registry = queryUtility(IRegistry)
         self.settings = registry.forInterface(IDiscussionSettings, check=False)
 
     def test_moderation_enabled_in_discussion_control_panel_changed(self):
         """Make sure the 'Discussion Item' workflow is changed properly, when
-           the 'comment_moderation' setting in the discussion control panel
-           changes.
+        the 'comment_moderation' setting in the discussion control panel
+        changes.
         """
         # By default the comment_one_state_workflow without moderation is
         # enabled
         self.assertEqual(
-            ('comment_one_state_workflow',),
+            ("comment_one_state_workflow",),
             self.portal.portal_workflow.getChainForPortalType(
-                'Discussion Item',
+                "Discussion Item",
             ),
         )
 
@@ -181,32 +182,32 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
         # Make sure the comment_review_workflow with moderation enabled is
         # enabled
         self.assertEqual(
-            ('comment_review_workflow',),
+            ("comment_review_workflow",),
             self.portal.portal_workflow.getChainForPortalType(
-                'Discussion Item',
+                "Discussion Item",
             ),
         )
         # And back
         self.settings.moderation_enabled = False
         self.assertEqual(
-            ('comment_one_state_workflow',),
+            ("comment_one_state_workflow",),
             self.portal.portal_workflow.getChainForPortalType(
-                'Discussion Item',
+                "Discussion Item",
             ),
         )
 
     def test_change_workflow_in_types_control_panel(self):
         """Make sure the setting in the discussion control panel is changed
-           accordingly, when the workflow for the 'Discussion Item' changed in
-           the types control panel.
+        accordingly, when the workflow for the 'Discussion Item' changed in
+        the types control panel.
         """
         # By default, moderation is disabled
         self.settings.moderation_enabled = False
 
         # Enable the 'comment_review_workflow' with moderation enabled
         self.portal.portal_workflow.setChainForPortalTypes(
-            ('Discussion Item',),
-            ('comment_review_workflow',),
+            ("Discussion Item",),
+            ("comment_review_workflow",),
         )
 
         # Make sure the moderation_enabled settings has changed
@@ -214,15 +215,15 @@ class ConfigurationChangedSubscriberTest(unittest.TestCase):
 
         # Enable the 'comment_review_workflow' with moderation enabled
         self.portal.portal_workflow.setChainForPortalTypes(
-            ('Discussion Item',),
-            ('comment_one_state_workflow',),
+            ("Discussion Item",),
+            ("comment_one_state_workflow",),
         )
         self.settings.moderation_enabled = True
 
         # Enable a 'custom' discussion workflow
         self.portal.portal_workflow.setChainForPortalTypes(
-            ('Discussion Item',),
-            ('intranet_workflow',),
+            ("Discussion Item",),
+            ("intranet_workflow",),
         )
 
         # Setting has not changed. A Custom workflow disables the

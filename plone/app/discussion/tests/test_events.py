@@ -21,14 +21,15 @@ import unittest
 
 
 class EventsRegistry(object):
-    """ Fake registry to be used while testing discussion events
-    """
+    """Fake registry to be used while testing discussion events"""
+
     commentAdded = False
     commentModified = False
     commentRemoved = False
     replyAdded = False
     replyModified = False
     replyRemoved = False
+
 
 #
 # Fake event handlers
@@ -65,19 +66,19 @@ def reply_removed(doc, evt):
 
 
 class CommentEventsTest(unittest.TestCase):
-    """ Test custom comments events
-    """
+    """Test custom comments events"""
+
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
 
         # Setup sandbox
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
         self.registry = EventsRegistry
 
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.document = self.portal['doc1']
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.document = self.portal["doc1"]
 
         #
         # Subscribers
@@ -106,23 +107,23 @@ class CommentEventsTest(unittest.TestCase):
 
          </configure>
         """
-        zcml.load_config('configure.zcml', Products.Five)
+        zcml.load_config("configure.zcml", Products.Five)
         zcml.load_string(configure)
 
     def test_addEvent(self):
         self.assertFalse(self.registry.commentAdded)
-        comment = createObject('plone.Comment')
+        comment = createObject("plone.Comment")
         conversation = IConversation(self.document)
         conversation.addComment(comment)
         self.assertTrue(self.registry.commentAdded)
 
     def test_modifyEvent(self):
         self.assertFalse(self.registry.commentModified)
-        comment = createObject('plone.Comment')
+        comment = createObject("plone.Comment")
         conversation = IConversation(self.document)
         new_id = conversation.addComment(comment)
         comment = self.document.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id),
+            "++conversation++default/{0}".format(new_id),
         )
         comment.text = "foo"
         notify(ObjectModifiedEvent(comment))
@@ -130,7 +131,7 @@ class CommentEventsTest(unittest.TestCase):
 
     def test_removedEvent(self):
         self.assertFalse(self.registry.commentRemoved)
-        comment = createObject('plone.Comment')
+        comment = createObject("plone.Comment")
         conversation = IConversation(self.document)
         cid = conversation.addComment(comment)
         del conversation[cid]
@@ -138,17 +139,17 @@ class CommentEventsTest(unittest.TestCase):
 
 
 class RepliesEventsTest(unittest.TestCase):
-    """ Test custom replies events
-    """
+    """Test custom replies events"""
+
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
         self.registry = EventsRegistry
 
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        self.document = self.portal['doc1']
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.document = self.portal["doc1"]
 
         #
         # Subscribers
@@ -177,7 +178,7 @@ class RepliesEventsTest(unittest.TestCase):
 
          </configure>
         """
-        zcml.load_config('configure.zcml', Products.Five)
+        zcml.load_config("configure.zcml", Products.Five)
         zcml.load_string(configure)
 
     def test_addEvent(self):
@@ -186,15 +187,15 @@ class RepliesEventsTest(unittest.TestCase):
         conversation = IConversation(self.document)
         replies = IReplies(conversation)
 
-        comment = createObject('plone.Comment')
-        comment.text = 'Comment text'
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
         new_id = replies.addComment(comment)
         comment = self.document.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id),
+            "++conversation++default/{0}".format(new_id),
         )
 
-        re_comment = createObject('plone.Comment')
-        re_comment.text = 'Comment text'
+        re_comment = createObject("plone.Comment")
+        re_comment.text = "Comment text"
 
         replies = IReplies(comment)
         replies.addComment(re_comment)
@@ -206,14 +207,14 @@ class RepliesEventsTest(unittest.TestCase):
 
         conversation = IConversation(self.document)
         replies = IReplies(conversation)
-        comment = createObject('plone.Comment')
-        comment.text = 'Comment text'
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
         comment_id = replies.addComment(comment)
         comment = self.document.restrictedTraverse(
-            '++conversation++default/{0}'.format(comment_id),
+            "++conversation++default/{0}".format(comment_id),
         )
-        re_comment = createObject('plone.Comment')
-        re_comment.text = 'Comment text'
+        re_comment = createObject("plone.Comment")
+        re_comment.text = "Comment text"
         replies = IReplies(comment)
         new_id = replies.addComment(re_comment)
         reply = replies[new_id]
@@ -227,15 +228,15 @@ class RepliesEventsTest(unittest.TestCase):
         conversation = IConversation(self.portal.doc1)
         replies = IReplies(conversation)
 
-        comment = createObject('plone.Comment')
-        comment.text = 'Comment text'
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id),
+            "++conversation++default/{0}".format(new_id),
         )
 
-        re_comment = createObject('plone.Comment')
-        re_comment.text = 'Comment text'
+        re_comment = createObject("plone.Comment")
+        re_comment.text = "Comment text"
         replies = IReplies(comment)
         new_re_id = replies.addComment(re_comment)
 

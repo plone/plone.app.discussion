@@ -37,8 +37,7 @@ class View(BrowserView):
         context = aq_inner(self.context)
 
         registry = getUtility(IRegistry)
-        view_action_types = registry.get(
-            'plone.types_use_view_action_in_listings', [])
+        view_action_types = registry.get("plone.types_use_view_action_in_listings", [])
 
         obj = aq_parent(aq_parent(context))
         url = obj.absolute_url()
@@ -49,33 +48,34 @@ class View(BrowserView):
         will redirect right to the binary object, bypassing comments.
         """
         if obj.portal_type in view_action_types:
-            url = '{0}/view'.format(url)
+            url = "{0}/view".format(url)
 
-        self.request.response.redirect('{0}#{1}'.format(url, context.id))
+        self.request.response.redirect("{0}#{1}".format(url, context.id))
 
 
 class EditCommentForm(CommentForm):
     """Form to edit an existing comment."""
+
     ignoreContext = True
-    id = 'edit-comment-form'
-    label = _(u'edit_comment_form_title', default=u'Edit comment')
+    id = "edit-comment-form"
+    label = _(u"edit_comment_form_title", default=u"Edit comment")
 
     def updateWidgets(self):
         super(EditCommentForm, self).updateWidgets()
-        self.widgets['text'].value = self.context.text
+        self.widgets["text"].value = self.context.text
         # We have to rename the id, otherwise TinyMCE can't initialize
         # because there are two textareas with the same id.
-        self.widgets['text'].id = 'overlay-comment-text'
+        self.widgets["text"].id = "overlay-comment-text"
 
-    def _redirect(self, target=''):
+    def _redirect(self, target=""):
         if not target:
-            portal_state = getMultiAdapter((self.context, self.request),
-                                           name=u'plone_portal_state')
+            portal_state = getMultiAdapter(
+                (self.context, self.request), name=u"plone_portal_state"
+            )
             target = portal_state.portal_url()
         self.request.response.redirect(target)
 
-    @button.buttonAndHandler(_(u'label_save',
-                               default=u'Save'), name='comment')
+    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name="comment")
     def handleComment(self, action):
 
         # Validate form
@@ -84,32 +84,28 @@ class EditCommentForm(CommentForm):
             return
 
         # Check permissions
-        can_edit = getSecurityManager().checkPermission(
-            'Edit comments',
-            self.context)
-        mtool = getToolByName(self.context, 'portal_membership')
+        can_edit = getSecurityManager().checkPermission("Edit comments", self.context)
+        mtool = getToolByName(self.context, "portal_membership")
         if mtool.isAnonymousUser() or not can_edit:
             return
 
         # Update text
-        self.context.text = data['text']
+        self.context.text = data["text"]
         # Notify that the object has been modified
         notify(ObjectModifiedEvent(self.context))
 
         # Redirect to comment
-        IStatusMessage(self.request).add(_(u'comment_edit_notification',
-                                           default='Comment was edited'),
-                                         type='info')
-        return self._redirect(
-            target=self.action.replace('@@edit-comment', '@@view'))
+        IStatusMessage(self.request).add(
+            _(u"comment_edit_notification", default="Comment was edited"), type="info"
+        )
+        return self._redirect(target=self.action.replace("@@edit-comment", "@@view"))
 
-    @button.buttonAndHandler(_(u'cancel_form_button',
-                               default=u'Cancel'), name='cancel')
+    @button.buttonAndHandler(_(u"cancel_form_button", default=u"Cancel"), name="cancel")
     def handle_cancel(self, action):
         IStatusMessage(self.request).add(
-            _(u'comment_edit_cancel_notification',
-              default=u'Edit comment cancelled'),
-            type='info')
+            _(u"comment_edit_cancel_notification", default=u"Edit comment cancelled"),
+            type="info",
+        )
         return self._redirect(target=self.context.absolute_url())
 
 

@@ -16,8 +16,7 @@ from zope.interface import implementer
 
 @implementer(IDiscussionEvent)
 class DiscussionEvent(object):
-    """ Custom event
-    """
+    """Custom event"""
 
     def __init__(self, context, comment, **kwargs):
         self.object = context
@@ -28,55 +27,47 @@ class DiscussionEvent(object):
         # Add event to the request to be able to access comment attributes
         # in content-rules dynamic strings
         request = context.REQUEST
-        request.set('event', self)
+        request.set("event", self)
 
 
 @implementer(ICommentAddedEvent)
 class CommentAddedEvent(DiscussionEvent):
-    """ Event to be triggered when a Comment is added
-    """
+    """Event to be triggered when a Comment is added"""
 
 
 @implementer(ICommentModifiedEvent)
 class CommentModifiedEvent(DiscussionEvent):
-    """ Event to be triggered when a Comment is modified
-    """
+    """Event to be triggered when a Comment is modified"""
 
 
 @implementer(ICommentRemovedEvent)
 class CommentRemovedEvent(DiscussionEvent):
-    """ Event to be triggered when a Comment is removed
-    """
+    """Event to be triggered when a Comment is removed"""
 
 
 @implementer(IReplyAddedEvent)
 class ReplyAddedEvent(DiscussionEvent):
-    """ Event to be triggered when a Comment reply is added
-    """
+    """Event to be triggered when a Comment reply is added"""
 
 
 @implementer(IReplyModifiedEvent)
 class ReplyModifiedEvent(DiscussionEvent):
-    """ Event to be triggered when a Comment reply is modified
-    """
+    """Event to be triggered when a Comment reply is modified"""
 
 
 @implementer(IReplyRemovedEvent)
 class ReplyRemovedEvent(DiscussionEvent):
-    """ Event to be triggered when a Comment reply is removed
-    """
+    """Event to be triggered when a Comment reply is removed"""
 
 
 @implementer(ICommentDeletedEvent)
 class CommentDeletedEvent(DiscussionEvent):
-    """ Event to be triggered when a Comment is deleted
-    """
+    """Event to be triggered when a Comment is deleted"""
 
 
 @implementer(ICommentPublishedEvent)
 class CommentPublishedEvent(DiscussionEvent):
-    """ Event to be triggered when a Comment is publicated
-    """
+    """Event to be triggered when a Comment is publicated"""
 
 
 @implementer(ICommentTransitionEvent)

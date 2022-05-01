@@ -15,40 +15,43 @@ from zope.component import queryUtility
 
 try:
     import plone.app.collection  # noqa
-    COLLECTION_TYPE = 'Collection'
+
+    COLLECTION_TYPE = "Collection"
 except ImportError:
-    COLLECTION_TYPE = 'Topic'
+    COLLECTION_TYPE = "Topic"
 
 
 class PloneAppDiscussion(PloneSandboxLayer):
 
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
-    USER_NAME = 'johndoe'
-    USER_PASSWORD = 'secret'
-    MEMBER_NAME = 'janedoe'
-    MEMBER_PASSWORD = 'secret'
-    USER_WITH_FULLNAME_NAME = 'jim'
-    USER_WITH_FULLNAME_FULLNAME = 'Jim Fulton'
-    USER_WITH_FULLNAME_PASSWORD = 'secret'
-    MANAGER_USER_NAME = 'manager'
-    MANAGER_USER_PASSWORD = 'secret'
-    REVIEWER_NAME = 'reviewer'
-    REVIEWER_PASSWORD = 'secret'
+    USER_NAME = "johndoe"
+    USER_PASSWORD = "secret"
+    MEMBER_NAME = "janedoe"
+    MEMBER_PASSWORD = "secret"
+    USER_WITH_FULLNAME_NAME = "jim"
+    USER_WITH_FULLNAME_FULLNAME = "Jim Fulton"
+    USER_WITH_FULLNAME_PASSWORD = "secret"
+    MANAGER_USER_NAME = "manager"
+    MANAGER_USER_PASSWORD = "secret"
+    REVIEWER_NAME = "reviewer"
+    REVIEWER_PASSWORD = "secret"
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
         import plone.app.discussion
-        self.loadZCML(package=plone.app.discussion,
-                      context=configurationContext,
-                      )
+
+        self.loadZCML(
+            package=plone.app.discussion,
+            context=configurationContext,
+        )
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
-        applyProfile(portal, 'plone.app.discussion:default')
+        applyProfile(portal, "plone.app.discussion:default")
 
         # Creates some users
-        acl_users = getToolByName(portal, 'acl_users')
+        acl_users = getToolByName(portal, "acl_users")
         acl_users.userFolderAddUser(
             self.USER_NAME,
             self.USER_PASSWORD,
@@ -58,41 +61,42 @@ class PloneAppDiscussion(PloneSandboxLayer):
         acl_users.userFolderAddUser(
             self.MEMBER_NAME,
             self.MEMBER_PASSWORD,
-            ['Member'],
+            ["Member"],
             [],
         )
         acl_users.userFolderAddUser(
             self.USER_WITH_FULLNAME_NAME,
             self.USER_WITH_FULLNAME_PASSWORD,
-            ['Member'],
+            ["Member"],
             [],
         )
         acl_users.userFolderAddUser(
             self.REVIEWER_NAME,
             self.REVIEWER_PASSWORD,
-            ['Member'],
+            ["Member"],
             [],
         )
-        mtool = getToolByName(portal, 'portal_membership', None)
-        gtool = getToolByName(portal, 'portal_groups', None)
-        gtool.addPrincipalToGroup(self.REVIEWER_NAME, 'Reviewers')
-        mtool.addMember('jim', 'Jim', ['Member'], [])
-        mtool.getMemberById('jim').setMemberProperties(
-            {'fullname': 'Jim Fult\xc3\xb8rn'})
+        mtool = getToolByName(portal, "portal_membership", None)
+        gtool = getToolByName(portal, "portal_groups", None)
+        gtool.addPrincipalToGroup(self.REVIEWER_NAME, "Reviewers")
+        mtool.addMember("jim", "Jim", ["Member"], [])
+        mtool.getMemberById("jim").setMemberProperties(
+            {"fullname": "Jim Fult\xc3\xb8rn"}
+        )
 
         acl_users.userFolderAddUser(
             self.MANAGER_USER_NAME,
             self.MANAGER_USER_PASSWORD,
-            ['Manager'],
+            ["Manager"],
             [],
         )
 
         # Add a document
-        setRoles(portal, TEST_USER_ID, ['Manager'])
+        setRoles(portal, TEST_USER_ID, ["Manager"])
         portal.invokeFactory(
-            id='doc1',
-            title='Document 1',
-            type_name='Document',
+            id="doc1",
+            title="Document 1",
+            type_name="Document",
         )
 
 
@@ -112,12 +116,12 @@ class PloneAppDiscussionRobot(PloneAppDiscussion):
 PLONE_APP_DISCUSSION_ROBOT_FIXTURE = PloneAppDiscussionRobot()
 PLONE_APP_DISCUSSION_FIXTURE = PloneAppDiscussion()
 PLONE_APP_DISCUSSION_INTEGRATION_TESTING = IntegrationTesting(
-    bases=(PLONE_APP_DISCUSSION_FIXTURE,),
-    name='PloneAppDiscussion:Integration')
+    bases=(PLONE_APP_DISCUSSION_FIXTURE,), name="PloneAppDiscussion:Integration"
+)
 PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(PLONE_APP_DISCUSSION_FIXTURE,),
-    name='PloneAppDiscussion:Functional')
+    bases=(PLONE_APP_DISCUSSION_FIXTURE,), name="PloneAppDiscussion:Functional"
+)
 PLONE_APP_DISCUSSION_ROBOT_TESTING = FunctionalTesting(
     bases=(PLONE_APP_DISCUSSION_ROBOT_FIXTURE,),
-    name='PloneAppDiscussion:Robot',
+    name="PloneAppDiscussion:Robot",
 )

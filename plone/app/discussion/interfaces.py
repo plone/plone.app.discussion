@@ -14,9 +14,9 @@ from zope.interface.interfaces import IObjectEvent
 
 def isEmail(value):
     portal = getUtility(ISiteRoot)
-    reg_tool = getToolByName(portal, 'portal_registration')
+    reg_tool = getToolByName(portal, "portal_registration")
     if not (value and reg_tool.isValidEmail(value)):
-        raise Invalid(_('Invalid email address.'))
+        raise Invalid(_("Invalid email address."))
     return True
 
 
@@ -42,25 +42,24 @@ class IConversation(IIterableMapping):
     """
 
     total_comments = schema.Int(
-        title=_(u'Total number of public comments on this item'),
+        title=_(u"Total number of public comments on this item"),
         min=0,
         readonly=True,
     )
 
     last_comment_date = schema.Date(
-        title=_(u'Date of the most recent public comment'),
+        title=_(u"Date of the most recent public comment"),
         readonly=True,
     )
 
     commentators = schema.Set(
-        title=_(u'The set of unique commentators (usernames)'),
+        title=_(u"The set of unique commentators (usernames)"),
         readonly=True,
     )
 
     public_commentators = schema.Set(
         title=_(
-            u'The set of unique commentators (usernames) '
-            u'of published_comments',
+            u"The set of unique commentators (usernames) " u"of published_comments",
         ),
         readonly=True,
     )
@@ -72,8 +71,7 @@ class IConversation(IIterableMapping):
         """
 
     def __delitem__(key):
-        """Delete the comment with the given key. The key is a long id.
-        """
+        """Delete the comment with the given key. The key is a long id."""
 
     def getComments(start=0, size=None):
         """Return an iterator of comment objects for rendering.
@@ -130,8 +128,7 @@ class IReplies(IIterableMapping):
         """
 
     def __delitem__(key):
-        """Delete the comment with the given key. The key is a long id.
-        """
+        """Delete the comment with the given key. The key is a long id."""
 
 
 class IComment(Interface):
@@ -141,61 +138,58 @@ class IComment(Interface):
     """
 
     portal_type = schema.ASCIILine(
-        title=_(u'Portal type'),
-        default='Discussion Item',
+        title=_(u"Portal type"),
+        default="Discussion Item",
     )
 
-    __parent__ = schema.Object(
-        title=_(u'Conversation'), schema=Interface)
+    __parent__ = schema.Object(title=_(u"Conversation"), schema=Interface)
 
-    __name__ = schema.TextLine(title=_(u'Name'))
+    __name__ = schema.TextLine(title=_(u"Name"))
 
-    comment_id = schema.Int(
-        title=_(u'A comment id unique to this conversation'))
+    comment_id = schema.Int(title=_(u"A comment id unique to this conversation"))
 
     in_reply_to = schema.Int(
-        title=_(u'Id of comment this comment is in reply to'),
+        title=_(u"Id of comment this comment is in reply to"),
         required=False,
     )
 
     # for logged in comments - set to None for anonymous
-    author_username = schema.TextLine(title=_(u'Name'), required=False)
+    author_username = schema.TextLine(title=_(u"Name"), required=False)
 
     # for anonymous comments only, set to None for logged in comments
-    author_name = schema.TextLine(title=_(u'Name'), required=False)
-    author_email = schema.TextLine(title=_(u'Email'),
-                                   required=False,
-                                   constraint=isEmail,
-                                   )
+    author_name = schema.TextLine(title=_(u"Name"), required=False)
+    author_email = schema.TextLine(
+        title=_(u"Email"),
+        required=False,
+        constraint=isEmail,
+    )
 
-    title = schema.TextLine(title=_(u'label_subject',
-                                    default=u'Subject'))
+    title = schema.TextLine(title=_(u"label_subject", default=u"Subject"))
 
-    mime_type = schema.ASCIILine(title=_(u'MIME type'), default='text/plain')
+    mime_type = schema.ASCIILine(title=_(u"MIME type"), default="text/plain")
     text = schema.Text(
         title=_(
-            u'label_comment',
-            default=u'Comment',
+            u"label_comment",
+            default=u"Comment",
         ),
     )
 
     user_notification = schema.Bool(
         title=_(
-            u'Notify me of new comments via email.',
+            u"Notify me of new comments via email.",
         ),
         required=False,
     )
 
-    creator = schema.TextLine(title=_(u'Username of the commenter'))
-    creation_date = schema.Date(title=_(u'Creation date'))
-    modification_date = schema.Date(title=_(u'Modification date'))
+    creator = schema.TextLine(title=_(u"Username of the commenter"))
+    creation_date = schema.Date(title=_(u"Creation date"))
+    modification_date = schema.Date(title=_(u"Modification date"))
 
 
 class ICaptcha(Interface):
-    """Captcha/ReCaptcha text field to extend the existing comment form.
-    """
-    captcha = schema.TextLine(title=_(u'Captcha'),
-                              required=False)
+    """Captcha/ReCaptcha text field to extend the existing comment form."""
+
+    captcha = schema.TextLine(title=_(u"Captcha"), required=False)
 
 
 class IDiscussionSettings(Interface):
@@ -210,40 +204,38 @@ class IDiscussionSettings(Interface):
     # - Search control panel: Show comments in search results
 
     globally_enabled = schema.Bool(
-        title=_(u'label_globally_enabled',
-                default=u'Globally enable comments'),
+        title=_(u"label_globally_enabled", default=u"Globally enable comments"),
         description=_(
-            u'help_globally_enabled',
-            default=u'If selected, users are able to post comments on the '
-                    u'site. However, you will still need to enable comments '
-                    u'for specific content types, folders or content '
-                    u'objects before users will be able to post comments.',
+            u"help_globally_enabled",
+            default=u"If selected, users are able to post comments on the "
+            u"site. However, you will still need to enable comments "
+            u"for specific content types, folders or content "
+            u"objects before users will be able to post comments.",
         ),
         required=False,
         default=False,
     )
 
     anonymous_comments = schema.Bool(
-        title=_(u'label_anonymous_comments',
-                default='Enable anonymous comments'),
+        title=_(u"label_anonymous_comments", default="Enable anonymous comments"),
         description=_(
-            u'help_anonymous_comments',
-            default=u'If selected, anonymous users are able to post '
-                    u'comments without logging in. It is highly '
-                    u'recommended to use a captcha solution to prevent '
-                    u'spam if this setting is enabled.',
+            u"help_anonymous_comments",
+            default=u"If selected, anonymous users are able to post "
+            u"comments without logging in. It is highly "
+            u"recommended to use a captcha solution to prevent "
+            u"spam if this setting is enabled.",
         ),
         required=False,
         default=False,
     )
 
     anonymous_email_enabled = schema.Bool(
-        title=_(u'label_anonymous_email_enabled',
-                default=u'Enable anonymous email field'),
+        title=_(
+            u"label_anonymous_email_enabled", default=u"Enable anonymous email field"
+        ),
         description=_(
-            u'help_anonymous_email_enabled',
-            default=u'If selected, anonymous user will have to '
-                    u'give their email.',
+            u"help_anonymous_email_enabled",
+            default=u"If selected, anonymous user will have to " u"give their email.",
         ),
         required=False,
         default=False,
@@ -251,130 +243,137 @@ class IDiscussionSettings(Interface):
 
     moderation_enabled = schema.Bool(
         title=_(
-            u'label_moderation_enabled',
-            default='Enable comment moderation',
+            u"label_moderation_enabled",
+            default="Enable comment moderation",
         ),
         description=_(
-            u'help_moderation_enabled',
+            u"help_moderation_enabled",
             default=u'If selected, comments will enter a "Pending" state '
-                    u'in which they are invisible to the public. A user '
-                    u'with the "Review comments" permission ("Reviewer" '
-                    u'or "Manager") can approve comments to make them '
-                    u'visible to the public. If you want to enable a '
-                    u'custom comment workflow, you have to go to the '
-                    u'types control panel.',
+            u"in which they are invisible to the public. A user "
+            u'with the "Review comments" permission ("Reviewer" '
+            u'or "Manager") can approve comments to make them '
+            u"visible to the public. If you want to enable a "
+            u"custom comment workflow, you have to go to the "
+            u"types control panel.",
         ),
         required=False,
         default=False,
     )
 
     edit_comment_enabled = schema.Bool(
-        title=_(u'label_edit_comment_enabled',
-                default='Enable editing of comments'),
-        description=_(u'help_edit_comment_enabled',
-                      default=u'If selected, supports editing '
-                      'of comments for users with the "Edit comments" '
-                      'permission.'),
+        title=_(u"label_edit_comment_enabled", default="Enable editing of comments"),
+        description=_(
+            u"help_edit_comment_enabled",
+            default=u"If selected, supports editing "
+            'of comments for users with the "Edit comments" '
+            "permission.",
+        ),
         required=False,
         default=False,
     )
 
     delete_own_comment_enabled = schema.Bool(
-        title=_(u'label_delete_own_comment_enabled',
-                default='Enable deleting own comments'),
-        description=_(u'help_delete_own_comment_enabled',
-                      default=u'If selected, supports deleting '
-                      'of own comments for users with the '
-                      '"Delete own comments" permission.'),
+        title=_(
+            u"label_delete_own_comment_enabled", default="Enable deleting own comments"
+        ),
+        description=_(
+            u"help_delete_own_comment_enabled",
+            default=u"If selected, supports deleting "
+            "of own comments for users with the "
+            '"Delete own comments" permission.',
+        ),
         required=False,
         default=False,
     )
 
     text_transform = schema.Choice(
-        title=_(u'label_text_transform',
-                default='Comment text transform'),
+        title=_(u"label_text_transform", default="Comment text transform"),
         description=_(
-            u'help_text_transform',
-            default=u'Use this setting to choose if the comment text '
-                    u'should be transformed in any way. You can choose '
-                    u'between "Plain text" and "Intelligent text". '
-                    u'"Intelligent text" converts plain text into HTML '
-                    u'where line breaks and indentation is preserved, '
-                    u'and web and email addresses are made into '
-                    u'clickable links.'),
+            u"help_text_transform",
+            default=u"Use this setting to choose if the comment text "
+            u"should be transformed in any way. You can choose "
+            u'between "Plain text" and "Intelligent text". '
+            u'"Intelligent text" converts plain text into HTML '
+            u"where line breaks and indentation is preserved, "
+            u"and web and email addresses are made into "
+            u"clickable links.",
+        ),
         required=True,
-        default='text/plain',
-        vocabulary='plone.app.discussion.vocabularies.TextTransformVocabulary',
+        default="text/plain",
+        vocabulary="plone.app.discussion.vocabularies.TextTransformVocabulary",
     )
 
     captcha = schema.Choice(
-        title=_(u'label_captcha',
-                default='Captcha'),
+        title=_(u"label_captcha", default="Captcha"),
         description=_(
-            u'help_captcha',
-            default=u'Use this setting to enable or disable Captcha '
-                    u'validation for comments. Install '
-                    u'plone.formwidget.captcha, '
-                    u'plone.formwidget.recaptcha, collective.akismet, or '
-                    u'collective.z3cform.norobots if there are no options '
-                    u'available.'),
+            u"help_captcha",
+            default=u"Use this setting to enable or disable Captcha "
+            u"validation for comments. Install "
+            u"plone.formwidget.captcha, "
+            u"plone.formwidget.recaptcha, collective.akismet, or "
+            u"collective.z3cform.norobots if there are no options "
+            u"available.",
+        ),
         required=True,
-        default='disabled',
-        vocabulary='plone.app.discussion.vocabularies.CaptchaVocabulary',
+        default="disabled",
+        vocabulary="plone.app.discussion.vocabularies.CaptchaVocabulary",
     )
 
     show_commenter_image = schema.Bool(
-        title=_(u'label_show_commenter_image',
-                default=u'Show commenter image'),
+        title=_(u"label_show_commenter_image", default=u"Show commenter image"),
         description=_(
-            u'help_show_commenter_image',
-            default=u'If selected, an image of the user is shown next to '
-                    u'the comment.'),
+            u"help_show_commenter_image",
+            default=u"If selected, an image of the user is shown next to "
+            u"the comment.",
+        ),
         required=False,
         default=True,
     )
 
     moderator_notification_enabled = schema.Bool(
-        title=_(u'label_moderator_notification_enabled',
-                default=u'Enable moderator email notification'),
+        title=_(
+            u"label_moderator_notification_enabled",
+            default=u"Enable moderator email notification",
+        ),
         description=_(
-            u'help_moderator_notification_enabled',
-            default=u'If selected, the moderator is notified if a comment '
-                    u'needs attention. The moderator email address can '
-                    u'be set below.'),
+            u"help_moderator_notification_enabled",
+            default=u"If selected, the moderator is notified if a comment "
+            u"needs attention. The moderator email address can "
+            u"be set below.",
+        ),
         required=False,
         default=False,
     )
 
     moderator_email = schema.ASCIILine(
         title=_(
-            u'label_moderator_email',
-            default=u'Moderator Email Address',
+            u"label_moderator_email",
+            default=u"Moderator Email Address",
         ),
         description=_(
-            u'help_moderator_email',
-            default=u'Address to which moderator notifications '
-                    u'will be sent.'),
+            u"help_moderator_email",
+            default=u"Address to which moderator notifications " u"will be sent.",
+        ),
         required=False,
     )
 
     user_notification_enabled = schema.Bool(
         title=_(
-            u'label_user_notification_enabled',
-            default=u'Enable user email notification',
+            u"label_user_notification_enabled",
+            default=u"Enable user email notification",
         ),
         description=_(
-            u'help_user_notification_enabled',
-            default=u'If selected, users can choose to be notified '
-                    u'of new comments by email.'),
+            u"help_user_notification_enabled",
+            default=u"If selected, users can choose to be notified "
+            u"of new comments by email.",
+        ),
         required=False,
         default=False,
     )
 
 
 class IDiscussionLayer(Interface):
-    """Request marker installed via browserlayer.xml.
-    """
+    """Request marker installed via browserlayer.xml."""
 
 
 class ICommentingTool(Interface):
@@ -384,54 +383,46 @@ class ICommentingTool(Interface):
     of Plone that had a portal_discussion tool.
     """
 
+
 #
 # Custom events
 #
 
 
 class IDiscussionEvent(IObjectEvent):
-    """ Discussion custom event
-    """
+    """Discussion custom event"""
 
 
 class ICommentAddedEvent(IDiscussionEvent):
-    """ Comment added
-    """
+    """Comment added"""
 
 
 class ICommentModifiedEvent(IDiscussionEvent):
-    """ Comment modified
-    """
+    """Comment modified"""
 
 
 class ICommentRemovedEvent(IDiscussionEvent):
-    """ Comment removed
-    """
+    """Comment removed"""
 
 
 class IReplyAddedEvent(IDiscussionEvent):
-    """ Comment reply added
-    """
+    """Comment reply added"""
 
 
 class IReplyModifiedEvent(IDiscussionEvent):
-    """ Comment reply modified
-    """
+    """Comment reply modified"""
 
 
 class IReplyRemovedEvent(IDiscussionEvent):
-    """ Comment reply removed
-    """
+    """Comment reply removed"""
 
 
 class ICommentPublishedEvent(IDiscussionEvent):
-    """ Notify user on comment publication
-    """
+    """Notify user on comment publication"""
 
 
 class ICommentDeletedEvent(IDiscussionEvent):
-    """ Notify user on comment delete
-    """
+    """Notify user on comment delete"""
 
 
 class ICommentTransitionEvent(IDiscussionEvent):
