@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
@@ -63,7 +62,7 @@ def upgrade_comment_workflows_apply_rolemapping(context):
                 wf.updateRoleMappingsFor(comment)
             comment.reindexObjectSecurity()
         except (AttributeError, KeyError):
-            logger.info("Could not reindex comment {0}".format(brain.getURL()))
+            logger.info(f"Could not reindex comment {brain.getURL()}")
 
 
 def upgrade_comment_workflows(context):

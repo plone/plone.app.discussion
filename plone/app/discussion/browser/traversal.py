@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Implement the ++comments++ traversal namespace. This should return the
 IDiscussion container for the context, from which traversal will continue
 into an actual comment object.
@@ -15,7 +14,7 @@ from zope.traversing.interfaces import TraversalError
 
 @implementer(ITraversable)
 @adapter(Interface, IBrowserRequest)
-class ConversationNamespace(object):
+class ConversationNamespace:
     """Allow traversal into a conversation via a ++conversation++name
     namespace. The name is the name of an adapter from context to
     IConversation. The special name 'default' will be taken as the default
@@ -30,7 +29,7 @@ class ConversationNamespace(object):
     def traverse(self, name, ignore):
 
         if name == "default":
-            name = u""
+            name = ""
 
         conversation = queryAdapter(self.context, IConversation, name=name)
         if conversation is None:

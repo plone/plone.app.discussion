@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Test for the plone.app.discussion indexers
 """
 from datetime import datetime

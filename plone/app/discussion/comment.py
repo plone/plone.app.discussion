@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """The default comment class and factory.
 """
 from AccessControl import ClassSecurityInfo
@@ -44,28 +43,28 @@ import six
 
 
 COMMENT_TITLE = _(
-    u"comment_title",
-    default=u"${author_name} on ${content}",
+    "comment_title",
+    default="${author_name} on ${content}",
 )
 
 MAIL_NOTIFICATION_MESSAGE = _(
-    u"mail_notification_message",
-    default=u'A comment on "${title}" '
-    u"has been posted here: ${link}\n\n"
-    u"---\n"
-    u"${text}\n"
-    u"---\n",
+    "mail_notification_message",
+    default='A comment on "${title}" '
+    "has been posted here: ${link}\n\n"
+    "---\n"
+    "${text}\n"
+    "---\n",
 )
 
 MAIL_NOTIFICATION_MESSAGE_MODERATOR = _(
-    u"mail_notification_message_moderator2",
-    default=u'A comment on "${title}" '
-    u"has been posted by ${commentator}\n"
-    u"here: ${link}\n\n"
-    u"---\n\n"
-    u"${text}\n\n"
-    u"---\n\n"
-    u"Log in to moderate.\n\n",
+    "mail_notification_message_moderator2",
+    default='A comment on "${title}" '
+    "has been posted by ${commentator}\n"
+    "here: ${link}\n\n"
+    "---\n\n"
+    "${text}\n\n"
+    "---\n\n"
+    "Log in to moderate.\n\n",
 )
 
 logger = logging.getLogger("plone.app.discussion")
@@ -100,10 +99,10 @@ class Comment(
     comment_id = None  # long
     in_reply_to = None  # long
 
-    title = u""
+    title = ""
 
     mime_type = None
-    text = u""
+    text = ""
 
     creator = None
     creation_date = None
@@ -137,7 +136,7 @@ class Comment(
 
     @property
     def __name__(self):
-        return self.comment_id and six.text_type(self.comment_id) or None
+        return self.comment_id and str(self.comment_id) or None
 
     @property
     def id(self):
@@ -162,7 +161,7 @@ class Comment(
         text = self.text
         if text is None:
             return ""
-        if six.PY2 and isinstance(text, six.text_type):
+        if six.PY2 and isinstance(text, str):
             text = text.encode("utf8")
         transform = transforms.convertTo(
             targetMimetype, text, context=self, mimetype=sourceMimetype
@@ -172,8 +171,8 @@ class Comment(
         else:
             logger = logging.getLogger("plone.app.discussion")
             msg = (
-                u'Transform "{0}" => "{1}" not available. Failed to '
-                u'transform comment "{2}".'
+                'Transform "{0}" => "{1}" not available. Failed to '
+                'transform comment "{2}".'
             )
             logger.error(
                 msg.format(
@@ -194,8 +193,8 @@ class Comment(
             author_name = translate(
                 Message(
                     _(
-                        u"label_anonymous",
-                        default=u"Anonymous",
+                        "label_anonymous",
+                        default="Anonymous",
                     ),
                 ),
             )
@@ -373,7 +372,7 @@ def notify_user(obj, event):
     if not emails:
         return
 
-    subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
+    subject = translate(_("A comment has been posted."), context=obj.REQUEST)
     message = translate(
         Message(
             MAIL_NOTIFICATION_MESSAGE,
@@ -441,7 +440,7 @@ def notify_moderator(obj, event):
     content_object = aq_parent(conversation)
 
     # Compose email
-    subject = translate(_(u"A comment has been posted."), context=obj.REQUEST)
+    subject = translate(_("A comment has been posted."), context=obj.REQUEST)
     message = translate(
         Message(
             MAIL_NOTIFICATION_MESSAGE_MODERATOR,
@@ -453,8 +452,8 @@ def notify_moderator(obj, event):
                 or translate(
                     Message(
                         _(
-                            u"label_anonymous",
-                            default=u"Anonymous",
+                            "label_anonymous",
+                            default="Anonymous",
                         ),
                     ),
                 ),

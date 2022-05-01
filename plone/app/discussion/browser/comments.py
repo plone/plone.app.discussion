@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
@@ -35,28 +34,28 @@ from zope.interface import alsoProvides
 
 
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
-    u"comment_description_plain_text",
-    default=u"You can add a comment by filling out the form below. "
-    u"Plain text formatting.",
+    "comment_description_plain_text",
+    default="You can add a comment by filling out the form below. "
+    "Plain text formatting.",
 )
 
 COMMENT_DESCRIPTION_MARKDOWN = _(
-    u"comment_description_markdown",
-    default=u"You can add a comment by filling out the form below. "
-    u"Plain text formatting. You can use the Markdown syntax for "
-    u"links and images.",
+    "comment_description_markdown",
+    default="You can add a comment by filling out the form below. "
+    "Plain text formatting. You can use the Markdown syntax for "
+    "links and images.",
 )
 
 COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
-    u"comment_description_intelligent_text",
-    default=u"You can add a comment by filling out the form below. "
-    u"Plain text formatting. Web and email addresses are "
-    u"transformed into clickable links.",
+    "comment_description_intelligent_text",
+    default="You can add a comment by filling out the form below. "
+    "Plain text formatting. Web and email addresses are "
+    "transformed into clickable links.",
 )
 
 COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
-    u"comment_description_moderation_enabled",
-    default=u"Comments are moderated.",
+    "comment_description_moderation_enabled",
+    default="Comments are moderated.",
 )
 
 
@@ -64,7 +63,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     ignoreContext = True  # don't use context to get widget data
     id = None
-    label = _(u"Add a comment")
+    label = _("Add a comment")
     fields = field.Fields(IComment).omit(
         "portal_type",
         "__parent__",
@@ -79,16 +78,16 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     )
 
     def updateFields(self):
-        super(CommentForm, self).updateFields()
+        super().updateFields()
         self.fields["user_notification"].widgetFactory = SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
-        super(CommentForm, self).updateWidgets()
+        super().updateWidgets()
 
         # Widgets
         self.widgets["in_reply_to"].mode = interfaces.HIDDEN_MODE
         self.widgets["text"].addClass("autoresize")
-        self.widgets["user_notification"].label = _(u"")
+        self.widgets["user_notification"].label = _("")
         # Reset widget field settings to their defaults, which may be changed
         # further on.  Otherwise, the email field might get set to required
         # when an anonymous user visits, and then remain required when an
@@ -140,7 +139,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             self.widgets["user_notification"].mode = interfaces.HIDDEN_MODE
 
     def updateActions(self):
-        super(CommentForm, self).updateActions()
+        super().updateActions()
         self.actions["cancel"].addClass("btn btn-secondary")
         self.actions["cancel"].addClass("hide")
         self.actions["comment"].addClass("btn btn-primary")
@@ -148,7 +147,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     def get_author(self, data):
         context = aq_inner(self.context)
         # some attributes are not always set
-        author_name = u""
+        author_name = ""
 
         # Make sure author_name/ author_email is properly encoded
         if "author_name" in data:
@@ -219,16 +218,14 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
         else:  # pragma: no cover
             raise Unauthorized(
-                u"Anonymous user tries to post a comment, but anonymous "
-                u"commenting is disabled. Or user does not have the "
-                u"'reply to item' permission.",
+                "Anonymous user tries to post a comment, but anonymous "
+                "commenting is disabled. Or user does not have the "
+                "'reply to item' permission.",
             )
 
         return comment
 
-    @button.buttonAndHandler(
-        _(u"add_comment_button", default=u"Comment"), name="comment"
-    )
+    @button.buttonAndHandler(_("add_comment_button", default="Comment"), name="comment")
     def handleComment(self, action):
         context = aq_inner(self.context)
 
@@ -254,7 +251,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         anon = portal_membership.isAnonymousUser()
         if captcha_enabled and anonymous_comments and anon:
             if "captcha" not in data:
-                data["captcha"] = u""
+                data["captcha"] = ""
             captcha = CaptchaValidator(
                 self.context, self.request, None, ICaptcha["captcha"], None
             )
@@ -296,7 +293,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # Redirect to comment (inside a content object page)
             self.request.response.redirect(self.action + "#" + str(comment_id))
 
-    @button.buttonAndHandler(_(u"Cancel"))
+    @button.buttonAndHandler(_("Cancel"))
     def handleCancel(self, action):
         # This method should never be called, it's only there to show
         # a cancel button that is handled by a jQuery method.
@@ -309,7 +306,7 @@ class CommentsViewlet(ViewletBase):
     index = ViewPageTemplateFile("comments.pt")
 
     def update(self):
-        super(CommentsViewlet, self).update()
+        super().update()
         discussion_allowed = self.is_discussion_allowed()
         anonymous_allowed_or_can_reply = (
             self.is_anonymous()
@@ -483,7 +480,7 @@ class CommentsViewlet(ViewletBase):
         if username is None:
             return None
         else:
-            return "{0}/author/{1}".format(self.context.portal_url(), username)
+            return f"{self.context.portal_url()}/author/{username}"
 
     def get_commenter_portrait(self, username=None):
 
@@ -523,7 +520,7 @@ class CommentsViewlet(ViewletBase):
         return portal_membership.isAnonymousUser()
 
     def login_action(self):
-        return "{0}/login_form?came_from={1}".format(
+        return "{}/login_form?came_from={}".format(
             self.navigation_root_url,
             quote(self.request.get("URL", "")),
         )

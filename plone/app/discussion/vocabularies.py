@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.discussion.interfaces import _
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -40,7 +39,7 @@ except ImportError:
 def captcha_vocabulary(context):
     """Vocabulary with all available captcha implementations."""
     terms = []
-    terms.append(SimpleTerm(value="disabled", token="disabled", title=_(u"Disabled")))
+    terms.append(SimpleTerm(value="disabled", token="disabled", title=_("Disabled")))
 
     if HAS_CAPTCHA:  # pragma: no cover
         terms.append(SimpleTerm(value="captcha", token="captcha", title="Captcha"))

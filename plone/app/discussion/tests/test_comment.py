@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.discussion.browser.comment import View
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
@@ -64,7 +63,7 @@ class CommentTest(unittest.TestCase):
         comment1.comment_id = 123
         self.assertEqual("123", comment1.id)
         self.assertEqual("123", comment1.getId())
-        self.assertEqual(u"123", comment1.__name__)
+        self.assertEqual("123", comment1.__name__)
 
     def test_uid(self):
         conversation = IConversation(self.portal.doc1)
@@ -111,14 +110,14 @@ class CommentTest(unittest.TestCase):
     def test_title_special_characters(self):
         self.portal.invokeFactory(
             id="doc_sp_chars",
-            title=u"Document äüö",
+            title="Document äüö",
             type_name="Document",
         )
         conversation = IConversation(self.portal.doc_sp_chars)
         comment1 = createObject("plone.Comment")
-        comment1.author_name = u"Tarek Ziadé"
+        comment1.author_name = "Tarek Ziadé"
         conversation.addComment(comment1)
-        self.assertEqual(u"Tarek Ziadé on Document äüö", comment1.Title())
+        self.assertEqual("Tarek Ziadé on Document äüö", comment1.Title())
 
     def test_title_special_characters_utf8(self):
         self.portal.invokeFactory(
@@ -130,7 +129,7 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject("plone.Comment")
         comment1.author_name = "Hüüb Bôûmä"
         conversation.addComment(comment1)
-        self.assertEqual(u"Hüüb Bôûmä on Document ëïû", comment1.Title())
+        self.assertEqual("Hüüb Bôûmä on Document ëïû", comment1.Title())
 
     def test_creator(self):
         comment1 = createObject("plone.Comment")
@@ -174,12 +173,9 @@ class CommentTest(unittest.TestCase):
 
     def test_getText_with_non_ascii_characters(self):
         comment1 = createObject("plone.Comment")
-        comment1.text = u"Umlaute sind ä, ö und ü."
+        comment1.text = "Umlaute sind ä, ö und ü."
         out = b"<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>"
-        if six.PY2:
-            self.assertEqual(comment1.getText(), out)
-        else:
-            self.assertEqual(comment1.getText(), out.decode("utf8"))
+        self.assertEqual(comment1.getText(), out.decode("utf8"))
 
     def test_getText_doesnt_link(self):
         comment1 = createObject("plone.Comment")
@@ -233,7 +229,7 @@ class CommentTest(unittest.TestCase):
         new_comment1_id = conversation.addComment(comment1)
 
         comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_comment1_id),
+            f"++conversation++default/{new_comment1_id}",
         )
         self.assertTrue(IComment.providedBy(comment))
 
@@ -268,7 +264,7 @@ class CommentTest(unittest.TestCase):
         comment1.text = "Comment text"
         new_comment1_id = conversation.addComment(comment1)
         comment = self.portal.image1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_comment1_id),
+            f"++conversation++default/{new_comment1_id}",
         )
 
         view = View(comment, self.request)
@@ -336,7 +332,7 @@ class CommentTest(unittest.TestCase):
         new_comment1_id = conversation.addComment(comment1)
 
         comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_comment1_id),
+            f"++conversation++default/{new_comment1_id}",
         )
 
         # make sure the view is there
@@ -381,7 +377,7 @@ class RepliesTest(unittest.TestCase):
         comment.text = "Comment text"
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_id),
+            f"++conversation++default/{new_id}",
         )
 
         # Add a reply to the CommentReplies adapter of the first comment
@@ -418,7 +414,7 @@ class RepliesTest(unittest.TestCase):
         comment.text = "Comment text"
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_id),
+            f"++conversation++default/{new_id}",
         )
 
         # Add a reply to the CommentReplies adapter of the first comment
@@ -454,7 +450,7 @@ class RepliesTest(unittest.TestCase):
         comment.text = "Comment text"
         new_id = conversation.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_id),
+            f"++conversation++default/{new_id}",
         )
 
         # Add a reply to the CommentReplies adapter of the first comment
@@ -463,7 +459,7 @@ class RepliesTest(unittest.TestCase):
         replies = IReplies(comment)
         new_re_id = replies.addComment(re_comment)
         re_comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_re_id),
+            f"++conversation++default/{new_re_id}",
         )
 
         # Add a reply to the reply
@@ -472,7 +468,7 @@ class RepliesTest(unittest.TestCase):
         replies = IReplies(re_comment)
         new_re_re_id = replies.addComment(re_re_comment)
         re_re_comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_re_re_id),
+            f"++conversation++default/{new_re_re_id}",
         )
 
         # Add a reply to the replies reply
@@ -481,7 +477,7 @@ class RepliesTest(unittest.TestCase):
         replies = IReplies(re_re_comment)
         new_re_re_re_id = replies.addComment(re_re_re_comment)
         re_re_re_comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_re_re_re_id),
+            f"++conversation++default/{new_re_re_re_id}",
         )
 
         self.assertEqual(

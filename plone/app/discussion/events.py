@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """ Custom discussion events
 """
 from plone.app.discussion.interfaces import ICommentAddedEvent
@@ -15,7 +14,7 @@ from zope.interface import implementer
 
 
 @implementer(IDiscussionEvent)
-class DiscussionEvent(object):
+class DiscussionEvent:
     """Custom event"""
 
     def __init__(self, context, comment, **kwargs):

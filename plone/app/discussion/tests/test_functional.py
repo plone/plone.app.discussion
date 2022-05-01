@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Functional Doctests for plone.app.discussion.
 
    These test are only triggered when Plone 4 (and plone.testing) is installed.

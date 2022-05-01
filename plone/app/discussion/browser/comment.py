@@ -1,4 +1,3 @@
-# coding: utf-8
 from .comments import CommentForm
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
@@ -48,9 +47,9 @@ class View(BrowserView):
         will redirect right to the binary object, bypassing comments.
         """
         if obj.portal_type in view_action_types:
-            url = "{0}/view".format(url)
+            url = f"{url}/view"
 
-        self.request.response.redirect("{0}#{1}".format(url, context.id))
+        self.request.response.redirect(f"{url}#{context.id}")
 
 
 class EditCommentForm(CommentForm):
@@ -58,10 +57,10 @@ class EditCommentForm(CommentForm):
 
     ignoreContext = True
     id = "edit-comment-form"
-    label = _(u"edit_comment_form_title", default=u"Edit comment")
+    label = _("edit_comment_form_title", default="Edit comment")
 
     def updateWidgets(self):
-        super(EditCommentForm, self).updateWidgets()
+        super().updateWidgets()
         self.widgets["text"].value = self.context.text
         # We have to rename the id, otherwise TinyMCE can't initialize
         # because there are two textareas with the same id.
@@ -70,12 +69,12 @@ class EditCommentForm(CommentForm):
     def _redirect(self, target=""):
         if not target:
             portal_state = getMultiAdapter(
-                (self.context, self.request), name=u"plone_portal_state"
+                (self.context, self.request), name="plone_portal_state"
             )
             target = portal_state.portal_url()
         self.request.response.redirect(target)
 
-    @button.buttonAndHandler(_(u"label_save", default=u"Save"), name="comment")
+    @button.buttonAndHandler(_("label_save", default="Save"), name="comment")
     def handleComment(self, action):
 
         # Validate form
@@ -96,14 +95,14 @@ class EditCommentForm(CommentForm):
 
         # Redirect to comment
         IStatusMessage(self.request).add(
-            _(u"comment_edit_notification", default="Comment was edited"), type="info"
+            _("comment_edit_notification", default="Comment was edited"), type="info"
         )
         return self._redirect(target=self.action.replace("@@edit-comment", "@@view"))
 
-    @button.buttonAndHandler(_(u"cancel_form_button", default=u"Cancel"), name="cancel")
+    @button.buttonAndHandler(_("cancel_form_button", default="Cancel"), name="cancel")
     def handle_cancel(self, action):
         IStatusMessage(self.request).add(
-            _(u"comment_edit_cancel_notification", default=u"Edit comment cancelled"),
+            _("comment_edit_cancel_notification", default="Edit comment cancelled"),
             type="info",
         )
         return self._redirect(target=self.context.absolute_url())

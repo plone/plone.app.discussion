@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """The portal_discussion tool, usually accessed via
 queryUtility(ICommentingTool). The default implementation delegates to the
 standard portal_catalog for indexing comments.

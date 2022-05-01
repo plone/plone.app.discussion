@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.upgrades import update_registry
@@ -32,22 +31,22 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
 
     schema = IDiscussionSettings
     id = "DiscussionSettingsEditForm"
-    label = _(u"Discussion settings")
+    label = _("Discussion settings")
     description = _(
-        u"help_discussion_settings_editform",
-        default=u"Some discussion related settings are not "
-        u"located in the Discussion Control Panel.\n"
-        u"To enable comments for a specific content type, "
-        u"go to the Types Control Panel of this type and "
-        u'choose "Allow comments".\n'
-        u"To enable the moderation workflow for comments, "
-        u"go to the Types Control Panel, choose "
-        u'"Comment" and set workflow to '
-        u'"Comment Review Workflow".',
+        "help_discussion_settings_editform",
+        default="Some discussion related settings are not "
+        "located in the Discussion Control Panel.\n"
+        "To enable comments for a specific content type, "
+        "go to the Types Control Panel of this type and "
+        'choose "Allow comments".\n'
+        "To enable the moderation workflow for comments, "
+        "go to the Types Control Panel, choose "
+        '"Comment" and set workflow to '
+        '"Comment Review Workflow".',
     )
 
     def updateFields(self):
-        super(DiscussionSettingsEditForm, self).updateFields()
+        super().updateFields()
         self.fields["globally_enabled"].widgetFactory = SingleCheckBoxFieldWidget
         self.fields["moderation_enabled"].widgetFactory = SingleCheckBoxFieldWidget
         self.fields["edit_comment_enabled"].widgetFactory = SingleCheckBoxFieldWidget
@@ -65,20 +64,20 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
 
     def updateWidgets(self):
         try:
-            super(DiscussionSettingsEditForm, self).updateWidgets()
+            super().updateWidgets()
         except KeyError:
             # upgrade profile not visible in prefs_install_products_form
             # provide auto-upgrade
             update_registry(self.context)
-            super(DiscussionSettingsEditForm, self).updateWidgets()
-        self.widgets["globally_enabled"].label = _(u"Enable Comments")
-        self.widgets["anonymous_comments"].label = _(u"Anonymous Comments")
-        self.widgets["show_commenter_image"].label = _(u"Commenter Image")
+            super().updateWidgets()
+        self.widgets["globally_enabled"].label = _("Enable Comments")
+        self.widgets["anonymous_comments"].label = _("Anonymous Comments")
+        self.widgets["show_commenter_image"].label = _("Commenter Image")
         self.widgets["moderator_notification_enabled"].label = _(
-            u"Moderator Email Notification",
+            "Moderator Email Notification",
         )
         self.widgets["user_notification_enabled"].label = _(
-            u"User Email Notification",
+            "User Email Notification",
         )
 
     @button.buttonAndHandler(_("Save"), name=None)
@@ -88,14 +87,14 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
             self.status = self.formErrorsMessage
             return
         self.applyChanges(data)
-        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"), "info")
+        IStatusMessage(self.request).addStatusMessage(_("Changes saved"), "info")
         self.context.REQUEST.RESPONSE.redirect("@@discussion-controlpanel")
 
     @button.buttonAndHandler(_("Cancel"), name="cancel")
     def handleCancel(self, action):
-        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"), "info")
+        IStatusMessage(self.request).addStatusMessage(_("Edit cancelled"), "info")
         self.request.response.redirect(
-            "{0}/{1}".format(
+            "{}/{}".format(
                 self.context.absolute_url(),
                 self.control_panel_view,
             ),
@@ -111,7 +110,7 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
     def __call__(self):
         self.mailhost_warning()
         self.custom_comment_workflow_warning()
-        return super(DiscussionSettingsControlPanel, self).__call__()
+        return super().__call__()
 
     @property
     def site_url(self):
@@ -180,8 +179,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             pass
         else:
             message = _(
-                u"discussion_text_no_mailhost_configured",
-                default=u"You have not configured a mail host or a site 'From' address, various features including contact forms, email notification and password reset will not work. Go to the E-Mail Settings to fix this.",
+                "discussion_text_no_mailhost_configured",
+                default="You have not configured a mail host or a site 'From' address, various features including contact forms, email notification and password reset will not work. Go to the E-Mail Settings to fix this.",
             )  # noqa: E501
             IStatusMessage(self.request).addStatusMessage(message, "warning")
 
@@ -195,8 +194,8 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
             pass
         else:
             message = _(
-                u"discussion_text_custom_comment_workflow",
-                default=u"You have configured a custom workflow for the 'Discussion Item' content type. You can enable/disable the comment moderation in this control panel only if you use one of the default 'Discussion Item' workflows. Go to the Types control panel to choose a workflow for the 'Discussion Item' type.",
+                "discussion_text_custom_comment_workflow",
+                default="You have configured a custom workflow for the 'Discussion Item' content type. You can enable/disable the comment moderation in this control panel only if you use one of the default 'Discussion Item' workflows. Go to the Types control panel to choose a workflow for the 'Discussion Item' type.",
             )  # noqa: E501
             IStatusMessage(self.request).addStatusMessage(message, "warning")
 

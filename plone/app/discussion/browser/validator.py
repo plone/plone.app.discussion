@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Captcha validator, see captcha.txt for design notes.
 """
 from Acquisition import aq_inner
@@ -39,7 +38,7 @@ class CaptchaValidator(validator.SimpleFieldValidator):
     # We adapt the CaptchaValidator class to all form fields (IField)
 
     def validate(self, value):
-        super(CaptchaValidator, self).validate(value)
+        super().validate(value)
 
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)

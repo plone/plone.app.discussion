@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.testing import (  # noqa
@@ -80,7 +79,7 @@ class TestUserNotificationUnit(unittest.TestCase):
         # you may get lines separated by '\n' or '\r\n' in here.
         msg = msg.replace("\r\n", "\n")
         self.assertIn('A comment on "K=C3=B6lle Alaaf" has been posted here:', msg)
-        self.assertIn("http://nohost/plone/d=\noc1/view#{0}".format(comment_id), msg)
+        self.assertIn(f"http://nohost/plone/d=\noc1/view#{comment_id}", msg)
         self.assertIn("Comment text", msg)
         self.assertNotIn("Approve comment", msg)
         self.assertNotIn("Delete comment", msg)
@@ -215,7 +214,7 @@ class TestModeratorNotificationUnit(unittest.TestCase):
         # The output should be encoded in a reasonable manner
         # (in this case quoted-printable):
         self.assertTrue('A comment on "K=C3=B6lle Alaaf" has been posted' in msg)
-        self.assertIn("http://nohost/plone/doc1/view#{0}".format(comment_id), msg)
+        self.assertIn(f"http://nohost/plone/doc1/view#{comment_id}", msg)
         self.assertIn(comment.author_email, msg)
         self.assertIn(comment.text, msg)
 

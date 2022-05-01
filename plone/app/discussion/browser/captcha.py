@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Captcha validator, see captcha.txt for design notes.
 from persistent import Persistent
 from plone.app.discussion.browser.comments import CommentForm
@@ -23,7 +22,7 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 class Captcha(Persistent):
     """Captcha input field."""
 
-    captcha = u""
+    captcha = ""
 
 
 Captcha = factory(Captcha)

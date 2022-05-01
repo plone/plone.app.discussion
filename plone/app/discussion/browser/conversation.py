@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_chain
 from Acquisition import aq_inner
@@ -34,7 +33,7 @@ def traverse_parents(context):
     return None
 
 
-class ConversationView(object):
+class ConversationView:
     def enabled(self):
         if DEXTERITY_INSTALLED and IDexterityContent.providedBy(self.context):
             return self._enabled_for_dexterity_types()

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.testing import (  # noqa
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING,

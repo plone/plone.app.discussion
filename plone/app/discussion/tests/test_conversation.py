@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from datetime import datetime
@@ -387,17 +386,17 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue(comment2 in conversation.values())
 
         # check if comment ids are in iterkeys
-        self.assertTrue(new_id1 in six.iterkeys(conversation))
-        self.assertTrue(new_id2 in six.iterkeys(conversation))
-        self.assertFalse(123 in six.iterkeys(conversation))
+        self.assertTrue(new_id1 in conversation.keys())
+        self.assertTrue(new_id2 in conversation.keys())
+        self.assertFalse(123 in conversation.keys())
 
         # check if comment objects are in itervalues
-        self.assertTrue(comment1 in six.itervalues(conversation))
-        self.assertTrue(comment2 in six.itervalues(conversation))
+        self.assertTrue(comment1 in conversation.values())
+        self.assertTrue(comment2 in conversation.values())
 
         # check if iteritems returns (key, comment object) pairs
-        self.assertTrue((new_id1, comment1) in six.iteritems(conversation))
-        self.assertTrue((new_id2, comment2) in six.iteritems(conversation))
+        self.assertTrue((new_id1, comment1) in conversation.items())
+        self.assertTrue((new_id2, comment2) in conversation.items())
 
         # TODO test acquisition wrapping  # noqa T000
         # self.assertTrue(aq_base(aq_parent(comment1)) is conversation)
@@ -852,18 +851,18 @@ class RepliesTest(unittest.TestCase):
         # Create the nested comment structure
         new_id_1 = replies.addComment(comment1)
         comment1 = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_id_1),
+            f"++conversation++default/{new_id_1}",
         )
         replies_to_comment1 = IReplies(comment1)
         new_id_2 = replies.addComment(comment2)
         comment2 = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_id_2),
+            f"++conversation++default/{new_id_2}",
         )
         replies_to_comment2 = IReplies(comment2)
 
         new_id_1_1 = replies_to_comment1.addComment(comment1_1)
         comment1_1 = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_id_1_1),
+            f"++conversation++default/{new_id_1_1}",
         )
         replies_to_comment1_1 = IReplies(comment1_1)
         replies_to_comment1_1.addComment(comment1_1_1)

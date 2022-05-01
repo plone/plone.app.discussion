@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # plone.app.discussion documentation build configuration file, created by
 # sphinx-quickstart on Thu Mar 18 10:17:15 2010.
@@ -47,8 +46,8 @@ source_suffix = ".txt"
 master_doc = "index"
 
 # General information about the project.
-project = u"plone.app.discussion"
-copyright = u"2010, Timo Stollenwerk - Plone Foundation"
+project = "plone.app.discussion"
+copyright = "2010, Timo Stollenwerk - Plone Foundation"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -185,8 +184,8 @@ latex_documents = [
     (
         "index",
         "ploneappdiscussion.tex",
-        u"plone.app.discussion Documentation",
-        u"Timo Stollenwerk",
+        "plone.app.discussion Documentation",
+        "Timo Stollenwerk",
         "manual",
     ),
 ]

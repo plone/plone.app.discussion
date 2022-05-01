@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """The conversation and replies adapters
 
 The conversation is responsible for storing all comments. It provides a
@@ -130,8 +129,7 @@ class Conversation(Traversable, Persistent, Explicit):
                 children = self._children.get(comment_id, None)
                 if children is not None:
                     for child_id in children:
-                        for value in recurse(child_id, d + 1):
-                            yield value
+                        yield from recurse(child_id, d + 1)
 
         # Find top level threads
         comments = self._children.get(root, None)
@@ -145,8 +143,7 @@ class Conversation(Traversable, Persistent, Explicit):
                     return
 
                 # Let the closure recurse
-                for value in recurse(comment_id):
-                    yield value
+                yield from recurse(comment_id)
 
     def addComment(self, comment):
         """Add a new comment. The parent id should have been set already. The
@@ -276,14 +273,14 @@ class Conversation(Traversable, Persistent, Explicit):
         return [v.__of__(self) for v in self._comments.values()]
 
     def iterkeys(self):
-        return six.iterkeys(self._comments)
+        return self._comments.keys()
 
     def itervalues(self):
-        for v in six.itervalues(self._comments):
+        for v in self._comments.values():
             yield v.__of__(self)
 
     def iteritems(self):
-        for k, v in six.iteritems(self._comments):
+        for k, v in self._comments.items():
             yield (
                 k,
                 v.__of__(self),
@@ -332,7 +329,7 @@ else:
 
 @implementer(IReplies)
 @adapter(Conversation)  # relies on implementation details
-class ConversationReplies(object):
+class ConversationReplies:
     """An IReplies adapter for conversations.
 
     This makes it easy to work with top-level comments.

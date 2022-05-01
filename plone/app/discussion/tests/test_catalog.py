@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Test the plone.app.discussion catalog indexes
 """
 from datetime import datetime
@@ -98,7 +97,7 @@ class ConversationCatalogTest(unittest.TestCase):
         new_comment2_id = self.conversation.addComment(comment2)
 
         comment2 = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_comment2_id),
+            f"++conversation++default/{new_comment2_id}",
         )
         comment2.reindexObject()
         brains = self.catalog.searchResults(
@@ -128,7 +127,7 @@ class ConversationCatalogTest(unittest.TestCase):
         new_comment2_id = self.conversation.addComment(comment2)
 
         comment2 = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_comment2_id),
+            f"++conversation++default/{new_comment2_id}",
         )
         comment2.reindexObject()
         brains = self.catalog.searchResults(
@@ -188,7 +187,7 @@ class ConversationCatalogTest(unittest.TestCase):
         new_comment2_id = self.conversation.addComment(comment2)
 
         comment2 = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_comment2_id),
+            f"++conversation++default/{new_comment2_id}",
         )
         comment2.reindexObject()
 
@@ -283,7 +282,7 @@ class CommentCatalogTest(unittest.TestCase):
 
         # Comment brain
         self.comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_comment1_id),
+            f"++conversation++default/{new_comment1_id}",
         )
         brains = self.catalog.searchResults(
             dict(
@@ -304,7 +303,7 @@ class CommentCatalogTest(unittest.TestCase):
 
         # Comment brain
         comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(cid),
+            f"++conversation++default/{cid}",
         )
         brains = self.catalog.searchResults(
             dict(
@@ -503,7 +502,7 @@ class CommentCatalogTest(unittest.TestCase):
         brains = self.catalog.searchResults({"portal_type": "Discussion Item"})
         self.assertTrue(brains)
         comment_brain = brains[0]
-        self.assertEqual(comment_brain.Title, u"Jim on Document 1")
+        self.assertEqual(comment_brain.Title, "Jim on Document 1")
         self.assertEqual(
             comment_brain.getPath(),
             "/plone/doc1/++conversation++default/" + str(self.comment_id),

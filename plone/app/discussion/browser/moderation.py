@@ -1,4 +1,3 @@
-# coding: utf-8
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
@@ -51,7 +50,7 @@ class View(BrowserView):
         pass
 
     def __init__(self, context, request):
-        super(View, self).__init__(context, request)
+        super().__init__(context, request)
         self.workflowTool = getToolByName(self.context, "portal_workflow")
         self.transitions = []
 
@@ -229,7 +228,7 @@ class DeleteOwnComment(DeleteComment):
 
     def __call__(self):
         if self.can_delete():
-            super(DeleteOwnComment, self).__call__()
+            super().__call__()
         else:
             raise Unauthorized("You're not allowed to delete this comment.")
 
@@ -318,7 +317,7 @@ class BulkActionsView(BrowserView):
     """
 
     def __init__(self, context, request):
-        super(BulkActionsView, self).__init__(context, request)
+        super().__init__(context, request)
         self.workflowTool = getToolByName(context, "portal_workflow")
 
     def __call__(self):

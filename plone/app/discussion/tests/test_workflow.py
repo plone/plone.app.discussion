@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Test plone.app.discussion workflow and permissions.
 """
 from AccessControl import Unauthorized
@@ -128,7 +127,7 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         cid = conversation.addComment(comment)
 
         self.comment = self.folder.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(cid),
+            f"++conversation++default/{cid}",
         )
 
         self.portal.acl_users._doAddUser("member", "secret", ["Member"], [])
@@ -223,7 +222,7 @@ class CommentReviewWorkflowTest(unittest.TestCase):
         comment.text = "Comment text"
         comment_id = conversation.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(comment_id),
+            f"++conversation++default/{comment_id}",
         )
 
         self.conversation = conversation

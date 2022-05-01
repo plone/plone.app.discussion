@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.testing import (  # noqa
@@ -20,7 +19,7 @@ import unittest
 #
 
 
-class EventsRegistry(object):
+class EventsRegistry:
     """Fake registry to be used while testing discussion events"""
 
     commentAdded = False
@@ -123,7 +122,7 @@ class CommentEventsTest(unittest.TestCase):
         conversation = IConversation(self.document)
         new_id = conversation.addComment(comment)
         comment = self.document.restrictedTraverse(
-            "++conversation++default/{0}".format(new_id),
+            f"++conversation++default/{new_id}",
         )
         comment.text = "foo"
         notify(ObjectModifiedEvent(comment))
@@ -191,7 +190,7 @@ class RepliesEventsTest(unittest.TestCase):
         comment.text = "Comment text"
         new_id = replies.addComment(comment)
         comment = self.document.restrictedTraverse(
-            "++conversation++default/{0}".format(new_id),
+            f"++conversation++default/{new_id}",
         )
 
         re_comment = createObject("plone.Comment")
@@ -211,7 +210,7 @@ class RepliesEventsTest(unittest.TestCase):
         comment.text = "Comment text"
         comment_id = replies.addComment(comment)
         comment = self.document.restrictedTraverse(
-            "++conversation++default/{0}".format(comment_id),
+            f"++conversation++default/{comment_id}",
         )
         re_comment = createObject("plone.Comment")
         re_comment.text = "Comment text"
@@ -232,7 +231,7 @@ class RepliesEventsTest(unittest.TestCase):
         comment.text = "Comment text"
         new_id = replies.addComment(comment)
         comment = self.portal.doc1.restrictedTraverse(
-            "++conversation++default/{0}".format(new_id),
+            f"++conversation++default/{new_id}",
         )
 
         re_comment = createObject("plone.Comment")

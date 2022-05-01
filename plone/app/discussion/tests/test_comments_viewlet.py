@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
 from datetime import datetime
 from OFS.Image import Image
@@ -81,7 +80,7 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form",
+            name="comment-form",
         )
 
         # The form should return an error if the comment text field is empty
@@ -89,7 +88,7 @@ class TestCommentForm(unittest.TestCase):
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form",
+            name="comment-form",
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -99,11 +98,11 @@ class TestCommentForm(unittest.TestCase):
 
         # The form is submitted successfully, if the required text field is
         # filled out
-        request = make_request(form={"form.widgets.text": u"bar"})
+        request = make_request(form={"form.widgets.text": "bar"})
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form",
+            name="comment-form",
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -116,7 +115,7 @@ class TestCommentForm(unittest.TestCase):
         self.assertEqual(len(comments), 1)
 
         for comment in comments:
-            self.assertEqual(comment.text, u"bar")
+            self.assertEqual(comment.text, "bar")
             self.assertEqual(comment.creator, "test_user_1_")
             self.assertEqual(comment.getOwner().getUserName(), "test-user")
             local_roles = comment.get_local_roles()
@@ -144,23 +143,23 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form",
+            name="comment-form",
         )
 
         provideAdapter(
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=EditCommentForm,
-            name=u"edit-comment-form",
+            name="edit-comment-form",
         )
 
         # The form is submitted successfully, if the required text field is
         # filled out
-        request = make_request(form={"form.widgets.text": u"bar"})
+        request = make_request(form={"form.widgets.text": "bar"})
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form",
+            name="comment-form",
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -171,10 +170,10 @@ class TestCommentForm(unittest.TestCase):
         # Edit the last comment
         conversation = IConversation(self.context)
         comment = [x for x in conversation.getComments()][-1]
-        request = make_request(form={"form.widgets.text": u"foobar"})
+        request = make_request(form={"form.widgets.text": "foobar"})
         editForm = getMultiAdapter(
             (comment, request),
-            name=u"edit-comment-form",
+            name="edit-comment-form",
         )
         editForm.update()
         data, errors = editForm.extractData()  # pylint: disable-msg=W0612
@@ -182,14 +181,14 @@ class TestCommentForm(unittest.TestCase):
         self.assertEqual(len(errors), 0)
         self.assertFalse(editForm.handleComment(editForm, "foo"))
         comment = [x for x in conversation.getComments()][-1]
-        self.assertEqual(comment.text, u"foobar")
+        self.assertEqual(comment.text, "foobar")
 
         comments = IConversation(commentForm.context).getComments()
         comments = [c for c in comments]  # consume iterator
         self.assertEqual(len(comments), 1)
 
         for comment in comments:
-            self.assertEqual(comment.text, u"foobar")
+            self.assertEqual(comment.text, "foobar")
             self.assertEqual(comment.creator, "test_user_1_")
 
             self.assertEqual(comment.getOwner().getUserName(), "test-user")
@@ -218,16 +217,16 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form",
+            name="comment-form",
         )
 
         # The form is submitted successfully, if the required text field is
         # filled out
-        form_request = make_request(form={"form.widgets.text": u"bar"})
+        form_request = make_request(form={"form.widgets.text": "bar"})
 
         commentForm = getMultiAdapter(
             (self.context, form_request),
-            name=u"comment-form",
+            name="comment-form",
         )
 
         commentForm.update()
@@ -240,7 +239,7 @@ class TestCommentForm(unittest.TestCase):
         comment = [x for x in conversation.getComments()][-1]
         deleteView = getMultiAdapter(
             (comment, self.request),
-            name=u"moderate-delete-comment",
+            name="moderate-delete-comment",
         )
         # try to delete last comment without 'Delete comments' permission
         setRoles(self.portal, TEST_USER_ID, ["Member"])
@@ -275,16 +274,16 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form",
+            name="comment-form",
         )
 
         # The form is submitted successfully, if the required text field is
         # filled out
-        form_request = make_request(form={"form.widgets.text": u"bar"})
+        form_request = make_request(form={"form.widgets.text": "bar"})
 
         commentForm = getMultiAdapter(
             (self.context, form_request),
-            name=u"comment-form",
+            name="comment-form",
         )
 
         commentForm.update()
@@ -297,7 +296,7 @@ class TestCommentForm(unittest.TestCase):
         comment = [x for x in conversation.getComments()][-1]
         deleteView = getMultiAdapter(
             (comment, self.request),
-            name=u"delete-own-comment",
+            name="delete-own-comment",
         )
         # try to delete last comment with johndoe
         setRoles(self.portal, "johndoe", ["Member"])
@@ -337,20 +336,20 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form",
+            name="comment-form",
         )
 
         # Post an anonymous comment and provide a name
         request = make_request(
             form={
-                "form.widgets.name": u"john doe",
-                "form.widgets.text": u"bar",
+                "form.widgets.name": "john doe",
+                "form.widgets.text": "bar",
             }
         )
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form",
+            name="comment-form",
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -363,7 +362,7 @@ class TestCommentForm(unittest.TestCase):
         self.assertEqual(len(comments), 1)
 
         for comment in IConversation(commentForm.context).getComments():
-            self.assertEqual(comment.text, u"bar")
+            self.assertEqual(comment.text, "bar")
             self.assertIsNone(comment.creator)
             roles = comment.get_local_roles()
             self.assertEqual(len(roles), 0)
@@ -387,14 +386,14 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form",
+            name="comment-form",
         )
 
-        request = make_request(form={"form.widgets.text": u"bar"})
+        request = make_request(form={"form.widgets.text": "bar"})
 
         commentForm = getMultiAdapter(
             (self.context, request),
-            name=u"comment-form",
+            name="comment-form",
         )
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
@@ -425,12 +424,12 @@ class TestCommentForm(unittest.TestCase):
             adapts=(Interface, IBrowserRequest),
             provides=Interface,
             factory=CommentForm,
-            name=u"comment-form",
+            name="comment-form",
         )
 
-        request = make_request(form={"form.widgets.text": u"bar"})
+        request = make_request(form={"form.widgets.text": "bar"})
 
-        commentForm = getMultiAdapter((self.context, request), name=u"comment-form")
+        commentForm = getMultiAdapter((self.context, request), name="comment-form")
         commentForm.update()
         data, errors = commentForm.extractData()  # pylint: disable-msg=W0612
 
