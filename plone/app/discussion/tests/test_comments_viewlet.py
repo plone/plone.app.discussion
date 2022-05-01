@@ -28,9 +28,9 @@ from zope.publisher.browser import TestRequest
 from zope.publisher.interfaces.browser import IBrowserRequest
 from ZPublisher.HTTPRequest import FileUpload
 
+import io
 import time
 import unittest
-import io
 
 
 TEXT = b"file data"
