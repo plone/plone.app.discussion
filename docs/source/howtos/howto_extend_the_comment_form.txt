@@ -58,13 +58,13 @@ comment form with the "website" field::
 
     # Interface to define the fields we want to add to the comment form.
     class ICommentExtenderFields(Interface):
-        website = schema.TextLine(title=u"Website", required=False)
+        website = schema.TextLine(title="Website", required=False)
 
     # Persistent class that implements the ICommentExtenderFields interface
     @adapter(Comment)
     class CommentExtenderFields(Persistent):
         interface.implements(ICommentExtenderFields)
-        website = u""
+        website = ""
 
     # CommentExtenderFields factory
     CommentExtenderFactory = factory(CommentExtenderFields)

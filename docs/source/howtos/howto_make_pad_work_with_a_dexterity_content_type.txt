@@ -20,8 +20,8 @@ configure.zcml::
 Define an interface IMyDexterityContentType groked schema, I added::
 
         allowDiscussion  = schema.Bool(
-            title=_(u"Allow Users to Comment"),
-            description=_(u"Allow users to commemt on you.  Comments
+            title=_("Allow Users to Comment"),
+            description=_("Allow users to comment on you.  Comments
 are shown at the end of each page"),
             required=True,
             default=True,

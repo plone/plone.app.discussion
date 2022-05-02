@@ -77,8 +77,6 @@ class TestUserNotificationUnit(unittest.TestCase):
             "plone.app.discussion.interfaces.IDiscussionSettings"
             + ".user_notification_enabled"
         ] = True
-        # Archetypes content types store data as utf-8 encoded strings
-        # The missing u in front of a string is therefor not missing
         self.portal.doc1.title = "Kölle Alaaf"  # What is 'Fasching'?
         self.conversation = IConversation(self.portal.doc1)
 
@@ -220,8 +218,6 @@ class TestModeratorNotificationUnit(unittest.TestCase):
             "plone.app.discussion.interfaces.IDiscussionSettings."
             + "moderator_notification_enabled"
         ] = True
-        # Archetypes content types store data as utf-8 encoded strings
-        # The missing u in front of a string is therefor not missing
         self.portal.doc1.title = "Kölle Alaaf"  # What is 'Fasching'?
         self.conversation = IConversation(self.portal.doc1)
 

@@ -252,7 +252,7 @@ Now we can post an anonymous comment.
 
     >>> unprivileged_browser.open(urldoc)
     >>> unprivileged_browser.getControl(name='form.widgets.text').value = "This is an anonymous comment"
-    >>> unprivileged_browser.getControl(name='form.widgets.author_name').value = u'John'
+    >>> unprivileged_browser.getControl(name='form.widgets.author_name').value = 'John'
     >>> unprivileged_browser.getControl(name='form.widgets.author_email').value = 'john@acme.com'
     >>> unprivileged_browser.getControl(name='form.buttons.comment').click()
 
