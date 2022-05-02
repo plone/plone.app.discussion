@@ -63,7 +63,7 @@ I enable discussion on the document
   Wait until page contains  Settings
   Click Link  Settings
   Wait until element is visible  name=form.widgets.IAllowDiscussion.allow_discussion:list
-  Select From List  name=form.widgets.IAllowDiscussion.allow_discussion:list  True
+  Select From List By Value  name=form.widgets.IAllowDiscussion.allow_discussion:list  True
   Click Button  Save
 
 I add a comment
