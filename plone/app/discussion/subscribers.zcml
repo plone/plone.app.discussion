@@ -72,7 +72,7 @@
     <!-- Control panel event subscribers -->
 
     <subscriber
-        for="Products.CMFPlone.interfaces.events.IConfigurationChangedEvent"
+        for="plone.base.interfaces.events.IConfigurationChangedEvent"
         handler=".browser.controlpanel.notify_configuration_changed"
         />
 

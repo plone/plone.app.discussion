@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
@@ -7,8 +6,8 @@ from zope.component import getUtility
 import logging
 
 
-default_profile = 'profile-plone.app.discussion:default'
-logger = logging.getLogger('plone.app.discussion')
+default_profile = "profile-plone.app.discussion:default"
+logger = logging.getLogger("plone.app.discussion")
 
 
 def update_registry(context):
@@ -17,7 +16,7 @@ def update_registry(context):
 
 
 def update_rolemap(context):
-    context.runImportStepFromProfile(default_profile, 'rolemap')
+    context.runImportStepFromProfile(default_profile, "rolemap")
 
 
 def upgrade_comment_workflows_retain_current_workflow(context):
@@ -25,16 +24,16 @@ def upgrade_comment_workflows_retain_current_workflow(context):
     # import step will change it to comment_one_state_workflow.  This is good.
     # If it was anything else, we should restore this.  So get the original
     # chain.
-    portal_type = 'Discussion Item'
-    wf_tool = getToolByName(context, 'portal_workflow')
+    portal_type = "Discussion Item"
+    wf_tool = getToolByName(context, "portal_workflow")
     orig_chain = list(wf_tool.getChainFor(portal_type))
 
     # Run the workflow step.  This sets the chain to
     # comment_one_state_workflow.
-    context.runImportStepFromProfile(default_profile, 'workflow')
+    context.runImportStepFromProfile(default_profile, "workflow")
 
     # Restore original workflow chain if needed.
-    old_workflow = 'one_state_workflow'
+    old_workflow = "one_state_workflow"
     if old_workflow not in orig_chain:
         # Restore the chain.  Probably comment_review_workflow.
         wf_tool.setChainForPortalTypes([portal_type], orig_chain)
@@ -43,7 +42,7 @@ def upgrade_comment_workflows_retain_current_workflow(context):
         if old_workflow in orig_chain:
             # Replace with new one.
             idx = orig_chain.index(old_workflow)
-            orig_chain[idx] = 'comment_one_state_workflow'
+            orig_chain[idx] = "comment_one_state_workflow"
         # Restore the chain.
         wf_tool.setChainForPortalTypes([portal_type], orig_chain)
 
@@ -51,9 +50,9 @@ def upgrade_comment_workflows_retain_current_workflow(context):
 def upgrade_comment_workflows_apply_rolemapping(context):
     # Now go over the comments, update their role mappings, and reindex the
     # allowedRolesAndUsers index.
-    portal_type = 'Discussion Item'
-    catalog = getToolByName(context, 'portal_catalog')
-    wf_tool = getToolByName(context, 'portal_workflow')
+    portal_type = "Discussion Item"
+    catalog = getToolByName(context, "portal_catalog")
+    wf_tool = getToolByName(context, "portal_workflow")
     new_chain = list(wf_tool.getChainFor(portal_type))
     workflows = [wf_tool.getWorkflowById(wf_id) for wf_id in new_chain]
     for brain in catalog.unrestrictedSearchResults(portal_type=portal_type):
@@ -63,7 +62,7 @@ def upgrade_comment_workflows_apply_rolemapping(context):
                 wf.updateRoleMappingsFor(comment)
             comment.reindexObjectSecurity()
         except (AttributeError, KeyError):
-            logger.info('Could not reindex comment {0}'.format(brain.getURL()))
+            logger.info(f"Could not reindex comment {brain.getURL()}")
 
 
 def upgrade_comment_workflows(context):
@@ -72,7 +71,7 @@ def upgrade_comment_workflows(context):
 
 
 def add_js_to_plone_legacy(context):
-    context.runImportStepFromProfile(default_profile, 'plone.app.registry')
+    context.runImportStepFromProfile(default_profile, "plone.app.registry")
 
 
 def extend_review_workflow(context):

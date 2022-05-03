@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Captcha validator, see captcha.txt for design notes.
 from persistent import Persistent
 from plone.app.discussion.browser.comments import CommentForm
@@ -21,9 +20,9 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 @adapter(Comment)
 @interface.implementer(ICaptcha)
 class Captcha(Persistent):
-    """Captcha input field.
-    """
-    captcha = u''
+    """Captcha input field."""
+
+    captcha = ""
 
 
 Captcha = factory(Captcha)
@@ -47,22 +46,24 @@ class CaptchaExtender(extensible.FormExtender):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
         self.captcha = settings.captcha
-        portal_membership = getToolByName(self.context, 'portal_membership')
+        portal_membership = getToolByName(self.context, "portal_membership")
         self.isAnon = portal_membership.isAnonymousUser()
 
     def update(self):
-        if self.captcha != 'disabled' and self.isAnon:
+        if self.captcha != "disabled" and self.isAnon:
             # Add a captcha field if captcha is enabled in the registry
-            self.add(ICaptcha, prefix='')
-            if self.captcha == 'captcha':
+            self.add(ICaptcha, prefix="")
+            if self.captcha == "captcha":
                 from plone.formwidget.captcha import CaptchaFieldWidget
-                self.form.fields['captcha'].widgetFactory = CaptchaFieldWidget
-            elif self.captcha == 'recaptcha':
+
+                self.form.fields["captcha"].widgetFactory = CaptchaFieldWidget
+            elif self.captcha == "recaptcha":
                 from plone.formwidget.recaptcha import ReCaptchaFieldWidget
-                self.form.fields['captcha'].widgetFactory = \
-                    ReCaptchaFieldWidget
-            elif self.captcha == 'norobots':
+
+                self.form.fields["captcha"].widgetFactory = ReCaptchaFieldWidget
+            elif self.captcha == "norobots":
                 from collective.z3cform.norobots import NorobotsFieldWidget
-                self.form.fields['captcha'].widgetFactory = NorobotsFieldWidget
+
+                self.form.fields["captcha"].widgetFactory = NorobotsFieldWidget
             else:
-                self.form.fields['captcha'].mode = interfaces.HIDDEN_MODE
+                self.form.fields["captcha"].mode = interfaces.HIDDEN_MODE

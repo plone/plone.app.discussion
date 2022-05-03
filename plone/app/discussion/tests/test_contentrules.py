@@ -1,11 +1,12 @@
-# -*- coding: utf-8 -*-
 from plone.app.discussion.interfaces import ICommentAddedEvent
 from plone.app.discussion.interfaces import ICommentRemovedEvent
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IReplies
 from plone.app.discussion.interfaces import IReplyAddedEvent
 from plone.app.discussion.interfaces import IReplyRemovedEvent
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
+from plone.app.discussion.testing import (  # noqa
+    PLONE_APP_DISCUSSION_INTEGRATION_TESTING,
+)
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.contentrules.rule.interfaces import IRuleEventType
@@ -17,31 +18,33 @@ import unittest
 
 
 class CommentContentRulesTest(unittest.TestCase):
-    """ Test custom comments events
-    """
+    """Test custom comments events"""
+
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
         # Setup sandbox
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
 
         # Setup current user properties
         member = self.portal.portal_membership.getMemberById(TEST_USER_ID)
-        member.setMemberProperties({
-            'fullname': 'X Manager',
-            'email': 'xmanager@example.com',
-        })
+        member.setMemberProperties(
+            {
+                "fullname": "X Manager",
+                "email": "xmanager@example.com",
+            }
+        )
 
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
-        self.document = self.portal['doc1']
+        self.document = self.portal["doc1"]
 
-        comment = createObject('plone.Comment')
-        comment.text = 'This is a comment'
-        comment.author_username = 'jim'
-        comment.author_name = 'Jim'
-        comment.author_email = 'jim@example.com'
+        comment = createObject("plone.Comment")
+        comment.text = "This is a comment"
+        comment.author_username = "jim"
+        comment.author_name = "Jim"
+        comment.author_email = "jim@example.com"
         conversation = IConversation(self.document)
         conversation.addComment(comment)
 
@@ -52,58 +55,61 @@ class CommentContentRulesTest(unittest.TestCase):
         self.assertTrue(IRuleEventType.providedBy(IReplyRemovedEvent))
 
     def testCommentIdStringSubstitution(self):
-        comment_id = getAdapter(self.document, IStringSubstitution,
-                                name=u'comment_id')
+        comment_id = getAdapter(self.document, IStringSubstitution, name="comment_id")
         self.assertIsInstance(comment_id(), int)
 
     def testCommentTextStringSubstitution(self):
-        comment_text = getAdapter(self.document, IStringSubstitution,
-                                  name=u'comment_text')
-        self.assertEqual(comment_text(), u'This is a comment')
+        comment_text = getAdapter(
+            self.document, IStringSubstitution, name="comment_text"
+        )
+        self.assertEqual(comment_text(), "This is a comment")
 
     def testCommentUserIdStringSubstitution(self):
-        comment_user_id = getAdapter(self.document, IStringSubstitution,
-                                     name=u'comment_user_id')
-        self.assertEqual(comment_user_id(), u'jim')
+        comment_user_id = getAdapter(
+            self.document, IStringSubstitution, name="comment_user_id"
+        )
+        self.assertEqual(comment_user_id(), "jim")
 
     def testCommentUserFullNameStringSubstitution(self):
-        comment_user_fullname = getAdapter(self.document, IStringSubstitution,
-                                           name=u'comment_user_fullname')
-        self.assertEqual(comment_user_fullname(), u'Jim')
+        comment_user_fullname = getAdapter(
+            self.document, IStringSubstitution, name="comment_user_fullname"
+        )
+        self.assertEqual(comment_user_fullname(), "Jim")
 
     def testCommentUserEmailStringSubstitution(self):
-        comment_user_email = getAdapter(self.document, IStringSubstitution,
-                                        name=u'comment_user_email')
-        self.assertEqual(comment_user_email(), u'jim@example.com')
+        comment_user_email = getAdapter(
+            self.document, IStringSubstitution, name="comment_user_email"
+        )
+        self.assertEqual(comment_user_email(), "jim@example.com")
 
 
 class ReplyContentRulesTest(unittest.TestCase):
-    """ Test custom comments events
-    """
+    """Test custom comments events"""
+
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
         # Setup sandbox
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
-        self.document = self.portal['doc1']
+        self.document = self.portal["doc1"]
         conversation = IConversation(self.document)
         replies = IReplies(conversation)
 
-        comment = createObject('plone.Comment')
-        comment.text = 'This is a comment'
+        comment = createObject("plone.Comment")
+        comment.text = "This is a comment"
         new_id = replies.addComment(comment)
         comment = self.document.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id),
+            f"++conversation++default/{new_id}",
         )
 
-        re_comment = createObject('plone.Comment')
-        re_comment.text = 'This is a reply'
-        re_comment.author_username = 'julia'
-        re_comment.author_name = 'Juliana'
-        re_comment.author_email = 'julia@example.com'
+        re_comment = createObject("plone.Comment")
+        re_comment.text = "This is a reply"
+        re_comment.author_username = "julia"
+        re_comment.author_name = "Juliana"
+        re_comment.author_email = "julia@example.com"
 
         replies = IReplies(comment)
         replies.addComment(re_comment)
@@ -112,7 +118,7 @@ class ReplyContentRulesTest(unittest.TestCase):
         reply_id = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_id',
+            name="comment_id",
         )
         self.assertIsInstance(reply_id(), int)
 
@@ -120,30 +126,30 @@ class ReplyContentRulesTest(unittest.TestCase):
         reply_text = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_text',
+            name="comment_text",
         )
-        self.assertEqual(reply_text(), u'This is a reply')
+        self.assertEqual(reply_text(), "This is a reply")
 
     def testReplyUserIdStringSubstitution(self):
         reply_user_id = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_user_id',
+            name="comment_user_id",
         )
-        self.assertEqual(reply_user_id(), u'julia')
+        self.assertEqual(reply_user_id(), "julia")
 
     def testReplyUserFullNameStringSubstitution(self):
         reply_user_fullname = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_user_fullname',
+            name="comment_user_fullname",
         )
-        self.assertEqual(reply_user_fullname(), u'Juliana')
+        self.assertEqual(reply_user_fullname(), "Juliana")
 
     def testReplyUserEmailStringSubstitution(self):
         reply_user_email = getAdapter(
             self.document,
             IStringSubstitution,
-            name=u'comment_user_email',
+            name="comment_user_email",
         )
-        self.assertEqual(reply_user_email(), u'julia@example.com')
+        self.assertEqual(reply_user_email(), "julia@example.com")

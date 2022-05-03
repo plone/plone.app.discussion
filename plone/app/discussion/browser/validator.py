@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Captcha validator, see captcha.txt for design notes.
 """
 from Acquisition import aq_inner
@@ -39,16 +38,17 @@ class CaptchaValidator(validator.SimpleFieldValidator):
     # We adapt the CaptchaValidator class to all form fields (IField)
 
     def validate(self, value):
-        super(CaptchaValidator, self).validate(value)
+        super().validate(value)
 
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
 
-        if settings.captcha in ('captcha', 'recaptcha', 'norobots'):
-            captcha = getMultiAdapter((aq_inner(self.context), self.request),
-                                      name=settings.captcha)
+        if settings.captcha in ("captcha", "recaptcha", "norobots"):
+            captcha = getMultiAdapter(
+                (aq_inner(self.context), self.request), name=settings.captcha
+            )
             if not captcha.verify(input=value):
-                if settings.captcha == 'norobots':
+                if settings.captcha == "norobots":
                     raise WrongNorobotsAnswer
                 else:
                     raise WrongCaptchaCode
@@ -57,5 +57,4 @@ class CaptchaValidator(validator.SimpleFieldValidator):
 
 
 # Register Captcha validator for the Captcha field in the ICaptcha Form
-validator.WidgetValidatorDiscriminators(CaptchaValidator,
-                                        field=ICaptcha['captcha'])
+validator.WidgetValidatorDiscriminators(CaptchaValidator, field=ICaptcha["captcha"])

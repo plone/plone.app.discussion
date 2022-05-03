@@ -1,17 +1,17 @@
-# -*- coding: utf-8 -*-
+from ..interfaces import IComment
+from ..interfaces import IConversation
+from ..interfaces import IDiscussionLayer
+from ..interfaces import IDiscussionSettings
+from ..interfaces import IReplies
+from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from datetime import datetime
 from datetime import timedelta
-from plone.app.discussion import interfaces
-from plone.app.discussion.interfaces import IComment
-from plone.app.discussion.interfaces import IConversation
-from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.interfaces import IReplies
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.vocabularies.types import BAD_TYPES
+from plone.dexterity.interfaces import IDexterityContent
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope import interface
@@ -19,15 +19,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
 from zope.component import queryUtility
 
-import six
 import unittest
-
-
-try:
-    from plone.dexterity.interfaces import IDexterityContent
-    DEXTERITY = True
-except ImportError:
-    DEXTERITY = False
 
 
 class ConversationTest(unittest.TestCase):
@@ -35,15 +27,14 @@ class ConversationTest(unittest.TestCase):
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        interface.alsoProvides(
-            self.portal.REQUEST, interfaces.IDiscussionLayer)
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        interface.alsoProvides(self.portal.REQUEST, IDiscussionLayer)
 
         self.typetool = self.portal.portal_types
         self.portal_discussion = getToolByName(
             self.portal,
-            'portal_discussion',
+            "portal_discussion",
             None,
         )
         # Allow discussion
@@ -52,7 +43,7 @@ class ConversationTest(unittest.TestCase):
         settings.globally_enabled = True
 
         workflow = self.portal.portal_workflow
-        workflow.doActionFor(self.portal.doc1, 'publish')
+        workflow.doActionFor(self.portal.doc1, "publish")
 
     def test_add_comment(self):
         # Create a conversation. In this case we doesn't assign it to an
@@ -62,8 +53,8 @@ class ConversationTest(unittest.TestCase):
         # Add a comment. Note: in real life, we always create comments via the
         # factory to allow different factories to be swapped in
 
-        comment = createObject('plone.Comment')
-        comment.text = 'Comment text'
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
 
         new_id = conversation.addComment(comment)
 
@@ -79,20 +70,19 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(len(tuple(conversation.getThreads())), 1)
         self.assertEqual(conversation.total_comments(), 1)
         self.assertTrue(
-            conversation.last_comment_date - datetime.utcnow() <
-            timedelta(seconds=1),
+            conversation.last_comment_date - datetime.utcnow() < timedelta(seconds=1),
         )
 
     def test_private_comment(self):
         conversation = IConversation(self.portal.doc1)
 
-        comment = createObject('plone.Comment')
-        comment.author_username = 'nobody'
+        comment = createObject("plone.Comment")
+        comment.author_username = "nobody"
         conversation.addComment(comment)
-        comment.manage_permission('View', roles=tuple())
+        comment.manage_permission("View", roles=tuple())
         self.assertEqual(0, conversation.total_comments())
         self.assertEqual(None, conversation.last_comment_date)
-        self.assertEqual(['nobody'], list(conversation.commentators))
+        self.assertEqual(["nobody"], list(conversation.commentators))
         self.assertEqual([], list(conversation.public_commentators))
 
     def test_delete_comment(self):
@@ -103,8 +93,8 @@ class ConversationTest(unittest.TestCase):
         # Add a comment. Note: in real life, we always create comments via the
         # factory to allow different factories to be swapped in
 
-        comment = createObject('plone.Comment')
-        comment.text = 'Comment text'
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
 
         new_id = conversation.addComment(comment)
 
@@ -139,23 +129,23 @@ class ConversationTest(unittest.TestCase):
         #    +- Comment 2_1
 
         # Create all comments
-        comment1 = createObject('plone.Comment')
-        comment1.text = 'Comment text'
+        comment1 = createObject("plone.Comment")
+        comment1.text = "Comment text"
 
-        comment1_1 = createObject('plone.Comment')
-        comment1_1.text = 'Comment text'
+        comment1_1 = createObject("plone.Comment")
+        comment1_1.text = "Comment text"
 
-        comment1_1_1 = createObject('plone.Comment')
-        comment1_1_1.text = 'Comment text'
+        comment1_1_1 = createObject("plone.Comment")
+        comment1_1_1.text = "Comment text"
 
-        comment1_2 = createObject('plone.Comment')
-        comment1_2.text = 'Comment text'
+        comment1_2 = createObject("plone.Comment")
+        comment1_2.text = "Comment text"
 
-        comment2 = createObject('plone.Comment')
-        comment2.text = 'Comment text'
+        comment2 = createObject("plone.Comment")
+        comment2.text = "Comment text"
 
-        comment2_1 = createObject('plone.Comment')
-        comment2_1.text = 'Comment text'
+        comment2_1 = createObject("plone.Comment")
+        comment2_1.text = "Comment text"
 
         # Create the nested comment structure
         new_id_1 = conversation.addComment(comment1)
@@ -175,21 +165,24 @@ class ConversationTest(unittest.TestCase):
 
         del conversation[new_id_1]
 
-        self.assertEqual([
-            {'comment': comment2, 'depth': 0, 'id': new_id_2},
-            {'comment': comment2_1, 'depth': 1, 'id': new_id_2_1},
-        ], list(conversation.getThreads()))
+        self.assertEqual(
+            [
+                {"comment": comment2, "depth": 0, "id": new_id_2},
+                {"comment": comment2_1, "depth": 1, "id": new_id_2_1},
+            ],
+            list(conversation.getThreads()),
+        )
 
     def test_delete_comment_when_content_object_is_deleted(self):
         # Make sure all comments of a content object are deleted when the
         # object itself is deleted.
         conversation = IConversation(self.portal.doc1)
-        comment = createObject('plone.Comment')
-        comment.text = 'Comment text'
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
         conversation.addComment(comment)
 
         # Delete the content object
-        self.portal.manage_delObjects(['doc1'])
+        self.portal.manage_delObjects(["doc1"])
 
         # Make sure the comment has been deleted as well
         self.assertEqual(len(list(conversation.getComments())), 0)
@@ -198,8 +191,8 @@ class ConversationTest(unittest.TestCase):
 
     def test_comments_enabled_on_doc_in_subfolder(self):
         typetool = self.portal.portal_types
-        typetool.constructContent('Folder', self.portal, 'folder1')
-        typetool.constructContent('Document', self.portal.folder1, 'doc2')
+        typetool.constructContent("Folder", self.portal, "folder1")
+        typetool.constructContent("Document", self.portal.folder1, "doc2")
 
         folder = self.portal.folder1
 
@@ -209,13 +202,13 @@ class ConversationTest(unittest.TestCase):
         self.assertFalse(aq_base(folder).allow_discussion)
 
         doc = self.portal.folder1.doc2
-        conversation = doc.restrictedTraverse('@@conversation_view')
+        conversation = doc.restrictedTraverse("@@conversation_view")
         self.assertEqual(conversation.enabled(), False)
 
         # We have to allow discussion on Document content type, since
         # otherwise allow_discussion will always return False
-        portal_types = getToolByName(self.portal, 'portal_types')
-        document_fti = getattr(portal_types, 'Document')
+        portal_types = getToolByName(self.portal, "portal_types")
+        document_fti = getattr(portal_types, "Document")
         document_fti.manage_changeProperties(allow_discussion=True)
 
         self.assertEqual(conversation.enabled(), True)
@@ -223,13 +216,12 @@ class ConversationTest(unittest.TestCase):
     def test_disable_commenting_globally(self):
 
         # Create a conversation.
-        conversation = self.portal.doc1.restrictedTraverse(
-            '@@conversation_view')
+        conversation = self.portal.doc1.restrictedTraverse("@@conversation_view")
 
         # We have to allow discussion on Document content type, since
         # otherwise allow_discussion will always return False
-        portal_types = getToolByName(self.portal, 'portal_types')
-        document_fti = getattr(portal_types, 'Document')
+        portal_types = getToolByName(self.portal, "portal_types")
+        document_fti = getattr(portal_types, "Document")
         document_fti.manage_changeProperties(allow_discussion=True)
 
         # Check if conversation is enabled now
@@ -249,14 +241,14 @@ class ConversationTest(unittest.TestCase):
 
     def test_allow_discussion_for_news_items(self):
 
-        self.typetool.constructContent('News Item', self.portal, 'newsitem')
+        self.typetool.constructContent("News Item", self.portal, "newsitem")
         newsitem = self.portal.newsitem
-        conversation = newsitem.restrictedTraverse('@@conversation_view')
+        conversation = newsitem.restrictedTraverse("@@conversation_view")
 
         # We have to allow discussion on Document content type, since
         # otherwise allow_discussion will always return False
-        portal_types = getToolByName(self.portal, 'portal_types')
-        document_fti = getattr(portal_types, 'News Item')
+        portal_types = getToolByName(self.portal, "portal_types")
+        document_fti = getattr(portal_types, "News Item")
         document_fti.manage_changeProperties(allow_discussion=True)
 
         # Check if conversation is enabled now
@@ -278,23 +270,23 @@ class ConversationTest(unittest.TestCase):
 
         # Create a conversation.
         conversation = self.portal.doc1.restrictedTraverse(
-            '@@conversation_view',
+            "@@conversation_view",
         )
 
         # The Document content type is disabled by default
         self.assertEqual(conversation.enabled(), False)
 
         # Allow discussion on Document content type
-        portal_types = getToolByName(self.portal, 'portal_types')
-        document_fti = getattr(portal_types, 'Document')
+        portal_types = getToolByName(self.portal, "portal_types")
+        document_fti = getattr(portal_types, "Document")
         document_fti.manage_changeProperties(allow_discussion=True)
 
         # Check if conversation is enabled now
         self.assertEqual(conversation.enabled(), True)
 
         # Disallow discussion on Document content type
-        portal_types = getToolByName(self.portal, 'portal_types')
-        document_fti = getattr(portal_types, 'Document')
+        portal_types = getToolByName(self.portal, "portal_types")
+        document_fti = getattr(portal_types, "Document")
         document_fti.manage_changeProperties(allow_discussion=False)
 
         # Check if conversation is enabled now
@@ -306,17 +298,17 @@ class ConversationTest(unittest.TestCase):
         # plone.app.contenttypes does not have this restriction any longer.
 
         # Create a folder
-        self.typetool.constructContent('Folder', self.portal, 'f1')
+        self.typetool.constructContent("Folder", self.portal, "f1")
 
         # Usually we don't create a conversation on a folder
-        conversation = self.portal.f1.restrictedTraverse('@@conversation_view')
+        conversation = self.portal.f1.restrictedTraverse("@@conversation_view")
 
         # Allow discussion for the folder
         self.portal.f1.allow_discussion = True
 
         # Allow discussion on Folder content type
-        portal_types = getToolByName(self.portal, 'portal_types')
-        document_fti = getattr(portal_types, 'Folder')
+        portal_types = getToolByName(self.portal, "portal_types")
+        document_fti = getattr(portal_types, "Folder")
         document_fti.manage_changeProperties(allow_discussion=True)
 
         self.assertTrue(conversation.enabled())
@@ -326,7 +318,7 @@ class ConversationTest(unittest.TestCase):
 
         # Create a conversation.
         conversation = self.portal.doc1.restrictedTraverse(
-            '@@conversation_view',
+            "@@conversation_view",
         )
 
         # Discussion is disallowed by default
@@ -351,13 +343,13 @@ class ConversationTest(unittest.TestCase):
         # Add a comment. Note: in real life, we always create comments via the
         # factory to allow different factories to be swapped in
 
-        comment1 = createObject('plone.Comment')
-        comment1.text = 'Comment text'
+        comment1 = createObject("plone.Comment")
+        comment1.text = "Comment text"
 
         new_id1 = conversation.addComment(comment1)
 
-        comment2 = createObject('plone.Comment')
-        comment2.text = 'Comment text'
+        comment2 = createObject("plone.Comment")
+        comment2.text = "Comment text"
 
         new_id2 = conversation.addComment(comment2)
 
@@ -384,17 +376,17 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue(comment2 in conversation.values())
 
         # check if comment ids are in iterkeys
-        self.assertTrue(new_id1 in six.iterkeys(conversation))
-        self.assertTrue(new_id2 in six.iterkeys(conversation))
-        self.assertFalse(123 in six.iterkeys(conversation))
+        self.assertTrue(new_id1 in conversation.keys())
+        self.assertTrue(new_id2 in conversation.keys())
+        self.assertFalse(123 in conversation.keys())
 
         # check if comment objects are in itervalues
-        self.assertTrue(comment1 in six.itervalues(conversation))
-        self.assertTrue(comment2 in six.itervalues(conversation))
+        self.assertTrue(comment1 in conversation.values())
+        self.assertTrue(comment2 in conversation.values())
 
         # check if iteritems returns (key, comment object) pairs
-        self.assertTrue((new_id1, comment1) in six.iteritems(conversation))
-        self.assertTrue((new_id2, comment2) in six.iteritems(conversation))
+        self.assertTrue((new_id1, comment1) in conversation.items())
+        self.assertTrue((new_id2, comment2) in conversation.items())
 
         # TODO test acquisition wrapping  # noqa T000
         # self.assertTrue(aq_base(aq_parent(comment1)) is conversation)
@@ -408,14 +400,14 @@ class ConversationTest(unittest.TestCase):
         # comments via the factory to allow different factories to be
         # swapped in
 
-        comment1 = createObject('plone.Comment')
-        comment1.text = 'Comment text'
+        comment1 = createObject("plone.Comment")
+        comment1.text = "Comment text"
 
-        comment2 = createObject('plone.Comment')
-        comment2.text = 'Comment text'
+        comment2 = createObject("plone.Comment")
+        comment2.text = "Comment text"
 
-        comment3 = createObject('plone.Comment')
-        comment3.text = 'Comment text'
+        comment3 = createObject("plone.Comment")
+        comment3.text = "Comment text"
 
         conversation.addComment(comment1)
         conversation.addComment(comment2)
@@ -437,49 +429,49 @@ class ConversationTest(unittest.TestCase):
         # Note: in real life, we always create
         # comments via the factory to allow different factories to be
         # swapped in
-        comment1 = createObject('plone.Comment')
-        comment1.text = 'Comment text'
-        comment1.author_username = 'Jim'
+        comment1 = createObject("plone.Comment")
+        comment1.text = "Comment text"
+        comment1.author_username = "Jim"
         conversation.addComment(comment1)
 
-        comment2 = createObject('plone.Comment')
-        comment2.text = 'Comment text'
-        comment2.author_username = 'Joe'
+        comment2 = createObject("plone.Comment")
+        comment2.text = "Comment text"
+        comment2.author_username = "Joe"
         conversation.addComment(comment2)
 
-        comment3 = createObject('plone.Comment')
-        comment3.text = 'Comment text'
-        comment3.author_username = 'Jack'
+        comment3 = createObject("plone.Comment")
+        comment3.text = "Comment text"
+        comment3.author_username = "Jack"
         new_comment3_id = conversation.addComment(comment3)
 
-        comment4 = createObject('plone.Comment')
-        comment4.text = 'Comment text'
-        comment4.author_username = 'Jack'
+        comment4 = createObject("plone.Comment")
+        comment4.text = "Comment text"
+        comment4.author_username = "Jack"
         new_comment4_id = conversation.addComment(comment4)
 
         # check if all commentators are in the commentators list
         self.assertEqual(conversation.total_comments(), 4)
-        self.assertTrue('Jim' in conversation.commentators)
-        self.assertTrue('Joe' in conversation.commentators)
-        self.assertTrue('Jack' in conversation.commentators)
+        self.assertTrue("Jim" in conversation.commentators)
+        self.assertTrue("Joe" in conversation.commentators)
+        self.assertTrue("Jack" in conversation.commentators)
 
         # remove the comment from Jack
         del conversation[new_comment3_id]
 
         # check if Jack is still in the commentators list (since
         # he had added two comments)
-        self.assertTrue('Jim' in conversation.commentators)
-        self.assertTrue('Joe' in conversation.commentators)
-        self.assertTrue('Jack' in conversation.commentators)
+        self.assertTrue("Jim" in conversation.commentators)
+        self.assertTrue("Joe" in conversation.commentators)
+        self.assertTrue("Jack" in conversation.commentators)
         self.assertEqual(conversation.total_comments(), 3)
 
         # remove the second comment from Jack
         del conversation[new_comment4_id]
 
         # check if Jack has been removed from the commentators list
-        self.assertTrue('Jim' in conversation.commentators)
-        self.assertTrue('Joe' in conversation.commentators)
-        self.assertFalse('Jack' in conversation.commentators)
+        self.assertTrue("Jim" in conversation.commentators)
+        self.assertTrue("Joe" in conversation.commentators)
+        self.assertFalse("Jack" in conversation.commentators)
         self.assertEqual(conversation.total_comments(), 2)
 
     def test_last_comment_date(self):
@@ -494,29 +486,29 @@ class ConversationTest(unittest.TestCase):
         # Note: in real life, we always create
         # comments via the factory to allow different factories to be
         # swapped in
-        comment1 = createObject('plone.Comment')
-        comment1.text = 'Comment text'
+        comment1 = createObject("plone.Comment")
+        comment1.text = "Comment text"
         comment1.creation_date = datetime.utcnow() - timedelta(4)
         conversation.addComment(comment1)
 
-        comment2 = createObject('plone.Comment')
-        comment2.text = 'Comment text'
+        comment2 = createObject("plone.Comment")
+        comment2.text = "Comment text"
         comment2.creation_date = datetime.utcnow() - timedelta(2)
         new_comment2_id = conversation.addComment(comment2)
 
-        comment3 = createObject('plone.Comment')
-        comment3.text = 'Comment text'
+        comment3 = createObject("plone.Comment")
+        comment3.text = "Comment text"
         comment3.creation_date = datetime.utcnow() - timedelta(1)
         new_comment3_id = conversation.addComment(comment3)
 
         # check if the latest comment is exactly one day old
         self.assertTrue(
-            conversation.last_comment_date < datetime.utcnow() -
-            timedelta(hours=23, minutes=59, seconds=59),
+            conversation.last_comment_date
+            < datetime.utcnow() - timedelta(hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
-            conversation.last_comment_date >
-            datetime.utcnow() - timedelta(days=1, seconds=1),
+            conversation.last_comment_date
+            > datetime.utcnow() - timedelta(days=1, seconds=1),
         )
 
         # remove the latest comment
@@ -525,12 +517,12 @@ class ConversationTest(unittest.TestCase):
         # check if the latest comment has been updated
         # the latest comment should be exactly two days old
         self.assertTrue(
-            conversation.last_comment_date < datetime.utcnow() -
-            timedelta(days=1, hours=23, minutes=59, seconds=59),
+            conversation.last_comment_date
+            < datetime.utcnow() - timedelta(days=1, hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
-            conversation.last_comment_date > datetime.utcnow() -
-            timedelta(days=2, seconds=1),
+            conversation.last_comment_date
+            > datetime.utcnow() - timedelta(days=2, seconds=1),
         )
 
         # remove the latest comment again
@@ -539,12 +531,12 @@ class ConversationTest(unittest.TestCase):
         # check if the latest comment has been updated
         # the latest comment should be exactly four days old
         self.assertTrue(
-            conversation.last_comment_date < datetime.utcnow() -
-            timedelta(days=3, hours=23, minutes=59, seconds=59),
+            conversation.last_comment_date
+            < datetime.utcnow() - timedelta(days=3, hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
-            conversation.last_comment_date > datetime.utcnow() -
-            timedelta(days=4, seconds=2),
+            conversation.last_comment_date
+            > datetime.utcnow() - timedelta(days=4, seconds=2),
         )
 
     def test_get_comments_full(self):
@@ -572,23 +564,23 @@ class ConversationTest(unittest.TestCase):
         #    +- Comment 2_1
 
         # Create all comments
-        comment1 = createObject('plone.Comment')
-        comment1.text = 'Comment text'
+        comment1 = createObject("plone.Comment")
+        comment1.text = "Comment text"
 
-        comment1_1 = createObject('plone.Comment')
-        comment1_1.text = 'Comment text'
+        comment1_1 = createObject("plone.Comment")
+        comment1_1.text = "Comment text"
 
-        comment1_1_1 = createObject('plone.Comment')
-        comment1_1_1.text = 'Comment text'
+        comment1_1_1 = createObject("plone.Comment")
+        comment1_1_1.text = "Comment text"
 
-        comment1_2 = createObject('plone.Comment')
-        comment1_2.text = 'Comment text'
+        comment1_2 = createObject("plone.Comment")
+        comment1_2.text = "Comment text"
 
-        comment2 = createObject('plone.Comment')
-        comment2.text = 'Comment text'
+        comment2 = createObject("plone.Comment")
+        comment2.text = "Comment text"
 
-        comment2_1 = createObject('plone.Comment')
-        comment2_1.text = 'Comment text'
+        comment2_1 = createObject("plone.Comment")
+        comment2_1.text = "Comment text"
 
         # Create the nested comment structure
         new_id_1 = conversation.addComment(comment1)
@@ -608,14 +600,17 @@ class ConversationTest(unittest.TestCase):
 
         # Get threads
 
-        self.assertEqual([
-            {'comment': comment1, 'depth': 0, 'id': new_id_1},
-            {'comment': comment1_1, 'depth': 1, 'id': new_id_1_1},
-            {'comment': comment1_1_1, 'depth': 2, 'id': new_id_1_1_1},
-            {'comment': comment1_2, 'depth': 1, 'id': new_id_1_2},
-            {'comment': comment2, 'depth': 0, 'id': new_id_2},
-            {'comment': comment2_1, 'depth': 1, 'id': new_id_2_1},
-        ], list(conversation.getThreads()))
+        self.assertEqual(
+            [
+                {"comment": comment1, "depth": 0, "id": new_id_1},
+                {"comment": comment1_1, "depth": 1, "id": new_id_1_1},
+                {"comment": comment1_1_1, "depth": 2, "id": new_id_1_1_1},
+                {"comment": comment1_2, "depth": 1, "id": new_id_1_2},
+                {"comment": comment2, "depth": 0, "id": new_id_2},
+                {"comment": comment2_1, "depth": 1, "id": new_id_2_1},
+            ],
+            list(conversation.getThreads()),
+        )
 
     def test_get_threads_batched(self):
         # TODO: test start, size, root and depth arguments to getThreads()  # noqa T000
@@ -626,16 +621,16 @@ class ConversationTest(unittest.TestCase):
         # make sure we can traverse to conversations and get a URL and path
 
         conversation = self.portal.doc1.restrictedTraverse(
-            '++conversation++default',
+            "++conversation++default",
         )
         self.assertTrue(IConversation.providedBy(conversation))
 
         self.assertEqual(
-            ('', 'plone', 'doc1', '++conversation++default'),
+            ("", "plone", "doc1", "++conversation++default"),
             conversation.getPhysicalPath(),
         )
         self.assertEqual(
-            'http://nohost/plone/doc1/++conversation++default',
+            "http://nohost/plone/doc1/++conversation++default",
             conversation.absolute_url(),
         )
 
@@ -644,7 +639,7 @@ class ConversationTest(unittest.TestCase):
         # can't be converted to int
 
         conversation = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/ThisCantBeRight',
+            "++conversation++default/ThisCantBeRight",
         )
         self.assertEqual(conversation, None)
 
@@ -658,17 +653,16 @@ class ConversationTest(unittest.TestCase):
         self.assertTrue(conversation.__parent__)
         self.assertTrue(aq_parent(conversation))
 
-        self.assertEqual(conversation.__parent__.getId(), 'doc1')
+        self.assertEqual(conversation.__parent__.getId(), "doc1")
 
     def test_discussion_item_not_in_bad_types(self):
-        self.assertFalse('Discussion Item' in BAD_TYPES)
+        self.assertFalse("Discussion Item" in BAD_TYPES)
 
     def test_no_comment(self):
         IConversation(self.portal.doc1)
         # Make sure no conversation has been created
         self.assertTrue(
-            'plone.app.discussion:conversation' not in
-            IAnnotations(self.portal.doc1),
+            "plone.app.discussion:conversation" not in IAnnotations(self.portal.doc1),
         )
 
 
@@ -677,21 +671,20 @@ class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         interface.alsoProvides(
             self.portal.REQUEST,
-            interfaces.IDiscussionLayer,
+            IDiscussionLayer,
         )
 
-        if DEXTERITY:
-            interface.alsoProvides(
-                self.portal.doc1,
-                IDexterityContent,
-            )
+        interface.alsoProvides(
+            self.portal.doc1,
+            IDexterityContent,
+        )
 
     def _makeOne(self, *args, **kw):
-        return self.portal.doc1.restrictedTraverse('@@conversation_view')
+        return self.portal.doc1.restrictedTraverse("@@conversation_view")
 
     def _globally_enable_discussion(self, value):
         registry = queryUtility(IRegistry)
@@ -699,43 +692,38 @@ class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
         settings.globally_enabled = value
 
     def _enable_discussion_on_portal_type(self, portal_type, allow_discussion):
-        portal_types = getToolByName(self.portal, 'portal_types')
+        portal_types = getToolByName(self.portal, "portal_types")
         document_fti = getattr(portal_types, portal_type)
         document_fti.manage_changeProperties(allow_discussion=allow_discussion)
 
     def test_conversation_is_not_enabled_by_default(self):
-        if DEXTERITY:
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertFalse(conversation.enabled())
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertFalse(conversation.enabled())
 
     def test_conversation_is_not_enabled_by_default_on_portal_type(self):
-        if DEXTERITY:
-            self._globally_enable_discussion(True)
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertFalse(conversation.enabled())
+        self._globally_enable_discussion(True)
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertFalse(conversation.enabled())
 
     def test_conversation_needs_to_be_enabled_globally_and_for_type(self):
-        if DEXTERITY:
-            self._globally_enable_discussion(True)
-            self._enable_discussion_on_portal_type('Document', True)
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertTrue(conversation.enabled())
+        self._globally_enable_discussion(True)
+        self._enable_discussion_on_portal_type("Document", True)
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertTrue(conversation.enabled())
 
     def test_disable_discussion(self):
-        if DEXTERITY:
-            self._globally_enable_discussion(True)
-            self._enable_discussion_on_portal_type('Document', True)
-            self.portal.doc1.allow_discussion = False
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertFalse(conversation.enabled())
+        self._globally_enable_discussion(True)
+        self._enable_discussion_on_portal_type("Document", True)
+        self.portal.doc1.allow_discussion = False
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertFalse(conversation.enabled())
 
     def test_enable_discussion(self):
-        if DEXTERITY:
-            self._globally_enable_discussion(True)
-            self._enable_discussion_on_portal_type('Document', True)
-            self.portal.doc1.allow_discussion = True
-            conversation = self._makeOne(self.portal.doc1)
-            self.assertTrue(conversation.enabled())
+        self._globally_enable_discussion(True)
+        self._enable_discussion_on_portal_type("Document", True)
+        self.portal.doc1.allow_discussion = True
+        conversation = self._makeOne(self.portal.doc1)
+        self.assertTrue(conversation.enabled())
 
 
 class RepliesTest(unittest.TestCase):
@@ -745,11 +733,11 @@ class RepliesTest(unittest.TestCase):
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
         workflow = self.portal.portal_workflow
-        workflow.doActionFor(self.portal.doc1, 'publish')
+        workflow.doActionFor(self.portal.doc1, "publish")
 
     def test_add_comment(self):
         # Add comments to a ConversationReplies adapter
@@ -760,8 +748,8 @@ class RepliesTest(unittest.TestCase):
 
         replies = IReplies(conversation)
 
-        comment = createObject('plone.Comment')
-        comment.text = 'Comment text'
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
 
         new_id = replies.addComment(comment)
 
@@ -787,8 +775,8 @@ class RepliesTest(unittest.TestCase):
         replies = IReplies(conversation)
 
         # Add a comment.
-        comment = createObject('plone.Comment')
-        comment.text = 'Comment text'
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
 
         new_id = replies.addComment(comment)
 
@@ -826,39 +814,39 @@ class RepliesTest(unittest.TestCase):
         #    +- Comment 2_1
 
         # Create all comments
-        comment1 = createObject('plone.Comment')
-        comment1.text = 'Comment text'
+        comment1 = createObject("plone.Comment")
+        comment1.text = "Comment text"
 
-        comment1_1 = createObject('plone.Comment')
-        comment1_1.text = 'Comment text'
+        comment1_1 = createObject("plone.Comment")
+        comment1_1.text = "Comment text"
 
-        comment1_1_1 = createObject('plone.Comment')
-        comment1_1_1.text = 'Comment text'
+        comment1_1_1 = createObject("plone.Comment")
+        comment1_1_1.text = "Comment text"
 
-        comment1_2 = createObject('plone.Comment')
-        comment1_2.text = 'Comment text'
+        comment1_2 = createObject("plone.Comment")
+        comment1_2.text = "Comment text"
 
-        comment2 = createObject('plone.Comment')
-        comment2.text = 'Comment text'
+        comment2 = createObject("plone.Comment")
+        comment2.text = "Comment text"
 
-        comment2_1 = createObject('plone.Comment')
-        comment2_1.text = 'Comment text'
+        comment2_1 = createObject("plone.Comment")
+        comment2_1.text = "Comment text"
 
         # Create the nested comment structure
         new_id_1 = replies.addComment(comment1)
         comment1 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id_1),
+            f"++conversation++default/{new_id_1}",
         )
         replies_to_comment1 = IReplies(comment1)
         new_id_2 = replies.addComment(comment2)
         comment2 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id_2),
+            f"++conversation++default/{new_id_2}",
         )
         replies_to_comment2 = IReplies(comment2)
 
         new_id_1_1 = replies_to_comment1.addComment(comment1_1)
         comment1_1 = self.portal.doc1.restrictedTraverse(
-            '++conversation++default/{0}'.format(new_id_1_1),
+            f"++conversation++default/{new_id_1_1}",
         )
         replies_to_comment1_1 = IReplies(comment1_1)
         replies_to_comment1_1.addComment(comment1_1_1)

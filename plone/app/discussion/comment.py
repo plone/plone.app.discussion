@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """The default comment class and factory.
 """
 from AccessControl import ClassSecurityInfo
@@ -21,14 +20,14 @@ from plone.app.discussion.events import ReplyRemovedEvent
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.base.interfaces.controlpanel import IMailSchema
+from plone.base.utils import safe_text
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore import permissions
 from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
 from Products.CMFCore.DynamicType import DynamicType
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.controlpanel import IMailSchema
-from Products.CMFPlone.utils import safe_unicode
 from smtplib import SMTPException
 from zope.annotation.interfaces import IAnnotatable
 from zope.component import getUtility
@@ -40,61 +39,69 @@ from zope.i18nmessageid import Message
 from zope.interface import implementer
 
 import logging
-import six
 
 
 COMMENT_TITLE = _(
-    u'comment_title',
-    default=u'${author_name} on ${content}',
-    )
+    "comment_title",
+    default="${author_name} on ${content}",
+)
 
 MAIL_NOTIFICATION_MESSAGE = _(
-    u'mail_notification_message',
-    default=u'A comment on "${title}" '
-            u'has been posted here: ${link}\n\n'
-            u'---\n'
-            u'${text}\n'
-            u'---\n',
-    )
+    "mail_notification_message",
+    default='A comment on "${title}" '
+    "has been posted here: ${link}\n\n"
+    "---\n"
+    "${text}\n"
+    "---\n",
+)
 
 MAIL_NOTIFICATION_MESSAGE_MODERATOR = _(
-    u'mail_notification_message_moderator2',
-    default=u'A comment on "${title}" '
-            u'has been posted by ${commentator}\n'
-            u'here: ${link}\n\n'
-            u'---\n\n'
-            u'${text}\n\n'
-            u'---\n\n'
-            u'Log in to moderate.\n\n',
-    )
+    "mail_notification_message_moderator2",
+    default='A comment on "${title}" '
+    "has been posted by ${commentator}\n"
+    "here: ${link}\n\n"
+    "---\n\n"
+    "${text}\n\n"
+    "---\n\n"
+    "Log in to moderate.\n\n",
+)
 
-logger = logging.getLogger('plone.app.discussion')
+logger = logging.getLogger("plone.app.discussion")
 
 
 @implementer(IComment)
-class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
-              RoleManager, Owned, Implicit, Persistent):
+class Comment(
+    CatalogAware,
+    WorkflowAware,
+    DynamicType,
+    Traversable,
+    RoleManager,
+    Owned,
+    Implicit,
+    Persistent,
+):
     """A comment.
 
     This object attempts to be as lightweight as possible. We implement a
     number of standard methods instead of subclassing, to have total control
     over what goes into the object.
     """
+
     security = ClassSecurityInfo()
 
-    meta_type = portal_type = 'Discussion Item'
+    meta_type = portal_type = "Discussion Item"
     # This needs to be kept in sync with types/Discussion_Item.xml title
-    fti_title = 'Comment'
+    fti_title = "Comment"
 
     __parent__ = None
 
     comment_id = None  # long
     in_reply_to = None  # long
 
-    title = u''
+    title = ""
 
     mime_type = None
-    text = u''
+    text = ""
 
     creator = None
     creation_date = None
@@ -113,19 +120,22 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     def __init__(self):
         self.creation_date = self.modification_date = datetime.utcnow()
-        self.mime_type = 'text/plain'
+        self.mime_type = "text/plain"
 
         user = getSecurityManager().getUser()
         if user and user.getId():
             aclpath = [x for x in user.getPhysicalPath() if x]
-            self._owner = (aclpath, user.getId(),)
+            self._owner = (
+                aclpath,
+                user.getId(),
+            )
             self.__ac_local_roles__ = {
-                user.getId(): ['Owner'],
+                user.getId(): ["Owner"],
             }
 
     @property
     def __name__(self):
-        return self.comment_id and six.text_type(self.comment_id) or None
+        return self.comment_id and str(self.comment_id) or None
 
     @property
     def id(self):
@@ -137,32 +147,30 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
 
     def getText(self, targetMimetype=None):
         """The body text of a comment."""
-        transforms = getToolByName(self, 'portal_transforms')
+        transforms = getToolByName(self, "portal_transforms")
 
         if targetMimetype is None:
-            targetMimetype = 'text/x-html-safe'
+            targetMimetype = "text/x-html-safe"
 
-        sourceMimetype = getattr(self, 'mime_type', None)
+        sourceMimetype = getattr(self, "mime_type", None)
         if sourceMimetype is None:
             registry = queryUtility(IRegistry)
             settings = registry.forInterface(IDiscussionSettings, check=False)
             sourceMimetype = settings.text_transform
         text = self.text
         if text is None:
-            return ''
-        if six.PY2 and isinstance(text, six.text_type):
-            text = text.encode('utf8')
+            return ""
         transform = transforms.convertTo(
-            targetMimetype,
-            text,
-            context=self,
-            mimetype=sourceMimetype)
+            targetMimetype, text, context=self, mimetype=sourceMimetype
+        )
         if transform:
             return transform.getData()
         else:
-            logger = logging.getLogger('plone.app.discussion')
-            msg = u'Transform "{0}" => "{1}" not available. Failed to ' \
-                  u'transform comment "{2}".'
+            logger = logging.getLogger("plone.app.discussion")
+            msg = (
+                'Transform "{0}" => "{1}" not available. Failed to '
+                'transform comment "{2}".'
+            )
             logger.error(
                 msg.format(
                     sourceMimetype,
@@ -182,8 +190,8 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
             author_name = translate(
                 Message(
                     _(
-                        u'label_anonymous',
-                        default=u'Anonymous',
+                        "label_anonymous",
+                        default="Anonymous",
                     ),
                 ),
             )
@@ -194,9 +202,14 @@ class Comment(CatalogAware, WorkflowAware, DynamicType, Traversable,
         # conversation, the parent of the conversation is the content object).
         content = aq_base(self.__parent__.__parent__)
         title = translate(
-            Message(COMMENT_TITLE,
-                    mapping={'author_name': safe_unicode(author_name),
-                             'content': safe_unicode(content.Title())}))
+            Message(
+                COMMENT_TITLE,
+                mapping={
+                    "author_name": safe_text(author_name),
+                    "content": safe_text(content.Title()),
+                },
+            )
+        )
         return title
 
     def Creator(self):
@@ -224,25 +237,23 @@ CommentFactory = Factory(Comment)
 
 
 def notify_workflow(obj, event):
-    """Tell the workflow tool when a comment is added
-    """
-    tool = getToolByName(obj, 'portal_workflow', None)
+    """Tell the workflow tool when a comment is added"""
+    tool = getToolByName(obj, "portal_workflow", None)
     if tool is not None:
         tool.notifyCreated(obj)
 
 
 def notify_content_object(obj, event):
-    """Tell the content object when a comment is added
-    """
+    """Tell the content object when a comment is added"""
     content_obj = aq_parent(aq_parent(obj))
-    content_obj.reindexObject(idxs=('total_comments',
-                                    'last_comment_date',
-                                    'commentators'))
+    content_obj.reindexObject(
+        idxs=("total_comments", "last_comment_date", "commentators")
+    )
 
 
 def notify_content_object_deleted(obj, event):
     """Remove all comments of a content object when the content object has been
-       deleted.
+    deleted.
     """
     if IAnnotatable.providedBy(obj):
         conversation = IConversation(obj)
@@ -251,40 +262,40 @@ def notify_content_object_deleted(obj, event):
 
 
 def notify_comment_added(obj, event):
-    """ Notify custom discussion events when a comment is added or replied
-    """
+    """Notify custom discussion events when a comment is added or replied"""
     conversation = aq_parent(obj)
     context = aq_parent(conversation)
-    if getattr(obj, 'in_reply_to', None):
+    if getattr(obj, "in_reply_to", None):
         return notify(ReplyAddedEvent(context, obj))
     return notify(CommentAddedEvent(context, obj))
 
 
 def notify_comment_modified(obj, event):
-    """ Notify custom discussion events when a comment, or a reply, is modified
-    """
+    """Notify custom discussion events when a comment, or a reply, is modified"""
     conversation = aq_parent(obj)
     context = aq_parent(conversation)
-    if getattr(obj, 'in_reply_to', None):
+    if getattr(obj, "in_reply_to", None):
         return notify(ReplyModifiedEvent(context, obj))
     return notify(CommentModifiedEvent(context, obj))
 
 
 def notify_comment_removed(obj, event):
-    """ Notify custom discussion events when a comment or reply is removed
-    """
+    """Notify custom discussion events when a comment or reply is removed"""
     conversation = aq_parent(obj)
     context = aq_parent(conversation)
-    if getattr(obj, 'in_reply_to', None):
+    if getattr(obj, "in_reply_to", None):
         return notify(ReplyRemovedEvent(context, obj))
     return notify(CommentRemovedEvent(context, obj))
 
 
 def notify_content_object_moved(obj, event):
-    """Update all comments of a content object that has been moved.
-    """
-    if event.oldParent is None or event.newParent is None \
-            or event.oldName is None or event.newName is None:
+    """Update all comments of a content object that has been moved."""
+    if (
+        event.oldParent is None
+        or event.newParent is None
+        or event.oldName is None
+        or event.newName is None
+    ):
         return
 
     # This method is also called for sublocations of moved objects. We
@@ -293,21 +304,19 @@ def notify_content_object_moved(obj, event):
     # in the object hierarchy. The object is already moved at this point. so
     # obj.getPhysicalPath retruns the new path get the part of the path that
     # was moved.
-    moved_path = obj.getPhysicalPath()[
-        len(event.newParent.getPhysicalPath()) + 1:
-    ]
+    moved_path = obj.getPhysicalPath()[len(event.newParent.getPhysicalPath()) + 1 :]
 
     # Remove comments at the old location from catalog
-    catalog = getToolByName(obj, 'portal_catalog')
-    old_path = '/'.join(
-        event.oldParent.getPhysicalPath() +
-        (event.oldName,) +
-        moved_path,
+    catalog = getToolByName(obj, "portal_catalog")
+    old_path = "/".join(
+        event.oldParent.getPhysicalPath() + (event.oldName,) + moved_path,
     )
-    brains = catalog.searchResults(dict(
-        path={'query': old_path},
-        portal_type='Discussion Item',
-    ))
+    brains = catalog.searchResults(
+        dict(
+            path={"query": old_path},
+            portal_type="Discussion Item",
+        )
+    )
     for brain in brains:
         catalog.uncatalog_object(brain.getPath())
     # Reindex comment at the new location
@@ -320,11 +329,11 @@ def notify_content_object_moved(obj, event):
 def notify_user(obj, event):
     """Tell users when a comment has been added.
 
-       This method composes and sends emails to all users that have added a
-       comment to this conversation and enabled user notification.
+    This method composes and sends emails to all users that have added a
+    comment to this conversation and enabled user notification.
 
-       This requires the user_notification setting to be enabled in the
-       discussion control panel.
+    This requires the user_notification setting to be enabled in the
+    discussion control panel.
     """
 
     # Check if user notification is enabled
@@ -334,9 +343,9 @@ def notify_user(obj, event):
         return
 
     # Get informations that are necessary to send an email
-    mail_host = getToolByName(obj, 'MailHost')
+    mail_host = getToolByName(obj, "MailHost")
     registry = getUtility(IRegistry)
-    mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+    mail_settings = registry.forInterface(IMailSchema, prefix="plone")
     sender = mail_settings.email_from_address
 
     # Check if a sender address is available
@@ -360,15 +369,14 @@ def notify_user(obj, event):
     if not emails:
         return
 
-    subject = translate(_(u'A comment has been posted.'),
-                        context=obj.REQUEST)
+    subject = translate(_("A comment has been posted."), context=obj.REQUEST)
     message = translate(
         Message(
             MAIL_NOTIFICATION_MESSAGE,
             mapping={
-                'title': safe_unicode(content_object.title),
-                'link': content_object.absolute_url() + '/view#' + obj.id,
-                'text': obj.text,
+                "title": safe_text(content_object.title),
+                "link": content_object.absolute_url() + "/view#" + obj.id,
+                "text": obj.text,
             },
         ),
         context=obj.REQUEST,
@@ -381,12 +389,11 @@ def notify_user(obj, event):
                 email,
                 sender,
                 subject,
-                charset='utf-8',
+                charset="utf-8",
             )
         except SMTPException:
             logger.error(
-                'SMTP exception while trying to send an ' +
-                'email from %s to %s',
+                "SMTP exception while trying to send an " + "email from %s to %s",
                 sender,
                 email,
             )
@@ -395,15 +402,15 @@ def notify_user(obj, event):
 def notify_moderator(obj, event):
     """Tell the moderator when a comment needs attention.
 
-       This method sends an email to the moderator if comment moderation a new
-       comment has been added that needs to be approved.
+    This method sends an email to the moderator if comment moderation a new
+    comment has been added that needs to be approved.
 
-       The moderator_notification setting has to be enabled in the discussion
-       control panel.
+    The moderator_notification setting has to be enabled in the discussion
+    control panel.
 
-       Configure the moderator e-mail address in the discussion control panel.
-       If no moderator is configured but moderator notifications are turned on,
-       the site admin email (from the mail control panel) will be used.
+    Configure the moderator e-mail address in the discussion control panel.
+    If no moderator is configured but moderator notifications are turned on,
+    the site admin email (from the mail control panel) will be used.
     """
     # Check if moderator notification is enabled
     registry = queryUtility(IRegistry)
@@ -412,9 +419,9 @@ def notify_moderator(obj, event):
         return
 
     # Get informations that are necessary to send an email
-    mail_host = getToolByName(obj, 'MailHost')
+    mail_host = getToolByName(obj, "MailHost")
     registry = getUtility(IRegistry)
-    mail_settings = registry.forInterface(IMailSchema, prefix='plone')
+    mail_settings = registry.forInterface(IMailSchema, prefix="plone")
     sender = mail_settings.email_from_address
 
     if settings.moderator_email:
@@ -430,22 +437,23 @@ def notify_moderator(obj, event):
     content_object = aq_parent(conversation)
 
     # Compose email
-    subject = translate(_(u'A comment has been posted.'), context=obj.REQUEST)
+    subject = translate(_("A comment has been posted."), context=obj.REQUEST)
     message = translate(
         Message(
             MAIL_NOTIFICATION_MESSAGE_MODERATOR,
             mapping={
-                'title': safe_unicode(content_object.title),
-                'link': content_object.absolute_url() + '/view#' + obj.id,
-                'text': obj.text,
-                'commentator': obj.author_email or translate(
-                        Message(
-                            _(
-                                u'label_anonymous',
-                                default=u'Anonymous',
-                            ),
+                "title": safe_text(content_object.title),
+                "link": content_object.absolute_url() + "/view#" + obj.id,
+                "text": obj.text,
+                "commentator": obj.author_email
+                or translate(
+                    Message(
+                        _(
+                            "label_anonymous",
+                            default="Anonymous",
                         ),
-                    )
+                    ),
+                ),
             },
         ),
         context=obj.REQUEST,
@@ -453,12 +461,12 @@ def notify_moderator(obj, event):
 
     # Send email
     try:
-        mail_host.send(message, mto, sender, subject, charset='utf-8')
+        mail_host.send(message, mto, sender, subject, charset="utf-8")
     except SMTPException as e:
         logger.error(
-            'SMTP exception (%s) while trying to send an ' +
-            'email notification to the comment moderator ' +
-            '(from %s to %s, message: %s)',
+            "SMTP exception (%s) while trying to send an "
+            + "email notification to the comment moderator "
+            + "(from %s to %s, message: %s)",
             e,
             sender,
             mto,

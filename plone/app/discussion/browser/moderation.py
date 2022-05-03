@@ -1,11 +1,10 @@
-# coding: utf-8
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.events import CommentPublishedEvent
 from plone.app.discussion.events import CommentTransitionEvent
-from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
@@ -18,21 +17,20 @@ from zope.event import notify
 
 # Translations for generated values in buttons
 # States
-_('comment_pending', default='pending')
+_("comment_pending", default="pending")
 # _('comment_approved', default='published')
-_('comment_published', default='published')
-_('comment_rejected', default='rejected')
-_('comment_spam', default='marked as spam')
+_("comment_published", default="published")
+_("comment_rejected", default="rejected")
+_("comment_spam", default="marked as spam")
 # Transitions
-_('Recall')
-_('Approve')
-_('Reject')
-_('Spam')
+_("Recall")
+_("Approve")
+_("Reject")
+_("Spam")
 PMF = _
 
 
 class TranslationHelper(BrowserView):
-
     def translate(self, text=""):
         return _(text)
 
@@ -44,22 +42,21 @@ class TranslationHelper(BrowserView):
 class View(BrowserView):
     """Show comment moderation view."""
 
-    template = ViewPageTemplateFile('moderation.pt')
+    template = ViewPageTemplateFile("moderation.pt")
     try:
-        template.id = '@@moderate-comments'
+        template.id = "@@moderate-comments"
     except AttributeError:
         # id is not writeable in Zope 2.12
         pass
 
     def __init__(self, context, request):
-        super(View, self).__init__(context, request)
-        self.workflowTool = getToolByName(self.context, 'portal_workflow')
+        super().__init__(context, request)
+        self.workflowTool = getToolByName(self.context, "portal_workflow")
         self.transitions = []
 
     def __call__(self):
-        self.request.set('disable_border', True)
-        self.request.set('review_state',
-                         self.request.get('review_state', 'pending'))
+        self.request.set("disable_border", True)
+        self.request.set("review_state", self.request.get("review_state", "pending"))
         return self.template()
 
     def comments(self):
@@ -67,15 +64,19 @@ class View(BrowserView):
 
         review_state is string or list of strings.
         """
-        catalog = getToolByName(self.context, 'portal_catalog')
-        if self.request.review_state == 'all':
-            return catalog(object_provides=IComment.__identifier__,
-                           sort_on='created',
-                           sort_order='reverse')
-        return catalog(object_provides=IComment.__identifier__,
-                       review_state=self.request.review_state,
-                       sort_on='created',
-                       sort_order='reverse')
+        catalog = getToolByName(self.context, "portal_catalog")
+        if self.request.review_state == "all":
+            return catalog(
+                object_provides=IComment.__identifier__,
+                sort_on="created",
+                sort_order="reverse",
+            )
+        return catalog(
+            object_provides=IComment.__identifier__,
+            review_state=self.request.review_state,
+            sort_on="created",
+            sort_order="reverse",
+        )
 
     def moderation_enabled(self):
         """Return true if a review workflow is enabled on 'Discussion Item'
@@ -84,11 +85,10 @@ class View(BrowserView):
         A 'review workflow' is characterized by implementing a 'pending'
         workflow state.
         """
-        workflows = self.workflowTool.getChainForPortalType(
-            'Discussion Item')
+        workflows = self.workflowTool.getChainForPortalType("Discussion Item")
         if workflows:
             comment_workflow = self.workflowTool[workflows[0]]
-            if 'pending' in comment_workflow.states:
+            if "pending" in comment_workflow.states:
                 return True
         return False
 
@@ -100,11 +100,10 @@ class View(BrowserView):
         A 'review multipe state workflow' is characterized by implementing
         a 'rejected' workflow state and a 'spam' workflow state.
         """
-        workflows = self.workflowTool.getChainForPortalType(
-            'Discussion Item')
+        workflows = self.workflowTool.getChainForPortalType("Discussion Item")
         if workflows:
             comment_workflow = self.workflowTool[workflows[0]]
-            if 'spam' in comment_workflow.states:
+            if "spam" in comment_workflow.states:
                 return True
         return False
 
@@ -125,27 +124,26 @@ class View(BrowserView):
         """
         if obj:
             transitions = [
-                a for a in self.workflowTool.listActionInfos(object=obj)
-                if a['category'] == 'workflow' and a['allowed']
-                ]
+                a
+                for a in self.workflowTool.listActionInfos(object=obj)
+                if a["category"] == "workflow" and a["allowed"]
+            ]
             return transitions
 
 
 class ModerateCommentsEnabled(BrowserView):
-
     def __call__(self):
         """Returns true if a 'review workflow' is enabled on 'Discussion Item'
-           content type. A 'review workflow' is characterized by implementing
-           a 'pending' workflow state.
+        content type. A 'review workflow' is characterized by implementing
+        a 'pending' workflow state.
         """
         context = aq_inner(self.context)
-        workflowTool = getToolByName(context, 'portal_workflow', None)
-        comment_workflow = workflowTool.getChainForPortalType(
-            'Discussion Item')
+        workflowTool = getToolByName(context, "portal_workflow", None)
+        comment_workflow = workflowTool.getChainForPortalType("Discussion Item")
         if comment_workflow:
             comment_workflow = comment_workflow[0]
             comment_workflow = workflowTool[comment_workflow]
-            if 'pending' in comment_workflow.states:
+            if "pending" in comment_workflow.states:
                 return True
 
         return False
@@ -184,13 +182,15 @@ class DeleteComment(BrowserView):
             content_object.reindexObject()
             notify(CommentDeletedEvent(self.context, comment))
             IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _('Comment deleted.'),
-                type='info')
+                _("Comment deleted."), type="info"
+            )
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
-        if (len(came_from) == 0 or 'came_from=' in came_from or
-                not getToolByName(
-                content_object, 'portal_url').isURLInPortal(came_from)):
+        if (
+            len(came_from) == 0
+            or "came_from=" in came_from
+            or not getToolByName(content_object, "portal_url").isURLInPortal(came_from)
+        ):
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 
@@ -198,8 +198,7 @@ class DeleteComment(BrowserView):
         """Returns true if current user has the 'Delete comments'
         permission.
         """
-        return getSecurityManager().checkPermission('Delete comments',
-                                                    aq_inner(reply))
+        return getSecurityManager().checkPermission("Delete comments", aq_inner(reply))
 
 
 class DeleteOwnComment(DeleteComment):
@@ -213,26 +212,23 @@ class DeleteOwnComment(DeleteComment):
     """
 
     def could_delete(self, comment=None):
-        """Returns true if the comment could be deleted if it had no replies.
-        """
+        """Returns true if the comment could be deleted if it had no replies."""
         sm = getSecurityManager()
         comment = comment or aq_inner(self.context)
         userid = sm.getUser().getId()
-        return (
-            sm.checkPermission('Delete own comments', comment) and
-            'Owner' in comment.get_local_roles_for_userid(userid)
-        )
+        return sm.checkPermission(
+            "Delete own comments", comment
+        ) and "Owner" in comment.get_local_roles_for_userid(userid)
 
     def can_delete(self, comment=None):
         comment = comment or self.context
-        return (
-            len(IReplies(aq_inner(comment))) == 0 and
-            self.could_delete(comment=comment)
+        return len(IReplies(aq_inner(comment))) == 0 and self.could_delete(
+            comment=comment
         )
 
     def __call__(self):
         if self.can_delete():
-            super(DeleteOwnComment, self).__call__()
+            super().__call__()
         else:
             raise Unauthorized("You're not allowed to delete this comment.")
 
@@ -262,33 +258,37 @@ class CommentTransition(BrowserView):
         """Call CommentTransition."""
         comment = aq_inner(self.context)
         content_object = aq_parent(aq_parent(comment))
-        workflow_action = self.request.form.get('workflow_action', 'publish')
-        workflowTool = getToolByName(self.context, 'portal_workflow')
+        workflow_action = self.request.form.get("workflow_action", "publish")
+        workflowTool = getToolByName(self.context, "portal_workflow")
         workflowTool.doActionFor(comment, workflow_action)
         comment.reindexObject()
-        content_object.reindexObject(idxs=['total_comments'])
+        content_object.reindexObject(idxs=["total_comments"])
         notify(CommentPublishedEvent(self.context, comment))
         # for complexer workflows:
         notify(CommentTransitionEvent(self.context, comment))
-        comment_state_translated = ''
+        comment_state_translated = ""
         if workflowTool.getWorkflowsFor(comment):
-            review_state_new = workflowTool.getInfoFor(ob=comment, name='review_state')
+            review_state_new = workflowTool.getInfoFor(ob=comment, name="review_state")
             helper = self.context.restrictedTraverse("translationhelper")
-            comment_state_translated = helper.translate_comment_review_state(review_state_new)
+            comment_state_translated = helper.translate_comment_review_state(
+                review_state_new
+            )
 
         msgid = _(
             "comment_transmitted",
-            default='Comment ${comment_state_translated}.',
-            mapping={"comment_state_translated": comment_state_translated})
+            default="Comment ${comment_state_translated}.",
+            mapping={"comment_state_translated": comment_state_translated},
+        )
         translated = self.context.translate(msgid)
-        IStatusMessage(self.request).add(translated, type='info')
+        IStatusMessage(self.request).add(translated, type="info")
 
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
-        if (len(came_from) == 0
-            or 'came_from=' in came_from
-            or not getToolByName(
-                content_object, 'portal_url').isURLInPortal(came_from)):
+        if (
+            len(came_from) == 0
+            or "came_from=" in came_from
+            or not getToolByName(content_object, "portal_url").isURLInPortal(came_from)
+        ):
             came_from = content_object.absolute_url()
         return self.context.REQUEST.RESPONSE.redirect(came_from)
 
@@ -317,19 +317,19 @@ class BulkActionsView(BrowserView):
     """
 
     def __init__(self, context, request):
-        super(BulkActionsView, self).__init__(context, request)
-        self.workflowTool = getToolByName(context, 'portal_workflow')
+        super().__init__(context, request)
+        self.workflowTool = getToolByName(context, "portal_workflow")
 
     def __call__(self):
         """Call BulkActionsView."""
-        if 'form.select.BulkAction' in self.request:
-            bulkaction = self.request.get('form.select.BulkAction')
-            self.paths = self.request.get('paths')
+        if "form.select.BulkAction" in self.request:
+            bulkaction = self.request.get("form.select.BulkAction")
+            self.paths = self.request.get("paths")
             if self.paths:
-                if bulkaction == '-1':
+                if bulkaction == "-1":
                     # no bulk action was selected
                     pass
-                elif bulkaction == 'delete':
+                elif bulkaction == "delete":
                     self.delete()
                 else:
                     self.transmit(bulkaction)
@@ -346,13 +346,14 @@ class BulkActionsView(BrowserView):
             comment = context.restrictedTraverse(path)
             content_object = aq_parent(aq_parent(comment))
             allowed_transitions = [
-                transition['id'] for transition in self.workflowTool.listActionInfos(object=comment)
-                if transition['category'] == 'workflow' and transition['allowed']
-                ]
+                transition["id"]
+                for transition in self.workflowTool.listActionInfos(object=comment)
+                if transition["category"] == "workflow" and transition["allowed"]
+            ]
             if action in allowed_transitions:
                 self.workflowTool.doActionFor(comment, action)
                 comment.reindexObject()
-                content_object.reindexObject(idxs=['total_comments'])
+                content_object.reindexObject(idxs=["total_comments"])
                 notify(CommentPublishedEvent(content_object, comment))
                 # for complexer workflows:
                 notify(CommentTransitionEvent(self.context, comment))
@@ -370,5 +371,5 @@ class BulkActionsView(BrowserView):
             conversation = aq_parent(comment)
             content_object = aq_parent(conversation)
             del conversation[comment.id]
-            content_object.reindexObject(idxs=['total_comments'])
+            content_object.reindexObject(idxs=["total_comments"])
             notify(CommentDeletedEvent(content_object, comment))

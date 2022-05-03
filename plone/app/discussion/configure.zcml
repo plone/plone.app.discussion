@@ -39,7 +39,7 @@
         description="Commenting infrastructure for Plone"
         directory="profiles/default"
         provides="Products.GenericSetup.interfaces.EXTENSION"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        for="plone.base.interfaces.IPloneSiteRoot"
         />
     <!-- For upgrade steps see upgrades.zcml. -->
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Catalog indexers, using plone.indexer. These will populate standard catalog
 indexes with values based on the IComment interface.
 
@@ -7,13 +6,12 @@ Also provide event handlers to actually catalog the comments.
 from DateTime import DateTime
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
+from plone.base.utils import safe_text
 from plone.indexer import indexer
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.interfaces import IContentish
-from Products.CMFPlone.utils import safe_unicode
 from Products.ZCatalog.interfaces import IZCatalog
 
-import six
 
 MAX_DESCRIPTION = 25
 
@@ -24,7 +22,7 @@ MAX_DESCRIPTION = 25
 def total_comments(object):
     # Total number of comments on a conversation
     # Indexers won't work on old discussion items
-    if object.meta_type != 'Discussion Item':
+    if object.meta_type != "Discussion Item":
         try:
             conversation = IConversation(object)
             return conversation.total_comments()
@@ -38,7 +36,7 @@ def total_comments(object):
 def last_comment_date(object):
     # Date of the latest comment on a conversation
     # Indexers won't work on old discussion items
-    if object.meta_type != 'Discussion Item':
+    if object.meta_type != "Discussion Item":
         try:
             conversation = IConversation(object)
             return conversation.last_comment_date
@@ -52,7 +50,7 @@ def last_comment_date(object):
 def commentators(object):
     # List of commentators on a conversation
     # Indexers won't work on old discussion items
-    if object.meta_type != 'Discussion Item':
+    if object.meta_type != "Discussion Item":
         try:
             conversation = IConversation(object)
             return conversation.public_commentators
@@ -60,6 +58,7 @@ def commentators(object):
             # The item is contentish but nobody
             # implemented an adapter for it
             pass
+
 
 # Comment Indexers
 
@@ -73,26 +72,24 @@ def title(object):
 def creator(object):
     if not object.creator:
         return
-    value = safe_unicode(object.creator)
-    if six.PY2:
-        return value.encode('utf8')
+    value = safe_text(object.creator)
     return value
 
 
 @indexer(IComment)
 def description(object):
     # Return the first 25 words of the comment text and append ' [...]'
-    text = ' '.join(
-        object.getText(targetMimetype='text/plain').split()[:MAX_DESCRIPTION],
+    text = " ".join(
+        object.getText(targetMimetype="text/plain").split()[:MAX_DESCRIPTION],
     )
     if len(object.getText().split()) > 25:
-        text += ' [...]'
+        text += " [...]"
     return text
 
 
 @indexer(IComment)
 def searchable_text(object):
-    return object.getText(targetMimetype='text/plain')
+    return object.getText(targetMimetype="text/plain")
 
 
 @indexer(IComment)
@@ -106,42 +103,42 @@ def in_response_to(object):
 def effective(object):
     # the catalog index needs Zope DateTime instead of Python datetime
     return DateTime(
-            object.creation_date.year,
-            object.creation_date.month,
-            object.creation_date.day,
-            object.creation_date.hour,
-            object.creation_date.minute,
-            object.creation_date.second,
-            'GMT',
-            )
+        object.creation_date.year,
+        object.creation_date.month,
+        object.creation_date.day,
+        object.creation_date.hour,
+        object.creation_date.minute,
+        object.creation_date.second,
+        "GMT",
+    )
 
 
 @indexer(IComment)
 def created(object):
     # the catalog index needs Zope DateTime instead of Python datetime
     return DateTime(
-            object.creation_date.year,
-            object.creation_date.month,
-            object.creation_date.day,
-            object.creation_date.hour,
-            object.creation_date.minute,
-            object.creation_date.second,
-            'GMT',
-            )
+        object.creation_date.year,
+        object.creation_date.month,
+        object.creation_date.day,
+        object.creation_date.hour,
+        object.creation_date.minute,
+        object.creation_date.second,
+        "GMT",
+    )
 
 
 @indexer(IComment)
 def modified(object):
     # the catalog index needs Zope DateTime instead of Python datetime
     return DateTime(
-            object.modification_date.year,
-            object.modification_date.month,
-            object.modification_date.day,
-            object.modification_date.hour,
-            object.modification_date.minute,
-            object.modification_date.second,
-            'GMT',
-            )
+        object.modification_date.year,
+        object.modification_date.month,
+        object.modification_date.day,
+        object.modification_date.hour,
+        object.modification_date.minute,
+        object.modification_date.second,
+        "GMT",
+    )
 
 
 # Override the conversation indexers for comments
