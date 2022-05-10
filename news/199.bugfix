@@ -1,0 +1,3 @@
+Grant Site Administrators the same workflow permissions as Managers.
+They were missing permissions on pending comments.
+[maurits]
