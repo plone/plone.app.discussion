@@ -73,20 +73,19 @@
         />
   </genericsetup:upgradeSteps>
 
-  <genericsetup:upgradeDepends
-      source="1002"
-      destination="1003"
-      profile="plone.app.discussion:default"
-      title="Update controlpanel icon"
-      import_steps="controlpanel" />
-
+  <genericsetup:upgradeSteps
+      source="1999"
+      destination="2000"
+      profile="plone.app.discussion:default">
     <genericsetup:upgradeDepends
-      source="1003"
-      destination="1004"
-      profile="plone.app.discussion:default"
-      title="Add 'View comments' permission"
-      import_steps="rolemap" />
-
-
+        title="Update controlpanel icon"
+        import_steps="controlpanel" />
+    <genericsetup:upgradeDepends
+        title="Add 'View comments' permission"
+        import_steps="rolemap" />
+    <genericsetup:upgradeStep
+        title="Grant Site Administrator permissions on pending comments"
+        handler=".upgrades.upgrade_comment_workflows" />
+  </genericsetup:upgradeSteps>
 
 </configure>
