@@ -87,6 +87,12 @@
       title="Add 'View comments' permission"
       import_steps="rolemap" />
 
-
+  <genericsetup:upgradeStep
+      source="1004"
+      destination="1005"
+      profile="plone.app.discussion:default"
+      title="Grant Site Administrator permissions on pending comments"
+      handler=".upgrades.upgrade_comment_workflows"
+      />
 
 </configure>
