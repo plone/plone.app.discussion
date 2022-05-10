@@ -71,6 +71,14 @@
         description="Additional states allows moderator to review history of publishing and rejection"
         handler=".upgrades.extend_review_workflow"
         />
-</genericsetup:upgradeSteps>
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+      source="1002"
+      destination="1003"
+      profile="plone.app.discussion:default"
+      title="Grant Site Administrator permissions on pending comments"
+      handler=".upgrades.upgrade_comment_workflows"
+      />
 
 </configure>

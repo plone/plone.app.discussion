@@ -20,11 +20,13 @@
                      <permission-role>Manager</permission-role>
                      <permission-role>Owner</permission-role>
                      <permission-role>Reviewer</permission-role>
+                     <permission-role>Site Administrator</permission-role>
                  </permission-map>
                  <permission-map name="Modify portal content" acquired="False">
                      <permission-role>Manager</permission-role>
                      <permission-role>Owner</permission-role>
                      <permission-role>Reviewer</permission-role>
+                     <permission-role>Site Administrator</permission-role>
                  </permission-map>
                  <permission-map name="Reply to item" acquired="False">
                  </permission-map>
@@ -32,6 +34,7 @@
                      <permission-role>Manager</permission-role>
                      <permission-role>Owner</permission-role>
                      <permission-role>Reviewer</permission-role>
+                     <permission-role>Site Administrator</permission-role>
                  </permission-map>
              </state>
              <state state_id="published" title="Published">
@@ -43,6 +46,7 @@
                  </permission-map>
                  <permission-map name="Modify portal content" acquired="False">
                      <permission-role>Manager</permission-role>
+                     <permission-role>Site Administrator</permission-role>
                  </permission-map>
                  <permission-map name="Reply to item" acquired="True">
                  </permission-map>
