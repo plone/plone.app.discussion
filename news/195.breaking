@@ -1,2 +1,0 @@
-Code style black & isort. Remove six usage. Use plone.base and move annotation key over to here.
-[jensens]

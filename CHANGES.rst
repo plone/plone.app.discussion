@@ -8,6 +8,27 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a7 (2022-05-14)
+--------------------
+
+Breaking changes:
+
+
+- Code style black & isort. Remove six usage. Use plone.base and move annotation key over to here.
+  [jensens] (#195)
+
+
+Bug fixes:
+
+
+- Make compatible with robotframework 3-5.
+  [maurits] (#5)
+- Grant Site Administrators the same workflow permissions as Managers.
+  They were missing permissions on pending comments.
+  [maurits] (#199)
+- Removed z3c.autoinclude.plugin entrypoint. [maurits] (#3188)
+
+
 4.0.0a6 (2022-04-28)
 --------------------
 
