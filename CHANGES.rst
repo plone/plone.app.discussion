@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.7 (2022-05-14)
+------------------
+
+Bug fixes:
+
+
+- Grant Site Administrators the same workflow permissions as Managers.
+  They were missing permissions on pending comments.
+  [maurits] (#199)
+
+
 3.4.6 (2022-03-23)
 ------------------
 
