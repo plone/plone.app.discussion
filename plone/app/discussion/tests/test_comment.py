@@ -18,6 +18,22 @@ logger = logging.getLogger("plone.app.discussion.tests")
 logger.addHandler(logging.StreamHandler())
 
 
+def normalize(value):
+    # Strip all white spaces of every line, then join on one line.
+    # But try to avoid getting 'Go to<a href' instead of 'Go to <a href'.
+    lines = []
+    for line in value.splitlines():
+        line = line.strip()
+        if (
+            line.startswith("<")
+            and not line.startswith("</")
+            and not line.startswith("<br")
+        ):
+            line = " " + line
+        lines.append(line)
+    return "".join(lines).strip()
+
+
 class CommentTest(unittest.TestCase):
 
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
@@ -156,15 +172,15 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject("plone.Comment")
         comment1.text = "First paragraph\n\nSecond_paragraph"
         self.assertEqual(
-            "".join(comment1.getText().split()),
-            "<p>Firstparagraph<br><br>Second_paragraph</p>",
+            normalize(comment1.getText()),
+            "<p>First paragraph<br><br>Second_paragraph</p>",
         )
 
     def test_getText_escapes_HTML(self):
         comment1 = createObject("plone.Comment")
         comment1.text = "<b>Got HTML?</b>"
         self.assertEqual(
-            comment1.getText(),
+            normalize(comment1.getText()),
             "<p>&lt;b&gt;Got HTML?&lt;/b&gt;</p>",
         )
 
@@ -172,13 +188,13 @@ class CommentTest(unittest.TestCase):
         comment1 = createObject("plone.Comment")
         comment1.text = "Umlaute sind ä, ö und ü."
         out = b"<p>Umlaute sind \xc3\xa4, \xc3\xb6 und \xc3\xbc.</p>"
-        self.assertEqual(comment1.getText(), out.decode("utf8"))
+        self.assertEqual(normalize(comment1.getText()), out.decode("utf8"))
 
     def test_getText_doesnt_link(self):
         comment1 = createObject("plone.Comment")
         comment1.text = "Go to http://www.plone.org"
         self.assertEqual(
-            comment1.getText(),
+            normalize(comment1.getText()),
             "<p>Go to http://www.plone.org</p>",
         )
 
@@ -187,7 +203,7 @@ class CommentTest(unittest.TestCase):
         comment1.text = "Go to http://www.plone.org"
         comment1.mime_type = "text/x-web-intelligent"
         self.assertEqual(
-            comment1.getText(),
+            normalize(comment1.getText()),
             'Go to <a href="http://www.plone.org" '
             + 'rel="nofollow">http://www.plone.org</a>',
         )
@@ -197,7 +213,7 @@ class CommentTest(unittest.TestCase):
         comment1.text = 'Go to <a href="http://www.plone.org">plone.org</a>'
         comment1.mime_type = "text/html"
         self.assertEqual(
-            comment1.getText(),
+            normalize(comment1.getText()),
             'Go to <a href="http://www.plone.org">plone.org</a>',
         )
 
