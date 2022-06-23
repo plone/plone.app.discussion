@@ -1,3 +1,0 @@
-Test-only fix: normalize white space when comparing output of ``comment.getText()``.
-Needed to not fail with newer ``plone.outputfilters``.
-[maurits]

@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0b1 (2022-06-23)
+--------------------
+
+Bug fixes:
+
+
+- Test-only fix: normalize white space when comparing output of ``comment.getText()``.
+  Needed to not fail with newer ``plone.outputfilters``.
+  [maurits] (#49)
+
+
 4.0.0a7 (2022-05-14)
 --------------------
 
