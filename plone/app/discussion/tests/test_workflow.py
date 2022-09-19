@@ -9,6 +9,7 @@ from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import _checkPermission as checkPerm
 from zope.component import createObject
@@ -128,11 +129,11 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
             f"++conversation++default/{cid}",
         )
 
-        self.portal.acl_users._doAddUser("member", "secret", ["Member"], [])
-        self.portal.acl_users._doAddUser("reviewer", "secret", ["Reviewer"], [])
-        self.portal.acl_users._doAddUser("manager", "secret", ["Manager"], [])
-        self.portal.acl_users._doAddUser("editor", " secret", ["Editor"], [])
-        self.portal.acl_users._doAddUser("reader", "secret", ["Reader"], [])
+        self.portal.acl_users._doAddUser("member", TEST_USER_PASSWORD, ["Member"], [])
+        self.portal.acl_users._doAddUser("reviewer", TEST_USER_PASSWORD, ["Reviewer"], [])
+        self.portal.acl_users._doAddUser("manager", TEST_USER_PASSWORD, ["Manager"], [])
+        self.portal.acl_users._doAddUser("editor", TEST_USER_PASSWORD, ["Editor"], [])
+        self.portal.acl_users._doAddUser("reader", TEST_USER_PASSWORD, ["Reader"], [])
 
     def test_initial_workflow_state(self):
         """Make sure the initial workflow state of a comment is 'private'."""

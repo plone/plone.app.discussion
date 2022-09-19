@@ -13,6 +13,7 @@ from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from z3c.form.interfaces import IFormLayer
@@ -515,7 +516,7 @@ class TestCommentsViewlet(unittest.TestCase):
         # Anonymous has no 'can review' permission
         self.assertFalse(self.viewlet.can_review())
         # The reviewer role has the 'Review comments' permission
-        self.portal.acl_users._doAddUser("reviewer", "secret", ["Reviewer"], [])
+        self.portal.acl_users._doAddUser("reviewer", TEST_USER_PASSWORD, ["Reviewer"], [])
         login(self.portal, "reviewer")
         self.assertTrue(self.viewlet.can_review())
 
