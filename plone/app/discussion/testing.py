@@ -7,6 +7,7 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
@@ -25,16 +26,16 @@ class PloneAppDiscussion(PloneSandboxLayer):
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     USER_NAME = "johndoe"
-    USER_PASSWORD = "secret"
+    USER_PASSWORD = TEST_USER_PASSWORD
     MEMBER_NAME = "janedoe"
-    MEMBER_PASSWORD = "secret"
+    MEMBER_PASSWORD = TEST_USER_PASSWORD
     USER_WITH_FULLNAME_NAME = "jim"
     USER_WITH_FULLNAME_FULLNAME = "Jim Fulton"
-    USER_WITH_FULLNAME_PASSWORD = "secret"
+    USER_WITH_FULLNAME_PASSWORD = TEST_USER_PASSWORD
     MANAGER_USER_NAME = "manager"
-    MANAGER_USER_PASSWORD = "secret"
+    MANAGER_USER_PASSWORD = TEST_USER_PASSWORD
     REVIEWER_NAME = "reviewer"
-    REVIEWER_PASSWORD = "secret"
+    REVIEWER_PASSWORD = TEST_USER_PASSWORD
 
     def setUpZope(self, app, configurationContext):
         # Load ZCML
