@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0b2 (2022-09-30)
+--------------------
+
+Bug fixes:
+
+
+- Use longer passwords in tests. [davisagli] (#203)
+
+
 4.0.0b1 (2022-06-23)
 --------------------
 
