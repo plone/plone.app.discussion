@@ -18,10 +18,11 @@ First we have to set up some things and login.
 
     >>> app = layer['app']
     >>> from plone.testing.z2 import Browser
+    >>> from plone.app.testing import SITE_OWNER_PASSWORD
     >>> from plone.app.testing import TEST_USER_PASSWORD
     >>> browser = Browser(app)
     >>> browser.handleErrors = False
-    >>> browser.addHeader('Authorization', f'Basic admin:{TEST_USER_PASSWORD}')
+    >>> browser.addHeader('Authorization', f'Basic admin:{SITE_OWNER_PASSWORD}')
     >>> portal = layer['portal']
     >>> portal_url = 'http://nohost/plone'
 
@@ -241,7 +242,7 @@ Enable anonymous comment with email.
     >>> browser.open(portal_url + '/logout')
     >>> browser.open(portal_url + '/login_form')
     >>> browser.getControl(name='__ac_name').value = 'admin'
-    >>> browser.getControl(name='__ac_password').value = TEST_USER_PASSWORD
+    >>> browser.getControl(name='__ac_password').value = SITE_OWNER_PASSWORD
     >>> browser.getControl('Log in').click()
     >>> browser.open(portal_url+'/@@discussion-controlpanel')
     >>> browser.getControl(name='form.widgets.anonymous_comments:list').value = 'selected'
