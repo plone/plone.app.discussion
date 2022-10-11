@@ -2,7 +2,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = "4.0.0b3"
+version = "4.0.0b4.dev0"
 
 install_requires = [
     "setuptools",
