@@ -6,6 +6,7 @@ from Acquisition import aq_base
 from Acquisition import aq_parent
 from Acquisition import Implicit
 from datetime import datetime
+from datetime import timezone
 from OFS.owner import Owned
 from OFS.role import RoleManager
 from OFS.Traversable import Traversable
@@ -119,7 +120,7 @@ class Comment(
     # IConversation.addComment().
 
     def __init__(self):
-        self.creation_date = self.modification_date = datetime.utcnow()
+        self.creation_date = self.modification_date = datetime.now(timezone.utc)
         self.mime_type = "text/plain"
 
         user = getSecurityManager().getUser()

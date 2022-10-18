@@ -2,6 +2,7 @@ from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from datetime import datetime
+from datetime import timezone
 from DateTime import DateTime
 from plone.app.discussion import _
 from plone.app.discussion.browser.validator import CaptchaValidator
@@ -192,8 +193,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             setattr(comment, attribute, data[attribute])
 
         # Set dates
-        comment.creation_date = datetime.utcnow()
-        comment.modification_date = datetime.utcnow()
+        comment.creation_date = datetime.now(timezone.utc)
+        comment.modification_date = datetime.now(timezone.utc)
 
         # Get author name and email
         comment.author_name, comment.author_email = self.get_author(data)

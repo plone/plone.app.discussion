@@ -2,6 +2,8 @@ from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
+from plone import api
+from datetime import timezone
 
 import logging
 
@@ -77,3 +79,24 @@ def add_js_to_plone_legacy(context):
 def extend_review_workflow(context):
     """Apply changes made to review workflow."""
     upgrade_comment_workflows_retain_current_workflow(context)
+
+
+def set_timezone_on_dates(context):
+    """Ensure timezone data is stored against all creation/modified dates"""
+    pc = api.portal.get_tool('portal_catalog')
+    creations = 0
+    modifieds = 0
+    logger.info('Setting timezone information on comment dates')
+    comments = pc.search({'Type': 'Comment'})
+    for cbrain in comments:
+        comment = cbrain.getObject()
+        if not comment.creation_date.tzinfo:
+            creations += 1
+            comment.creation_date = \
+                comment.creation_date.astimezone(timezone.utc)
+        if not comment.modification_date.tzinfo:
+            modifieds += 1
+            comment.modification_date = \
+                comment.modification_date.astimezone(timezone.utc)
+    logger.info('Updated %i creation dates and %i modification dates' %
+                (creations, modifieds))
