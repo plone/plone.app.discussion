@@ -8,6 +8,7 @@ from Acquisition import aq_base
 from Acquisition import aq_parent
 from datetime import datetime
 from datetime import timedelta
+from datetime import timezone
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.vocabularies.types import BAD_TYPES
@@ -70,7 +71,9 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(len(tuple(conversation.getThreads())), 1)
         self.assertEqual(conversation.total_comments(), 1)
         self.assertTrue(
-            conversation.last_comment_date - datetime.utcnow() < timedelta(seconds=1),
+            conversation.last_comment_date
+            - datetime.now().astimezone(timezone.utc)() 
+            < timedelta(seconds=1),
         )
 
     def test_private_comment(self):
@@ -488,27 +491,32 @@ class ConversationTest(unittest.TestCase):
         # swapped in
         comment1 = createObject("plone.Comment")
         comment1.text = "Comment text"
-        comment1.creation_date = datetime.utcnow() - timedelta(4)
+        comment1.creation_date =\
+            datetime.now().astimezone(timezone.utc)() - timedelta(4)
         conversation.addComment(comment1)
 
         comment2 = createObject("plone.Comment")
         comment2.text = "Comment text"
-        comment2.creation_date = datetime.utcnow() - timedelta(2)
+        comment2.creation_date =\
+            datetime.now().astimezone(timezone.utc)() - timedelta(2)
         new_comment2_id = conversation.addComment(comment2)
 
         comment3 = createObject("plone.Comment")
         comment3.text = "Comment text"
-        comment3.creation_date = datetime.utcnow() - timedelta(1)
+        comment3.creation_date =\
+            datetime.now().astimezone(timezone.utc)() - timedelta(1)
         new_comment3_id = conversation.addComment(comment3)
 
         # check if the latest comment is exactly one day old
         self.assertTrue(
             conversation.last_comment_date
-            < datetime.utcnow() - timedelta(hours=23, minutes=59, seconds=59),
+            < datetime.now().astimezone(timezone.utc)()
+            - timedelta(hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
             conversation.last_comment_date
-            > datetime.utcnow() - timedelta(days=1, seconds=1),
+            > datetime.now().astimezone(timezone.utc)()
+            - timedelta(days=1, seconds=1),
         )
 
         # remove the latest comment
@@ -518,11 +526,13 @@ class ConversationTest(unittest.TestCase):
         # the latest comment should be exactly two days old
         self.assertTrue(
             conversation.last_comment_date
-            < datetime.utcnow() - timedelta(days=1, hours=23, minutes=59, seconds=59),
+            < datetime.now().astimezone(timezone.utc)()
+            - timedelta(days=1, hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
             conversation.last_comment_date
-            > datetime.utcnow() - timedelta(days=2, seconds=1),
+            > datetime.now().astimezone(timezone.utc)()
+            - timedelta(days=2, seconds=1),
         )
 
         # remove the latest comment again
@@ -532,11 +542,13 @@ class ConversationTest(unittest.TestCase):
         # the latest comment should be exactly four days old
         self.assertTrue(
             conversation.last_comment_date
-            < datetime.utcnow() - timedelta(days=3, hours=23, minutes=59, seconds=59),
+            < datetime.now().astimezone(timezone.utc)()
+            - timedelta(days=3, hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
             conversation.last_comment_date
-            > datetime.utcnow() - timedelta(days=4, seconds=2),
+            > datetime.now().astimezone(timezone.utc)()
+            - timedelta(days=4, seconds=2),
         )
 
     def test_get_comments_full(self):
