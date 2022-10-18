@@ -63,7 +63,7 @@ class CommentTest(unittest.TestCase):
                 "get hidden by that"
             )
         comment1 = createObject("plone.Comment")
-        local_utc = datetime.datetime.utcnow()
+        local_utc = datetime.datetime.now().astimezone(datetime.timezone.utc)
         for date in (comment1.creation_date, comment1.modification_date):
             difference = abs(date - local_utc)
             difference = difference.seconds
