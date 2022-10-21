@@ -135,6 +135,17 @@ class Comment(
                 user.getId(): ["Owner"],
             }
 
+    def __getattribute__(self, attr):
+        # In older versions of the add-on dates were set timezone naive.
+        # In tz aware versions, the value is stored as self._creation_date
+        if attr in ["creation_date", "modification_date"]:
+            old_date = super(Comment, self).__getattribute__(attr)
+            if old_date.tzinfo is None:
+                # Naive dates were always stored utc
+                return old_date.astimezone(timezone.utc)
+            return old_date
+        return super(Comment, self).__getattribute__(attr)
+
     @property
     def __name__(self):
         return self.comment_id and str(self.comment_id) or None
