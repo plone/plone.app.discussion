@@ -21,6 +21,7 @@ from plone.app.discussion.events import ReplyRemovedEvent
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.event.base import localized_now
 from plone.base.interfaces.controlpanel import IMailSchema
 from plone.base.utils import safe_text
 from plone.registry.interfaces import IRegistry
@@ -120,7 +121,7 @@ class Comment(
     # IConversation.addComment().
 
     def __init__(self):
-        self.creation_date = self.modification_date = datetime.now(timezone.utc)
+        self.creation_date = self.modification_date = localized_now()
         self.mime_type = "text/plain"
 
         user = getSecurityManager().getUser()
