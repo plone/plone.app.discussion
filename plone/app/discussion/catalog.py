@@ -109,7 +109,7 @@ def effective(object):
         object.creation_date.hour,
         object.creation_date.minute,
         object.creation_date.second,
-        "GMT",
+        object.creation_date.tzname(),
     )
 
 
@@ -123,7 +123,7 @@ def created(object):
         object.creation_date.hour,
         object.creation_date.minute,
         object.creation_date.second,
-        "GMT",
+        object.creation_date.tzname(),
     )
 
 
@@ -137,7 +137,7 @@ def modified(object):
         object.modification_date.hour,
         object.modification_date.minute,
         object.modification_date.second,
-        "GMT",
+        object.modification_date.tzname(),
     )
 
 
