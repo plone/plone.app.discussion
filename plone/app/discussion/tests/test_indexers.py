@@ -45,8 +45,6 @@ class ConversationIndexersTest(unittest.TestCase):
         workflow.doActionFor(self.portal.doc1, "publish")
 
         # Change the timezone to europe to test timezones properly
-        os.environ['TZ'] = 'Europe/Berlin'
-        time.tzset()
         reg_key = "plone.portal_timezone"
         registry = getUtility(IRegistry)
         registry[reg_key] = "Europe/Berlin"
@@ -140,14 +138,10 @@ class CommentIndexersTest(unittest.TestCase):
         # Add a comment. Note: in real life, we always create comments via the
         # factory to allow different factories to be swapped in
 
-        # Change the timezone to europe to test timezones properly
-        os.environ['TZ'] = 'Europe/Berlin'
-        time.tzset()
+        # Get the default timezone from the portal
         reg_key = "plone.portal_timezone"
         registry = getUtility(IRegistry)
         registry[reg_key] = "Europe/Berlin"
-        portal_timezone = tz.gettz(default_timezone())
-
 
         comment = createObject("plone.Comment")
         comment.text = "Lorem ipsum dolor sit amet."
@@ -155,10 +149,10 @@ class CommentIndexersTest(unittest.TestCase):
         comment.author_name = "Jim"
         
         # Create date in CEST (ie not daylight savings = UTC+2)
-        comment.creation_date = datetime(2006, 9, 17, 14, 18, 12).astimezone(portal_timezone)
+        comment.creation_date = datetime(2006, 9, 17, 14, 18, 12).replace(tzinfo=tz.gettz("Europe/Berlin"))
         
         # Create date in CET (ie daylight savings = UTC+1)
-        comment.modification_date = datetime(2008, 3, 12, 7, 32, 52).astimezone(portal_timezone)
+        comment.modification_date = datetime(2008, 3, 12, 7, 32, 52).replace(tzinfo=tz.gettz("Europe/Berlin"))
 
         self.comment_id = conversation.addComment(comment)
         self.comment = comment.__of__(conversation)
