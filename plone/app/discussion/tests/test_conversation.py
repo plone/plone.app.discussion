@@ -76,6 +76,36 @@ class ConversationTest(unittest.TestCase):
             < timedelta(seconds=1),
         )
 
+    def test_timezone_naive_comment(self):
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Add a comment. Note: in real life, we always create comments via the
+        # factory to allow different factories to be swapped in
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
+
+        new_id = conversation.addComment(comment)
+
+        # Check that comments have timezones
+        self.assertTrue(comment.creation_date.tzinfo)
+        self.assertTrue(comment.modification_date.tzinfo)
+        
+        # Remove the timezone from the comment dates
+        comment.creation_date = comment.creation_date.replace(tzinfo=None)
+        comment.modification_date = comment.modification_date.replace(tzinfo=None)
+
+        # Check that the date is still correct
+        self.assertTrue(
+            conversation.last_comment_date
+            - datetime.now().astimezone(timezone.utc) 
+            < timedelta(seconds=1),
+        )
+        # Check that comments still have timezones
+        self.assertTrue(comment.creation_date.tzinfo)
+        self.assertTrue(comment.modification_date.tzinfo)
+
     def test_private_comment(self):
         conversation = IConversation(self.portal.doc1)
 
