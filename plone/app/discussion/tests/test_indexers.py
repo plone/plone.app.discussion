@@ -15,8 +15,9 @@ from plone.indexer.delegate import DelegatingIndexerFactory
 from plone.registry.interfaces import IRegistry
 from zope.component import createObject
 from zope.component import getUtility
-import os
 
+import time
+import os
 import unittest
 
 
@@ -44,7 +45,8 @@ class ConversationIndexersTest(unittest.TestCase):
         workflow.doActionFor(self.portal.doc1, "publish")
 
         # Change the timezone to europe to test timezones properly
-        os.environ['TZ'] = 'UTC'
+        os.environ['TZ'] = 'Europe/Berlin'
+        time.tzset()
         reg_key = "plone.portal_timezone"
         registry = getUtility(IRegistry)
         registry[reg_key] = "Europe/Berlin"
@@ -139,7 +141,8 @@ class CommentIndexersTest(unittest.TestCase):
         # factory to allow different factories to be swapped in
 
         # Change the timezone to europe to test timezones properly
-        os.environ['TZ'] = 'UTC'
+        os.environ['TZ'] = 'Europe/Berlin'
+        time.tzset()
         reg_key = "plone.portal_timezone"
         registry = getUtility(IRegistry)
         registry[reg_key] = "Europe/Berlin"
@@ -189,15 +192,15 @@ class CommentIndexersTest(unittest.TestCase):
         # Test if created, modified, effective etc. are set correctly
         self.assertEqual(
             catalog.created(self.comment)(),
-            DateTime(2006, 9, 17, 16, 18, 12, "GMT+2"),
+            DateTime(2006, 9, 17, 14, 18, 12, "GMT+2"),
         )
         self.assertEqual(
             catalog.effective(self.comment)(),
-            DateTime(2006, 9, 17, 16, 18, 12, "GMT+2"),
+            DateTime(2006, 9, 17, 14, 18, 12, "GMT+2"),
         )
         self.assertEqual(
             catalog.modified(self.comment)(),
-            DateTime(2008, 3, 12, 8, 32, 52, "GMT+1"),
+            DateTime(2008, 3, 12, 7, 32, 52, "GMT+1"),
         )
 
     def test_searchable_text(self):
