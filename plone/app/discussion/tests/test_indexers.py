@@ -4,11 +4,18 @@ from .. import catalog
 from ..interfaces import IConversation
 from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from datetime import datetime
+from datetime import timezone
+from dateutil import tz
 from DateTime import DateTime
+from plone.app.event.base import localized_now
+from plone.app.event.base import default_timezone
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.indexer.delegate import DelegatingIndexerFactory
+from plone.registry.interfaces import IRegistry
 from zope.component import createObject
+from zope.component import getUtility
+import os
 
 import unittest
 
@@ -36,6 +43,13 @@ class ConversationIndexersTest(unittest.TestCase):
         workflow = self.portal.portal_workflow
         workflow.doActionFor(self.portal.doc1, "publish")
 
+        # Change the timezone to europe to test timezones properly
+        os.environ['TZ'] = 'UTC'
+        reg_key = "plone.portal_timezone"
+        registry = getUtility(IRegistry)
+        registry[reg_key] = "Europe/Berlin"
+        self.portal_timezone = tz.gettz(default_timezone())
+
         # Create a conversation.
         conversation = IConversation(self.portal.doc1)
 
@@ -43,6 +57,8 @@ class ConversationIndexersTest(unittest.TestCase):
         comment1.text = "Comment Text"
         comment1.creator = "jim"
         comment1.author_username = "Jim"
+        # Purposefully exclude timezone to test the conversation getter
+        # (see plone.app.discussion.comment.Comment object)
         comment1.creation_date = datetime(2006, 9, 17, 14, 18, 12)
         comment1.modification_date = datetime(2006, 9, 17, 14, 18, 12)
         self.new_id1 = conversation.addComment(comment1)
@@ -51,16 +67,16 @@ class ConversationIndexersTest(unittest.TestCase):
         comment2.text = "Comment Text"
         comment2.creator = "emma"
         comment2.author_username = "Emma"
-        comment2.creation_date = datetime(2007, 12, 13, 4, 18, 12)
-        comment2.modification_date = datetime(2007, 12, 13, 4, 18, 12)
+        comment2.creation_date = datetime(2007, 12, 13, 4, 18, 12).astimezone(self.portal_timezone)
+        comment2.modification_date = datetime(2007, 12, 13, 4, 18, 12).astimezone(self.portal_timezone)
         self.new_id2 = conversation.addComment(comment2)
 
         comment3 = createObject("plone.Comment")
         comment3.text = "Comment Text"
         comment3.creator = "lukas"
         comment3.author_username = "Lukas"
-        comment3.creation_date = datetime(2009, 4, 12, 11, 12, 12)
-        comment3.modification_date = datetime(2009, 4, 12, 11, 12, 12)
+        comment3.creation_date = datetime(2009, 4, 12, 11, 12, 12).astimezone(self.portal_timezone)
+        comment3.modification_date = datetime(2009, 4, 12, 11, 12, 12).astimezone(self.portal_timezone)
         self.new_id3 = conversation.addComment(comment3)
 
         self.conversation = conversation
@@ -88,12 +104,12 @@ class ConversationIndexersTest(unittest.TestCase):
         )
         self.assertEqual(
             catalog.last_comment_date(self.portal.doc1)(),
-            datetime(2009, 4, 12, 11, 12, 12),
+            datetime(2009, 4, 12, 11, 12, 12).astimezone(self.portal_timezone),
         )
         del self.conversation[self.new_id3]
         self.assertEqual(
             catalog.last_comment_date(self.portal.doc1)(),
-            datetime(2007, 12, 13, 4, 18, 12),
+            datetime(2007, 12, 13, 4, 18, 12).astimezone(self.portal_timezone),
         )
         del self.conversation[self.new_id2]
         del self.conversation[self.new_id1]
@@ -122,12 +138,24 @@ class CommentIndexersTest(unittest.TestCase):
         # Add a comment. Note: in real life, we always create comments via the
         # factory to allow different factories to be swapped in
 
+        # Change the timezone to europe to test timezones properly
+        os.environ['TZ'] = 'UTC'
+        reg_key = "plone.portal_timezone"
+        registry = getUtility(IRegistry)
+        registry[reg_key] = "Europe/Berlin"
+        portal_timezone = tz.gettz(default_timezone())
+
+
         comment = createObject("plone.Comment")
         comment.text = "Lorem ipsum dolor sit amet."
         comment.creator = "jim"
         comment.author_name = "Jim"
-        comment.creation_date = datetime(2006, 9, 17, 14, 18, 12)
-        comment.modification_date = datetime(2008, 3, 12, 7, 32, 52)
+        
+        # Create date in CEST (ie not daylight savings = UTC+2)
+        comment.creation_date = datetime(2006, 9, 17, 14, 18, 12).astimezone(portal_timezone)
+        
+        # Create date in CET (ie daylight savings = UTC+1)
+        comment.modification_date = datetime(2008, 3, 12, 7, 32, 52).astimezone(portal_timezone)
 
         self.comment_id = conversation.addComment(comment)
         self.comment = comment.__of__(conversation)
@@ -161,15 +189,15 @@ class CommentIndexersTest(unittest.TestCase):
         # Test if created, modified, effective etc. are set correctly
         self.assertEqual(
             catalog.created(self.comment)(),
-            DateTime(2006, 9, 17, 14, 18, 12, "GMT"),
+            DateTime(2006, 9, 17, 16, 18, 12, "GMT+2"),
         )
         self.assertEqual(
             catalog.effective(self.comment)(),
-            DateTime(2006, 9, 17, 14, 18, 12, "GMT"),
+            DateTime(2006, 9, 17, 16, 18, 12, "GMT+2"),
         )
         self.assertEqual(
             catalog.modified(self.comment)(),
-            DateTime(2008, 3, 12, 7, 32, 52, "GMT"),
+            DateTime(2008, 3, 12, 8, 32, 52, "GMT+1"),
         )
 
     def test_searchable_text(self):
