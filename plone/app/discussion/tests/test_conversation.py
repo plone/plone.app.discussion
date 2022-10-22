@@ -105,13 +105,15 @@ class ConversationTest(unittest.TestCase):
         # Remove the timezone from the comment dates
         comment.creation_date = datetime.utcnow()
         comment.modification_date = datetime.utcnow()
+
+        comment.reindexObject()
         
         # Check that the timezone naive date is converted to UTC
         # See https://github.com/plone/plone.app.discussion/pull/204
         self.assertTrue(
             conversation.last_comment_date
             - datetime.utcnow().replace(tzinfo=timezone.utc) 
-            < timedelta(seconds=1),
+            < timedelta(seconds=10),
         )
         self.assertTrue(comment.creation_date.tzinfo, timezone.utc)
         self.assertTrue(comment.modification_date.tzinfo, timezone.utc)
