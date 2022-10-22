@@ -110,7 +110,7 @@ class ConversationTest(unittest.TestCase):
         # See https://github.com/plone/plone.app.discussion/pull/204
         self.assertTrue(
             conversation.last_comment_date
-            - datetime.now().astimezone(timezone.utc) 
+            - datetime.utcnow().replace(tzinfo=timezone.utc) 
             < timedelta(seconds=1),
         )
         self.assertTrue(comment.creation_date.tzinfo, timezone.utc)
