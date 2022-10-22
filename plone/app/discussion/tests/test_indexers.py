@@ -138,7 +138,7 @@ class CommentIndexersTest(unittest.TestCase):
         # Add a comment. Note: in real life, we always create comments via the
         # factory to allow different factories to be swapped in
 
-        # Get the default timezone from the portal
+        # Set the portal timezone to something non-utc
         reg_key = "plone.portal_timezone"
         registry = getUtility(IRegistry)
         registry[reg_key] = "Europe/Berlin"

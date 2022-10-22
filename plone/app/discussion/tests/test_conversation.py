@@ -20,6 +20,7 @@ from Products.CMFCore.utils import getToolByName
 from zope import interface
 from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
+from zope.component import getUtility
 from zope.component import queryUtility
 
 import unittest
@@ -33,6 +34,11 @@ class ConversationTest(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         interface.alsoProvides(self.portal.REQUEST, IDiscussionLayer)
+
+        # Set the portal timezone to something non-utc
+        reg_key = "plone.portal_timezone"
+        registry = getUtility(IRegistry)
+        registry[reg_key] = "Europe/Berlin"
 
         self.typetool = self.portal.portal_types
         self.portal_discussion = getToolByName(
@@ -90,23 +96,25 @@ class ConversationTest(unittest.TestCase):
 
         new_id = conversation.addComment(comment)
 
-        # Check that comments have timezones
-        self.assertTrue(comment.creation_date.tzinfo)
-        self.assertTrue(comment.modification_date.tzinfo)
+        # Check that comments have the correct portal timezones
+        self.assertTrue(comment.creation_date.tzinfo,
+                        tz.gettz("Europe/Berlin"))
+        self.assertTrue(comment.modification_date.tzinfo,
+                        tz.gettz("Europe/Berlin"))
         
         # Remove the timezone from the comment dates
-        comment.creation_date = comment.creation_date.replace(tzinfo=None)
-        comment.modification_date = comment.modification_date.replace(tzinfo=None)
-
-        # Check that the date is still correct
+        comment.creation_date = datetime.utcnow()
+        comment.modification_date = datetime.utcnow()
+        
+        # Check that the timezone naive date is converted to UTC
+        # See https://github.com/plone/plone.app.discussion/pull/204
         self.assertTrue(
             conversation.last_comment_date
-            - datetime.now().astimezone(tz.gettz(default_timezone())) 
+            - datetime.now().astimezone(timezone.utc) 
             < timedelta(seconds=1),
         )
-        # Check that comments still have timezones
-        self.assertTrue(comment.creation_date.tzinfo)
-        self.assertTrue(comment.modification_date.tzinfo)
+        self.assertTrue(comment.creation_date.tzinfo, timezone.utc)
+        self.assertTrue(comment.modification_date.tzinfo, timezone.utc)
 
     def test_private_comment(self):
         conversation = IConversation(self.portal.doc1)
