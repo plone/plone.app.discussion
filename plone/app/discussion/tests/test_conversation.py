@@ -79,9 +79,9 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(len(tuple(conversation.getThreads())), 1)
         self.assertEqual(conversation.total_comments(), 1)
         self.assertTrue(
-            conversation.last_comment_date
-            - datetime.now().astimezone(tz.gettz(default_timezone())) 
-            < timedelta(seconds=1),
+            datetime.now().astimezone(tz.gettz(default_timezone()))
+            - conversation.last_comment_date 
+            >= timedelta(seconds=0) <= timedelta(seconds=1),
         )
 
     def test_timezone_naive_comment(self):
@@ -105,15 +105,13 @@ class ConversationTest(unittest.TestCase):
         # Remove the timezone from the comment dates
         comment.creation_date = datetime.utcnow()
         comment.modification_date = datetime.utcnow()
-
-        comment.reindexObject()
         
         # Check that the timezone naive date is converted to UTC
         # See https://github.com/plone/plone.app.discussion/pull/204
         self.assertTrue(
-            conversation.last_comment_date
-            - datetime.utcnow().replace(tzinfo=timezone.utc) 
-            < timedelta(seconds=10),
+            datetime.utcnow().replace(tzinfo=timezone.utc) 
+            - conversation.last_comment_date 
+            >= timedelta(seconds=0) <= timedelta(seconds=1),
         )
         self.assertTrue(comment.creation_date.tzinfo, timezone.utc)
         self.assertTrue(comment.modification_date.tzinfo, timezone.utc)

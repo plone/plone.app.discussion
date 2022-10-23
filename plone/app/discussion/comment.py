@@ -142,7 +142,7 @@ class Comment(
             old_date = super(Comment, self).__getattribute__(attr)
             if old_date.tzinfo is None:
                 # Naive dates were always stored utc
-                return old_date.astimezone(timezone.utc)
+                return old_date.replace(tzinfo=timezone.utc)
             return old_date
         return super(Comment, self).__getattribute__(attr)
 
