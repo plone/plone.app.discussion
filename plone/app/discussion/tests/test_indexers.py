@@ -4,10 +4,8 @@ from .. import catalog
 from ..interfaces import IConversation
 from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from datetime import datetime
-from datetime import timezone
 from dateutil import tz
 from DateTime import DateTime
-from plone.app.event.base import localized_now
 from plone.app.event.base import default_timezone
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -16,8 +14,6 @@ from plone.registry.interfaces import IRegistry
 from zope.component import createObject
 from zope.component import getUtility
 
-import time
-import os
 import unittest
 
 
@@ -147,10 +143,10 @@ class CommentIndexersTest(unittest.TestCase):
         comment.text = "Lorem ipsum dolor sit amet."
         comment.creator = "jim"
         comment.author_name = "Jim"
-        
+
         # Create date in CEST (ie not daylight savings = UTC+2)
         comment.creation_date = datetime(2006, 9, 17, 14, 18, 12).replace(tzinfo=tz.gettz("Europe/Berlin"))
-        
+
         # Create date in CET (ie daylight savings = UTC+1)
         comment.modification_date = datetime(2008, 3, 12, 7, 32, 52).replace(tzinfo=tz.gettz("Europe/Berlin"))
 

@@ -80,8 +80,9 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(conversation.total_comments(), 1)
         self.assertTrue(
             datetime.now().astimezone(tz.gettz(default_timezone()))
-            - conversation.last_comment_date 
-            >= timedelta(seconds=0) <= timedelta(seconds=1),
+            - conversation.last_comment_date
+            >= timedelta(seconds=0)
+            <= timedelta(seconds=1),
         )
 
     def test_timezone_naive_comment(self):
@@ -94,24 +95,23 @@ class ConversationTest(unittest.TestCase):
         comment = createObject("plone.Comment")
         comment.text = "Comment text"
 
-        new_id = conversation.addComment(comment)
+        conversation.addComment(comment)
 
         # Check that comments have the correct portal timezones
-        self.assertTrue(comment.creation_date.tzinfo,
-                        tz.gettz("Europe/Berlin"))
-        self.assertTrue(comment.modification_date.tzinfo,
-                        tz.gettz("Europe/Berlin"))
-        
+        self.assertTrue(comment.creation_date.tzinfo, tz.gettz("Europe/Berlin"))
+        self.assertTrue(comment.modification_date.tzinfo, tz.gettz("Europe/Berlin"))
+
         # Remove the timezone from the comment dates
         comment.creation_date = datetime.utcnow()
         comment.modification_date = datetime.utcnow()
-        
+
         # Check that the timezone naive date is converted to UTC
         # See https://github.com/plone/plone.app.discussion/pull/204
         self.assertTrue(
-            datetime.utcnow().replace(tzinfo=timezone.utc) 
-            - conversation.last_comment_date 
-            >= timedelta(seconds=0) <= timedelta(seconds=1),
+            datetime.utcnow().replace(tzinfo=timezone.utc)
+            - conversation.last_comment_date
+            >= timedelta(seconds=0)
+            <= timedelta(seconds=1),
         )
         self.assertTrue(comment.creation_date.tzinfo, timezone.utc)
         self.assertTrue(comment.modification_date.tzinfo, timezone.utc)
@@ -531,20 +531,23 @@ class ConversationTest(unittest.TestCase):
         # swapped in
         comment1 = createObject("plone.Comment")
         comment1.text = "Comment text"
-        comment1.creation_date =\
-            datetime.now().astimezone(tz.gettz(default_timezone())) - timedelta(4)
+        comment1.creation_date = datetime.now().astimezone(
+            tz.gettz(default_timezone())
+        ) - timedelta(4)
         conversation.addComment(comment1)
 
         comment2 = createObject("plone.Comment")
         comment2.text = "Comment text"
-        comment2.creation_date =\
-            datetime.now().astimezone(tz.gettz(default_timezone())) - timedelta(2)
+        comment2.creation_date = datetime.now().astimezone(
+            tz.gettz(default_timezone())
+        ) - timedelta(2)
         new_comment2_id = conversation.addComment(comment2)
 
         comment3 = createObject("plone.Comment")
         comment3.text = "Comment text"
-        comment3.creation_date =\
-            datetime.now().astimezone(tz.gettz(default_timezone())) - timedelta(1)
+        comment3.creation_date = datetime.now().astimezone(
+            tz.gettz(default_timezone())
+        ) - timedelta(1)
         new_comment3_id = conversation.addComment(comment3)
 
         # check if the latest comment is exactly one day old
