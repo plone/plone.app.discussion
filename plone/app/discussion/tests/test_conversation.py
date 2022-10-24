@@ -8,6 +8,9 @@ from Acquisition import aq_base
 from Acquisition import aq_parent
 from datetime import datetime
 from datetime import timedelta
+from datetime import timezone
+from dateutil import tz
+from plone.app.event.base import default_timezone
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.vocabularies.types import BAD_TYPES
@@ -17,6 +20,7 @@ from Products.CMFCore.utils import getToolByName
 from zope import interface
 from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
+from zope.component import getUtility
 from zope.component import queryUtility
 
 import unittest
@@ -30,6 +34,11 @@ class ConversationTest(unittest.TestCase):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         interface.alsoProvides(self.portal.REQUEST, IDiscussionLayer)
+
+        # Set the portal timezone to something non-utc
+        reg_key = "plone.portal_timezone"
+        registry = getUtility(IRegistry)
+        registry[reg_key] = "America/Los_Angeles"
 
         self.typetool = self.portal.portal_types
         self.portal_discussion = getToolByName(
@@ -70,8 +79,42 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(len(tuple(conversation.getThreads())), 1)
         self.assertEqual(conversation.total_comments(), 1)
         self.assertTrue(
-            conversation.last_comment_date - datetime.utcnow() < timedelta(seconds=1),
+            datetime.now().astimezone(tz.gettz(default_timezone()))
+            - conversation.last_comment_date
+            >= timedelta(seconds=0)
+            <= timedelta(seconds=1),
         )
+
+    def test_timezone_naive_comment(self):
+        # Create a conversation. In this case we doesn't assign it to an
+        # object, as we just want to check the Conversation object API.
+        conversation = IConversation(self.portal.doc1)
+
+        # Add a comment. Note: in real life, we always create comments via the
+        # factory to allow different factories to be swapped in
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
+
+        conversation.addComment(comment)
+
+        # Check that comments have the correct portal timezones
+        self.assertTrue(comment.creation_date.tzinfo, tz.gettz("America/Los_Angeles"))
+        self.assertTrue(comment.modification_date.tzinfo, tz.gettz("America/Los_Angeles"))
+
+        # Remove the timezone from the comment dates
+        comment.creation_date = datetime.utcnow()
+        comment.modification_date = datetime.utcnow()
+
+        # Check that the timezone naive date is converted to UTC
+        # See https://github.com/plone/plone.app.discussion/pull/204
+        self.assertTrue(
+            datetime.utcnow().replace(tzinfo=timezone.utc)
+            - conversation.last_comment_date
+            >= timedelta(seconds=0)
+            <= timedelta(seconds=1),
+        )
+        self.assertTrue(comment.creation_date.tzinfo, timezone.utc)
+        self.assertTrue(comment.modification_date.tzinfo, timezone.utc)
 
     def test_private_comment(self):
         conversation = IConversation(self.portal.doc1)
@@ -488,27 +531,35 @@ class ConversationTest(unittest.TestCase):
         # swapped in
         comment1 = createObject("plone.Comment")
         comment1.text = "Comment text"
-        comment1.creation_date = datetime.utcnow() - timedelta(4)
+        comment1.creation_date = datetime.now().astimezone(
+            tz.gettz(default_timezone())
+        ) - timedelta(4)
         conversation.addComment(comment1)
 
         comment2 = createObject("plone.Comment")
         comment2.text = "Comment text"
-        comment2.creation_date = datetime.utcnow() - timedelta(2)
+        comment2.creation_date = datetime.now().astimezone(
+            tz.gettz(default_timezone())
+        ) - timedelta(2)
         new_comment2_id = conversation.addComment(comment2)
 
         comment3 = createObject("plone.Comment")
         comment3.text = "Comment text"
-        comment3.creation_date = datetime.utcnow() - timedelta(1)
+        comment3.creation_date = datetime.now().astimezone(
+            tz.gettz(default_timezone())
+        ) - timedelta(1)
         new_comment3_id = conversation.addComment(comment3)
 
         # check if the latest comment is exactly one day old
         self.assertTrue(
             conversation.last_comment_date
-            < datetime.utcnow() - timedelta(hours=23, minutes=59, seconds=59),
+            < datetime.now().astimezone(tz.gettz(default_timezone()))
+            - timedelta(hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
             conversation.last_comment_date
-            > datetime.utcnow() - timedelta(days=1, seconds=1),
+            > datetime.now().astimezone(tz.gettz(default_timezone()))
+            - timedelta(days=1, seconds=1),
         )
 
         # remove the latest comment
@@ -518,11 +569,13 @@ class ConversationTest(unittest.TestCase):
         # the latest comment should be exactly two days old
         self.assertTrue(
             conversation.last_comment_date
-            < datetime.utcnow() - timedelta(days=1, hours=23, minutes=59, seconds=59),
+            < datetime.now().astimezone(tz.gettz(default_timezone()))
+            - timedelta(days=1, hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
             conversation.last_comment_date
-            > datetime.utcnow() - timedelta(days=2, seconds=1),
+            > datetime.now().astimezone(tz.gettz(default_timezone()))
+            - timedelta(days=2, seconds=1),
         )
 
         # remove the latest comment again
@@ -532,11 +585,13 @@ class ConversationTest(unittest.TestCase):
         # the latest comment should be exactly four days old
         self.assertTrue(
             conversation.last_comment_date
-            < datetime.utcnow() - timedelta(days=3, hours=23, minutes=59, seconds=59),
+            < datetime.now().astimezone(tz.gettz(default_timezone()))
+            - timedelta(days=3, hours=23, minutes=59, seconds=59),
         )
         self.assertTrue(
             conversation.last_comment_date
-            > datetime.utcnow() - timedelta(days=4, seconds=2),
+            > datetime.now().astimezone(tz.gettz(default_timezone()))
+            - timedelta(days=4, seconds=2),
         )
 
     def test_get_comments_full(self):

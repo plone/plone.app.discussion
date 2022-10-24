@@ -88,4 +88,15 @@
         handler=".upgrades.upgrade_comment_workflows" />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+    source="2000"
+    destination="2001"
+    profile="plone.app.discussion:default">
+    <genericsetup:upgradeStep
+        title="Set timezone on comment dates"
+        description="Ensure the timezone is set for comment dates"
+        handler=".upgrades.set_timezone_on_dates"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

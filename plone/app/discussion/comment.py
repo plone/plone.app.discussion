@@ -5,10 +5,10 @@ from AccessControl.SecurityManagement import getSecurityManager
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from Acquisition import Implicit
-from datetime import datetime
 from OFS.owner import Owned
 from OFS.role import RoleManager
 from OFS.Traversable import Traversable
+from datetime import timezone
 from persistent import Persistent
 from plone.app.discussion import _
 from plone.app.discussion.events import CommentAddedEvent
@@ -20,6 +20,7 @@ from plone.app.discussion.events import ReplyRemovedEvent
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.event.base import localized_now
 from plone.base.interfaces.controlpanel import IMailSchema
 from plone.base.utils import safe_text
 from plone.registry.interfaces import IRegistry
@@ -119,7 +120,7 @@ class Comment(
     # IConversation.addComment().
 
     def __init__(self):
-        self.creation_date = self.modification_date = datetime.utcnow()
+        self.creation_date = self.modification_date = localized_now()
         self.mime_type = "text/plain"
 
         user = getSecurityManager().getUser()
@@ -132,6 +133,17 @@ class Comment(
             self.__ac_local_roles__ = {
                 user.getId(): ["Owner"],
             }
+
+    def __getattribute__(self, attr):
+        # In older versions of the add-on dates were set timezone naive.
+        # In tz aware versions, the value is stored as self._creation_date
+        if attr in ["creation_date", "modification_date"]:
+            old_date = super(Comment, self).__getattribute__(attr)
+            if old_date.tzinfo is None:
+                # Naive dates were always stored utc
+                return old_date.replace(tzinfo=timezone.utc)
+            return old_date
+        return super().__getattribute__(attr)
 
     @property
     def __name__(self):

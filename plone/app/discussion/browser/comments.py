@@ -1,7 +1,6 @@
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
-from datetime import datetime
 from DateTime import DateTime
 from plone.app.discussion import _
 from plone.app.discussion.browser.validator import CaptchaValidator
@@ -10,6 +9,7 @@ from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import IReplies
+from plone.app.event.base import localized_now
 from plone.app.layout.viewlets.common import ViewletBase
 from plone.base.utils import safe_text
 from plone.registry.interfaces import IRegistry
@@ -192,8 +192,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             setattr(comment, attribute, data[attribute])
 
         # Set dates
-        comment.creation_date = datetime.utcnow()
-        comment.modification_date = datetime.utcnow()
+        comment.creation_date = localized_now()
+        comment.modification_date = localized_now()
 
         # Get author name and email
         comment.author_name, comment.author_email = self.get_author(data)
