@@ -40,10 +40,10 @@ class ConversationIndexersTest(unittest.TestCase):
         workflow = self.portal.portal_workflow
         workflow.doActionFor(self.portal.doc1, "publish")
 
-        # Change the timezone to europe to test timezones properly
+        # Change the timezone to PDT to test timezones properly
         reg_key = "plone.portal_timezone"
         registry = getUtility(IRegistry)
-        registry[reg_key] = "Europe/Berlin"
+        registry[reg_key] = "America/Los_Angeles"
         self.portal_timezone = tz.gettz(default_timezone())
 
         # Create a conversation.

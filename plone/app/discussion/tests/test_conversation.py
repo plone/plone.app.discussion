@@ -38,7 +38,7 @@ class ConversationTest(unittest.TestCase):
         # Set the portal timezone to something non-utc
         reg_key = "plone.portal_timezone"
         registry = getUtility(IRegistry)
-        registry[reg_key] = "Europe/Berlin"
+        registry[reg_key] = "America/Los_Angeles"
 
         self.typetool = self.portal.portal_types
         self.portal_discussion = getToolByName(
@@ -98,8 +98,8 @@ class ConversationTest(unittest.TestCase):
         conversation.addComment(comment)
 
         # Check that comments have the correct portal timezones
-        self.assertTrue(comment.creation_date.tzinfo, tz.gettz("Europe/Berlin"))
-        self.assertTrue(comment.modification_date.tzinfo, tz.gettz("Europe/Berlin"))
+        self.assertTrue(comment.creation_date.tzinfo, tz.gettz("America/Los_Angeles"))
+        self.assertTrue(comment.modification_date.tzinfo, tz.gettz("America/Los_Angeles"))
 
         # Remove the timezone from the comment dates
         comment.creation_date = datetime.utcnow()
