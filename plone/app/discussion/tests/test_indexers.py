@@ -137,18 +137,18 @@ class CommentIndexersTest(unittest.TestCase):
         # Set the portal timezone to something non-utc
         reg_key = "plone.portal_timezone"
         registry = getUtility(IRegistry)
-        registry[reg_key] = "Europe/Berlin"
+        registry[reg_key] = "America/Los_Angeles"
 
         comment = createObject("plone.Comment")
         comment.text = "Lorem ipsum dolor sit amet."
         comment.creator = "jim"
         comment.author_name = "Jim"
 
-        # Create date in CEST (ie not daylight savings = UTC+2)
-        comment.creation_date = datetime(2006, 9, 17, 14, 18, 12).replace(tzinfo=tz.gettz("Europe/Berlin"))
+        # Create date in PDT (ie daylight savings)
+        comment.creation_date = datetime(2006, 9, 17, 14, 18, 12).replace(tzinfo=tz.gettz("America/Los_Angeles"))
 
-        # Create date in CET (ie daylight savings = UTC+1)
-        comment.modification_date = datetime(2008, 3, 12, 7, 32, 52).replace(tzinfo=tz.gettz("Europe/Berlin"))
+        # Create date in PST (ie not daylight savings)
+        comment.modification_date = datetime(2008, 2, 12, 7, 32, 52).replace(tzinfo=tz.gettz("America/Los_Angeles"))
 
         self.comment_id = conversation.addComment(comment)
         self.comment = comment.__of__(conversation)
@@ -182,15 +182,15 @@ class CommentIndexersTest(unittest.TestCase):
         # Test if created, modified, effective etc. are set correctly
         self.assertEqual(
             catalog.created(self.comment)(),
-            DateTime(2006, 9, 17, 14, 18, 12, "GMT+2"),
+            DateTime(2006, 9, 17, 14, 18, 12, "America/Los_Angeles"),
         )
         self.assertEqual(
             catalog.effective(self.comment)(),
-            DateTime(2006, 9, 17, 14, 18, 12, "GMT+2"),
+            DateTime(2006, 9, 17, 14, 18, 12, "America/Los_Angeles"),
         )
         self.assertEqual(
             catalog.modified(self.comment)(),
-            DateTime(2008, 3, 12, 7, 32, 52, "GMT+1"),
+            DateTime(2008, 2, 12, 7, 32, 52, "America/Los_Angeles"),
         )
 
     def test_searchable_text(self):

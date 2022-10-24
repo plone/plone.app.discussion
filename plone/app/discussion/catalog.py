@@ -109,7 +109,7 @@ def effective(object):
 @indexer(IComment)
 def created(object):
     # the catalog index needs Zope DateTime instead of Python datetime
-    return DT(object.modification_date)
+    return DT(object.creation_date)
 
 
 @indexer(IComment)
