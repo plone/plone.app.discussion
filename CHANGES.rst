@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0 (2022-11-11)
+------------------
+
+Bug fixes:
+
+
+- Set timezones for creation and modification dates of comments [instification] (#204)
+
+
 4.0.0b3 (2022-10-11)
 --------------------
 
