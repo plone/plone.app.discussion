@@ -1,0 +1,8 @@
+4.0.1 (2023-03-19)
+------------------
+
+Bug fixes:
+
+
+- Added a Missing HTML id for the comments section [Coder-aadarsh] (#72)
+//id attribute with the value "comments" to the div tag will make it possible to directly link to the comments section of a Plone document using the URL of the document followed by "#comments".
