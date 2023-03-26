@@ -16,7 +16,6 @@ import unittest
 
 
 class ModerationBulkActionsViewTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):

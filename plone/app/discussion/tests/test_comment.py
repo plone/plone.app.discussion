@@ -35,7 +35,6 @@ def normalize(value):
 
 
 class CommentTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -364,7 +363,6 @@ class CommentTest(unittest.TestCase):
 
 
 class RepliesTest(unittest.TestCase):
-
     # test the IReplies adapter on a comment
 
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING

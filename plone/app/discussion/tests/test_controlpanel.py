@@ -14,7 +14,6 @@ import unittest
 
 
 class RegistryTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -152,7 +151,6 @@ class RegistryTest(unittest.TestCase):
 
 
 class ConfigurationChangedSubscriberTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):

@@ -60,7 +60,6 @@ COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
 
 
 class CommentForm(extensible.ExtensibleForm, form.Form):
-
     ignoreContext = True  # don't use context to get widget data
     id = None
     label = _("Add a comment")
@@ -301,7 +300,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
 
 class CommentsViewlet(ViewletBase):
-
     form = CommentForm
     index = ViewPageTemplateFile("comments.pt")
 
@@ -483,7 +481,6 @@ class CommentsViewlet(ViewletBase):
             return f"{self.context.portal_url()}/author/{username}"
 
     def get_commenter_portrait(self, username=None):
-
         if username is None:
             # return the default user image if no username is given
             return "defaultUser.png"

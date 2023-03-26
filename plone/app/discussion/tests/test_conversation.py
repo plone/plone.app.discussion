@@ -27,7 +27,6 @@ import unittest
 
 
 class ConversationTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -99,7 +98,9 @@ class ConversationTest(unittest.TestCase):
 
         # Check that comments have the correct portal timezones
         self.assertTrue(comment.creation_date.tzinfo, tz.gettz("America/Los_Angeles"))
-        self.assertTrue(comment.modification_date.tzinfo, tz.gettz("America/Los_Angeles"))
+        self.assertTrue(
+            comment.modification_date.tzinfo, tz.gettz("America/Los_Angeles")
+        )
 
         # Remove the timezone from the comment dates
         comment.creation_date = datetime.utcnow()
@@ -257,7 +258,6 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(conversation.enabled(), True)
 
     def test_disable_commenting_globally(self):
-
         # Create a conversation.
         conversation = self.portal.doc1.restrictedTraverse("@@conversation_view")
 
@@ -283,7 +283,6 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(conversation.enabled(), True)
 
     def test_allow_discussion_for_news_items(self):
-
         self.typetool.constructContent("News Item", self.portal, "newsitem")
         newsitem = self.portal.newsitem
         conversation = newsitem.restrictedTraverse("@@conversation_view")
@@ -310,7 +309,6 @@ class ConversationTest(unittest.TestCase):
         self.assertEqual(conversation.enabled(), True)
 
     def test_disable_commenting_for_content_type(self):
-
         # Create a conversation.
         conversation = self.portal.doc1.restrictedTraverse(
             "@@conversation_view",
@@ -601,7 +599,6 @@ class ConversationTest(unittest.TestCase):
         pass
 
     def test_get_threads(self):
-
         # Create a conversation. In this case we doesn't assign it to an
         # object, as we just want to check the Conversation object API.
         conversation = IConversation(self.portal.doc1)
@@ -722,7 +719,6 @@ class ConversationTest(unittest.TestCase):
 
 
 class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -782,7 +778,6 @@ class ConversationEnabledForDexterityTypesTest(unittest.TestCase):
 
 
 class RepliesTest(unittest.TestCase):
-
     # test the IReplies adapter on a conversation
 
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING

@@ -67,7 +67,6 @@ class DummyFile(FileUpload):
 
 
 class TestCommentForm(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -475,7 +474,6 @@ class TestCommentForm(unittest.TestCase):
 
 
 class TestCommentsViewlet(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -516,7 +514,9 @@ class TestCommentsViewlet(unittest.TestCase):
         # Anonymous has no 'can review' permission
         self.assertFalse(self.viewlet.can_review())
         # The reviewer role has the 'Review comments' permission
-        self.portal.acl_users._doAddUser("reviewer", TEST_USER_PASSWORD, ["Reviewer"], [])
+        self.portal.acl_users._doAddUser(
+            "reviewer", TEST_USER_PASSWORD, ["Reviewer"], []
+        )
         login(self.portal, "reviewer")
         self.assertTrue(self.viewlet.can_review())
 
@@ -544,7 +544,6 @@ class TestCommentsViewlet(unittest.TestCase):
         self.assertTrue(self.viewlet.is_discussion_allowed())
 
     def test_comment_transform_message(self):
-
         # Default transform is plain/text and comment moderation disabled
         self.assertTrue(self.viewlet.comment_transform_message())
         self.assertEqual(
@@ -657,7 +656,6 @@ class TestCommentsViewlet(unittest.TestCase):
         self.assertFalse(self.viewlet.get_commenter_home_url())
 
     def test_get_commenter_portrait(self):
-
         # Add a user with a member image
         self.membershipTool.addMember("jim", "Jim", ["Member"], [])
         self.memberdata._setPortrait(
@@ -696,7 +694,6 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
     def test_get_commenter_portrait_is_none(self):
-
         self.assertTrue(
             self.viewlet.get_commenter_portrait()
             in (
@@ -706,7 +703,6 @@ class TestCommentsViewlet(unittest.TestCase):
         )
 
     def test_get_commenter_portrait_without_userimage(self):
-
         # Create a user without a user image
         self.membershipTool.addMember("jim", "Jim", ["Member"], [])
 

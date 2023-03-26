@@ -22,7 +22,6 @@ except ImportError:
 
 
 class PloneAppDiscussion(PloneSandboxLayer):
-
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     USER_NAME = "johndoe"
@@ -101,7 +100,6 @@ class PloneAppDiscussion(PloneSandboxLayer):
 
 
 class PloneAppDiscussionRobot(PloneAppDiscussion):
-
     defaultBases = (
         PLONE_APP_CONTENTTYPES_FIXTURE,
         REMOTE_LIBRARY_ROBOT_TESTING,

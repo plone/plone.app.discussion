@@ -19,7 +19,6 @@ import unittest
 
 
 class CatalogSetupTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -51,7 +50,6 @@ class CatalogSetupTest(unittest.TestCase):
 
 
 class ConversationCatalogTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -68,10 +66,12 @@ class ConversationCatalogTest(unittest.TestCase):
         comment1.text = "Comment text"
         comment1.creator = "jim"
         comment1.author_username = "Jim"
-        comment1.creation_date = \
-            datetime(2006, 9, 17, 14, 18, 12).astimezone(timezone.utc)
-        comment1.modification_date = \
-            datetime(2006, 9, 17, 14, 18, 12).astimezone(timezone.utc)
+        comment1.creation_date = datetime(2006, 9, 17, 14, 18, 12).astimezone(
+            timezone.utc
+        )
+        comment1.modification_date = datetime(2006, 9, 17, 14, 18, 12).astimezone(
+            timezone.utc
+        )
 
         new_comment1_id = conversation.addComment(comment1)
         self.comment_id = new_comment1_id
@@ -125,10 +125,12 @@ class ConversationCatalogTest(unittest.TestCase):
         comment2 = createObject("plone.Comment")
         comment2.title = "Comment 2"
         comment2.text = "Comment text"
-        comment2.creation_date = \
-            datetime(2009, 9, 17, 14, 18, 12).astimezone(timezone.utc)
-        comment2.modification_date = \
-            datetime(2009, 9, 17, 14, 18, 12).astimezone(timezone.utc)
+        comment2.creation_date = datetime(2009, 9, 17, 14, 18, 12).astimezone(
+            timezone.utc
+        )
+        comment2.modification_date = datetime(2009, 9, 17, 14, 18, 12).astimezone(
+            timezone.utc
+        )
         new_comment2_id = self.conversation.addComment(comment2)
 
         comment2 = self.portal.doc1.restrictedTraverse(
@@ -267,7 +269,6 @@ class ConversationCatalogTest(unittest.TestCase):
 
 
 class CommentCatalogTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -514,7 +515,6 @@ class CommentCatalogTest(unittest.TestCase):
         )
 
     def test_clear_and_rebuild_catalog_for_nested_comments(self):
-
         # Create a nested comment structure:
         #
         # Conversation
@@ -571,7 +571,6 @@ class CommentCatalogTest(unittest.TestCase):
 
 
 class NoConversationCatalogTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):

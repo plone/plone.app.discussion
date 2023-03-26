@@ -135,7 +135,6 @@ class Conversation(Traversable, Persistent, Explicit):
         if comments is not None:
             count = 0
             for comment_id in comments.keys(min=start):
-
                 # Abort if we have found all the threads we want
                 count += 1
                 if size and count > size:
