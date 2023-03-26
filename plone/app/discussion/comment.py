@@ -138,7 +138,7 @@ class Comment(
         # In older versions of the add-on dates were set timezone naive.
         # In tz aware versions, the value is stored as self._creation_date
         if attr in ["creation_date", "modification_date"]:
-            old_date = super(Comment, self).__getattribute__(attr)
+            old_date = super().__getattribute__(attr)
             if old_date.tzinfo is None:
                 # Naive dates were always stored utc
                 return old_date.replace(tzinfo=timezone.utc)
