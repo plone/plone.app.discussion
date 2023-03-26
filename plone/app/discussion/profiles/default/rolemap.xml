@@ -1,33 +1,45 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <rolemap>
-    <permissions>
-        <permission name="View comments" acquire="True">
-            <role name="Anonymous"/>
-        </permission>
-        <permission name="Review comments" acquire="True">
-            <role name="Manager"/>
-            <role name="Site Administrator"/>
-            <role name="Reviewer"/>
-        </permission>
-        <permission name="Edit comments" acquire="True">
-            <role name="Manager"/>
-            <role name="Site Administrator"/>
-            <role name="Reviewer"/>
-            <role name="Owner"/>
-        </permission>
-        <permission name="Delete comments" acquire="True">
-            <role name="Manager"/>
-            <role name="Site Administrator"/>
-            <role name="Reviewer"/>
-        </permission>
-        <permission name="Reply to item" acquire="False">
-            <role name="Authenticated"/>
-        </permission>
-        <permission name="Delete own comments" acquire="False">
-            <role name="Manager"/>
-            <role name="Site Administrator"/>
-            <role name="Reviewer"/>
-            <role name="Owner"/>
-        </permission>
-    </permissions>
+  <permissions>
+    <permission acquire="True"
+                name="View comments"
+    >
+      <role name="Anonymous" />
+    </permission>
+    <permission acquire="True"
+                name="Review comments"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Reviewer" />
+    </permission>
+    <permission acquire="True"
+                name="Edit comments"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Reviewer" />
+      <role name="Owner" />
+    </permission>
+    <permission acquire="True"
+                name="Delete comments"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Reviewer" />
+    </permission>
+    <permission acquire="False"
+                name="Reply to item"
+    >
+      <role name="Authenticated" />
+    </permission>
+    <permission acquire="False"
+                name="Delete own comments"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Reviewer" />
+      <role name="Owner" />
+    </permission>
+  </permissions>
 </rolemap>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <registry>
   <records interface="plone.app.discussion.interfaces.IDiscussionSettings">
     <value key="edit_comment_enabled">False</value>

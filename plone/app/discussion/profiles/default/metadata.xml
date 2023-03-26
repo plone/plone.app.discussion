@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <metadata>
- <version>2001</version>
- <dependencies>
-  <dependency>profile-plone.resource:default</dependency>
-  <dependency>profile-plone.app.registry:default</dependency>
- </dependencies>
+  <version>2001</version>
+  <dependencies>
+    <dependency>profile-plone.resource:default</dependency>
+    <dependency>profile-plone.app.registry:default</dependency>
+  </dependencies>
 </metadata>

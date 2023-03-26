@@ -1,102 +1,161 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    xmlns:five="http://namespaces.zope.org/five"
-    i18n_domain="plone">
+    i18n_domain="plone"
+    >
 
-    <five:registerPackage package="." />
+  <five:registerPackage package="." />
 
-    <include package="plone.indexer" />
-    <include package="plone.app.registry" />
-    <include package="plone.resource" />
-    <include package="plone.uuid" />
-    <include package="plone.app.uuid" />
+  <include package="plone.indexer" />
+  <include package="plone.app.registry" />
+  <include package="plone.resource" />
+  <include package="plone.uuid" />
+  <include package="plone.app.uuid" />
 
-    <include file="contentrules.zcml" />
-    <include file="permissions.zcml" />
-    <include file="notifications.zcml" />
-    <include file="subscribers.zcml" />
-    <include file="upgrades.zcml" />
+  <include file="contentrules.zcml" />
+  <include file="permissions.zcml" />
+  <include file="notifications.zcml" />
+  <include file="subscribers.zcml" />
+  <include file="upgrades.zcml" />
 
-    <!-- load captch before browser -->
-    <configure zcml:condition="installed plone.formwidget.captcha">
-      <include package="plone.formwidget.captcha" />
-    </configure>
-    <configure zcml:condition="installed plone.formwidget.recaptcha">
-      <include package="plone.formwidget.recaptcha" />
-    </configure>
-    <configure zcml:condition="installed collective.z3cform.norobots">
-      <include package="collective.z3cform.norobots" />
-    </configure>
-    <include package=".browser" />
+  <!-- load captch before browser -->
+  <configure zcml:condition="installed plone.formwidget.captcha">
+    <include package="plone.formwidget.captcha" />
+  </configure>
+  <configure zcml:condition="installed plone.formwidget.recaptcha">
+    <include package="plone.formwidget.recaptcha" />
+  </configure>
+  <configure zcml:condition="installed collective.z3cform.norobots">
+    <include package="collective.z3cform.norobots" />
+  </configure>
+  <include package=".browser" />
 
-    <!-- Register the installation GenericSetup extension profile -->
-    <genericsetup:registerProfile
-        name="default"
-        title="Plone Discussions"
-        description="Commenting infrastructure for Plone"
-        directory="profiles/default"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        for="plone.base.interfaces.IPloneSiteRoot"
+  <!-- Register the installation GenericSetup extension profile -->
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone Discussions"
+      description="Commenting infrastructure for Plone"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="plone.base.interfaces.IPloneSiteRoot"
+      directory="profiles/default"
+      />
+  <!-- For upgrade steps see upgrades.zcml. -->
+
+  <!-- Comments -->
+
+  <class class=".comment.Comment">
+    <require
+        permission="zope2.View"
+        interface=".interfaces.IComment"
         />
-    <!-- For upgrade steps see upgrades.zcml. -->
-
-    <!-- Comments -->
-
-    <class class=".comment.Comment">
-        <require interface=".interfaces.IComment" permission="zope2.View" />
-        <require attributes="Title Creator getId getText" permission="zope2.View" />
-    </class>
-
-    <class class=".comment.Comment">
-        <implements interface="plone.uuid.interfaces.IAttributeUUID" />
-    </class>
-
-    <utility
-        component=".comment.CommentFactory"
-        name="plone.Comment"
+    <require
+        permission="zope2.View"
+        attributes="Title Creator getId getText"
         />
+  </class>
 
-    <!-- Conversations -->
+  <class class=".comment.Comment">
+    <implements interface="plone.uuid.interfaces.IAttributeUUID" />
+  </class>
 
-    <class class=".conversation.Conversation">
-        <require interface=".interfaces.IConversation" permission="zope2.View" />
-    </class>
+  <utility
+      name="plone.Comment"
+      component=".comment.CommentFactory"
+      />
 
-    <adapter factory=".conversation.conversationAdapterFactory" />
+  <!-- Conversations -->
 
-    <adapter factory=".conversation.ConversationReplies" />
-    <adapter factory=".conversation.CommentReplies" />
+  <class class=".conversation.Conversation">
+    <require
+        permission="zope2.View"
+        interface=".interfaces.IConversation"
+        />
+  </class>
 
-    <!-- Captcha Vocabulary -->
-    <utility component=".vocabularies.captcha_vocabulary"
-             name="plone.app.discussion.vocabularies.CaptchaVocabulary"
-             provides="zope.schema.interfaces.IVocabularyFactory" />
+  <adapter factory=".conversation.conversationAdapterFactory" />
 
-    <!-- Text Transform Vocabulary -->
-    <utility component=".vocabularies.text_transform_vocabulary"
-             name="plone.app.discussion.vocabularies.TextTransformVocabulary"
-             provides="zope.schema.interfaces.IVocabularyFactory" />
+  <adapter factory=".conversation.ConversationReplies" />
+  <adapter factory=".conversation.CommentReplies" />
 
-    <!-- Conversation indexes -->
-    <adapter name="total_comments" factory=".catalog.total_comments" />
-    <adapter name="last_comment_date" factory=".catalog.last_comment_date" />
-    <adapter name="commentators" factory=".catalog.commentators" />
-    <adapter name="in_response_to" factory=".catalog.in_response_to" />
+  <!-- Captcha Vocabulary -->
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="plone.app.discussion.vocabularies.CaptchaVocabulary"
+      component=".vocabularies.captcha_vocabulary"
+      />
 
-    <!-- Comment indexes -->
-    <adapter name="UID" factory=".catalog.UID" />
-    <adapter name="Title" factory=".catalog.title" />
-    <adapter name="Creator" factory=".catalog.creator" />
-    <adapter name="Description" factory=".catalog.description" />
-    <adapter name="SearchableText" factory=".catalog.searchable_text" />
-    <adapter name="effective" factory=".catalog.effective" />
-    <adapter name="created" factory=".catalog.created" />
-    <adapter name="modified" factory=".catalog.modified" />
-    <adapter name="total_comments" factory=".catalog.comments_total_comments" />
-    <adapter name="last_comment_date" factory=".catalog.comments_last_comment_date" />
-    <adapter name="commentators" factory=".catalog.comments_commentators" />
+  <!-- Text Transform Vocabulary -->
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="plone.app.discussion.vocabularies.TextTransformVocabulary"
+      component=".vocabularies.text_transform_vocabulary"
+      />
+
+  <!-- Conversation indexes -->
+  <adapter
+      factory=".catalog.total_comments"
+      name="total_comments"
+      />
+  <adapter
+      factory=".catalog.last_comment_date"
+      name="last_comment_date"
+      />
+  <adapter
+      factory=".catalog.commentators"
+      name="commentators"
+      />
+  <adapter
+      factory=".catalog.in_response_to"
+      name="in_response_to"
+      />
+
+  <!-- Comment indexes -->
+  <adapter
+      factory=".catalog.UID"
+      name="UID"
+      />
+  <adapter
+      factory=".catalog.title"
+      name="Title"
+      />
+  <adapter
+      factory=".catalog.creator"
+      name="Creator"
+      />
+  <adapter
+      factory=".catalog.description"
+      name="Description"
+      />
+  <adapter
+      factory=".catalog.searchable_text"
+      name="SearchableText"
+      />
+  <adapter
+      factory=".catalog.effective"
+      name="effective"
+      />
+  <adapter
+      factory=".catalog.created"
+      name="created"
+      />
+  <adapter
+      factory=".catalog.modified"
+      name="modified"
+      />
+  <adapter
+      factory=".catalog.comments_total_comments"
+      name="total_comments"
+      />
+  <adapter
+      factory=".catalog.comments_last_comment_date"
+      name="last_comment_date"
+      />
+  <adapter
+      factory=".catalog.comments_commentators"
+      name="commentators"
+      />
 
 </configure>

@@ -1,21 +1,21 @@
-<?xml version="1.0"?>
-<object
-    name="portal_controlpanel"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    i18n:domain="plone"
-    purge="False">
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        name="portal_controlpanel"
+        purge="False"
+        i18n:domain="plone"
+>
 
-    <configlet
-        title="Discussion"
-        action_id="discussion"
-        appId="plone.app.discussion"
-        category="plone-general"
-        condition_expr=""
-        icon_expr="string:chat-square-dots"
-        url_expr="string:${portal_url}/@@discussion-controlpanel"
-        visible="True"
-        i18n:attributes="title">
-            <permission>Manage portal</permission>
-    </configlet>
+  <configlet action_id="discussion"
+             appId="plone.app.discussion"
+             category="plone-general"
+             condition_expr=""
+             icon_expr="string:chat-square-dots"
+             title="Discussion"
+             url_expr="string:${portal_url}/@@discussion-controlpanel"
+             visible="True"
+             i18n:attributes="title"
+  >
+    <permission>Manage portal</permission>
+  </configlet>
 
 </object>

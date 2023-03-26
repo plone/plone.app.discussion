@@ -1,40 +1,42 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
 
   <genericsetup:upgradeStep
-      source="*"
-      destination="100"
       title="Update plone.app.discussion setting registry"
       description=""
       profile="plone.app.discussion:default"
+      source="*"
+      destination="100"
       handler=".upgrades.update_registry"
       />
 
   <genericsetup:upgradeStep
       title="edit comments and delete own comments"
       description="reload registry config to enable new fields edit_comment_enabled and delete_own_comment_enabled"
+      profile="plone.app.discussion:default"
       source="100"
       destination="101"
       handler=".upgrades.update_registry"
       sortkey="1"
-      profile="plone.app.discussion:default"
       />
 
   <genericsetup:upgradeStep
       title="delete comments and delete own comments"
       description="reload rolemap config to enable new permissions 'Delete comments' and 'Delete own comments'"
+      profile="plone.app.discussion:default"
       source="101"
       destination="102"
       handler=".upgrades.update_rolemap"
       sortkey="1"
-      profile="plone.app.discussion:default"
       />
 
   <genericsetup:upgradeSteps
+      profile="plone.app.discussion:default"
       source="102"
       destination="1000"
-      profile="plone.app.discussion:default">
+      >
     <!-- Apply the update rolemap step again, to avoid missing it when
          updating from plone.app.discussion 2.2.x.  When originally
          adding this step in the 2.3.x release, we should have made a
@@ -52,9 +54,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.discussion:default"
       source="1000"
       destination="1001"
-      profile="plone.app.discussion:default">
+      >
     <genericsetup:upgradeStep
         title="Move comment.js into plone-legacy bundle"
         description=""
@@ -63,9 +66,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
-    source="1001"
-    destination="1002"
-    profile="plone.app.discussion:default">
+      profile="plone.app.discussion:default"
+      source="1001"
+      destination="1002"
+      >
     <genericsetup:upgradeStep
         title="Extended review workflow with states pending, published and new: rejected and spam"
         description="Additional states allows moderator to review history of publishing and rejection"
@@ -74,24 +78,29 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.discussion:default"
       source="1999"
       destination="2000"
-      profile="plone.app.discussion:default">
+      >
     <genericsetup:upgradeDepends
         title="Update controlpanel icon"
-        import_steps="controlpanel" />
+        import_steps="controlpanel"
+        />
     <genericsetup:upgradeDepends
         title="Add 'View comments' permission"
-        import_steps="rolemap" />
+        import_steps="rolemap"
+        />
     <genericsetup:upgradeStep
         title="Grant Site Administrator permissions on pending comments"
-        handler=".upgrades.upgrade_comment_workflows" />
+        handler=".upgrades.upgrade_comment_workflows"
+        />
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
-    source="2000"
-    destination="2001"
-    profile="plone.app.discussion:default">
+      profile="plone.app.discussion:default"
+      source="2000"
+      destination="2001"
+      >
     <genericsetup:upgradeStep
         title="Set timezone on comment dates"
         description="Ensure the timezone is set for comment dates"

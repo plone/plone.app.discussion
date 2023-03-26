@@ -1,84 +1,85 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="plone">
+    i18n_domain="plone"
+    >
 
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".comment.notify_workflow"
-        />
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".comment.notify_workflow"
+      />
 
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".comment.notify_comment_modified"
-        />
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".comment.notify_comment_modified"
+      />
 
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".comment.notify_content_object"
-        />
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".comment.notify_content_object"
+      />
 
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".comment.notify_comment_added"
-        />
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".comment.notify_comment_added"
+      />
 
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".comment.notify_content_object"
-        />
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler=".comment.notify_content_object"
+      />
 
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".comment.notify_comment_removed"
-        />
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler=".comment.notify_comment_removed"
+      />
 
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".subscribers.index_object"
-        />
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectAddedEvent"
+      handler=".subscribers.index_object"
+      />
 
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".subscribers.index_object"
-        />
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".subscribers.index_object"
+      />
 
-    <subscriber
-        for="plone.app.discussion.interfaces.IComment
-             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".subscribers.unindex_object"
-        />
+  <subscriber
+      for="plone.app.discussion.interfaces.IComment
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler=".subscribers.unindex_object"
+      />
 
-    <subscriber
-        for="Products.CMFCore.interfaces.IContentish
-             zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-        handler=".comment.notify_content_object_deleted"
-        />
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler=".comment.notify_content_object_deleted"
+      />
 
-    <subscriber
-        for="Products.CMFCore.interfaces.IContentish
-             zope.lifecycleevent.interfaces.IObjectMovedEvent"
-        handler=".comment.notify_content_object_moved"
-        />
+  <subscriber
+      for="Products.CMFCore.interfaces.IContentish
+           zope.lifecycleevent.interfaces.IObjectMovedEvent"
+      handler=".comment.notify_content_object_moved"
+      />
 
-    <!-- Control panel event subscribers -->
+  <!-- Control panel event subscribers -->
 
-    <subscriber
-        for="plone.base.interfaces.events.IConfigurationChangedEvent"
-        handler=".browser.controlpanel.notify_configuration_changed"
-        />
+  <subscriber
+      for="plone.base.interfaces.events.IConfigurationChangedEvent"
+      handler=".browser.controlpanel.notify_configuration_changed"
+      />
 
-    <subscriber
-        for="plone.registry.interfaces.IRecordModifiedEvent"
-        handler=".browser.controlpanel.notify_configuration_changed"
-        />
+  <subscriber
+      for="plone.registry.interfaces.IRecordModifiedEvent"
+      handler=".browser.controlpanel.notify_configuration_changed"
+      />
 
 </configure>
