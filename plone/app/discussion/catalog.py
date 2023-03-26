@@ -3,7 +3,6 @@ indexes with values based on the IComment interface.
 
 Also provide event handlers to actually catalog the comments.
 """
-from DateTime import DateTime
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.event.base import DT

@@ -1,5 +1,4 @@
 from ..interfaces import IDiscussionSettings
-from Acquisition import aq_base
 from Acquisition import aq_chain
 from Acquisition import aq_inner
 from plone.base.interfaces import INonStructuralFolder
