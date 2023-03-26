@@ -8,8 +8,8 @@ We use zope.testbrowser to simulate browser interaction in order to show how
 the plone.app.discussion commenting works.
 
 
-Setting up and loggin in
-------------------------
+Setting up and log in
+---------------------
 
 First we have to set up some things and login.
 

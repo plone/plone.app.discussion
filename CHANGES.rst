@@ -190,7 +190,7 @@ Bug fixes:
 New features:
 
 
-- Extended existing review workflow by stati ``rejected`` and ``spam``
+- Extended existing review workflow by state ``rejected`` and ``spam``
   Moderation view extended to handle four workflow states.
   [ksuess and precious input of agitator] (#164)
 
@@ -748,7 +748,7 @@ Fixes:
 -------------------
 
 - Revert "Refactor tests to use the PLONE_APP_CONTENTTYPES_FIXTURE instead of
-  the PLONE_FIXTURE." that has been accidentially introduced into the 2.2.9
+  the PLONE_FIXTURE." that has been accidentally introduced into the 2.2.9
   release.
   [timo]
 
@@ -1076,7 +1076,7 @@ Fixes:
 2.0.9 (2011-07-25)
 ------------------
 
-- Make sure the creator index always stores utf-8 encoded stings and not
+- Make sure the creator index always stores utf-8 encoded strings and not
   unicode.
   [timo]
 

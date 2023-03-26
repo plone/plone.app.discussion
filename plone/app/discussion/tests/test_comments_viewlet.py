@@ -766,7 +766,7 @@ class TestCommentsViewlet(unittest.TestCase):
         python_time = datetime(2009, 2, 1, 23, 32, 3, 57)
         # Python Time must be utc time. There seems to be no too simple way
         # to tell datetime to be of utc time.
-        # therefor, we convert the time to seconds since epoch, which seems
+        # therefore, we convert the time to seconds since epoch, which seems
         # to assume, that the datetime was given in local time, and does the
         # correction to the seconds since epoch. Then time.gmtime returns
         # a correct utc time that can be used to make datetime set the utc

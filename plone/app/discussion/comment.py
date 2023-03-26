@@ -314,7 +314,7 @@ def notify_content_object_moved(obj, event):
     # therefore can't assume that event.object == obj and event.
     # {old,new}{Parent,Name} may refer to the actually moved object further up
     # in the object hierarchy. The object is already moved at this point. so
-    # obj.getPhysicalPath retruns the new path get the part of the path that
+    # obj.getPhysicalPath returns the new path get the part of the path that
     # was moved.
     moved_path = obj.getPhysicalPath()[len(event.newParent.getPhysicalPath()) + 1 :]
 
@@ -354,7 +354,7 @@ def notify_user(obj, event):
     if not settings.user_notification_enabled:
         return
 
-    # Get informations that are necessary to send an email
+    # Get information that are necessary to send an email
     mail_host = getToolByName(obj, "MailHost")
     registry = getUtility(IRegistry)
     mail_settings = registry.forInterface(IMailSchema, prefix="plone")
@@ -430,7 +430,7 @@ def notify_moderator(obj, event):
     if not settings.moderator_notification_enabled:
         return
 
-    # Get informations that are necessary to send an email
+    # Get information that are necessary to send an email
     mail_host = getToolByName(obj, "MailHost")
     registry = getUtility(IRegistry)
     mail_settings = registry.forInterface(IMailSchema, prefix="plone")

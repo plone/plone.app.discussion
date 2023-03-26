@@ -25,7 +25,7 @@ plone.app.discussion.
     Comments should not provide the full set of dublin core metadata, though
     custom indexers can be used to provide values for standard catalog indexes.
 
-  **Optimise for retrival speed**
+  **Optimise for retrieval speed**
     HTML filtering and other processing should happen on save, not on render,
     to make rendering quick.
 
