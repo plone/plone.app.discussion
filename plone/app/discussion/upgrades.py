@@ -1,9 +1,9 @@
+from datetime import timezone
+from plone import api
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
-from plone import api
-from datetime import timezone
 
 import logging
 

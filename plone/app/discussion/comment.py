@@ -5,10 +5,10 @@ from AccessControl.SecurityManagement import getSecurityManager
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from Acquisition import Implicit
+from datetime import timezone
 from OFS.owner import Owned
 from OFS.role import RoleManager
 from OFS.Traversable import Traversable
-from datetime import timezone
 from persistent import Persistent
 from plone.app.discussion import _
 from plone.app.discussion.events import CommentAddedEvent

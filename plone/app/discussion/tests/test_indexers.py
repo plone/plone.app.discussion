@@ -4,8 +4,8 @@ from .. import catalog
 from ..interfaces import IConversation
 from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from datetime import datetime
-from dateutil import tz
 from DateTime import DateTime
+from dateutil import tz
 from plone.app.event.base import default_timezone
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
