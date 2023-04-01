@@ -68,7 +68,6 @@ class CommentEventsTest(unittest.TestCase):
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
-
         # Setup sandbox
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]

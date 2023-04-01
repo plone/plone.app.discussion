@@ -27,7 +27,6 @@ class ConversationNamespace:
         self.request = request
 
     def traverse(self, name, ignore):
-
         if name == "default":
             name = ""
 

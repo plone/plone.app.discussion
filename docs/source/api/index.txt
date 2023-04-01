@@ -10,7 +10,7 @@ are IComment objects. It also provides features for finding comments quickly.
 
 The IReplies adapter provides an API for finding and manipulating the comments
 directly in reply to a particular comment (implemented by the CommentReplies
-adpater) or at the top level of the conversation (implemented by the
+adapter) or at the top level of the conversation (implemented by the
 ConversationReplies adapter).
 
 

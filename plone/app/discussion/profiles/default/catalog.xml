@@ -1,18 +1,22 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <object name="portal_catalog">
 
-    <index name="total_comments" meta_type="FieldIndex">
-        <indexed_attr value="total_comments"/>
-    </index>
+  <index meta_type="FieldIndex"
+         name="total_comments"
+  >
+    <indexed_attr value="total_comments" />
+  </index>
 
-    <index name="commentators" meta_type="KeywordIndex">
-        <indexed_attr value="commentators"/>
-    </index>
+  <index meta_type="KeywordIndex"
+         name="commentators"
+  >
+    <indexed_attr value="commentators" />
+  </index>
 
-    <column value="total_comments" />
-    <column value="last_comment_date" />
-    <column value="commentators" />
-    <column value="in_response_to" />
-    <column value="author_name" />
+  <column value="total_comments" />
+  <column value="last_comment_date" />
+  <column value="commentators" />
+  <column value="in_response_to" />
+  <column value="author_name" />
 
 </object>

@@ -4,8 +4,8 @@ from .. import catalog
 from ..interfaces import IConversation
 from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
 from datetime import datetime
-from dateutil import tz
 from DateTime import DateTime
+from dateutil import tz
 from plone.app.event.base import default_timezone
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -63,16 +63,24 @@ class ConversationIndexersTest(unittest.TestCase):
         comment2.text = "Comment Text"
         comment2.creator = "emma"
         comment2.author_username = "Emma"
-        comment2.creation_date = datetime(2007, 12, 13, 4, 18, 12).astimezone(self.portal_timezone)
-        comment2.modification_date = datetime(2007, 12, 13, 4, 18, 12).astimezone(self.portal_timezone)
+        comment2.creation_date = datetime(2007, 12, 13, 4, 18, 12).astimezone(
+            self.portal_timezone
+        )
+        comment2.modification_date = datetime(2007, 12, 13, 4, 18, 12).astimezone(
+            self.portal_timezone
+        )
         self.new_id2 = conversation.addComment(comment2)
 
         comment3 = createObject("plone.Comment")
         comment3.text = "Comment Text"
         comment3.creator = "lukas"
         comment3.author_username = "Lukas"
-        comment3.creation_date = datetime(2009, 4, 12, 11, 12, 12).astimezone(self.portal_timezone)
-        comment3.modification_date = datetime(2009, 4, 12, 11, 12, 12).astimezone(self.portal_timezone)
+        comment3.creation_date = datetime(2009, 4, 12, 11, 12, 12).astimezone(
+            self.portal_timezone
+        )
+        comment3.modification_date = datetime(2009, 4, 12, 11, 12, 12).astimezone(
+            self.portal_timezone
+        )
         self.new_id3 = conversation.addComment(comment3)
 
         self.conversation = conversation
@@ -120,7 +128,6 @@ class ConversationIndexersTest(unittest.TestCase):
 
 
 class CommentIndexersTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -145,10 +152,14 @@ class CommentIndexersTest(unittest.TestCase):
         comment.author_name = "Jim"
 
         # Create date in PDT (ie daylight savings)
-        comment.creation_date = datetime(2006, 9, 17, 14, 18, 12).replace(tzinfo=tz.gettz("America/Los_Angeles"))
+        comment.creation_date = datetime(2006, 9, 17, 14, 18, 12).replace(
+            tzinfo=tz.gettz("America/Los_Angeles")
+        )
 
         # Create date in PST (ie not daylight savings)
-        comment.modification_date = datetime(2008, 2, 12, 7, 32, 52).replace(tzinfo=tz.gettz("America/Los_Angeles"))
+        comment.modification_date = datetime(2008, 2, 12, 7, 32, 52).replace(
+            tzinfo=tz.gettz("America/Los_Angeles")
+        )
 
         self.comment_id = conversation.addComment(comment)
         self.comment = comment.__of__(conversation)

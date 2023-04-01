@@ -16,7 +16,6 @@ import unittest
 
 
 class ModerationViewTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -55,7 +54,6 @@ class ModerationViewTest(unittest.TestCase):
 
 
 class ModerationBulkActionsViewTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -148,7 +146,6 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
 
 
 class RedirectionTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):

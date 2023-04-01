@@ -5,10 +5,10 @@ from AccessControl.SecurityManagement import getSecurityManager
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from Acquisition import Implicit
+from datetime import timezone
 from OFS.owner import Owned
 from OFS.role import RoleManager
 from OFS.Traversable import Traversable
-from datetime import timezone
 from persistent import Persistent
 from plone.app.discussion import _
 from plone.app.discussion.events import CommentAddedEvent
@@ -138,7 +138,7 @@ class Comment(
         # In older versions of the add-on dates were set timezone naive.
         # In tz aware versions, the value is stored as self._creation_date
         if attr in ["creation_date", "modification_date"]:
-            old_date = super(Comment, self).__getattribute__(attr)
+            old_date = super().__getattribute__(attr)
             if old_date.tzinfo is None:
                 # Naive dates were always stored utc
                 return old_date.replace(tzinfo=timezone.utc)
@@ -314,7 +314,7 @@ def notify_content_object_moved(obj, event):
     # therefore can't assume that event.object == obj and event.
     # {old,new}{Parent,Name} may refer to the actually moved object further up
     # in the object hierarchy. The object is already moved at this point. so
-    # obj.getPhysicalPath retruns the new path get the part of the path that
+    # obj.getPhysicalPath returns the new path get the part of the path that
     # was moved.
     moved_path = obj.getPhysicalPath()[len(event.newParent.getPhysicalPath()) + 1 :]
 
@@ -354,7 +354,7 @@ def notify_user(obj, event):
     if not settings.user_notification_enabled:
         return
 
-    # Get informations that are necessary to send an email
+    # Get information that are necessary to send an email
     mail_host = getToolByName(obj, "MailHost")
     registry = getUtility(IRegistry)
     mail_settings = registry.forInterface(IMailSchema, prefix="plone")
@@ -430,7 +430,7 @@ def notify_moderator(obj, event):
     if not settings.moderator_notification_enabled:
         return
 
-    # Get informations that are necessary to send an email
+    # Get information that are necessary to send an email
     mail_host = getToolByName(obj, "MailHost")
     registry = getUtility(IRegistry)
     mail_settings = registry.forInterface(IMailSchema, prefix="plone")

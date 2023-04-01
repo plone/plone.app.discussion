@@ -130,7 +130,9 @@ class CommentOneStateWorkflowTest(unittest.TestCase):
         )
 
         self.portal.acl_users._doAddUser("member", TEST_USER_PASSWORD, ["Member"], [])
-        self.portal.acl_users._doAddUser("reviewer", TEST_USER_PASSWORD, ["Reviewer"], [])
+        self.portal.acl_users._doAddUser(
+            "reviewer", TEST_USER_PASSWORD, ["Reviewer"], []
+        )
         self.portal.acl_users._doAddUser("manager", TEST_USER_PASSWORD, ["Manager"], [])
         self.portal.acl_users._doAddUser("editor", TEST_USER_PASSWORD, ["Editor"], [])
         self.portal.acl_users._doAddUser("reader", TEST_USER_PASSWORD, ["Reader"], [])

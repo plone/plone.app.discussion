@@ -2,34 +2,37 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:meta="http://namespaces.zope.org/meta"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="plone">
+    i18n_domain="plone"
+    >
 
-    <!-- Captcha comment form extender -->
-    <configure zcml:condition="have plone.app.discussion-captcha">
-        <!--
+  <!-- Captcha comment form extender -->
+  <configure zcml:condition="have plone.app.discussion-captcha">
+    <!--
           Register the Captcha form extender and validator only if there are
           plugins installed that declare to implement a Captcha solution for
           plone.app.discussion (e.g. plone.formwidget.captcha and
           plone.formwidget.recaptcha).
         -->
-        <adapter
-            factory=".captcha.Captcha"
-            provides="plone.app.discussion.interfaces.ICaptcha" />
-        <adapter
-            factory=".captcha.CaptchaExtender"
-            provides="plone.z3cform.fieldsets.interfaces.IFormExtender" />
-        <adapter
-            factory=".validator.CaptchaValidator"
-            provides="z3c.form.interfaces.IValidator"
-            />
-    </configure>
+    <adapter
+        factory=".captcha.Captcha"
+        provides="plone.app.discussion.interfaces.ICaptcha"
+        />
+    <adapter
+        factory=".captcha.CaptchaExtender"
+        provides="plone.z3cform.fieldsets.interfaces.IFormExtender"
+        />
+    <adapter
+        factory=".validator.CaptchaValidator"
+        provides="z3c.form.interfaces.IValidator"
+        />
+  </configure>
 
-    <!-- Akismet Validator -->
-    <configure zcml:condition="installed collective.akismet">
-        <adapter
-            factory="collective.akismet.validator.AkismetValidator"
-            provides="z3c.form.interfaces.IValidator"
-            />
-    </configure>
+  <!-- Akismet Validator -->
+  <configure zcml:condition="installed collective.akismet">
+    <adapter
+        factory="collective.akismet.validator.AkismetValidator"
+        provides="z3c.form.interfaces.IValidator"
+        />
+  </configure>
 
 </configure>

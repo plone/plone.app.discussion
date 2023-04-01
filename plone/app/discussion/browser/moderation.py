@@ -97,7 +97,7 @@ class View(BrowserView):
         """Return true if a 'review multiple state workflow' is enabled on
         'Discussion Item' content type.
 
-        A 'review multipe state workflow' is characterized by implementing
+        A 'review multiple state workflow' is characterized by implementing
         a 'rejected' workflow state and a 'spam' workflow state.
         """
         workflows = self.workflowTool.getChainForPortalType("Discussion Item")

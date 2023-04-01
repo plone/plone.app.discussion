@@ -1,32 +1,33 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    i18n_domain="plone">
+    i18n_domain="plone"
+    >
 
-    <!-- custom permissions are defined here -->
+  <!-- custom permissions are defined here -->
 
-    <permission
-        id="plone.app.discussion.ViewComments"
-        title="View comments"
-        />
+  <permission
+      id="plone.app.discussion.ViewComments"
+      title="View comments"
+      />
 
-    <permission
-        id="plone.app.discussion.ReviewComments"
-        title="Review comments"
-        />
+  <permission
+      id="plone.app.discussion.ReviewComments"
+      title="Review comments"
+      />
 
-    <permission
-        id="plone.app.discussion.EditComments"
-        title="Edit comments"
-        />
+  <permission
+      id="plone.app.discussion.EditComments"
+      title="Edit comments"
+      />
 
-    <permission
-        id="plone.app.discussion.DeleteOwnComments"
-        title="Delete own comments"
-        />
+  <permission
+      id="plone.app.discussion.DeleteOwnComments"
+      title="Delete own comments"
+      />
 
-    <permission
-        id="plone.app.discussion.DeleteComments"
-        title="Delete comments"
-        />
+  <permission
+      id="plone.app.discussion.DeleteComments"
+      title="Delete comments"
+      />
 
 </configure>

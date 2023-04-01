@@ -76,7 +76,6 @@ class EditCommentForm(CommentForm):
 
     @button.buttonAndHandler(_("label_save", default="Save"), name="comment")
     def handleComment(self, action):
-
         # Validate form
         data, errors = self.extractData()
         if errors:

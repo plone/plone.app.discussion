@@ -54,7 +54,6 @@ class MockMailHost(MailBase):
 
 
 class TestUserNotificationUnit(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
@@ -189,7 +188,6 @@ class TestUserNotificationUnit(unittest.TestCase):
 
 
 class TestModeratorNotificationUnit(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):

@@ -1,45 +1,46 @@
 <configure
-  xmlns="http://namespaces.zope.org/zope"
-  xmlns:zcml="http://namespaces.zope.org/zcml">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    >
 
   <!-- Content Rules events -->
   <configure zcml:condition="installed plone.contentrules">
 
     <interface
-      interface="plone.app.discussion.interfaces.ICommentAddedEvent"
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Comment added"
-      />
+        interface="plone.app.discussion.interfaces.ICommentAddedEvent"
+        type="plone.contentrules.rule.interfaces.IRuleEventType"
+        name="Comment added"
+        />
 
     <interface
-      interface="plone.app.discussion.interfaces.ICommentRemovedEvent"
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Comment removed"
-      />
+        interface="plone.app.discussion.interfaces.ICommentRemovedEvent"
+        type="plone.contentrules.rule.interfaces.IRuleEventType"
+        name="Comment removed"
+        />
 
     <interface
-      interface="plone.app.discussion.interfaces.IReplyAddedEvent"
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Comment reply added"
-      />
+        interface="plone.app.discussion.interfaces.IReplyAddedEvent"
+        type="plone.contentrules.rule.interfaces.IRuleEventType"
+        name="Comment reply added"
+        />
 
     <interface
-      interface="plone.app.discussion.interfaces.IReplyRemovedEvent"
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Comment reply removed"
-      />
-      
+        interface="plone.app.discussion.interfaces.IReplyRemovedEvent"
+        type="plone.contentrules.rule.interfaces.IRuleEventType"
+        name="Comment reply removed"
+        />
+
     <interface
-      interface="plone.app.discussion.interfaces.ICommentPublishedEvent"
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Notify user on comment publication"
-      />
-      
+        interface="plone.app.discussion.interfaces.ICommentPublishedEvent"
+        type="plone.contentrules.rule.interfaces.IRuleEventType"
+        name="Notify user on comment publication"
+        />
+
     <interface
-      interface="plone.app.discussion.interfaces.ICommentDeletedEvent"
-      type="plone.contentrules.rule.interfaces.IRuleEventType"
-      name="Notify user on comment delete"
-      />
+        interface="plone.app.discussion.interfaces.ICommentDeletedEvent"
+        type="plone.contentrules.rule.interfaces.IRuleEventType"
+        name="Notify user on comment delete"
+        />
 
   </configure>
 
@@ -48,73 +49,73 @@
   <configure zcml:condition="installed plone.app.contentrules">
 
     <subscriber
-      for="plone.app.discussion.interfaces.ICommentAddedEvent"
-      handler=".contentrules.execute_comment"
-      />
+        for="plone.app.discussion.interfaces.ICommentAddedEvent"
+        handler=".contentrules.execute_comment"
+        />
 
     <subscriber
-      for="plone.app.discussion.interfaces.ICommentRemovedEvent"
-      handler=".contentrules.execute_comment"
-      />
+        for="plone.app.discussion.interfaces.ICommentRemovedEvent"
+        handler=".contentrules.execute_comment"
+        />
 
     <subscriber
-      for="plone.app.discussion.interfaces.IReplyAddedEvent"
-      handler=".contentrules.execute_comment"
-      />
+        for="plone.app.discussion.interfaces.IReplyAddedEvent"
+        handler=".contentrules.execute_comment"
+        />
 
     <subscriber
-      for="plone.app.discussion.interfaces.IReplyRemovedEvent"
-      handler=".contentrules.execute_comment"
-      />
-      
+        for="plone.app.discussion.interfaces.IReplyRemovedEvent"
+        handler=".contentrules.execute_comment"
+        />
+
     <subscriber
-      for="plone.app.discussion.interfaces.ICommentDeletedEvent"
-      handler=".contentrules.execute_comment"
-      />
-      
+        for="plone.app.discussion.interfaces.ICommentDeletedEvent"
+        handler=".contentrules.execute_comment"
+        />
+
     <subscriber
-      for="plone.app.discussion.interfaces.ICommentPublishedEvent"
-      handler=".contentrules.execute_comment"
-      />
+        for="plone.app.discussion.interfaces.ICommentPublishedEvent"
+        handler=".contentrules.execute_comment"
+        />
 
   </configure>
 
   <!-- Content rules strings -->
   <configure zcml:condition="installed plone.stringinterp">
     <adapter
-      for="zope.interface.Interface"
-      provides="plone.stringinterp.interfaces.IStringSubstitution"
-      factory=".contentrules.Id"
-      name="comment_id"
-      />
+        factory=".contentrules.Id"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        for="zope.interface.Interface"
+        name="comment_id"
+        />
 
     <adapter
-      for="zope.interface.Interface"
-      provides="plone.stringinterp.interfaces.IStringSubstitution"
-      factory=".contentrules.Text"
-      name="comment_text"
-      />
+        factory=".contentrules.Text"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        for="zope.interface.Interface"
+        name="comment_text"
+        />
 
     <adapter
-      for="zope.interface.Interface"
-      provides="plone.stringinterp.interfaces.IStringSubstitution"
-      factory=".contentrules.AuthorUserName"
-      name="comment_user_id"
-      />
+        factory=".contentrules.AuthorUserName"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        for="zope.interface.Interface"
+        name="comment_user_id"
+        />
 
     <adapter
-      for="zope.interface.Interface"
-      provides="plone.stringinterp.interfaces.IStringSubstitution"
-      factory=".contentrules.AuthorFullName"
-      name="comment_user_fullname"
-      />
+        factory=".contentrules.AuthorFullName"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        for="zope.interface.Interface"
+        name="comment_user_fullname"
+        />
 
     <adapter
-      for="zope.interface.Interface"
-      provides="plone.stringinterp.interfaces.IStringSubstitution"
-      factory=".contentrules.AuthorEmail"
-      name="comment_user_email"
-      />
+        factory=".contentrules.AuthorEmail"
+        provides="plone.stringinterp.interfaces.IStringSubstitution"
+        for="zope.interface.Interface"
+        name="comment_user_email"
+        />
   </configure>
 
 </configure>

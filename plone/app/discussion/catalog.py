@@ -3,7 +3,6 @@ indexes with values based on the IComment interface.
 
 Also provide event handlers to actually catalog the comments.
 """
-from DateTime import DateTime
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.event.base import DT
@@ -103,7 +102,7 @@ def in_response_to(object):
 @indexer(IComment)
 def effective(object):
     # the catalog index needs Zope DateTime instead of Python datetime
-    return DT( object.creation_date )
+    return DT(object.creation_date)
 
 
 @indexer(IComment)

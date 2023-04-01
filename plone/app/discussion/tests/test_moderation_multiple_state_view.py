@@ -1,22 +1,15 @@
 from ..browser.moderation import BulkActionsView
-from ..browser.moderation import CommentTransition
-from ..browser.moderation import DeleteComment
-from ..browser.moderation import View
 from ..interfaces import IConversation
-from ..interfaces import IDiscussionSettings
 from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import createObject
-from zope.component import queryUtility
 
 import unittest
 
 
 class ModerationBulkActionsViewTest(unittest.TestCase):
-
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 
     def setUp(self):
