@@ -43,9 +43,7 @@
                              colorclass python:lambda x: 'state-private' if x=='rejected' else ('state-internal' if x=='spam' else 'state-'+x);"
                     tal:attributes="class python:'comment level-{depth} {state}'.format(depth= depth, state=colorclass(review_state));
                                  id comment_id"
-                    tal:condition="python:canReview or review_state == 'published'or has_replies"
-                    tal:attributes-missing="skip"
-                    id="comments">
+                    tal:condition="python:canReview or review_state == 'published'">
 
                     <div class="d-flex flex-row align-items-center mb-3">
 
