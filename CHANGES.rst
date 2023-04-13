@@ -8,6 +8,19 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.1 (2023-04-14)
+------------------
+
+Internal:
+
+
+- Remove translations folder,
+  for ages they are coming from p.a.locales.
+  [gforcada] (#1)
+- Update configuration files.
+  [plone devs] (#47959565)
+
+
 4.0.0 (2022-11-11)
 ------------------
 
