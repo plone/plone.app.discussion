@@ -206,6 +206,7 @@ class Comment(
                         default="Anonymous",
                     ),
                 ),
+                context=self.REQUEST,
             )
         else:
             author_name = self.author_name
