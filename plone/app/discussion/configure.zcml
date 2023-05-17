@@ -40,7 +40,7 @@
   <!-- Register the installation GenericSetup extension profile -->
   <genericsetup:registerProfile
       name="default"
-      title="Plone Discussions"
+      title="Discussion Support"
       description="Commenting infrastructure for Plone"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="plone.base.interfaces.IPloneSiteRoot"
