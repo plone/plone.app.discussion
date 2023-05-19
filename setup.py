@@ -56,7 +56,7 @@ setup(
         "plone.indexer",
         "plone.z3cform",
         "z3c.form>=2.3.3",
-],
+    ],
     extras_require={
         "test": [
             "plone.app.testing",
