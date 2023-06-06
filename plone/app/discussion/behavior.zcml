@@ -12,10 +12,12 @@
 
   <!--Allow discussion -->
   <plone:behavior
-      name="plone.allowdiscussion"
-      title="Allow discussion"
       description="Allow discussion on this item"
+      former_dotted_names="plone.app.dexterity.behaviors.discussion.IAllowDiscussion"
+      name_only="yes"
+      name="plone.allowdiscussion"
       provides=".behavior.IAllowDiscussion"
+      title="Allow discussion"
       />
 
 </configure>

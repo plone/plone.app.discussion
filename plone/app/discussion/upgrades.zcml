@@ -108,4 +108,16 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="plone.app.discussion:default"
+      source="2001"
+      destination="2002"
+      >
+    <genericsetup:upgradeStep
+        title="Add behavior plone.allowdiscussion to default content types"
+        description="Ensure default types have discussion behavior set"
+        handler=".upgrades.add_discussion_behavior_to_default_types"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

@@ -1,6 +1,7 @@
+from .interfaces import IDiscussionSettings
+from .setuphandlers import add_discussion_behavior_to_default_types
 from datetime import timezone
 from plone import api
-from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.ProgressHandler import ZLogHandler
@@ -115,3 +116,8 @@ def set_timezone_on_dates(context):
     logger.info(
         "Updated %i creation dates and %i modification dates" % (creations, modifieds)
     )
+
+def set_discussion_behavior(context):
+    """Add the discussion behavior to all default types, if they exist.
+    """
+    add_discussion_behavior_to_default_types(context)
