@@ -9,7 +9,7 @@ We create a dexterity content type that provides the allow discussion behavior::
     >>> portal = layer['portal']
     >>> from plone.dexterity.fti import DexterityFTI
     >>> fti = DexterityFTI('discussiondocument')
-    >>> fti.behaviors = ('plone.app.dexterity.behaviors.discussion.IAllowDiscussion',)
+    >>> fti.behaviors = ('plone.allowdiscussion',)
     >>> portal.portal_types._setObject('discussiondocument', fti)
     'discussiondocument'
 
