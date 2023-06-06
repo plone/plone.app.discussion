@@ -1,6 +1,6 @@
-from plone.app.dexterity import _
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.base import PloneMessageFactory as _
 from plone.supermodel import model
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IEditForm

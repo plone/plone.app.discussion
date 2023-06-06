@@ -14,15 +14,15 @@ plone.app.discussion.
     content.
 
   **Discussion items are subject to workflow and permission**
-    Moderation, anonymous commenting, and auto approve/reject should be
+    Moderation, anonymous commenting, and auto-approve/reject should be
     handled using workflow states, automatic and manual transitions, and
     permissions.
 
-  **Discussion items are light weight objects**
-    Discussion item objects are as light weight as possible. Ideally, a
+  **Discussion items are lightweight objects**
+    Discussion item objects are as lightweight as possible. Ideally, a
     discussion item should be as lightweight as a catalog brain. This may mean
     that we forego convenience base classes and re-implement certain interfaces.
-    Comments should not provide the full set of dublin core metadata, though
+    Comments should not provide the full set of Dublin Core metadata, though
     custom indexers can be used to provide values for standard catalog indexes.
 
   **Optimise for retrieval speed**
@@ -49,7 +49,7 @@ plone.app.discussion.
   **Discussion items are retrieved in reverse creation date order**
     Discussion items do not need to support explicit ordering. They should
     always be retrieved in reverse creation date order (most recent for).
-    They can be stored with keys so that this is always true.
+    They can be stored with keys so this is always true.
 
   **Discussion items do not need readable ids**
     Ids can be based on the creation date.
