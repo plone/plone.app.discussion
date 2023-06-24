@@ -44,7 +44,7 @@
              role="status"
              tal:condition="python: not moderation_enabled"
         >
-          <strong>Info</strong>
+          <strong i18n:translate="">Info</strong>
           <div i18n:translate="message_moderation_disabled">Moderation workflow is disabled. You have to
             <a href=""
                tal:attributes="
