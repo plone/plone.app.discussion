@@ -2,10 +2,9 @@ from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
-
 setup(
     name="plone.app.discussion",
-    version=version,
+    version="5.0.0.dev0",
     description="Enhanced discussion support for Plone",
     long_description=f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}",
     long_description_content_type="text/x-rst",
