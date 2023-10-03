@@ -180,9 +180,9 @@ class Conversation(Traversable, Persistent, Explicit):
         self._children[reply_to].insert(id)
 
         # Add the annotation if not already done
-        annotions = IAnnotations(self.__parent__)
-        if ANNOTATION_KEY not in annotions:
-            annotions[ANNOTATION_KEY] = aq_base(self)
+        annotations = IAnnotations(self.__parent__)
+        if ANNOTATION_KEY not in annotations:
+            annotations[ANNOTATION_KEY] = aq_base(self)
 
         # Notify that the object is added. The object must here be
         # acquisition wrapped or the indexing will fail.
