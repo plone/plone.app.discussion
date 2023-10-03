@@ -104,7 +104,7 @@ can be generated from this as well, using the helper class in
 plone.app.registry.
 
 Note that some settings, notably those to do with permissions and workflow,
-will need to be wired up as custom form fields with custom data mangers
+will need to be wired up as custom form fields with custom data managers
 or similar.
 
 Workflow and permissions
