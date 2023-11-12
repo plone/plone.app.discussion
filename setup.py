@@ -3,39 +3,11 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = "4.0.3.dev0"
-
-long_description = (
-    f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}"
-)
-
-install_requires = [
-    "BTrees",
-    "Products.GenericSetup",
-    "Products.ZCatalog",
-    "Products.statusmessages",
-    "persistent",
-    "plone.api",
-    "plone.app.event",
-    "plone.registry",
-    "plone.resource",
-    "plone.uuid",
-    "zope.annotation",
-    "setuptools",
-    "plone.app.layout",
-    "plone.app.registry",
-    "plone.app.uuid",
-    "plone.base",
-    "plone.indexer",
-    "plone.z3cform",
-    "z3c.form>=2.3.3",
-]
-
 setup(
     name="plone.app.discussion",
-    version=version,
+    version="5.0.0.dev0",
     description="Enhanced discussion support for Plone",
-    long_description=long_description,
+    long_description=f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}",
     long_description_content_type="text/x-rst",
     # Get more strings from
     # https://pypi.org/classifiers/
@@ -43,7 +15,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 6.0",
+        "Framework :: Plone :: 6.1",
         "Framework :: Plone :: Core",
         "Framework :: Zope :: 5",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
@@ -64,7 +36,29 @@ setup(
     include_package_data=True,
     zip_safe=False,
     python_requires=">=3.8",
-    install_requires=install_requires,
+    install_requires=[
+        "Products.CMFPlone",
+        "BTrees",
+        "Products.GenericSetup",
+        "Products.ZCatalog",
+        "Products.statusmessages",
+        "persistent",
+        "plone.api",
+        "plone.app.event",
+        "plone.dexterity",
+        "plone.registry",
+        "plone.resource",
+        "plone.uuid",
+        "zope.annotation",
+        "setuptools",
+        "plone.app.layout",
+        "plone.app.registry",
+        "plone.app.uuid",
+        "plone.base",
+        "plone.indexer",
+        "plone.z3cform",
+        "z3c.form>=2.3.3",
+    ],
     extras_require={
         "test": [
             "plone.app.testing",
@@ -82,4 +76,8 @@ setup(
             "python-dateutil",
         ],
     },
+    entry_points="""
+    [z3c.autoinclude.plugin]
+    target = plone
+    """,
 )
