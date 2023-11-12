@@ -1,7 +1,7 @@
 *** Settings ***
 
-Resource  plone/app/robotframework/saucelabs.robot
-Resource  plone/app/robotframework/selenium.robot
+Resource  plone/app/robotframework/browser.robot
+Resource  keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
@@ -16,7 +16,7 @@ Add a Comment to a Document and bulk delete it
     and workflow multiple enabled
     and a document with discussion enabled
   When I add a comment and delete it
-  Then I can not see the comment below the document
+  Then I can see that the comment is gone
 
 Last history entry is shown
   Given a logged-in Site Administrator
@@ -43,42 +43,28 @@ a document with discussion enabled
 
 # When
 
-I enable discussion on the document
-  Go To  ${PLONE_URL}/my-document/edit
-  Wait until page contains  Settings
-  Click Link  Settings
-  Wait until element is visible  name=form.widgets.IAllowDiscussion.allow_discussion:list
-  Select From List By Value  name=form.widgets.IAllowDiscussion.allow_discussion:list  True
-  Click Button  Save
-
-I add a comment
-  Wait until page contains element  id=form-widgets-comment-text
-  Input Text  id=form-widgets-comment-text  This is a comment
-  Click Button  Comment
-
 I add a comment and delete it
-  Wait until page contains element  id=form-widgets-comment-text
-  Input Text  id=form-widgets-comment-text  This is a comment
-  Click Button  Comment
+  Fill Text  id=form-widgets-comment-text  This is a comment
+  Click  css=button[name="form.buttons.comment"]
   Go To  ${PLONE_URL}/@@moderate-comments?review_state=all
-  Wait until page contains element  name=form.select.BulkAction
-  Select from list by value   xpath://select[@name='form.select.BulkAction']  delete
-  Select Checkbox  name=check_all
-  Click Button  Apply
-  Wait Until Page Does Not Contain  This is a comment
+  Get Text  body  contains  Bulk Actions
+  Select Options By  select[name="form.select.BulkAction"]  text  Delete
+  Check Checkbox  input[name="check_all"]
+  Click  "Apply"
+  Get Element Count  table > tbody > tr  ==  0.0
 
 workflow multiple enabled
   Go To  ${PLONE_URL}/@@content-controlpanel?type_id=Discussion%20Item&new_workflow=comment_review_workflow
-  Click Button  Save
+  Click  "Save"
 
 # Then
 
 I can not see the comment below the document
   Go To  ${PLONE_URL}/my-document/view
-  Wait until page contains  My Document
+  Get Text  body  contains My Document
   Page should not contain  This is a comment
 
 I can see the last history entry in moderation view
   Go To  ${PLONE_URL}/@@moderate-comments?review_state=all
-  Wait until page contains element  name=form.select.BulkAction
-  Page should contain  Create
+  Get Text  body  contains  Bulk Actions
+  Get Text  table  contains  Create
