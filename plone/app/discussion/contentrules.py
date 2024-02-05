@@ -1,5 +1,6 @@
 """ Content rules handlers
 """
+
 from plone.app.discussion import _
 
 

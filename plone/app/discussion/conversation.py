@@ -9,6 +9,7 @@ manipulate the same data structures, but provide an API for finding and
 manipulating the comments directly in reply to a particular comment or at the
 top level of the conversation.
 """
+
 from .comment import Comment
 from .interfaces import DISCUSSION_ANNOTATION_KEY as ANNOTATION_KEY
 from .interfaces import IConversation

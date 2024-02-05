@@ -1,5 +1,6 @@
 """Test the plone.app.discussion catalog indexes
 """
+
 from datetime import datetime
 from datetime import timezone
 from plone.app.discussion.interfaces import IConversation

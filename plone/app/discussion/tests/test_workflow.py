@@ -1,5 +1,6 @@
 """Test plone.app.discussion workflow and permissions.
 """
+
 from ..interfaces import IConversation
 from ..interfaces import IDiscussionLayer
 from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
