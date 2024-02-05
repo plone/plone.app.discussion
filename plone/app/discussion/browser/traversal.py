@@ -2,6 +2,7 @@
 IDiscussion container for the context, from which traversal will continue
 into an actual comment object.
 """
+
 from plone.app.discussion.interfaces import IConversation
 from zope.component import adapter
 from zope.component import queryAdapter

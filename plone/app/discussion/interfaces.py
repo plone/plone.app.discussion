@@ -1,5 +1,6 @@
 """Interfaces for plone.app.discussion
 """
+
 from plone.app.discussion import _
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName

@@ -1,5 +1,6 @@
 """Captcha validator, see captcha.txt for design notes.
 """
+
 from Acquisition import aq_inner
 from plone.app.discussion.interfaces import ICaptcha
 from plone.app.discussion.interfaces import IDiscussionLayer

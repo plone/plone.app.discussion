@@ -4,6 +4,7 @@ standard portal_catalog for indexing comments.
 
 BBB support for the old portal_discussion is provided in the bbb package.
 """
+
 from .interfaces import IComment
 from .interfaces import ICommentingTool
 from OFS.SimpleItem import SimpleItem

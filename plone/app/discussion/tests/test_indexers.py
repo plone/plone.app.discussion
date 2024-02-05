@@ -1,5 +1,6 @@
 """Test for the plone.app.discussion indexers
 """
+
 from .. import catalog
 from ..interfaces import IConversation
 from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING  # noqa
