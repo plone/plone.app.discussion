@@ -30,6 +30,7 @@
           condition_expr=""
           title="View"
           url_expr="string:${object_url}/@@view"
+          icon_expr="string:toolbar-action/view"
           visible="True"
   >
     <permission value="View" />
