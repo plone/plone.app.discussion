@@ -30,7 +30,8 @@
           category="object"
           condition_expr=""
           title="View"
-          url_expr="string:${object_url}/discussionitem_view"
+          url_expr="string:${object_url}/@@view"
+          icon_expr="string:toolbar-action/view"
           visible="True"
           i18n:attributes="title"
   >
