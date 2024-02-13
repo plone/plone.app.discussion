@@ -75,6 +75,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         "author_username",
         "title",
     )
+    # We do not want the focus to be on this form when loading a page.
+    # See https://github.com/plone/Products.CMFPlone/issues/3623
+    enable_autofocus = False
 
     def updateFields(self):
         super().updateFields()
