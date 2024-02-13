@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.3 (2024-02-13)
+------------------
+
+Bug fixes:
+
+
+- Do not autofocus on the comments form.
+  [maurits] (#3623)
+
+
 4.0.2 (2023-07-14)
 ------------------
 
