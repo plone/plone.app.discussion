@@ -3,6 +3,7 @@ from plone import api
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
+from Products.ZCatalog.ProgressHandler import ZLogHandler
 from zope.component import getUtility
 
 import logging
@@ -57,7 +58,13 @@ def upgrade_comment_workflows_apply_rolemapping(context):
     wf_tool = getToolByName(context, "portal_workflow")
     new_chain = list(wf_tool.getChainFor(portal_type))
     workflows = [wf_tool.getWorkflowById(wf_id) for wf_id in new_chain]
-    for brain in catalog.unrestrictedSearchResults(portal_type=portal_type):
+
+    brains = catalog.unrestrictedSearchResults(portal_type=portal_type)
+    num_objects = len(brains)
+    pghandler = ZLogHandler(1000)
+    pghandler.init("Apply rolemap changes on comments", num_objects)
+    for index, brain in enumerate(brains, 1):
+        pghandler.report(index)
         try:
             comment = brain.getObject()
             for wf in workflows:
@@ -65,6 +72,7 @@ def upgrade_comment_workflows_apply_rolemapping(context):
             comment.reindexObjectSecurity()
         except (AttributeError, KeyError):
             logger.info(f"Could not reindex comment {brain.getURL()}")
+    pghandler.finish()
 
 
 def upgrade_comment_workflows(context):
@@ -88,7 +96,12 @@ def set_timezone_on_dates(context):
     modifieds = 0
     logger.info("Setting timezone information on comment dates")
     comments = pc.search({"Type": "Comment"})
-    for cbrain in comments:
+
+    num_objects = len(comments)
+    pghandler = ZLogHandler(1000)
+    pghandler.init("Set timezone on comments", num_objects)
+    for index, cbrain in enumerate(comments, 1):
+        pghandler.report(index)
         comment = cbrain.getObject()
         if not comment.creation_date.tzinfo:
             creations += 1
@@ -98,6 +111,7 @@ def set_timezone_on_dates(context):
             comment.modification_date = comment.modification_date.astimezone(
                 timezone.utc
             )
+    pghandler.finish()
     logger.info(
         "Updated %i creation dates and %i modification dates" % (creations, modifieds)
     )
