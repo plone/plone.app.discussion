@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.4 (2024-02-21)
+------------------
+
+Bug fixes:
+
+
+- Report the upgrade steps progress,
+  really useful for sites with lots of comments.
+  [gforcada]
+
+
 4.0.3 (2024-02-13)
 ------------------
 
