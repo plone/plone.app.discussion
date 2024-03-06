@@ -64,11 +64,12 @@ I add a comment and delete it
   Wait until page contains element  name=form.select.BulkAction
   Select from list by value   xpath://select[@name='form.select.BulkAction']  delete
   Select Checkbox  name=check_all
-  Click Button  Apply
+  Wait For Then Click Element  css=button[name="form.button.BulkAction"]
   Wait Until Page Does Not Contain  This is a comment
 
 workflow multiple enabled
   Go To  ${PLONE_URL}/@@content-controlpanel?type_id=Discussion%20Item&new_workflow=comment_review_workflow
+  Execute Javascript  window.scroll(0, 2000)
   Click Button  Save
 
 # Then
