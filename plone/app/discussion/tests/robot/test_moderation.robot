@@ -61,7 +61,7 @@ I add a comment and delete it
   Input Text  id=form-widgets-comment-text  This is a comment
   Click Button  Comment
   Go To  ${PLONE_URL}/@@moderate-comments?review_state=all
-  Wait until page contains element  name=form.select.BulkAction
+  Wait Until Element Is Enabled  css=option[value=delete]
   Select from list by value   xpath://select[@name='form.select.BulkAction']  delete
   Select Checkbox  name=check_all
   Wait For Then Click Element  css=button[name="form.button.BulkAction"]
