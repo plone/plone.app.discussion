@@ -64,6 +64,7 @@ I add a comment and delete it
   Wait Until Element Is Enabled  css=option[value=delete]
   Select from list by value   xpath://select[@name='form.select.BulkAction']  delete
   Select Checkbox  name=check_all
+  Sleep  1s
   Wait For Then Click Element  css=button[name="form.button.BulkAction"]
   Wait Until Page Does Not Contain  This is a comment
 
