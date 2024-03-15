@@ -32,7 +32,7 @@ Add-on Products
 
 - `plone.formwidget.hcaptcha
   <https://pypi.org/project/plone.formwidget.hcaptcha/>`_
-  (for spam protection by `HCaptcha <https://www.hcaptcha.com/>` )
+  (for spam protection by `HCaptcha <https://www.hcaptcha.com/>`_ )
 
 Note: not all of these may be compatible with the current version of ``plone.app.discussion`` and ``Plone`` itself.
 
