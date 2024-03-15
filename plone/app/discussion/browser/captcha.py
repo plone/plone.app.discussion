@@ -61,6 +61,10 @@ class CaptchaExtender(extensible.FormExtender):
                 from plone.formwidget.recaptcha import ReCaptchaFieldWidget
                 self.form.fields['captcha'].widgetFactory = \
                     ReCaptchaFieldWidget
+            elif self.captcha == "hcaptcha":
+                from plone.formwidget.hcaptcha import HCaptchaFieldWidget
+
+                self.form.fields["captcha"].widgetFactory = HCaptchaFieldWidget
             elif self.captcha == 'norobots':
                 from collective.z3cform.norobots import NorobotsFieldWidget
                 self.form.fields['captcha'].widgetFactory = NorobotsFieldWidget

@@ -31,6 +31,11 @@ try:
 except ImportError:
     pass
 
+try:
+    from plone.formwidget.hcaptcha.validator import WrongCaptchaCode  # noqa
+except ImportError:
+    pass
+
 
 @implementer(IValidator)
 @adapter(Interface, IDiscussionLayer, Interface, IField, Interface)

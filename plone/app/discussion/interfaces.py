@@ -315,7 +315,9 @@ class IDiscussionSettings(Interface):
             default=u'Use this setting to enable or disable Captcha '
                     u'validation for comments. Install '
                     u'plone.formwidget.captcha, '
-                    u'plone.formwidget.recaptcha, collective.akismet, or '
+                    u'plone.formwidget.recaptcha, '
+                    u'plone.formwidget.hcaptcha, '
+                    u'collective.akismet, or '
                     u'collective.z3cform.norobots if there are no options '
                     u'available.'),
         required=True,
