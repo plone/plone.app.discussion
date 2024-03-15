@@ -8,6 +8,21 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.5 (2024-03-15)
+------------------
+
+Bug fixes:
+
+
+- Fix test "Add a Comment to a Document and bulk delete it". @wesleybl (#226)
+
+
+Internal:
+
+
+- Fix test "Add a Comment to a Document and bulk delete it" 2. @wesleybl (#227)
+
+
 4.0.4 (2024-02-21)
 ------------------
 
