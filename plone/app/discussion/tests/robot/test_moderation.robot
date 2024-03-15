@@ -28,6 +28,12 @@ Last history entry is shown
 
 *** Keywords ***
 
+Select And Check
+  [Arguments]  ${selector}  ${value}
+  Select From List by Value  ${selector}  ${value}
+  ${selected_value} =  Get Selected List Value  ${selector}
+  Should Be Equal As Strings  ${selected_value}  ${value}
+
 # Given
 
 a logged-in Site Administrator
@@ -62,7 +68,7 @@ I add a comment and delete it
   Click Button  Comment
   Go To  ${PLONE_URL}/@@moderate-comments?review_state=all
   Wait Until Element Is Enabled  css=option[value=delete]
-  Select from list by value   xpath://select[@name='form.select.BulkAction']  delete
+  Wait Until Keyword Succeeds  5x  1s  Select And Check  xpath://select[@name='form.select.BulkAction']  delete
   Select Checkbox  name=check_all
   Sleep  1s
   Wait For Then Click Element  css=button[name="form.button.BulkAction"]
