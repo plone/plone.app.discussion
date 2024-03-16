@@ -17,7 +17,6 @@
         <h1 class="documentFirstHeading"
             tal:content="view/label"
         >View Title</h1>
-        <h2>DEBUG</h2>
         <p class="lead"
            tal:content="view/description"
         >Description</p>
