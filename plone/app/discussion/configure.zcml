@@ -34,7 +34,7 @@
   <configure zcml:condition="installed collective.z3cform.norobots">
     <include package="collective.z3cform.norobots" />
   </configure>
-  
+
   <include package=".browser" />
 
   <!-- Register the installation GenericSetup extension profile -->
