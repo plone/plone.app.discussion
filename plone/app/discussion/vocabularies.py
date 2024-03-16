@@ -57,7 +57,6 @@ def captcha_vocabulary(context):
             SimpleTerm(value="recaptcha", token="recaptcha", title="ReCaptcha")
         )
 
-    print("HAS_HCAPTCHA", HAS_HCAPTCHA)
     if HAS_HCAPTCHA:  # pragma: no cover
         terms.append(SimpleTerm(value="hcaptcha", token="hcaptcha", title="HCaptcha"))
 
