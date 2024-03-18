@@ -116,7 +116,7 @@ Zope = [
   'Products.CMFCore', 'Products.CMFDynamicViewFTI',
 ]
 python-dateutil = ['dateutil']
-ignore-packages = ['Products.LinguaPlone.interfaces.ITranslatable', 'collective.akismet', 'collective.z3cform.norobots', 'plone.formwidget.captcha', 'plone.formwidget.recaptcha', 'plone.contentrules', 'plone.app.contentrules', 'plone.stringinterp', 'plone.app.collection']
+ignore-packages = ['Products.LinguaPlone.interfaces.ITranslatable', 'collective.akismet', 'collective.z3cform.norobots', 'plone.formwidget.captcha', 'plone.formwidget.recaptcha', 'plone.formwidget.hcaptcha', 'plone.contentrules', 'plone.app.contentrules', 'plone.stringinterp', 'plone.app.collection']
 
 ##
 # Add extra configuration options in .meta.toml:

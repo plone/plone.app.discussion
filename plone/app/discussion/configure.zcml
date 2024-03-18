@@ -21,16 +21,20 @@
   <include file="subscribers.zcml" />
   <include file="upgrades.zcml" />
 
-  <!-- load captch before browser -->
+  <!-- load captcha before browser -->
   <configure zcml:condition="installed plone.formwidget.captcha">
     <include package="plone.formwidget.captcha" />
   </configure>
   <configure zcml:condition="installed plone.formwidget.recaptcha">
     <include package="plone.formwidget.recaptcha" />
   </configure>
+  <configure zcml:condition="installed plone.formwidget.hcaptcha">
+    <include package="plone.formwidget.hcaptcha" />
+  </configure>
   <configure zcml:condition="installed collective.z3cform.norobots">
     <include package="collective.z3cform.norobots" />
   </configure>
+
   <include package=".browser" />
 
   <!-- Register the installation GenericSetup extension profile -->
