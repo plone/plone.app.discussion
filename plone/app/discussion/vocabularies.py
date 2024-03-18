@@ -18,6 +18,14 @@ try:
 except ImportError:
     pass
 
+HAS_HCAPTCHA = False
+try:
+    import plone.formwidget.hcaptcha  # noqa
+
+    HAS_HCAPTCHA = True  # pragma: no cover
+except ImportError:
+    pass
+
 HAS_AKISMET = False
 try:
     import collective.akismet  # noqa
@@ -56,6 +64,13 @@ def captcha_vocabulary(context):
                 value='recaptcha',
                 token='recaptcha',
                 title='ReCaptcha'))
+
+    if HAS_HCAPTCHA:  # pragma: no cover
+        terms.append(
+            SimpleTerm(
+                value="hcaptcha",
+                token="hcaptcha",
+                title="HCaptcha"))
 
     if HAS_AKISMET:  # pragma: no cover
         terms.append(

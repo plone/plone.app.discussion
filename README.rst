@@ -105,6 +105,10 @@ Add-on Products
   <http://pypi.python.org/pypi/collective.z3cform.norobots/1.1/>`_
   (provides a "human" captcha widget based on a list of questions/answers)
 
+- `plone.formwidget.hcaptcha
+  <https://pypi.org/project/plone.formwidget.hcaptcha/>`_
+  (for spam protection by `HCaptcha <https://www.hcaptcha.com/>`_ )
+
 
 Documentation
 =============

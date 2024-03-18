@@ -1,0 +1,1 @@
+Provide HCaptcha if plone.formwidget.hcaptcha is installed.  @ksuess
