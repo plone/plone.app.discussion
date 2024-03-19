@@ -8,6 +8,21 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.0 (2024-03-19)
+------------------
+
+New features:
+
+
+- Provide HCaptcha if plone.formwidget.hcaptcha is installed.  @ksuess (#230)
+
+
+Internal:
+
+
+- Fix test "Add a Comment to a Document and bulk delete it". @wesleybl (#228)
+
+
 4.0.5 (2024-03-15)
 ------------------
 
