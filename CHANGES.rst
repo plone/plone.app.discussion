@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.8 (2024-03-19)
+------------------
+
+New features:
+
+
+- Provide HCaptcha if plone.formwidget.hcaptcha is installed.  @ksuess (#230)
+
+
 3.4.7 (2022-05-14)
 ------------------
 
