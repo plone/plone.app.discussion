@@ -49,7 +49,7 @@ class CaptchaValidator(validator.SimpleFieldValidator):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
 
-        if settings.captcha in ('captcha', 'recaptcha', 'norobots'):
+        if settings.captcha != 'disabled':
             captcha = getMultiAdapter((aq_inner(self.context), self.request),
                                       name=settings.captcha)
             if not captcha.verify(input=value):
