@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.9 (2024-03-22)
+------------------
+
+Bug fixes:
+
+
+- Apply validation for all captchas. @ksuess (#233)
+
+
 3.4.8 (2024-03-19)
 ------------------
 
