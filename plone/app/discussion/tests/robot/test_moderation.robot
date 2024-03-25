@@ -71,6 +71,8 @@ I add a comment and delete it
   Wait Until Keyword Succeeds  5x  1s  Select And Check  xpath://select[@name='form.select.BulkAction']  delete
   Select Checkbox  name=check_all
   Sleep  1s
+  # FIXME: Capture screen to debug. Must be removed when the test is fixed.
+  Capture Page Screenshot
   Wait For Then Click Element  css=button[name="form.button.BulkAction"]
   Wait Until Page Does Not Contain  This is a comment
 
