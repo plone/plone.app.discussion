@@ -156,18 +156,6 @@ class DeleteComment(BrowserView):
 
          http://nohost/front-page/++conversation++default/1286289644723317/\
          @@moderate-delete-comment
-
-       Each table row (comment) in the moderation view contains a hidden input
-       field with the absolute URL of the content object:
-
-         <input type="hidden"
-                value="http://nohost/front-page/++conversation++default/\
-                       1286289644723317"
-                name="selected_obj_paths:list">
-
-       This absolute URL is called from a jQuery method that is bind to the
-       'delete' button of the table row. See javascripts/moderation.js for more
-       details.
     """
 
     def __call__(self):
@@ -240,18 +228,6 @@ class CommentTransition(BrowserView):
 
         http://nohost/front-page/++conversation++default/1286289644723317/\
         @@transmit-comment
-
-    Each table row (comment) in the moderation view contains a hidden input
-    field with the absolute URL of the content object:
-
-        <input type="hidden"
-            value="http://nohost/front-page/++conversation++default/\
-                1286289644723317"
-            name="selected_obj_paths:list">
-
-    This absolute URL is called from a jQuery method that is bind to the
-    'delete' button of the table row. See javascripts/moderation.js for more
-    details.
     """
 
     def __call__(self):
