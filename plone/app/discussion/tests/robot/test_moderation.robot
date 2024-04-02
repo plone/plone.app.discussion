@@ -67,12 +67,14 @@ I add a comment and delete it
   Input Text  id=form-widgets-comment-text  This is a comment
   Click Button  Comment
   Go To  ${PLONE_URL}/@@moderate-comments?review_state=all
-  Wait Until Element Is Enabled  css=option[value=delete]
+  Wait Until Element Is Visible  css=option[value=delete]
   Wait Until Keyword Succeeds  5x  1s  Select And Check  xpath://select[@name='form.select.BulkAction']  delete
+  Wait Until Element Is Visible  css=[name=check_all]
+  Wait Until Element Is Enabled  css=[name=check_all]
+  Wait Until Element Is Visible  css=[name="paths:list"]
+  Wait Until Element Is Enabled  css=[name="paths:list"]
   Select Checkbox  name=check_all
-  Sleep  1s
-  # FIXME: Capture screen to debug. Must be removed when the test is fixed.
-  Capture Page Screenshot
+  Wait Until Element Is Visible  css=[name="paths:list"]:checked
   Wait For Then Click Element  css=button[name="form.button.BulkAction"]
   Wait Until Page Does Not Contain  This is a comment
 
