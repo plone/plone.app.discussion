@@ -227,13 +227,6 @@
                                  title   string:Select ${item/Title};
                                "
                         />
-                        <input name="selected_obj_paths:list"
-                               type="hidden"
-                               value="#"
-                               tal:attributes="
-                                 value item/getURL;
-                               "
-                        />
                       </td>
                       <td>
                         <span tal:content="python:item.author_name or item.Creator">Name</span>
