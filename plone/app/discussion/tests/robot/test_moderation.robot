@@ -73,6 +73,7 @@ I add a comment and delete it
   Wait Until Element Is Enabled  css=[name=check_all]
   Wait Until Element Is Visible  css=[name="paths:list"]
   Wait Until Element Is Enabled  css=[name="paths:list"]
+  Wait for Condition   return jQuery._data( jQuery('[name=check_all]')[0], "events" ).click.length == 2
   Select Checkbox  name=check_all
   Wait Until Element Is Visible  css=[name="paths:list"]:checked
   Wait For Then Click Element  css=button[name="form.button.BulkAction"]
