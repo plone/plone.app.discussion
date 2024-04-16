@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.2 (2024-04-16)
+------------------
+
+Internal:
+
+
+- Add capture screen in robot tests to debug. @wesleybl (#235)
+- Fix robot test `Add a Comment to a Document and bulk delete it`. @wesleybl (#237)
+- Fix robot test `Add a Comment to a Document and bulk delete it` 2. @wesleybl (#238)
+- Fix robot test `Add a Comment to a Document and bulk delete it` 3. @wesleybl (#239)
+
+
 4.1.1 (2024-03-22)
 ------------------
 
