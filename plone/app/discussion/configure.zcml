@@ -43,10 +43,10 @@
       name="default"
       title="Discussion Support"
       description="Commenting infrastructure for Plone"
-      post_handler=".setuphandlers.post_install"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="plone.base.interfaces.IPloneSiteRoot"
       directory="profiles/default"
+      post_handler=".setuphandlers.post_install"
       />
   <!-- For upgrade steps see upgrades.zcml. -->
 

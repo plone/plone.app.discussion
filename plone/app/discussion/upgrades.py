@@ -117,7 +117,7 @@ def set_timezone_on_dates(context):
         "Updated %i creation dates and %i modification dates" % (creations, modifieds)
     )
 
+
 def set_discussion_behavior(context):
-    """Add the discussion behavior to all default types, if they exist.
-    """
+    """Add the discussion behavior to all default types, if they exist."""
     add_discussion_behavior_to_default_types(context)
