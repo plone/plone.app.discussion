@@ -12,15 +12,35 @@ DEFAULT_TYPES = [
     "Link",
 ]
 
+BEHAVIOR = "plone.allowdiscussion"
+
 
 def add_discussion_behavior_to_default_types(context):
     """Add the discussion behavior to all default types, if they exist."""
     types_tool = getToolByName(context, "portal_types")
     for type_name in DEFAULT_TYPES:
-        if type_name in types_tool.objectIds():
-            types_tool[type_name].behaviors += ("plone.allowdiscussion",)
+        if type_name in types_tool.objectIds() and BEHAVIOR not in types_tool[type_name].behaviors:
+            types_tool[type_name].behaviors += (BEHAVIOR,)
+
+
+def remove_discussion_behavior_to_default_types(context):
+    """Remove the discussion behavior from all default types, if they exist."""
+    types_tool = getToolByName(context, "portal_types")
+    for type_name in types_tool.objectIds():
+        fti = types_tool[type_name]
+        if getattr(fti, "behaviors", None) is None:
+            continue
+        if BEHAVIOR in fti.behaviors:
+            behaviors = list(fti.behaviors)
+            behaviors.remove(BEHAVIOR)
+            fti.behaviors = tuple(behaviors)
 
 
 def post_install(context):
     """Post install script"""
     add_discussion_behavior_to_default_types(context)
+
+
+def post_uninstall(context):
+    """Post uninstall script"""
+    remove_discussion_behavior_to_default_types(context)
