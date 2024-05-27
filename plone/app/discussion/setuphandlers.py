@@ -19,7 +19,10 @@ def add_discussion_behavior_to_default_types(context):
     """Add the discussion behavior to all default types, if they exist."""
     types_tool = getToolByName(context, "portal_types")
     for type_name in DEFAULT_TYPES:
-        if type_name in types_tool.objectIds() and BEHAVIOR not in types_tool[type_name].behaviors:
+        if (
+            type_name in types_tool.objectIds()
+            and BEHAVIOR not in types_tool[type_name].behaviors
+        ):
             types_tool[type_name].behaviors += (BEHAVIOR,)
 
 

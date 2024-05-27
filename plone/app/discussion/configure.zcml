@@ -7,59 +7,59 @@
     i18n_domain="plone"
     >
 
-    <five:registerPackage package="." />
+  <five:registerPackage package="." />
 
-    <include package="plone.indexer" />
-    <include package="plone.app.registry" />
-    <include package="plone.resource" />
-    <include package="plone.uuid" />
-    <include package="plone.app.uuid" />
+  <include package="plone.indexer" />
+  <include package="plone.app.registry" />
+  <include package="plone.resource" />
+  <include package="plone.uuid" />
+  <include package="plone.app.uuid" />
 
-    <include file="behavior.zcml" />
-    <include file="contentrules.zcml" />
-    <include file="permissions.zcml" />
-    <include file="notifications.zcml" />
-    <include file="subscribers.zcml" />
-    <include file="upgrades.zcml" />
+  <include file="behavior.zcml" />
+  <include file="contentrules.zcml" />
+  <include file="permissions.zcml" />
+  <include file="notifications.zcml" />
+  <include file="subscribers.zcml" />
+  <include file="upgrades.zcml" />
 
   <!-- load captcha before browser -->
   <configure zcml:condition="installed plone.formwidget.captcha">
-        <include package="plone.formwidget.captcha" />
+    <include package="plone.formwidget.captcha" />
   </configure>
   <configure zcml:condition="installed plone.formwidget.recaptcha">
-        <include package="plone.formwidget.recaptcha" />
+    <include package="plone.formwidget.recaptcha" />
   </configure>
   <configure zcml:condition="installed plone.formwidget.hcaptcha">
-        <include package="plone.formwidget.hcaptcha" />
+    <include package="plone.formwidget.hcaptcha" />
   </configure>
   <configure zcml:condition="installed collective.z3cform.norobots">
-        <include package="collective.z3cform.norobots" />
+    <include package="collective.z3cform.norobots" />
   </configure>
 
-    <include package=".browser" />
+  <include package=".browser" />
 
   <!-- Register the installation GenericSetup extension profile -->
-    <genericsetup:registerProfile
-        name="default"
-        title="Discussion Support"
-        description="Commenting infrastructure for Plone"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        for="plone.base.interfaces.IPloneSiteRoot"
-        directory="profiles/default"
-        post_handler=".setuphandlers.post_install"
-    />
-    <genericsetup:registerProfile
-        name="uninstall"
-        title="Uninstall Discussion Support"
-        description="Uninstall Commenting infrastructure for Plone"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        for="plone.base.interfaces.IPloneSiteRoot"
-        directory="profiles/uninstall"
-        post_handler=".setuphandlers.post_uninstall"
-    />
-    <!-- For upgrade steps see upgrades.zcml. -->
+  <genericsetup:registerProfile
+      name="default"
+      title="Discussion Support"
+      description="Commenting infrastructure for Plone"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="plone.base.interfaces.IPloneSiteRoot"
+      directory="profiles/default"
+      post_handler=".setuphandlers.post_install"
+      />
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Uninstall Discussion Support"
+      description="Uninstall Commenting infrastructure for Plone"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="plone.base.interfaces.IPloneSiteRoot"
+      directory="profiles/uninstall"
+      post_handler=".setuphandlers.post_uninstall"
+      />
+  <!-- For upgrade steps see upgrades.zcml. -->
 
-    <!-- Comments -->
+  <!-- Comments -->
 
   <class class=".comment.Comment">
     <require
@@ -81,7 +81,7 @@
       component=".comment.CommentFactory"
       />
 
-    <!-- Conversations -->
+  <!-- Conversations -->
 
   <class class=".conversation.Conversation">
     <require
@@ -95,21 +95,21 @@
   <adapter factory=".conversation.ConversationReplies" />
   <adapter factory=".conversation.CommentReplies" />
 
-    <!-- Captcha Vocabulary -->
+  <!-- Captcha Vocabulary -->
   <utility
       provides="zope.schema.interfaces.IVocabularyFactory"
       name="plone.app.discussion.vocabularies.CaptchaVocabulary"
       component=".vocabularies.captcha_vocabulary"
       />
 
-    <!-- Text Transform Vocabulary -->
+  <!-- Text Transform Vocabulary -->
   <utility
       provides="zope.schema.interfaces.IVocabularyFactory"
       name="plone.app.discussion.vocabularies.TextTransformVocabulary"
       component=".vocabularies.text_transform_vocabulary"
       />
 
-    <!-- Conversation indexes -->
+  <!-- Conversation indexes -->
   <adapter
       factory=".catalog.total_comments"
       name="total_comments"
@@ -127,7 +127,7 @@
       name="in_response_to"
       />
 
-    <!-- Comment indexes -->
+  <!-- Comment indexes -->
   <adapter
       factory=".catalog.UID"
       name="UID"

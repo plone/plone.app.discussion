@@ -9,10 +9,20 @@
          name="commentators"
          remove="true"
   />
-  <column value="total_comments" remove="true" />
-  <column value="last_comment_date" remove="true" />
-  <column value="commentators" remove="true" />
-  <column value="in_response_to" remove="true" />
-  <column value="author_name" remove="true" />
+  <column remove="true"
+          value="total_comments"
+  />
+  <column remove="true"
+          value="last_comment_date"
+  />
+  <column remove="true"
+          value="commentators"
+  />
+  <column remove="true"
+          value="in_response_to"
+  />
+  <column remove="true"
+          value="author_name"
+  />
 
 </object>
