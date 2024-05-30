@@ -1,18 +1,22 @@
 Introduction
 ============
 
+plone.app.discussion is the commenting add-on for Plone.
+It is part of the maintained Plone core.
 
-plone.app.discussion is the commenting system used since Plone 4.1.
-It was initially developed as part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin Aspeli (mentor).
+Installation
+============
+
+If your installation depends on the `Plone <https://pypi.org/project/Plone/>`_ package, you can install it via the Plone control panel.
+In case you do only depend on either the `plone.volto`, `plone.classicui` or `Products.CMFPlone` package, you need to add it to your requirements file.
+After adding it and installing the requirement, you can install it via the Plone control panel.
 
 
-
-Add-on Products
+Spam protection
 ===============
 
-- `collective.autoresizetextarea
-  <https://pypi.org/project/collective.autoresizetextarea/>`_
-  (for auto-resizing the comment textarea while typing)
+These days it is essential to protect your site from commenting spam.
+The following add-ons can help to protect your site:
 
 - `plone.formwidget.captcha
   <https://pypi.org/project/plone.formwidget.captcha/>`_
@@ -22,33 +26,24 @@ Add-on Products
   <https://pypi.org/project/plone.formwidget.recaptcha/>`_
   (for ReCaptcha spam protection)
 
-- `collective.akismet
-  <https://pypi.org/project/collective.akismet/>`_
-  (for Akismet spam protection)
-
 - `collective.z3cform.norobots
-  <https://pypi.org/project/collective.z3cform.norobots/1.1/>`_
+  <https://pypi.org/project/collective.z3cform.norobots/>`_
   (provides a "human" captcha widget based on a list of questions/answers)
 
 - `plone.formwidget.hcaptcha
   <https://pypi.org/project/plone.formwidget.hcaptcha/>`_
   (for spam protection by `HCaptcha <https://www.hcaptcha.com/>`_ )
 
-Note: not all of these may be compatible with the current version of ``plone.app.discussion`` and ``Plone`` itself.
-
 
 Documentation
 =============
 
-There is initial `documentation <https://pythonhosted.org/plone.app.discussion/>`_ but it is outdated.
-You will still get a feel for how the package is structured though.
-
+For further information, please refer to the `official Plone documentation <https://docs.plone.org/>`_.
 
 Credits
 =======
 
-- Timo Stollenwerk
-- Martin Aspeli
+This pakcage was initially developed as part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin Aspeli (mentor).
 
 Many thanks to:
 
@@ -59,4 +54,4 @@ Many thanks to:
 - Hanno Schlichting (for making p.a.d work with Zope 2.12)
 - Alan Hoey (for providing fixes)
 - Maik Roeder (for providing and setting up a buildbot)
-
+- Jens Klein (for ripping it out of core and making it a separate core-addon for Plone 6.1)
