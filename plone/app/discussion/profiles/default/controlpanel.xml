@@ -7,7 +7,7 @@
 
   <configlet action_id="discussion"
              appId="plone.app.discussion"
-             category="plone-general"
+             category="plone-content"
              condition_expr=""
              icon_expr="string:chat-square-dots"
              title="Discussion"
