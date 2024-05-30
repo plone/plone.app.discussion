@@ -43,7 +43,7 @@ For further information, please refer to the `official Plone documentation <http
 Credits
 =======
 
-This pakcage was initially developed as part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin Aspeli (mentor).
+This package was initially developed as part of the Google Summer of Code 2009 by Timo Stollenwerk (student) and Martin Aspeli (mentor).
 
 Many thanks to:
 
