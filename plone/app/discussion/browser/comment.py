@@ -104,7 +104,8 @@ class EditCommentForm(CommentForm):
             _("comment_edit_cancel_notification", default="Edit comment cancelled"),
             type="info",
         )
-        return self._redirect(target=self.context.absolute_url())
+        main_content = aq_parent(aq_parent(self.context))
+        return self._redirect(target=main_content.absolute_url())
 
 
 EditComment = wrap_form(EditCommentForm)
