@@ -10,17 +10,14 @@ long_description = (
 )
 
 install_requires = [
-    "BTrees",
     "Products.GenericSetup",
     "Products.ZCatalog",
     "Products.statusmessages",
-    "persistent",
     "plone.api",
     "plone.app.event",
     "plone.registry",
     "plone.resource",
     "plone.uuid",
-    "zope.annotation",
     "setuptools",
     "plone.app.layout",
     "plone.app.registry",
@@ -28,6 +25,7 @@ install_requires = [
     "plone.base",
     "plone.indexer",
     "plone.z3cform",
+    "Zope",
     "z3c.form>=2.3.3",
 ]
 
