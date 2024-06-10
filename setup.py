@@ -7,6 +7,7 @@ long_description = (
     f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}"
 )
 
+
 setup(
     name="plone.app.discussion",
     version="5.0.0.dev0",
@@ -40,11 +41,9 @@ setup(
     zip_safe=False,
     python_requires=">=3.10",
     install_requires=[
-        "BTrees",
         "Products.GenericSetup",
         "Products.ZCatalog",
         "Products.statusmessages",
-        "persistent",
         "plone.api",
         "plone.app.event",
         "plone.registry",
@@ -53,7 +52,6 @@ setup(
         "plone.behavior",
         "plone.supermodel",
         "plone.uuid",
-        "zope.annotation",
         "setuptools",
         "plone.app.layout",
         "plone.app.registry",
@@ -62,6 +60,7 @@ setup(
         "plone.indexer",
         "plone.z3cform",
         "z3c.form>=2.3.3",
+        "Zope",
     ],
     extras_require={
         "test": [
