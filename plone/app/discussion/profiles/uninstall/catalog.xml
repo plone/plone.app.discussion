@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object name="portal_catalog">
+
+  <index meta_type="FieldIndex"
+         name="total_comments"
+         remove="true"
+  />
+  <index meta_type="KeywordIndex"
+         name="commentators"
+         remove="true"
+  />
+  <column remove="true"
+          value="total_comments"
+  />
+  <column remove="true"
+          value="last_comment_date"
+  />
+  <column remove="true"
+          value="commentators"
+  />
+  <column remove="true"
+          value="in_response_to"
+  />
+  <column remove="true"
+          value="author_name"
+  />
+
+</object>

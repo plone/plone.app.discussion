@@ -1,0 +1,1 @@
+Fix redirection after comment edit to main content, preventing NotFound. [@jensens]

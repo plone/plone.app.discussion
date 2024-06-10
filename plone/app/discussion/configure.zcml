@@ -15,6 +15,7 @@
   <include package="plone.uuid" />
   <include package="plone.app.uuid" />
 
+  <include file="behavior.zcml" />
   <include file="contentrules.zcml" />
   <include file="permissions.zcml" />
   <include file="notifications.zcml" />
@@ -40,11 +41,21 @@
   <!-- Register the installation GenericSetup extension profile -->
   <genericsetup:registerProfile
       name="default"
-      title="Plone Discussions"
+      title="Discussion Support"
       description="Commenting infrastructure for Plone"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="plone.base.interfaces.IPloneSiteRoot"
       directory="profiles/default"
+      post_handler=".setuphandlers.post_install"
+      />
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Uninstall Discussion Support"
+      description="Uninstall Commenting infrastructure for Plone"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="plone.base.interfaces.IPloneSiteRoot"
+      directory="profiles/uninstall"
+      post_handler=".setuphandlers.post_uninstall"
       />
   <!-- For upgrade steps see upgrades.zcml. -->
 
