@@ -7,8 +7,6 @@
     i18n_domain="plone"
     >
 
-  <five:registerPackage package="." />
-
   <include package="plone.indexer" />
   <include package="plone.app.registry" />
   <include package="plone.resource" />
