@@ -163,8 +163,8 @@ Check if the comment has been added properly.
     True
 
 
-Post a comment as anonymous user
---------------------------------
+Post a comment as an anonymous user
+-----------------------------------
 
 Login and post comment as Anonymous
 
