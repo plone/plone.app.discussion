@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Plone Workflow Tool"
+        name="portal_workflow"
+>
+  <object meta_type="Workflow"
+          name="comment_review_workflow"
+          remove="True"
+  />
+  <object meta_type="Workflow"
+          name="comment_one_state_workflow"
+          remove="True"
+  />
+</object>
