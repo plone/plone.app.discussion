@@ -6,8 +6,6 @@ Resource  plone/app/robotframework/selenium.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
-Resource  keywords.robot
-
 Test Setup  Run keywords  Plone Test Setup
 Test Teardown  Run keywords  Plone Test Teardown
 
