@@ -11,8 +11,6 @@
             i18n:translate=""
   >Discussion Items are documents which reply to other content.
   They should *not* be addable through the standard 'folder_factories' interface.</property>
-  <property name="content_icon">string:${portal_url}/discussionitem_icon.png</property>
-  <property name="content_meta_type">Discussion Item</property>
   <property name="product" />
   <property name="factory">plone.Comment</property>
   <property name="immediate_view" />
