@@ -19,10 +19,10 @@
   <property name="allowed_content_types" />
   <property name="allow_discussion">False</property>
   <alias from="(Default)"
-         to="discussionitem_view"
+         to="@@view"
   />
   <alias from="view"
-         to="discussionitem_view"
+         to="@@view"
   />
   <action action_id="view"
           category="object"
