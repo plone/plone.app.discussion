@@ -11,7 +11,7 @@
             i18n:translate=""
   >Discussion Items are documents which reply to other content.
   They should *not* be addable through the standard 'folder_factories' interface.</property>
-  <property name="content_icon">string:${portal_url}/discussionitem_icon.png</property>
+  <property name="content_icon">++plone++bootstrap-icons/chat-left-text.svg</property>
   <property name="content_meta_type">Discussion Item</property>
   <property name="product" />
   <property name="factory">plone.Comment</property>
@@ -29,9 +29,9 @@
   <action action_id="view"
           category="object"
           condition_expr=""
+          icon_expr="string:toolbar-action/view"
           title="View"
           url_expr="string:${object_url}/@@view"
-          icon_expr="string:toolbar-action/view"
           visible="True"
           i18n:attributes="title"
   >

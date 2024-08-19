@@ -55,6 +55,11 @@
       directory="profiles/uninstall"
       post_handler=".setuphandlers.post_uninstall"
       />
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      provides="plone.base.interfaces.INonInstallable"
+      name="plone.app.discussion"
+      />
   <!-- For upgrade steps see upgrades.zcml. -->
 
   <!-- Comments -->

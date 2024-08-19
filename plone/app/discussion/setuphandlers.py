@@ -1,4 +1,6 @@
+from plone.base.interfaces import INonInstallable
 from Products.CMFCore.utils import getToolByName
+from zope.interface import implementer
 
 
 DEFAULT_TYPES = [
@@ -13,6 +15,14 @@ DEFAULT_TYPES = [
 ]
 
 BEHAVIOR = "plone.allowdiscussion"
+
+
+@implementer(INonInstallable)
+class HiddenProfiles:
+    def getNonInstallableProfiles(self):
+        return [
+            "plone.app.contenttypes:to_3000",
+        ]
 
 
 def add_discussion_behavior_to_default_types(context):
