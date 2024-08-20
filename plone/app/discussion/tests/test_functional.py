@@ -16,7 +16,6 @@ normal_testfiles = [
     "functional_test_comments.rst",
     "functional_test_comment_review_workflow.txt",
     "functional_test_behavior_discussion.rst",
-    "dexterity_discussion.rst",
 ]
 
 
