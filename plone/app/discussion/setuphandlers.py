@@ -21,7 +21,7 @@ BEHAVIOR = "plone.allowdiscussion"
 class HiddenProfiles:
     def getNonInstallableProfiles(self):
         return [
-            "plone.app.contenttypes:to_3000",
+            "plone.app.discussion:to_3000",
         ]
 
 
