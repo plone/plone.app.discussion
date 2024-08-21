@@ -6,5 +6,5 @@ from zope.interface import implementer
 class HiddenProfiles:
     def getNonInstallableProfiles(self):
         return [
-            "plone.app.contenttypes:to_2002",
+            "plone.app.discussion:to_2002",
         ]
