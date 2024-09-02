@@ -4,27 +4,15 @@
         name="Discussion Item"
         i18n:domain="plone"
 >
-  <property name="title"
-            i18n:translate=""
-  >Comment</property>
-  <property name="description"
-            i18n:translate=""
-  >Comments added to a content item.</property>
   <property name="content_icon">++plone++bootstrap-icons/chat-left-text.svg</property>
-  <property name="content_meta_type">Discussion Item</property>
-  <property name="product" />
-  <property name="factory">plone.Comment</property>
-  <property name="immediate_view" />
-  <property name="global_allow">False</property>
-  <property name="filter_content_types">True</property>
-  <property name="allowed_content_types" />
-  <property name="allow_discussion">True</property>
   <alias from="(Default)"
          to="@@view"
   />
   <alias from="view"
          to="@@view"
   />
+  <!-- Note: we cannot only set an icon_exp in this action:
+       the other settings would be reset to empty then. -->
   <action action_id="view"
           category="object"
           condition_expr=""

@@ -46,6 +46,11 @@
       for="plone.base.interfaces.IPloneSiteRoot"
       directory="profiles/default"
       />
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      provides="plone.base.interfaces.INonInstallable"
+      name="plone.app.discussion"
+      />
   <!-- For upgrade steps see upgrades.zcml. -->
 
   <!-- Comments -->
