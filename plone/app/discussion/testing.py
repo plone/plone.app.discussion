@@ -10,14 +10,6 @@ from plone.app.testing import TEST_USER_PASSWORD
 from Products.CMFCore.utils import getToolByName
 
 
-try:
-    import plone.app.collection  # noqa
-
-    COLLECTION_TYPE = "Collection"
-except ImportError:
-    COLLECTION_TYPE = "Topic"
-
-
 class PloneAppDiscussion(PloneSandboxLayer):
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 

@@ -2,6 +2,8 @@ XXX: This functional test part has been removed due to the removal of
 ATContentTypes from PLONE_FIXTURE. We have to rewrite this test as a robot
 test because the dexterity collections do not work without js.
 
+XXX To put this more plainly: this file is currently NOT tested.
+
 
 List comments in a collection
 -----------------------------
@@ -12,33 +14,24 @@ Create a collection.
     >>> from plone.app.testing import TEST_USER_NAME
     >>> setRoles(portal, 'manager', ['Manager'])
     >>> browser.open(portal.absolute_url())
-    >>> from plone.app.discussion.testing import COLLECTION_TYPE
-    >>> browser.getLink(url='++add++' + COLLECTION_TYPE).click()
+    >>> browser.getLink(url='++add++Collection').click()
     >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
     >>> browser.getControl('form.widgets.IDublinCore.title').value = 'Foo Comment Collection'
     >>> browser.getControl('Save').click()
     >>> print(browser.contents)
     <...Changes saved...
-    >>> topic_url = browser.url
+    >>> collection_url = browser.url
 
 Set the collection criteria.
 
-    >>> browser.open(topic_url + "/edit")
+    >>> browser.open(collection_url + "/edit")
 
-    >>> if COLLECTION_TYPE == "Collection":
-    ...     browser.getControl(name="addindex").value = ['portal_type']
-    ...     browser.getControl(name="form.button.addcriteria").click()
-    ...     browser.getControl(name="addoperator").value = ['plone.app.querystring.operation.selection.any']
-    ...     browser.getControl(name="form.button.addcriteria").click()
-    ...     browser.getControl(name="query.v:records:list").value = ["Discussion Item"]
-    ...     browser.getControl(name="form.button.save").click()
-    ... else:
-    ...     browser.getLink('Criteria').click()
-    ...     browser.getControl('Item Type', index=0).selected = True
-    ...     browser.getControl('Select content types').selected = True
-    ...     browser.getControl('Add criteria').click()
-    ...     browser.getControl('Comment').selected = True
-    ...     browser.getControl('Save', index=0).click()
+    >>> browser.getControl(name="addindex").value = ['portal_type']
+    ... browser.getControl(name="form.button.addcriteria").click()
+    ... browser.getControl(name="addoperator").value = ['plone.app.querystring.operation.selection.any']
+    ... browser.getControl(name="form.button.addcriteria").click()
+    ... browser.getControl(name="query.v:records:list").value = ["Discussion Item"]
+    ... browser.getControl(name="form.button.save").click()
     >>> print(browser.contents)
     <...Changes saved...
 
@@ -71,7 +64,7 @@ Delete the commented content.
 
 The comments are no longer in the catalog.
 
-    >>> browser.open(topic_url)
+    >>> browser.open(collection_url)
     >>> browser.getLink('admin on Doc1', index=0)
     Traceback (most recent call last):
     LinkNotFoundError
