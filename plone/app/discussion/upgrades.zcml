@@ -108,4 +108,28 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:registerProfile
+      name="to_3000"
+      title="Upgrade: icons"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
+      directory="profiles/to_3000"
+      />
+
+  <genericsetup:upgradeSteps
+      profile="plone.app.discussion:default"
+      source="2001"
+      destination="3000"
+      >
+    <genericsetup:upgradeDepends
+        title="Update icons"
+        import_profile="plone.app.discussion:to_3000"
+        />
+    <genericsetup:upgradeStep
+        title="Add behavior plone.allowdiscussion to default content types"
+        description="Ensure default types have discussion behavior set"
+        handler=".upgrades.add_discussion_behavior_to_default_types"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

@@ -106,6 +106,7 @@ class PloneAppDiscussionRobot(PloneAppDiscussion):
     )
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, "plone.app.discussion:default")
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = True

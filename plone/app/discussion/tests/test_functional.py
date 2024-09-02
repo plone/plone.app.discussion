@@ -1,9 +1,7 @@
 """Functional Doctests for plone.app.discussion.
-
-   These test are only triggered when Plone 4 (and plone.testing) is installed.
 """
 
-from ..testing import PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING  # noqa
+from ..testing import PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING
 from plone.testing import layered
 
 import doctest
@@ -15,8 +13,9 @@ optionflags = (
     doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE | doctest.REPORT_ONLY_FIRST_FAILURE
 )
 normal_testfiles = [
-    "functional_test_comments.txt",
+    "functional_test_comments.rst",
     "functional_test_comment_review_workflow.txt",
+    "functional_test_behavior_discussion.rst",
 ]
 
 

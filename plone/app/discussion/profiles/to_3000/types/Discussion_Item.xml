@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        meta_type="Factory-based Type Information"
+        name="Discussion Item"
+        i18n:domain="plone"
+>
+  <property name="content_icon">++plone++bootstrap-icons/chat-left-text.svg</property>
+  <alias from="(Default)"
+         to="@@view"
+  />
+  <alias from="view"
+         to="@@view"
+  />
+  <!-- Note: we cannot only set an icon_exp in this action:
+       the other settings would be reset to empty then. -->
+  <action action_id="view"
+          category="object"
+          condition_expr=""
+          icon_expr="string:toolbar-action/view"
+          title="View"
+          url_expr="string:${object_url}/@@view"
+          visible="True"
+  >
+    <permission value="View" />
+  </action>
+</object>

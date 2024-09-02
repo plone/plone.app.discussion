@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <registry>
-  <records interface="plone.app.discussion.interfaces.IDiscussionSettings">
-    <value key="edit_comment_enabled">False</value>
-    <value key="delete_own_comment_enabled">False</value>
-  </records>
   <record name="plone.icon.contenttype/discussion-item">
     <field type="plone.registry.field.TextLine">
       <title>Plone Image</title>
