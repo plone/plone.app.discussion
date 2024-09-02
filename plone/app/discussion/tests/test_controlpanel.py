@@ -49,7 +49,7 @@ class RegistryTest(unittest.TestCase):
                 "plone.app.discussion.interfaces."
                 + "IDiscussionSettings.globally_enabled"
             ],
-            False,
+            True,
         )
 
     def test_anonymous_comments(self):
