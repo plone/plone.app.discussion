@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.3 (2024-09-03)
+------------------
+
+Bug fixes:
+
+
+- Add missing icon on comments' `view` action
+  Register contenttype icon for comments.
+  [gforcada, maurits] (#222)
+
+
 4.1.2 (2024-04-16)
 ------------------
 
