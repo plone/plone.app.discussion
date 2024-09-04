@@ -216,7 +216,7 @@ class IDiscussionSettings(Interface):
             "objects before users will be able to post comments.",
         ),
         required=False,
-        default=False,
+        default=True,
     )
 
     anonymous_comments = schema.Bool(

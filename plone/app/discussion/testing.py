@@ -1,5 +1,4 @@
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
-from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.robotframework.testing import REMOTE_LIBRARY_ROBOT_TESTING
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -8,17 +7,7 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from zope.component import queryUtility
-
-
-try:
-    import plone.app.collection  # noqa
-
-    COLLECTION_TYPE = "Collection"
-except ImportError:
-    COLLECTION_TYPE = "Topic"
 
 
 class PloneAppDiscussion(PloneSandboxLayer):
@@ -104,12 +93,6 @@ class PloneAppDiscussionRobot(PloneAppDiscussion):
         PLONE_APP_CONTENTTYPES_FIXTURE,
         REMOTE_LIBRARY_ROBOT_TESTING,
     )
-
-    def setUpPloneSite(self, portal):
-        applyProfile(portal, "plone.app.discussion:default")
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings)
-        settings.globally_enabled = True
 
 
 PLONE_APP_DISCUSSION_ROBOT_FIXTURE = PloneAppDiscussionRobot()
