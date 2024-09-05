@@ -1,5 +1,0 @@
-Move this package in the space of Plone Core add-ons.
-It now depends on Products.CMFPlone and is no longer installed by default.
-It is still available in the default Plone distribution, but can be omitted in customizations.
-Installing this in the Add-ons control panel will enable comments globally.
-[jensens]

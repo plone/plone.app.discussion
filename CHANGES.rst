@@ -8,6 +8,28 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0a1 (2024-09-05)
+--------------------
+
+Breaking changes:
+
+
+- Move this package in the space of Plone Core add-ons.
+  It now depends on Products.CMFPlone and is no longer installed by default.
+  It is still available in the default Plone distribution, but can be omitted in customizations.
+  Installing this in the Add-ons control panel will enable comments globally.
+  [jensens] (#211)
+
+
+Bug fixes:
+
+
+- Fix redirection after comment edit to main content, preventing NotFound. [@jensens] (#211)
+- Add missing icon on comments' `view` action
+  Register contenttype icon for comments.
+  [gforcada, maurits] (#222)
+
+
 4.1.2 (2024-04-16)
 ------------------
 
