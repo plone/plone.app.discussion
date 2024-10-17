@@ -8,7 +8,7 @@ I enable discussion on the document
   Click  "Save"
 
 I add a comment
-  Fill Text  id=form-widgets-comment-text  This is a comment
+  Type Text  id=form-widgets-comment-text  This is a comment
   Click  css=button[name="form.buttons.comment"]
 
 I can see that the comment is gone
