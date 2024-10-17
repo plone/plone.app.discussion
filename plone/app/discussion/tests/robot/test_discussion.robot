@@ -1,22 +1,12 @@
-# ============================================================================
-# Test basic discussion features (adding, replying, deleting)
-# ============================================================================
-#
-# $ bin/robot-server plone.app.discussion.testing.PLONE_APP_DISCUSSION_ROBOT_TESTING
-# $ bin/robot src/plone.app.discussion/src/plone/app/discussion/tests/robot/test_discussion.robot
-#
-# ============================================================================
-
 *** Settings ***
 
-Resource  plone/app/robotframework/saucelabs.robot
-Resource  plone/app/robotframework/selenium.robot
+Resource  plone/app/robotframework/browser.robot
+Resource  keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
 Test Setup  Run Keywords  Plone test setup
 Test Teardown  Run keywords  Plone test teardown
-
 
 *** Test Cases ***
 
@@ -35,11 +25,16 @@ Add Comment to a Document
 Reply to a comment on a Document
   Given a logged-in Site Administrator
     and a document with discussion enabled
+    and I add a comment
+   When I reply to a comment
+   Then I can see the reply
 
 Delete Comment from a Document
   Given a logged-in Site Administrator
     and a document with discussion enabled
-
+    and I add a comment
+   When I delete the comment
+   Then I can see that the comment is gone
 
 *** Keywords ***
 
@@ -58,28 +53,26 @@ a document with discussion enabled
 
 # When
 
-I enable discussion on the document
-  Go To  ${PLONE_URL}/my-document/edit
-  Wait until page contains  Settings
-  Click Link  Settings
-  Wait until element is visible  name=form.widgets.IAllowDiscussion.allow_discussion:list
-  Select From List By Value  name=form.widgets.IAllowDiscussion.allow_discussion:list  True
-  Click Button  Save
+I reply to a comment
+  Click  "Reply"
+  Fill Text  css=div[id^=formfield-form-widgets-new] > textarea  My reply text
+  Click  css=.discussion button[name="form.buttons.comment"]
 
-I add a comment
-  Wait until page contains element  id=form-widgets-comment-text
-  Input Text  id=form-widgets-comment-text  This is a comment
-  Click Button  Comment
-
+I delete the comment
+  Click  css=button[name="form.button.DeleteComment"]
 
 # Then
 
 I can see a comment form on the document
   Go To  ${PLONE_URL}/my-document/view
-  Wait until page contains  My Document
-  Page should contain  Add comment
-  Page should contain element  id=form-widgets-comment-text
+  Get Text  h1  ==  My Document
+  Get Text  legend  ==  Add comment
+  Get Element  id=form-widgets-comment-text
 
 I can see the comment below the document
   Go To  ${PLONE_URL}/my-document/view
-  Page should contain  This is a comment
+  Get Text  css=.comment-body > p  ==  This is a comment
+
+I can see the reply
+  Go To  ${PLONE_URL}/my-document/view
+  Get Text  css=.level-1 .comment-body > p  ==  My reply text

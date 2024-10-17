@@ -1,16 +1,14 @@
-*** Settings *****************************************************************
+*** Settings ***
 
-Resource  plone/app/robotframework/keywords.robot
-Resource  plone/app/robotframework/saucelabs.robot
-Resource  plone/app/robotframework/selenium.robot
+Resource  plone/app/robotframework/browser.robot
+Resource  keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
-Test Setup  Run keywords  Plone Test Setup
-Test Teardown  Run keywords  Plone Test Teardown
+Test Setup  Run Keywords  Plone test setup
+Test Teardown  Run keywords  Plone test teardown
 
-
-*** Test Cases ***************************************************************
+*** Test Cases ***
 
 Scenario: Allow comments for Link Type
   Given a logged-in manager
@@ -18,49 +16,62 @@ Scenario: Allow comments for Link Type
     and the types control panel
    When I select 'Link' in types dropdown
     and Allow discussion
-   Then Wait until page contains  Content Settings
+   Then Wait For Condition    Text    //body   contains    Content Settings
+
    When I add new Link 'my_link'
-    Then Link 'my_link' should have comments enabled
+   Then Link 'my_link' should have comments enabled
 
 
-*** Keywords *****************************************************************
+*** Keywords ***
 
-# --- GIVEN ------------------------------------------------------------------
+# GIVEN
 
 a logged-in manager
-  Enable autologin as  Manager
+    Enable autologin as    Manager
 
 the types control panel
-  Go to  ${PLONE_URL}/@@content-controlpanel
-  Wait until page contains  Content Settings
+    Go to    ${PLONE_URL}/@@content-controlpanel
+    Wait For Condition    Text    //body   contains    Content Settings
 
 Globally enabled comments
-  Go to  ${PLONE_URL}/@@discussion-settings
-  Wait until page contains  Discussion settings
-  Select checkbox  name=form.widgets.globally_enabled:list
-  Click button  Save
+    Go to    ${PLONE_URL}/@@discussion-settings
+    Wait For Condition    Text    //body   contains    Discussion settings
+    Check Checkbox    //input[@name="form.widgets.globally_enabled:list"]
+    Click    //button[@name="form.buttons.save"]
 
 
-
-# --- WHEN -------------------------------------------------------------------
+# WHEN
 
 I select '${content_type}' in types dropdown
-  Select from list by label  name=type_id  ${content_type}
-  Wait until page contains  Globally addable
+    Select Options By    //select[@name="type_id"]    label    ${content_type}
+    Wait For Condition    Text    //body   contains    Globally addable
 
 Allow discussion
-  Select checkbox  name=allow_discussion:boolean
-  Click Button  Save
+    Check Checkbox    //input[@name="allow_discussion:boolean"]
+    Click    //button[@name="form.button.Save"]
 
 I add new Link '${id}'
-  Go to  ${PLONE_URL}
-  Wait until page contains  Plone site
-  Create content  type=Link  id=${id}  title=${id}  remoteUrl=http://www.starzel.de
+    Go to  ${PLONE_URL}
+    Wait For Condition    Text    //body   contains    Plone site
+    Create content
+    ...    type=Link
+    ...    id=${id}
+    ...    title=${id}
+    ...    remoteUrl=http://www.starzel.de
 
 
-# --- THEN -------------------------------------------------------------------
+# THEN
 
 Link '${id}' should have comments enabled
-  Go to  ${PLONE_URL}/${id}
-  Wait until page contains  ${id}
-  Page should contain element  xpath=//div[@id="commenting"]
+    Go to    ${PLONE_URL}/${id}
+    Wait For Condition    Text    //body   contains    ${id}
+    Get Element Count    //div[@id="commenting"]    should be    1
+
+# Misc
+
+Pause
+    [Documentation]  Visually pause test execution with interactive dialog by
+    ...              importing **Dialogs**-library and calling its
+    ...              **Pause Execution**-keyword.
+    Import library  Dialogs
+    Pause execution
