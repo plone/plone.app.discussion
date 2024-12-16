@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.4 (2024-12-16)
+------------------
+
+Tests
+
+
+- refactoring robot tests, use browser library
+  [1letter] (#247)
+
+
 4.1.3 (2024-09-03)
 ------------------
 
