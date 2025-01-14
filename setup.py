@@ -44,7 +44,6 @@ setup(
         "Products.GenericSetup",
         "Products.ZCatalog",
         "Products.statusmessages",
-        "plone.api",
         "plone.app.event",
         "plone.registry",
         "plone.resource",
