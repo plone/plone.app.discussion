@@ -1,6 +1,7 @@
 from .interfaces import IDiscussionSettings
 from .setuphandlers import add_discussion_behavior_to_default_types
 from datetime import timezone
+from plone import api
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.ProgressHandler import ZLogHandler
@@ -91,7 +92,7 @@ def extend_review_workflow(context):
 
 def set_timezone_on_dates(context):
     """Ensure timezone data is stored against all creation/modified dates"""
-    pc = getToolByName(context, "portal_catalog")
+    pc = api.portal.get_tool("portal_catalog")
     creations = 0
     modifieds = 0
     logger.info("Setting timezone information on comment dates")
