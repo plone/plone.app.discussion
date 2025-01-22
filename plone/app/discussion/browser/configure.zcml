@@ -27,7 +27,7 @@
 
   <browser:page
       name="moderate-comments"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      for="plone.base.interfaces.INavigationRoot"
       class=".moderation.View"
       permission="plone.app.discussion.ReviewComments"
       layer="..interfaces.IDiscussionLayer"
@@ -44,7 +44,7 @@
 
   <browser:page
       name="bulk-actions"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      for="plone.base.interfaces.INavigationRoot"
       class=".moderation.BulkActionsView"
       permission="plone.app.discussion.ReviewComments"
       layer="..interfaces.IDiscussionLayer"
@@ -61,7 +61,7 @@
 
   <browser:page
       name="moderate-comments-enabled"
-      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      for="plone.base.interfaces.INavigationRoot"
       class=".moderation.ModerateCommentsEnabled"
       permission="zope2.View"
       layer="..interfaces.IDiscussionLayer"

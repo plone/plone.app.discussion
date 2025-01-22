@@ -14,7 +14,7 @@ Setting up and log in
 First we have to set up some things and login.
 
     >>> app = layer['app']
-    >>> from plone.testing.z2 import Browser
+    >>> from plone.testing.zope import Browser
     >>> from plone.app.testing import SITE_OWNER_PASSWORD
     >>> from plone.app.testing import TEST_USER_PASSWORD
     >>> browser = Browser(app)
