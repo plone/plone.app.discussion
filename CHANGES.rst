@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0a3 (2025-01-23)
+--------------------
+
+Bug fixes:
+
+
+- Do not depend on ``plone.api``. [ale-rt] (#188)
+- Fix DeprecationWarnings. [maurits] (#4090)
+
+
 5.0.0a2 (2024-10-23)
 --------------------
 
