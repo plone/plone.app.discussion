@@ -15,7 +15,6 @@ install_requires = [
     "Products.ZCatalog",
     "Products.statusmessages",
     "persistent",
-    "plone.api",
     "plone.app.event",
     "plone.registry",
     "plone.resource",

@@ -1,0 +1,2 @@
+Remove dependency on plone.api to avoid circular dependencies with Products.CMFPlone.
+[thet]
