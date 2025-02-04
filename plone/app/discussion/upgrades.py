@@ -1,5 +1,4 @@
 from datetime import timezone
-from plone import api
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
@@ -91,7 +90,7 @@ def extend_review_workflow(context):
 
 def set_timezone_on_dates(context):
     """Ensure timezone data is stored against all creation/modified dates"""
-    pc = api.portal.get_tool("portal_catalog")
+    pc = getToolByName(context, "portal_catalog")
     creations = 0
     modifieds = 0
     logger.info("Setting timezone information on comment dates")

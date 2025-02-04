@@ -15,7 +15,6 @@ install_requires = [
     "Products.ZCatalog",
     "Products.statusmessages",
     "persistent",
-    "plone.api",
     "plone.app.event",
     "plone.registry",
     "plone.resource",
@@ -29,6 +28,7 @@ install_requires = [
     "plone.indexer",
     "plone.z3cform",
     "z3c.form>=2.3.3",
+    "Zope",
 ]
 
 setup(
