@@ -28,6 +28,7 @@ install_requires = [
     "plone.indexer",
     "plone.z3cform",
     "z3c.form>=2.3.3",
+    "Zope",
 ]
 
 setup(
