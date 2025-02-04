@@ -1,0 +1,3 @@
+Remove use of ``plone.api``.
+This should not be used in Plone core, but it crept in again.
+[maurits]
