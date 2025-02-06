@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0 (2025-02-06)
+------------------
+
+Internal:
+
+
+- Make final release, no changes.  [maurits] (#610)
+
+
 5.0.0a3 (2025-01-23)
 --------------------
 
