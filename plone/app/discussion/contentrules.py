@@ -1,5 +1,4 @@
-""" Content rules handlers
-"""
+"""Content rules handlers"""
 
 from plone.app.discussion import _
 

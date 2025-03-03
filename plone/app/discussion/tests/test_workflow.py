@@ -1,5 +1,4 @@
-"""Test plone.app.discussion workflow and permissions.
-"""
+"""Test plone.app.discussion workflow and permissions."""
 
 from ..interfaces import IConversation
 from ..interfaces import IDiscussionLayer

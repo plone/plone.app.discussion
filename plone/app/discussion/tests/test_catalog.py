@@ -1,5 +1,4 @@
-"""Test the plone.app.discussion catalog indexes
-"""
+"""Test the plone.app.discussion catalog indexes"""
 
 from datetime import datetime
 from datetime import timezone
