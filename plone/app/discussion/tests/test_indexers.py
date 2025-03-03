@@ -1,5 +1,4 @@
-"""Test for the plone.app.discussion indexers
-"""
+"""Test for the plone.app.discussion indexers"""
 
 from .. import catalog
 from ..interfaces import IConversation

@@ -1,5 +1,4 @@
-"""Functional Doctests for plone.app.discussion.
-"""
+"""Functional Doctests for plone.app.discussion."""
 
 from ..testing import PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING
 from plone.testing import layered

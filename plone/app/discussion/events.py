@@ -1,5 +1,4 @@
-""" Custom discussion events
-"""
+"""Custom discussion events"""
 
 from plone.app.discussion.interfaces import ICommentAddedEvent
 from plone.app.discussion.interfaces import ICommentDeletedEvent

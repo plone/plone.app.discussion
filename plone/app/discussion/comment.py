@@ -1,5 +1,4 @@
-"""The default comment class and factory.
-"""
+"""The default comment class and factory."""
 
 from AccessControl import ClassSecurityInfo
 from AccessControl.SecurityManagement import getSecurityManager
