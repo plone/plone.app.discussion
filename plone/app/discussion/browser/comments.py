@@ -347,7 +347,7 @@ class CommentsViewlet(ViewletBase):
         # First check if delete_own_comment is enabled in the registry
         if not self.delete_own_comment_allowed():
             return False
-        
+
         try:
             return comment.restrictedTraverse("@@delete-own-comment").can_delete()
         except Unauthorized:
@@ -360,7 +360,7 @@ class CommentsViewlet(ViewletBase):
         # First check if delete_own_comment is enabled in the registry
         if not self.delete_own_comment_allowed():
             return False
-        
+
         try:
             return comment.restrictedTraverse("@@delete-own-comment").could_delete()
         except Unauthorized:
