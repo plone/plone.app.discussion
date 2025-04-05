@@ -15,6 +15,9 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.component.hooks import getSite
+from plone.restapi.controlpanels import RegistryConfigletPanel
+from zope.component import adapter
+from zope.interface import Interface
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
@@ -226,3 +229,14 @@ def notify_configuration_changed(event):
                 else:
                     # Custom workflow
                     pass
+
+@adapter(Interface, Interface)
+class DiscussionControlPanel(RegistryConfigletPanel):
+    """Volto-compatible REST API control panel for discussion settings."""
+    
+    schema = IDiscussionSettings
+    schema_prefix = None
+    configlet_id = "discussion"
+    configlet_category_id = "plone-content"
+    title = _("Discussion")
+    group = "Content"
