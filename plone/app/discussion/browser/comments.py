@@ -365,10 +365,28 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission("Edit comments", aq_inner(reply))
 
     def can_delete(self, reply):
-        """Returns true if current user has the 'Delete comments'
-        permission.
-        """
-        return getSecurityManager().checkPermission("Delete comments", aq_inner(reply))
+        """Returns true if current user can delete the comment."""
+        # Check if user has Review comments permission
+        if self.can_review():
+            return True
+
+        # Get the discussion settings
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+
+        # Check if delete_own_comment is enabled
+        delete_own_comment_enabled = getattr(
+            settings, "delete_own_comment_enabled", False
+        )
+
+        # Only allow deletion if the setting is enabled and the current user is the author
+        if delete_own_comment_enabled:
+            portal_membership = getToolByName(self.context, "portal_membership")
+            member = portal_membership.getAuthenticatedMember()
+            if member.getId() == reply.author_username:
+                return True
+
+        return False
 
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
