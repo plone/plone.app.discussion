@@ -272,11 +272,9 @@ class IDiscussionSettings(Interface):
             default="Select which roles will automatically approve comments. "
             "If none selected, no automatic moderation will be applied.",
         ),
-        value_type=schema.Choice(
-            vocabulary="plone.app.vocabularies.Roles"
-        ),
+        value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"),
         required=False,
-        default=[]
+        default=[],
     )
 
     edit_comment_enabled = schema.Bool(

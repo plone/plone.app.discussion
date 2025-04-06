@@ -28,8 +28,8 @@ from Products.CMFCore import permissions
 from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
 from Products.CMFCore.DynamicType import DynamicType
-from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.WorkflowCore import WorkflowException
 from smtplib import SMTPException
 from zope.annotation.interfaces import IAnnotatable
 from zope.component import getUtility
@@ -254,22 +254,22 @@ def notify_workflow(obj, event):
     tool = getToolByName(obj, "portal_workflow", None)
     if tool is not None:
         tool.notifyCreated(obj)
-        
+
         # Get the membership tool and the current user
-        mtool = getToolByName(obj, 'portal_membership')
+        mtool = getToolByName(obj, "portal_membership")
         member = mtool.getAuthenticatedMember()
-        
+
         # Get discussion settings from the registry
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
-        
+
         # Get the configured auto-moderation roles
-        automoderation_roles = getattr(settings, 'automoderation_roles', [])
-        
+        automoderation_roles = getattr(settings, "automoderation_roles", [])
+
         # Check if the user has any of the auto-moderation roles
         user_roles = member.getRoles()
         should_auto_approve = any(role in user_roles for role in automoderation_roles)
-        
+
         if should_auto_approve:
             # Get the workflow chain for the comment
             workflow_id = tool.getChainFor(obj)[0] if tool.getChainFor(obj) else None
@@ -277,8 +277,10 @@ def notify_workflow(obj, event):
                 # If there's a workflow, publish the comment directly
                 try:
                     # Use direct transition to published state
-                    tool.doActionFor(obj, 'publish')
-                    logger.info(f"Auto-approved comment from user with role in {automoderation_roles}: {member.getId()}")
+                    tool.doActionFor(obj, "publish")
+                    logger.info(
+                        f"Auto-approved comment from user with role in {automoderation_roles}: {member.getId()}"
+                    )
                 except WorkflowException:
                     # If the transition is not available, log it but continue
                     logger.warning(
