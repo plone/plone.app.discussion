@@ -161,9 +161,7 @@
 
               </div>
 
-              <div class="comment-actions actions-delete"
-                   tal:condition="python:canDelete"
-              >
+              <div class="comment-actions actions-delete">
 
                 <!-- delete own comment -->
                 <form class="comment-action action-delete"
