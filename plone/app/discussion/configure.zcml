@@ -176,4 +176,11 @@
       name="commentators"
       />
 
+  <!-- Auto-approve comments from users with Review comments permission -->
+  <subscriber
+    for="plone.app.discussion.interfaces.IComment
+         zope.lifecycleevent.interfaces.IObjectAddedEvent"
+    handler=".events.auto_approve_comments"
+    />
+
 </configure>
