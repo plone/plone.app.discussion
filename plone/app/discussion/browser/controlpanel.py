@@ -53,7 +53,6 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.fields["user_notification_enabled"].widgetFactory = (
             SingleCheckBoxFieldWidget
         )
-        self.fields["automoderation_roles"].widgetFactory = CheckBoxFieldWidget
 
     def updateWidgets(self):
         try:
@@ -72,17 +71,6 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.widgets["user_notification_enabled"].label = _(
             "User Email Notification",
         )
-        self.widgets["automoderation_roles"].label = _(
-            "Roles allowed for automoderation"
-        )
-
-        # Get settings from registry
-        registry = queryUtility(IRegistry)
-        if registry:
-            settings = registry.forInterface(IDiscussionSettings, check=False)
-            # Set automoderation field state based on moderation state
-            if not settings.moderation_enabled:
-                self.widgets["automoderation_roles"].disabled = "disabled"
 
     @button.buttonAndHandler(_("Save"), name=None)
     def handleSave(self, action):

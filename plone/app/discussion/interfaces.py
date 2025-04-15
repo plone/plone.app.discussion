@@ -262,21 +262,6 @@ class IDiscussionSettings(Interface):
         default=False,
     )
 
-    automoderation_roles = schema.List(
-        title=_(
-            "label_automoderation_roles",
-            default="Enable automatic moderation for selected roles",
-        ),
-        description=_(
-            "help_automoderation_roles",
-            default="Select which roles will automatically approve comments. "
-            "If none selected, no automatic moderation will be applied.",
-        ),
-        value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"),
-        required=False,
-        default=[],
-    )
-
     edit_comment_enabled = schema.Bool(
         title=_("label_edit_comment_enabled", default="Enable editing of comments"),
         description=_(

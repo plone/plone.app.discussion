@@ -255,40 +255,6 @@ def notify_workflow(obj, event):
     if tool is not None:
         tool.notifyCreated(obj)
 
-        # Get the membership tool and the current user
-        mtool = getToolByName(obj, "portal_membership")
-        member = mtool.getAuthenticatedMember()
-
-        # Get discussion settings from the registry
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings, check=False)
-
-        # Get the configured auto-moderation roles
-        automoderation_roles = getattr(settings, "automoderation_roles", [])
-
-        # Check if the user has any of the auto-moderation roles
-        user_roles = member.getRoles()
-        should_auto_approve = any(role in user_roles for role in automoderation_roles)
-
-        if should_auto_approve:
-            # Get the workflow chain for the comment
-            workflow_id = tool.getChainFor(obj)[0] if tool.getChainFor(obj) else None
-            if workflow_id:
-                # If there's a workflow, publish the comment directly
-                try:
-                    # Use direct transition to published state
-                    tool.doActionFor(obj, "publish")
-                    logger.info(
-                        f"Auto-approved comment from user with role in {automoderation_roles}: {member.getId()}"
-                    )
-                except WorkflowException:
-                    # If the transition is not available, log it but continue
-                    logger.warning(
-                        f"Could not auto-approve comment for user {member.getId()}. "
-                        "Workflow transition 'publish' not available."
-                    )
-
-
 def notify_content_object(obj, event):
     """Tell the content object when a comment is added"""
     content_obj = aq_parent(aq_parent(obj))
