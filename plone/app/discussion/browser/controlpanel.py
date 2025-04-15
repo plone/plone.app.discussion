@@ -10,7 +10,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
-from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
 from zope.component import getMultiAdapter
 from zope.component import getUtility

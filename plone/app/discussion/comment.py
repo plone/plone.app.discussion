@@ -29,7 +29,6 @@ from Products.CMFCore.CMFCatalogAware import CatalogAware
 from Products.CMFCore.CMFCatalogAware import WorkflowAware
 from Products.CMFCore.DynamicType import DynamicType
 from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.WorkflowCore import WorkflowException
 from smtplib import SMTPException
 from zope.annotation.interfaces import IAnnotatable
 from zope.component import getUtility
@@ -254,6 +253,7 @@ def notify_workflow(obj, event):
     tool = getToolByName(obj, "portal_workflow", None)
     if tool is not None:
         tool.notifyCreated(obj)
+
 
 def notify_content_object(obj, event):
     """Tell the content object when a comment is added"""
