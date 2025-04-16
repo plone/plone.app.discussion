@@ -162,7 +162,7 @@
               </div>
 
               <div class="comment-actions actions-delete"
-                   tal:condition="python:canDelete"
+                   tal:condition="python:canDelete or (isDeleteOwnCommentAllowed and view.could_delete_own(reply))"
               >
 
                 <!-- delete own comment -->
