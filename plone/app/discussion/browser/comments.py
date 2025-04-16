@@ -353,8 +353,6 @@ class CommentsViewlet(ViewletBase):
         """Returns true if the current user could delete the comment if it had
         no replies. This is used to prepare hidden form buttons for JS.
         """
-        # First check if delete_own_comment is enabled in the registry
-
         try:
             return comment.restrictedTraverse("@@delete-own-comment").could_delete()
         except Unauthorized:
