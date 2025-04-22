@@ -398,6 +398,12 @@ class CommentTest(unittest.TestCase):
         from plone.app.testing import login
         login(self.portal, 'new_member')
         
+        # Make sure the comment_review_workflow is set for Discussion Items
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ("Discussion Item",),
+            ("comment_review_workflow",)
+        )
+        
         # Create a conversation
         conversation = IConversation(self.portal.doc1)
         
@@ -414,7 +420,6 @@ class CommentTest(unittest.TestCase):
         # Assert that the comment's workflow state is 'pending'
         review_state = self.portal.portal_workflow.getInfoFor(comment, "review_state")
         self.assertEqual("pending", review_state)
-
 
 
 class RepliesTest(unittest.TestCase):
