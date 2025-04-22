@@ -535,3 +535,47 @@ class RepliesTest(unittest.TestCase):
             "http://nohost/plone/doc1/++conversation++default/" + str(new_re_re_re_id),
             re_re_re_comment.absolute_url(),
         )
+    
+    def test_comment_published_for_manager(self):
+        #Test that comments posted by a Manager are automatically published.
+        # Set the current user to Manager
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        
+        # Create a conversation
+        conversation = IConversation(self.portal.doc1)
+        
+        # Create a comment
+        comment = createObject("plone.Comment")
+        comment.text = "This is a manager comment"
+        
+        # Add the comment to the conversation
+        comment_id = conversation.addComment(comment)
+        
+        # Get the comment from the conversation
+        comment = conversation[comment_id]
+        
+        # Assert that the comment's workflow state is 'published'
+        review_state = self.portal.portal_workflow.getInfoFor(comment, "review_state")
+        self.assertEqual("published", review_state)
+
+    def test_comment_pending_for_member(self):
+        #Test that comments posted by a normal Member are in pending state.
+        # Set the current user to Member
+        setRoles(self.portal, TEST_USER_ID, ["Member"])
+        
+        # Create a conversation
+        conversation = IConversation(self.portal.doc1)
+        
+        # Create a comment
+        comment = createObject("plone.Comment")
+        comment.text = "This is a member comment"
+        
+        # Add the comment to the conversation
+        comment_id = conversation.addComment(comment)
+        
+        # Get the comment from the conversation
+        comment = conversation[comment_id]
+        
+        # Assert that the comment's workflow state is 'pending'
+        review_state = self.portal.portal_workflow.getInfoFor(comment, "review_state")
+        self.assertEqual("pending", review_state)
