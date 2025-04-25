@@ -361,6 +361,61 @@ class CommentTest(unittest.TestCase):
         View.__call__(view)
         self.assertEqual(self.request.response.status, 302)
 
+    def test_comment_published_for_manager(self):
+        # Test that comments posted by a Manager are automatically published.
+        # Set the current user to Manager
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+        # Create a conversation
+        conversation = IConversation(self.portal.doc1)
+
+        # Create a comment
+        comment = createObject("plone.Comment")
+        comment.text = "This is a manager comment"
+
+        # Add the comment to the conversation
+        comment_id = conversation.addComment(comment)
+
+        # Get the comment from the conversation
+        comment = conversation[comment_id]
+
+        # Assert that the comment's workflow state is 'published'
+        review_state = self.portal.portal_workflow.getInfoFor(comment, "review_state")
+        self.assertEqual("published", review_state)
+
+    def test_comment_pending_for_new_member(self):
+        # Test that comments posted by a newly created Member are in pending state.
+        # Create a new user with Member role
+        membership = getToolByName(self.portal, "portal_membership")
+        membership.addMember("new_member", "password", ["Member"], [])
+
+        # Log in as the new member
+        from plone.app.testing import login
+
+        login(self.portal, "new_member")
+
+        # Make sure the comment_review_workflow is set for Discussion Items
+        self.portal.portal_workflow.setChainForPortalTypes(
+            ("Discussion Item",), ("comment_review_workflow",)
+        )
+
+        # Create a conversation
+        conversation = IConversation(self.portal.doc1)
+
+        # Create a comment
+        comment = createObject("plone.Comment")
+        comment.text = "This is a comment from a new member"
+
+        # Add the comment to the conversation
+        comment_id = conversation.addComment(comment)
+
+        # Get the comment from the conversation
+        comment = conversation[comment_id]
+
+        # Assert that the comment's workflow state is 'pending'
+        review_state = self.portal.portal_workflow.getInfoFor(comment, "review_state")
+        self.assertEqual("pending", review_state)
+
 
 class RepliesTest(unittest.TestCase):
     # test the IReplies adapter on a comment
