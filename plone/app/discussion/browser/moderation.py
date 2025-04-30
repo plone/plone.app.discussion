@@ -9,13 +9,12 @@ from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces.recyclebin import IRecycleBin
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import queryUtility
 from zope.event import notify
-
-from Products.CMFPlone.interfaces.recyclebin import IRecycleBin
 
 
 # Translations for generated values in buttons
@@ -171,34 +170,34 @@ class DeleteComment(BrowserView):
         if self.can_delete(comment):
             # Try to use recycle bin if available
             recycle_bin = queryUtility(IRecycleBin)
-            
+
             if recycle_bin and recycle_bin.is_enabled():
                 # Get the comment and all its replies
                 comments_to_recycle = get_comment_and_all_replies(comment, conversation)
-                
+
                 # Store the entire comment tree as a single recycle bin item
                 # This will preserve the parent-child relationships when restored
                 if comments_to_recycle:
                     # Store extra information about the comment tree structure
                     comment_tree = {
-                        'root_comment_id': comment.id,
-                        'comments': comments_to_recycle
+                        "root_comment_id": comment.id,
+                        "comments": comments_to_recycle,
                     }
-                    
+
                     # Add to recyclebin as a single item
                     recycle_bin.add_item(
                         comment_tree,  # Store the entire structure
                         conversation,
                         "/".join(comment.getPhysicalPath()),
-                        item_type="CommentTree"  # Custom type to identify comment trees
+                        item_type="CommentTree",  # Custom type to identify comment trees
                     )
-                
+
                 # Delete the parent comment which will cascade to all replies
                 del conversation[comment.id]
             else:
                 # If no recycle bin, just delete it directly
                 del conversation[comment.id]
-                
+
             content_object.reindexObject()
             notify(CommentDeletedEvent(self.context, comment))
             IStatusMessage(self.context.REQUEST).addStatusMessage(
@@ -381,49 +380,45 @@ class BulkActionsView(BrowserView):
             comment = context.restrictedTraverse(path)
             conversation = aq_parent(comment)
             content_object = aq_parent(conversation)
-            
+
             # Use recycle bin if available
             if recycle_bin and recycle_bin.is_enabled():
                 # Get the comment and all its replies
                 comments_to_recycle = get_comment_and_all_replies(comment, conversation)
-                
+
                 # Add all comments to recyclebin before deleting the parent
                 for comment_obj, comment_path in comments_to_recycle:
-                    recycle_bin.add_item(
-                        comment_obj,
-                        conversation,
-                        comment_path
-                    )
-                
+                    recycle_bin.add_item(comment_obj, conversation, comment_path)
+
                 # Remove the comment (which will cascade to its replies)
                 del conversation[comment.id]
             else:
                 # If no recycle bin, just delete it directly
                 del conversation[comment.id]
-                
+
             content_object.reindexObject(idxs=["total_comments"])
             notify(CommentDeletedEvent(content_object, comment))
 
 
 def get_comment_and_all_replies(comment, conversation):
     """Get a comment and all its replies recursively.
-    
+
     Returns a list of tuples with (comment object, comment path)
     with the parent comment first, followed by all replies in depth-first order.
     """
     result = []
     comment_path = "/".join(comment.getPhysicalPath())
     result.append((comment, comment_path))
-    
+
     # Get the replies to this comment
     replies = IReplies(comment)
     if replies:
         for reply_id in replies:
             reply = replies[reply_id]
             # Store the original parent ID to help with restoration
-            if not hasattr(reply, 'original_parent_id'):
+            if not hasattr(reply, "original_parent_id"):
                 reply.original_parent_id = comment.id
             # Recursively get this reply and its replies
             result.extend(get_comment_and_all_replies(reply, conversation))
-            
+
     return result
