@@ -8,6 +8,28 @@ Changelog
 
 .. towncrier release notes start
 
+5.1.0 (2025-05-02)
+------------------
+
+New features:
+
+
+- Implement auto_approve_admin_comments based on specified roles @rohnsha0 (#261)
+
+
+Bug fixes:
+
+
+- Fix improper handling of logic for showing delete button @rohnsha0 (#182)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
 5.0.0 (2025-02-06)
 ------------------
 
