@@ -168,41 +168,13 @@ class DeleteComment(BrowserView):
         # base ZCML condition zope2.deleteObject allows 'delete own object'
         # modify this for 'delete_own_comment_allowed' controlpanel setting
         if self.can_delete(comment):
-            # Try to use recycle bin if available
-            recycle_bin = queryUtility(IRecycleBin)
-
-            if recycle_bin and recycle_bin.is_enabled():
-                # Get the comment and all its replies
-                comments_to_recycle = get_comment_and_all_replies(comment, conversation)
-
-                # Store the entire comment tree as a single recycle bin item
-                # This will preserve the parent-child relationships when restored
-                if comments_to_recycle:
-                    # Store extra information about the comment tree structure
-                    comment_tree = {
-                        "root_comment_id": comment.id,
-                        "comments": comments_to_recycle,
-                    }
-
-                    # Add to recyclebin as a single item
-                    recycle_bin.add_item(
-                        comment_tree,  # Store the entire structure
-                        conversation,
-                        "/".join(comment.getPhysicalPath()),
-                        item_type="CommentTree",  # Custom type to identify comment trees
-                    )
-
-                # Delete the parent comment which will cascade to all replies
-                del conversation[comment.id]
-            else:
-                # If no recycle bin, just delete it directly
-                del conversation[comment.id]
-
-            content_object.reindexObject()
-            notify(CommentDeletedEvent(self.context, comment))
+            # Use helper function to handle comment deletion with recyclebin support
+            delete_comment_with_recyclebin(comment, conversation, content_object, bulk=False)
+            
             IStatusMessage(self.context.REQUEST).addStatusMessage(
                 _("Comment deleted."), type="info"
             )
+            
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
         if (
@@ -375,29 +347,58 @@ class BulkActionsView(BrowserView):
         /Plone/startseite/++conversation++default/1286200010610352
         """
         context = aq_inner(self.context)
-        recycle_bin = queryUtility(IRecycleBin)
         for path in self.paths:
             comment = context.restrictedTraverse(path)
             conversation = aq_parent(comment)
             content_object = aq_parent(conversation)
 
-            # Use recycle bin if available
-            if recycle_bin and recycle_bin.is_enabled():
-                # Get the comment and all its replies
-                comments_to_recycle = get_comment_and_all_replies(comment, conversation)
+            # Use helper function to handle comment deletion with recyclebin support
+            delete_comment_with_recyclebin(comment, conversation, content_object, bulk=True)
 
-                # Add all comments to recyclebin before deleting the parent
-                for comment_obj, comment_path in comments_to_recycle:
-                    recycle_bin.add_item(comment_obj, conversation, comment_path)
 
-                # Remove the comment (which will cascade to its replies)
-                del conversation[comment.id]
-            else:
-                # If no recycle bin, just delete it directly
-                del conversation[comment.id]
-
-            content_object.reindexObject(idxs=["total_comments"])
-            notify(CommentDeletedEvent(content_object, comment))
+def delete_comment_with_recyclebin(comment, conversation, content_object, bulk=False):
+    """Helper function to delete a comment with recyclebin support.
+    
+    This centralizes the logic for properly handling comments with the recycle bin
+    across different views (DeleteComment, BulkActionsView).
+    
+    Args:
+        comment: The comment to delete
+        conversation: The conversation containing the comment
+        content_object: The content object containing the conversation
+        bulk: Boolean indicating if this is part of a bulk operation
+    """
+    # Try to use recycle bin if available
+    recycle_bin = queryUtility(IRecycleBin)
+    
+    if recycle_bin and recycle_bin.is_enabled():
+        # Get the comment and all its replies
+        comments_to_recycle = get_comment_and_all_replies(comment, conversation)
+        
+        if bulk:
+            # In bulk mode, add individual comments to the recycle bin
+            for comment_obj, comment_path in comments_to_recycle:
+                recycle_bin.add_item(comment_obj, conversation, comment_path)
+        else:
+            # For single deletion, store the entire tree as a unit for better restoration
+            comment_tree = {
+                "root_comment_id": comment.id,
+                "comments": comments_to_recycle,
+            }
+            
+            recycle_bin.add_item(
+                comment_tree,  # Store the entire structure
+                conversation,
+                "/".join(comment.getPhysicalPath()),
+                item_type="CommentTree",  # Custom type to identify comment trees
+            )
+    
+    # Delete the comment (which will cascade to all replies)
+    del conversation[comment.id]
+    
+    # Update indexes and notify
+    content_object.reindexObject(idxs=["total_comments"])
+    notify(CommentDeletedEvent(content_object, comment))
 
 
 def get_comment_and_all_replies(comment, conversation):
