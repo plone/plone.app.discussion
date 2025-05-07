@@ -8,8 +8,8 @@ from plone.app.discussion.events import CommentTransitionEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
-from Products.CMFCore.utils import getToolByName
 from plone.base.interfaces.recyclebin import IRecycleBin
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
