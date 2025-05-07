@@ -9,7 +9,7 @@ from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces.recyclebin import IRecycleBin
+from plone.base.interfaces.recyclebin import IRecycleBin
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
