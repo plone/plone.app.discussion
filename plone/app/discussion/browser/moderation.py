@@ -383,11 +383,11 @@ def delete_comment_with_recyclebin(comment, conversation, content_object, bulk=F
             # In bulk mode, add individual comments to the recycle bin
             for comment_obj, comment_path in comments_to_recycle:
                 recycle_bin.add_item(
-                    comment_obj, 
-                    conversation, 
+                    comment_obj,
+                    conversation,
                     comment_path,
                     item_type="Discussion Item",  # Explicitly set item type
-                    process_children=False  # Prevent folder-like processing
+                    process_children=False,  # Prevent folder-like processing
                 )
         else:
             # For single deletion, store the entire tree as a unit for better restoration
@@ -401,7 +401,7 @@ def delete_comment_with_recyclebin(comment, conversation, content_object, bulk=F
                 conversation,
                 "/".join(comment.getPhysicalPath()),
                 item_type="CommentTree",  # Custom type to identify comment trees
-                process_children=False  # Prevent folder-like processing
+                process_children=False,  # Prevent folder-like processing
             )
 
     # Delete the comment (which will cascade to all replies)
