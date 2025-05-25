@@ -6,7 +6,6 @@ from plone.base.interfaces.controlpanel import IConfigurationChangedEvent
 from plone.base.interfaces.controlpanel import IMailSchema
 from plone.registry.interfaces import IRecordModifiedEvent
 from plone.registry.interfaces import IRegistry
-
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
@@ -16,7 +15,6 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component import queryUtility
 from zope.component.hooks import getSite
-from zope.interface import Interface
 
 
 class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):

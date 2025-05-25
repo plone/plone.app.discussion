@@ -3,6 +3,7 @@
 This module contains REST API control panel adapters that are only
 registered when plone.restapi is available.
 """
+
 from ..interfaces import _
 from ..interfaces import IDiscussionSettings
 from plone.restapi.controlpanels import RegistryConfigletPanel
