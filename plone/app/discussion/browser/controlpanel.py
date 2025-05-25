@@ -6,13 +6,12 @@ from plone.base.interfaces.controlpanel import IConfigurationChangedEvent
 from plone.base.interfaces.controlpanel import IMailSchema
 from plone.registry.interfaces import IRecordModifiedEvent
 from plone.registry.interfaces import IRegistry
-from plone.restapi.controlpanels import RegistryConfigletPanel
+
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
 from z3c.form.browser.checkbox import SingleCheckBoxFieldWidget
-from zope.component import adapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component import queryUtility
@@ -229,15 +228,3 @@ def notify_configuration_changed(event):
                 else:
                     # Custom workflow
                     pass
-
-
-@adapter(Interface, Interface)
-class DiscussionControlPanel(RegistryConfigletPanel):
-    """Volto-compatible REST API control panel for discussion settings."""
-
-    schema = IDiscussionSettings
-    schema_prefix = None
-    configlet_id = "discussion"
-    configlet_category_id = "plone-content"
-    title = _("Discussion")
-    group = "Content"

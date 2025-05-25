@@ -157,10 +157,7 @@
       permission="cmf.ManagePortal"
       />
 
-  <!-- Volto-compatible REST API control panel -->
-  <adapter
-      factory=".controlpanel.DiscussionControlPanel"
-      name="discussion"
-      />
+  <!-- REST API integration (conditionally loaded) -->
+  <include file="restapi.zcml" />
 
 </configure>

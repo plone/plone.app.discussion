@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plone"
+    zcml:condition="installed plone.restapi"
+    >
+
+  <!-- Volto-compatible REST API control panel -->
+  <adapter
+      factory=".restapi.DiscussionControlPanel"
+      name="discussion"
+      />
+
+</configure>

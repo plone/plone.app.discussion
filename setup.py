@@ -49,7 +49,6 @@ setup(
         "plone.resource",
         "plone.autoform",
         "plone.behavior",
-        "plone.restapi",
         "plone.supermodel",
         "plone.uuid",
         "setuptools",
