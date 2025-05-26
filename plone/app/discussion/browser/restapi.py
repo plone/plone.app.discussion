@@ -10,8 +10,13 @@ from plone.restapi.controlpanels import RegistryConfigletPanel
 from zope.component import adapter
 from zope.interface import Interface
 
+try:
+    from plone.restapi.interfaces import IControlpanelLayer
+except ImportError:
+    IControlpanelLayer = Interface
 
-@adapter(Interface, Interface)
+
+@adapter(Interface, IControlpanelLayer)
 class DiscussionControlPanel(RegistryConfigletPanel):
     """Volto-compatible REST API control panel for discussion settings."""
 

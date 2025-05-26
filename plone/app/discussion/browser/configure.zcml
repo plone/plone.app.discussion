@@ -157,7 +157,12 @@
       permission="cmf.ManagePortal"
       />
 
-  <!-- REST API integration (conditionally loaded) -->
-  <include file="restapi.zcml" />
+  <!-- Volto-compatible REST API control panel -->
+  <configure zcml:condition="installed plone.restapi">
+    <adapter
+        factory=".restapi.DiscussionControlPanel"
+        name="discussion"
+        />
+  </configure>
 
 </configure>
