@@ -1,1 +1,1 @@
-add volto control panel @rohnsha0
+Add Volto control panel. @rohnsha0
