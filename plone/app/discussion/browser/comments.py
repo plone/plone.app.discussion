@@ -175,6 +175,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # 'for anonymous comments only, set to None for logged in comments'
             author_email = email
             # /XXX  # noqa T000
+        else:
+            # Anonymous user - append " (Anonymous)" to prevent impersonation
+            if author_name and not author_name.endswith(" (Anonymous)"):
+                author_name = author_name + " (Anonymous)"
 
         return author_name, author_email
 
