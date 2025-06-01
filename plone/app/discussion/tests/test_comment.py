@@ -1,3 +1,5 @@
+from plone.app.discussion.browser.comments import VoteComment
+from AccessControl import getSecurityManager
 from plone.app.discussion.browser.comment import View
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
@@ -636,3 +638,238 @@ class RepliesTest(unittest.TestCase):
             "http://nohost/plone/doc1/++conversation++default/" + str(new_re_re_re_id),
             re_re_re_comment.absolute_url(),
         )
+
+
+class VoteCommentTest(unittest.TestCase):
+    """Test the VoteComment browser view for comment voting functionality."""
+
+    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+        # Create a document to comment on
+        self.portal.invokeFactory(
+            id="test-doc",
+            title="Test Document",
+            type_name="Document",
+        )
+        self.doc = self.portal["test-doc"]
+
+        # Publish the document
+        workflow = self.portal.portal_workflow
+        workflow.doActionFor(self.doc, "publish")
+
+        # Create a conversation and add a comment
+        conversation = IConversation(self.doc)
+        self.comment = createObject("plone.Comment")
+        self.comment.text = "Test comment for voting"
+        self.comment_id = conversation.addComment(self.comment)
+        self.comment = self.doc.restrictedTraverse(
+            f"++conversation++default/{self.comment_id}"
+        )
+
+    def test_can_vote(self):
+        """Test that authenticated users can vote."""
+        view = VoteComment(self.comment, self.request)
+        self.assertTrue(view.can_vote())
+
+    def test_initialize_vote_fields(self):
+        """Test that vote fields are properly initialized."""
+        view = VoteComment(self.comment, self.request)
+        
+        # Create a fresh comment without initialized vote fields
+        comment = createObject("plone.Comment")
+        comment.text = "Test comment for vote field initialization"
+        
+        # Initialize vote fields
+        view.initialize_vote_fields(comment)
+        
+        # Check attributes exist with correct default values
+        self.assertTrue(hasattr(comment, "upvotes"))
+        self.assertTrue(hasattr(comment, "downvotes"))
+        self.assertTrue(hasattr(comment, "votes"))
+        self.assertEqual(comment.upvotes, 0)
+        self.assertEqual(comment.downvotes, 0)
+        self.assertEqual(comment.votes, {})
+
+    def test_has_voted(self):
+        """Test checking if a user has already voted."""
+        view = VoteComment(self.comment, self.request)
+        
+        # Initialize vote fields
+        view.initialize_vote_fields(self.comment)
+        
+        # User hasn't voted yet
+        self.assertFalse(view.has_voted("upvote"))
+        
+        # Add an upvote
+        user_id = getSecurityManager().getUser().getId()
+        self.comment.votes[user_id] = "upvote"
+        
+        # User has now upvoted
+        self.assertTrue(view.has_voted("upvote"))
+        self.assertFalse(view.has_voted("downvote"))
+
+    def test_remove_vote(self):
+        """Test removing a vote."""
+        view = VoteComment(self.comment, self.request)
+        user_id = getSecurityManager().getUser().getId()
+        
+        # Initialize vote fields and add an upvote
+        view.initialize_vote_fields(self.comment)
+        self.comment.upvotes = 1
+        self.comment.votes[user_id] = "upvote"
+        
+        # Remove the vote
+        view.remove_vote()
+        
+        # Check vote was removed
+        self.assertEqual(self.comment.upvotes, 0)
+        self.assertNotIn(user_id, self.comment.votes)
+        
+        # Test with downvote
+        self.comment.downvotes = 1
+        self.comment.votes[user_id] = "downvote"
+        view.remove_vote()
+        self.assertEqual(self.comment.downvotes, 0)
+        self.assertNotIn(user_id, self.comment.votes)
+
+    def test_handle_upvote(self):
+        """Test adding an upvote to a comment."""
+        # Store original redirect method to restore later
+        original_redirect = self.request.response.redirect
+        
+        # Mock redirect to capture the URL without actually redirecting
+        self.redirect_url = None
+        self.request.response.redirect = lambda url: setattr(self, 'redirect_url', url)
+        
+        view = VoteComment(self.comment, self.request)
+        view.initialize_vote_fields(self.comment)
+        
+        # Execute the vote handler
+        view.handle_vote("upvote")
+        
+        # Verify upvote was added
+        user_id = getSecurityManager().getUser().getId()
+        self.assertEqual(self.comment.upvotes, 1)
+        self.assertEqual(self.comment.downvotes, 0)
+        self.assertEqual(self.comment.votes[user_id], "upvote")
+        
+        # Restore original redirect method
+        self.request.response.redirect = original_redirect
+
+    def test_handle_downvote(self):
+        """Test adding a downvote to a comment."""
+        # Store original redirect method to restore later
+        original_redirect = self.request.response.redirect
+        
+        # Mock redirect to capture the URL without actually redirecting
+        self.redirect_url = None
+        self.request.response.redirect = lambda url: setattr(self, 'redirect_url', url)
+        
+        view = VoteComment(self.comment, self.request)
+        view.initialize_vote_fields(self.comment)
+        
+        # Execute the vote handler
+        view.handle_vote("downvote")
+        
+        # Verify downvote was added
+        user_id = getSecurityManager().getUser().getId()
+        self.assertEqual(self.comment.upvotes, 0)
+        self.assertEqual(self.comment.downvotes, 1)
+        self.assertEqual(self.comment.votes[user_id], "downvote")
+        
+        # Restore original redirect method
+        self.request.response.redirect = original_redirect
+
+    def test_toggle_vote(self):
+        """Test toggling a vote (removing when voting the same type again)."""
+        # Store original redirect method to restore later
+        original_redirect = self.request.response.redirect
+        
+        # Mock redirect to capture the URL without actually redirecting
+        self.redirect_url = None
+        self.request.response.redirect = lambda url: setattr(self, 'redirect_url', url)
+        
+        view = VoteComment(self.comment, self.request)
+        view.initialize_vote_fields(self.comment)
+        user_id = getSecurityManager().getUser().getId()
+        
+        # First add an upvote
+        view.handle_vote("upvote")
+        self.assertEqual(self.comment.upvotes, 1)
+        self.assertEqual(self.comment.votes[user_id], "upvote")
+        
+        # Then toggle it off by upvoting again
+        view.handle_vote("upvote")
+        self.assertEqual(self.comment.upvotes, 0)
+        self.assertNotIn(user_id, self.comment.votes)
+        
+        # Restore original redirect method
+        self.request.response.redirect = original_redirect
+
+    def test_change_vote_type(self):
+        """Test changing vote type from upvote to downvote."""
+        # Store original redirect method to restore later
+        original_redirect = self.request.response.redirect
+        
+        # Mock redirect to capture the URL without actually redirecting
+        self.redirect_url = None
+        self.request.response.redirect = lambda url: setattr(self, 'redirect_url', url)
+        
+        view = VoteComment(self.comment, self.request)
+        view.initialize_vote_fields(self.comment)
+        user_id = getSecurityManager().getUser().getId()
+        
+        # First add an upvote
+        view.handle_vote("upvote")
+        self.assertEqual(self.comment.upvotes, 1)
+        self.assertEqual(self.comment.downvotes, 0)
+        self.assertEqual(self.comment.votes[user_id], "upvote")
+        
+        # Then change to downvote
+        view.handle_vote("downvote")
+        self.assertEqual(self.comment.upvotes, 0)
+        self.assertEqual(self.comment.downvotes, 1)
+        self.assertEqual(self.comment.votes[user_id], "downvote")
+        
+        # Restore original redirect method
+        self.request.response.redirect = original_redirect
+
+    def test_call_method(self):
+        """Test the __call__ method detects vote type from URL."""
+        # Store original methods to restore later
+        original_redirect = self.request.response.redirect
+        original_handle_vote = VoteComment.handle_vote
+        
+        try:
+            for url_part, expected_vote_type in [
+                ("upvote-comment", "upvote"),
+                ("downvote-comment", "downvote"),
+            ]:
+                # Create a request with the vote action in URL
+                self.request.set("URL", f"http://nohost/plone/{url_part}")
+                
+                # Track which vote type was called
+                self.vote_type_called = None
+                
+                # Replace handle_vote with our tracking version
+                def track_vote_type(self_obj, vote_type):
+                    self.vote_type_called = vote_type
+                    return None
+                    
+                VoteComment.handle_vote = track_vote_type
+                
+                # Call the view
+                view = VoteComment(self.comment, self.request)
+                view()
+                
+                # Check the correct vote type was detected
+                self.assertEqual(self.vote_type_called, expected_vote_type)
+        finally:
+            # Restore original methods
+            self.request.response.redirect = original_redirect
+            VoteComment.handle_vote = original_handle_vote
