@@ -91,6 +91,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             return _("Reply here (this thread)")
         else:
             return _("Add a new comment")
+
     fields = field.Fields(IComment).omit(
         "portal_type",
         "__parent__",
@@ -109,7 +110,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
 
     def is_reply(self):
         """Check if this form is being used to reply to an existing comment."""
-        in_reply_to = self.request.get('form.widgets.in_reply_to', None)
+        in_reply_to = self.request.get("form.widgets.in_reply_to", None)
         return bool(in_reply_to)
 
     def updateFields(self):
@@ -462,7 +463,8 @@ class CommentsViewlet(ViewletBase):
         # text transform setting - use reply descriptions
         if settings.text_transform == "text/x-web-intelligent":
             message = translate(
-                Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT_REPLY), context=self.request
+                Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT_REPLY),
+                context=self.request,
             )
         elif settings.text_transform == "text/x-web-markdown":
             message = translate(
