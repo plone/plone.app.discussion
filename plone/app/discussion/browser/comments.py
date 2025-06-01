@@ -571,7 +571,7 @@ class CommentsViewlet(ViewletBase):
 
 
 class VoteComment(BrowserView):
-    """Base class for comment voting."""
+    """View for comment voting - handles both upvote and downvote."""
 
     def can_vote(self):
         """Check if current user can vote (must be authenticated)."""
@@ -606,12 +606,17 @@ class VoteComment(BrowserView):
             elif old_vote == 'downvote':
                 comment.downvotes = max(0, comment.downvotes - 1)
 
+    def initialize_vote_fields(self, comment):
+        """Initialize voting fields if they don't exist."""
+        if not hasattr(comment, 'upvotes'):
+            comment.upvotes = 0
+        if not hasattr(comment, 'downvotes'):
+            comment.downvotes = 0
+        if not hasattr(comment, 'votes') or comment.votes is None:
+            comment.votes = {}
 
-class UpvoteComment(VoteComment):
-    """View for upvoting a comment."""
-
-    def __call__(self):
-        """Handle upvote action."""
+    def handle_vote(self, vote_type):
+        """Handle voting logic for both upvote and downvote."""
         if not self.can_vote():
             IStatusMessage(self.request).addStatusMessage(
                 _("You must be logged in to vote on comments."), 
@@ -623,19 +628,15 @@ class UpvoteComment(VoteComment):
         user_id = getSecurityManager().getUser().getId()
         
         # Initialize voting fields if they don't exist
-        if not hasattr(comment, 'upvotes'):
-            comment.upvotes = 0
-        if not hasattr(comment, 'downvotes'):
-            comment.downvotes = 0
-        if not hasattr(comment, 'votes') or comment.votes is None:
-            comment.votes = {}
+        self.initialize_vote_fields(comment)
 
-        # Check if user has already upvoted
-        if self.has_voted('upvote'):
-            # Remove upvote
+        # Check if user has already voted with this vote type
+        if self.has_voted(vote_type):
+            # Remove existing vote
             self.remove_vote()
+            vote_removed_msg = _("Your upvote has been removed.") if vote_type == 'upvote' else _("Your downvote has been removed.")
             IStatusMessage(self.request).addStatusMessage(
-                _("Your upvote has been removed."), 
+                vote_removed_msg, 
                 type="info"
             )
         else:
@@ -643,11 +644,17 @@ class UpvoteComment(VoteComment):
             if user_id in comment.votes:
                 self.remove_vote()
             
-            # Add upvote
-            comment.votes[user_id] = 'upvote'
-            comment.upvotes += 1
+            # Add new vote
+            comment.votes[user_id] = vote_type
+            if vote_type == 'upvote':
+                comment.upvotes += 1
+                vote_added_msg = _("Comment upvoted.")
+            else:
+                comment.downvotes += 1
+                vote_added_msg = _("Comment downvoted.")
+            
             IStatusMessage(self.request).addStatusMessage(
-                _("Comment upvoted."), 
+                vote_added_msg, 
                 type="info"
             )
 
@@ -656,54 +663,23 @@ class UpvoteComment(VoteComment):
         comment._p_changed = True
         
         return self.request.response.redirect(self.context.absolute_url())
-
-
-class DownvoteComment(VoteComment):
-    """View for downvoting a comment."""
 
     def __call__(self):
-        """Handle downvote action."""
-        if not self.can_vote():
-            IStatusMessage(self.request).addStatusMessage(
-                _("You must be logged in to vote on comments."), 
-                type="error"
-            )
-            return self.request.response.redirect(self.context.absolute_url())
-
-        comment = aq_inner(self.context)
-        user_id = getSecurityManager().getUser().getId()
-        
-        # Initialize voting fields if they don't exist
-        if not hasattr(comment, 'upvotes'):
-            comment.upvotes = 0
-        if not hasattr(comment, 'downvotes'):
-            comment.downvotes = 0
-        if not hasattr(comment, 'votes') or comment.votes is None:
-            comment.votes = {}
-
-        # Check if user has already downvoted
-        if self.has_voted('downvote'):
-            # Remove downvote
-            self.remove_vote()
-            IStatusMessage(self.request).addStatusMessage(
-                _("Your downvote has been removed."), 
-                type="info"
-            )
+        """Handle vote action based on URL parameters."""
+        # Determine vote type from the view name or URL path
+        url_path = self.request.get('URL', '')
+        if 'upvote-comment' in url_path:
+            return self.handle_vote('upvote')
+        elif 'downvote-comment' in url_path:
+            return self.handle_vote('downvote')
         else:
-            # Remove any existing vote first
-            if user_id in comment.votes:
-                self.remove_vote()
-            
-            # Add downvote
-            comment.votes[user_id] = 'downvote'
-            comment.downvotes += 1
-            IStatusMessage(self.request).addStatusMessage(
-                _("Comment downvoted."), 
-                type="info"
-            )
-
-        # Reindex the comment and mark as modified
-        comment.reindexObject()
-        comment._p_changed = True
-        
-        return self.request.response.redirect(self.context.absolute_url())
+            # Fallback: check for explicit vote_type parameter
+            vote_type = self.request.get('vote_type', '')
+            if vote_type in ['upvote', 'downvote']:
+                return self.handle_vote(vote_type)
+            else:
+                IStatusMessage(self.request).addStatusMessage(
+                    _("Invalid vote action."), 
+                    type="error"
+                )
+                return self.request.response.redirect(self.context.absolute_url())

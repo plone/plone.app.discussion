@@ -267,7 +267,7 @@
                         title="Upvote this comment"
                         i18n:attributes="title">
                   <i class="bi bi-arrow-up" aria-hidden="true"></i>
-                  <span tal:content="upvotes">0</span>
+                  <span tal:content="string:▲ ${upvotes}">upvotes: 0</span>
                 </button>
               </form>
 
@@ -289,7 +289,7 @@
                         title="Downvote this comment"
                         i18n:attributes="title">
                   <i class="bi bi-arrow-down" aria-hidden="true"></i>
-                  <span tal:content="downvotes">0</span>
+                  <span tal:content="string:▼ ${downvotes}">downvotes: 0</span>
                 </button>
               </form>
 
