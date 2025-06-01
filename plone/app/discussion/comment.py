@@ -115,6 +115,11 @@ class Comment(
 
     user_notification = None
 
+    # Voting fields
+    upvotes = 0
+    downvotes = 0
+    votes = None  # Will be initialized as empty dict in __init__
+
     # Note: we want to use zope.component.createObject() to instantiate
     # comments as far as possible. comment_id and __parent__ are set via
     # IConversation.addComment().
@@ -122,6 +127,9 @@ class Comment(
     def __init__(self):
         self.creation_date = self.modification_date = localized_now()
         self.mime_type = "text/plain"
+        # Initialize voting fields
+        if self.votes is None:
+            self.votes = {}
 
         user = getSecurityManager().getUser()
         if user and user.getId():

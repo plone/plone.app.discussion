@@ -183,6 +183,26 @@ class IComment(Interface):
         required=False,
     )
 
+    # Voting fields
+    upvotes = schema.Int(
+        title=_("Number of upvotes"),
+        default=0,
+        required=False,
+    )
+
+    downvotes = schema.Int(
+        title=_("Number of downvotes"),
+        default=0,
+        required=False,
+    )
+
+    votes = schema.Dict(
+        title=_("Voting records"),
+        description=_("Dictionary storing user voting records"),
+        default={},
+        required=False,
+    )
+
     creator = schema.TextLine(title=_("Username of the commenter"))
     creation_date = schema.Date(title=_("Creation date"))
     modification_date = schema.Date(title=_("Modification date"))
@@ -373,6 +393,19 @@ class IDiscussionSettings(Interface):
         ),
         required=False,
         default=False,
+    )
+
+    voting_enabled = schema.Bool(
+        title=_(
+            "label_voting_enabled",
+            default="Enable comment voting",
+        ),
+        description=_(
+            "help_voting_enabled",
+            default="If selected, authenticated users can upvote or downvote comments.",
+        ),
+        required=False,
+        default=True,
     )
 
 

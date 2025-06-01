@@ -416,6 +416,52 @@ class CommentTest(unittest.TestCase):
         review_state = self.portal.portal_workflow.getInfoFor(comment, "review_state")
         self.assertEqual("pending", review_state)
 
+    def test_voting_fields_initialization(self):
+        # Test that voting fields are properly initialized
+        comment = createObject("plone.Comment")
+        comment.title = "Comment 1"
+        comment.text = "Comment text"
+
+        # Check default values
+        self.assertEqual(comment.upvotes, 0)
+        self.assertEqual(comment.downvotes, 0)
+        self.assertEqual(comment.votes, {})
+
+    def test_voting_functionality(self):
+        # Test basic voting functionality
+        comment = createObject("plone.Comment")
+        comment.title = "Comment 1"
+        comment.text = "Comment text"
+
+        # Test initial state
+        self.assertEqual(comment.upvotes, 0)
+        self.assertEqual(comment.downvotes, 0)
+
+        # Simulate upvote
+        comment.upvotes += 1
+        comment.votes["user1"] = "upvote"
+
+        self.assertEqual(comment.upvotes, 1)
+        self.assertEqual(comment.downvotes, 0)
+        self.assertEqual(comment.votes["user1"], "upvote")
+
+        # Simulate downvote from another user
+        comment.downvotes += 1
+        comment.votes["user2"] = "downvote"
+
+        self.assertEqual(comment.upvotes, 1)
+        self.assertEqual(comment.downvotes, 1)
+        self.assertEqual(comment.votes["user2"], "downvote")
+
+        # Test vote change
+        comment.upvotes -= 1
+        comment.downvotes += 1
+        comment.votes["user1"] = "downvote"
+
+        self.assertEqual(comment.upvotes, 0)
+        self.assertEqual(comment.downvotes, 2)
+        self.assertEqual(comment.votes["user1"], "downvote")
+
 
 class RepliesTest(unittest.TestCase):
     # test the IReplies adapter on a comment

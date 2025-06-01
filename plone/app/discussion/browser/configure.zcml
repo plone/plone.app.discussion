@@ -165,4 +165,21 @@
         />
   </configure>
 
+  <!-- Voting views -->
+  <browser:page
+      name="upvote-comment"
+      for="plone.app.discussion.interfaces.IComment"
+      class=".comments.UpvoteComment"
+      permission="zope2.View"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
+  <browser:page
+      name="downvote-comment"
+      for="plone.app.discussion.interfaces.IComment"
+      class=".comments.DownvoteComment"
+      permission="zope2.View"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
 </configure>

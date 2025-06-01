@@ -17,6 +17,7 @@ from plone.z3cform import z2
 from plone.z3cform.fieldsets import extensible
 from plone.z3cform.interfaces import IWrappedForm
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from urllib.parse import quote
@@ -74,6 +75,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         "modification_date",
         "author_username",
         "title",
+        "upvotes",
+        "downvotes",
+        "votes",
     )
     # We do not want the focus to be on this form when loading a page.
     # See https://github.com/plone/Products.CMFPlone/issues/3623
@@ -525,9 +529,181 @@ class CommentsViewlet(ViewletBase):
             quote(self.request.get("URL", "")),
         )
 
+    def can_vote(self):
+        """Check if current user can vote (must be authenticated)."""
+        return not getSecurityManager().getUser().getUserName() == 'Anonymous User'
+
+    def user_vote_on_comment(self, comment):
+        """Get the current user's vote on a comment ('upvote', 'downvote', or None)."""
+        if not self.can_vote():
+            return None
+        
+        user_id = getSecurityManager().getUser().getId()
+        
+        # Initialize votes dict if it doesn't exist
+        if not hasattr(comment, 'votes') or comment.votes is None:
+            return None
+            
+        return comment.votes.get(user_id)
+
+    def get_upvotes(self, comment):
+        """Get the number of upvotes for a comment."""
+        if not hasattr(comment, 'upvotes'):
+            return 0
+        return comment.upvotes or 0
+
+    def get_downvotes(self, comment):
+        """Get the number of downvotes for a comment."""
+        if not hasattr(comment, 'downvotes'):
+            return 0
+        return comment.downvotes or 0
+
+    def get_vote_score(self, comment):
+        """Get the net vote score (upvotes - downvotes)."""
+        return self.get_upvotes(comment) - self.get_downvotes(comment)
+
     def format_time(self, time):
         # We have to transform Python datetime into Zope DateTime
         # before we can call toLocalizedTime.
         util = getToolByName(self.context, "translation_service")
         zope_time = DateTime(time.isoformat())
         return util.toLocalizedTime(zope_time, long_format=True)
+
+
+class VoteComment(BrowserView):
+    """Base class for comment voting."""
+
+    def can_vote(self):
+        """Check if current user can vote (must be authenticated)."""
+        return not getSecurityManager().getUser().getUserName() == 'Anonymous User'
+
+    def has_voted(self, vote_type):
+        """Check if current user has already voted on this comment."""
+        if not self.can_vote():
+            return False
+        
+        user_id = getSecurityManager().getUser().getId()
+        comment = aq_inner(self.context)
+        
+        # Initialize votes dict if it doesn't exist
+        if not hasattr(comment, 'votes') or comment.votes is None:
+            comment.votes = {}
+            
+        return comment.votes.get(user_id) == vote_type
+
+    def remove_vote(self):
+        """Remove user's existing vote."""
+        user_id = getSecurityManager().getUser().getId()
+        comment = aq_inner(self.context)
+        
+        if hasattr(comment, 'votes') and comment.votes and user_id in comment.votes:
+            old_vote = comment.votes[user_id]
+            del comment.votes[user_id]
+            
+            # Decrement the appropriate counter
+            if old_vote == 'upvote':
+                comment.upvotes = max(0, comment.upvotes - 1)
+            elif old_vote == 'downvote':
+                comment.downvotes = max(0, comment.downvotes - 1)
+
+
+class UpvoteComment(VoteComment):
+    """View for upvoting a comment."""
+
+    def __call__(self):
+        """Handle upvote action."""
+        if not self.can_vote():
+            IStatusMessage(self.request).addStatusMessage(
+                _("You must be logged in to vote on comments."), 
+                type="error"
+            )
+            return self.request.response.redirect(self.context.absolute_url())
+
+        comment = aq_inner(self.context)
+        user_id = getSecurityManager().getUser().getId()
+        
+        # Initialize voting fields if they don't exist
+        if not hasattr(comment, 'upvotes'):
+            comment.upvotes = 0
+        if not hasattr(comment, 'downvotes'):
+            comment.downvotes = 0
+        if not hasattr(comment, 'votes') or comment.votes is None:
+            comment.votes = {}
+
+        # Check if user has already upvoted
+        if self.has_voted('upvote'):
+            # Remove upvote
+            self.remove_vote()
+            IStatusMessage(self.request).addStatusMessage(
+                _("Your upvote has been removed."), 
+                type="info"
+            )
+        else:
+            # Remove any existing vote first
+            if user_id in comment.votes:
+                self.remove_vote()
+            
+            # Add upvote
+            comment.votes[user_id] = 'upvote'
+            comment.upvotes += 1
+            IStatusMessage(self.request).addStatusMessage(
+                _("Comment upvoted."), 
+                type="info"
+            )
+
+        # Reindex the comment and mark as modified
+        comment.reindexObject()
+        comment._p_changed = True
+        
+        return self.request.response.redirect(self.context.absolute_url())
+
+
+class DownvoteComment(VoteComment):
+    """View for downvoting a comment."""
+
+    def __call__(self):
+        """Handle downvote action."""
+        if not self.can_vote():
+            IStatusMessage(self.request).addStatusMessage(
+                _("You must be logged in to vote on comments."), 
+                type="error"
+            )
+            return self.request.response.redirect(self.context.absolute_url())
+
+        comment = aq_inner(self.context)
+        user_id = getSecurityManager().getUser().getId()
+        
+        # Initialize voting fields if they don't exist
+        if not hasattr(comment, 'upvotes'):
+            comment.upvotes = 0
+        if not hasattr(comment, 'downvotes'):
+            comment.downvotes = 0
+        if not hasattr(comment, 'votes') or comment.votes is None:
+            comment.votes = {}
+
+        # Check if user has already downvoted
+        if self.has_voted('downvote'):
+            # Remove downvote
+            self.remove_vote()
+            IStatusMessage(self.request).addStatusMessage(
+                _("Your downvote has been removed."), 
+                type="info"
+            )
+        else:
+            # Remove any existing vote first
+            if user_id in comment.votes:
+                self.remove_vote()
+            
+            # Add downvote
+            comment.votes[user_id] = 'downvote'
+            comment.downvotes += 1
+            IStatusMessage(self.request).addStatusMessage(
+                _("Comment downvoted."), 
+                type="info"
+            )
+
+        # Reindex the comment and mark as modified
+        comment.reindexObject()
+        comment._p_changed = True
+        
+        return self.request.response.redirect(self.context.absolute_url())
