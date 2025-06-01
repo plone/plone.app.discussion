@@ -531,30 +531,30 @@ class CommentsViewlet(ViewletBase):
 
     def can_vote(self):
         """Check if current user can vote (must be authenticated)."""
-        return not getSecurityManager().getUser().getUserName() == 'Anonymous User'
+        return not getSecurityManager().getUser().getUserName() == "Anonymous User"
 
     def user_vote_on_comment(self, comment):
         """Get the current user's vote on a comment ('upvote', 'downvote', or None)."""
         if not self.can_vote():
             return None
-        
+
         user_id = getSecurityManager().getUser().getId()
-        
+
         # Initialize votes dict if it doesn't exist
-        if not hasattr(comment, 'votes') or comment.votes is None:
+        if not hasattr(comment, "votes") or comment.votes is None:
             return None
-            
+
         return comment.votes.get(user_id)
 
     def get_upvotes(self, comment):
         """Get the number of upvotes for a comment."""
-        if not hasattr(comment, 'upvotes'):
+        if not hasattr(comment, "upvotes"):
             return 0
         return comment.upvotes or 0
 
     def get_downvotes(self, comment):
         """Get the number of downvotes for a comment."""
-        if not hasattr(comment, 'downvotes'):
+        if not hasattr(comment, "downvotes"):
             return 0
         return comment.downvotes or 0
 
@@ -575,58 +575,57 @@ class VoteComment(BrowserView):
 
     def can_vote(self):
         """Check if current user can vote (must be authenticated)."""
-        return not getSecurityManager().getUser().getUserName() == 'Anonymous User'
+        return not getSecurityManager().getUser().getUserName() == "Anonymous User"
 
     def has_voted(self, vote_type):
         """Check if current user has already voted on this comment."""
         if not self.can_vote():
             return False
-        
+
         user_id = getSecurityManager().getUser().getId()
         comment = aq_inner(self.context)
-        
+
         # Initialize votes dict if it doesn't exist
-        if not hasattr(comment, 'votes') or comment.votes is None:
+        if not hasattr(comment, "votes") or comment.votes is None:
             comment.votes = {}
-            
+
         return comment.votes.get(user_id) == vote_type
 
     def remove_vote(self):
         """Remove user's existing vote."""
         user_id = getSecurityManager().getUser().getId()
         comment = aq_inner(self.context)
-        
-        if hasattr(comment, 'votes') and comment.votes and user_id in comment.votes:
+
+        if hasattr(comment, "votes") and comment.votes and user_id in comment.votes:
             old_vote = comment.votes[user_id]
             del comment.votes[user_id]
-            
+
             # Decrement the appropriate counter
-            if old_vote == 'upvote':
+            if old_vote == "upvote":
                 comment.upvotes = max(0, comment.upvotes - 1)
-            elif old_vote == 'downvote':
+            elif old_vote == "downvote":
                 comment.downvotes = max(0, comment.downvotes - 1)
 
     def initialize_vote_fields(self, comment):
         """Initialize voting fields if they don't exist."""
-        if not hasattr(comment, 'upvotes'):
+        if not hasattr(comment, "upvotes"):
             comment.upvotes = 0
-        if not hasattr(comment, 'downvotes'):
+        if not hasattr(comment, "downvotes"):
             comment.downvotes = 0
-        if not hasattr(comment, 'votes') or comment.votes is None:
+        if not hasattr(comment, "votes") or comment.votes is None:
             comment.votes = {}
 
     def handle_vote(self, vote_type):
         """Handle voting logic for both upvote and downvote."""
         if not self.can_vote():
             IStatusMessage(self.request).addStatusMessage(
-                _("You must be logged in to vote on comments."), 
-                type="error"
+                _("You must be logged in to vote on comments."), type="error"
             )
             return self.request.response.redirect(self.context.absolute_url())
 
         comment = aq_inner(self.context)
         user_id = getSecurityManager().getUser().getId()
-        
+
         # Initialize voting fields if they don't exist
         self.initialize_vote_fields(comment)
 
@@ -634,52 +633,49 @@ class VoteComment(BrowserView):
         if self.has_voted(vote_type):
             # Remove existing vote
             self.remove_vote()
-            vote_removed_msg = _("Your upvote has been removed.") if vote_type == 'upvote' else _("Your downvote has been removed.")
-            IStatusMessage(self.request).addStatusMessage(
-                vote_removed_msg, 
-                type="info"
+            vote_removed_msg = (
+                _("Your upvote has been removed.")
+                if vote_type == "upvote"
+                else _("Your downvote has been removed.")
             )
+            IStatusMessage(self.request).addStatusMessage(vote_removed_msg, type="info")
         else:
             # Remove any existing vote first
             if user_id in comment.votes:
                 self.remove_vote()
-            
+
             # Add new vote
             comment.votes[user_id] = vote_type
-            if vote_type == 'upvote':
+            if vote_type == "upvote":
                 comment.upvotes += 1
                 vote_added_msg = _("Comment upvoted.")
             else:
                 comment.downvotes += 1
                 vote_added_msg = _("Comment downvoted.")
-            
-            IStatusMessage(self.request).addStatusMessage(
-                vote_added_msg, 
-                type="info"
-            )
+
+            IStatusMessage(self.request).addStatusMessage(vote_added_msg, type="info")
 
         # Reindex the comment and mark as modified
         comment.reindexObject()
         comment._p_changed = True
-        
+
         return self.request.response.redirect(self.context.absolute_url())
 
     def __call__(self):
         """Handle vote action based on URL parameters."""
         # Determine vote type from the view name or URL path
-        url_path = self.request.get('URL', '')
-        if 'upvote-comment' in url_path:
-            return self.handle_vote('upvote')
-        elif 'downvote-comment' in url_path:
-            return self.handle_vote('downvote')
+        url_path = self.request.get("URL", "")
+        if "upvote-comment" in url_path:
+            return self.handle_vote("upvote")
+        elif "downvote-comment" in url_path:
+            return self.handle_vote("downvote")
         else:
             # Fallback: check for explicit vote_type parameter
-            vote_type = self.request.get('vote_type', '')
-            if vote_type in ['upvote', 'downvote']:
+            vote_type = self.request.get("vote_type", "")
+            if vote_type in ["upvote", "downvote"]:
                 return self.handle_vote(vote_type)
             else:
                 IStatusMessage(self.request).addStatusMessage(
-                    _("Invalid vote action."), 
-                    type="error"
+                    _("Invalid vote action."), type="error"
                 )
                 return self.request.response.redirect(self.context.absolute_url())

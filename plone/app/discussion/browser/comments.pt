@@ -244,14 +244,17 @@
 
 
           </div>
-          
+
           <!-- Reply button and voting actions container -->
           <div class="d-flex flex-row align-items-center"
-               tal:define="user_vote python:view.user_vote_on_comment(reply);
-                           upvotes python:view.get_upvotes(reply);
-                           downvotes python:view.get_downvotes(reply);
-                           vote_score python:view.get_vote_score(reply);">
-            
+               tal:define="
+                 user_vote python:view.user_vote_on_comment(reply);
+                 upvotes python:view.get_upvotes(reply);
+                 downvotes python:view.get_downvotes(reply);
+                 vote_score python:view.get_vote_score(reply);
+               "
+          >
+
             <!-- Voting buttons -->
             <div class="comment-actions actions-voting d-flex flex-row">
 
@@ -260,35 +263,53 @@
                     action=""
                     method="post"
                     tal:condition="view/can_vote"
-                    tal:attributes="action string:${reply/absolute_url}/@@upvote-comment">
-                <button type="submit" 
-                        class="btn btn-sm"
-                        tal:attributes="class python:'btn btn-sm btn-success' if user_vote == 'upvote' else 'btn btn-sm btn-outline-success'"
+                    tal:attributes="
+                      action string:${reply/absolute_url}/@@upvote-comment;
+                    "
+              >
+                <button class="btn btn-sm"
                         title="Upvote this comment"
-                        i18n:attributes="title">
-                  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+                        type="submit"
+                        tal:attributes="
+                          class python:'btn btn-sm btn-success' if user_vote == 'upvote' else 'btn btn-sm btn-outline-success';
+                        "
+                        i18n:attributes="title"
+                >
+                  <i class="bi bi-arrow-up"
+                     aria-hidden="true"
+                  ></i>
                   <span tal:content="string:▲ ${upvotes}">upvotes: 0</span>
                 </button>
               </form>
 
               <!-- Vote score display for non-authenticated users -->
-              <div class="vote-score me-1" 
+              <div class="vote-score me-1"
+                   title="Vote score"
                    tal:condition="not:view/can_vote"
                    tal:content="vote_score"
-                   title="Vote score">0</div>
+                   i18n:attributes="title"
+              >0</div>
 
               <!-- Downvote button -->
               <form class="comment-action action-downvote"
                     action=""
                     method="post"
                     tal:condition="view/can_vote"
-                    tal:attributes="action string:${reply/absolute_url}/@@downvote-comment">
-                <button type="submit" 
-                        class="btn btn-sm"
-                        tal:attributes="class python:'btn btn-sm btn-danger' if user_vote == 'downvote' else 'btn btn-sm btn-outline-danger'"
+                    tal:attributes="
+                      action string:${reply/absolute_url}/@@downvote-comment;
+                    "
+              >
+                <button class="btn btn-sm"
                         title="Downvote this comment"
-                        i18n:attributes="title">
-                  <i class="bi bi-arrow-down" aria-hidden="true"></i>
+                        type="submit"
+                        tal:attributes="
+                          class python:'btn btn-sm btn-danger' if user_vote == 'downvote' else 'btn btn-sm btn-outline-danger';
+                        "
+                        i18n:attributes="title"
+                >
+                  <i class="bi bi-arrow-down"
+                     aria-hidden="true"
+                  ></i>
                   <span tal:content="string:▼ ${downvotes}">downvotes: 0</span>
                 </button>
               </form>
