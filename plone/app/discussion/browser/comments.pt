@@ -239,64 +239,70 @@
 
               </div>
 
-              <!-- Voting buttons -->
-              <div class="comment-actions actions-voting d-flex flex-row ms-2"
-                   tal:define="user_vote python:view.user_vote_on_comment(reply);
-                               upvotes python:view.get_upvotes(reply);
-                               downvotes python:view.get_downvotes(reply);
-                               vote_score python:view.get_vote_score(reply);">
-
-                <!-- Upvote button -->
-                <form class="comment-action action-upvote me-1"
-                      action=""
-                      method="post"
-                      tal:condition="view/can_vote"
-                      tal:attributes="action string:${reply/absolute_url}/@@upvote-comment">
-                  <button type="submit" 
-                          class="btn btn-sm"
-                          tal:attributes="class python:'btn btn-sm btn-success' if user_vote == 'upvote' else 'btn btn-sm btn-outline-success'"
-                          title="Upvote this comment"
-                          i18n:attributes="title">
-                    <i class="bi bi-arrow-up" aria-hidden="true"></i>
-                    <span tal:content="upvotes">0</span>
-                  </button>
-                </form>
-
-                <!-- Vote score display for non-authenticated users -->
-                <div class="vote-score me-1" 
-                     tal:condition="not:view/can_vote"
-                     tal:content="vote_score"
-                     title="Vote score">0</div>
-
-                <!-- Downvote button -->
-                <form class="comment-action action-downvote"
-                      action=""
-                      method="post"
-                      tal:condition="view/can_vote"
-                      tal:attributes="action string:${reply/absolute_url}/@@downvote-comment">
-                  <button type="submit" 
-                          class="btn btn-sm"
-                          tal:attributes="class python:'btn btn-sm btn-danger' if user_vote == 'downvote' else 'btn btn-sm btn-outline-danger'"
-                          title="Downvote this comment"
-                          i18n:attributes="title">
-                    <i class="bi bi-arrow-down" aria-hidden="true"></i>
-                    <span tal:content="downvotes">0</span>
-                  </button>
-                </form>
-
-              </div>
-
             </div>
             <!-- end comment actions -->
 
 
           </div>
-          <button class="context reply-to-comment-button hide allowMultiSubmit btn btn-primary btn-sm"
-                  tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)"
-                  i18n:translate="label_reply"
-          >
-                    Reply
-          </button>
+          
+          <!-- Reply button and voting actions container -->
+          <div class="d-flex flex-row align-items-center"
+               tal:define="user_vote python:view.user_vote_on_comment(reply);
+                           upvotes python:view.get_upvotes(reply);
+                           downvotes python:view.get_downvotes(reply);
+                           vote_score python:view.get_vote_score(reply);">
+            
+            <!-- Voting buttons -->
+            <div class="comment-actions actions-voting d-flex flex-row">
+
+              <!-- Upvote button -->
+              <form class="comment-action action-upvote me-1"
+                    action=""
+                    method="post"
+                    tal:condition="view/can_vote"
+                    tal:attributes="action string:${reply/absolute_url}/@@upvote-comment">
+                <button type="submit" 
+                        class="btn btn-sm"
+                        tal:attributes="class python:'btn btn-sm btn-success' if user_vote == 'upvote' else 'btn btn-sm btn-outline-success'"
+                        title="Upvote this comment"
+                        i18n:attributes="title">
+                  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+                  <span tal:content="upvotes">0</span>
+                </button>
+              </form>
+
+              <!-- Vote score display for non-authenticated users -->
+              <div class="vote-score me-1" 
+                   tal:condition="not:view/can_vote"
+                   tal:content="vote_score"
+                   title="Vote score">0</div>
+
+              <!-- Downvote button -->
+              <form class="comment-action action-downvote"
+                    action=""
+                    method="post"
+                    tal:condition="view/can_vote"
+                    tal:attributes="action string:${reply/absolute_url}/@@downvote-comment">
+                <button type="submit" 
+                        class="btn btn-sm"
+                        tal:attributes="class python:'btn btn-sm btn-danger' if user_vote == 'downvote' else 'btn btn-sm btn-outline-danger'"
+                        title="Downvote this comment"
+                        i18n:attributes="title">
+                  <i class="bi bi-arrow-down" aria-hidden="true"></i>
+                  <span tal:content="downvotes">0</span>
+                </button>
+              </form>
+
+            </div>
+
+            <button class="context reply-to-comment-button hide allowMultiSubmit btn btn-primary btn-sm ms-2"
+                    tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)"
+                    i18n:translate="label_reply"
+            >
+                      Reply
+            </button>
+
+          </div>
 
         </div>
 
