@@ -78,7 +78,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     # We do not want the focus to be on this form when loading a page.
     # See https://github.com/plone/Products.CMFPlone/issues/3623
     enable_autofocus = False
-    
+
     # Configurable suffix for anonymous users in comment author names
     anonymous_user_suffix = "(Guest)"
 
