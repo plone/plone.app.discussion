@@ -78,6 +78,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     # We do not want the focus to be on this form when loading a page.
     # See https://github.com/plone/Products.CMFPlone/issues/3623
     enable_autofocus = False
+    
+    # Configurable suffix for anonymous users in comment author names
+    anonymous_user_suffix = "(Guest)"
 
     def updateFields(self):
         super().updateFields()
@@ -176,9 +179,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             author_email = email
             # /XXX  # noqa T000
         else:
-            # Anonymous user - append " (Anonymous)" to prevent impersonation
-            if author_name and not author_name.endswith(" (Anonymous)"):
-                author_name = author_name + " (Anonymous)"
+            # Anonymous user - append suffix to prevent impersonation
+            if author_name and not author_name.endswith(self.anonymous_user_suffix):
+                author_name = author_name + " " + self.anonymous_user_suffix
 
         return author_name, author_email
 
