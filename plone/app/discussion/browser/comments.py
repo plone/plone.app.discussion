@@ -182,7 +182,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # Anonymous user - append suffix to prevent impersonation
             if author_name:
                 # Translate the suffix to the current language
-                translated_suffix = translate(self.anonymous_user_suffix, context=self.request)
+                translated_suffix = translate(
+                    self.anonymous_user_suffix, context=self.request
+                )
                 if not author_name.endswith(translated_suffix):
                     author_name = author_name + " " + translated_suffix
 
