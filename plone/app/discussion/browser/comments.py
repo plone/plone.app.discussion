@@ -80,7 +80,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     enable_autofocus = False
 
     # Configurable suffix for anonymous users in comment author names
-    anonymous_user_suffix = "(Guest)"
+    anonymous_user_suffix = _("(Guest)")
 
     def updateFields(self):
         super().updateFields()
@@ -180,8 +180,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # /XXX  # noqa T000
         else:
             # Anonymous user - append suffix to prevent impersonation
-            if author_name and not author_name.endswith(self.anonymous_user_suffix):
-                author_name = author_name + " " + self.anonymous_user_suffix
+            if author_name:
+                # Translate the suffix to the current language
+                translated_suffix = translate(self.anonymous_user_suffix, context=self.request)
+                if not author_name.endswith(translated_suffix):
+                    author_name = author_name + " " + translated_suffix
 
         return author_name, author_email
 
