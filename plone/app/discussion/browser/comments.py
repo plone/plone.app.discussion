@@ -79,9 +79,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     # See https://github.com/plone/Products.CMFPlone/issues/3623
     enable_autofocus = False
 
-    # Configurable suffix for anonymous users in comment author names
-    anonymous_user_suffix = _("(Guest)")
-
     def updateFields(self):
         super().updateFields()
         self.fields["user_notification"].widgetFactory = SingleCheckBoxFieldWidget
@@ -178,9 +175,6 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             # 'for anonymous comments only, set to None for logged in comments'
             author_email = email
             # /XXX  # noqa T000
-        else:
-            # Anonymous user - we no longer add suffix here, it's added at render time
-            pass
 
         return author_name, author_email
 
