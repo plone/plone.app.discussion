@@ -306,6 +306,9 @@ class CommentsViewlet(ViewletBase):
     form = CommentForm
     index = ViewPageTemplateFile("comments.pt")
 
+    # Configurable suffix for anonymous users in comment author names
+    anonymous_user_suffix = _("(Guest)")
+
     def update(self):
         super().update()
         discussion_allowed = self.is_discussion_allowed()
@@ -531,3 +534,22 @@ class CommentsViewlet(ViewletBase):
         util = getToolByName(self.context, "translation_service")
         zope_time = DateTime(time.isoformat())
         return util.toLocalizedTime(zope_time, long_format=True)
+
+    def get_author_name(self, comment):
+        """Format author name with suffix for anonymous users.
+
+        Returns the author name with a suffix (Guest) appended for anonymous
+        comments. The suffix is translated to the current user's language.
+        """
+        author_name = comment.author_name
+
+        # If this is an anonymous comment (no creator), add the suffix
+        if not comment.creator and author_name:
+            # Translate the suffix to the current language
+            translated_suffix = translate(
+                self.anonymous_user_suffix, context=self.request
+            )
+            if not author_name.endswith(translated_suffix):
+                author_name = author_name + " " + translated_suffix
+
+        return author_name
