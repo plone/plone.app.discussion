@@ -13,6 +13,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.event import notify
+from zope.i18n import translate
 
 
 # Translations for generated values in buttons
@@ -48,6 +49,9 @@ class View(BrowserView):
     except AttributeError:
         # id is not writeable in Zope 2.12
         pass
+
+    # Configurable suffix for anonymous users in comment author names
+    anonymous_user_suffix = _("(Guest)")
 
     def __init__(self, context, request):
         super().__init__(context, request)
@@ -129,6 +133,23 @@ class View(BrowserView):
                 if a["category"] == "workflow" and a["allowed"]
             ]
             return transitions
+
+    def get_author_name(self, comment):
+        """Format author name with suffix for anonymous users.
+
+        Returns the author name with a suffix (Guest) appended for anonymous
+        comments. The suffix is translated to the current user's language.
+        """
+        author_name = comment.author_name        # If this is an anonymous comment (no creator), add the suffix
+        if not comment.creator and author_name:
+            # Translate the suffix to the current language
+            translated_suffix = translate(
+                self.anonymous_user_suffix, context=self.request
+            )
+            if not author_name.endswith(translated_suffix):
+                author_name = author_name + " " + translated_suffix
+
+        return author_name
 
 
 class ModerateCommentsEnabled(BrowserView):
