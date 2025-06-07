@@ -1,0 +1,80 @@
+---
+myst:
+  html_meta:
+    "description": "Email Notification - plone.app.discussion documentation"
+    "property=og:description": "Email Notification - plone.app.discussion documentation"
+    "property=og:title": "Email Notification"
+    "keywords": "Plone, Discussion, Comments, Documentation"
+---
+
+# Email Notification
+
+This document describes the plone.app.discussion email notification feature.
+
+## Introduction
+
+plone.app.discussion allows users and administrators to be notified about new
+comments by email. There are two kinds of email notification:
+
+1. **User notification**: Tell users when a comment has been added.
+
+   This method composes and sends emails to all users that have added a comment
+   to this conversation and enabled user notification.
+
+   This requires the user_notification setting to be enabled in the discussion
+   control panel.
+
+2. **Moderator notification**: Tell the moderator when a comment needs attention.
+
+   This method sends an email to the site admin (mail control panel setting) if
+   comment moderation is enabled and a new comment has been added that needs to
+   be approved.
+
+   This requires the moderator_notification to be enabled in the discussion
+   control panel and the comment_review_workflow enabled for the comment content
+   type.
+
+:::{note}
+The user notification feature requires z3c.form >= 2.3.3.
+:::
+
+## User Notification
+
+*plone/app/discussion/comment.py*
+
+```{literalinclude} ../../plone/app/discussion/comment.py
+:encoding: utf-8
+:language: python
+:pyobject: notify_user
+```
+
+## Moderator Notification
+
+*plone/app/discussion/comment.py*
+
+```{literalinclude} ../../plone/app/discussion/comment.py
+:encoding: utf-8
+:language: python
+:pyobject: notify_moderator
+```
+
+## Event Subscribers
+
+Email notifications are triggered by event subscribers that are called when a
+comment has been added to a page.
+
+:::{note}
+In Plone 3, the event subscribers were located in the zope.lifecycleevent
+package. They moved to zope.app.container in Plone 4. Therefore
+plone.app.discussion registers one of the two subscribers, dependent on the
+Plone version.
+:::
+
+To create custom email notifications, register a new event subscriber or
+override an existing one.
+
+*plone/app/discussion/notifications.zcml*
+
+```{literalinclude} ../../plone/app/discussion/notifications.zcml
+:encoding: utf-8
+```
