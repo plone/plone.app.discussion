@@ -3,6 +3,7 @@ from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from DateTime import DateTime
 from plone.app.discussion import _
+from plone.app.discussion.browser.utils import format_author_name_with_suffix
 from plone.app.discussion.browser.validator import CaptchaValidator
 from plone.app.discussion.interfaces import ICaptcha
 from plone.app.discussion.interfaces import IComment
@@ -541,15 +542,6 @@ class CommentsViewlet(ViewletBase):
         Returns the author name with a suffix (Guest) appended for anonymous
         comments. The suffix is translated to the current user's language.
         """
-        author_name = comment.author_name
-
-        # If this is an anonymous comment (no creator), add the suffix
-        if not comment.creator and author_name:
-            # Translate the suffix to the current language
-            translated_suffix = translate(
-                self.anonymous_user_suffix, context=self.request
-            )
-            if not author_name.endswith(translated_suffix):
-                author_name = author_name + " " + translated_suffix
-
-        return author_name
+        return format_author_name_with_suffix(
+            comment, self.anonymous_user_suffix, self.request
+        )
