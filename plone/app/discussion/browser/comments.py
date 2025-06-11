@@ -307,9 +307,6 @@ class CommentsViewlet(ViewletBase):
     form = CommentForm
     index = ViewPageTemplateFile("comments.pt")
 
-    # Configurable suffix for anonymous users in comment author names
-    anonymous_user_suffix = _("(Guest)")
-
     def update(self):
         super().update()
         discussion_allowed = self.is_discussion_allowed()
@@ -542,6 +539,4 @@ class CommentsViewlet(ViewletBase):
         Returns the author name with a suffix (Guest) appended for anonymous
         comments. The suffix is translated to the current user's language.
         """
-        return format_author_name_with_suffix(
-            comment, self.anonymous_user_suffix, self.request
-        )
+        return format_author_name_with_suffix(comment, self.request)

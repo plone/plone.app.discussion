@@ -2,10 +2,10 @@ from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from plone.app.discussion.browser.utils import format_author_name_with_suffix
 from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.events import CommentPublishedEvent
 from plone.app.discussion.events import CommentTransitionEvent
-from plone.app.discussion.browser.utils import format_author_name_with_suffix
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
@@ -14,7 +14,6 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.event import notify
-from zope.i18n import translate
 
 
 # Translations for generated values in buttons
@@ -50,9 +49,6 @@ class View(BrowserView):
     except AttributeError:
         # id is not writeable in Zope 2.12
         pass
-
-    # Configurable suffix for anonymous users in comment author names
-    anonymous_user_suffix = _("(Guest)")
 
     def __init__(self, context, request):
         super().__init__(context, request)
@@ -141,9 +137,7 @@ class View(BrowserView):
         Returns the author name with a suffix (Guest) appended for anonymous
         comments. The suffix is translated to the current user's language.
         """
-        return format_author_name_with_suffix(
-            comment, self.anonymous_user_suffix, self.request
-        )
+        return format_author_name_with_suffix(comment, self.request)
 
 
 class ModerateCommentsEnabled(BrowserView):
