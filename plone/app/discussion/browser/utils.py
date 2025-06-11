@@ -18,7 +18,8 @@ def format_author_name_with_suffix(comment, anonymous_user_suffix, request):
     Returns:
         str: The formatted author name
     """
-    author_name = comment.author_name
+    # Use author_name if available, otherwise fall back to Creator
+    author_name = comment.author_name or comment.Creator()
 
     # If this is an anonymous comment (no creator), add the suffix
     if not comment.creator and author_name:
