@@ -229,7 +229,7 @@
                         />
                       </td>
                       <td>
-                        <span tal:content="python:view.get_author_name(item_obj)">Name</span>
+                        <span tal:content="python:view.get_author_name(item_obj) or item.Creator">Name</span>
                         <tal:email tal:condition="email">
                           <br />
                           <a tal:content="email"

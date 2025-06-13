@@ -4,7 +4,11 @@ from plone.app.discussion import _
 from zope.i18n import translate
 
 
-def format_author_name_with_suffix(comment, request, anonymous_user_suffix="(Guest)"):
+def format_author_name_with_suffix(
+    comment,
+    request,
+    anonymous_user_suffix=_("anonymous_user_suffix", default="(Guest)"),
+):
     """Format author name with suffix for anonymous users.
 
     Returns the author name with a suffix (Guest) appended for anonymous
@@ -18,13 +22,12 @@ def format_author_name_with_suffix(comment, request, anonymous_user_suffix="(Gue
     Returns:
         str: The formatted author name
     """
-    # Use author_name if available, otherwise fall back to Creator
-    author_name = comment.author_name or comment.Creator()
+    author_name = comment.author_name
 
     # If this is an anonymous comment (no creator), add the suffix
     if not comment.creator and author_name:
         # Translate the suffix to the current language
-        translated_suffix = translate(_(anonymous_user_suffix), context=request)
+        translated_suffix = translate(anonymous_user_suffix, context=request)
         if not author_name.endswith(translated_suffix):
             author_name = author_name + " " + translated_suffix
 
