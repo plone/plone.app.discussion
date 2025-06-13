@@ -2,6 +2,7 @@ from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from plone.app.discussion.browser.utils import format_author_name_with_suffix
 from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.events import CommentPublishedEvent
 from plone.app.discussion.events import CommentTransitionEvent
@@ -129,6 +130,14 @@ class View(BrowserView):
                 if a["category"] == "workflow" and a["allowed"]
             ]
             return transitions
+
+    def get_author_name(self, comment):
+        """Format author name with suffix for anonymous users.
+
+        Returns the author name with a suffix (Guest) appended for anonymous
+        comments. The suffix is translated to the current user's language.
+        """
+        return format_author_name_with_suffix(comment, self.request)
 
 
 class ModerateCommentsEnabled(BrowserView):

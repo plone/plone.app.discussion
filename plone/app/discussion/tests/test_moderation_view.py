@@ -52,6 +52,50 @@ class ModerationViewTest(unittest.TestCase):
         )
         self.assertEqual(self.view.moderation_enabled(), True)
 
+    def test_get_author_name_logged_in_user(self):
+        """Test get_author_name for logged-in users - should not add suffix."""
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
+        comment.author_name = "John Doe"
+        comment.creator = "john"  # Set creator to indicate logged-in user
+
+        # For logged-in users, get_author_name should return the name without suffix
+        author_name = self.view.get_author_name(comment)
+        self.assertEqual(author_name, "John Doe")
+
+    def test_get_author_name_anonymous_user(self):
+        """Test get_author_name for anonymous users - should add (Guest) suffix."""
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
+        comment.author_name = "Anonymous User"
+        comment.creator = None  # No creator indicates anonymous user
+
+        # For anonymous users, get_author_name should add the (Guest) suffix
+        author_name = self.view.get_author_name(comment)
+        self.assertEqual(author_name, "Anonymous User (Guest)")
+
+    def test_get_author_name_anonymous_user_no_double_suffix(self):
+        """Test that get_author_name doesn't add suffix if it already exists."""
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
+        comment.author_name = "Anonymous User (Guest)"
+        comment.creator = None  # No creator indicates anonymous user
+
+        # Should not add suffix if it already exists
+        author_name = self.view.get_author_name(comment)
+        self.assertEqual(author_name, "Anonymous User (Guest)")
+
+    def test_get_author_name_anonymous_user_empty_name(self):
+        """Test get_author_name for anonymous users with empty name."""
+        comment = createObject("plone.Comment")
+        comment.text = "Comment text"
+        comment.author_name = ""
+        comment.creator = None  # No creator indicates anonymous user
+
+        # For empty author name, should return empty string
+        author_name = self.view.get_author_name(comment)
+        self.assertEqual(author_name, "")
+
 
 class ModerationBulkActionsViewTest(unittest.TestCase):
     layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING

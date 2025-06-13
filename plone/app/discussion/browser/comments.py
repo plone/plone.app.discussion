@@ -3,6 +3,7 @@ from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from DateTime import DateTime
 from plone.app.discussion import _
+from plone.app.discussion.browser.utils import format_author_name_with_suffix
 from plone.app.discussion.browser.validator import CaptchaValidator
 from plone.app.discussion.interfaces import ICaptcha
 from plone.app.discussion.interfaces import IComment
@@ -531,3 +532,11 @@ class CommentsViewlet(ViewletBase):
         util = getToolByName(self.context, "translation_service")
         zope_time = DateTime(time.isoformat())
         return util.toLocalizedTime(zope_time, long_format=True)
+
+    def get_author_name(self, comment):
+        """Format author name with suffix for anonymous users.
+
+        Returns the author name with a suffix (Guest) appended for anonymous
+        comments. The suffix is translated to the current user's language.
+        """
+        return format_author_name_with_suffix(comment, self.request)
