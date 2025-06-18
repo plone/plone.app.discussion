@@ -8,6 +8,21 @@ Changelog
 
 .. towncrier release notes start
 
+5.2.0 (2025-06-18)
+------------------
+
+New features:
+
+
+- Add Volto control panel. @rohnsha0 (#250)
+
+
+Bug fixes:
+
+
+- Fixed security issue where anonymous users could impersonate registered users by using their usernames when posting comments. @rohnsha0 (#265)
+
+
 5.1.0 (2025-05-02)
 ------------------
 

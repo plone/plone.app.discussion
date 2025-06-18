@@ -1,1 +1,0 @@
-Fixed security issue where anonymous users could impersonate registered users by using their usernames when posting comments. @rohnsha0

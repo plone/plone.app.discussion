@@ -1,1 +1,0 @@
-Add Volto control panel. @rohnsha0
