@@ -288,9 +288,18 @@
 
       <fieldset>
 
-        <legend i18n:translate="label_add_comment">Add comment</legend>
+        <legend class="comment-form-legend"
+                data-new-comment-text="Add a new comment"
+                data-reply-text="Reply here (this thread)"
+                i18n:translate="label_add_comment"
+        >Add a new comment</legend>
 
-        <p tal:content="view/comment_transform_message">
+        <p class="comment-form-description"
+           tal:content="view/comment_transform_message"
+           tal:attributes="
+             data-reply-html view/get_reply_transform_message;
+           "
+        >
                 You can add a comment by filling out the form below. Plain text
                 formatting.
         </p>
@@ -299,5 +308,76 @@
 
       </fieldset>
     </div>
+
+    <!-- JavaScript to handle dynamic form label updates -->
+    <script type="text/javascript">
+    (function() {
+        'use strict';
+
+        // Cache selectors for better performance
+        var REPLY_FORM_SELECTOR = '.reply';
+        var LEGEND_SELECTOR = '.comment-form-legend';
+        var DESCRIPTION_SELECTOR = '.comment-form-description';
+        var IN_REPLY_TO_SELECTOR = 'input[name*="in_reply_to"]';
+
+        // Update form labels for reply forms
+        function updateFormLabels(form) {
+            var legend = form.querySelector(LEGEND_SELECTOR);
+            var description = form.querySelector(DESCRIPTION_SELECTOR);
+            var inReplyToField = form.querySelector(IN_REPLY_TO_SELECTOR);
+            var isReply = inReplyToField && inReplyToField.value;
+
+            if (legend) {
+                legend.textContent = isReply && legend.dataset.replyText ?
+                    legend.dataset.replyText :
+                    legend.dataset.newCommentText || legend.textContent;
+            }
+
+            if (description) {
+                description.innerHTML = isReply && description.dataset.replyHtml ?
+                    description.dataset.replyHtml :
+                    description.textContent.trim();
+            }
+        }
+
+        // Process all reply forms
+        function processReplyForms() {
+            document.querySelectorAll(REPLY_FORM_SELECTOR).forEach(updateFormLabels);
+        }
+
+        // Initialize observer for dynamically added forms
+        function initObserver() {
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            // Check if this node is or contains a reply form
+                            var forms = node.matches && node.matches(REPLY_FORM_SELECTOR) ?
+                                [node] :
+                                (node.querySelectorAll ? Array.from(node.querySelectorAll(REPLY_FORM_SELECTOR)) : []);
+
+                            forms.forEach(updateFormLabels);
+                        }
+                    });
+                });
+            });
+
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
+
+        // Initialize when DOM is ready
+        function init() {
+            processReplyForms();
+            initObserver();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    })();
+    </script>
+
   </div>
 </tal:block>
