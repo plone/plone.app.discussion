@@ -188,13 +188,15 @@ class IComment(Interface):
         description=_("Number of times this comment has been flagged as inappropriate"),
         default=0,
         required=False,
+        readonly=True,
     )
     
-    flagged_by = schema.Text(
+    flagged_by = schema.List(
         title=_("Flagged by"),
-        description=_("Comma-separated list of user IDs who have flagged this comment"),
+        description=_("List of user IDs who have flagged this comment"),
         required=False,
-        default='',
+        default=[],
+        value_type=schema.TextLine(),
     )
 
     creator = schema.TextLine(title=_("Username of the commenter"))

@@ -258,7 +258,7 @@
                           mtool context/@@plone_tools/membership;
                           anon mtool/isAnonymousUser;
                           user_id python:anon and request.get('REMOTE_ADDR', '') or mtool.getAuthenticatedMember().getId();
-                          flagged_users python:hasattr(reply, 'flagged_by') and [u.strip() for u in reply.flagged_by.split(',')] or [];
+                          flagged_users python:hasattr(reply, 'flagged_by') and reply.flagged_by or [];
                           is_flagged python:user_id in flagged_users;"
                        class="context btn btn-sm"
                        tal:attributes="class python: is_flagged and 'context btn btn-warning btn-sm' or 'context btn btn-outline-primary btn-sm'"
