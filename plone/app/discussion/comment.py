@@ -20,6 +20,7 @@ from plone.app.discussion.events import ReplyRemovedEvent
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IConversation
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.utils import CommentFlagProperty
 from plone.app.event.base import localized_now
 from plone.base.interfaces.controlpanel import IMailSchema
 from plone.base.utils import safe_text
@@ -87,6 +88,9 @@ class Comment(
     number of standard methods instead of subclassing, to have total control
     over what goes into the object.
     """
+    
+    # Define flag as a dynamic property
+    flag = CommentFlagProperty()
 
     security = ClassSecurityInfo()
 
@@ -114,8 +118,9 @@ class Comment(
     author_email = None
 
     user_notification = None
-    flag = 0
-    flagged_by = []
+    # No class variable for flagged_by - we'll initialize it in __init__
+    # flag property is computed dynamically from flagged_by
+    # using the CommentFlagProperty descriptor
 
     # Note: we want to use zope.component.createObject() to instantiate
     # comments as far as possible. comment_id and __parent__ are set via
@@ -124,6 +129,8 @@ class Comment(
     def __init__(self):
         self.creation_date = self.modification_date = localized_now()
         self.mime_type = "text/plain"
+        # Initialize flagged_by as a persistent list for this instance
+        self.flagged_by = []
 
         user = getSecurityManager().getUser()
         if user and user.getId():
