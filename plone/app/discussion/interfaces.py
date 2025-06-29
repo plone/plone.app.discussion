@@ -189,6 +189,13 @@ class IComment(Interface):
         default=0,
         required=False,
     )
+    
+    flagged_by = schema.Text(
+        title=_("Flagged by"),
+        description=_("Comma-separated list of user IDs who have flagged this comment"),
+        required=False,
+        default='',
+    )
 
     creator = schema.TextLine(title=_("Username of the commenter"))
     creation_date = schema.Date(title=_("Creation date"))
