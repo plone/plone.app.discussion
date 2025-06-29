@@ -114,6 +114,7 @@ class Comment(
     author_email = None
 
     user_notification = None
+    flag = 0
 
     # Note: we want to use zope.component.createObject() to instantiate
     # comments as far as possible. comment_id and __parent__ are set via

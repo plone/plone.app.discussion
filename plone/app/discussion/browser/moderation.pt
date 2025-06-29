@@ -190,6 +190,10 @@
                     >In Response To</th>
                     <th class="nosort"
                         scope="col"
+                        i18n:translate="heading_flags"
+                    >Flags</th>
+                    <th class="nosort"
+                        scope="col"
                         i18n:translate="heading_comment"
                     >Comment</th>
                     <th class="nosort"
@@ -250,6 +254,9 @@
                              href item_url;
                            "
                         ></a>
+                      </td>
+                      <td>
+                        <span tal:content="python:getattr(item_obj, 'flag', 0)">0</span>
                       </td>
                       <td tal:attributes="
                             class  python:colorclass(item.review_state);

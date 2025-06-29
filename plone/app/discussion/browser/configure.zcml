@@ -94,6 +94,15 @@
       permission="plone.app.discussion.DeleteOwnComments"
       layer="..interfaces.IDiscussionLayer"
       />
+      
+  <!-- Flag comment view -->
+  <browser:page
+      name="flag-comment"
+      for="plone.app.discussion.interfaces.IComment"
+      class=".flag.FlagComment"
+      permission="zope2.View"
+      layer="..interfaces.IDiscussionLayer"
+      />
 
   <!-- Comment Transition -->
   <browser:page

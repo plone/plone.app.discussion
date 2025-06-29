@@ -244,12 +244,33 @@
 
 
           </div>
-          <button class="context reply-to-comment-button hide allowMultiSubmit btn btn-primary btn-sm"
+          <div class="d-flex flex-row gap-2">
+            <form class="comment-action action-flag"
+                  action=""
+                  method="get"
+                  tal:attributes="
+                    action string:${reply/absolute_url}/@@flag-comment;
+                    id string:flag-${comment_id};
+                  "
                   tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)"
-                  i18n:translate="label_reply"
-          >
-                    Reply
-          </button>
+            >
+              <button class="context btn btn-outline-primary btn-sm"
+                      name="form.button.FlagComment"
+                      type="submit"
+              >
+                <span i18n:translate="label_flag">Flag as inappropriate</span>
+                <tal:block tal:condition="python:reply.flag and reply.flag > 0">
+                  (<span tal:replace="reply/flag">0</span>)
+                </tal:block>
+              </button>
+            </form>
+            <button class="context reply-to-comment-button hide allowMultiSubmit btn btn-primary btn-sm"
+                    tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)"
+                    i18n:translate="label_reply"
+            >
+                      Reply
+            </button>
+          </div>
 
         </div>
 

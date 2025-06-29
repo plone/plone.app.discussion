@@ -182,6 +182,13 @@ class IComment(Interface):
         ),
         required=False,
     )
+    
+    flag = schema.Int(
+        title=_("Flag count"),
+        description=_("Number of times this comment has been flagged as inappropriate"),
+        default=0,
+        required=False,
+    )
 
     creator = schema.TextLine(title=_("Username of the commenter"))
     creation_date = schema.Date(title=_("Creation date"))
