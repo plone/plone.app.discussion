@@ -260,6 +260,30 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             )
             captcha.validate(data["captcha"])
 
+        # Content filtering check
+        from plone.app.discussion.filter import get_content_filter
+        content_filter = get_content_filter(context=self.context, request=self.request)
+        
+        if content_filter.is_enabled():
+            filter_result = content_filter.check_content(data.get('text', ''))
+            
+            if filter_result['filtered']:
+                action = filter_result['action']
+                
+                if action == 'reject':
+                    # Reject the comment immediately
+                    message = content_filter.get_rejection_message(filter_result['matches'])
+                    IStatusMessage(self.request).add(message, type="error")
+                    return
+                elif action == 'spam':
+                    # Mark comment as spam - we'll handle this after creation
+                    data['_content_filter_action'] = 'spam'
+                    data['_content_filter_matches'] = filter_result['matches']
+                elif action == 'moderate':
+                    # Force moderation - we'll handle this after creation 
+                    data['_content_filter_action'] = 'moderate'
+                    data['_content_filter_matches'] = filter_result['matches']
+
         # Create comment
         comment = self.create_comment(data)
 
@@ -273,6 +297,43 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         else:
             # Add a comment to the conversation
             comment_id = conversation.addComment(comment)
+
+        # Handle content filtering actions post-creation
+        filter_action = data.get('_content_filter_action')
+        filter_matches = data.get('_content_filter_matches', [])
+        
+        if filter_action == 'spam':
+            # Mark comment as spam using workflow
+            workflowTool = getToolByName(context, "portal_workflow")
+            try:
+                workflowTool.doActionFor(comment, "mark_as_spam")
+                comment.reindexObject()
+                message = _("comment_marked_spam_by_filter", 
+                          default="Your comment has been marked as spam due to filtered content.")
+                IStatusMessage(self.context.REQUEST).addStatusMessage(message, type="warning")
+                self.request.response.redirect(self.action)
+                return
+            except Exception:
+                # Fallback if spam action not available - force moderation
+                filter_action = 'moderate'
+        
+        if filter_action == 'moderate':
+            # Force comment to pending state regardless of user permissions
+            workflowTool = getToolByName(context, "portal_workflow")
+            try:
+                # If comment is not already pending, force it to pending
+                current_state = workflowTool.getInfoFor(comment, "review_state", None)
+                if current_state != "pending":
+                    # This might require custom workflow handling
+                    pass
+                
+                message = content_filter.get_moderation_message()
+                IStatusMessage(self.context.REQUEST).addStatusMessage(message, type="info")
+                self.request.response.redirect(self.action)
+                return
+            except Exception:
+                # Fallback to normal moderation logic below
+                pass
 
         # Redirect after form submit:
         # If a user posts a comment and moderation is enabled, a message is

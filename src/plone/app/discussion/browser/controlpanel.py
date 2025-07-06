@@ -52,6 +52,15 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.fields["user_notification_enabled"].widgetFactory = (
             SingleCheckBoxFieldWidget
         )
+        self.fields["content_filter_enabled"].widgetFactory = (
+            SingleCheckBoxFieldWidget
+        )
+        self.fields["filter_case_sensitive"].widgetFactory = (
+            SingleCheckBoxFieldWidget
+        )
+        self.fields["filter_whole_words_only"].widgetFactory = (
+            SingleCheckBoxFieldWidget
+        )
 
     def updateWidgets(self):
         try:
@@ -69,6 +78,9 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         )
         self.widgets["user_notification_enabled"].label = _(
             "User Email Notification",
+        )
+        self.widgets["content_filter_enabled"].label = _(
+            "Content Filtering",
         )
 
     @button.buttonAndHandler(_("Save"), name=None)
