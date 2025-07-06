@@ -264,9 +264,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         content_filter = get_content_filter(context=self.context, request=self.request)
         
         if content_filter.is_enabled():
-            comment_text = data.get('text', '')
-            
-            filter_result = content_filter.check_content(comment_text)
+            filter_result = content_filter.check_content(data.get('text', ''))
             
             if filter_result['filtered']:
                 action = filter_result['action']
@@ -276,13 +274,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                     message = content_filter.get_rejection_message(filter_result['matches'])
                     IStatusMessage(self.request).add(message, type="error")
                     return
-                elif action == 'spam':
-                    # Mark comment as spam - we'll handle this after creation
-                    data['_content_filter_action'] = 'spam'
-                    data['_content_filter_matches'] = filter_result['matches']
-                elif action == 'moderate':
-                    # Force moderation - we'll handle this after creation 
-                    data['_content_filter_action'] = 'moderate'
+                else:
+                    # Store action for post-creation handling
+                    data['_content_filter_action'] = action
                     data['_content_filter_matches'] = filter_result['matches']
 
         # Create comment
@@ -305,104 +299,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         
         # Handle content filtering actions post-creation
         filter_action = data.get('_content_filter_action')
-        filter_matches = data.get('_content_filter_matches', [])
         
-        
-        if filter_action == 'spam':
-            # Mark comment as spam - we need to use a different approach since
-            # regular users don't have "Review comments" permission
-            workflowTool = getToolByName(context, "portal_workflow")
-            
-            try:
-                # First, check if the workflow supports spam state
-                comment_workflow = workflowTool.getWorkflowsFor(comment)
-                
-                if comment_workflow and 'spam' in comment_workflow[0].states:
-                    
-                    # Get current comment state
-                    current_state = workflowTool.getInfoFor(comment, "review_state", None)
-                    
-                    # Check available transitions
-                    transitions = workflowTool.getTransitionsFor(comment)
-                    available_transitions = [t['id'] for t in transitions]
-                    
-                    # Use plone.api for privileged operations if available
-                    try:
-                        import plone.api
-                        # Use plone.api to bypass permission check
-                        with plone.api.env.adopt_roles(['Manager']):
-                            workflowTool.doActionFor(comment, "mark_as_spam")
-                            comment.reindexObject()
-                            
-                        message = _("comment_marked_spam_by_filter", 
-                                  default="Your comment has been marked as spam due to filtered content.")
-                        IStatusMessage(self.context.REQUEST).addStatusMessage(message, type="warning")
-                        self.request.response.redirect(self.action)
-                        return
-                        
-                    except ImportError:
-                        # plone.api not available, try direct workflow state manipulation
-                        # Set the workflow state directly without transition
-                        # This bypasses permission checks
-                        workflow_history = workflowTool.getHistoryOf(
-                            comment_workflow[0].getId(), comment
-                        )
-                        
-                        if workflow_history:
-                            # Update the current state
-                            workflow_history[-1]['review_state'] = 'spam'
-                            workflow_history[-1]['action'] = 'Marked as spam by content filter'
-                            
-                        # Set the workflow state on the object  
-                        comment.review_state = 'spam'
-                        comment.reindexObject()
-                        
-                        # Verify the state was set
-                        new_state = workflowTool.getInfoFor(comment, "review_state", None)
-                        
-                        message = _("comment_marked_spam_by_filter", 
-                                  default="Your comment has been marked as spam due to filtered content.")
-                        IStatusMessage(self.context.REQUEST).addStatusMessage(message, type="warning")
-                        self.request.response.redirect(self.action)
-                        return
-                        
-            except Exception as e:
-                # Log the specific error for debugging
-                # Fallback if spam action not available - force moderation
-                filter_action = 'moderate'
-        
-        if filter_action == 'moderate':
-            # Force comment to pending state - check if it's not already pending
-            workflowTool = getToolByName(context, "portal_workflow")
-            try:
-                current_state = workflowTool.getInfoFor(comment, "review_state", None)
-                
-                if current_state != "pending":
-                    # If comment is published or in another state, try to transition to pending
-                    # This might happen if user has auto-approval permissions
-                    transitions = workflowTool.getTransitionsFor(comment)
-                    available_transitions = [t['id'] for t in transitions]
-                    
-                    # Look for a transition that leads to pending state
-                    if 'recall' in available_transitions:
-                        # From published to pending (if recall transition exists)
-                        workflowTool.doActionFor(comment, "recall")
-                        comment.reindexObject()
-                        
-                        # Verify state change
-                        new_state = workflowTool.getInfoFor(comment, "review_state", None)
-                
-                message = content_filter.get_moderation_message()
-                IStatusMessage(self.context.REQUEST).addStatusMessage(message, type="info")
-                self.request.response.redirect(self.action)
-                return
-                
-            except Exception as e:
-                import logging
-                logger = logging.getLogger("plone.app.discussion.filter")
-                # Log the specific error for debugging  
-                logger.error(f"Failed to force comment moderation: {e}", exc_info=True)
-                # Continue with normal flow if we can't force moderation
+        if filter_action and self._handle_content_filter_action(comment, filter_action, content_filter):
+            self.request.response.redirect(self.action)
+            return
 
         # Redirect after form submit:
         # If a user posts a comment and moderation is enabled, a message is
@@ -411,12 +311,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # to the comment.
         can_review = getSecurityManager().checkPermission("Review comments", context)
         workflowTool = getToolByName(context, "portal_workflow")
-        comment_review_state = workflowTool.getInfoFor(
-            comment,
-            "review_state",
-            None,
-        )
-        
+        comment_review_state = workflowTool.getInfoFor(comment, "review_state", None)
         
         if comment_review_state == "pending" and not can_review:
             # Show info message when comment moderation is enabled
@@ -433,6 +328,53 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # This method should never be called, it's only there to show
         # a cancel button that is handled by a jQuery method.
         pass  # pragma: no cover
+
+    def _handle_content_filter_action(self, comment, action, content_filter):
+        """Handle content filter actions (spam/moderate) for a comment."""
+        context = aq_inner(self.context)
+        workflowTool = getToolByName(context, "portal_workflow")
+        
+        if action == 'spam':
+            try:
+                # Check if workflow supports spam state
+                comment_workflow = workflowTool.getWorkflowsFor(comment)
+                if comment_workflow and 'spam' in comment_workflow[0].states:
+                    try:
+                        # Try to use plone.api for privileged operations
+                        import plone.api
+                        with plone.api.env.adopt_roles(['Manager']):
+                            workflowTool.doActionFor(comment, "mark_as_spam")
+                            comment.reindexObject()
+                    except ImportError:
+                        # Fallback: direct state manipulation
+                        comment.review_state = 'spam'
+                        comment.reindexObject()
+                    
+                    message = _("comment_marked_spam_by_filter", 
+                              default="Your comment has been marked as spam due to filtered content.")
+                    IStatusMessage(self.request).addStatusMessage(message, type="warning")
+                    return True
+            except Exception:
+                # Fallback to moderation if spam action fails
+                action = 'moderate'
+        
+        if action == 'moderate':
+            try:
+                current_state = workflowTool.getInfoFor(comment, "review_state", None)
+                if current_state != "pending":
+                    transitions = workflowTool.getTransitionsFor(comment)
+                    available_transitions = [t['id'] for t in transitions]
+                    if 'recall' in available_transitions:
+                        workflowTool.doActionFor(comment, "recall")
+                        comment.reindexObject()
+                
+                message = content_filter.get_moderation_message()
+                IStatusMessage(self.request).addStatusMessage(message, type="info")
+                return True
+            except Exception:
+                pass
+        
+        return False
 
 
 class CommentsViewlet(ViewletBase):
