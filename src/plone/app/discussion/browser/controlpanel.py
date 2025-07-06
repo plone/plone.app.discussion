@@ -52,15 +52,9 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.fields["user_notification_enabled"].widgetFactory = (
             SingleCheckBoxFieldWidget
         )
-        self.fields["content_filter_enabled"].widgetFactory = (
-            SingleCheckBoxFieldWidget
-        )
-        self.fields["filter_case_sensitive"].widgetFactory = (
-            SingleCheckBoxFieldWidget
-        )
-        self.fields["filter_whole_words_only"].widgetFactory = (
-            SingleCheckBoxFieldWidget
-        )
+        self.fields["content_filter_enabled"].widgetFactory = SingleCheckBoxFieldWidget
+        self.fields["filter_case_sensitive"].widgetFactory = SingleCheckBoxFieldWidget
+        self.fields["filter_whole_words_only"].widgetFactory = SingleCheckBoxFieldWidget
 
     def updateWidgets(self):
         try:

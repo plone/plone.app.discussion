@@ -4,7 +4,7 @@
     <value key="edit_comment_enabled">False</value>
     <value key="delete_own_comment_enabled">False</value>
     <value key="content_filter_enabled">False</value>
-    <value key="filtered_words"></value>
+    <value key="filtered_words" />
     <value key="filter_action">reject</value>
     <value key="filter_case_sensitive">False</value>
     <value key="filter_whole_words_only">True</value>
