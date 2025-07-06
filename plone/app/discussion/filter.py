@@ -77,10 +77,18 @@ class CommentContentFilter:
                 'action': str - action to take if filtered
             }
         """
+        # Determine the filter action based on moderation settings
+        filter_action = getattr(self.settings, 'filter_action', 'moderate')
+        moderation_enabled = getattr(self.settings, 'moderation_enabled', False)
+        
+        # If moderation is disabled, force action to 'reject'
+        if not moderation_enabled:
+            filter_action = 'reject'
+        
         result = {
             'filtered': False,
             'matches': [],
-            'action': getattr(self.settings, 'filter_action', 'moderate')
+            'action': filter_action
         }
         
         if not self.is_enabled() or not text:
