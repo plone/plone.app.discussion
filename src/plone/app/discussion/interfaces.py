@@ -7,6 +7,7 @@ from zope import schema
 from zope.component import getUtility
 from zope.interface import Interface
 from zope.interface import Invalid
+from zope.interface import invariant
 from zope.interface.common.mapping import IIterableMapping
 from zope.interface.interfaces import IObjectEvent
 
@@ -417,10 +418,12 @@ class IDiscussionSettings(Interface):
             default="Choose what happens when filtered content is detected. "
             "'Reject' blocks the comment immediately. 'Moderate' sends the "
             "comment to the moderation queue. 'Mark as spam' automatically "
-            "marks the comment as spam.",
+            "marks the comment as spam. This setting is only used when "
+            "comment moderation is enabled - if moderation is disabled, "
+            "filtered comments will always be rejected.",
         ),
         required=False,
-        default="moderate",
+        default="reject",  # Default to reject when moderation is disabled
         vocabulary="plone.app.discussion.vocabularies.FilterActionVocabulary",
     )
 
