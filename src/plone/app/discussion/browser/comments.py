@@ -428,62 +428,6 @@ class CommentsViewlet(ViewletBase):
                 pass
         return False
 
-    def get_actions_for_comment(self, comment_obj, workflow_status=None):
-        """Get available actions for a comment based on its workflow state.
-        Returns actions filtered according to the current workflow state.
-        """
-        if workflow_status is None:
-            wf = getToolByName(self.context, "portal_workflow")
-            workflow_status = wf.getInfoFor(comment_obj, "review_state")
-
-        if workflow_status == "pending":
-            return self._get_actions_for_pending_comment(comment_obj)
-        elif workflow_status == "published":
-            return self._get_actions_for_published_comment(comment_obj)
-        elif workflow_status in ("rejected", "spam"):
-            return self._get_actions_for_rejected_comment(comment_obj)
-        else:
-            # Fallback to all available actions
-            return self._get_all_comment_actions(comment_obj)
-
-    def _get_all_comment_actions(self, comment_obj):
-        """Get all possible workflow actions for a comment."""
-        wf = getToolByName(self.context, "portal_workflow")
-        return [
-            a
-            for a in wf.listActionInfos(object=comment_obj)
-            if a["category"] == "workflow" and a["allowed"]
-        ]
-
-    def _get_actions_for_pending_comment(self, comment_obj):
-        """Get available actions for a pending (unapproved) comment:
-        - Delete: Permanently remove the comment
-        - Spam: Mark as spam and hide from moderation queue
-        - Approve: Publish the comment publicly
-        """
-        actions = self._get_all_comment_actions(comment_obj)
-        allowed_actions = ["delete", "mark_as_spam", "publish", "reject"]
-        return [action for action in actions if action["id"] in allowed_actions]
-
-    def _get_actions_for_published_comment(self, comment_obj):
-        """Get available actions for a published (approved) comment:
-        - Delete: Permanently remove the comment
-        - Spam: Mark as spam and unpublish
-        - Unpublish/Recall: Remove from public view, return to pending state
-        """
-        actions = self._get_all_comment_actions(comment_obj)
-        allowed_actions = ["delete", "mark_as_spam", "recall"]
-        return [action for action in actions if action["id"] in allowed_actions]
-
-    def _get_actions_for_rejected_comment(self, comment_obj):
-        """Get available actions for a rejected/spam comment:
-        - Delete: Permanently remove
-        - Approve: Reverse the rejection/spam status and publish
-        """
-        actions = self._get_all_comment_actions(comment_obj)
-        allowed_actions = ["delete", "publish"]
-        return [action for action in actions if action["id"] in allowed_actions]
-
     def get_replies(self, workflow_actions=False):
         """Returns all replies to a content object.
 
@@ -507,13 +451,14 @@ class CommentsViewlet(ViewletBase):
             # Generator that returns replies dict with workflow actions
             for r in conversation.getThreads():
                 comment_obj = r["comment"]
-                # Get workflow status
-                workflow_status = wf.getInfoFor(comment_obj, "review_state")
-                # Get actions filtered by workflow state
-                actions = self.get_actions_for_comment(comment_obj, workflow_status)
+                # list all possible workflow actions
+                actions = [
+                    a
+                    for a in wf.listActionInfos(object=comment_obj)
+                    if a["category"] == "workflow" and a["allowed"]
+                ]
                 r = r.copy()
                 r["actions"] = actions
-                r["workflow_status"] = workflow_status
                 yield r
 
         def published_replies():
@@ -524,12 +469,6 @@ class CommentsViewlet(ViewletBase):
                 if workflow_status == "published":
                     r = r.copy()
                     r["workflow_status"] = workflow_status
-                    # We don't need actions for published replies in the standard view
-                    # but we can add them for consistency
-                    if self.can_review():
-                        r["actions"] = self.get_actions_for_comment(
-                            comment_obj, workflow_status
-                        )
                     yield r
 
         # Return all direct replies
