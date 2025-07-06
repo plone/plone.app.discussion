@@ -7,7 +7,6 @@ from zope import schema
 from zope.component import getUtility
 from zope.interface import Interface
 from zope.interface import Invalid
-from zope.interface import invariant
 from zope.interface.common.mapping import IIterableMapping
 from zope.interface.interfaces import IObjectEvent
 

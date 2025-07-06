@@ -82,7 +82,7 @@ def filter_action_vocabulary(context):
     terms.append(
         SimpleTerm(
             value="moderate",
-            token="moderate", 
+            token="moderate",
             title=_("filter_action_moderate", default="Send to moderation"),
         )
     )

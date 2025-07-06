@@ -259,25 +259,28 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 self.context, self.request, None, ICaptcha["captcha"], None
             )
             captcha.validate(data["captcha"])
-        
+
         from plone.app.discussion.filter import get_content_filter
+
         content_filter = get_content_filter(context=self.context, request=self.request)
-        
+
         if content_filter.is_enabled():
-            filter_result = content_filter.check_content(data.get('text', ''))
-            
-            if filter_result['filtered']:
-                action = filter_result['action']
-                
-                if action == 'reject':
+            filter_result = content_filter.check_content(data.get("text", ""))
+
+            if filter_result["filtered"]:
+                action = filter_result["action"]
+
+                if action == "reject":
                     # Reject the comment immediately
-                    message = content_filter.get_rejection_message(filter_result['matches'])
+                    message = content_filter.get_rejection_message(
+                        filter_result["matches"]
+                    )
                     IStatusMessage(self.request).add(message, type="error")
                     return
                 else:
                     # Store action for post-creation handling
-                    data['_content_filter_action'] = action
-                    data['_content_filter_matches'] = filter_result['matches']
+                    data["_content_filter_action"] = action
+                    data["_content_filter_matches"] = filter_result["matches"]
 
         # Create comment
         comment = self.create_comment(data)
@@ -296,11 +299,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Get the actual comment object from the conversation
         # This is important because the workflow operations need the persistent object
         comment = conversation.get(comment_id)
-        
+
         # Handle content filtering actions post-creation
-        filter_action = data.get('_content_filter_action')
-        
-        if filter_action and self._handle_content_filter_action(comment, filter_action, content_filter):
+        filter_action = data.get("_content_filter_action")
+
+        if filter_action and self._handle_content_filter_action(
+            comment, filter_action, content_filter
+        ):
             self.request.response.redirect(self.action)
             return
 
@@ -312,7 +317,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         can_review = getSecurityManager().checkPermission("Review comments", context)
         workflowTool = getToolByName(context, "portal_workflow")
         comment_review_state = workflowTool.getInfoFor(comment, "review_state", None)
-        
+
         if comment_review_state == "pending" and not can_review:
             # Show info message when comment moderation is enabled
             IStatusMessage(self.context.REQUEST).addStatusMessage(
@@ -333,47 +338,52 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         """Handle content filter actions (spam/moderate) for a comment."""
         context = aq_inner(self.context)
         workflowTool = getToolByName(context, "portal_workflow")
-        
-        if action == 'spam':
+
+        if action == "spam":
             try:
                 # Check if workflow supports spam state
                 comment_workflow = workflowTool.getWorkflowsFor(comment)
-                if comment_workflow and 'spam' in comment_workflow[0].states:
+                if comment_workflow and "spam" in comment_workflow[0].states:
                     try:
                         # Try to use plone.api for privileged operations
                         import plone.api
-                        with plone.api.env.adopt_roles(['Manager']):
+
+                        with plone.api.env.adopt_roles(["Manager"]):
                             workflowTool.doActionFor(comment, "mark_as_spam")
                             comment.reindexObject()
                     except ImportError:
                         # Fallback: direct state manipulation
-                        comment.review_state = 'spam'
+                        comment.review_state = "spam"
                         comment.reindexObject()
-                    
-                    message = _("comment_marked_spam_by_filter", 
-                              default="Your comment has been marked as spam due to filtered content.")
-                    IStatusMessage(self.request).addStatusMessage(message, type="warning")
+
+                    message = _(
+                        "comment_marked_spam_by_filter",
+                        default="Your comment has been marked as spam due to filtered content.",
+                    )
+                    IStatusMessage(self.request).addStatusMessage(
+                        message, type="warning"
+                    )
                     return True
             except Exception:
                 # Fallback to moderation if spam action fails
-                action = 'moderate'
-        
-        if action == 'moderate':
+                action = "moderate"
+
+        if action == "moderate":
             try:
                 current_state = workflowTool.getInfoFor(comment, "review_state", None)
                 if current_state != "pending":
                     transitions = workflowTool.getTransitionsFor(comment)
-                    available_transitions = [t['id'] for t in transitions]
-                    if 'recall' in available_transitions:
+                    available_transitions = [t["id"] for t in transitions]
+                    if "recall" in available_transitions:
                         workflowTool.doActionFor(comment, "recall")
                         comment.reindexObject()
-                
+
                 message = content_filter.get_moderation_message()
                 IStatusMessage(self.request).addStatusMessage(message, type="info")
                 return True
             except Exception:
                 pass
-        
+
         return False
 
 
