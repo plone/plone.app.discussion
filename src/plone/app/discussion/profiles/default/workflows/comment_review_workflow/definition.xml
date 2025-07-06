@@ -54,7 +54,6 @@
     <description>Visible to everyone, non-editable.</description>
     <exit-transition transition_id="mark_as_spam" />
     <exit-transition transition_id="recall" />
-    <exit-transition transition_id="reject" />
     <permission-map acquired="True"
                     name="Access contents information"
     >
@@ -79,14 +78,11 @@
   >
     <exit-transition transition_id="mark_as_spam" />
     <exit-transition transition_id="publish" />
-    <exit-transition transition_id="recall" />
   </state>
   <state state_id="spam"
          title="Spam"
   >
     <exit-transition transition_id="publish" />
-    <exit-transition transition_id="recall" />
-    <exit-transition transition_id="reject" />
   </state>
   <transition after_script=""
               before_script=""
