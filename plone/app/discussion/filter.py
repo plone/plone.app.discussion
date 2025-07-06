@@ -40,17 +40,14 @@ class CommentContentFilter:
             return []
         
         words_text = getattr(self.settings, 'filtered_words', '') or ''
-        
         if not words_text.strip():
             return []
         
         # Split by lines and filter out empty lines
-        words = [word.strip() for word in words_text.split('\n') if word.strip()]
-        return words
+        return [word.strip() for word in words_text.split('\n') if word.strip()]
 
     def compile_pattern(self, word):
         """Compile a single word/phrase into a regex pattern."""
-        
         # Escape special regex characters except for our wildcard *
         escaped_word = re.escape(word)
         # Replace escaped asterisks with regex wildcard pattern
@@ -59,17 +56,14 @@ class CommentContentFilter:
         case_sensitive = getattr(self.settings, 'filter_case_sensitive', False)
         whole_words_only = getattr(self.settings, 'filter_whole_words_only', True)
         
-        
         if whole_words_only:
             pattern = r'\b' + pattern + r'\b'
         
         flags = 0 if case_sensitive else re.IGNORECASE
         
-        
         try:
-            compiled_pattern = re.compile(pattern, flags)
-            return compiled_pattern
-        except re.error as e:
+            return re.compile(pattern, flags)
+        except re.error:
             return None
 
     def check_content(self, text):
@@ -83,33 +77,25 @@ class CommentContentFilter:
                 'action': str - action to take if filtered
             }
         """
-        
         result = {
             'filtered': False,
             'matches': [],
             'action': getattr(self.settings, 'filter_action', 'moderate')
         }
         
-        
-        if not self.is_enabled():
-            return result
-            
-        if not text:
+        if not self.is_enabled() or not text:
             return result
         
         filtered_words = self.get_filtered_words()
-        
         if not filtered_words:
             return result
         
         for word in filtered_words:
             pattern = self.compile_pattern(word)
-            if pattern:
-                match = pattern.search(text)
-                if match:
-                    logger.debug(f"MATCH FOUND! Word '{word}' matched text '{match.group()}' at position {match.start()}-{match.end()}")
-                    result['filtered'] = True
-                    result['matches'].append(word)
+            if pattern and pattern.search(text):
+                logger.debug(f"Content filter match: '{word}' found in text")
+                result['filtered'] = True
+                result['matches'].append(word)
         
         return result
 
@@ -129,9 +115,7 @@ class CommentContentFilter:
                 "Please review and modify your comment."
             )
         
-        if self.request:
-            return translate(msgid, context=self.request)
-        return msgid.default
+        return translate(msgid, context=self.request) if self.request else msgid.default
 
     def get_moderation_message(self):
         """Get user-friendly message for moderated comments."""
@@ -141,9 +125,7 @@ class CommentContentFilter:
             "that requires moderation approval."
         )
         
-        if self.request:
-            return translate(msgid, context=self.request)
-        return msgid.default
+        return translate(msgid, context=self.request) if self.request else msgid.default
 
 
 def get_content_filter(context=None, request=None):
