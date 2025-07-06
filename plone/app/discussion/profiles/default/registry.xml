@@ -3,6 +3,11 @@
   <records interface="plone.app.discussion.interfaces.IDiscussionSettings">
     <value key="edit_comment_enabled">False</value>
     <value key="delete_own_comment_enabled">False</value>
+    <value key="content_filter_enabled">False</value>
+    <value key="filtered_words"></value>
+    <value key="filter_action">moderate</value>
+    <value key="filter_case_sensitive">False</value>
+    <value key="filter_whole_words_only">True</value>
   </records>
   <record name="plone.icon.contenttype/discussion-item">
     <field type="plone.registry.field.TextLine">

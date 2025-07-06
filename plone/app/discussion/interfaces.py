@@ -375,6 +375,83 @@ class IDiscussionSettings(Interface):
         default=False,
     )
 
+    # Content filtering settings
+    content_filter_enabled = schema.Bool(
+        title=_(
+            "label_content_filter_enabled",
+            default="Enable content filtering",
+        ),
+        description=_(
+            "help_content_filter_enabled",
+            default="If selected, comments will be automatically checked "
+            "against a list of filtered words and phrases before being posted.",
+        ),
+        required=False,
+        default=False,
+    )
+
+    filtered_words = schema.Text(
+        title=_(
+            "label_filtered_words",
+            default="Filtered words and phrases",
+        ),
+        description=_(
+            "help_filtered_words",
+            default="Enter words and phrases to filter, one per line. "
+            "Comments containing these words will be subject to the "
+            "configured filter action. Supports basic wildcards: use * "
+            "for any characters (e.g., 'bad*word' matches 'badword', "
+            "'bad word', 'bad-word', etc.).",
+        ),
+        required=False,
+        default="",
+    )
+
+    filter_action = schema.Choice(
+        title=_(
+            "label_filter_action",
+            default="Filter action",
+        ),
+        description=_(
+            "help_filter_action",
+            default="Choose what happens when filtered content is detected. "
+            "'Reject' blocks the comment immediately. 'Moderate' sends the "
+            "comment to the moderation queue. 'Mark as spam' automatically "
+            "marks the comment as spam.",
+        ),
+        required=False,
+        default="moderate",
+        vocabulary="plone.app.discussion.vocabularies.FilterActionVocabulary",
+    )
+
+    filter_case_sensitive = schema.Bool(
+        title=_(
+            "label_filter_case_sensitive",
+            default="Case sensitive filtering",
+        ),
+        description=_(
+            "help_filter_case_sensitive",
+            default="If selected, filtered words must match case exactly. "
+            "If not selected, filtering will be case-insensitive.",
+        ),
+        required=False,
+        default=False,
+    )
+
+    filter_whole_words_only = schema.Bool(
+        title=_(
+            "label_filter_whole_words_only",
+            default="Filter whole words only",
+        ),
+        description=_(
+            "help_filter_whole_words_only",
+            default="If selected, filtered words must be complete words. "
+            "If not selected, partial matches within words will also be filtered.",
+        ),
+        required=False,
+        default=True,
+    )
+
 
 class IDiscussionLayer(Interface):
     """Request marker installed via browserlayer.xml."""

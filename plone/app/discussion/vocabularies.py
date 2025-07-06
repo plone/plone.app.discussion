@@ -69,6 +69,33 @@ def captcha_vocabulary(context):
     return SimpleVocabulary(terms)
 
 
+def filter_action_vocabulary(context):
+    """Vocabulary with all available content filter actions."""
+    terms = []
+    terms.append(
+        SimpleTerm(
+            value="reject",
+            token="reject",
+            title=_("filter_action_reject", default="Reject"),
+        )
+    )
+    terms.append(
+        SimpleTerm(
+            value="moderate",
+            token="moderate", 
+            title=_("filter_action_moderate", default="Send to moderation"),
+        )
+    )
+    terms.append(
+        SimpleTerm(
+            value="spam",
+            token="spam",
+            title=_("filter_action_spam", default="Mark as spam"),
+        )
+    )
+    return SimpleVocabulary(terms)
+
+
 def text_transform_vocabulary(context):
     """Vocabulary with all available portal_transform transformations."""
     terms = []
