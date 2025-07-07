@@ -349,13 +349,13 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                     # Use Zope security manager for privileged operations
                     # Store current security manager
                     old_security_manager = getSecurityManager()
-                    
+
                     try:
                         # Create a temporary security manager with Manager role
-                        user = SimpleUser('system', '', ['Manager'], [])
+                        user = SimpleUser("system", "", ["Manager"], [])
                         user = user.__of__(self.context.acl_users)
                         newSecurityManager(None, user)
-                        
+
                         # Perform the workflow action with elevated privileges
                         workflowTool.doActionFor(comment, "mark_as_spam")
                         comment.reindexObject()
