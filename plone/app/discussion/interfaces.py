@@ -381,7 +381,8 @@ class IDiscussionSettings(Interface):
         description=_(
             "help_ban_enabled",
             default="If enabled, administrators can ban users from commenting "
-                   "using various ban types including cooldowns and shadow bans."
+                   "using various ban types including cooldowns and shadow bans. "
+                   "Accessible on @@ban-management.",
         ),
         default=False,
         required=False,

@@ -12,11 +12,20 @@
 
 <body>
     <metal:content-core fill-slot="content-core">
+
+
         <div class="ban-management">
             <h1 i18n:translate="title_ban_management">User Ban Management</h1>
+
+            <a
+                href="#banning-form"
+                class="plone-btn plone-btn-large plone-btn-primary pat-plone-modal"
+                data-pat-plone-modal="width: 400"
+                >Modal basic</a
+            >
             
-            <div class="ban-actions">
-                <h2 i18n:translate="heading_ban_user">Ban User</h2>
+            <div class="ban-actions" id="banning-form" style="display: none">
+                <h1 i18n:translate="heading_ban_user">Ban User</h1>
                 <form method="post">
                     <input type="hidden" name="action" value="ban_user" />
                     

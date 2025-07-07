@@ -4,6 +4,7 @@ from datetime import datetime
 from datetime import timedelta
 
 from plone.app.discussion.interfaces import _
+from plone.app.discussion.interfaces import IDiscussionSettings
 from Products.CMFCore.utils import getToolByName
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
@@ -46,59 +47,11 @@ BAN_TYPE_COOLDOWN = "cooldown"
 BAN_TYPE_SHADOW = "shadow"
 BAN_TYPE_PERMANENT = "permanent"
 
-# Ban duration choices
-BAN_DURATION_CHOICES = SimpleVocabulary([
-    SimpleTerm(value=1, title=_("1 hour")),
-    SimpleTerm(value=6, title=_("6 hours")),
-    SimpleTerm(value=24, title=_("24 hours")),
-    SimpleTerm(value=72, title=_("3 days")),
-    SimpleTerm(value=168, title=_("1 week")),
-    SimpleTerm(value=336, title=_("2 weeks")),
-    SimpleTerm(value=720, title=_("1 month")),
-])
-
 BAN_TYPE_CHOICES = SimpleVocabulary([
     SimpleTerm(value=BAN_TYPE_COOLDOWN, title=_("Cooldown Ban")),
     SimpleTerm(value=BAN_TYPE_SHADOW, title=_("Shadow Ban")),
     SimpleTerm(value=BAN_TYPE_PERMANENT, title=_("Permanent Ban")),
 ])
-
-
-class IBanSettings(Interface):
-    """Configuration for user ban system."""
-    
-    ban_enabled = schema.Bool(
-        title=_("label_ban_enabled", default="Enable user ban system"),
-        description=_(
-            "help_ban_enabled",
-            default="If enabled, administrators can ban users from commenting "
-                   "using various ban types including cooldowns and shadow bans."
-        ),
-        default=False,
-        required=False,
-    )
-    
-    shadow_ban_notification_enabled = schema.Bool(
-        title=_("label_shadow_ban_notification", default="Notify users of shadow bans"),
-        description=_(
-            "help_shadow_ban_notification",
-            default="If enabled, users will be notified when they are shadow banned. "
-                   "If disabled, shadow bans are completely invisible to users."
-        ),
-        default=False,
-        required=False,
-    )
-    
-    default_cooldown_duration = schema.Choice(
-        title=_("label_default_cooldown_duration", default="Default cooldown duration"),
-        description=_(
-            "help_default_cooldown_duration",
-            default="Default duration for cooldown bans when not specified."
-        ),
-        vocabulary=BAN_DURATION_CHOICES,
-        default=24,
-        required=False,
-    )
 
 
 class IBan(Interface):
@@ -162,7 +115,7 @@ class Ban(Persistent):
         else:
             # Use default duration from settings
             registry = getUtility(IRegistry)
-            settings = registry.forInterface(IBanSettings, check=False)
+            settings = registry.forInterface(IDiscussionSettings, check=False)
             default_duration = getattr(settings, 'default_cooldown_duration', 24)
             self.expires_date = self.created_date + timedelta(hours=default_duration)
     
