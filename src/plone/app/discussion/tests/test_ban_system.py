@@ -192,6 +192,46 @@ class TestBanSystem(unittest.TestCase):
         self.assertEqual(len(active_bans), 1)
         self.assertEqual(active_bans[0].user_id, "user2")
 
+    def test_ban_persistence(self):
+        """Test that bans persist across manager instances (simulating server restart)."""
+        ban_manager1 = BanManager(self.doc1)
+        
+        # Create a ban
+        ban = ban_manager1.ban_user(
+            user_id="persistent_user",
+            ban_type=BAN_TYPE_COOLDOWN,
+            moderator_id="admin",
+            reason="Testing persistence",
+            duration_hours=24
+        )
+        
+        # Verify ban exists
+        self.assertTrue(ban_manager1.is_user_banned("persistent_user"))
+        retrieved_ban = ban_manager1.get_user_ban("persistent_user")
+        self.assertIsNotNone(retrieved_ban)
+        self.assertEqual(retrieved_ban.user_id, "persistent_user")
+        self.assertEqual(retrieved_ban.reason, "Testing persistence")
+        
+        # Create a new manager instance (simulating restart)
+        ban_manager2 = BanManager(self.doc1)
+        
+        # Verify ban still exists
+        self.assertTrue(ban_manager2.is_user_banned("persistent_user"))
+        retrieved_ban2 = ban_manager2.get_user_ban("persistent_user")
+        self.assertIsNotNone(retrieved_ban2)
+        self.assertEqual(retrieved_ban2.user_id, "persistent_user")
+        self.assertEqual(retrieved_ban2.reason, "Testing persistence")
+        
+        # Test that changes persist
+        ban_manager2.unban_user("persistent_user", "admin")
+        
+        # Create a third manager instance
+        ban_manager3 = BanManager(self.doc1)
+        
+        # Verify ban was removed
+        self.assertFalse(ban_manager3.is_user_banned("persistent_user"))
+        self.assertIsNone(ban_manager3.get_user_ban("persistent_user"))
+
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
