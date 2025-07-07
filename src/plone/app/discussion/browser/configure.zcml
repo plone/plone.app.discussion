@@ -157,6 +157,55 @@
       permission="cmf.ManagePortal"
       />
 
+  <!-- Ban management views -->
+  <browser:page
+      name="ban-management"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".ban.BanManagementView"
+      permission="plone.app.discussion.ReviewComments"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
+  <browser:page
+      name="ban-management"
+      for="plone.base.interfaces.INavigationRoot"
+      class=".ban.BanManagementView"
+      permission="plone.app.discussion.ReviewComments"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
+  <browser:page
+      name="ban-user-form"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".ban.BanUserFormView"
+      permission="plone.app.discussion.ReviewComments"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
+  <browser:page
+      name="ban-user-form"
+      for="plone.base.interfaces.INavigationRoot"
+      class=".ban.BanUserFormView"
+      permission="plone.app.discussion.ReviewComments"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
+  <browser:page
+      name="user-ban-status"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".ban.UserBanStatusView"
+      permission="zope2.View"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
+  <browser:page
+      name="user-ban-status"
+      for="plone.base.interfaces.INavigationRoot"
+      class=".ban.UserBanStatusView"
+      permission="zope2.View"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
   <!-- Volto-compatible REST API control panel -->
   <configure zcml:condition="installed plone.restapi">
     <adapter
