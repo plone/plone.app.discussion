@@ -18,9 +18,12 @@ import logging
 
 try:
     from persistent import Persistent
+    from persistent.mapping import PersistentMapping
 except ImportError:
     class Persistent:
         pass
+    # Fallback for environments without persistent
+    PersistentMapping = dict
 
 try:
     from plone.base.utils import safe_text
@@ -36,6 +39,11 @@ try:
 except ImportError:
     class IRegistry:
         pass
+
+try:
+    import transaction
+except ImportError:
+    transaction = None
 
 logger = logging.getLogger("plone.app.discussion.ban")
 
@@ -182,8 +190,35 @@ class BanManager:
         """Get the ban storage from portal annotations."""
         annotations = IAnnotations(self.portal)
         if BAN_ANNOTATION_KEY not in annotations:
-            annotations[BAN_ANNOTATION_KEY] = {}
-        return annotations[BAN_ANNOTATION_KEY]
+            # Initialize with a persistent mapping to ensure changes are saved
+            annotations[BAN_ANNOTATION_KEY] = PersistentMapping()
+        storage = annotations[BAN_ANNOTATION_KEY]
+        
+        # Ensure we have a persistent mapping even if created with regular dict
+        if not isinstance(storage, PersistentMapping) and PersistentMapping != dict:
+            # Convert existing dict to PersistentMapping
+            new_storage = PersistentMapping()
+            new_storage.update(storage)
+            annotations[BAN_ANNOTATION_KEY] = new_storage
+            storage = new_storage
+        
+        return storage
+    
+    def _mark_storage_changed(self, storage):
+        """Mark storage as changed for ZODB persistence."""
+        try:
+            # Try to mark the storage as changed for persistence
+            storage._p_changed = True
+        except AttributeError:
+            # Not a persistent object, changes won't persist across restarts
+            logger.warning("Ban storage is not persistent - changes may not survive server restarts")
+        
+        # Attempt to commit the transaction
+        if transaction:
+            try:
+                transaction.commit()
+            except Exception as e:
+                logger.error(f"Failed to commit ban transaction: {e}")
     
     def ban_user(self, user_id, ban_type, moderator_id, reason=None, 
                  duration_hours=None, expires_date=None):
@@ -203,6 +238,9 @@ class BanManager:
         storage = self._get_ban_storage()
         storage[user_id] = ban
         
+        # Mark the storage as changed to ensure persistence
+        self._mark_storage_changed(storage)
+        
         logger.info(f"User {user_id} banned by {moderator_id} ({ban_type})")
         return ban
     
@@ -212,6 +250,10 @@ class BanManager:
         if user_id in storage:
             old_ban = storage[user_id]
             del storage[user_id]
+            
+            # Mark the storage as changed to ensure persistence
+            self._mark_storage_changed(storage)
+            
             logger.info(f"User {user_id} unbanned by {moderator_id}")
             return old_ban
         return None
@@ -231,6 +273,8 @@ class BanManager:
         elif ban and not ban.is_active():
             # Clean up expired ban
             del storage[user_id]
+            # Mark the storage as changed to ensure persistence
+            self._mark_storage_changed(storage)
         
         return None
     
@@ -252,9 +296,13 @@ class BanManager:
             if not ban.is_active():
                 expired_users.append(user_id)
         
-        for user_id in expired_users:
-            del storage[user_id]
-            logger.info(f"Cleaned up expired ban for user {user_id}")
+        if expired_users:
+            for user_id in expired_users:
+                del storage[user_id]
+                logger.info(f"Cleaned up expired ban for user {user_id}")
+            
+            # Mark the storage as changed to ensure persistence
+            self._mark_storage_changed(storage)
         
         return len(expired_users)
 
