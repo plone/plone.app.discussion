@@ -1,5 +1,7 @@
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
+from AccessControl.SecurityManagement import newSecurityManager
+from AccessControl.users import SimpleUser
 from Acquisition import aq_inner
 from DateTime import DateTime
 from plone.app.discussion import _
@@ -344,17 +346,22 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
                 # Check if workflow supports spam state
                 comment_workflow = workflowTool.getWorkflowsFor(comment)
                 if comment_workflow and "spam" in comment_workflow[0].states:
+                    # Use Zope security manager for privileged operations
+                    # Store current security manager
+                    old_security_manager = getSecurityManager()
+                    
                     try:
-                        # Try to use plone.api for privileged operations
-                        import plone.api
-
-                        with plone.api.env.adopt_roles(["Manager"]):
-                            workflowTool.doActionFor(comment, "mark_as_spam")
-                            comment.reindexObject()
-                    except ImportError:
-                        # Fallback: direct state manipulation
-                        comment.review_state = "spam"
+                        # Create a temporary security manager with Manager role
+                        user = SimpleUser('system', '', ['Manager'], [])
+                        user = user.__of__(self.context.acl_users)
+                        newSecurityManager(None, user)
+                        
+                        # Perform the workflow action with elevated privileges
+                        workflowTool.doActionFor(comment, "mark_as_spam")
                         comment.reindexObject()
+                    finally:
+                        # Restore original security manager
+                        newSecurityManager(None, old_security_manager.getUser())
 
                     message = _(
                         "comment_marked_spam_by_filter",
