@@ -126,24 +126,24 @@ def upgrade_ban_system_registry(context):
     """Add ban system settings to the registry."""
     logger.info("Upgrading ban system registry settings")
     registry = getUtility(IRegistry)
-    
+
     # Ensure the discussion settings interface is registered
     registry.registerInterface(IDiscussionSettings)
-    
+
     # Set default values for ban system if not already set
     settings = registry.forInterface(IDiscussionSettings, check=False)
-    
+
     # Initialize ban system settings with safe defaults
-    if not hasattr(settings, 'ban_enabled'):
+    if not hasattr(settings, "ban_enabled"):
         settings.ban_enabled = False
         logger.info("Added ban_enabled setting (default: False)")
-    
-    if not hasattr(settings, 'shadow_ban_notification_enabled'):
+
+    if not hasattr(settings, "shadow_ban_notification_enabled"):
         settings.shadow_ban_notification_enabled = False
         logger.info("Added shadow_ban_notification_enabled setting (default: False)")
-    
-    if not hasattr(settings, 'default_cooldown_duration'):
+
+    if not hasattr(settings, "default_cooldown_duration"):
         settings.default_cooldown_duration = 24
         logger.info("Added default_cooldown_duration setting (default: 24 hours)")
-    
+
     logger.info("Ban system registry upgrade completed")
