@@ -11,6 +11,11 @@ from zope.interface.common.mapping import IIterableMapping
 from zope.interface.interfaces import IObjectEvent
 
 
+BAN_TYPE_COOLDOWN = "cooldown"
+BAN_TYPE_SHADOW = "shadow"
+BAN_TYPE_PERMANENT = "permanent"
+
+
 DISCUSSION_ANNOTATION_KEY = "plone.app.discussion:conversation"
 
 
@@ -131,6 +136,41 @@ class IReplies(IIterableMapping):
 
     def __delitem__(key):
         """Delete the comment with the given key. The key is a long id."""
+
+
+class IBanUserSchema(Interface):
+    """Schema for banning users."""
+
+    user_id = schema.TextLine(
+        title=_("User ID"), required=True, description=_("Enter username or user ID")
+    )
+
+    ban_type = schema.Choice(
+        title=_("Ban Type"),
+        values=[BAN_TYPE_COOLDOWN, BAN_TYPE_SHADOW, BAN_TYPE_PERMANENT],
+        default=BAN_TYPE_COOLDOWN,
+        required=True,
+    )
+
+    duration_hours = schema.Int(
+        title=_("Duration (hours)"), required=False, min=1, default=24
+    )
+
+    reason = schema.Text(
+        title=_("Reason"),
+        required=False,
+        description=_("This reason will be shown to the user"),
+    )
+
+
+class IUnbanUserSchema(Interface):
+    """Schema for unbanning users."""
+
+    user_id = schema.TextLine(
+        title=_("User ID"),
+        required=True,
+        description=_("Enter username or user ID to unban"),
+    )
 
 
 class IComment(Interface):
