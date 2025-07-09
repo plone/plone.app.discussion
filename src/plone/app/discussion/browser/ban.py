@@ -3,6 +3,7 @@
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
+from datetime import datetime
 from plone.app.discussion.ban import get_ban_manager
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IBanUserSchema
@@ -305,9 +306,73 @@ class BanManagementView(BrowserView, BanManagementMixin):
             )
 
     def get_active_bans(self):
-        """Get all active bans for display."""
+        """Get all active bans for display, with filtering and sorting."""
         ban_manager = self._get_ban_manager()
-        return ban_manager.get_active_bans()
+        all_active_bans = ban_manager.get_active_bans()
+        
+        # Apply search filter
+        search_query = self.request.form.get('search_query', '').strip().lower()
+        filter_type = self.request.form.get('filter_type', '')
+        sort_by = self.request.form.get('sort_by', 'date_desc')
+        
+        # Filter bans based on search query
+        if search_query:
+            filtered_bans = []
+            for ban in all_active_bans:
+                # Search in user_id
+                if search_query in ban.user_id.lower():
+                    filtered_bans.append(ban)
+                    continue
+                    
+                # Search in moderator_id
+                if search_query in ban.moderator_id.lower():
+                    filtered_bans.append(ban)
+                    continue
+                    
+                # Search in reason if it exists
+                if hasattr(ban, 'reason') and ban.reason and search_query in ban.reason.lower():
+                    filtered_bans.append(ban)
+                    continue
+                    
+                # Search in user display name
+                user_display = self.get_user_display_name(ban.user_id).lower()
+                if search_query in user_display:
+                    filtered_bans.append(ban)
+                    continue
+        else:
+            filtered_bans = all_active_bans
+            
+        # Filter by ban type if specified
+        if filter_type:
+            filtered_bans = [ban for ban in filtered_bans if ban.ban_type.lower() == filter_type.lower()]
+            
+        # Apply sorting
+        if sort_by == 'date_asc':
+            filtered_bans.sort(key=lambda ban: ban.created_date)
+        elif sort_by == 'date_desc':
+            filtered_bans.sort(key=lambda ban: ban.created_date, reverse=True)
+        elif sort_by == 'user_asc':
+            filtered_bans.sort(key=lambda ban: ban.user_id.lower())
+        elif sort_by == 'user_desc':
+            filtered_bans.sort(key=lambda ban: ban.user_id.lower(), reverse=True)
+        elif sort_by == 'expires_asc':
+            # Sort by expiration date with permanent bans at the end
+            def get_expiration_key(ban):
+                if ban.ban_type == BAN_TYPE_PERMANENT:
+                    # Use max datetime for permanent bans
+                    return datetime.max
+                return ban.expires_date or datetime.max
+            filtered_bans.sort(key=get_expiration_key)
+        elif sort_by == 'expires_desc':
+            # Sort by expiration date with permanent bans at the beginning
+            def get_expiration_key(ban):
+                if ban.ban_type == BAN_TYPE_PERMANENT:
+                    # Use min datetime for permanent bans to sort them first
+                    return datetime.min
+                return ban.expires_date or datetime.min
+            filtered_bans.sort(key=get_expiration_key, reverse=True)
+            
+        return filtered_bans
 
     def get_ban_type_display(self, ban_type):
         """Get display name for ban type."""
