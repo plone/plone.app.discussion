@@ -7,7 +7,7 @@ from plone.app.discussion.ban import can_user_comment
 from plone.app.discussion.ban import get_ban_manager
 from plone.app.discussion.ban import is_comment_visible
 from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.app.discussion.testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+from plone.app.discussion.testing import PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING
 from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
 from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
 from plone.app.discussion.vocabularies import BAN_TYPE_SHADOW
@@ -23,7 +23,7 @@ import unittest
 class TestBanManager(unittest.TestCase):
     """Test the BanManager class."""
 
-    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+    layer = PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.portal = self.layer["portal"]
@@ -194,7 +194,7 @@ class TestBanManager(unittest.TestCase):
 class TestBanHelperFunctions(unittest.TestCase):
     """Test the ban helper functions."""
 
-    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+    layer = PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.portal = self.layer["portal"]
@@ -315,7 +315,7 @@ class TestBanHelperFunctions(unittest.TestCase):
 class TestBanIntegration(unittest.TestCase):
     """Integration tests for the ban system."""
 
-    layer = PLONE_APP_DISCUSSION_INTEGRATION_TESTING
+    layer = PLONE_APP_DISCUSSION_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.portal = self.layer["portal"]
