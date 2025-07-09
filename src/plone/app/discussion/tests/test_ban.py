@@ -17,7 +17,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.registry.interfaces import IRegistry
 from zope.annotation.interfaces import IAnnotations
 from zope.component import queryUtility
-from zope.interface.verify import verifyObject
 
 import unittest
 
