@@ -459,17 +459,15 @@
                         <span tal:condition="ban/expires_date"
                               tal:content="python: view.format_time(ban.expires_date)"
                         >Expires</span>
-                        <span class="badge bg-dark"
-                              tal:condition="not: ban/expires_date"
-                              i18n:translate="never"
-                        >Never</span>
+                        <span tal:condition="not: ban/expires_date">_</span>
                       </td>
                       <td>
                         <span class="text-truncate d-inline-block"
                               style="max-width: 200px;"
-                              tal:content="ban/reason | string:No reason provided"
+                              tal:define="reason ban/reason|nothing"
+                              tal:content="python: reason if reason else '_'"
                               tal:attributes="
-                                title ban/reason | string:No reason provided;
+                                title python: reason if reason else '_';
                               "
                         >Reason</span>
                       </td>
