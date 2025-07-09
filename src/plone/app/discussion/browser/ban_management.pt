@@ -405,7 +405,7 @@
                         </div>
                       </th>
                       <th i18n:translate="th_user">User</th>
-                      <th i18n:translate="th_ban_type">Ban Type</th>
+                      <th i18n:translate="th_ban_type">Type</th>
                       <th i18n:translate="th_created">Created</th>
                       <th i18n:translate="th_expires">Expires</th>
                       <th i18n:translate="th_remaining">Remaining</th>
@@ -515,13 +515,17 @@
                 <div class="btn-group"
                      role="group"
                 >
-                  <a class="btn btn-outline-danger pat-plone-modal"
-                     href="#"
-                     type="button"
-                     i18n:translate="button_quick_unban"
+                  <button class="btn btn-outline-danger"
+                          name="action"
+                          type="submit"
+                          value="empty_ban_list"
+                          onclick="return confirm(this.getAttribute('data-confirm-message'));"
+                          data-confirm-message="Are you sure you want to clear all bans? This will unban all users and cannot be undone."
+                          i18n:attributes="data-confirm-message confirm_empty_ban_list"
+                          i18n:translate="button_empty_ban_list"
                   >
-                    <span>Unban all</span>
-                  </a>
+                    <span>Empty Ban List</span>
+                  </button>
                 </div>
               </div>
             </div>
