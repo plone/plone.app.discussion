@@ -311,21 +311,39 @@
               <div class="card-header bg-light">
                 <span i18n:translate="heading_quick_actions">Quick Actions</span>
               </div>
-              <div class="card-body py-3 d-flex flex-column">
-                <div class="d-grid gap-2 flex-grow-1">
-                  <a class="btn btn-primary pat-plone-modal"
-                     href="@@ban-user-form"
-                     type="button"
-                  >
-                    <span i18n:translate="button_ban_user">Ban User</span>
-                  </a>
-                </div>
-                <div class="text-center mt-2">
-                  <small class="text-muted"
-                         i18n:translate="quick_action_help"
-                  >
-                                Quickly restrict a user's access
-                  </small>
+              <div class="card-body py-3">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <a class="btn btn-primary w-100 pat-plone-modal"
+                       href="@@ban-user-form"
+                       type="button"
+                    >
+                      <span i18n:translate="button_ban_user">Ban User</span>
+                    </a>
+                    <div class="text-center mt-2">
+                      <small class="text-muted"
+                             i18n:translate="ban_user_help"
+                      >
+                        Restrict a user's commenting ability
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="btn btn-danger w-100 pat-plone-modal"
+                       href="@@unban-user-form"
+                       type="button"
+                       i18n:translate="button_quick_unban"
+                    >
+                      <span>Quick Unban</span>
+                    </a>
+                    <div class="text-center mt-2">
+                      <small class="text-muted"
+                             i18n:translate="unban_user_help"
+                      >
+                        Remove restrictions for a user
+                      </small>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -417,16 +435,19 @@
                       </td>
                       <td>
                         <div class="d-flex align-items-center">
-                          <span tal:content="python: view.get_user_display_name(ban.user_id)">User</span>
+                          <a class="fw-medium text-decoration-none" 
+                             tal:attributes="href string:${context/portal_url}/author/${ban/user_id};
+                                             title python: view.get_user_display_name(ban.user_id)"
+                             tal:content="python: view.get_user_display_name(ban.user_id)">User</a>
                         </div>
                       </td>
                       <td>
                         <span class="badge rounded-pill"
                               tal:content="python: view.get_ban_type_display(ban.ban_type)"
                               tal:attributes="
-                                class python: 'badge rounded-pill bg-danger' if ban.ban_type == 'permanent' else ('badge rounded-pill bg-warning text-dark' if ban.ban_type == 'shadow' else 'badge rounded-pill bg-info');
+                                class python: 'badge rounded-pill bg-light text-dark'
                               "
-                        >Ban Type</span>
+                        >Type</span>
                       </td>
                       <td>
                         <span tal:content="python: ban.created_date.strftime('%Y-%m-%d %H:%M')">Created</span>
@@ -473,7 +494,7 @@
                 <div class="btn-group"
                      role="group"
                 >
-                  <button class="btn btn-success"
+                  <button class="btn btn-primary"
                           name="action"
                           type="submit"
                           value="unban_selected"
@@ -481,7 +502,7 @@
                   >
                     <span>Unban Selected</span>
                   </button>
-                  <button class="btn btn-outline-warning"
+                  <button class="btn btn-secondary"
                           name="action"
                           type="submit"
                           value="cleanup_expired"
@@ -494,12 +515,12 @@
                 <div class="btn-group"
                      role="group"
                 >
-                  <a class="btn btn-outline-secondary pat-plone-modal"
-                     href="@@unban-user-form"
+                  <a class="btn btn-outline-danger pat-plone-modal"
+                     href="#"
                      type="button"
                      i18n:translate="button_quick_unban"
                   >
-                    <span>Quick Unban</span>
+                    <span>Unban all</span>
                   </a>
                 </div>
               </div>

@@ -239,6 +239,8 @@ class BanManagementView(BrowserView, BanManagementMixin):
             self.unban_user()
         elif action == "cleanup_expired":
             self.cleanup_expired_bans()
+        elif action == "unban_selected":
+            self.unban_selected_users()
 
     def unban_user(self):
         """Unban a user."""
@@ -256,6 +258,33 @@ class BanManagementView(BrowserView, BanManagementMixin):
             _("Cleaned up ${count} expired bans.", mapping={"count": count}),
             type="info",
         )
+
+    def unban_selected_users(self):
+        """Unban all selected users."""
+        selected_bans = self.request.form.get("selected_bans", [])
+        if not selected_bans:
+            IStatusMessage(self.request).add(
+                _("Please select at least one user to unban."), type="warning"
+            )
+            return
+
+        moderator_id = self._get_current_moderator_id()
+        ban_manager = self._get_ban_manager()
+        
+        unbanned_count = 0
+        for user_id in selected_bans:
+            if ban_manager.unban_user(user_id, moderator_id):
+                unbanned_count += 1
+                
+        if unbanned_count:
+            IStatusMessage(self.request).add(
+                _("Unbanned ${count} users.", mapping={"count": unbanned_count}),
+                type="info"
+            )
+        else:
+            IStatusMessage(self.request).add(
+                _("No users were unbanned."), type="warning"
+            )
 
     def get_active_bans(self):
         """Get all active bans for display."""
