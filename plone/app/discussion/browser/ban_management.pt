@@ -436,17 +436,20 @@
                       </td>
                       <td>
                         <div class="d-flex align-items-center">
-                          <a class="fw-medium text-decoration-none" 
-                             tal:attributes="href string:${context/portal_url}/author/${ban/user_id};
-                                             title python: view.get_user_display_name(ban.user_id)"
-                             tal:content="python: view.get_user_display_name(ban.user_id)">User</a>
+                          <a class="fw-medium text-decoration-none"
+                             tal:content="python: view.get_user_display_name(ban.user_id)"
+                             tal:attributes="
+                               href string:${context/portal_url}/author/${ban/user_id};
+                               title python: view.get_user_display_name(ban.user_id);
+                             "
+                          >User</a>
                         </div>
                       </td>
                       <td>
                         <span class="badge rounded-pill"
                               tal:content="python: view.get_ban_type_display(ban.ban_type)"
                               tal:attributes="
-                                class python: 'badge rounded-pill bg-light text-dark'
+                                class python: 'badge rounded-pill bg-light text-dark';
                               "
                         >Type</span>
                       </td>
@@ -518,9 +521,9 @@
                 >
                   <button class="btn btn-outline-danger"
                           name="action"
+                          onclick="return confirm(this.getAttribute('data-confirm-message'));"
                           type="submit"
                           value="empty_ban_list"
-                          onclick="return confirm(this.getAttribute('data-confirm-message'));"
                           data-confirm-message="Are you sure you want to clear all bans? This will unban all users and cannot be undone."
                           i18n:attributes="data-confirm-message confirm_empty_ban_list"
                           i18n:translate="button_empty_ban_list"

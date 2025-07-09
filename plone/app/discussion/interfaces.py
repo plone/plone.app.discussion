@@ -153,7 +153,7 @@ class IBanUserSchema(Interface):
         description=_("Only used when ban type is not permanent"),
         required=False,
         min=1,
-        default=24
+        default=24,
     )
 
     reason = schema.Text(

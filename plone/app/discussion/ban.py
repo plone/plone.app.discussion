@@ -295,7 +295,7 @@ class BanManager:
         if old_ban:
             # Mark the storage as changed to ensure persistence
             self._mark_storage_changed(storage)
-            logger.info(f"User {user_id} unbanned by {moderator_id}")
+            logger.debug(f"User {user_id} unbanned by {moderator_id}")
 
         return old_ban
 

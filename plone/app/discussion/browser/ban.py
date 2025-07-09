@@ -71,14 +71,16 @@ class BanManagementMixin:
         user_id = self._validate_user_id(user_id)
         if not user_id:
             return False
-            
+
         # Check if the user_id exists in the system
         membership = getToolByName(self.context, "portal_membership")
         member = membership.getMemberById(user_id)
         if not member:
             IStatusMessage(self.request).add(
-                _("User ${user_id} does not exist in the system.", 
-                  mapping={"user_id": user_id}),
+                _(
+                    "User ${user_id} does not exist in the system.",
+                    mapping={"user_id": user_id},
+                ),
                 type="error",
             )
             return False
@@ -87,13 +89,12 @@ class BanManagementMixin:
         ban_manager = self._get_ban_manager()
         old_ban = ban_manager.unban_user(user_id, moderator_id)
 
-        message = (
-            _("User ${user_id} has been unbanned.", mapping={"user_id": user_id})
-            if old_ban
-            else _("User ${user_id} was not banned.", mapping={"user_id": user_id})
-        )
-
-        IStatusMessage(self.request).add(message, type="info" if old_ban else "warning")
+        if old_ban is None:
+            IStatusMessage(self.request).add(
+                _("No ban found for ${user_id}", mapping={"user_id": user_id}),
+                type="error",
+            )
+            return False
         return True
 
 
@@ -121,25 +122,29 @@ class UserBanForm(form.Form, BanManagementMixin):
         user_id = self._validate_user_id(user_id)
         if not user_id:
             return
-            
+
         # Check if the user_id exists in the system
         membership = getToolByName(self.context, "portal_membership")
         member = membership.getMemberById(user_id)
         if not member:
             IStatusMessage(self.request).add(
-                _("User ${user_id} does not exist in the system.", 
-                  mapping={"user_id": user_id}),
+                _(
+                    "User ${user_id} does not exist in the system.",
+                    mapping={"user_id": user_id},
+                ),
                 type="error",
             )
             return
-            
+
         # Check if the user is already banned
         ban_manager = self._get_ban_manager()
         existing_ban = ban_manager.get_user_ban(user_id)
         if existing_ban and existing_ban.is_active():
             IStatusMessage(self.request).add(
-                _("User ${user_id} is already banned. Unban first if you want to change the ban type.", 
-                  mapping={"user_id": user_id}),
+                _(
+                    "User ${user_id} is already banned. Unban first if you want to change the ban type.",
+                    mapping={"user_id": user_id},
+                ),
                 type="error",
             )
             return
@@ -250,15 +255,14 @@ class BanManagementView(BrowserView, BanManagementMixin):
         moderator_id = self._get_current_moderator_id()
         ban_manager = self._get_ban_manager()
         active_bans = ban_manager.get_active_bans()
-            
+
         count = 0
         for ban in active_bans:
             ban_manager.unban_user(ban.user_id, moderator_id)
             count += 1
-            
+
         IStatusMessage(self.request).add(
-            _("Removed all ${count} bans.", mapping={"count": count}),
-            type="info"
+            _("Removed all ${count} bans.", mapping={"count": count}), type="info"
         )
 
     def unban_user(self):
@@ -289,16 +293,16 @@ class BanManagementView(BrowserView, BanManagementMixin):
 
         moderator_id = self._get_current_moderator_id()
         ban_manager = self._get_ban_manager()
-        
+
         unbanned_count = 0
         for user_id in selected_bans:
             if ban_manager.unban_user(user_id, moderator_id):
                 unbanned_count += 1
-                
+
         if unbanned_count:
             IStatusMessage(self.request).add(
                 _("Unbanned ${count} users.", mapping={"count": unbanned_count}),
-                type="info"
+                type="info",
             )
         else:
             IStatusMessage(self.request).add(
@@ -309,12 +313,12 @@ class BanManagementView(BrowserView, BanManagementMixin):
         """Get all active bans for display, with filtering and sorting."""
         ban_manager = self._get_ban_manager()
         all_active_bans = ban_manager.get_active_bans()
-        
+
         # Apply search filter
-        search_query = self.request.form.get('search_query', '').strip().lower()
-        filter_type = self.request.form.get('filter_type', '')
-        sort_by = self.request.form.get('sort_by', 'date_desc')
-        
+        search_query = self.request.form.get("search_query", "").strip().lower()
+        filter_type = self.request.form.get("filter_type", "")
+        sort_by = self.request.form.get("sort_by", "date_desc")
+
         # Filter bans based on search query
         if search_query:
             filtered_bans = []
@@ -323,17 +327,21 @@ class BanManagementView(BrowserView, BanManagementMixin):
                 if search_query in ban.user_id.lower():
                     filtered_bans.append(ban)
                     continue
-                    
+
                 # Search in moderator_id
                 if search_query in ban.moderator_id.lower():
                     filtered_bans.append(ban)
                     continue
-                    
+
                 # Search in reason if it exists
-                if hasattr(ban, 'reason') and ban.reason and search_query in ban.reason.lower():
+                if (
+                    hasattr(ban, "reason")
+                    and ban.reason
+                    and search_query in ban.reason.lower()
+                ):
                     filtered_bans.append(ban)
                     continue
-                    
+
                 # Search in user display name
                 user_display = self.get_user_display_name(ban.user_id).lower()
                 if search_query in user_display:
@@ -341,37 +349,43 @@ class BanManagementView(BrowserView, BanManagementMixin):
                     continue
         else:
             filtered_bans = all_active_bans
-            
+
         # Filter by ban type if specified
         if filter_type:
-            filtered_bans = [ban for ban in filtered_bans if ban.ban_type.lower() == filter_type.lower()]
-            
+            filtered_bans = [
+                ban
+                for ban in filtered_bans
+                if ban.ban_type.lower() == filter_type.lower()
+            ]
+
         # Apply sorting
-        if sort_by == 'date_asc':
+        if sort_by == "date_asc":
             filtered_bans.sort(key=lambda ban: ban.created_date)
-        elif sort_by == 'date_desc':
+        elif sort_by == "date_desc":
             filtered_bans.sort(key=lambda ban: ban.created_date, reverse=True)
-        elif sort_by == 'user_asc':
+        elif sort_by == "user_asc":
             filtered_bans.sort(key=lambda ban: ban.user_id.lower())
-        elif sort_by == 'user_desc':
+        elif sort_by == "user_desc":
             filtered_bans.sort(key=lambda ban: ban.user_id.lower(), reverse=True)
-        elif sort_by == 'expires_asc':
+        elif sort_by == "expires_asc":
             # Sort by expiration date with permanent bans at the end
             def get_expiration_key(ban):
                 if ban.ban_type == BAN_TYPE_PERMANENT:
                     # Use max datetime for permanent bans
                     return datetime.max
                 return ban.expires_date or datetime.max
+
             filtered_bans.sort(key=get_expiration_key)
-        elif sort_by == 'expires_desc':
+        elif sort_by == "expires_desc":
             # Sort by expiration date with permanent bans at the beginning
             def get_expiration_key(ban):
                 if ban.ban_type == BAN_TYPE_PERMANENT:
                     # Use min datetime for permanent bans to sort them first
                     return datetime.min
                 return ban.expires_date or datetime.min
+
             filtered_bans.sort(key=get_expiration_key, reverse=True)
-            
+
         return filtered_bans
 
     def get_ban_type_display(self, ban_type):
