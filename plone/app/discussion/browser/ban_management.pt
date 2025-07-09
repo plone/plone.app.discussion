@@ -41,7 +41,7 @@
         <!-- Search and filter form in a card -->
         <div class="card mb-4">
           <div class="card-header bg-light d-flex align-items-center">
-            <span i18n:translate="heading_search_filter">Search and Filter Bans</span>
+            <span i18n:translate="heading_search_filter">Search and Filter</span>
           </div>
           <div class="card-body py-3">
             <form class="search-box"
@@ -69,6 +69,7 @@
                            i18n:attributes="placeholder"
                     />
                     <button class="btn btn-primary"
+                            name="search_submit"
                             type="submit"
                     >
                       <span i18n:translate="button_search">Search</span>
