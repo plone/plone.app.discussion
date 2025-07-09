@@ -10,8 +10,9 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
-from zope.schema.vocabulary import SimpleTerm
-from zope.schema.vocabulary import SimpleVocabulary
+from plone.app.discussion.vocabularies import BAN_TYPE_SHADOW
+from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
+
 
 import logging
 
@@ -55,19 +56,6 @@ logger = logging.getLogger("plone.app.discussion.ban")
 # Annotation key for storing ban data
 BAN_ANNOTATION_KEY = "plone.app.discussion.bans"
 
-# Ban types
-BAN_TYPE_COOLDOWN = "cooldown"
-BAN_TYPE_SHADOW = "shadow"
-BAN_TYPE_PERMANENT = "permanent"
-
-BAN_TYPE_CHOICES = SimpleVocabulary(
-    [
-        SimpleTerm(value=BAN_TYPE_COOLDOWN, title=_("Cooldown Ban")),
-        SimpleTerm(value=BAN_TYPE_SHADOW, title=_("Shadow Ban")),
-        SimpleTerm(value=BAN_TYPE_PERMANENT, title=_("Permanent Ban")),
-    ]
-)
-
 
 class IBan(Interface):
     """Represents a user ban."""
@@ -80,7 +68,7 @@ class IBan(Interface):
 
     ban_type = schema.Choice(
         title=_("Ban Type"),
-        vocabulary=BAN_TYPE_CHOICES,
+        vocabulary="plone.app.discussion.vocabularies.BanVocabulary",
         required=True,
     )
 

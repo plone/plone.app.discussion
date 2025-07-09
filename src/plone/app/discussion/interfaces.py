@@ -9,11 +9,7 @@ from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface.common.mapping import IIterableMapping
 from zope.interface.interfaces import IObjectEvent
-
-
-BAN_TYPE_COOLDOWN = "cooldown"
-BAN_TYPE_SHADOW = "shadow"
-BAN_TYPE_PERMANENT = "permanent"
+from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
 
 
 DISCUSSION_ANNOTATION_KEY = "plone.app.discussion:conversation"
@@ -147,9 +143,9 @@ class IBanUserSchema(Interface):
 
     ban_type = schema.Choice(
         title=_("Ban Type"),
-        values=[BAN_TYPE_COOLDOWN, BAN_TYPE_SHADOW, BAN_TYPE_PERMANENT],
         default=BAN_TYPE_COOLDOWN,
         required=True,
+        vocabulary="plone.app.discussion.vocabularies.BanVocabulary"
     )
 
     duration_hours = schema.Int(

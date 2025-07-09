@@ -3,9 +3,6 @@
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
-from plone.app.discussion.ban import BAN_TYPE_COOLDOWN
-from plone.app.discussion.ban import BAN_TYPE_PERMANENT
-from plone.app.discussion.ban import BAN_TYPE_SHADOW
 from plone.app.discussion.ban import get_ban_manager
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IBanUserSchema
@@ -18,6 +15,9 @@ from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
+from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
+from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
+from plone.app.discussion.vocabularies import BAN_TYPE_SHADOW
 
 
 class BanManagementMixin:

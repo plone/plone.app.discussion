@@ -3,6 +3,10 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 
+BAN_TYPE_COOLDOWN = "cooldown"
+BAN_TYPE_SHADOW = "shadow"
+BAN_TYPE_PERMANENT = "permanent"
+
 HAS_CAPTCHA = False
 try:
     import plone.formwidget.captcha  # noqa
@@ -86,4 +90,13 @@ def text_transform_vocabulary(context):
             title="Intelligent text",
         )
     )
+    return SimpleVocabulary(terms)
+
+def ban_type_vocabulary(context):
+    """Vocabulary for ban types."""
+    terms = [
+        SimpleTerm(value=BAN_TYPE_COOLDOWN, token=BAN_TYPE_COOLDOWN, title=_("Cooldown")),
+        SimpleTerm(value=BAN_TYPE_SHADOW, token=BAN_TYPE_SHADOW, title=_("Shadow")),
+        SimpleTerm(value=BAN_TYPE_PERMANENT, token=BAN_TYPE_PERMANENT, title=_("Permanent")),
+    ]
     return SimpleVocabulary(terms)
