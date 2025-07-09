@@ -241,6 +241,24 @@ class BanManagementView(BrowserView, BanManagementMixin):
             self.cleanup_expired_bans()
         elif action == "unban_selected":
             self.unban_selected_users()
+        elif action == "empty_ban_list":
+            self.empty_ban_list()
+
+    def empty_ban_list(self):
+        """Remove all bans from the ban list."""
+        moderator_id = self._get_current_moderator_id()
+        ban_manager = self._get_ban_manager()
+        active_bans = ban_manager.get_active_bans()
+            
+        count = 0
+        for ban in active_bans:
+            ban_manager.unban_user(ban.user_id, moderator_id)
+            count += 1
+            
+        IStatusMessage(self.request).add(
+            _("Removed all ${count} bans.", mapping={"count": count}),
+            type="info"
+        )
 
     def unban_user(self):
         """Unban a user."""
