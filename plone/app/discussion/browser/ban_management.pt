@@ -409,7 +409,6 @@
                       <th i18n:translate="th_ban_type">Type</th>
                       <th i18n:translate="th_created">Created</th>
                       <th i18n:translate="th_expires">Expires</th>
-                      <th i18n:translate="th_remaining">Remaining</th>
                       <th i18n:translate="th_reason">Reason</th>
                       <th i18n:translate="th_moderator">Moderator</th>
                     </tr>
@@ -454,21 +453,16 @@
                         >Type</span>
                       </td>
                       <td>
-                        <span tal:content="python: ban.created_date.strftime('%Y-%m-%d %H:%M')">Created</span>
+                        <span tal:content="python: view.format_time(ban.created_date)">Created</span>
                       </td>
                       <td>
                         <span tal:condition="ban/expires_date"
-                              tal:content="python: ban.expires_date.strftime('%Y-%m-%d %H:%M')"
+                              tal:content="python: view.format_time(ban.expires_date)"
                         >Expires</span>
                         <span class="badge bg-dark"
                               tal:condition="not: ban/expires_date"
                               i18n:translate="never"
                         >Never</span>
-                      </td>
-                      <td>
-                        <span class="fw-bold text-warning"
-                              tal:content="python: view.format_time_remaining(ban)"
-                        >Remaining</span>
                       </td>
                       <td>
                         <span class="text-truncate d-inline-block"
