@@ -7,6 +7,9 @@ from plone.app.discussion.ban import get_ban_manager
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IBanUserSchema
 from plone.app.discussion.interfaces import IUnbanUserSchema
+from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
+from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
+from plone.app.discussion.vocabularies import BAN_TYPE_SHADOW
 from plone.z3cform.layout import wrap_form
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -15,9 +18,6 @@ from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
-from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
-from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
-from plone.app.discussion.vocabularies import BAN_TYPE_SHADOW
 
 
 class BanManagementMixin:
@@ -49,21 +49,21 @@ class BanManagementMixin:
 
     def _create_ban_success_message(self, user_id, ban_type, duration=None):
         """Create appropriate success message for ban creation."""
-        if ban_type == BAN_TYPE_PERMANENT:
-            return _(
+        message_map = {
+            BAN_TYPE_PERMANENT: _(
                 "User ${user_id} has been permanently banned.",
                 mapping={"user_id": user_id},
-            )
-        elif ban_type == BAN_TYPE_SHADOW:
-            return _(
+            ),
+            BAN_TYPE_SHADOW: _(
                 "User ${user_id} has been shadow banned.",
                 mapping={"user_id": user_id},
-            )
-        else:  # Cooldown
-            return _(
+            ),
+            BAN_TYPE_COOLDOWN: _(
                 "User ${user_id} has been banned for ${duration} hours.",
                 mapping={"user_id": user_id, "duration": duration or 24},
-            )
+            ),
+        }
+        return message_map.get(ban_type, message_map[BAN_TYPE_COOLDOWN])
 
     def _unban_user_with_messages(self, user_id):
         """Unban a user and show appropriate status messages."""
@@ -75,16 +75,13 @@ class BanManagementMixin:
         ban_manager = self._get_ban_manager()
         old_ban = ban_manager.unban_user(user_id, moderator_id)
 
-        if old_ban:
-            IStatusMessage(self.request).add(
-                _("User ${user_id} has been unbanned.", mapping={"user_id": user_id}),
-                type="info",
-            )
-        else:
-            IStatusMessage(self.request).add(
-                _("User ${user_id} was not banned.", mapping={"user_id": user_id}),
-                type="warning",
-            )
+        message = (
+            _("User ${user_id} has been unbanned.", mapping={"user_id": user_id})
+            if old_ban
+            else _("User ${user_id} was not banned.", mapping={"user_id": user_id})
+        )
+
+        IStatusMessage(self.request).add(message, type="info" if old_ban else "warning")
         return True
 
 
@@ -233,27 +230,30 @@ class BanManagementView(BrowserView, BanManagementMixin):
 
     def get_ban_type_display(self, ban_type):
         """Get display name for ban type."""
-        if ban_type == BAN_TYPE_COOLDOWN:
-            return _("Cooldown Ban")
-        elif ban_type == BAN_TYPE_SHADOW:
-            return _("Shadow Ban")
-        elif ban_type == BAN_TYPE_PERMANENT:
-            return _("Permanent Ban")
-        return ban_type
+        display_map = {
+            BAN_TYPE_COOLDOWN: _("Cooldown Ban"),
+            BAN_TYPE_SHADOW: _("Shadow Ban"),
+            BAN_TYPE_PERMANENT: _("Permanent Ban"),
+        }
+        return display_map.get(ban_type, ban_type)
 
     def format_time_remaining(self, ban):
         """Format the remaining time for a ban."""
+        # Handle permanent bans
         if ban.ban_type == BAN_TYPE_PERMANENT:
             return _("Permanent")
 
+        # Get remaining time
         remaining = ban.get_remaining_time()
         if not remaining:
             return _("Expired")
 
+        # Format time components
         days = remaining.days
         hours = remaining.seconds // 3600
         minutes = (remaining.seconds % 3600) // 60
 
+        # Return appropriate format based on remaining time
         if days > 0:
             return _("${days}d ${hours}h", mapping={"days": days, "hours": hours})
         elif hours > 0:
@@ -265,12 +265,19 @@ class BanManagementView(BrowserView, BanManagementMixin):
 
     def get_user_display_name(self, user_id):
         """Get display name for a user."""
+        if not user_id:
+            return ""
+
+        # Get member information
         membership = getToolByName(self.context, "portal_membership")
         member = membership.getMemberById(user_id)
+
+        # If we have a valid member with a fullname, use it
         if member:
-            fullname = member.getProperty("fullname", "")
+            fullname = member.getProperty("fullname", "").strip()
             if fullname:
                 return f"{fullname} ({user_id})"
+
         return user_id
 
 
@@ -282,29 +289,46 @@ class UserBanStatusView(BrowserView, BanManagementMixin):
         membership = getToolByName(self.context, "portal_membership")
         member = membership.getAuthenticatedMember()
 
-        if not member or membership.isAnonymousUser():
-            return {"banned": False}
+        # Default response for anonymous users or no ban
+        default_response = {
+            "banned": False,
+            "ban_type": None,
+            "can_comment": True,
+            "reason": None,
+            "created_date": None,
+            "expires_date": None,
+            "remaining_seconds": 0,
+        }
 
+        # Return default response for anonymous users
+        if not member or membership.isAnonymousUser():
+            return default_response
+
+        # Get ban information
         user_id = member.getId()
         ban_manager = self._get_ban_manager()
         ban = ban_manager.get_user_ban(user_id)
 
+        # Return default response if no active ban
         if not ban or not ban.is_active():
-            return {"banned": False}
+            return default_response
 
+        # Build response with ban information
         result = {
             "banned": True,
             "ban_type": ban.ban_type,
             "can_comment": ban.ban_type == BAN_TYPE_SHADOW,
             "reason": ban.reason,
             "created_date": ban.created_date.isoformat() if ban.created_date else None,
+            "expires_date": None,
+            "remaining_seconds": 0,
         }
 
         # Add expiration info for temporary bans
-        if ban.ban_type != BAN_TYPE_PERMANENT:
+        if ban.ban_type != BAN_TYPE_PERMANENT and ban.expires_date:
+            result["expires_date"] = ban.expires_date.isoformat()
             remaining = ban.get_remaining_time()
             if remaining:
-                result["expires_date"] = ban.expires_date.isoformat()
                 result["remaining_seconds"] = int(remaining.total_seconds())
 
         return result

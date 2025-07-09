@@ -92,11 +92,16 @@ def text_transform_vocabulary(context):
     )
     return SimpleVocabulary(terms)
 
+
 def ban_type_vocabulary(context):
     """Vocabulary for ban types."""
     terms = [
-        SimpleTerm(value=BAN_TYPE_COOLDOWN, token=BAN_TYPE_COOLDOWN, title=_("Cooldown")),
+        SimpleTerm(
+            value=BAN_TYPE_COOLDOWN, token=BAN_TYPE_COOLDOWN, title=_("Cooldown")
+        ),
         SimpleTerm(value=BAN_TYPE_SHADOW, token=BAN_TYPE_SHADOW, title=_("Shadow")),
-        SimpleTerm(value=BAN_TYPE_PERMANENT, token=BAN_TYPE_PERMANENT, title=_("Permanent")),
+        SimpleTerm(
+            value=BAN_TYPE_PERMANENT, token=BAN_TYPE_PERMANENT, title=_("Permanent")
+        ),
     ]
     return SimpleVocabulary(terms)

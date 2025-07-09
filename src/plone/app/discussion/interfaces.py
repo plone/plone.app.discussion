@@ -1,6 +1,7 @@
 """Interfaces for plone.app.discussion"""
 
 from plone.app.discussion import _
+from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from zope import schema
@@ -9,7 +10,6 @@ from zope.interface import Interface
 from zope.interface import Invalid
 from zope.interface.common.mapping import IIterableMapping
 from zope.interface.interfaces import IObjectEvent
-from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
 
 
 DISCUSSION_ANNOTATION_KEY = "plone.app.discussion:conversation"
@@ -145,7 +145,7 @@ class IBanUserSchema(Interface):
         title=_("Ban Type"),
         default=BAN_TYPE_COOLDOWN,
         required=True,
-        vocabulary="plone.app.discussion.vocabularies.BanVocabulary"
+        vocabulary="plone.app.discussion.vocabularies.BanVocabulary",
     )
 
     duration_hours = schema.Int(
