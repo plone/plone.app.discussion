@@ -149,7 +149,11 @@ class IBanUserSchema(Interface):
     )
 
     duration_hours = schema.Int(
-        title=_("Duration (hours)"), required=False, min=1, default=24
+        title=_("Duration (hours)"),
+        description=_("Only used when ban type is not permanent"),
+        required=False,
+        min=1,
+        default=24
     )
 
     reason = schema.Text(
