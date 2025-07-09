@@ -18,14 +18,11 @@ import logging
 
 try:
     from persistent import Persistent
-    from persistent.mapping import PersistentMapping
 except ImportError:
 
     class Persistent:
         pass
 
-    # Fallback for environments without persistent
-    PersistentMapping = dict
 
 try:
     from plone.base.utils import safe_text
@@ -44,11 +41,6 @@ except ImportError:
     class IRegistry:
         pass
 
-
-try:
-    import transaction
-except ImportError:
-    transaction = None
 
 logger = logging.getLogger("plone.app.discussion.ban")
 
@@ -209,36 +201,8 @@ class BanManager:
         """Get the ban storage from portal annotations."""
         annotations = IAnnotations(self.portal)
         if BAN_ANNOTATION_KEY not in annotations:
-            # Initialize with a persistent mapping to ensure changes are saved
-            annotations[BAN_ANNOTATION_KEY] = PersistentMapping()
-
-        storage = annotations[BAN_ANNOTATION_KEY]
-        # Ensure we have a persistent mapping
-        if not isinstance(storage, PersistentMapping) and PersistentMapping != dict:
-            # Convert existing dict to PersistentMapping
-            new_storage = PersistentMapping(storage)
-            annotations[BAN_ANNOTATION_KEY] = new_storage
-            storage = new_storage
-
-        return storage
-
-    def _mark_storage_changed(self, storage):
-        """Mark storage as changed for ZODB persistence."""
-        try:
-            # Try to mark the storage as changed for persistence
-            storage._p_changed = True
-        except AttributeError:
-            # Not a persistent object, changes won't persist across restarts
-            logger.warning(
-                "Ban storage is not persistent - changes may not survive server restarts"
-            )
-
-        # Only commit transaction if not within an active transaction
-        if transaction and not transaction.isDoomed():
-            try:
-                transaction.commit()
-            except Exception as e:
-                logger.debug(f"Failed to commit ban transaction: {e}")
+            annotations[BAN_ANNOTATION_KEY] = {}
+        return annotations[BAN_ANNOTATION_KEY]
 
     def ban_user(
         self,
@@ -278,7 +242,6 @@ class BanManager:
         # Store ban in annotation storage
         storage = self._get_ban_storage()
         storage[user_id] = ban
-        self._mark_storage_changed(storage)
 
         logger.info(f"User {user_id} banned by {moderator_id} ({ban_type})")
         return ban
@@ -290,14 +253,12 @@ class BanManager:
             return None
 
         storage = self._get_ban_storage()
-        old_ban = storage.pop(user_id, None)
-
-        if old_ban:
-            # Mark the storage as changed to ensure persistence
-            self._mark_storage_changed(storage)
-            logger.debug(f"User {user_id} unbanned by {moderator_id}")
-
-        return old_ban
+        if user_id in storage:
+            old_ban = storage[user_id]
+            del storage[user_id]
+            logger.info(f"User {user_id} unbanned by {moderator_id}")
+            return old_ban
+        return None
 
     def is_user_banned(self, user_id):
         """Check if a user is currently banned."""
@@ -319,10 +280,10 @@ class BanManager:
         # Return ban if active
         if ban.is_active():
             return ban
+        elif ban and not ban.is_active():
+            # Clean up expired ban
+            del storage[user_id]
 
-        # Clean up expired ban automatically
-        del storage[user_id]
-        self._mark_storage_changed(storage)
         return None
 
     def get_all_bans(self):
@@ -338,7 +299,6 @@ class BanManager:
         """Remove expired bans from storage."""
         storage = self._get_ban_storage()
         now = datetime.now()
-        storage_changed = False
         expired_users = []
 
         # Find all expired bans
@@ -350,13 +310,10 @@ class BanManager:
                 and now > ban.expires_date
             ):
                 expired_users.append(user_id)
-                del storage[user_id]
-                storage_changed = True
 
-        # Only mark storage changed if we actually deleted something
-        if storage_changed:
-            self._mark_storage_changed(storage)
-            logger.info(f"Cleaned up {len(expired_users)} expired bans")
+        for user_id in expired_users:
+            del storage[user_id]
+            logger.info(f"Cleaned up expired ban for user {user_id}")
 
         return len(expired_users)
 
