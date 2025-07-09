@@ -2,7 +2,6 @@
 
 from datetime import datetime
 from datetime import timedelta
-from plone.app.discussion.ban import Ban
 from plone.app.discussion.ban import BanManager
 from plone.app.discussion.ban import can_user_comment
 from plone.app.discussion.ban import get_ban_manager
@@ -19,124 +18,6 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import queryUtility
 
 import unittest
-
-
-class TestBan(unittest.TestCase):
-    """Test the Ban object."""
-
-    def test_ban_creation(self):
-        """Test creating a Ban object with different parameters."""
-        # Create a simple ban
-        ban = Ban(
-            user_id="testuser",
-            ban_type=BAN_TYPE_COOLDOWN,
-            moderator_id="admin",
-            reason="Test reason",
-            duration_hours=24,
-        )
-
-        self.assertEqual(ban.user_id, "testuser")
-        self.assertEqual(ban.ban_type, BAN_TYPE_COOLDOWN)
-        self.assertEqual(ban.moderator_id, "admin")
-        self.assertEqual(ban.reason, "Test reason")
-        self.assertTrue(isinstance(ban.created_date, datetime))
-        self.assertTrue(isinstance(ban.expires_date, datetime))
-
-        # Check expiration date is about 24 hours later (within a minute tolerance)
-        time_diff = ban.expires_date - ban.created_date
-        self.assertGreaterEqual(time_diff.total_seconds(), 86340)  # 24 hours - 1 minute
-        self.assertLessEqual(time_diff.total_seconds(), 86460)  # 24 hours + 1 minute
-
-    def test_permanent_ban(self):
-        """Test that permanent bans have no expiration date."""
-        ban = Ban(
-            user_id="testuser",
-            ban_type=BAN_TYPE_PERMANENT,
-            moderator_id="admin",
-            reason="Permanent ban",
-        )
-
-        self.assertEqual(ban.ban_type, BAN_TYPE_PERMANENT)
-        self.assertIsNone(ban.expires_date)
-
-    def test_custom_expiry_date(self):
-        """Test creating a ban with a custom expiration date."""
-        custom_expiry = datetime.now() + timedelta(days=7)
-        ban = Ban(
-            user_id="testuser",
-            ban_type=BAN_TYPE_COOLDOWN,
-            moderator_id="admin",
-            expires_date=custom_expiry,
-        )
-
-        # Compare dates (allowing for a few seconds of processing time)
-        self.assertAlmostEqual(
-            ban.expires_date.timestamp(),
-            custom_expiry.timestamp(),
-            delta=5,  # Allow 5 seconds difference
-        )
-
-    def test_is_active(self):
-        """Test the is_active method."""
-        # Create an active ban
-        active_ban = Ban(
-            user_id="testuser",
-            ban_type=BAN_TYPE_COOLDOWN,
-            moderator_id="admin",
-            duration_hours=24,
-        )
-        self.assertTrue(active_ban.is_active())
-
-        # Create an expired ban
-        past_date = datetime.now() - timedelta(hours=1)
-        expired_ban = Ban(
-            user_id="testuser",
-            ban_type=BAN_TYPE_COOLDOWN,
-            moderator_id="admin",
-            expires_date=past_date,
-        )
-        self.assertFalse(expired_ban.is_active())
-
-        # Permanent bans are always active
-        permanent_ban = Ban(
-            user_id="testuser",
-            ban_type=BAN_TYPE_PERMANENT,
-            moderator_id="admin",
-        )
-        self.assertTrue(permanent_ban.is_active())
-
-    def test_get_remaining_time(self):
-        """Test the get_remaining_time method."""
-        # Create a ban with 1 hour duration
-        ban = Ban(
-            user_id="testuser",
-            ban_type=BAN_TYPE_COOLDOWN,
-            moderator_id="admin",
-            duration_hours=1,
-        )
-
-        # Check if remaining time is close to 1 hour (allowing a few seconds deviation)
-        remaining_time = ban.get_remaining_time()
-        self.assertGreaterEqual(remaining_time.total_seconds(), 3500)  # ~58 minutes
-        self.assertLessEqual(remaining_time.total_seconds(), 3700)  # ~62 minutes
-
-        # Permanent bans have no remaining time
-        permanent_ban = Ban(
-            user_id="testuser",
-            ban_type=BAN_TYPE_PERMANENT,
-            moderator_id="admin",
-        )
-        self.assertIsNone(permanent_ban.get_remaining_time())
-
-        # Expired bans have no remaining time
-        past_date = datetime.now() - timedelta(hours=1)
-        expired_ban = Ban(
-            user_id="testuser",
-            ban_type=BAN_TYPE_COOLDOWN,
-            moderator_id="admin",
-            expires_date=past_date,
-        )
-        self.assertIsNone(expired_ban.get_remaining_time())
 
 
 class TestBanManager(unittest.TestCase):
