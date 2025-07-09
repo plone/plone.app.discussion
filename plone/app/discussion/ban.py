@@ -4,15 +4,14 @@ from datetime import datetime
 from datetime import timedelta
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
+from plone.app.discussion.vocabularies import BAN_TYPE_SHADOW
 from Products.CMFCore.utils import getToolByName
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
-from plone.app.discussion.vocabularies import BAN_TYPE_SHADOW
-from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
-
 
 import logging
 
@@ -116,39 +115,51 @@ class Ban(Persistent):
         self.reason = safe_text(reason) if reason else None
         self.created_date = datetime.now()
 
+        # Permanent bans have no expiration
         if ban_type == BAN_TYPE_PERMANENT:
             self.expires_date = None
-        elif expires_date:
+            return
+
+        # Use provided expiration date if available
+        if expires_date:
             self.expires_date = expires_date
-        elif duration_hours:
-            self.expires_date = self.created_date + timedelta(hours=duration_hours)
-        else:
+            return
+
+        # Calculate expiration based on duration
+        hours_to_add = duration_hours
+        if not hours_to_add:
             # Use default duration from settings
-            registry = getUtility(IRegistry)
-            settings = registry.forInterface(IDiscussionSettings, check=False)
-            default_duration = getattr(settings, "default_cooldown_duration", 24)
-            self.expires_date = self.created_date + timedelta(hours=default_duration)
+            try:
+                registry = getUtility(IRegistry)
+                settings = registry.forInterface(IDiscussionSettings, check=False)
+                hours_to_add = getattr(settings, "default_cooldown_duration", 24)
+            except (ImportError, AttributeError):
+                # Fallback if registry not available
+                hours_to_add = 24
+
+        self.expires_date = self.created_date + timedelta(hours=hours_to_add)
 
     def is_active(self):
         """Check if the ban is currently active."""
+        # Permanent bans are always active
         if self.ban_type == BAN_TYPE_PERMANENT:
             return True
 
-        if self.expires_date and datetime.now() > self.expires_date:
-            return False
-
-        return True
+        # Check if the ban has expired
+        return self.expires_date and datetime.now() <= self.expires_date
 
     def get_remaining_time(self):
         """Get remaining time for temporary bans."""
+        # No remaining time for permanent bans or missing expiration
         if self.ban_type == BAN_TYPE_PERMANENT or not self.expires_date:
             return None
 
-        remaining = self.expires_date - datetime.now()
-        if remaining.total_seconds() <= 0:
+        # Calculate remaining time
+        now = datetime.now()
+        if now > self.expires_date:
             return None
 
-        return remaining
+        return self.expires_date - now
 
     def __repr__(self):
         return f"<Ban {self.user_id} ({self.ban_type}) by {self.moderator_id}>"
@@ -200,13 +211,12 @@ class BanManager:
         if BAN_ANNOTATION_KEY not in annotations:
             # Initialize with a persistent mapping to ensure changes are saved
             annotations[BAN_ANNOTATION_KEY] = PersistentMapping()
-        storage = annotations[BAN_ANNOTATION_KEY]
 
-        # Ensure we have a persistent mapping even if created with regular dict
+        storage = annotations[BAN_ANNOTATION_KEY]
+        # Ensure we have a persistent mapping
         if not isinstance(storage, PersistentMapping) and PersistentMapping != dict:
             # Convert existing dict to PersistentMapping
-            new_storage = PersistentMapping()
-            new_storage.update(storage)
+            new_storage = PersistentMapping(storage)
             annotations[BAN_ANNOTATION_KEY] = new_storage
             storage = new_storage
 
@@ -223,12 +233,12 @@ class BanManager:
                 "Ban storage is not persistent - changes may not survive server restarts"
             )
 
-        # Attempt to commit the transaction
-        if transaction:
+        # Only commit transaction if not within an active transaction
+        if transaction and not transaction.isDoomed():
             try:
                 transaction.commit()
             except Exception as e:
-                logger.error(f"Failed to commit ban transaction: {e}")
+                logger.debug(f"Failed to commit ban transaction: {e}")
 
     def ban_user(
         self,
@@ -240,9 +250,22 @@ class BanManager:
         expires_date=None,
     ):
         """Ban a user with the specified parameters."""
+        # Validate user_id
+        user_id = safe_text(user_id) if user_id else None
+        if not user_id:
+            logger.warning("Attempted to ban a user with empty user_id")
+            return None
+
+        # Validate moderator_id
+        moderator_id = safe_text(moderator_id) if moderator_id else None
+        if not moderator_id:
+            logger.warning(f"Attempted to ban user {user_id} without moderator ID")
+            return None
+
         # Remove any existing bans for this user first
         self.unban_user(user_id, moderator_id)
 
+        # Create new ban object
         ban = Ban(
             user_id=user_id,
             ban_type=ban_type,
@@ -252,28 +275,29 @@ class BanManager:
             expires_date=expires_date,
         )
 
+        # Store ban in annotation storage
         storage = self._get_ban_storage()
         storage[user_id] = ban
-
-        # Mark the storage as changed to ensure persistence
         self._mark_storage_changed(storage)
 
         logger.info(f"User {user_id} banned by {moderator_id} ({ban_type})")
         return ban
 
-    def unban_user(self, user_id, moderator_id) -> Ban | None:
+    def unban_user(self, user_id, moderator_id):
         """Remove all active bans for a user."""
-        storage = self._get_ban_storage()
-        if user_id in storage:
-            old_ban = storage[user_id]
-            del storage[user_id]
+        user_id = safe_text(user_id) if user_id else None
+        if not user_id:
+            return None
 
+        storage = self._get_ban_storage()
+        old_ban = storage.pop(user_id, None)
+
+        if old_ban:
             # Mark the storage as changed to ensure persistence
             self._mark_storage_changed(storage)
-
             logger.info(f"User {user_id} unbanned by {moderator_id}")
-            return old_ban
-        return None
+
+        return old_ban
 
     def is_user_banned(self, user_id):
         """Check if a user is currently banned."""
@@ -282,17 +306,23 @@ class BanManager:
 
     def get_user_ban(self, user_id):
         """Get the active ban for a user, if any."""
+        user_id = safe_text(user_id) if user_id else None
+        if not user_id:
+            return None
+
         storage = self._get_ban_storage()
         ban = storage.get(user_id)
 
-        if ban and ban.is_active():
-            return ban
-        elif ban and not ban.is_active():
-            # Clean up expired ban
-            del storage[user_id]
-            # Mark the storage as changed to ensure persistence
-            self._mark_storage_changed(storage)
+        if not ban:
+            return None
 
+        # Return ban if active
+        if ban.is_active():
+            return ban
+
+        # Clean up expired ban automatically
+        del storage[user_id]
+        self._mark_storage_changed(storage)
         return None
 
     def get_all_bans(self):
@@ -307,19 +337,26 @@ class BanManager:
     def cleanup_expired_bans(self):
         """Remove expired bans from storage."""
         storage = self._get_ban_storage()
+        now = datetime.now()
+        storage_changed = False
         expired_users = []
 
-        for user_id, ban in storage.items():
-            if not ban.is_active():
+        # Find all expired bans
+        for user_id, ban in list(storage.items()):
+            # Check expiration without calling is_active() to avoid redundant datetime.now() calls
+            if (
+                ban.ban_type != BAN_TYPE_PERMANENT
+                and ban.expires_date
+                and now > ban.expires_date
+            ):
                 expired_users.append(user_id)
-
-        if expired_users:
-            for user_id in expired_users:
                 del storage[user_id]
-                logger.info(f"Cleaned up expired ban for user {user_id}")
+                storage_changed = True
 
-            # Mark the storage as changed to ensure persistence
+        # Only mark storage changed if we actually deleted something
+        if storage_changed:
             self._mark_storage_changed(storage)
+            logger.info(f"Cleaned up {len(expired_users)} expired bans")
 
         return len(expired_users)
 
@@ -331,18 +368,25 @@ def get_ban_manager(context):
 
 def is_user_banned(context, user_id):
     """Convenience function to check if a user is banned."""
+    if not user_id:
+        return False
     ban_manager = get_ban_manager(context)
     return ban_manager.is_user_banned(user_id)
 
 
 def get_user_ban_info(context, user_id):
     """Get ban information for a user."""
+    if not user_id:
+        return None
     ban_manager = get_ban_manager(context)
     return ban_manager.get_user_ban(user_id)
 
 
 def can_user_comment(context, user_id):
     """Check if a user can comment (not banned or shadow banned)."""
+    if not user_id:
+        return True
+
     ban_manager = get_ban_manager(context)
     ban = ban_manager.get_user_ban(user_id)
 
@@ -350,15 +394,14 @@ def can_user_comment(context, user_id):
         return True
 
     # Shadow banned users can "comment" but comments are hidden
-    if ban.ban_type == BAN_TYPE_SHADOW:
-        return True
-
-    # Cooldown and permanent bans prevent commenting
-    return False
+    return ban.ban_type == BAN_TYPE_SHADOW
 
 
 def is_comment_visible(context, user_id):
     """Check if comments from a user should be visible to others."""
+    if not user_id:
+        return True
+
     ban_manager = get_ban_manager(context)
     ban = ban_manager.get_user_ban(user_id)
 
