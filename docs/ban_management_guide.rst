@@ -148,8 +148,7 @@ Returns JSON with current user's ban information:
   "ban_type": "cooldown",
   "can_comment": false,
   "reason": "Spam posting",
-  "expires_date": "2024-01-15T10:30:00",
-  "remaining_seconds": 7200
+  "expires_date": "2024-01-15T10:30:00"
 }
 ```
 

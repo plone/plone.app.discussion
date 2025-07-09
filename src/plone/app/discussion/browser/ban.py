@@ -33,6 +33,15 @@ class BanManagementMixin:
         membership = getToolByName(self.context, "portal_membership")
         moderator = membership.getAuthenticatedMember()
         return moderator.getId()
+        
+    def format_time(self, date):
+        """Format a datetime object using Plone's localized time formatter.
+        
+        Uses long_format=True to include hours, minutes and seconds.
+        """
+        portal = getToolByName(self.context, 'portal_url').getPortalObject()
+        # Use long_format=True to include hours, minutes and seconds
+        return portal.restrictedTraverse('@@plone').toLocalizedTime(date, long_format=True)
 
     def _validate_user_id(self, user_id):
         """Validate and return stripped user ID."""
@@ -397,32 +406,6 @@ class BanManagementView(BrowserView, BanManagementMixin):
         }
         return display_map.get(ban_type, ban_type)
 
-    def format_time_remaining(self, ban):
-        """Format the remaining time for a ban."""
-        # Handle permanent bans
-        if ban.ban_type == BAN_TYPE_PERMANENT:
-            return _("Permanent")
-
-        # Get remaining time
-        remaining = ban.get_remaining_time()
-        if not remaining:
-            return _("Expired")
-
-        # Format time components
-        days = remaining.days
-        hours = remaining.seconds // 3600
-        minutes = (remaining.seconds % 3600) // 60
-
-        # Return appropriate format based on remaining time
-        if days > 0:
-            return _("${days}d ${hours}h", mapping={"days": days, "hours": hours})
-        elif hours > 0:
-            return _(
-                "${hours}h ${minutes}m", mapping={"hours": hours, "minutes": minutes}
-            )
-        else:
-            return _("${minutes}m", mapping={"minutes": minutes})
-
     def get_user_display_name(self, user_id):
         """Get display name for a user."""
         if not user_id:
@@ -457,7 +440,6 @@ class UserBanStatusView(BrowserView, BanManagementMixin):
             "reason": None,
             "created_date": None,
             "expires_date": None,
-            "remaining_seconds": 0,
         }
 
         # Return default response for anonymous users
@@ -481,15 +463,11 @@ class UserBanStatusView(BrowserView, BanManagementMixin):
             "reason": ban.reason,
             "created_date": ban.created_date.isoformat() if ban.created_date else None,
             "expires_date": None,
-            "remaining_seconds": 0,
         }
 
         # Add expiration info for temporary bans
         if ban.ban_type != BAN_TYPE_PERMANENT and ban.expires_date:
             result["expires_date"] = ban.expires_date.isoformat()
-            remaining = ban.get_remaining_time()
-            if remaining:
-                result["remaining_seconds"] = int(remaining.total_seconds())
 
         return result
 

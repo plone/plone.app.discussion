@@ -174,9 +174,6 @@ def get_ban_status_for_user(context, user_id):
 
     if ban.ban_type != BAN_TYPE_PERMANENT:
         status["expires_date"] = ban.expires_date
-        remaining = ban.get_remaining_time()
-        if remaining:
-            status["remaining_seconds"] = int(remaining.total_seconds())
 
     return status
 
