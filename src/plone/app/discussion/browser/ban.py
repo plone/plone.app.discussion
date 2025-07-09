@@ -70,6 +70,17 @@ class BanManagementMixin:
         user_id = self._validate_user_id(user_id)
         if not user_id:
             return False
+            
+        # Check if the user_id exists in the system
+        membership = getToolByName(self.context, "portal_membership")
+        member = membership.getMemberById(user_id)
+        if not member:
+            IStatusMessage(self.request).add(
+                _("User ${user_id} does not exist in the system.", 
+                  mapping={"user_id": user_id}),
+                type="error",
+            )
+            return False
 
         moderator_id = self._get_current_moderator_id()
         ban_manager = self._get_ban_manager()
@@ -102,11 +113,34 @@ class UserBanForm(form.Form, BanManagementMixin):
 
         user_id = data.get("user_id", "").strip()
         ban_type = data.get("ban_type", BAN_TYPE_COOLDOWN)
-        reason = data.get("reason", "").strip()
+        reason = data.get("reason")
+        reason = reason.strip() if reason else ""
         duration_hours = data.get("duration_hours")
 
         user_id = self._validate_user_id(user_id)
         if not user_id:
+            return
+            
+        # Check if the user_id exists in the system
+        membership = getToolByName(self.context, "portal_membership")
+        member = membership.getMemberById(user_id)
+        if not member:
+            IStatusMessage(self.request).add(
+                _("User ${user_id} does not exist in the system.", 
+                  mapping={"user_id": user_id}),
+                type="error",
+            )
+            return
+            
+        # Check if the user is already banned
+        ban_manager = self._get_ban_manager()
+        existing_ban = ban_manager.get_user_ban(user_id)
+        if existing_ban and existing_ban.is_active():
+            IStatusMessage(self.request).add(
+                _("User ${user_id} is already banned. Unban first if you want to change the ban type.", 
+                  mapping={"user_id": user_id}),
+                type="error",
+            )
             return
 
         # Get current user as moderator
@@ -210,7 +244,7 @@ class BanManagementView(BrowserView, BanManagementMixin):
         """Unban a user."""
         user_id = self.request.form.get("unban_user_id", "").strip()
 
-        # Unban the user
+        # Unban the user (validation happens in _unban_user_with_messages)
         self._unban_user_with_messages(user_id)
 
     def cleanup_expired_bans(self):
