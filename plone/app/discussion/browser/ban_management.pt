@@ -313,13 +313,12 @@
               </div>
               <div class="card-body py-3 d-flex flex-column">
                 <div class="d-grid gap-2 flex-grow-1">
-                  <button class="btn btn-primary"
-                          type="button"
-                          data-bs-target="#banUserModal"
-                          data-bs-toggle="modal"
+                  <a class="btn btn-primary pat-plone-modal"
+                     href="@@ban-user-form"
+                     type="button"
                   >
                     <span i18n:translate="button_ban_user">Ban User</span>
-                  </button>
+                  </a>
                 </div>
                 <div class="text-center mt-2">
                   <small class="text-muted"
@@ -495,14 +494,13 @@
                 <div class="btn-group"
                      role="group"
                 >
-                  <button class="btn btn-outline-secondary"
-                          type="button"
-                          data-bs-target="#quickUnbanModal"
-                          data-bs-toggle="modal"
-                          i18n:translate="button_quick_unban"
+                  <a class="btn btn-outline-secondary pat-plone-modal"
+                     href="@@unban-user-form"
+                     type="button"
+                     i18n:translate="button_quick_unban"
                   >
                     <span>Quick Unban</span>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

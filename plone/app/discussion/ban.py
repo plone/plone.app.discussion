@@ -273,7 +273,7 @@ class BanManager:
         logger.info(f"User {user_id} banned by {moderator_id} ({ban_type})")
         return ban
 
-    def unban_user(self, user_id, moderator_id):
+    def unban_user(self, user_id, moderator_id) -> Ban | None:
         """Remove all active bans for a user."""
         storage = self._get_ban_storage()
         if user_id in storage:

@@ -174,6 +174,20 @@
       layer="..interfaces.IDiscussionLayer"
       />
 
+  <browser:page
+      name="ban-user-form"
+      for="*"
+      class=".ban.UserBanFormView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="unban-user-form"
+      for="*"
+      class=".ban.UserUnbanFormView"
+      permission="zope2.View"
+      />
+
   <!-- Volto-compatible REST API control panel -->
   <configure zcml:condition="installed plone.restapi">
     <adapter

@@ -8,13 +8,178 @@ from plone.app.discussion.ban import BAN_TYPE_PERMANENT
 from plone.app.discussion.ban import BAN_TYPE_SHADOW
 from plone.app.discussion.ban import get_ban_manager
 from plone.app.discussion.interfaces import _
+from plone.app.discussion.interfaces import IBanUserSchema
+from plone.app.discussion.interfaces import IUnbanUserSchema
+from plone.z3cform.layout import wrap_form
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
 
 
-class BanManagementView(BrowserView):
+class BanManagementMixin:
+    """Mixin class with common ban management functionality."""
+
+    def _get_ban_manager(self):
+        """Get ban manager for the current context."""
+        return get_ban_manager(self.context)
+
+    def _get_current_moderator_id(self):
+        """Get the current user's ID as moderator."""
+        membership = getToolByName(self.context, "portal_membership")
+        moderator = membership.getAuthenticatedMember()
+        return moderator.getId()
+
+    def _validate_user_id(self, user_id):
+        """Validate and return stripped user ID."""
+        user_id = user_id.strip() if user_id else ""
+        if not user_id:
+            IStatusMessage(self.request).add(_("User ID is required."), type="error")
+            return None
+        return user_id
+
+    def _redirect_to_ban_management(self):
+        """Redirect to ban management view."""
+        self.request.response.redirect(
+            self.context.absolute_url() + "/@@ban-management"
+        )
+
+    def _create_ban_success_message(self, user_id, ban_type, duration=None):
+        """Create appropriate success message for ban creation."""
+        if ban_type == BAN_TYPE_PERMANENT:
+            return _(
+                "User ${user_id} has been permanently banned.",
+                mapping={"user_id": user_id},
+            )
+        elif ban_type == BAN_TYPE_SHADOW:
+            return _(
+                "User ${user_id} has been shadow banned.",
+                mapping={"user_id": user_id},
+            )
+        else:  # Cooldown
+            return _(
+                "User ${user_id} has been banned for ${duration} hours.",
+                mapping={"user_id": user_id, "duration": duration or 24},
+            )
+
+    def _unban_user_with_messages(self, user_id):
+        """Unban a user and show appropriate status messages."""
+        user_id = self._validate_user_id(user_id)
+        if not user_id:
+            return False
+
+        moderator_id = self._get_current_moderator_id()
+        ban_manager = self._get_ban_manager()
+        old_ban = ban_manager.unban_user(user_id, moderator_id)
+
+        if old_ban:
+            IStatusMessage(self.request).add(
+                _("User ${user_id} has been unbanned.", mapping={"user_id": user_id}),
+                type="info",
+            )
+        else:
+            IStatusMessage(self.request).add(
+                _("User ${user_id} was not banned.", mapping={"user_id": user_id}),
+                type="warning",
+            )
+        return True
+
+
+class UserBanForm(form.Form, BanManagementMixin):
+
+    fields = field.Fields(IBanUserSchema)
+    ignoreContext = True
+    label = "Ban User"
+
+    def updateWidgets(self):
+        super().updateWidgets()
+
+    @button.buttonAndHandler("Save")
+    def handleSave(self, action):
+        data, errors = self.extractData()
+        if errors:
+            return False
+
+        user_id = data.get("user_id", "").strip()
+        ban_type = data.get("ban_type", BAN_TYPE_COOLDOWN)
+        reason = data.get("reason", "").strip()
+        duration_hours = data.get("duration_hours")
+
+        user_id = self._validate_user_id(user_id)
+        if not user_id:
+            return
+
+        # Get current user as moderator
+        moderator_id = self._get_current_moderator_id()
+
+        # Parse duration for temporary bans
+        duration = None
+        if ban_type != BAN_TYPE_PERMANENT and duration_hours:
+            try:
+                duration = int(duration_hours)
+                if duration <= 0:
+                    raise ValueError("Duration must be positive")
+            except ValueError:
+                IStatusMessage(self.request).add(
+                    _("Invalid duration. Please enter a positive number of hours."),
+                    type="error",
+                )
+                return
+
+        # Create the ban
+        ban_manager = self._get_ban_manager()
+        try:
+            ban_manager.ban_user(
+                user_id=user_id,
+                ban_type=ban_type,
+                moderator_id=moderator_id,
+                reason=reason,
+                duration_hours=duration,
+            )
+
+            # Success message using mixin method
+            msg = self._create_ban_success_message(user_id, ban_type, duration)
+            IStatusMessage(self.request).add(msg, type="info")
+
+        except Exception as e:
+            IStatusMessage(self.request).add(
+                _("Error banning user: ${error}", mapping={"error": str(e)}),
+                type="error",
+            )
+
+        self._redirect_to_ban_management()
+
+    @button.buttonAndHandler("Cancel")
+    def handleCancel(self, action):
+        self._redirect_to_ban_management()
+
+
+class UserUnbanForm(form.Form, BanManagementMixin):
+    """Form for unbanning a user."""
+
+    fields = field.Fields(IUnbanUserSchema)
+    ignoreContext = True
+    label = "Unban User"
+
+    def updateWidgets(self):
+        super().updateWidgets()
+
+    @button.buttonAndHandler("Unban")
+    def handleUnban(self, action):
+        data, errors = self.extractData()
+        if errors:
+            return False
+
+        user_id = data.get("user_id", "")
+
+        if self._unban_user_with_messages(user_id):
+            self._redirect_to_ban_management()
+
+
+class BanManagementView(BrowserView, BanManagementMixin):
     """View for managing user bans."""
 
     template = ViewPageTemplateFile("ban_management.pt")
@@ -39,109 +204,21 @@ class BanManagementView(BrowserView):
         """Process ban management form submissions."""
         action = self.request.form.get("action")
 
-        if action == "ban_user":
-            self.ban_user()
-        elif action == "unban_user":
+        if action == "unban_user":
             self.unban_user()
         elif action == "cleanup_expired":
             self.cleanup_expired_bans()
-
-    def ban_user(self):
-        """Ban a user based on form data."""
-        user_id = self.request.form.get("user_id", "").strip()
-        ban_type = self.request.form.get("ban_type", BAN_TYPE_COOLDOWN)
-        reason = self.request.form.get("reason", "").strip()
-        duration_hours = self.request.form.get("duration_hours")
-
-        if not user_id:
-            IStatusMessage(self.request).add(_("User ID is required."), type="error")
-            return
-
-        # Get current user as moderator
-        membership = getToolByName(self.context, "portal_membership")
-        moderator = membership.getAuthenticatedMember()
-        moderator_id = moderator.getId()
-
-        # Parse duration for temporary bans
-        duration = None
-        if ban_type != BAN_TYPE_PERMANENT and duration_hours:
-            try:
-                duration = int(duration_hours)
-                if duration <= 0:
-                    raise ValueError("Duration must be positive")
-            except ValueError:
-                IStatusMessage(self.request).add(
-                    _("Invalid duration. Please enter a positive number of hours."),
-                    type="error",
-                )
-                return
-
-        # Create the ban
-        ban_manager = get_ban_manager(self.context)
-        try:
-            ban_manager.ban_user(
-                user_id=user_id,
-                ban_type=ban_type,
-                moderator_id=moderator_id,
-                reason=reason,
-                duration_hours=duration,
-            )
-
-            # Success message
-            if ban_type == BAN_TYPE_PERMANENT:
-                msg = _(
-                    "User ${user_id} has been permanently banned.",
-                    mapping={"user_id": user_id},
-                )
-            elif ban_type == BAN_TYPE_SHADOW:
-                msg = _(
-                    "User ${user_id} has been shadow banned.",
-                    mapping={"user_id": user_id},
-                )
-            else:  # Cooldown
-                msg = _(
-                    "User ${user_id} has been banned for ${duration} hours.",
-                    mapping={"user_id": user_id, "duration": duration or 24},
-                )
-
-            IStatusMessage(self.request).add(msg, type="info")
-
-        except Exception as e:
-            IStatusMessage(self.request).add(
-                _("Error banning user: ${error}", mapping={"error": str(e)}),
-                type="error",
-            )
 
     def unban_user(self):
         """Unban a user."""
         user_id = self.request.form.get("unban_user_id", "").strip()
 
-        if not user_id:
-            IStatusMessage(self.request).add(_("User ID is required."), type="error")
-            return
-
-        # Get current user as moderator
-        membership = getToolByName(self.context, "portal_membership")
-        moderator = membership.getAuthenticatedMember()
-        moderator_id = moderator.getId()
-
-        ban_manager = get_ban_manager(self.context)
-        old_ban = ban_manager.unban_user(user_id, moderator_id)
-
-        if old_ban:
-            IStatusMessage(self.request).add(
-                _("User ${user_id} has been unbanned.", mapping={"user_id": user_id}),
-                type="info",
-            )
-        else:
-            IStatusMessage(self.request).add(
-                _("User ${user_id} was not banned.", mapping={"user_id": user_id}),
-                type="warning",
-            )
+        # Unban the user
+        self._unban_user_with_messages(user_id)
 
     def cleanup_expired_bans(self):
         """Clean up expired bans."""
-        ban_manager = get_ban_manager(self.context)
+        ban_manager = self._get_ban_manager()
         count = ban_manager.cleanup_expired_bans()
 
         IStatusMessage(self.request).add(
@@ -151,7 +228,7 @@ class BanManagementView(BrowserView):
 
     def get_active_bans(self):
         """Get all active bans for display."""
-        ban_manager = get_ban_manager(self.context)
+        ban_manager = self._get_ban_manager()
         return ban_manager.get_active_bans()
 
     def get_ban_type_display(self, ban_type):
@@ -197,7 +274,7 @@ class BanManagementView(BrowserView):
         return user_id
 
 
-class UserBanStatusView(BrowserView):
+class UserBanStatusView(BrowserView, BanManagementMixin):
     """View to check if current user is banned."""
 
     def __call__(self):
@@ -209,7 +286,7 @@ class UserBanStatusView(BrowserView):
             return {"banned": False}
 
         user_id = member.getId()
-        ban_manager = get_ban_manager(self.context)
+        ban_manager = self._get_ban_manager()
         ban = ban_manager.get_user_ban(user_id)
 
         if not ban or not ban.is_active():
@@ -231,3 +308,7 @@ class UserBanStatusView(BrowserView):
                 result["remaining_seconds"] = int(remaining.total_seconds())
 
         return result
+
+
+UserBanFormView = wrap_form(UserBanForm)
+UserUnbanFormView = wrap_form(UserUnbanForm)
