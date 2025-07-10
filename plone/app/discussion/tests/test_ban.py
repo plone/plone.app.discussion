@@ -190,6 +190,47 @@ class TestBanManager(unittest.TestCase):
         # Check that active ban remains
         self.assertIsNotNone(self.ban_manager.get_user_ban("active_user"))
 
+    def test_clear_all_bans(self):
+        """Test clearing all bans."""
+        # Create several bans
+        self.ban_manager.ban_user(
+            user_id="user1",
+            ban_type=BAN_TYPE_COOLDOWN,
+            moderator_id="admin",
+            duration_hours=24,
+        )
+        self.ban_manager.ban_user(
+            user_id="user2",
+            ban_type=BAN_TYPE_SHADOW,
+            moderator_id="admin",
+            duration_hours=48,
+        )
+        self.ban_manager.ban_user(
+            user_id="user3",
+            ban_type=BAN_TYPE_PERMANENT,
+            moderator_id="admin",
+        )
+
+        # Verify users are banned
+        self.assertTrue(self.ban_manager.is_user_banned("user1"))
+        self.assertTrue(self.ban_manager.is_user_banned("user2"))
+        self.assertTrue(self.ban_manager.is_user_banned("user3"))
+
+        # Clear all bans
+        count = self.ban_manager.clear_all_bans()
+
+        # Should have removed 3 bans
+        self.assertEqual(count, 3)
+
+        # Verify no users are banned anymore
+        self.assertFalse(self.ban_manager.is_user_banned("user1"))
+        self.assertFalse(self.ban_manager.is_user_banned("user2"))
+        self.assertFalse(self.ban_manager.is_user_banned("user3"))
+
+        # Storage should be empty
+        storage = self.ban_manager._get_ban_storage()
+        self.assertEqual(len(storage), 0)
+
 
 class TestBanHelperFunctions(unittest.TestCase):
     """Test the ban helper functions."""

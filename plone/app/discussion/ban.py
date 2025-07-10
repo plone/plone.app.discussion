@@ -317,10 +317,33 @@ class BanManager:
 
         return len(expired_users)
 
+    def clear_all_bans(self):
+        """Remove all bans from storage.
+
+        This method is intended to be used during uninstallation and by the
+        ban management view to clean up all ban data.
+        """
+        storage = self._get_ban_storage()
+        count = len(storage)
+        if count > 0:
+            storage.clear()
+            logger.info(f"Cleared all {count} user bans")
+        return count
+
 
 def get_ban_manager(context):
     """Get a BanManager instance for the given context."""
     return BanManager(context)
+
+
+def clear_all_bans(context):
+    """Utility function to clear all user bans.
+
+    This is primarily used during uninstallation and by the ban management
+    view to clean up ban data.
+    """
+    ban_manager = get_ban_manager(context)
+    return ban_manager.clear_all_bans()
 
 
 def is_user_banned(context, user_id):
