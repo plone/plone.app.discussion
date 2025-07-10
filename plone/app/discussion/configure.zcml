@@ -112,6 +112,13 @@
       component=".vocabularies.text_transform_vocabulary"
       />
 
+  <!-- Ban vocabulary -->
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="plone.app.discussion.vocabularies.BanVocabulary"
+      component=".vocabularies.ban_type_vocabulary"
+      />
+
   <!-- Conversation indexes -->
   <adapter
       factory=".catalog.total_comments"
