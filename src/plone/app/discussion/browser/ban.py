@@ -20,7 +20,8 @@ from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 
-PERMISSION_MANAGE_BANS= "Manage user bans"
+
+PERMISSION_MANAGE_BANS = "Manage user bans"
 
 
 class BanManagementMixin:
@@ -35,15 +36,16 @@ class BanManagementMixin:
         membership = getToolByName(self.context, "portal_membership")
         moderator = membership.getAuthenticatedMember()
         return moderator.getId()
-        
+
     def format_time(self, date):
         """Format a datetime object using Plone's localized time formatter.
-        
+
         Uses long_format=True to include hours, minutes and seconds.
         """
-        portal = getToolByName(self.context, 'portal_url').getPortalObject()
-        # Use long_format=True to include hours, minutes and seconds
-        return portal.restrictedTraverse('@@plone').toLocalizedTime(date, long_format=True)
+        portal = getToolByName(self.context, "portal_url").getPortalObject()
+        return portal.restrictedTraverse("@@plone").toLocalizedTime(
+            date, long_format=True
+        )
 
     def _validate_user_id(self, user_id):
         """Validate and return stripped user ID."""
@@ -263,14 +265,9 @@ class BanManagementView(BrowserView, BanManagementMixin):
 
     def empty_ban_list(self):
         """Remove all bans from the ban list."""
-        moderator_id = self._get_current_moderator_id()
-        ban_manager = self._get_ban_manager()
-        active_bans = ban_manager.get_active_bans()
+        from plone.app.discussion.ban import clear_all_bans
 
-        count = 0
-        for ban in active_bans:
-            ban_manager.unban_user(ban.user_id, moderator_id)
-            count += 1
+        count = clear_all_bans(self.context)
 
         IStatusMessage(self.request).add(
             _("Removed all ${count} bans.", mapping={"count": count}), type="info"

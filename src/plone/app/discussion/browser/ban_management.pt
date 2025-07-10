@@ -464,7 +464,9 @@
                       <td>
                         <span class="text-truncate d-inline-block"
                               style="max-width: 200px;"
-                              tal:define="reason ban/reason|nothing"
+                              tal:define="
+                                reason ban/reason|nothing;
+                              "
                               tal:content="python: reason if reason else '_'"
                               tal:attributes="
                                 title python: reason if reason else '_';
