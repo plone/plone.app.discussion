@@ -162,7 +162,7 @@
       name="ban-management"
       for="plone.base.interfaces.INavigationRoot"
       class=".ban.BanManagementView"
-      permission="plone.app.discussion.ReviewComments"
+      permission="plone.app.discussion.ManageBans"
       layer="..interfaces.IDiscussionLayer"
       />
 
@@ -178,14 +178,14 @@
       name="ban-user-form"
       for="*"
       class=".ban.UserBanFormView"
-      permission="zope2.View"
+      permission="plone.app.discussion.ManageBans"
       />
 
   <browser:page
       name="unban-user-form"
       for="*"
       class=".ban.UserUnbanFormView"
-      permission="zope2.View"
+      permission="plone.app.discussion.ManageBans"
       />
 
   <!-- Volto-compatible REST API control panel -->

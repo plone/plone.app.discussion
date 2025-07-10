@@ -20,6 +20,8 @@ from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 
+PERMISSION_MANAGE_BANS= "Manage user bans"
+
 
 class BanManagementMixin:
     """Mixin class with common ban management functionality."""
@@ -243,7 +245,7 @@ class BanManagementView(BrowserView, BanManagementMixin):
     def can_manage_bans(self):
         """Check if current user can manage bans."""
         return getSecurityManager().checkPermission(
-            "Review comments", aq_inner(self.context)
+            PERMISSION_MANAGE_BANS, aq_inner(self.context)
         )
 
     def process_form(self):
