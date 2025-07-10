@@ -7,10 +7,12 @@ from datetime import datetime
 from plone.app.discussion.ban import get_ban_manager
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IBanUserSchema
+from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import IUnbanUserSchema
 from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
 from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
 from plone.app.discussion.vocabularies import BAN_TYPE_SHADOW
+from plone.registry.interfaces import IRegistry
 from plone.z3cform.layout import wrap_form
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -19,6 +21,8 @@ from Products.statusmessages.interfaces import IStatusMessage
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
+from zExceptions import NotFound
+from zope.component import getUtility
 
 
 PERMISSION_MANAGE_BANS = "Manage user bans"
@@ -238,11 +242,22 @@ class BanManagementView(BrowserView, BanManagementMixin):
         """Process form submissions and render template."""
         if not self.can_manage_bans():
             raise Unauthorized("You do not have permission to manage bans.")
+        if self.is_ban_enabled() is False:
+            raise NotFound("Ban management is not enabled on this site.")
 
         if self.request.method == "POST":
             self.process_form()
 
         return self.template()
+
+    def is_ban_enabled(self):
+        """Check if the ban feature is enabled."""
+
+        registry = getUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+        if not getattr(settings, "ban_enabled", False):
+            return False
+        return True
 
     def can_manage_bans(self):
         """Check if current user can manage bans."""
