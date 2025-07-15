@@ -28,13 +28,10 @@ def check_user_ban_before_comment(comment_form, data):
     request = comment_form.request
 
     # Check if ban system is enabled
-    try:
-        registry = getUtility(IRegistry)
-        settings = registry.forInterface(IDiscussionSettings, check=False)
-        if not getattr(settings, "ban_enabled", False):
-            return True  # Ban system disabled, allow comment
-    except Exception:
-        return True  # If we can't check settings, allow comment
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(IDiscussionSettings, check=False)
+    if not getattr(settings, "ban_enabled", False):
+        return True  # Ban system disabled, allow comment
 
     # Get current user
     membership = getToolByName(context, "portal_membership")
