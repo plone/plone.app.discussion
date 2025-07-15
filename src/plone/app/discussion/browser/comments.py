@@ -3,6 +3,9 @@ from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from DateTime import DateTime
 from plone.app.discussion import _
+from plone.app.discussion.browser.ban_integration import check_user_ban_before_comment
+from plone.app.discussion.browser.ban_integration import filter_shadow_banned_comments
+from plone.app.discussion.browser.ban_integration import process_shadow_banned_comment
 from plone.app.discussion.browser.utils import format_author_name_with_suffix
 from plone.app.discussion.browser.validator import CaptchaValidator
 from plone.app.discussion.interfaces import ICaptcha
@@ -246,15 +249,8 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             return
 
         # Check for user bans before processing comment
-        try:
-            from plone.app.discussion.browser.ban_integration import (
-                check_user_ban_before_comment,
-            )
-
-            if not check_user_ban_before_comment(self, data):
-                return  # User is banned, error message already shown
-        except ImportError:
-            pass  # Ban system not available, continue normally
+        if not check_user_ban_before_comment(self, data):
+            return
 
         # Validate Captcha
         registry = queryUtility(IRegistry)
@@ -286,14 +282,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
             comment_id = conversation.addComment(comment)
 
         # Process shadow banned comments
-        try:
-            from plone.app.discussion.browser.ban_integration import (
-                process_shadow_banned_comment,
-            )
-
-            process_shadow_banned_comment(comment, context)
-        except ImportError:
-            pass  # Ban system not available
+        process_shadow_banned_comment(comment, context)
 
         # Redirect after form submit:
         # If a user posts a comment and moderation is enabled, a message is
@@ -494,29 +483,20 @@ class CommentsViewlet(ViewletBase):
 
         def published_replies_filtered():
             # Generator that returns published replies, filtering shadow banned comments
-            try:
-                from plone.app.discussion.browser.ban_integration import (
-                    filter_shadow_banned_comments,
-                )
+            published_comments = [r["comment"] for r in published_replies()]
+            filtered_comments = filter_shadow_banned_comments(
+                published_comments, context
+            )
 
-                published_comments = [r["comment"] for r in published_replies()]
-                filtered_comments = filter_shadow_banned_comments(
-                    published_comments, context
-                )
-
-                # Rebuild the thread structure with filtered comments
-                for r in conversation.getThreads():
-                    comment_obj = r["comment"]
-                    if comment_obj in filtered_comments:
-                        workflow_status = wf.getInfoFor(comment_obj, "review_state")
-                        if workflow_status == "published":
-                            r = r.copy()
-                            r["workflow_status"] = workflow_status
-                            yield r
-            except ImportError:
-                # Ban system not available, fall back to normal behavior
-                for r in published_replies():
-                    yield r
+            # Rebuild the thread structure with filtered comments
+            for r in conversation.getThreads():
+                comment_obj = r["comment"]
+                if comment_obj in filtered_comments:
+                    workflow_status = wf.getInfoFor(comment_obj, "review_state")
+                    if workflow_status == "published":
+                        r = r.copy()
+                        r["workflow_status"] = workflow_status
+                        yield r
 
         # Return all direct replies
         if len(conversation.objectIds()):
