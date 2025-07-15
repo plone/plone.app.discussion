@@ -1,11 +1,11 @@
 """Comment form integration for ban management."""
 
-from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
-from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
 from plone.app.discussion.ban import can_user_comment
 from plone.app.discussion.ban import get_ban_manager
 from plone.app.discussion.ban import is_comment_visible
 from plone.app.discussion.interfaces import _
+from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
+from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
 
