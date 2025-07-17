@@ -4,12 +4,12 @@ from plone.app.discussion.ban import can_user_comment
 from plone.app.discussion.ban import get_ban_manager
 from plone.app.discussion.ban import is_comment_visible
 from plone.app.discussion.interfaces import _
+from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
 from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
+from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
-from plone.app.discussion.interfaces import IDiscussionSettings
-from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 
 
