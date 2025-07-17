@@ -2,19 +2,19 @@
 
 from datetime import datetime
 from datetime import timedelta
+from persistent import Persistent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
 from plone.app.discussion.vocabularies import BAN_TYPE_SHADOW
+from plone.base.utils import safe_text
+from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope import schema
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
-from persistent import Persistent
-from plone.base.utils import safe_text
-from plone.registry.interfaces import IRegistry
 
 import logging
 
