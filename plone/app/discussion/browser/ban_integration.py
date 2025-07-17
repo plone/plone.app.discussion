@@ -8,14 +8,9 @@ from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
 from plone.app.discussion.vocabularies import BAN_TYPE_PERMANENT
 from Products.CMFCore.utils import getToolByName
 from Products.statusmessages.interfaces import IStatusMessage
-
-
-try:
-    from plone.app.discussion.interfaces import IDiscussionSettings
-    from plone.registry.interfaces import IRegistry
-    from zope.component import getUtility
-except ImportError:
-    pass
+from plone.app.discussion.interfaces import IDiscussionSettings
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
 
 
 def check_user_ban_before_comment(comment_form, data):

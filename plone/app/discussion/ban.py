@@ -12,34 +12,11 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
+from persistent import Persistent
+from plone.base.utils import safe_text
+from plone.registry.interfaces import IRegistry
 
 import logging
-
-
-try:
-    from persistent import Persistent
-except ImportError:
-
-    class Persistent:
-        pass
-
-
-try:
-    from plone.base.utils import safe_text
-except ImportError:
-    # Fallback for older Plone versions
-    def safe_text(text):
-        if isinstance(text, bytes):
-            return text.decode("utf-8")
-        return str(text) if text is not None else None
-
-
-try:
-    from plone.registry.interfaces import IRegistry
-except ImportError:
-
-    class IRegistry:
-        pass
 
 
 logger = logging.getLogger("plone.app.discussion.ban")
@@ -120,14 +97,9 @@ class Ban(Persistent):
         # Calculate expiration based on duration
         hours_to_add = duration_hours
         if not hours_to_add:
-            # Use default duration from settings
-            try:
-                registry = getUtility(IRegistry)
-                settings = registry.forInterface(IDiscussionSettings, check=False)
-                hours_to_add = getattr(settings, "default_cooldown_duration", 24)
-            except (ImportError, AttributeError):
-                # Fallback if registry not available
-                hours_to_add = 24
+            registry = getUtility(IRegistry)
+            settings = registry.forInterface(IDiscussionSettings, check=False)
+            hours_to_add = getattr(settings, "default_cooldown_duration", 24)
 
         self.expires_date = self.created_date + timedelta(hours=hours_to_add)
 
