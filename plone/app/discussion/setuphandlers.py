@@ -56,4 +56,14 @@ def post_install(context):
 
 def post_uninstall(context):
     """Post uninstall script"""
+    # Remove discussion behavior from content types
     remove_discussion_behavior_to_default_types(context)
+
+    # Clean up all banned user data
+    try:
+        from plone.app.discussion.ban import clear_all_bans
+
+        clear_all_bans(context)
+    except (ImportError, AttributeError):
+        # If the ban module is not available or function not found, just continue
+        pass
