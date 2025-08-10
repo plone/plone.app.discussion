@@ -54,6 +54,27 @@ COMMENT_DESCRIPTION_INTELLIGENT_TEXT = _(
     "transformed into clickable links.",
 )
 
+# New reply descriptions
+COMMENT_DESCRIPTION_PLAIN_TEXT_REPLY = _(
+    "comment_description_plain_text_reply",
+    default="You can reply to this comment by filling out the form below. "
+    "Plain text formatting.",
+)
+
+COMMENT_DESCRIPTION_MARKDOWN_REPLY = _(
+    "comment_description_markdown_reply",
+    default="You can reply to this comment by filling out the form below. "
+    "Plain text formatting. You can use the Markdown syntax for "
+    "links and images.",
+)
+
+COMMENT_DESCRIPTION_INTELLIGENT_TEXT_REPLY = _(
+    "comment_description_intelligent_text_reply",
+    default="You can reply to this comment by filling out the form below. "
+    "Plain text formatting. Web and email addresses are "
+    "transformed into clickable links.",
+)
+
 COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
     "comment_description_moderation_enabled",
     default="Comments are moderated.",
@@ -63,7 +84,15 @@ COMMENT_DESCRIPTION_MODERATION_ENABLED = _(
 class CommentForm(extensible.ExtensibleForm, form.Form):
     ignoreContext = True  # don't use context to get widget data
     id = None
-    label = _("Add a comment")
+
+    @property
+    def label(self):
+        """Dynamic label based on whether this is a reply or new comment."""
+        if self.is_reply():
+            return _("Reply here (this thread)")
+        else:
+            return _("Add a new comment")
+
     fields = field.Fields(IComment).omit(
         "portal_type",
         "__parent__",
@@ -79,6 +108,11 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
     # We do not want the focus to be on this form when loading a page.
     # See https://github.com/plone/Products.CMFPlone/issues/3623
     enable_autofocus = False
+
+    def is_reply(self):
+        """Check if this form is being used to reply to an existing comment."""
+        in_reply_to = self.request.get("form.widgets.in_reply_to", None)
+        return bool(in_reply_to)
 
     def updateFields(self):
         super().updateFields()
@@ -384,7 +418,7 @@ class CommentsViewlet(ViewletBase):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
 
-        # text transform setting
+        # text transform setting - always use new comment descriptions for main form
         if settings.text_transform == "text/x-web-intelligent":
             message = translate(
                 Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT), context=self.request
@@ -396,6 +430,50 @@ class CommentsViewlet(ViewletBase):
         else:
             message = translate(
                 Message(COMMENT_DESCRIPTION_PLAIN_TEXT), context=self.request
+            )
+
+        # comment workflow
+        wftool = getToolByName(context, "portal_workflow", None)
+        workflow_chain = wftool.getChainForPortalType("Discussion Item")
+        if workflow_chain:
+            comment_workflow = workflow_chain[0]
+            comment_workflow = wftool[comment_workflow]
+            # check if the current workflow implements a pending state. If this
+            # is true comments are moderated
+            if "pending" in comment_workflow.states:
+                message = (
+                    message
+                    + " "
+                    + translate(
+                        Message(COMMENT_DESCRIPTION_MODERATION_ENABLED),
+                        context=self.request,
+                    )
+                )
+
+        return message
+
+    def get_reply_transform_message(self):
+        """Returns the description for reply forms,
+        dependent on the text_transform setting and the comment moderation
+        workflow in the discussion control panel.
+        """
+        context = aq_inner(self.context)
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+
+        # text transform setting - use reply descriptions
+        if settings.text_transform == "text/x-web-intelligent":
+            message = translate(
+                Message(COMMENT_DESCRIPTION_INTELLIGENT_TEXT_REPLY),
+                context=self.request,
+            )
+        elif settings.text_transform == "text/x-web-markdown":
+            message = translate(
+                Message(COMMENT_DESCRIPTION_MARKDOWN_REPLY), context=self.request
+            )
+        else:
+            message = translate(
+                Message(COMMENT_DESCRIPTION_PLAIN_TEXT_REPLY), context=self.request
             )
 
         # comment workflow
