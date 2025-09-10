@@ -3,7 +3,7 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "a129b375"
+commit-id = "2.0.1.dev0"
 
 [pyproject]
 dependencies_ignores = "['Products.LinguaPlone.interfaces.ITranslatable', 'collective.akismet', 'collective.z3cform.norobots', 'plone.formwidget.captcha', 'plone.formwidget.recaptcha', 'plone.formwidget.hcaptcha', 'plone.contentrules', 'plone.app.contentrules', 'plone.restapi', 'plone.stringinterp', 'plone.app.collection']"
