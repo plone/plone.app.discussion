@@ -183,4 +183,10 @@
       handler=".events.auto_approve_comments"
       />
 
+  <!-- Comment RecycleBin Support Utility -->
+  <utility
+      factory=".recyclebin.CommentRecycleBinSupport"
+      provides=".recyclebin.ICommentRecycleBinSupport"
+      />
+
 </configure>
