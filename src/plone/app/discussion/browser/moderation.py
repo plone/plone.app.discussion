@@ -2,17 +2,18 @@ from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from plone.app.discussion.browser.utils import format_author_name_with_suffix
 from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.events import CommentPublishedEvent
 from plone.app.discussion.events import CommentTransitionEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
 from plone.app.discussion.interfaces import IReplies
+from plone.base.interfaces.recyclebin import IRecycleBin
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
+from zope.component import queryUtility
 from zope.event import notify
 
 
@@ -131,14 +132,6 @@ class View(BrowserView):
             ]
             return transitions
 
-    def get_author_name(self, comment):
-        """Format author name with suffix for anonymous users.
-
-        Returns the author name with a suffix (Guest) appended for anonymous
-        comments. The suffix is translated to the current user's language.
-        """
-        return format_author_name_with_suffix(comment, self.request)
-
 
 class ModerateCommentsEnabled(BrowserView):
     def __call__(self):
@@ -175,12 +168,15 @@ class DeleteComment(BrowserView):
         # base ZCML condition zope2.deleteObject allows 'delete own object'
         # modify this for 'delete_own_comment_allowed' controlpanel setting
         if self.can_delete(comment):
-            del conversation[comment.id]
-            content_object.reindexObject()
-            notify(CommentDeletedEvent(self.context, comment))
+            # Use helper function to handle comment deletion with recyclebin support
+            delete_comment_with_recyclebin(
+                comment, conversation, content_object, bulk=False
+            )
+
             IStatusMessage(self.context.REQUEST).addStatusMessage(
                 _("Comment deleted."), type="info"
             )
+
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
         if (
@@ -225,7 +221,9 @@ class DeleteOwnComment(DeleteComment):
 
     def __call__(self):
         if self.can_delete():
-            super().__call__()
+            # We use the parent class __call__ method which already implements
+            # recycle bin functionality
+            return super().__call__()
         else:
             raise Unauthorized("You're not allowed to delete this comment.")
 
@@ -355,6 +353,84 @@ class BulkActionsView(BrowserView):
             comment = context.restrictedTraverse(path)
             conversation = aq_parent(comment)
             content_object = aq_parent(conversation)
-            del conversation[comment.id]
-            content_object.reindexObject(idxs=["total_comments"])
-            notify(CommentDeletedEvent(content_object, comment))
+
+            # Use helper function to handle comment deletion with recyclebin support
+            delete_comment_with_recyclebin(
+                comment, conversation, content_object, bulk=True
+            )
+
+
+def delete_comment_with_recyclebin(comment, conversation, content_object, bulk=False):
+    """Helper function to delete a comment with recyclebin support.
+
+    This centralizes the logic for properly handling comments with the recycle bin
+    across different views (DeleteComment, BulkActionsView).
+
+    Args:
+        comment: The comment to delete
+        conversation: The conversation containing the comment
+        content_object: The content object containing the conversation
+        bulk: Boolean indicating if this is part of a bulk operation
+    """
+    # Try to use recycle bin if available
+    recycle_bin = queryUtility(IRecycleBin)
+
+    if recycle_bin and recycle_bin.is_enabled():
+        # Get the comment and all its replies
+        comments_to_recycle = get_comment_and_all_replies(comment, conversation)
+
+        if bulk:
+            # In bulk mode, add individual comments to the recycle bin
+            for comment_obj, comment_path in comments_to_recycle:
+                recycle_bin.add_item(
+                    comment_obj,
+                    conversation,
+                    comment_path,
+                    item_type="Discussion Item",  # Explicitly set item type
+                    process_children=False,  # Prevent folder-like processing
+                )
+        else:
+            # For single deletion, store the entire tree as a unit for better restoration
+            comment_tree = {
+                "root_comment_id": comment.id,
+                "comments": comments_to_recycle,
+            }
+
+            recycle_bin.add_item(
+                comment_tree,  # Store the entire structure
+                conversation,
+                "/".join(comment.getPhysicalPath()),
+                item_type="CommentTree",  # Custom type to identify comment trees
+                process_children=False,  # Prevent folder-like processing
+            )
+
+    # Delete the comment (which will cascade to all replies)
+    del conversation[comment.id]
+
+    # Update indexes and notify
+    content_object.reindexObject(idxs=["total_comments"])
+    notify(CommentDeletedEvent(content_object, comment))
+
+
+def get_comment_and_all_replies(comment, conversation):
+    """Get a comment and all its replies recursively.
+
+    Returns a list of tuples with (comment object, comment path)
+    with the parent comment first, followed by all replies in depth-first order.
+    """
+    result = []
+    comment_path = "/".join(comment.getPhysicalPath())
+    result.append((comment, comment_path))
+
+    # Get the replies to this comment
+    replies = IReplies(comment)
+    if replies:
+        for reply_id in replies:
+            reply = replies[reply_id]
+            # Store the original parent ID to help with restoration
+            if not hasattr(reply, "original_parent_id"):
+                reply.original_parent_id = comment.id
+            # Recursively get this reply and its replies
+            result.extend(get_comment_and_all_replies(reply, conversation))
+
+    return result
