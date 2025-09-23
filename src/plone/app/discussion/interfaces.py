@@ -185,7 +185,9 @@ class IComment(Interface):
 
     is_deleted = schema.Bool(
         title=_("Comment is deleted"),
-        description=_("If true, this comment has been deleted and should show a deletion message"),
+        description=_(
+            "If true, this comment has been deleted and should show a deletion message"
+        ),
         required=False,
         default=False,
     )

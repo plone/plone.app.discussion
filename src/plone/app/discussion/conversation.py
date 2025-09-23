@@ -75,8 +75,10 @@ class Conversation(Traversable, Persistent, Explicit):
 
     def total_comments(self):
         public_comments = [
-            x for x in self.values() 
-            if user_nobody.has_permission("View", x) and not getattr(x, 'is_deleted', False)
+            x
+            for x in self.values()
+            if user_nobody.has_permission("View", x)
+            and not getattr(x, "is_deleted", False)
         ]
         return len(public_comments)
 
@@ -87,7 +89,9 @@ class Conversation(Traversable, Persistent, Explicit):
         comment_keys = self._comments.keys()
         for comment_key in reversed(comment_keys):
             comment = self._comments[comment_key]
-            if user_nobody.has_permission("View", comment) and not getattr(comment, 'is_deleted', False):
+            if user_nobody.has_permission("View", comment) and not getattr(
+                comment, "is_deleted", False
+            ):
                 return comment.creation_date
         return None
 
@@ -101,7 +105,7 @@ class Conversation(Traversable, Persistent, Explicit):
         for comment in self._comments.values():
             if not user_nobody.has_permission("View", comment):
                 continue
-            if getattr(comment, 'is_deleted', False):
+            if getattr(comment, "is_deleted", False):
                 continue
             retval.add(comment.author_username)
         return tuple(retval)

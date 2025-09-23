@@ -59,7 +59,8 @@
         >
 
           <div class="d-flex flex-row align-items-center mb-3"
-               tal:condition="python:not getattr(reply, 'is_deleted', False)">
+               tal:condition="python:not getattr(reply, 'is_deleted', False)"
+          >
 
             <!-- commenter image -->
             <div class="comment-image me-3"
@@ -122,19 +123,22 @@
           <div class="comment-body">
 
             <!-- Show deleted message if comment is deleted -->
-            <div tal:condition="python:getattr(reply, 'is_deleted', False)"
-                 class="text-muted fst-italic"
-                 i18n:translate="comment_deleted_message">
+            <div class="text-muted fst-italic"
+                 tal:condition="python:getattr(reply, 'is_deleted', False)"
+                 i18n:translate="comment_deleted_message"
+            >
               This comment was deleted.
             </div>
 
             <!-- Show normal comment content if not deleted -->
             <span tal:condition="python:not getattr(reply, 'is_deleted', False)"
-                  tal:replace="structure reply/getText"></span>
+                  tal:replace="structure reply/getText"
+            ></span>
 
             <!-- comment actions -->
             <div class="d-flex flex-row justify-content-end mb-3"
-                 tal:condition="python:not getattr(reply, 'is_deleted', False)">
+                 tal:condition="python:not getattr(reply, 'is_deleted', False)"
+            >
 
               <div class="comment-actions actions-edit"
                    tal:condition="python:isEditCommentAllowed and canEdit"
