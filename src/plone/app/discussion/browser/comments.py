@@ -75,6 +75,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         "modification_date",
         "author_username",
         "title",
+        "is_deleted",
     )
     # We do not want the focus to be on this form when loading a page.
     # See https://github.com/plone/Products.CMFPlone/issues/3623

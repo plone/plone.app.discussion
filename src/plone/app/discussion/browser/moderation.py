@@ -175,7 +175,9 @@ class DeleteComment(BrowserView):
         # base ZCML condition zope2.deleteObject allows 'delete own object'
         # modify this for 'delete_own_comment_allowed' controlpanel setting
         if self.can_delete(comment):
-            del conversation[comment.id]
+            # Instead of actually deleting, just mark as deleted
+            comment.is_deleted = True
+            comment.reindexObject()
             content_object.reindexObject()
             notify(CommentDeletedEvent(self.context, comment))
             IStatusMessage(self.context.REQUEST).addStatusMessage(
@@ -355,6 +357,8 @@ class BulkActionsView(BrowserView):
             comment = context.restrictedTraverse(path)
             conversation = aq_parent(comment)
             content_object = aq_parent(conversation)
-            del conversation[comment.id]
+            # Instead of actually deleting, just mark as deleted
+            comment.is_deleted = True
+            comment.reindexObject()
             content_object.reindexObject(idxs=["total_comments"])
             notify(CommentDeletedEvent(content_object, comment))

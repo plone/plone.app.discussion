@@ -115,6 +115,8 @@ class Comment(
 
     user_notification = None
 
+    is_deleted = False
+
     # Note: we want to use zope.component.createObject() to instantiate
     # comments as far as possible. comment_id and __parent__ are set via
     # IConversation.addComment().

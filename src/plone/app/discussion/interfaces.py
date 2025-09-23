@@ -183,6 +183,13 @@ class IComment(Interface):
         required=False,
     )
 
+    is_deleted = schema.Bool(
+        title=_("Comment is deleted"),
+        description=_("If true, this comment has been deleted and should show a deletion message"),
+        required=False,
+        default=False,
+    )
+
     creator = schema.TextLine(title=_("Username of the commenter"))
     creation_date = schema.Date(title=_("Creation date"))
     modification_date = schema.Date(title=_("Modification date"))
