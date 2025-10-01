@@ -131,6 +131,31 @@
               This comment was deleted.
             </div>
 
+            <!-- Show restore button for deleted comments if user can restore -->
+            <div class="d-flex flex-row justify-content-end mb-3"
+                 tal:condition="python:is_deleted and view.can_restore(reply)"
+            >
+              <div class="comment-actions actions-restore">
+                <form class="comment-action action-restore"
+                      action=""
+                      method="post"
+                      name="restore"
+                      tal:attributes="
+                        action string:${reply/absolute_url}/@@moderate-restore-comment;
+                        id string:restore-${comment_id};
+                      "
+                >
+                  <button class="btn btn-success btn-sm"
+                          name="form.button.RestoreComment"
+                          type="submit"
+                          value="Restore"
+                          i18n:attributes="value label_restore;"
+                          i18n:translate="label_restore"
+                  >Restore</button>
+                </form>
+              </div>
+            </div>
+
             <!-- Show normal comment content if not deleted -->
             <span tal:condition="not:is_deleted"
                   tal:replace="structure reply/getText"

@@ -438,5 +438,9 @@ class ICommentDeletedEvent(IDiscussionEvent):
     """Notify user on comment delete"""
 
 
+class ICommentRestoredEvent(IDiscussionEvent):
+    """Notify user on comment restore"""
+
+
 class ICommentTransitionEvent(IDiscussionEvent):
     """Notify user on comment transition / change of review_state."""

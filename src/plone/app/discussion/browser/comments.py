@@ -372,6 +372,12 @@ class CommentsViewlet(ViewletBase):
         """
         return getSecurityManager().checkPermission("Delete comments", aq_inner(reply))
 
+    def can_restore(self, reply):
+        """Returns true if current user has the 'Delete comments'
+        permission.
+        """
+        return getSecurityManager().checkPermission("Delete comments", aq_inner(reply))
+
     def is_discussion_allowed(self):
         context = aq_inner(self.context)
         return context.restrictedTraverse("@@conversation_view").enabled()
