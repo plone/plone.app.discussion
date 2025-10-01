@@ -600,16 +600,16 @@ class RepliesTest(unittest.TestCase):
         comment = self.portal.doc1.restrictedTraverse(
             f"++conversation++default/{comment_id}",
         )
-        
+
         # Normal comment should return text
         self.assertIn("secret content", comment.getText())
-        
+
         # Mark comment as deleted
         comment.is_deleted = True
-        
+
         # Deleted comment should return empty string
         self.assertEqual("", comment.getText())
-        
+
         # Test with different mime types
         self.assertEqual("", comment.getText(targetMimetype="text/plain"))
         self.assertEqual("", comment.getText(targetMimetype="text/html"))
@@ -623,14 +623,14 @@ class RepliesTest(unittest.TestCase):
         comment = self.portal.doc1.restrictedTraverse(
             f"++conversation++default/{comment_id}",
         )
-        
+
         # Normal comment should return title with author
         original_title = comment.Title()
         self.assertIn("Secret User", original_title)
         self.assertIn("Document 1", original_title)
-        
+
         # Mark comment as deleted
         comment.is_deleted = True
-        
+
         # Deleted comment should return empty string
         self.assertEqual("", comment.Title())

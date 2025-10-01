@@ -232,10 +232,10 @@ class CommentIndexersTest(unittest.TestCase):
             catalog.searchable_text(self.comment)(),
             ("Lorem ipsum dolor sit amet."),
         )
-        
+
         # Mark comment as deleted
         self.comment.is_deleted = True
-        
+
         # Deleted comment should return empty string
         self.assertEqual(
             catalog.searchable_text(self.comment)(),
@@ -247,9 +247,9 @@ class CommentIndexersTest(unittest.TestCase):
         # Normal comment should return title with author
         original_title = catalog.title(self.comment)()
         self.assertIn("Jim on Document 1", original_title)
-        
+
         # Mark comment as deleted
         self.comment.is_deleted = True
-        
+
         # Deleted comment should return empty string
         self.assertEqual(catalog.title(self.comment)(), "")
