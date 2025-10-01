@@ -224,3 +224,32 @@ class CommentIndexersTest(unittest.TestCase):
         # make sure in_response_to returns the title or id of the content
         # object the comment was added to
         self.assertEqual(catalog.in_response_to(self.comment)(), "Document 1")
+
+    def test_searchable_text_deleted_comment(self):
+        """Test that searchable_text returns empty string for deleted comments."""
+        # Normal comment should return text
+        self.assertEqual(
+            catalog.searchable_text(self.comment)(),
+            ("Lorem ipsum dolor sit amet."),
+        )
+        
+        # Mark comment as deleted
+        self.comment.is_deleted = True
+        
+        # Deleted comment should return empty string
+        self.assertEqual(
+            catalog.searchable_text(self.comment)(),
+            "",
+        )
+
+    def test_title_deleted_comment(self):
+        """Test that title indexer returns empty string for deleted comments."""
+        # Normal comment should return title with author
+        original_title = catalog.title(self.comment)()
+        self.assertIn("Jim on Document 1", original_title)
+        
+        # Mark comment as deleted
+        self.comment.is_deleted = True
+        
+        # Deleted comment should return empty string
+        self.assertEqual(catalog.title(self.comment)(), "")
