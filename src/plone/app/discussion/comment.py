@@ -161,6 +161,10 @@ class Comment(
 
     def getText(self, targetMimetype=None):
         """The body text of a comment."""
+        # Return empty string for deleted comments to prevent searchability
+        if getattr(self, 'is_deleted', False):
+            return ""
+            
         transforms = getToolByName(self, "portal_transforms")
 
         if targetMimetype is None:
@@ -196,6 +200,10 @@ class Comment(
 
     def Title(self):
         # The title of the comment.
+        
+        # Return empty string for deleted comments to prevent searchability
+        if getattr(self, 'is_deleted', False):
+            return ""
 
         if self.title:
             return self.title
