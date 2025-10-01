@@ -50,6 +50,7 @@
                canEdit python:view.can_edit(reply);
                canDelete python:view.can_delete(reply);
                colorclass python:lambda x: 'state-private' if x=='rejected' else ('state-internal' if x=='spam' else 'state-'+x);
+               is_deleted reply/is_deleted;
              "
              tal:condition="python:canReview or review_state == 'published'"
              tal:attributes="
@@ -59,7 +60,7 @@
         >
 
           <div class="d-flex flex-row align-items-center mb-3"
-               tal:condition="python:not getattr(reply, 'is_deleted', False)"
+               tal:condition="not:is_deleted"
           >
 
             <!-- commenter image -->
@@ -124,20 +125,20 @@
 
             <!-- Show deleted message if comment is deleted -->
             <div class="text-muted fst-italic"
-                 tal:condition="python:getattr(reply, 'is_deleted', False)"
+                 tal:condition="is_deleted"
                  i18n:translate="comment_deleted_message"
             >
               This comment was deleted.
             </div>
 
             <!-- Show normal comment content if not deleted -->
-            <span tal:condition="python:not getattr(reply, 'is_deleted', False)"
+            <span tal:condition="not:is_deleted"
                   tal:replace="structure reply/getText"
             ></span>
 
             <!-- comment actions -->
             <div class="d-flex flex-row justify-content-end mb-3"
-                 tal:condition="python:not getattr(reply, 'is_deleted', False)"
+                 tal:condition="not:is_deleted"
             >
 
               <div class="comment-actions actions-edit"
