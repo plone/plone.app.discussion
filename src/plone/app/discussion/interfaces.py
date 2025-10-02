@@ -297,6 +297,22 @@ class IDiscussionSettings(Interface):
         default=False,
     )
 
+    hard_delete_comments = schema.Bool(
+        title=_(
+            "label_hard_delete_comments", default="Enable hard deletion of comments"
+        ),
+        description=_(
+            "help_hard_delete_comments",
+            default="If selected, comments will be permanently removed "
+            "from the database when deleted. If not selected, "
+            "comments will be marked as deleted but preserved "
+            "in the database (soft deletion). Hard deletion "
+            "cannot be undone.",
+        ),
+        required=False,
+        default=True,
+    )
+
     text_transform = schema.Choice(
         title=_("label_text_transform", default="Comment text transform"),
         description=_(
