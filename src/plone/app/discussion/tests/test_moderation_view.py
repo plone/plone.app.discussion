@@ -105,6 +105,11 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        
+        # Enable hard deletion for these tests that expect comments to be completely removed
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.hard_delete_comments = True
         self.wf = getToolByName(self.portal, "portal_workflow", None)
         self.context = self.portal
         self.portal.portal_workflow.setChainForPortalTypes(
@@ -249,6 +254,8 @@ class SoftDeletionTest(unittest.TestCase):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = True
+        # Ensure soft deletion is enabled (hard_delete_comments = False)
+        settings.hard_delete_comments = False
 
         # Set up workflow
         self.portal.portal_workflow.setChainForPortalTypes(
@@ -309,6 +316,83 @@ class SoftDeletionTest(unittest.TestCase):
         # Verify comment is still accessible
         self.assertIn(self.comment1_id, self.conversation.objectIds())
         self.assertEqual(self.conversation[self.comment1_id], self.comment1)
+
+    def test_restore_soft_deleted_comment(self):
+        """Test restoring a soft deleted comment using RestoreComment view."""
+        # First, soft delete the comment
+        delete_view = DeleteComment(self.comment1, self.request)
+        delete_view()
+
+        # Verify comment is marked as deleted
+        self.assertTrue(getattr(self.comment1, "is_deleted", False))
+
+        # Import RestoreComment view
+        from plone.app.discussion.browser.moderation import RestoreComment
+
+        # Restore comment using RestoreComment view
+        restore_view = RestoreComment(self.comment1, self.request)
+        restore_view()
+
+        # Verify comment is no longer marked as deleted
+        self.assertFalse(getattr(self.comment1, "is_deleted", False))
+
+        # Verify comment is still accessible
+        self.assertIn(self.comment1_id, self.conversation.objectIds())
+        self.assertEqual(self.conversation[self.comment1_id], self.comment1)
+
+    def test_restore_comment_permission_required(self):
+        """Test that restore requires the same permission as delete."""
+        # First, soft delete the comment as admin
+        delete_view = DeleteComment(self.comment1, self.request)
+        delete_view()
+
+        # Verify comment is marked as deleted
+        self.assertTrue(getattr(self.comment1, "is_deleted", False))
+
+        # Try to restore as member without permission
+        from plone.app.discussion.browser.moderation import RestoreComment
+
+        setRoles(self.portal, TEST_USER_ID, ["Member"])
+
+        restore_view = RestoreComment(self.comment1, self.request)
+        # This should not restore the comment due to lack of permission
+        restore_view()
+
+        # Comment should still be marked as deleted
+        self.assertTrue(getattr(self.comment1, "is_deleted", False))
+
+        # Reset to Manager
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+    def test_bulk_restore_action(self):
+        """Test bulk restore action for multiple comments."""
+        # First, soft delete multiple comments
+        from plone.app.discussion.browser.moderation import DeleteComment
+
+        delete_view1 = DeleteComment(self.comment1, self.request)
+        delete_view1()
+
+        delete_view2 = DeleteComment(self.comment2, self.request)
+        delete_view2()
+
+        # Verify both comments are marked as deleted
+        self.assertTrue(getattr(self.comment1, "is_deleted", False))
+        self.assertTrue(getattr(self.comment2, "is_deleted", False))
+
+        # Test bulk restore action
+        from plone.app.discussion.browser.moderation import BulkActionsView
+
+        bulk_view = BulkActionsView(self.portal, self.request)
+        paths = [
+            f"/plone/test_doc/++conversation++default/{self.comment1_id}",
+            f"/plone/test_doc/++conversation++default/{self.comment2_id}",
+        ]
+        bulk_view.paths = paths
+        bulk_view.restore()
+
+        # Verify both comments are no longer marked as deleted
+        self.assertFalse(getattr(self.comment1, "is_deleted", False))
+        self.assertFalse(getattr(self.comment2, "is_deleted", False))
 
     def test_bulk_soft_delete_comments(self):
         """Test soft deletion of multiple comments using BulkActionsView."""

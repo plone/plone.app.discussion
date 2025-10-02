@@ -1,10 +1,13 @@
 from ..browser.moderation import BulkActionsView
 from ..interfaces import IConversation
+from ..interfaces import IDiscussionSettings
 from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import createObject
+from zope.component import queryUtility
 
 import unittest
 
@@ -17,6 +20,11 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        
+        # Enable hard deletion for these tests that expect comments to be completely removed
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.hard_delete_comments = True
         self.wf = getToolByName(self.portal, "portal_workflow", None)
         self.context = self.portal
         self.portal.portal_workflow.setChainForPortalTypes(

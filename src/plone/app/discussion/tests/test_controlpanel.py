@@ -140,6 +140,17 @@ class RegistryTest(unittest.TestCase):
             False,
         )
 
+    def test_hard_delete_comments(self):
+        # Check hard_delete_comments record
+        self.assertTrue("hard_delete_comments" in IDiscussionSettings)
+        self.assertEqual(
+            self.registry[
+                "plone.app.discussion.interfaces."
+                + "IDiscussionSettings.hard_delete_comments"
+            ],
+            True,
+        )
+
     # def test_user_notification_enabled(self):
     #    # Check show_commenter_image record
     #    show_commenter_image = self.registry.records['plone.app.discussion.' +
