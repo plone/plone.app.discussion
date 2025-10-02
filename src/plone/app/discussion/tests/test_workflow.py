@@ -207,7 +207,7 @@ class CommentReviewWorkflowTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        
+
         # Enable hard deletion for this test that expects comments to be completely removed
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)

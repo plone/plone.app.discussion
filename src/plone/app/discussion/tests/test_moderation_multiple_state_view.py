@@ -20,7 +20,7 @@ class ModerationBulkActionsViewTest(unittest.TestCase):
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        
+
         # Enable hard deletion for these tests that expect comments to be completely removed
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
