@@ -90,7 +90,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Widgets
         self.widgets["in_reply_to"].mode = interfaces.HIDDEN_MODE
         self.widgets["text"].addClass("autoresize")
-        self.widgets["user_notification"].label = _("")
+        self.widgets["user_notification"].label = ""
         # Reset widget field settings to their defaults, which may be changed
         # further on.  Otherwise, the email field might get set to required
         # when an anonymous user visits, and then remain required when an
