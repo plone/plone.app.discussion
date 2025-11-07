@@ -590,3 +590,47 @@ class RepliesTest(unittest.TestCase):
             "http://nohost/plone/doc1/++conversation++default/" + str(new_re_re_re_id),
             re_re_re_comment.absolute_url(),
         )
+
+    def test_getText_deleted_comment(self):
+        """Test that getText returns empty string for deleted comments."""
+        conversation = IConversation(self.portal.doc1)
+        comment1 = createObject("plone.Comment")
+        comment1.text = "This is secret content that should not be searchable"
+        comment_id = conversation.addComment(comment1)
+        comment = self.portal.doc1.restrictedTraverse(
+            f"++conversation++default/{comment_id}",
+        )
+
+        # Normal comment should return text
+        self.assertIn("secret content", comment.getText())
+
+        # Mark comment as deleted
+        comment.is_deleted = True
+
+        # Deleted comment should return empty string
+        self.assertEqual("", comment.getText())
+
+        # Test with different mime types
+        self.assertEqual("", comment.getText(targetMimetype="text/plain"))
+        self.assertEqual("", comment.getText(targetMimetype="text/html"))
+
+    def test_Title_deleted_comment(self):
+        """Test that Title returns empty string for deleted comments."""
+        conversation = IConversation(self.portal.doc1)
+        comment1 = createObject("plone.Comment")
+        comment1.author_name = "Secret User"
+        comment_id = conversation.addComment(comment1)
+        comment = self.portal.doc1.restrictedTraverse(
+            f"++conversation++default/{comment_id}",
+        )
+
+        # Normal comment should return title with author
+        original_title = comment.Title()
+        self.assertIn("Secret User", original_title)
+        self.assertIn("Document 1", original_title)
+
+        # Mark comment as deleted
+        comment.is_deleted = True
+
+        # Deleted comment should return empty string
+        self.assertEqual("", comment.Title())
