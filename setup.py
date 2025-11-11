@@ -48,7 +48,6 @@ setup(
         "plone.behavior",
         "plone.supermodel",
         "plone.uuid",
-        "setuptools",
         "plone.app.layout",
         "plone.app.registry",
         "plone.app.uuid",
