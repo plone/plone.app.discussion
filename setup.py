@@ -1,5 +1,4 @@
 from pathlib import Path
-from setuptools import find_packages
 from setuptools import setup
 
 
@@ -10,7 +9,7 @@ long_description = (
 
 setup(
     name="plone.app.discussion",
-    version="5.2.2.dev0",
+    version="6.0.0.dev0",
     description="Enhanced discussion support for Plone",
     long_description=long_description,
     long_description_content_type="text/x-rst",
@@ -20,7 +19,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Plone",
-        "Framework :: Plone :: 6.1",
+        "Framework :: Plone :: 6.2",
         "Framework :: Plone :: Core",
         "Framework :: Zope :: 5",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
@@ -35,9 +34,6 @@ setup(
     author_email="plone-developers@lists.sourceforge.net",
     url="https://pypi.org/project/plone.app.discussion",
     license="GPL",
-    packages=find_packages("src"),
-    package_dir={"": "src"},
-    namespace_packages=["plone", "plone.app"],
     include_package_data=True,
     zip_safe=False,
     python_requires=">=3.10",
@@ -52,7 +48,6 @@ setup(
         "plone.behavior",
         "plone.supermodel",
         "plone.uuid",
-        "setuptools",
         "plone.app.layout",
         "plone.app.registry",
         "plone.app.uuid",
