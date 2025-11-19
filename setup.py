@@ -9,7 +9,7 @@ long_description = (
 
 setup(
     name="plone.app.discussion",
-    version="6.0.0.dev0",
+    version="6.0.0a1.dev0",
     description="Enhanced discussion support for Plone",
     long_description=long_description,
     long_description_content_type="text/x-rst",
