@@ -1,6 +1,13 @@
-===
-API
-===
+---
+myst:
+  html_meta:
+    "description": "API - plone.app.discussion documentation"
+    "property=og:description": "API - plone.app.discussion documentation"
+    "property=og:title": "API"
+    "keywords": "Plone, Discussion, Comments, Documentation"
+---
+
+# API
 
 The conversation and replies adapters.
 
@@ -13,9 +20,9 @@ directly in reply to a particular comment (implemented by the CommentReplies
 adapter) or at the top level of the conversation (implemented by the
 ConversationReplies adapter).
 
+```{toctree}
+:maxdepth: 1
 
-.. toctree::
-   :maxdepth: 1
-
-   conversation.txt
-   comment.txt
+conversation.txt
+comment.txt
+```
