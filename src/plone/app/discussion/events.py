@@ -5,6 +5,7 @@ from plone.app.discussion.interfaces import ICommentDeletedEvent
 from plone.app.discussion.interfaces import ICommentModifiedEvent
 from plone.app.discussion.interfaces import ICommentPublishedEvent
 from plone.app.discussion.interfaces import ICommentRemovedEvent
+from plone.app.discussion.interfaces import ICommentRestoredEvent
 from plone.app.discussion.interfaces import ICommentTransitionEvent
 from plone.app.discussion.interfaces import IDiscussionEvent
 from plone.app.discussion.interfaces import IDiscussionSettings
@@ -66,6 +67,11 @@ class ReplyRemovedEvent(DiscussionEvent):
 @implementer(ICommentDeletedEvent)
 class CommentDeletedEvent(DiscussionEvent):
     """Event to be triggered when a Comment is deleted"""
+
+
+@implementer(ICommentRestoredEvent)
+class CommentRestoredEvent(DiscussionEvent):
+    """Event to be triggered when a Comment is restored"""
 
 
 @implementer(ICommentPublishedEvent)

@@ -5,14 +5,18 @@ from Acquisition import aq_parent
 from plone.app.discussion.browser.utils import format_author_name_with_suffix
 from plone.app.discussion.events import CommentDeletedEvent
 from plone.app.discussion.events import CommentPublishedEvent
+from plone.app.discussion.events import CommentRestoredEvent
 from plone.app.discussion.events import CommentTransitionEvent
 from plone.app.discussion.interfaces import _
 from plone.app.discussion.interfaces import IComment
+from plone.app.discussion.interfaces import IDiscussionSettings
 from plone.app.discussion.interfaces import IReplies
+from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
+from zope.component import queryUtility
 from zope.event import notify
 
 
@@ -175,12 +179,29 @@ class DeleteComment(BrowserView):
         # base ZCML condition zope2.deleteObject allows 'delete own object'
         # modify this for 'delete_own_comment_allowed' controlpanel setting
         if self.can_delete(comment):
-            del conversation[comment.id]
+            # Check registry setting to determine deletion mode
+            registry = queryUtility(IRegistry)
+            settings = registry.forInterface(IDiscussionSettings, check=False)
+
+            if settings.hard_delete_comments:
+                # Hard delete: actually remove the comment from the conversation
+                comment_id = comment.comment_id
+                del conversation[comment_id]
+                IStatusMessage(self.context.REQUEST).addStatusMessage(
+                    _("Comment permanently deleted."), type="info"
+                )
+            else:
+                # Soft delete: mark as deleted but keep in database
+                comment.is_deleted = True
+                comment.reindexObject()
+                notify(CommentDeletedEvent(self.context, comment))
+                IStatusMessage(self.context.REQUEST).addStatusMessage(
+                    _("Comment deleted."), type="info"
+                )
+
+            # Reindex the content object to update comment counts
             content_object.reindexObject()
-            notify(CommentDeletedEvent(self.context, comment))
-            IStatusMessage(self.context.REQUEST).addStatusMessage(
-                _("Comment deleted."), type="info"
-            )
+
         came_from = self.context.REQUEST.HTTP_REFERER
         # if the referrer already has a came_from in it, don't redirect back
         if (
@@ -228,6 +249,47 @@ class DeleteOwnComment(DeleteComment):
             super().__call__()
         else:
             raise Unauthorized("You're not allowed to delete this comment.")
+
+
+class RestoreComment(BrowserView):
+    """Restore a deleted comment from a conversation.
+
+       This view is always called directly on the comment object:
+
+         http://nohost/front-page/++conversation++default/1286289644723317/\
+         @@moderate-restore-comment
+    """
+
+    def __call__(self):
+        comment = aq_inner(self.context)
+        conversation = aq_parent(comment)
+        content_object = aq_parent(conversation)
+        # conditional security
+        # Only users with 'Delete comments' permission can restore comments
+        if self.can_restore(comment):
+            # Mark comment as not deleted
+            comment.is_deleted = False
+            comment.reindexObject()
+            content_object.reindexObject()
+            notify(CommentRestoredEvent(self.context, comment))
+            IStatusMessage(self.context.REQUEST).addStatusMessage(
+                _("Comment restored."), type="info"
+            )
+        came_from = self.context.REQUEST.HTTP_REFERER
+        # if the referrer already has a came_from in it, don't redirect back
+        if (
+            len(came_from) == 0
+            or "came_from=" in came_from
+            or not getToolByName(content_object, "portal_url").isURLInPortal(came_from)
+        ):
+            came_from = content_object.absolute_url()
+        return self.context.REQUEST.RESPONSE.redirect(came_from)
+
+    def can_restore(self, reply):
+        """Returns true if current user has the 'Delete comments'
+        permission.
+        """
+        return getSecurityManager().checkPermission("Delete comments", aq_inner(reply))
 
 
 class CommentTransition(BrowserView):
@@ -351,10 +413,42 @@ class BulkActionsView(BrowserView):
         /Plone/startseite/++conversation++default/1286200010610352
         """
         context = aq_inner(self.context)
+        # Check registry setting to determine deletion mode
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings, check=False)
+
         for path in self.paths:
             comment = context.restrictedTraverse(path)
             conversation = aq_parent(comment)
             content_object = aq_parent(conversation)
-            del conversation[comment.id]
+
+            if settings.hard_delete_comments:
+                # Hard delete: actually remove the comment from the conversation
+                comment_id = comment.comment_id
+                del conversation[comment_id]
+            else:
+                # Soft delete: mark as deleted but keep in database
+                comment.is_deleted = True
+                comment.reindexObject()
+                notify(CommentDeletedEvent(content_object, comment))
+
+            # Reindex the content object to update comment counts
             content_object.reindexObject(idxs=["total_comments"])
-            notify(CommentDeletedEvent(content_object, comment))
+
+    def restore(self):
+        """Restore all comments in the paths variable.
+
+        Expects a list of absolute paths (without host and port):
+
+        /Plone/startseite/++conversation++default/1286200010610352
+        """
+        context = aq_inner(self.context)
+        for path in self.paths:
+            comment = context.restrictedTraverse(path)
+            conversation = aq_parent(comment)
+            content_object = aq_parent(conversation)
+            # Mark comment as not deleted
+            comment.is_deleted = False
+            comment.reindexObject()
+            content_object.reindexObject(idxs=["total_comments"])
+            notify(CommentRestoredEvent(content_object, comment))
