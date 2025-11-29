@@ -30,4 +30,9 @@
       title="Delete comments"
       />
 
+  <permission
+      id="plone.app.discussion.ManageBans"
+      title="Manage user bans"
+      />
+
 </configure>
