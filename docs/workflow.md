@@ -1,41 +1,43 @@
-=========================
-Permissions and Workflows
-=========================
+---
+myst:
+  html_meta:
+    "description": "Permissions and Workflows - plone.app.discussion documentation"
+    "property=og:description": "Permissions and Workflows - plone.app.discussion documentation"
+    "property=og:title": "Permissions and Workflows"
+    "keywords": "Plone, Discussion, Comments, Documentation"
+---
+
+# Permissions and Workflows
 
 This document describes how plone.app.discussion handles permissions and
 workflows.
 
-
-Introduction
-============
+## Introduction
 
 plone.app.discussion uses permissions and workflows to control what a user is
 allowed to do. It tries to use the default Plone permissions and workflow
 engine as much as possible.
 
-
-Permissions
-===========
+## Permissions
 
 plone.app.discussion knows two permissions to control what a user is allowed to
 do. The 'Reply to item' permission to control who is allowed to post a comment
 on a content object and the 'Review comments' permission to control who is
 allowed to review comments.
 
-1) **Permission to post a comment**:
+1. **Permission to post a comment**:
 
    The permission to post a comment is controlled by the 'Reply to item'
    permission. By default, this permission is granted to the 'Member',
    'Reviewer', and 'Manager' role.
 
-2) **Permission to review comments**:
+2. **Permission to review comments**:
 
    The permission to review comments is controlled by the 'Review comments'
    permission. By default, this permission is granted to the 'Reviewer' and
    'Manager' role.
 
-Changing permissions
---------------------
+### Changing permissions
 
 If you want to change the way plone.app.discussion allows users to post or
 review comments you can do that by changing which permissions are granted to
@@ -49,24 +51,25 @@ comments, you have to grant the 'Reply to item' permission to the
 Or, if you don't want to allow 'Reviewers' to review comments anymore, you
 can just remove the 'Review comments' permission from the 'Reviewer' role.
 
-.. note:: For a general introduction to permissions and roles in Plone see:
+:::{note}
+For a general introduction to permissions and roles in Plone see:
 
-          http://plone.org/documentation/kb/understanding-permissions/permissions-and-roles
+<http://plone.org/documentation/kb/understanding-permissions/permissions-and-roles>
 
-          http://plone.org/products/dexterity/documentation/manual/developer-manual/advanced/permissions
+<http://plone.org/products/dexterity/documentation/manual/developer-manual/advanced/permissions>
+:::
 
-Workflows
-=========
+## Workflows
 
 plone.app.discussion ships with a simple one-state
 workflow and a review workflow for comments:
 
-1) **Comment Single State Workflow**:
+1. **Comment Single State Workflow**:
 
    Essentially a workflow with no transitions, but it has a published state,
    so portlets and applications that expect that state will continue to work.
 
-2) **Comment Review Workflow**: A simple review workflow for comments
+2. **Comment Review Workflow**: A simple review workflow for comments
 
    A simple review workflow that comes with two states (pending and published)
    and a single transition (publish).
@@ -76,31 +79,27 @@ workflow and a review workflow for comments:
 
    The 'publish' transition is protected by the 'Review comments' permission.
 
-   ::
+   ```
+   * --> [pending] -- {publish} --> [published]--> *
+   ```
 
-     * --> [pending] -- {publish} --> [published]--> *
+:::{note}
+For a general introduction to workflows in Plone see:
+<http://plone.org/documentation/kb/creating-workflows-in-plone/>
+:::
 
-.. note:: For a general introduction to workflows in Plone see:
-          http://plone.org/documentation/kb/creating-workflows-in-plone/
-
-
-Custom comment workflow
------------------------
+### Custom comment workflow
 
 You can create and enable any custom workflow on the "comment" content type.
 Though, there are some special hooks in plone.app.discussion that check if the
 workflow that is enabled for the "comment" content type has a 'pending' state in
 order to do the following things:
 
-  1) A portal message will be shown to the user after posting a comment, if
-     the comment just entered the 'pending' state.
-
-  2) A message is shown to the user if he/she accesses the bulk moderation view
-     and workflow is enabled for comments that does not implement a 'pending'
-     state.
-
-  3) A moderator will only be emailed when comment moderation is enabled in the
-     discussion control panel and the comment workflow contains a 'pending'
-     state.
-
-
+> 1. A portal message will be shown to the user after posting a comment, if
+>    the comment just entered the 'pending' state.
+> 2. A message is shown to the user if he/she accesses the bulk moderation view
+>    and workflow is enabled for comments that does not implement a 'pending'
+>    state.
+> 3. A moderator will only be emailed when comment moderation is enabled in the
+>    discussion control panel and the comment workflow contains a 'pending'
+>    state.
