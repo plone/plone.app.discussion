@@ -41,5 +41,12 @@
       <role name="Reviewer" />
       <role name="Owner" />
     </permission>
+    <permission acquire="True"
+                name="Manage user bans"
+    >
+      <role name="Manager" />
+      <role name="Site Administrator" />
+      <role name="Reviewer" />
+    </permission>
   </permissions>
 </rolemap>

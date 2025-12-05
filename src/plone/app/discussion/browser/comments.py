@@ -3,6 +3,9 @@ from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from DateTime import DateTime
 from plone.app.discussion import _
+from plone.app.discussion.browser.ban_integration import check_user_ban_before_comment
+from plone.app.discussion.browser.ban_integration import filter_shadow_banned_comments
+from plone.app.discussion.browser.ban_integration import process_shadow_banned_comment
 from plone.app.discussion.browser.utils import format_author_name_with_suffix
 from plone.app.discussion.browser.validator import CaptchaValidator
 from plone.app.discussion.interfaces import ICaptcha
@@ -245,6 +248,10 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         if errors:
             return
 
+        # Check for user bans before processing comment
+        if not check_user_ban_before_comment(self, data):
+            return
+
         # Validate Captcha
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings, check=False)
@@ -273,6 +280,9 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         else:
             # Add a comment to the conversation
             comment_id = conversation.addComment(comment)
+
+        # Process shadow banned comments
+        process_shadow_banned_comment(comment, context)
 
         # Redirect after form submit:
         # If a user posts a comment and moderation is enabled, a message is
@@ -471,12 +481,29 @@ class CommentsViewlet(ViewletBase):
                     r["workflow_status"] = workflow_status
                     yield r
 
+        def published_replies_filtered():
+            # Generator that returns published replies, filtering shadow banned comments
+            published_comments = [r["comment"] for r in published_replies()]
+            filtered_comments = filter_shadow_banned_comments(
+                published_comments, context
+            )
+
+            # Rebuild the thread structure with filtered comments
+            for r in conversation.getThreads():
+                comment_obj = r["comment"]
+                if comment_obj in filtered_comments:
+                    workflow_status = wf.getInfoFor(comment_obj, "review_state")
+                    if workflow_status == "published":
+                        r = r.copy()
+                        r["workflow_status"] = workflow_status
+                        yield r
+
         # Return all direct replies
         if len(conversation.objectIds()):
             if workflow_actions:
                 return replies_with_workflow_actions()
             else:
-                return published_replies()
+                return published_replies_filtered()
 
     def get_commenter_home_url(self, username=None):
         if username is None:
