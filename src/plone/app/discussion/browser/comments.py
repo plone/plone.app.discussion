@@ -75,6 +75,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         "modification_date",
         "author_username",
         "title",
+        "is_deleted",
     )
     # We do not want the focus to be on this form when loading a page.
     # See https://github.com/plone/Products.CMFPlone/issues/3623
@@ -366,6 +367,12 @@ class CommentsViewlet(ViewletBase):
         return getSecurityManager().checkPermission("Edit comments", aq_inner(reply))
 
     def can_delete(self, reply):
+        """Returns true if current user has the 'Delete comments'
+        permission.
+        """
+        return getSecurityManager().checkPermission("Delete comments", aq_inner(reply))
+
+    def can_restore(self, reply):
         """Returns true if current user has the 'Delete comments'
         permission.
         """

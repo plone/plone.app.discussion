@@ -2,6 +2,7 @@
 
 from ..interfaces import IConversation
 from ..interfaces import IDiscussionLayer
+from ..interfaces import IDiscussionSettings
 from ..testing import PLONE_APP_DISCUSSION_INTEGRATION_TESTING
 from AccessControl import Unauthorized
 from plone.app.testing import login
@@ -10,9 +11,11 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.registry.interfaces import IRegistry
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import _checkPermission as checkPerm
 from zope.component import createObject
+from zope.component import queryUtility
 from zope.interface import alsoProvides
 
 import unittest
@@ -204,6 +207,11 @@ class CommentReviewWorkflowTest(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+        # Enable hard deletion for this test that expects comments to be completely removed
+        registry = queryUtility(IRegistry)
+        settings = registry.forInterface(IDiscussionSettings)
+        settings.hard_delete_comments = True
         self.portal.invokeFactory("Folder", "test-folder")
         self.folder = self.portal["test-folder"]
 

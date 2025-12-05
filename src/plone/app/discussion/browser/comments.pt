@@ -50,6 +50,7 @@
                canEdit python:view.can_edit(reply);
                canDelete python:view.can_delete(reply);
                colorclass python:lambda x: 'state-private' if x=='rejected' else ('state-internal' if x=='spam' else 'state-'+x);
+               is_deleted reply/is_deleted;
              "
              tal:condition="python:canReview or review_state == 'published'"
              tal:attributes="
@@ -58,7 +59,9 @@
              "
         >
 
-          <div class="d-flex flex-row align-items-center mb-3">
+          <div class="d-flex flex-row align-items-center mb-3"
+               tal:condition="not:is_deleted"
+          >
 
             <!-- commenter image -->
             <div class="comment-image me-3"
@@ -120,10 +123,48 @@
           <!-- comment body -->
           <div class="comment-body">
 
-            <span tal:replace="structure reply/getText"></span>
+            <!-- Show deleted message if comment is deleted -->
+            <div class="text-muted fst-italic"
+                 tal:condition="is_deleted"
+                 i18n:translate="comment_deleted_message"
+            >
+              This comment was deleted.
+            </div>
+
+            <!-- Show restore button for deleted comments if user can restore -->
+            <div class="d-flex flex-row justify-content-end mb-3"
+                 tal:condition="python:is_deleted and view.can_restore(reply)"
+            >
+              <div class="comment-actions actions-restore">
+                <form class="comment-action action-restore"
+                      action=""
+                      method="post"
+                      name="restore"
+                      tal:attributes="
+                        action string:${reply/absolute_url}/@@moderate-restore-comment;
+                        id string:restore-${comment_id};
+                      "
+                >
+                  <button class="btn btn-success btn-sm"
+                          name="form.button.RestoreComment"
+                          type="submit"
+                          value="Restore"
+                          i18n:attributes="value label_restore;"
+                          i18n:translate="label_restore"
+                  >Restore</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Show normal comment content if not deleted -->
+            <span tal:condition="not:is_deleted"
+                  tal:replace="structure reply/getText"
+            ></span>
 
             <!-- comment actions -->
-            <div class="d-flex flex-row justify-content-end mb-3">
+            <div class="d-flex flex-row justify-content-end mb-3"
+                 tal:condition="not:is_deleted"
+            >
 
               <div class="comment-actions actions-edit"
                    tal:condition="python:isEditCommentAllowed and canEdit"

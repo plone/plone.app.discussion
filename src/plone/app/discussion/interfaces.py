@@ -183,6 +183,15 @@ class IComment(Interface):
         required=False,
     )
 
+    is_deleted = schema.Bool(
+        title=_("Comment is deleted"),
+        description=_(
+            "If true, this comment has been deleted and should show a deletion message"
+        ),
+        required=False,
+        default=False,
+    )
+
     creator = schema.TextLine(title=_("Username of the commenter"))
     creation_date = schema.Date(title=_("Creation date"))
     modification_date = schema.Date(title=_("Modification date"))
@@ -286,6 +295,22 @@ class IDiscussionSettings(Interface):
         ),
         required=False,
         default=False,
+    )
+
+    hard_delete_comments = schema.Bool(
+        title=_(
+            "label_hard_delete_comments", default="Enable hard deletion of comments"
+        ),
+        description=_(
+            "help_hard_delete_comments",
+            default="If selected, comments will be permanently removed "
+            "from the database when deleted. If not selected, "
+            "comments will be marked as deleted but preserved "
+            "in the database (soft deletion). Hard deletion "
+            "cannot be undone.",
+        ),
+        required=False,
+        default=True,
     )
 
     text_transform = schema.Choice(
@@ -427,6 +452,10 @@ class ICommentPublishedEvent(IDiscussionEvent):
 
 class ICommentDeletedEvent(IDiscussionEvent):
     """Notify user on comment delete"""
+
+
+class ICommentRestoredEvent(IDiscussionEvent):
+    """Notify user on comment restore"""
 
 
 class ICommentTransitionEvent(IDiscussionEvent):

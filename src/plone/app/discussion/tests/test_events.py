@@ -23,6 +23,7 @@ class EventsRegistry:
     commentAdded = False
     commentModified = False
     commentRemoved = False
+    commentRestored = False
     replyAdded = False
     replyModified = False
     replyRemoved = False
@@ -43,6 +44,10 @@ def comment_modified(doc, evt):
 
 def comment_removed(doc, evt):
     EventsRegistry.commentRemoved = True
+
+
+def comment_restored(doc, evt):
+    EventsRegistry.commentRestored = True
 
 
 def reply_added(doc, evt):
