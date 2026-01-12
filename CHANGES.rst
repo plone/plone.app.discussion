@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+5.2.2 (2026-01-12)
+------------------
+
+Bug fixes:
+
+
+- Do not create empty translatable strings @erral
+- Simplify description of the Discussion Item type to fix i18n. @davisagli
+
+
 5.2.1 (2025-09-11)
 ------------------
 
