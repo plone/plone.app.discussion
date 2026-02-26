@@ -8,6 +8,22 @@ Changelog
 
 .. towncrier release notes start
 
+5.2.3 (2026-02-26)
+------------------
+
+Bug fixes:
+
+
+- Fix translation of comment byline.  @erral
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
 5.2.2 (2026-01-12)
 ------------------
 
