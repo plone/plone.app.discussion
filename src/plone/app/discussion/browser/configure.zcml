@@ -157,6 +157,37 @@
       permission="cmf.ManagePortal"
       />
 
+  <!-- Ban management views -->
+  <browser:page
+      name="ban-management"
+      for="plone.base.interfaces.INavigationRoot"
+      class=".ban.BanManagementView"
+      permission="plone.app.discussion.ManageBans"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
+  <browser:page
+      name="user-ban-status"
+      for="plone.base.interfaces.INavigationRoot"
+      class=".ban.UserBanStatusView"
+      permission="zope2.View"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
+  <browser:page
+      name="ban-user-form"
+      for="*"
+      class=".ban.UserBanFormView"
+      permission="plone.app.discussion.ManageBans"
+      />
+
+  <browser:page
+      name="unban-user-form"
+      for="*"
+      class=".ban.UserUnbanFormView"
+      permission="plone.app.discussion.ManageBans"
+      />
+
   <!-- Volto-compatible REST API control panel -->
   <configure zcml:condition="installed plone.restapi">
     <adapter

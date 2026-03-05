@@ -52,6 +52,11 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         self.fields["user_notification_enabled"].widgetFactory = (
             SingleCheckBoxFieldWidget
         )
+        # Ban management system fields
+        self.fields["ban_enabled"].widgetFactory = SingleCheckBoxFieldWidget
+        self.fields["shadow_ban_notification_enabled"].widgetFactory = (
+            SingleCheckBoxFieldWidget
+        )
 
     def updateWidgets(self):
         try:
@@ -69,6 +74,11 @@ class DiscussionSettingsEditForm(controlpanel.RegistryEditForm):
         )
         self.widgets["user_notification_enabled"].label = _(
             "User Email Notification",
+        )
+        # Ban management system field labels
+        self.widgets["ban_enabled"].label = _("Enable User Ban System")
+        self.widgets["shadow_ban_notification_enabled"].label = _(
+            "Notify Users of Shadow Bans"
         )
 
     @button.buttonAndHandler(_("Save"), name=None)

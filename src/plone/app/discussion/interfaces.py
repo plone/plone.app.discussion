@@ -1,6 +1,7 @@
 """Interfaces for plone.app.discussion"""
 
 from plone.app.discussion import _
+from plone.app.discussion.vocabularies import BAN_TYPE_COOLDOWN
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 from zope import schema
@@ -131,6 +132,45 @@ class IReplies(IIterableMapping):
 
     def __delitem__(key):
         """Delete the comment with the given key. The key is a long id."""
+
+
+class IBanUserSchema(Interface):
+    """Schema for banning users."""
+
+    user_id = schema.TextLine(
+        title=_("User ID"), required=True, description=_("Enter username or user ID")
+    )
+
+    ban_type = schema.Choice(
+        title=_("Ban Type"),
+        default=BAN_TYPE_COOLDOWN,
+        required=True,
+        vocabulary="plone.app.discussion.vocabularies.BanVocabulary",
+    )
+
+    duration_hours = schema.Int(
+        title=_("Duration (hours)"),
+        description=_("Only used when ban type is not permanent"),
+        required=False,
+        min=1,
+        default=24,
+    )
+
+    reason = schema.Text(
+        title=_("Reason"),
+        required=False,
+        description=_("This reason will be shown to the user"),
+    )
+
+
+class IUnbanUserSchema(Interface):
+    """Schema for unbanning users."""
+
+    user_id = schema.TextLine(
+        title=_("User ID"),
+        required=True,
+        description=_("Enter username or user ID to unban"),
+    )
 
 
 class IComment(Interface):
@@ -373,6 +413,44 @@ class IDiscussionSettings(Interface):
         ),
         required=False,
         default=False,
+    )
+
+    # Ban management settings
+    ban_enabled = schema.Bool(
+        title=_("label_ban_enabled", default="Enable user ban system"),
+        description=_(
+            "help_ban_enabled",
+            default="If enabled, administrators can ban users from commenting "
+            "using various ban types including cooldowns and shadow bans. "
+            "Accessible on @@ban-management.",
+        ),
+        default=False,
+        required=False,
+    )
+
+    shadow_ban_notification_enabled = schema.Bool(
+        title=_("label_shadow_ban_notification", default="Notify users of shadow bans"),
+        description=_(
+            "help_shadow_ban_notification",
+            default="If enabled, users will be notified when they are shadow banned. "
+            "If disabled, shadow bans are completely invisible to users.",
+        ),
+        default=False,
+        required=False,
+    )
+
+    default_cooldown_duration = schema.Int(
+        title=_(
+            "label_default_cooldown_duration",
+            default="Default cooldown duration (hours)",
+        ),
+        description=_(
+            "help_default_cooldown_duration",
+            default="Default duration in hours for cooldown bans when not specified.",
+        ),
+        default=24,
+        min=1,
+        required=False,
     )
 
 

@@ -1,0 +1,882 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="plone.app.discussion"
+>
+
+  <head>
+    <title metal:fill-slot="title"
+           i18n:translate="title_ban_management"
+    >User Ban Management</title>
+  </head>
+
+  <body>
+
+    <metal:override fill-slot="top_slot">
+      <tal:block define="
+                   dummy python:request.set('disable_border', 1);
+                   dummy python:request.set('disable_plone.leftcolumn', 1);
+                   dummy python:request.set('disable_plone.rightcolumn', 1);
+                 " />
+    </metal:override>
+
+    <metal:main fill-slot="main">
+      <div class="container-fluid px-0">
+        <!-- Header section with icon and description -->
+        <div class="d-flex align-items-center mb-4">
+          <div>
+            <h1 class="documentFirstHeading mb-0"
+                i18n:translate="title_ban_management"
+            >User Ban Management</h1>
+            <div class="documentDescription text-muted"
+                 i18n:translate="ban_management_description"
+            >
+                    Manage user bans to control access to commenting. View active bans, create new restrictions, and monitor ban statistics.
+            </div>
+          </div>
+        </div>
+
+        <!-- Search and filter form in a card -->
+        <div class="card mb-4">
+          <div class="card-header bg-light d-flex align-items-center">
+            <span i18n:translate="heading_search_filter">Search and Filter</span>
+          </div>
+          <div class="card-body py-3">
+            <form class="search-box"
+                  method="get"
+                  tal:attributes="
+                    action string:${context/absolute_url}/@@ban-management;
+                  "
+            >
+              <div class="row g-3">
+                <!-- Search field -->
+                <div class="col-md-6">
+                  <label class="form-label"
+                         for="search-query"
+                         i18n:translate="label_search_users"
+                  >Search users</label>
+                  <div class="input-group">
+                    <input class="form-control"
+                           id="search-query"
+                           name="search_query"
+                           placeholder="Search by user ID, moderator, or reason..."
+                           type="text"
+                           tal:attributes="
+                             value request/search_query|nothing;
+                           "
+                           i18n:attributes="placeholder"
+                    />
+                    <button class="btn btn-primary"
+                            name="search_submit"
+                            type="submit"
+                    >
+                      <span i18n:translate="button_search">Search</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Filter & Sort Options -->
+                <div class="col-md-6">
+                  <div class="row g-2">
+                    <!-- Ban Type Filter -->
+                    <div class="col-sm-6"
+                         tal:define="
+                           current_filter request/filter_type|nothing;
+                         "
+                    >
+                      <label class="form-label"
+                             for="filter-type"
+                             i18n:translate="label_ban_type_filter"
+                      >Ban type</label>
+                      <select class="form-select"
+                              id="filter-type"
+                              name="filter_type"
+                              onchange="this.form.submit()"
+                      >
+                        <option value=""
+                                i18n:translate="option_all_ban_types"
+                        >All ban types</option>
+                        <option value="cooldown"
+                                tal:attributes="
+                                  selected python:current_filter == 'cooldown';
+                                "
+                                i18n:translate="option_cooldown"
+                        >Cooldown Ban</option>
+                        <option value="shadow"
+                                tal:attributes="
+                                  selected python:current_filter == 'shadow';
+                                "
+                                i18n:translate="option_shadow"
+                        >Shadow Ban</option>
+                        <option value="permanent"
+                                tal:attributes="
+                                  selected python:current_filter == 'permanent';
+                                "
+                                i18n:translate="option_permanent"
+                        >Permanent Ban</option>
+                      </select>
+                    </div>
+
+                    <!-- Sort Order -->
+                    <div class="col-sm-6"
+                         tal:define="
+                           current_sort request/sort_by|string:date_desc;
+                         "
+                    >
+                      <label class="form-label"
+                             for="sort-by"
+                             i18n:translate="label_sort_by"
+                      >Sort by</label>
+                      <select class="form-select"
+                              id="sort-by"
+                              name="sort_by"
+                              onchange="this.form.submit()"
+                      >
+                        <option value="date_desc"
+                                tal:attributes="
+                                  selected python:current_sort == 'date_desc';
+                                "
+                                i18n:translate="sort_newest_first"
+                        >Newest first</option>
+                        <option value="date_asc"
+                                tal:attributes="
+                                  selected python:current_sort == 'date_asc';
+                                "
+                                i18n:translate="sort_oldest_first"
+                        >Oldest first</option>
+                        <option value="user_asc"
+                                tal:attributes="
+                                  selected python:current_sort == 'user_asc';
+                                "
+                                i18n:translate="sort_user_az"
+                        >User (A-Z)</option>
+                        <option value="user_desc"
+                                tal:attributes="
+                                  selected python:current_sort == 'user_desc';
+                                "
+                                i18n:translate="sort_user_za"
+                        >User (Z-A)</option>
+                        <option value="expires_asc"
+                                tal:attributes="
+                                  selected python:current_sort == 'expires_asc';
+                                "
+                                i18n:translate="sort_expires_soon"
+                        >Expires soon</option>
+                        <option value="expires_desc"
+                                tal:attributes="
+                                  selected python:current_sort == 'expires_desc';
+                                "
+                                i18n:translate="sort_expires_later"
+                        >Expires later</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Combined notification for search, filter and sort -->
+        <div class="alert alert-info d-flex align-items-center mb-4"
+             tal:define="
+               search_query request/search_query|nothing;
+               filter_type request/filter_type|nothing;
+               sort_option request/sort_by|string:date_desc;
+               has_active_filters python:search_query or filter_type or (sort_option != 'date_desc');
+             "
+             tal:condition="has_active_filters"
+        >
+
+          <div class="ms-1 d-flex flex-grow-1 flex-wrap align-items-center gap-2">
+            <span class="fw-bold me-2"
+                  i18n:translate="active_filters_label"
+            >Active filters:</span>
+
+            <span class="badge rounded-pill bg-primary d-inline-flex align-items-center p-2"
+                  tal:condition="search_query"
+            >
+              <span class="me-1"
+                    tal:content="search_query"
+              >query</span>
+              <a class="text-white ms-1"
+                 href="#"
+                 style="text-decoration: none;"
+                 title="Clear search"
+                 tal:attributes="
+                   href python:request.URL + '?' + '&'.join([f'{k}={v}' for k,v in request.form.items() if k != 'search_query']);
+                 "
+                 i18n:attributes="title"
+              >
+                       &times;
+              </a>
+            </span>
+
+            <span class="badge rounded-pill bg-primary d-inline-flex align-items-center p-2"
+                  tal:condition="filter_type"
+            >
+              <span class="me-1"
+                    tal:content="filter_type"
+              >Type</span>
+              <a class="text-white ms-1"
+                 href="#"
+                 style="text-decoration: none;"
+                 title="Clear filter"
+                 tal:attributes="
+                   href python:request.URL + '?' + '&'.join([f'{k}={v}' for k,v in request.form.items() if k != 'filter_type']);
+                 "
+                 i18n:attributes="title"
+              >
+                       &times;
+              </a>
+            </span>
+
+            <span class="badge rounded-pill bg-primary d-inline-flex align-items-center p-2"
+                  tal:condition="python:sort_option != 'date_desc'"
+            >
+              <span class="me-1"
+                    tal:content="sort_option"
+              >Sort</span>
+              <a class="text-white ms-1"
+                 href="#"
+                 style="text-decoration: none;"
+                 title="Reset sort"
+                 tal:attributes="
+                   href python:request.URL + '?' + '&'.join([f'{k}={v}' for k,v in request.form.items() if k != 'sort_by']);
+                 "
+                 i18n:attributes="title"
+              >
+                       &times;
+              </a>
+            </span>
+          </div>
+
+          <a class="btn btn-sm btn-outline-secondary ms-auto"
+             tal:attributes="
+               href string:${context/absolute_url}/@@ban-management;
+             "
+             i18n:translate="button_clear_all"
+          >
+                Clear all
+          </a>
+        </div>
+
+        <!-- Ban Statistics and Quick Actions Row -->
+        <div class="row mb-4 g-3">
+          <!-- Ban Statistics -->
+          <div class="col-lg-6">
+            <div class="card h-100">
+              <div class="card-header bg-light">
+                <span i18n:translate="heading_ban_statistics">Ban Statistics</span>
+              </div>
+              <div class="card-body py-3">
+                <div class="row text-center">
+                  <div class="col-4">
+                    <div class="border-end pe-3">
+                      <h5 class="text-info mb-1"
+                          tal:content="python:len([b for b in view.get_active_bans() if b.ban_type == 'cooldown'])"
+                      >0</h5>
+                      <small class="text-muted"
+                             i18n:translate="stat_cooldown"
+                      >Cooldown</small>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="border-end pe-3">
+                      <h5 class="text-warning mb-1"
+                          tal:content="python:len([b for b in view.get_active_bans() if b.ban_type == 'shadow'])"
+                      >0</h5>
+                      <small class="text-muted"
+                             i18n:translate="stat_shadow"
+                      >Shadow</small>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <h5 class="text-danger mb-1"
+                        tal:content="python:len([b for b in view.get_active_bans() if b.ban_type == 'permanent'])"
+                    >0</h5>
+                    <small class="text-muted"
+                           i18n:translate="stat_permanent"
+                    >Permanent</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="col-lg-6">
+            <div class="card h-100">
+              <div class="card-header bg-light">
+                <span i18n:translate="heading_quick_actions">Quick Actions</span>
+              </div>
+              <div class="card-body py-3">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <a class="btn btn-primary w-100 pat-plone-modal"
+                       href="@@ban-user-form"
+                       type="button"
+                    >
+                      <span i18n:translate="button_ban_user">Ban User</span>
+                    </a>
+                    <div class="text-center mt-2">
+                      <small class="text-muted"
+                             i18n:translate="ban_user_help"
+                      >
+                        Restrict a user's commenting ability
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <a class="btn btn-danger w-100 pat-plone-modal"
+                       href="@@unban-user-form"
+                       type="button"
+                       i18n:translate="button_quick_unban"
+                    >
+                      <span>Quick Unban</span>
+                    </a>
+                    <div class="text-center mt-2">
+                      <small class="text-muted"
+                             i18n:translate="unban_user_help"
+                      >
+                        Remove restrictions for a user
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main content card -->
+        <div class="card">
+          <div class="card-header bg-light">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <span i18n:translate="heading_active_bans">Active Bans</span>
+              </div>
+              <div tal:define="
+                     bans view/get_active_bans;
+                   ">
+                <span class="badge bg-secondary"
+                      tal:content="python:len(bans)"
+                >0</span>
+                <span i18n:translate="label_bans">bans</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main form for ban management -->
+          <form id="ban-management-form"
+                enctype="multipart/form-data"
+                method="post"
+                tal:define="
+                  bans view/get_active_bans;
+                "
+                tal:condition="bans"
+                tal:attributes="
+                  action request/URL;
+                "
+          >
+
+            <input tal:replace="structure context/@@authenticator/authenticator" />
+
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th width="40">
+                        <div class="form-check">
+                          <input class="form-check-input"
+                                 id="select_all"
+                                 aria-label="Select all bans"
+                                 name="select_all"
+                                 title="Select all bans"
+                                 type="checkbox"
+                                 i18n:attributes="title;aria-label"
+                          />
+                          <label class="form-check-label visually-hidden"
+                                 for="select_all"
+                                 i18n:translate="label_select_all"
+                          >Select all</label>
+                        </div>
+                      </th>
+                      <th i18n:translate="th_user">User</th>
+                      <th i18n:translate="th_ban_type">Type</th>
+                      <th i18n:translate="th_created">Created</th>
+                      <th i18n:translate="th_expires">Expires</th>
+                      <th i18n:translate="th_reason">Reason</th>
+                      <th i18n:translate="th_moderator">Moderator</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr tal:repeat="ban bans">
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input ban-checkbox"
+                                 name="selected_bans:list"
+                                 type="checkbox"
+                                 tal:attributes="
+                                   value ban/user_id;
+                                   id string:ban-${ban/user_id};
+                                 "
+                          />
+                          <label class="form-check-label visually-hidden"
+                                 tal:attributes="
+                                   for string:ban-${ban/user_id};
+                                 "
+                                 i18n:translate="label_select_ban"
+                          >Select ban</label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <a class="fw-medium text-decoration-none"
+                             tal:content="python: view.get_user_display_name(ban.user_id)"
+                             tal:attributes="
+                               href string:${context/portal_url}/author/${ban/user_id};
+                               title python: view.get_user_display_name(ban.user_id);
+                             "
+                          >User</a>
+                        </div>
+                      </td>
+                      <td>
+                        <span class="badge rounded-pill"
+                              tal:content="python: view.get_ban_type_display(ban.ban_type)"
+                              tal:attributes="
+                                class python: 'badge rounded-pill bg-light text-dark';
+                              "
+                        >Type</span>
+                      </td>
+                      <td>
+                        <span tal:content="python: view.format_time(ban.created_date)">Created</span>
+                      </td>
+                      <td>
+                        <span tal:condition="ban/expires_date"
+                              tal:content="python: view.format_time(ban.expires_date)"
+                        >Expires</span>
+                        <span tal:condition="not: ban/expires_date">_</span>
+                      </td>
+                      <td>
+                        <span class="text-truncate d-inline-block"
+                              style="max-width: 200px;"
+                              tal:define="
+                                reason ban/reason|nothing;
+                              "
+                              tal:content="python: reason if reason else '_'"
+                              tal:attributes="
+                                title python: reason if reason else '_';
+                              "
+                        >Reason</span>
+                      </td>
+                      <td>
+                        <span class="text-muted"
+                              tal:content="ban/moderator_id"
+                        >Moderator</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Button group for selected bans actions -->
+            <div class="card-footer bg-light py-3"
+                 tal:condition="bans"
+            >
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div class="btn-group"
+                     role="group"
+                >
+                  <button class="btn btn-primary"
+                          name="action"
+                          type="submit"
+                          value="unban_selected"
+                          i18n:translate="button_unban_selected"
+                  >
+                    <span>Unban Selected</span>
+                  </button>
+                  <button class="btn btn-secondary"
+                          name="action"
+                          type="submit"
+                          value="cleanup_expired"
+                          i18n:translate="button_cleanup_expired"
+                  >
+                    <span>Cleanup Expired</span>
+                  </button>
+                </div>
+
+                <div class="btn-group"
+                     role="group"
+                >
+                  <button class="btn btn-outline-danger"
+                          name="action"
+                          onclick="return confirm(this.getAttribute('data-confirm-message'));"
+                          type="submit"
+                          value="empty_ban_list"
+                          data-confirm-message="Are you sure you want to clear all bans? This will unban all users and cannot be undone."
+                          i18n:attributes="data-confirm-message confirm_empty_ban_list"
+                          i18n:translate="button_empty_ban_list"
+                  >
+                    <span>Empty Ban List</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Empty state if no bans -->
+          <div class="card-body"
+               tal:define="
+                 bans view/get_active_bans;
+               "
+               tal:condition="not:bans"
+          >
+            <div class="text-center py-5">
+              <p class="fw-bold"
+                 tal:condition="python:request.get('search_query') or request.get('filter_type')"
+                 i18n:translate="no_bans_match_criteria"
+              >
+                        No bans match your search criteria
+              </p>
+              <p class="fw-bold"
+                 tal:condition="python:not request.get('search_query') and not request.get('filter_type')"
+                 i18n:translate="no_active_bans"
+              >
+                        No active bans found
+              </p>
+              <p class="text-muted"
+                 i18n:translate="no_active_bans_description"
+              >There are currently no active user bans. Users can comment freely.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Ban User Modal -->
+        <div class="modal fade"
+             id="banUserModal"
+             aria-hidden="true"
+             aria-labelledby="banUserModalLabel"
+             tabindex="-1"
+        >
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"
+                    id="banUserModalLabel"
+                >
+                  <span i18n:translate="heading_ban_user">Ban User</span>
+                </h5>
+                <button class="btn-close btn-close-white"
+                        aria-label="Close"
+                        type="button"
+                        data-bs-dismiss="modal"
+                        i18n:attributes="aria-label"
+                ></button>
+              </div>
+              <form class="needs-validation"
+                    method="post"
+                    novalidate
+              >
+                <div class="modal-body">
+                  <input name="action"
+                         type="hidden"
+                         value="ban_user"
+                  />
+                  <input tal:replace="structure context/@@authenticator/authenticator" />
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label class="form-label"
+                               for="user_id"
+                               i18n:translate="label_user_id"
+                        >User ID</label>
+                        <input class="form-control"
+                               id="user_id"
+                               name="user_id"
+                               placeholder="Enter username or user ID"
+                               required="required"
+                               type="text"
+                               i18n:attributes="placeholder"
+                        />
+                        <div class="invalid-feedback"
+                             i18n:translate="error_user_id_required"
+                        >
+                                            Please provide a valid user ID.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label class="form-label"
+                               for="ban_type"
+                               i18n:translate="label_ban_type"
+                        >Ban Type</label>
+                        <select class="form-select"
+                                id="ban_type"
+                                name="ban_type"
+                        >
+                          <option value="cooldown"
+                                  i18n:translate="option_cooldown"
+                          >Cooldown Ban</option>
+                          <option value="shadow"
+                                  i18n:translate="option_shadow"
+                          >Shadow Ban</option>
+                          <option value="permanent"
+                                  i18n:translate="option_permanent"
+                          >Permanent Ban</option>
+                        </select>
+                        <div class="form-text">
+                          <small i18n:translate="help_ban_type">
+                                                Cooldown: temporary ban, Shadow: comments hidden, Permanent: indefinite ban
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3"
+                       id="duration_field"
+                  >
+                    <label class="form-label"
+                           for="duration_hours"
+                           i18n:translate="label_duration_hours"
+                    >Duration (hours)</label>
+                    <div class="input-group">
+                      <input class="form-control"
+                             id="duration_hours"
+                             min="1"
+                             name="duration_hours"
+                             type="number"
+                             value="24"
+                      />
+                      <span class="input-group-text"
+                            i18n:translate="label_hours"
+                      >hours</span>
+                    </div>
+                    <div class="form-text">
+                      <small i18n:translate="help_duration">Leave empty to use default duration for the selected ban type</small>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label"
+                           for="reason"
+                           i18n:translate="label_reason"
+                    >Reason</label>
+                    <textarea class="form-control"
+                              id="reason"
+                              name="reason"
+                              placeholder="Provide a reason for this ban (optional)"
+                              rows="3"
+                              i18n:attributes="placeholder"
+                    ></textarea>
+                    <div class="form-text">
+                      <small i18n:translate="help_reason">This reason will be shown to the user and stored for moderation records</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary"
+                          type="button"
+                          data-bs-dismiss="modal"
+                  >
+                    <span i18n:translate="button_cancel">Cancel</span>
+                  </button>
+                  <button class="btn btn-danger"
+                          type="submit"
+                  >
+                    <span i18n:translate="button_ban_user">Ban User</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Unban Modal -->
+        <div class="modal fade"
+             id="quickUnbanModal"
+             aria-hidden="true"
+             aria-labelledby="quickUnbanModalLabel"
+             tabindex="-1"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header bg-success text-white">
+                <h5 class="modal-title"
+                    id="quickUnbanModalLabel"
+                >
+                  <span i18n:translate="heading_unban_user">Unban User</span>
+                </h5>
+                <button class="btn-close btn-close-white"
+                        aria-label="Close"
+                        type="button"
+                        data-bs-dismiss="modal"
+                        i18n:attributes="aria-label"
+                ></button>
+              </div>
+              <form class="needs-validation"
+                    method="post"
+                    novalidate
+              >
+                <div class="modal-body">
+                  <input name="action"
+                         type="hidden"
+                         value="unban_user"
+                  />
+                  <input tal:replace="structure context/@@authenticator/authenticator" />
+
+                  <div class="mb-3">
+                    <label class="form-label"
+                           for="unban_user_id"
+                           i18n:translate="label_user_id"
+                    >User ID</label>
+                    <input class="form-control"
+                           id="unban_user_id"
+                           name="unban_user_id"
+                           placeholder="Enter username or user ID to unban"
+                           required="required"
+                           type="text"
+                           i18n:attributes="placeholder"
+                    />
+                    <div class="invalid-feedback"
+                         i18n:translate="error_user_id_required"
+                    >
+                                    Please provide a valid user ID.
+                    </div>
+                    <div class="form-text">
+                      <small i18n:translate="help_unban">This will remove all active bans for the specified user</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-secondary"
+                          type="button"
+                          data-bs-dismiss="modal"
+                  >
+                    <span i18n:translate="button_cancel">Cancel</span>
+                  </button>
+                  <button class="btn btn-success"
+                          type="submit"
+                  >
+                    <span i18n:translate="button_unban_user">Unban User</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </metal:main>
+
+    <metal:js fill-slot="javascript_head_slot">
+      <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Select all checkbox functionality
+    const selectAllCheckbox = document.getElementById('select_all');
+
+    if (selectAllCheckbox) {
+        // Find all ban checkboxes
+        const banCheckboxes = document.querySelectorAll('.ban-checkbox');
+
+        // Update select all checkbox when ban checkboxes change
+        function updateSelectAllCheckbox() {
+            if (banCheckboxes.length === 0) return;
+
+            let allChecked = true;
+            for (const checkbox of banCheckboxes) {
+                if (!checkbox.checked) {
+                    allChecked = false;
+                    break;
+                }
+            }
+            selectAllCheckbox.checked = allChecked;
+        }
+
+        // Toggle all checkboxes when select all changes
+        selectAllCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+            banCheckboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+
+        // Update select all when individual checkboxes change
+        banCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateSelectAllCheckbox);
+        });
+    }
+
+    // Duration field toggle for ban type
+    function toggleDurationField() {
+        const banType = document.getElementById('ban_type');
+        const durationField = document.getElementById('duration_field');
+
+        if (banType && durationField) {
+            if (banType.value === 'permanent') {
+                durationField.style.display = 'none';
+            } else {
+                durationField.style.display = 'block';
+            }
+        }
+    }
+
+    // Initialize duration field visibility
+    toggleDurationField();
+
+    // Add event listener to ban type select
+    const banTypeSelect = document.getElementById('ban_type');
+    if (banTypeSelect) {
+        banTypeSelect.addEventListener('change', toggleDurationField);
+    }
+
+    // Form validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+
+    // Confirmation for bulk unban actions
+    const unbanSelectedButton = document.querySelector('button[value="unban_selected"]');
+    if (unbanSelectedButton) {
+        unbanSelectedButton.addEventListener('click', function(e) {
+            const checkedBoxes = document.querySelectorAll('.ban-checkbox:checked');
+            if (checkedBoxes.length === 0) {
+                e.preventDefault();
+                alert('Please select at least one ban to unban.');
+                return;
+            }
+
+            if (!confirm('Are you sure you want to unban the selected users?')) {
+                e.preventDefault();
+            }
+        });
+    }
+
+    // Enhanced table row highlighting
+    const tableRows = document.querySelectorAll('.table tbody tr');
+    tableRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = '#f8f9fa';
+        });
+        row.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '';
+        });
+    });
+});
+      </script>
+    </metal:js>
+
+  </body>
+</html>
