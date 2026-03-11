@@ -33,7 +33,6 @@ import io
 import time
 import unittest
 
-
 TEXT = b"file data"
 
 

@@ -42,7 +42,6 @@ from zope.interface import implementer
 
 import logging
 
-
 COMMENT_TITLE = _(
     "comment_title",
     default="${author_name} on ${content}",

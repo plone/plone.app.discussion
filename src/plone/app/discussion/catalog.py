@@ -13,7 +13,6 @@ from plone.uuid.interfaces import IUUID
 from Products.CMFCore.interfaces import IContentish
 from Products.ZCatalog.interfaces import IZCatalog
 
-
 MAX_DESCRIPTION = 25
 
 # Conversation Indexers

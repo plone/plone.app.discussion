@@ -2,7 +2,6 @@ from plone.app.discussion.interfaces import _
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
-
 HAS_CAPTCHA = False
 try:
     import plone.formwidget.captcha  # noqa

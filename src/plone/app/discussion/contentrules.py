@@ -2,7 +2,6 @@
 
 from plone.app.discussion import _
 
-
 try:
     from plone.stringinterp.adapters import BaseSubstitution
 except ImportError:

@@ -8,7 +8,6 @@ from zope.component import getUtility
 
 import logging
 
-
 default_profile = "profile-plone.app.discussion:default"
 logger = logging.getLogger("plone.app.discussion")
 

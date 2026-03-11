@@ -13,7 +13,6 @@ import datetime
 import logging
 import unittest
 
-
 logger = logging.getLogger("plone.app.discussion.tests")
 logger.addHandler(logging.StreamHandler())
 
