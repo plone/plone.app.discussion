@@ -10,7 +10,6 @@ from plone.restapi.controlpanels import RegistryConfigletPanel
 from zope.component import adapter
 from zope.interface import Interface
 
-
 try:
     from plone.restapi.interfaces import IControlpanelLayer
 except ImportError:

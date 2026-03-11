@@ -33,7 +33,6 @@ from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import alsoProvides
 
-
 COMMENT_DESCRIPTION_PLAIN_TEXT = _(
     "comment_description_plain_text",
     default="You can add a comment by filling out the form below. "

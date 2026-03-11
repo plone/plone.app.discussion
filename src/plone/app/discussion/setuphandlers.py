@@ -2,7 +2,6 @@ from plone.base.interfaces import INonInstallable
 from Products.CMFCore.utils import getToolByName
 from zope.interface import implementer
 
-
 DEFAULT_TYPES = [
     "Document",
     "Event",

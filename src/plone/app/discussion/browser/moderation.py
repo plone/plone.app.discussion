@@ -15,7 +15,6 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from zope.event import notify
 
-
 # Translations for generated values in buttons
 # States
 _("comment_pending", default="pending")
