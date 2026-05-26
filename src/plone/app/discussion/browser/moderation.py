@@ -19,7 +19,6 @@ from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import queryUtility
 from zope.event import notify
 
-
 # Translations for generated values in buttons
 # States
 _("comment_pending", default="pending")

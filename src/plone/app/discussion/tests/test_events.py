@@ -11,7 +11,6 @@ from zope.lifecycleevent import ObjectModifiedEvent
 import Products.Five
 import unittest
 
-
 #
 # Fake events registry
 #

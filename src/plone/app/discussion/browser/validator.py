@@ -14,7 +14,6 @@ from zope.interface import implementer
 from zope.interface import Interface
 from zope.schema.interfaces import IField
 
-
 try:
     from collective.z3cform.norobots.validator import WrongNorobotsAnswer
 except ImportError:

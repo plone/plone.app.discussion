@@ -9,8 +9,7 @@
   >Comment</property>
   <property name="description"
             i18n:translate=""
-  >Discussion Items are documents which reply to other content.
-  They should *not* be addable through the standard 'folder_factories' interface.</property>
+  >Discussion Items are documents which reply to other content.</property>
   <property name="content_icon">++plone++bootstrap-icons/chat-left-text.svg</property>
   <property name="content_meta_type">Discussion Item</property>
   <property name="product" />

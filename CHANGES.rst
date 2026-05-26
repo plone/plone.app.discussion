@@ -8,6 +8,48 @@ Changelog
 
 .. towncrier release notes start
 
+6.0.0 (2026-05-14)
+------------------
+
+Internal:
+
+
+- Make final release, no further changes.
+
+
+6.0.0a2 (2026-03-16)
+--------------------
+
+Bug fixes:
+
+
+- Fix translation of comment byline. @erral
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
+6.0.0a1 (2025-11-19)
+--------------------
+
+Breaking changes:
+
+
+- Replace ``pkg_resources`` namespace with PEP 420 native namespace.
+  Support only Plone 6.2 and Python 3.10+. (#3928)
+
+
+Bug fixes:
+
+
+- Do not create empty translatable strings @erral
+- Simplify description of the Discussion Item type to fix i18n. @davisagli
+
+
 5.2.1 (2025-09-11)
 ------------------
 

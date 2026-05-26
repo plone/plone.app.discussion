@@ -35,12 +35,12 @@ from zope.component import getUtility
 from zope.component import queryUtility
 from zope.component.factory import Factory
 from zope.event import notify
+from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import implementer
 
 import logging
-
 
 COMMENT_TITLE = _(
     "comment_title",
@@ -216,6 +216,7 @@ class Comment(
                         default="Anonymous",
                     ),
                 ),
+                context=getRequest(),
             )
         else:
             author_name = self.author_name
@@ -230,8 +231,10 @@ class Comment(
                     "author_name": safe_text(author_name),
                     "content": safe_text(content.Title()),
                 },
-            )
+            ),
+            context=getRequest(),
         )
+
         return title
 
     def Creator(self):
@@ -391,7 +394,7 @@ def notify_user(obj, event):
     if not emails:
         return
 
-    subject = translate(_("A comment has been posted."), context=obj.REQUEST)
+    subject = translate(_("A comment has been posted."), context=getRequest())
     message = translate(
         Message(
             MAIL_NOTIFICATION_MESSAGE,
@@ -401,7 +404,7 @@ def notify_user(obj, event):
                 "text": obj.text,
             },
         ),
-        context=obj.REQUEST,
+        context=getRequest(),
     )
     for email in emails:
         # Send email
@@ -459,7 +462,7 @@ def notify_moderator(obj, event):
     content_object = aq_parent(conversation)
 
     # Compose email
-    subject = translate(_("A comment has been posted."), context=obj.REQUEST)
+    subject = translate(_("A comment has been posted."), context=getRequest())
     message = translate(
         Message(
             MAIL_NOTIFICATION_MESSAGE_MODERATOR,
@@ -475,10 +478,11 @@ def notify_moderator(obj, event):
                             default="Anonymous",
                         ),
                     ),
+                    context=getRequest(),
                 ),
             },
         ),
-        context=obj.REQUEST,
+        context=getRequest(),
     )
 
     # Send email
