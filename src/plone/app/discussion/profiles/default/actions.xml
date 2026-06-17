@@ -17,7 +17,7 @@
                 i18n:translate=""
       />
       <property name="url_expr">string:${globals_view/navigationRootUrl}/@@moderate-comments</property>
-      <property name="icon_expr">string:${globals_view/navigationRootUrl}/discussionitem_icon.png</property>
+      <property name="icon_expr">string:chat</property>
       <property name="available_expr">portal/@@moderate-comments-enabled|nothing</property>
       <property name="permissions">
         <element value="Review comments" />
