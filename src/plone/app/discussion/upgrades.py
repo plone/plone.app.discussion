@@ -7,7 +7,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.ProgressHandler import ZLogHandler
 from zope.component import getUtility
 
-
 import logging
 
 default_profile = "profile-plone.app.discussion:default"
