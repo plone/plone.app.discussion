@@ -132,4 +132,18 @@
         />
   </genericsetup:upgradeSteps>
 
+
+  <upgradeSteps
+      destination="3001"
+      profile="plone.app.discussion:default"
+      source="3000"
+      >
+
+    <upgradeStep
+        title="Use Bootstrap style icon for discussion moderation action."
+        handler=".upgrades.manage_comments_icon"
+        />
+
+  </upgradeSteps>
+
 </configure>
