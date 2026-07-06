@@ -1,7 +1,6 @@
 from .interfaces import IDiscussionSettings
 from .setuphandlers import add_discussion_behavior_to_default_types
 from datetime import timezone
-from plone.base.utils import get_installer
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.ZCatalog.ProgressHandler import ZLogHandler
