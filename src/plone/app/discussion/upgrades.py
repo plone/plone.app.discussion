@@ -127,11 +127,6 @@ def manage_comments_icon(context):
     expression from its default to the bootstrap based new-style icons
     """
 
-    installer = get_installer(context)
-    if not installer.is_product_installed("plone.app.discussion"):
-        logger.info("plone.app.discussion is not installed. Nothing is done.")
-        return
-
     portal_actions = getToolByName(context, "portal_actions")
     user_actions = getattr(portal_actions, "user", None)
     if user_actions is None:
