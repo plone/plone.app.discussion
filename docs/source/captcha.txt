@@ -1,1 +1,0 @@
-.. include:: ../../plone/app/discussion/browser/captcha.txt
