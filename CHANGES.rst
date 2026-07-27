@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+6.0.1 (2026-07-27)
+------------------
+
+Bug fixes:
+
+
+- Use icon class name @erral
+
+
 6.0.0 (2026-05-14)
 ------------------
 
