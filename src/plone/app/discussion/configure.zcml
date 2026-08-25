@@ -112,6 +112,13 @@
       component=".vocabularies.text_transform_vocabulary"
       />
 
+  <!-- Filter Action Vocabulary -->
+  <utility
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="plone.app.discussion.vocabularies.FilterActionVocabulary"
+      component=".vocabularies.filter_action_vocabulary"
+      />
+
   <!-- Conversation indexes -->
   <adapter
       factory=".catalog.total_comments"
