@@ -1,0 +1,28 @@
+---
+myst:
+  html_meta:
+    "description": "API - plone.app.discussion documentation"
+    "property=og:description": "API - plone.app.discussion documentation"
+    "property=og:title": "API"
+    "keywords": "Plone, Discussion, Comments, Documentation"
+---
+
+# API
+
+The conversation and replies adapters.
+
+The conversation is responsible for storing all comments. It provides a
+dict-like API for accessing comments, where keys are integers and values
+are IComment objects. It also provides features for finding comments quickly.
+
+The IReplies adapter provides an API for finding and manipulating the comments
+directly in reply to a particular comment (implemented by the CommentReplies
+adapter) or at the top level of the conversation (implemented by the
+ConversationReplies adapter).
+
+```{toctree}
+:maxdepth: 1
+
+conversation.txt
+comment.txt
+```

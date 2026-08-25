@@ -1,14 +1,20 @@
-Automatic Comment Approval
-==========================
+---
+myst:
+  html_meta:
+    "description": "Automatic Comment Approval in plone.app.discussion"
+    "property=og:description": "Automatic Comment Approval in plone.app.discussion"
+    "property=og:title": "Automatic Comment Approval"
+    "keywords": "Plone, Discussion, Comments, Approval, Moderation"
+---
 
-Introduction
------------
+# Automatic Comment Approval
+
+## Introduction
 
 This feature enhances the Plone discussion system by automatically approving comments from users
 who have the "Review comments" permission, even when comment moderation is enabled site-wide.
 
-How It Works
------------
+## How It Works
 
 When a user with the "Review comments" permission creates a comment, the system will:
 
@@ -22,23 +28,22 @@ This functionality is particularly useful for:
 - Moderators who should bypass the moderation queue
 - Site editors or staff members
 
-Configuration
-------------
+## Configuration
 
 No additional configuration is needed. Simply assign the "Review comments" permission to 
 the roles or users you want to bypass moderation.
 
-Examples:
+### Examples
 
 - Assign "Review comments" permission to the Editor role
 - Create a "Trusted Commenter" role with the "Review comments" permission
 - Give specific users the permission on specific content
 
-Permission Management
--------------------
+## Permission Management
 
 The "Review comments" permission can be managed:
 
 - Site-wide through the Security control panel
-- On specific folders or content items through the Sharing tab
-- Programmatically using the Plone security APIs
+- Per content type through the Types control panel
+- Per folder through the Sharing tab
+- Per item through the Sharing tab
