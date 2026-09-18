@@ -95,6 +95,15 @@
       layer="..interfaces.IDiscussionLayer"
       />
 
+  <!-- Restore comment view -->
+  <browser:page
+      name="moderate-restore-comment"
+      for="plone.app.discussion.interfaces.IComment"
+      class=".moderation.RestoreComment"
+      permission="plone.app.discussion.DeleteComments"
+      layer="..interfaces.IDiscussionLayer"
+      />
+
   <!-- Comment Transition -->
   <browser:page
       name="transmit-comment"
