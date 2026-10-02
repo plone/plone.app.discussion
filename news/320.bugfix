@@ -1,0 +1,3 @@
+Move the discussion configlet to the Content category on sites that were created
+before plone.app.discussion 5.0. Before, these sites listed it under General in
+Classic UI, and the REST control panel did not find it. @mliebischer

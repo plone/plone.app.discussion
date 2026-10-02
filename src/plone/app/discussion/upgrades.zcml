@@ -146,4 +146,18 @@
 
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="plone.app.discussion:default"
+      source="3001"
+      destination="3002"
+      >
+
+    <genericsetup:upgradeStep
+        title="Move the discussion configlet to the Content category"
+        description="Sites created before plone.app.discussion 5.0 still have it in General."
+        handler=".upgrades.move_configlet_to_content_category"
+        />
+
+  </genericsetup:upgradeSteps>
+
 </configure>
