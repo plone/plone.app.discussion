@@ -52,6 +52,7 @@ Enable commenting.
     >>> registry = queryUtility(IRegistry)
     >>> settings = registry.forInterface(IDiscussionSettings)
     >>> settings.globally_enabled = True
+    >>> settings.hard_delete_comments = True
 
     >>> import transaction
     >>> transaction.commit()

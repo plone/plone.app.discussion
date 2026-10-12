@@ -91,6 +91,8 @@ class TestCommentForm(unittest.TestCase):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IDiscussionSettings)
         settings.globally_enabled = True
+        # Enable hard deletion for these tests that expect comments to be completely removed
+        settings.hard_delete_comments = True
 
     def test_add_comment(self):
         """Post a comment as logged-in user."""
@@ -491,8 +493,8 @@ class TestCommentsViewlet(unittest.TestCase):
 
         self.membershipTool = getToolByName(self.folder, "portal_membership")
         self.memberdata = self.portal.portal_memberdata
-        context = getattr(self.portal, "doc1")
-        self.viewlet = CommentsViewlet(context, self.request, None, None)
+        self.context = getattr(self.portal, "doc1")
+        self.viewlet = CommentsViewlet(self.context, self.request, None, None)
 
         # Allow discussion
         registry = queryUtility(IRegistry)
@@ -533,6 +535,21 @@ class TestCommentsViewlet(unittest.TestCase):
         self.portal.acl_users._doAddUser("reviewer", "secret", ["Reviewer"], [])
         login(self.portal, "reviewer")
         self.assertTrue(self.viewlet.can_manage())
+
+    def test_can_restore(self):
+        # Portal owner can restore comments
+        comment = createObject("plone.Comment")
+        comment.author_username = "jim"
+        conversation = IConversation(self.context)
+        conversation.addComment(comment)
+
+        # Add comment to context so we can check permissions
+        comment = comment.__of__(conversation)
+
+        self.assertTrue(self.viewlet.can_restore(comment))
+        logout()
+        # Anonymous users cannot restore comments
+        self.assertFalse(self.viewlet.can_restore(comment))
 
     def test_is_discussion_allowed(self):
         # By default, discussion is disabled
