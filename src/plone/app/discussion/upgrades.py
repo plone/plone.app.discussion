@@ -149,3 +149,26 @@ def manage_comments_icon(context):
 
     review_comments_action.icon_expr = "string:chat"
     logger.info("Manage comments action icon modified")
+
+
+def move_configlet_to_content_category(context):
+    """Move the discussion configlet from plone-general to plone-content.
+
+    Since 5.0.0a1 the profile registers the configlet in plone-content, but
+    sites created before still have it in plone-general.  Only the category
+    changes, so local changes to the configlet are kept.
+    """
+    controlpanel = getToolByName(context, "portal_controlpanel")
+    for configlet in controlpanel.listActions():
+        if configlet.getId() != "discussion":
+            continue
+        if configlet.category != "plone-general":
+            logger.info(
+                "The discussion configlet is in %s. Nothing is done.",
+                configlet.category,
+            )
+            return
+        configlet.category = "plone-content"
+        logger.info("Moved the discussion configlet to plone-content.")
+        return
+    logger.info("There is no discussion configlet. Nothing is done.")
