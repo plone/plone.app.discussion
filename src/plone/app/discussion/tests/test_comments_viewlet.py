@@ -141,7 +141,7 @@ class TestCommentForm(unittest.TestCase):
         self.assertFalse(commentForm.handleComment(commentForm, "foo"))
 
         comments = IConversation(commentForm.context).getComments()
-        comments = [comment for comment in comments]  # consume iterator
+        comments = [*comments]  # consume iterator
         self.assertEqual(len(comments), 1)
 
         for comment in comments:
@@ -199,7 +199,7 @@ class TestCommentForm(unittest.TestCase):
 
         # Edit the last comment
         conversation = IConversation(self.context)
-        comment = [x for x in conversation.getComments()][-1]
+        comment = [*conversation.getComments()][-1]
         request = make_request(form={"form.widgets.text": "foobar"})
         editForm = getMultiAdapter(
             (comment, request),
@@ -210,11 +210,11 @@ class TestCommentForm(unittest.TestCase):
 
         self.assertEqual(len(errors), 0)
         self.assertFalse(editForm.handleComment(editForm, "foo"))
-        comment = [x for x in conversation.getComments()][-1]
+        comment = [*conversation.getComments()][-1]
         self.assertEqual(comment.text, "foobar")
 
         comments = IConversation(commentForm.context).getComments()
-        comments = [c for c in comments]  # consume iterator
+        comments = [*comments]  # consume iterator
         self.assertEqual(len(comments), 1)
 
         for comment in comments:
@@ -266,7 +266,7 @@ class TestCommentForm(unittest.TestCase):
 
         # Delete the last comment
         conversation = IConversation(self.context)
-        comment = [x for x in conversation.getComments()][-1]
+        comment = [*conversation.getComments()][-1]
         deleteView = getMultiAdapter(
             (comment, self.request),
             name="moderate-delete-comment",
@@ -279,11 +279,11 @@ class TestCommentForm(unittest.TestCase):
             "@@moderate-delete-comment",
         )
         deleteView()
-        self.assertEqual(1, len([x for x in conversation.getComments()]))
+        self.assertEqual(1, len([*conversation.getComments()]))
         # try to delete last comment with 'Delete comments' permission
         setRoles(self.portal, TEST_USER_ID, ["Reviewer"])
         deleteView()
-        self.assertEqual(0, len([x for x in conversation.getComments()]))
+        self.assertEqual(0, len([*conversation.getComments()]))
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
     def test_delete_own_comment(self):
@@ -323,7 +323,7 @@ class TestCommentForm(unittest.TestCase):
 
         # Delete the last comment
         conversation = IConversation(self.context)
-        comment = [x for x in conversation.getComments()][-1]
+        comment = [*conversation.getComments()][-1]
         deleteView = getMultiAdapter(
             (comment, self.request),
             name="delete-own-comment",
@@ -336,12 +336,12 @@ class TestCommentForm(unittest.TestCase):
             comment.restrictedTraverse,
             "@@delete-own-comment",
         )
-        self.assertEqual(1, len([x for x in conversation.getComments()]))
+        self.assertEqual(1, len([*conversation.getComments()]))
         # try to delete last comment with the same user that created it
         login(self.portal, TEST_USER_NAME)
         setRoles(self.portal, TEST_USER_ID, ["Member"])
         deleteView()
-        self.assertEqual(0, len([x for x in conversation.getComments()]))
+        self.assertEqual(0, len([*conversation.getComments()]))
 
     def test_add_anonymous_comment(self):
         self.portal.doc1.allow_discussion = True
@@ -388,7 +388,7 @@ class TestCommentForm(unittest.TestCase):
         self.assertFalse(commentForm.handleComment(commentForm, "action"))
 
         comments = IConversation(commentForm.context).getComments()
-        comments = [comment for comment in comments]  # consume itertor
+        comments = [*comments]  # consume itertor
         self.assertEqual(len(comments), 1)
 
         for comment in IConversation(commentForm.context).getComments():
