@@ -140,6 +140,10 @@ class DiscussionSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
         if settings.delete_own_comment_enabled:
             output.append("delete_own_comment_enabled")
 
+        # Hard delete comments
+        if settings.hard_delete_comments:
+            output.append("hard_delete_comments")
+
         # Anonymous comments
         if settings.anonymous_comments:
             output.append("anonymous_comments")
