@@ -1,0 +1,37 @@
+root: index
+entries:
+- file: architecture
+- file: auto-approve
+- file: components/index
+  entries:
+  - file: components/behavior
+  - file: components/catalog
+  - file: components/comment
+  - file: components/controlpanel
+  - file: components/conversation
+  - file: components/events
+  - file: components/form
+  - file: components/moderation
+  - file: components/restapi
+  - file: components/tool
+  - file: components/viewlet
+- file: captcha
+- file: design
+- file: email-notification
+- file: workflow
+- file: api/index
+  entries:
+  - file: api/comment
+  - file: api/conversation
+- file: howtos/index
+  entries:
+  - file: howtos/howto_extend_the_comment_form
+  - file: howtos/howto_make_pad_work_with_a_dexterity_content_type
+  - file: howtos/howto_override_comments_viewlet
+  - file: howtos/howto_override_enable_conversation
+  - file: howtos/howto_set_discussion_settings_with_generic_setup
+  - file: howtos/howto_write_a_custom_email_notification
+- file: README
+- file: CHANGES
+- file: CONTRIBUTING
+
